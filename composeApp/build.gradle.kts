@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -44,6 +45,9 @@ kotlin {
 
             // Ktor
             implementation(libs.ktor.client.okhttp)
+
+            // SqlDelight
+            implementation(libs.sqldelight.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -74,10 +78,16 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.encoding)
+
+            // SqlDelight
+            implementation(libs.sqldelight.coroutines)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            // SqlDelight
+            implementation(libs.sqldelight.jvm)
         }
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -88,7 +98,11 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
+                // Ktor
                 implementation(libs.ktor.client.darwin)
+
+                // SqlDelight
+                implementation(libs.sqldelight.native)
             }
         }
     }
