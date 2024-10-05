@@ -18,6 +18,7 @@ kotlin = "2.0.20"
 kotlinx-coroutines = "1.8.1"
 koin = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
+kotlinxSerializationJson = "1.7.3"
 navigationCompose = "2.8.0-alpha02"
 lifecycleViewModel = "2.8.6"
 ktor-client = "2.3.6"
@@ -43,6 +44,7 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 
 # Koin
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel"}
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }

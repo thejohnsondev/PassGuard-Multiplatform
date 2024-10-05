@@ -50,6 +50,8 @@ kotlin {
             implementation(libs.sqldelight.android)
         }
         commonMain.dependencies {
+            implementation(project(":core:common"))
+            implementation(project(":core:model"))
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)

@@ -1,43 +1,51 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
+    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlinSerialization)
+}
+
+kotlin {
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+
+    jvm("desktop")
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.ktor.serialization.kotlinx.json)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+    }
 }
 
 android {
-    namespace = "com.thejohnsondev.model"
-    compileSdk = 34
-
+    namespace = "org.thejohnsondev.model"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
