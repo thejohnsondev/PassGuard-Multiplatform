@@ -1,4 +1,4 @@
-rootProject.name = "VaultDexMultiplatform"
+rootProject.name = "VaultMultiplatform"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
