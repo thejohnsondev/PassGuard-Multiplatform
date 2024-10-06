@@ -36,6 +36,13 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+        androidMain.dependencies {
+            implementation(libs.androidx.ktx)
+            implementation(libs.androidx.fragment.ktx)
+
+            // Biometric
+            implementation(libs.androidx.biometric)
+        }
     }
 }
 
