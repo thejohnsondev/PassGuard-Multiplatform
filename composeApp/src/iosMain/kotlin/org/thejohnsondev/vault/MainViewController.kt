@@ -1,4 +1,4 @@
-package org.thejohnsondev.vaultdex
+package org.thejohnsondev.vault
 
 import androidx.compose.ui.window.ComposeUIViewController
 

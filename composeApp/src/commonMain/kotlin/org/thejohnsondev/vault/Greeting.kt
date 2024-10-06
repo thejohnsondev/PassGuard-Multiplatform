@@ -1,4 +1,4 @@
-package org.thejohnsondev.vaultdex
+package org.thejohnsondev.vault
 
 class Greeting {
     private val platform = getPlatform()
