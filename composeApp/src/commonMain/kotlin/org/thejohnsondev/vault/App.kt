@@ -1,4 +1,4 @@
-package org.thejohnsondev.vaultdex
+package org.thejohnsondev.vault
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-import vaultdexmultiplatform.composeapp.generated.resources.Res
-import vaultdexmultiplatform.composeapp.generated.resources.compose_multiplatform
+import vaultmultiplatform.composeapp.generated.resources.Res
+import vaultmultiplatform.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview

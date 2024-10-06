@@ -111,7 +111,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.thejohnsondev.vaultdex"
+    namespace = "org.thejohnsondev.vault"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -119,7 +119,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "org.thejohnsondev.vaultdex"
+        applicationId = "org.thejohnsondev.vault"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -149,11 +149,11 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "org.thejohnsondev.vaultdex.MainKt"
+        mainClass = "org.thejohnsondev.vault.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.thejohnsondev.vaultdex"
+            packageName = "org.thejohnsondev.vault"
             packageVersion = "1.0.0"
         }
     }
