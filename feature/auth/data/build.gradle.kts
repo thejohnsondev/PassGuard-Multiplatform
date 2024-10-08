@@ -30,29 +30,29 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:model"))
+            api(project(":core:model"))
+            api(project(":core:common"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.androidx.lifecycle.viewmodel)
 
-            // Arrow Wither
+            // Koin
+            api(libs.koin.core)
+
+            // Arrow Either
             implementation(libs.arrow.core)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
-        androidMain.dependencies {
-            implementation(libs.androidx.ktx)
-            implementation(libs.androidx.fragment.ktx)
 
-            // Biometric
-            implementation(libs.androidx.biometric)
+            // Ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.encoding)
         }
     }
 }
 
 android {
-    namespace = "org.thejohnsondev.common"
+    namespace = "org.thejohnsondev.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
