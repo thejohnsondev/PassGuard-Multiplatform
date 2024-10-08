@@ -39,6 +39,10 @@ kotlin {
             implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
+            api(project(":core:model"))
+            api(project(":core:common"))
+            api(project(":feature:auth:domain"))
+
             implementation(libs.ktor.serialization.kotlinx.json)
 
             // Compose
@@ -58,16 +62,13 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.navigation.compose)
+
+            // Arrow Either
+            implementation(libs.arrow.core)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-
-            // SqlDelight
-            implementation(libs.sqldelight.jvm)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
     }
 }

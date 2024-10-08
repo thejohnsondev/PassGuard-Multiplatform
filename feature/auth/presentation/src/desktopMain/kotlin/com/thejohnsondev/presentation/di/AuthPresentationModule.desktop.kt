@@ -5,5 +5,5 @@ import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 actual val authPresentationModule = module {
-    viewModel { SignUpViewModel() }
+    viewModel { SignUpViewModel(get()) }
 }

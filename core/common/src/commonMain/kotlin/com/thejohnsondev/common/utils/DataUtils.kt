@@ -65,3 +65,7 @@ inline fun <reified T> String?.fromJson(): T {
 fun String.hidden(): String {
     return replace(Regex("[\\s\\S]"), "*")
 }
+
+fun getPrettyErrorMessage(error: String?): String {
+    return error ?: "Unknown error"
+}
