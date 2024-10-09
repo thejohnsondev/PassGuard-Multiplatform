@@ -31,51 +31,38 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
+            implementation(libs.ktor.serialization.kotlinx.json)
+
             api(project(":core:model"))
             api(project(":core:common"))
-            api(project(":core:ui"))
-            api(project(":feature:auth:domain"))
-
-            implementation(libs.ktor.serialization.kotlinx.json)
 
             // Compose
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(compose.materialIconsExtended)
+            implementation(compose.material3)
 
             // Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.lifecycle.viewmodel)
-            implementation(libs.navigation.compose)
-
-            // Arrow Either
-            implementation(libs.arrow.core)
-        }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
 
 android {
-    namespace = "org.thejohnsondev.presentation"
+    namespace = "org.thejohnsondev.ui"
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
