@@ -41,6 +41,8 @@ kotlin {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            implementation(libs.androidx.core.splashscreen)
         }
         commonMain.dependencies {
             implementation(project(":core:common"))
@@ -54,6 +56,9 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.material3.windowsizeclass.multiplatform)
+            implementation(compose.components.resources)
+            implementation(compose.material3)
 
             // Koin
             api(libs.koin.core)

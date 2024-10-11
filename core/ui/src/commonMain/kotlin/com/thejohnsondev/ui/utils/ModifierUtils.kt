@@ -1,6 +1,7 @@
 package com.thejohnsondev.ui.utils
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
@@ -11,20 +12,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import com.thejohnsondev.common.EMPTY
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent95
+import com.thejohnsondev.ui.designsystem.SizeBorder
 
 enum class ButtonState { Pressed, Idle }
 
 fun Modifier.applyIf(condition: Boolean, modifier: Modifier.() -> Modifier): Modifier {
-    return this.then(
-        if (condition)
-            modifier(Modifier)
-        else this
-    )
+    return if (condition) this.then(
+        modifier(Modifier)
+    ) else this
 }
 
 fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
@@ -54,4 +55,8 @@ fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
                 }
             }
         }
+}
+
+fun Modifier.testBorder() = composed {
+    this.border(SizeBorder, Color.Red)
 }

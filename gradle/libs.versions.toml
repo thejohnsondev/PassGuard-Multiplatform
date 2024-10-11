@@ -20,6 +20,7 @@ kotlinx-coroutines = "1.8.1"
 koin = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
 kotlinxSerializationJson = "1.7.3"
+material3WindowSizeClassMultiplatform = "0.5.0"
 navigationCompose = "2.8.0-alpha02"
 lifecycleViewModel = "2.8.6"
 ktor-client = "2.3.6"
@@ -28,7 +29,7 @@ kotlinVersion = "1.9.0"
 fragmentKtx = "1.8.4"
 biometric = "1.2.0-alpha05"
 arrow = "1.1.2"
-
+splashscreen = "1.0.1"
 
 [libraries]
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
@@ -48,6 +49,10 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+material3-windowsizeclass-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material3WindowSizeClassMultiplatform" }
+
+# Android
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 
 # Koin
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }

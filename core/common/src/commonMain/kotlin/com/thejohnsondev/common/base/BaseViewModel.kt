@@ -56,7 +56,7 @@ abstract class BaseViewModel : ViewModel() {
             else -> error.throwable?.message
 
         }
-        sendEvent(OneTimeEvent.InfoToast(getPrettyErrorMessage(errorMessage)))
+        sendEvent(OneTimeEvent.InfoMessage(getPrettyErrorMessage(errorMessage)))
     }
 
     protected fun BaseViewModel.launch(block: suspend CoroutineScope.() -> Unit): Job {
