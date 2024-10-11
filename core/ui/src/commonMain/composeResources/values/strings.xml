@@ -12,6 +12,12 @@
     <string name="terms_of_use"> Terms of Use</string>
     <string name="privacy_policy">Privacy Policy.</string>
 
+    <string name="password_error_bad_length">Password must contain at least 8 characters.</string>
+    <string name="password_error_no_numbers">Password must contain at least one number.</string>
+    <string name="password_error_no_capital">Password must contain at least one uppercase letter.</string>
+    <string name="password_error_no_small">Password must contain at least one lowercase letter.</string>
+    <string name="email_error_incorrect">Email is no valid</string>
+
     <!--Content Description-->
     <string name="cd_app_logo">App Logo</string>
 </resources>

@@ -6,3 +6,8 @@ const val DATA_STORE_NAME = "data_store"
 const val EMPTY = ""
 
 const val EXPAND_ANIM_DURATION = 500
+
+const val DESKTOP_WINDOW_MIN_WIDTH = 800
+const val DESKTOP_WINDOW_MIN_HEIGHT = 600
+const val DESKTOP_WINDOW_DEFAULT_WIDTH = 1080
+const val DESKTOP_WINDOW_DEFAULT_HEIGHT = 720
