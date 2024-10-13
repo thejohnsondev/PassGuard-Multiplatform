@@ -52,6 +52,7 @@ import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
+import com.thejohnsondev.ui.components.GlowPulsingBackground
 import com.thejohnsondev.ui.components.PRIVACY_POLICY_TAG
 import com.thejohnsondev.ui.components.PrivacyPolicyAcceptText
 import com.thejohnsondev.ui.components.RoundedButton
@@ -180,7 +181,7 @@ fun SignUpContent(
         ) {
             Box {
                 Box {
-//                    GlowPulsingBackground()  // TODO add glow pulsing background
+                    GlowPulsingBackground()
                 }
                 Column(
                     modifier = Modifier
