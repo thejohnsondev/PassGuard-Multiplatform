@@ -46,6 +46,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(project(":core:common"))
+            implementation(project(":core:datastore"))
             implementation(project(":core:model"))
             implementation(project(":core:ui"))
             api(project(":feature:auth:presentation"))
