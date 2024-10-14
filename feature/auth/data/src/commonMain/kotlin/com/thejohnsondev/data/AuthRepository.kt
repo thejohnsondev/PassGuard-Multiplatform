@@ -9,9 +9,12 @@ interface AuthRepository {
 
     suspend fun signUp(email: String, password: String): Flow<Either<Error, AuthResponse>>
     suspend fun singIn(email: String, password: String): Flow<Either<Error, AuthResponse>>
-    suspend fun signOut(): Flow<Either<Error, Unit>>
-    fun isUserLoggedIn(): Boolean
+    suspend fun signOut()
+    suspend fun isUserLoggedIn(): Boolean
     suspend fun deleteAccount(): Flow<Either<Error, Unit>>
     suspend fun changePassword(oldPassword: String, newPassword: String): Flow<Either<Error, Boolean>>
+    suspend fun saveKey(key: ByteArray)
+    suspend fun saveAuthToken(token: String)
+    suspend fun saveEmail(email: String)
 
 }

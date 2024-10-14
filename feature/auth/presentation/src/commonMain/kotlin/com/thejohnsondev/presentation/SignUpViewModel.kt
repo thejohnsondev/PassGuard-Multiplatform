@@ -1,8 +1,11 @@
 package com.thejohnsondev.presentation
 
+import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.combine
-import com.thejohnsondev.domain.AuthUseCases
+import com.thejohnsondev.domain.AuthService
+import com.thejohnsondev.domain.EmailValidateUseCase
+import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.auth.AuthResponse
@@ -10,10 +13,14 @@ import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 class SignUpViewModel(
-    private val useCases: AuthUseCases
+    private val authService: AuthService,
+    private val emailValidateUseCase: EmailValidateUseCase,
+    private val passwordValidationUseCase: PasswordValidationUseCase
 ) : BaseViewModel() {
 
     private val _isSignUpSuccess = MutableStateFlow<Boolean?>(null)
@@ -25,7 +32,7 @@ class SignUpViewModel(
         _passwordValidationState,
         _isPrivacyPolicyAccepted,
         ::isSignUpReady
-    )
+    ).stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     val viewState: Flow<State> = combine(
         _isSignUpSuccess,
@@ -35,7 +42,7 @@ class SignUpViewModel(
         _signUpReadyState,
         _isPrivacyPolicyAccepted,
         ::State
-    )
+    ).stateIn(viewModelScope, SharingStarted.Eagerly, State())
 
     fun perform(action: Action) {
         when (action) {
@@ -51,15 +58,15 @@ class SignUpViewModel(
     }
 
     private fun validateEmail(email: String) = launch {
-        _emailValidationState.value = useCases.validateEmail(email)
+        _emailValidationState.value = emailValidateUseCase.invoke(email)
     }
 
     private fun validatePassword(password: String) = launch {
-        _passwordValidationState.value = useCases.validatePassword(password)
+        _passwordValidationState.value = passwordValidationUseCase.invoke(password)
     }
 
     private fun signUp(email: String, password: String) = launchLoading {
-        useCases.signUp(email, password).onResult {
+        authService.signUp(email, password).onResult {
             handleAuthResponse(it, email, password)
         }
     }
@@ -76,21 +83,21 @@ class SignUpViewModel(
     }
 
     private fun saveUserEmail(email: String) = launch {
-        useCases.saveUserEmail.invoke(email)
+        authService.saveEmail(email)
     }
 
     private fun saveUserToken(token: String) = launch {
-        useCases.saveUserToken.invoke(token)
+        authService.saveAuthToken(token)
     }
 
     private suspend fun generateAndSaveEncryptionKey(password: String) {
-        useCases.generateUserKey(password).onResult {
+        authService.generateKey(password).onResult {
             handleGenerateKeySuccess(it)
         }
     }
 
     private fun handleGenerateKeySuccess(generatedKey: ByteArray) = launch {
-        useCases.saveUserKey(generatedKey)
+        authService.saveKey(generatedKey)
     }
 
     private fun isSignUpReady(
