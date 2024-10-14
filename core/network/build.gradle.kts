@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -29,32 +28,26 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            // Koin
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+        }
         commonMain.dependencies {
-            api(project(":core:model"))
             api(project(":core:common"))
-            api(project(":core:datastore"))
-            api(project(":core:database"))
-
-            implementation(libs.ktor.serialization.kotlinx.json)
 
             // Koin
             api(libs.koin.core)
-
-            // Arrow Either
-            implementation(libs.arrow.core)
-
-            // Ktor
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.client.encoding)
+            implementation(libs.koin.compose)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
     }
 }
 
 android {
-    namespace = "org.thejohnsondev.data"
+    namespace = "org.thejohnsondev.network"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
