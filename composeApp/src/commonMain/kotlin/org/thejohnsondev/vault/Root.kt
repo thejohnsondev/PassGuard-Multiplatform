@@ -6,10 +6,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.presentation.SignUpScreen
 import com.thejohnsondev.presentation.SignUpViewModel
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
@@ -23,6 +25,9 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun Root(
     deviceThemeConfig: DeviceThemeConfig
 ) {
+    LaunchedEffect(true) {
+        initializeLibs()
+    }
     val windowSizeClass = calculateWindowSizeClass()
     VaultTheme(
         dynamicColor = false,
@@ -53,4 +58,8 @@ fun Root(
             }
         }
     }
+}
+
+private fun initializeLibs() {
+    Logger.initialize()
 }

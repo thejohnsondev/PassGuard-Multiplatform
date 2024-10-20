@@ -1,5 +1,7 @@
 package com.thejohnsondev.model
 
+class NoInternetConnectionException: Throwable()
+
 open class Error(
     val throwable: Throwable? = null
 )

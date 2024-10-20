@@ -28,20 +28,49 @@ kotlin {
     }
 
     sourceSets {
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.apache5)
+            }
+        }
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+            implementation(libs.kotlinx.coroutines.android)
+
+            // Ktor
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             api(project(":core:common"))
+            api(project(":core:model"))
+
+            implementation(libs.kotlinx.coroutines.core)
 
             // Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
+
+            // Arrow Either
+            implementation(libs.arrow.core)
+
+            // Ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.encoding)
+
+            // Konnection check
+            implementation(libs.konnection)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
