@@ -123,7 +123,7 @@ fun SignUpScreen(
 
     SignUpContent(
         state = screenState.value,
-        windowSize = windowSize, // TODO add screen size checks
+        windowSize = windowSize,
         isKeyboardOpened = isKeyboardOpened,
         emailState = emailState,
         passwordState = passwordState,
@@ -148,7 +148,7 @@ fun SignUpScreen(
 @Composable
 fun SignUpContent(
     state: SignUpViewModel.State,
-    windowSize: WindowWidthSizeClass,   // TODO add screen size checks
+    windowSize: WindowWidthSizeClass,
     isKeyboardOpened: Boolean,
     emailState: MutableState<String>,
     passwordState: MutableState<String>,

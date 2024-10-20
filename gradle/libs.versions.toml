@@ -3,6 +3,7 @@ agp = "8.2.2"
 android-compileSdk = "34"
 android-minSdk = "29"
 android-targetSdk = "34"
+konnection = "1.4.3"
 ktx = "1.13.1"
 androidx-activityCompose = "1.9.1"
 androidx-appcompat = "1.7.0"
@@ -21,9 +22,10 @@ koin = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
 kotlinxSerializationJson = "1.7.3"
 material3WindowSizeClassMultiplatform = "0.5.0"
+napier = "2.7.1"
 navigationCompose = "2.8.0-alpha02"
 lifecycleViewModel = "2.8.6"
-ktor-client = "2.3.6"
+ktor-client = "3.0.0"
 sqldelight = "2.0.1"
 kotlinVersion = "1.9.0"
 fragmentKtx = "1.8.4"
@@ -32,10 +34,12 @@ arrow = "1.1.2"
 splashscreen = "1.0.1"
 datastore = "1.1.1"
 buildkonfig = "0.15.2"
+coroutines = "1.9.0"
 
 [libraries]
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+konnection = { module = "dev.tmapps:konnection", version.ref = "konnection" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -54,6 +58,8 @@ arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 material3-windowsizeclass-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material3WindowSizeClassMultiplatform" }
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 # Android
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
@@ -66,14 +72,16 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 #Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-client" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor-client" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor-client" }
+ktor-client-apache5 = { module = "io.ktor:ktor-client-apache5", version.ref = "ktor-client" }
 ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor-client" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor-client" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor-client" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor-client" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-client" }
 

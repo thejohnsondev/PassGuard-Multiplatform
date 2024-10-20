@@ -5,9 +5,12 @@ import com.thejohnsondev.common.encryption.EncryptionUtils
 import com.thejohnsondev.database.LocalDataSource
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.Error
+import com.thejohnsondev.model.auth.AuthRequestBody
 import com.thejohnsondev.model.auth.AuthResponse
+import com.thejohnsondev.network.RemoteApi
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.thejohnsondev.data.BuildKonfig
 import kotlin.io.encoding.Base64
@@ -15,14 +18,15 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 class AuthRepositoryImpl(
     private val localDataSource: LocalDataSource,
-    private val preferencesDataStore: PreferencesDataStore
+    private val preferencesDataStore: PreferencesDataStore,
+    private val remoteApi: RemoteApi
 ) : AuthRepository {
 
     @OptIn(ExperimentalEncodingApi::class)
     override suspend fun signUp(
         email: String,
         password: String
-    ): Flow<Either<Error, AuthResponse>> {
+    ): Flow<Either<Error, AuthResponse>>  {
         val encryptedEmail = EncryptionUtils.encrypt(
             email,
             Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray()),
@@ -33,7 +37,8 @@ class AuthRepositoryImpl(
             Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray()),
             Base64.decode(BuildKonfig.AUTH_SECRET_IV.toByteArray())
         )
-        return flowOf(Either.Right(AuthResponse("token")))
+        val requestBody = AuthRequestBody(encryptedEmail, encryptedPassword)
+        return flowOf(remoteApi.signUp(requestBody))
     }
 
     @OptIn(ExperimentalEncodingApi::class)

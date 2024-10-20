@@ -35,8 +35,11 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.androidx.lifecycle.viewmodel)
 
-            // Arrow Wither
+            // Arrow Either
             implementation(libs.arrow.core)
+
+            // Logs
+            implementation(libs.napier)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

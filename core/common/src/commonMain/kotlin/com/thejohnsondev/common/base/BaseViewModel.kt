@@ -3,6 +3,7 @@ package com.thejohnsondev.common.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.common.utils.getPrettyErrorMessage
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
@@ -54,8 +55,8 @@ abstract class BaseViewModel : ViewModel() {
             is NetworkError -> "Please, check your internet connection"
             is UnknownError -> error.throwable?.message
             else -> error.throwable?.message
-
         }
+        Logger.e(errorMessage)
         sendEvent(OneTimeEvent.InfoMessage(getPrettyErrorMessage(errorMessage)))
     }
 
