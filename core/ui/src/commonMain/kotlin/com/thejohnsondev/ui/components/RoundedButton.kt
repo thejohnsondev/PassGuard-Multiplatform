@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.model.ButtonShape
@@ -75,7 +76,12 @@ fun RoundedButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (loading) {
-                // TODO add loading
+                Loader(
+                    modifier = Modifier.size(Size24),
+                    iconTintColor = if (enabled) colors.contentColor else colors.contentColor.copy(
+                        alpha = Percent70
+                    )
+                )
             } else {
                 imageVector?.let { safeImageVector ->
                     Icon(
