@@ -56,7 +56,7 @@ abstract class BaseViewModel : ViewModel() {
             is UnknownError -> error.throwable?.message
             else -> error.throwable?.message
         }
-        Logger.e(errorMessage)
+        Logger.e("${this::class.simpleName} error: ${error::class.simpleName} $errorMessage")
         sendEvent(OneTimeEvent.InfoMessage(getPrettyErrorMessage(errorMessage)))
     }
 

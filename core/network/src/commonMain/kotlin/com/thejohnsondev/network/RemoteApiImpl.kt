@@ -17,15 +17,17 @@ class RemoteApiImpl(
 ) : RemoteApi {
 
     override suspend fun signUp(body: AuthRequestBody): Either<Error, AuthResponse> {
-        return client.post {
-            url {
-                protocol = URLProtocol.HTTPS
-                host = BASE_URL
-                path(SIGN_UP)
-                contentType(ContentType.Application.Json)
+        return callWithMapping {
+            client.post {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BASE_URL
+                    path(LOGIN)
+                    contentType(ContentType.Application.Json)
+                }
+                setBody(body)
             }
-            setBody(body)
-        }.mapToResponse()
+        }
     }
 
 }

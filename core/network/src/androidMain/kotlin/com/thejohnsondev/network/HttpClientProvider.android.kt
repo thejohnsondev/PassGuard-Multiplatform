@@ -21,6 +21,5 @@ actual object HttpClientProvider {
             logger = Logger.SIMPLE
             level = LogLevel.BODY
         }
-        expectSuccess = true
     }
 }
