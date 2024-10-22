@@ -22,7 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -52,6 +52,7 @@ import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
+import com.thejohnsondev.ui.components.ErrorSnackbar
 import com.thejohnsondev.ui.components.GlowPulsingBackground
 import com.thejohnsondev.ui.components.PRIVACY_POLICY_TAG
 import com.thejohnsondev.ui.components.PrivacyPolicyAcceptText
@@ -112,7 +113,7 @@ fun SignUpScreen(
         viewModel.getEventFlow().collect {
             when (it) {
                 is OneTimeEvent.InfoMessage -> {
-                    // TODO implement quick message
+                    snackbarHostState.showSnackbar(it.message, duration = SnackbarDuration.Short)
                 }
 
                 is OneTimeEvent.SuccessNavigation -> goToHome()
@@ -161,14 +162,14 @@ fun SignUpContent(
     openTermsOfUse: () -> Unit,
     onAction: (SignUpViewModel.Action) -> Unit
 ) {
-    WindowWidthSizeClass
     Scaffold(snackbarHost = {
-        SnackbarHost(snackbarHostState) { data ->
-            Snackbar(
+        SnackbarHost(
+            snackbarHostState
+        ) { data ->
+            ErrorSnackbar(
                 modifier = Modifier.padding(bottom = Size86, start = Size16, end = Size16),
-            ) {
-                Text(text = data.visuals.message)
-            }
+                message = data.visuals.message
+            )
         }
     }) { paddingValues ->
         Surface(

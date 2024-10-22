@@ -35,24 +35,22 @@ fun String.isPasswordValid(): PasswordValidationState {
 }
 
 fun String.isEmailValid(): EmailValidationState {
-    return if (this.isNotEmpty()
-//        && getEmailPattern().matcher(this).matches() // todo find a matcher from kotlin
-        ) {
+    return if (this.isNotEmpty() && Regex(getEmailPattern()).matches(this)) {
         EmailValidationState.EmailCorrectState
     } else {
         EmailValidationState.EmailIncorrectState(EmailIncorrectReason.INCORRECT)
     }
 }
 
-//private fun getEmailPattern(): Pattern = Pattern.compile( // todo find a matcher from kotlin
-//    "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-//            "\\@" +
-//            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-//            "(" +
-//            "\\." +
-//            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-//            ")+"
-//)
+private fun getEmailPattern() =
+    "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+            "\\@" +
+            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+            "(" +
+            "\\." +
+            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+            ")+"
+
 
 inline fun <reified T> T.toJson(): String {
     return Json.encodeToString(this)

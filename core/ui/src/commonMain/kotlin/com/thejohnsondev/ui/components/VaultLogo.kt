@@ -10,7 +10,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
-import com.thejohnsondev.ui.designsystem.getUbuntuFontFamily
+import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.ault
@@ -39,7 +39,7 @@ fun VaultLogo(
                 style = SpanStyle(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = fontSize,
-                    fontFamily = getUbuntuFontFamily()
+                    fontFamily = getGlobalFontFamily()
                 )
             ) {
                 append(stringResource(Res.string.ault))
