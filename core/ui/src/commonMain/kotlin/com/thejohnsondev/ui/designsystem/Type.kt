@@ -50,10 +50,13 @@ fun getUbuntuFontFamily() = FontFamily(
 )
 
 @Composable
+fun getGlobalFontFamily() = getUbuntuFontFamily()
+
+@Composable
 fun getTypography() = Typography(
     // Display Large - Montserrat 57/64 . -0.25px
     displayLarge = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 57.sp,
         lineHeight = 64.sp,
@@ -62,7 +65,7 @@ fun getTypography() = Typography(
 
     // Display Medium - Montserrat 45/52 . 0px
     displayMedium = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 45.sp,
         lineHeight = 52.sp,
@@ -71,7 +74,7 @@ fun getTypography() = Typography(
 
     // Display Small - Montserrat 36/44 . 0px
     displaySmall = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 36.sp,
         lineHeight = 44.sp,
@@ -80,7 +83,7 @@ fun getTypography() = Typography(
 
     // Headline Large - Montserrat 32/40 . 0px
     headlineLarge = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 32.sp,
         lineHeight = 40.sp,
@@ -89,7 +92,7 @@ fun getTypography() = Typography(
 
     // Headline Medium - Montserrat 28/36 . 0px
     headlineMedium = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 28.sp,
         lineHeight = 36.sp,
@@ -98,7 +101,7 @@ fun getTypography() = Typography(
 
     // Headline Small - Montserrat 24/32 . 0px
     headlineSmall = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 24.sp,
         lineHeight = 32.sp,
@@ -107,7 +110,7 @@ fun getTypography() = Typography(
 
     // Title Large - Montserrat 22/28 . 0px
     titleLarge = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 22.sp,
         lineHeight = 28.sp,
@@ -116,7 +119,7 @@ fun getTypography() = Typography(
 
     // Title Medium - Montserrat 16/24 . 0.15px
     titleMedium = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W500,
         fontSize = 16.sp,
         lineHeight = 24.sp,
@@ -125,7 +128,7 @@ fun getTypography() = Typography(
 
     // Title Small - Montserrat 14/20 . 0.1px
     titleSmall = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W500,
         fontSize = 14.sp,
         lineHeight = 20.sp,
@@ -134,7 +137,7 @@ fun getTypography() = Typography(
 
     // Label Large - Montserrat 14/20 . 0.1px
     labelLarge = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W500,
         fontSize = 14.sp,
         lineHeight = 20.sp,
@@ -143,7 +146,7 @@ fun getTypography() = Typography(
 
     // Label Medium - Montserrat 12/16 . 0.5px
     labelMedium = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W500,
         fontSize = 12.sp,
         lineHeight = 16.sp,
@@ -152,7 +155,7 @@ fun getTypography() = Typography(
 
     // Label Small - Montserrat 11/16 . 0.5px
     labelSmall = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W500,
         fontSize = 11.sp,
         lineHeight = 16.sp,
@@ -161,7 +164,7 @@ fun getTypography() = Typography(
 
     // Body Large - Montserrat 16/24 . 0.5px
     bodyLarge = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 16.sp,
         lineHeight = 24.sp,
@@ -170,7 +173,7 @@ fun getTypography() = Typography(
 
     // Body Medium - Montserrat 14/20 . 0.25px
     bodyMedium = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 14.sp,
         lineHeight = 20.sp,
@@ -178,7 +181,7 @@ fun getTypography() = Typography(
     ),
     // Body Small - Montserrat 12/16 . 0.4px
     bodySmall = TextStyle(
-        fontFamily = getUbuntuFontFamily(),
+        fontFamily = getGlobalFontFamily(),
         fontWeight = FontWeight.W400,
         fontSize = 12.sp,
         lineHeight = 16.sp,

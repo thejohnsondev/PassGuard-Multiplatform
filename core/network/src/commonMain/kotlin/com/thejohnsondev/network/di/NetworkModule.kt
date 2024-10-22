@@ -26,7 +26,6 @@ val networkModule = module {
         }
         client.plugin(HttpSend).intercept { request ->
             val isInternetConnected = Konnection.instance.isConnected()
-            // TODO: move it before calling the request
             if (!isInternetConnected) throw NoInternetConnectionException()
             execute(request)
         }

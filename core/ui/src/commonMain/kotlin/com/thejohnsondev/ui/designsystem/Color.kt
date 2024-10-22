@@ -5,6 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 
+val themeColorSuccessBackground = Color(0xFFC0E1B8)
+val themeColorSuccessForeground = Color(0xFF1E720A)
+
 val md_theme_light_primary = Color(0xFF3C5BA9)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFDAE2FF)

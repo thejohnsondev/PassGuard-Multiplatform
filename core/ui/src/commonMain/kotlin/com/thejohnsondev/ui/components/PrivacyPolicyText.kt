@@ -8,7 +8,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import com.thejohnsondev.ui.designsystem.getUbuntuFontFamily
+import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.accept_and_agree
@@ -24,7 +24,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Normal,
                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontFamily = getUbuntuFontFamily()
+                fontFamily = getGlobalFontFamily()
             ),
         ) {
             append(stringResource(Res.string.accept_and_agree))
@@ -36,7 +36,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                 textDecoration = TextDecoration.Underline,
-                fontFamily = getUbuntuFontFamily()
+                fontFamily = getGlobalFontFamily()
             )
         ) {
             pushStringAnnotation(tag = TERMS_OF_USE_TAG, annotation = "click")
@@ -47,7 +47,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Normal,
                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontFamily = getUbuntuFontFamily()
+                fontFamily = getGlobalFontFamily()
             ),
         ) {
             append(" ")
@@ -60,7 +60,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                 textDecoration = TextDecoration.Underline,
-                fontFamily = getUbuntuFontFamily()
+                fontFamily = getGlobalFontFamily()
             )
         ) {
             pushStringAnnotation(tag = PRIVACY_POLICY_TAG, annotation = "click")
