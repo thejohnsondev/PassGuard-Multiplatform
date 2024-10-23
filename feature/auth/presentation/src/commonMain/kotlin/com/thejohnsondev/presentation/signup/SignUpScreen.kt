@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation
+package com.thejohnsondev.presentation.signup
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background

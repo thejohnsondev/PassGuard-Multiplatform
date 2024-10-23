@@ -2,7 +2,7 @@ package com.thejohnsondev.model.validation
 
 sealed interface PasswordValidationState {
     data object PasswordCorrectState : PasswordValidationState
-    class PasswordIncorrectState(val reason: IncorrectPasswordReason) : PasswordValidationState
+    data class PasswordIncorrectState(val reason: IncorrectPasswordReason) : PasswordValidationState
 }
 
 enum class IncorrectPasswordReason {

@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation
+package com.thejohnsondev.presentation.signup
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
