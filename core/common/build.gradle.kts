@@ -41,15 +41,20 @@ kotlin {
             // Logs
             implementation(libs.napier)
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
         androidMain.dependencies {
             implementation(libs.androidx.ktx)
             implementation(libs.androidx.fragment.ktx)
 
             // Biometric
             implementation(libs.androidx.biometric)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+        }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }
@@ -59,6 +64,7 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
