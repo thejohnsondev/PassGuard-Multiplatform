@@ -12,8 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.thejohnsondev.common.utils.Logger
-import com.thejohnsondev.presentation.SignUpScreen
-import com.thejohnsondev.presentation.SignUpViewModel
+import com.thejohnsondev.presentation.signup.SignUpScreen
+import com.thejohnsondev.presentation.signup.SignUpViewModel
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.VaultTheme
 import org.koin.compose.KoinContext
