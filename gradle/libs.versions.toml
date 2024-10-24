@@ -26,6 +26,7 @@ napier = "2.7.1"
 navigationCompose = "2.8.0-alpha02"
 lifecycleViewModel = "2.8.6"
 ktor-client = "3.0.0"
+runner = "1.0.2"
 sqldelight = "2.0.1"
 kotlinVersion = "1.9.0"
 fragmentKtx = "1.8.4"
@@ -87,6 +88,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-client" }
 
 #SqlDelight
+runner = { module = "com.android.support.test:runner", version.ref = "runner" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }

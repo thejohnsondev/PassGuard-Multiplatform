@@ -29,26 +29,28 @@ abstract class BaseViewModel : ViewModel() {
     protected val _loadingState: MutableStateFlow<LoadingState> =
         MutableStateFlow(LoadingState.Loaded)
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        handleError(UnknownError(throwable))
+        viewModelScope.launch {
+            handleError(UnknownError(throwable))
+        }
     }
 
     fun getEventFlow() = eventChannel.receiveAsFlow()
         .stateIn(viewModelScope, SharingStarted.Eagerly, OneTimeEvent.None)
 
-    protected fun BaseViewModel.sendEvent(event: OneTimeEvent) = launch {
+    protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent)  {
         loaded()
         eventChannel.send(event)
     }
 
-    protected fun BaseViewModel.loading() = launch {
+    protected suspend fun BaseViewModel.loading()  {
         _loadingState.emit(LoadingState.Loading)
     }
 
-    protected fun BaseViewModel.loaded() = launch {
+    protected suspend fun BaseViewModel.loaded()  {
         _loadingState.emit(LoadingState.Loaded)
     }
 
-    protected fun handleError(error: Error) {
+    protected suspend fun handleError(error: Error) {
         loaded()
         val errorMessage = when (error) {
             is HttpError -> error.message
@@ -75,7 +77,7 @@ abstract class BaseViewModel : ViewModel() {
         return job
     }
 
-    protected fun <T> Either<Error, T>.onResult(
+    protected suspend fun <T> Either<Error, T>.onResult(
         onError: ((Error) -> Unit)? = null,
         onSuccess: (T) -> Unit
     ) = fold(
