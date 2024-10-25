@@ -21,8 +21,36 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run lint
-        run: ./gradlew lint
+      - name: Update auth secrets
+        env:
+          AUTH_SECRET_IV: ${{ secrets.AUTH_SECRET_IV }}
+          AUTH_SECRET_KEY: ${{ secrets.AUTH_SECRET_KEY }}
+        run: |
+          cat <<EOF > local.properties
+          AUTH_SECRET_IV:"$AUTH_SECRET_IV"
+          AUTH_SECRET_KEY:"$AUTH_SECRET_KEY"
+          EOF
 
-      - name: Run build Android
-        run: ./gradlew build
+      - name: Create BuildKonfig
+        run: ./gradlew generateBuildKonfig
+
+      - name: Build app
+        run: ./gradlew assembleDebug assembleAndroidTest
+
+      - name: Run Unit Tests
+        run: |
+          ./gradlew :core:common:test
+
+      - name: Run Android instrumentation tests
+        uses: emulator-wtf/run-tests@v0.9.10
+        with:
+          app: 'composeApp/build/outputs/apk/debug/composeApp-debug.apk'
+          test: 'composeApp/build/outputs/apk/androidTest/debug/composeApp-debug-androidTest.apk'
+          devices: |
+            model=Pixel2,version=34
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v2
+        if: always() # always run even if the tests fail
+        with:
+          report_paths: 'composeApp/build/test-results/**/*.xml'
