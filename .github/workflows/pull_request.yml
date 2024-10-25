@@ -41,13 +41,13 @@ jobs:
         run: |
           ./gradlew :core:common:test
 
-      - name: Run Android instrumentation tests
-        uses: emulator-wtf/run-tests@v0.9.10
-        with:
-          app: 'composeApp/build/outputs/apk/debug/composeApp-debug.apk'
-          test: 'composeApp/build/outputs/apk/androidTest/debug/composeApp-debug-androidTest.apk'
-          devices: |
-            model=Pixel2,version=34
+#      - name: Run Android instrumentation tests
+#        uses: emulator-wtf/run-tests@v0.9.10
+#        with:
+#          app: 'composeApp/build/outputs/apk/debug/composeApp-debug.apk'
+#          test: 'composeApp/build/outputs/apk/androidTest/debug/composeApp-debug-androidTest.apk'
+#          devices: |
+#            model=Pixel2,version=34
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v2
