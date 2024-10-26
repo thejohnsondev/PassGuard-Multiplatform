@@ -49,6 +49,13 @@ jobs:
 #          devices: |
 #            model=Pixel2,version=34
 
+      - name: Run Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'android-device.yml:android-pixel-4'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+
       - name: Publish test report
         uses: mikepenz/action-junit-report@v4.3.1
         if: always() # always run even if the tests fail
