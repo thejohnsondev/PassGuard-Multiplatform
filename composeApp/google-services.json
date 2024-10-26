@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "763464293794",
+    "project_id": "vault-mp",
+    "storage_bucket": "vault-mp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763464293794:android:a1c3d2a863ac4f122ca6fb",
+        "android_client_info": {
+          "package_name": "org.thejohnsondev.vault"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIEb1QS0o0AmIQPqvDFQ14RDQ6omAe2zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
