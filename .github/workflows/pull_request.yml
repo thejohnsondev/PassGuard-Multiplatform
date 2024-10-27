@@ -41,20 +41,12 @@ jobs:
         run: |
           ./gradlew :core:common:test
 
-#      - name: Run Android instrumentation tests
-#        uses: emulator-wtf/run-tests@v0.9.10
+#      - name: Run Android tests on Firebase Test Lab
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
 #        with:
-#          app: 'composeApp/build/outputs/apk/debug/composeApp-debug.apk'
-#          test: 'composeApp/build/outputs/apk/androidTest/debug/composeApp-debug-androidTest.apk'
-#          devices: |
-#            model=Pixel2,version=34
-
-      - name: Run Android tests on Firebase Test Lab
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'android-device.yml:android-pixel-4'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+#          arg-spec: 'android-device.yml:android-pixel-4'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v4.3.1
