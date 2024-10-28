@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -15,6 +16,8 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
     jvm("desktop")
@@ -31,6 +34,7 @@ kotlin {
     }
 
     sourceSets {
+        val desktopTest by getting
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
@@ -58,6 +62,15 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
         }
+        commonTest.dependencies {
+            // Testing
+            implementation(kotlin("test"))
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+        desktopTest.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
     }
 }
 
@@ -72,4 +85,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
+
+dependencies {
+    androidTestImplementation(libs.androidx.ui.test.junit4.android)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
