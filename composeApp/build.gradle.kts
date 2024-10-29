@@ -53,12 +53,12 @@ kotlin {
             implementation(libs.firebase.analytics)
         }
         commonMain.dependencies {
-            implementation(project(":core:common"))
-            implementation(project(":core:database"))
-            implementation(project(":core:datastore"))
-            implementation(project(":core:model"))
-            implementation(project(":core:network"))
-            implementation(project(":core:ui"))
+            api(project(":core:common"))
+            api(project(":core:database"))
+            api(project(":core:datastore"))
+            api(project(":core:model"))
+            api(project(":core:network"))
+            api(project(":core:ui"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
 

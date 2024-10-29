@@ -39,8 +39,11 @@ buildkonfig = "0.15.2"
 coroutines = "1.9.0"
 gms = "4.4.2"
 crashlytcs = "3.0.2"
+uiTestJunit4Android = "1.7.4"
 
 [libraries]
+androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }

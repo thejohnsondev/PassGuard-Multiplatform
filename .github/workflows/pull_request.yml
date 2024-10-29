@@ -35,18 +35,18 @@ jobs:
         run: ./gradlew generateBuildKonfig
 
       - name: Build app
-        run: ./gradlew assembleDebug assembleAndroidTest
+        run: ./gradlew assembleDebug :core:common:assembleAndroidTest
 
       - name: Run Unit Tests
         run: |
           ./gradlew :core:common:test
 
-#      - name: Run Android tests on Firebase Test Lab
-#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-#        with:
-#          arg-spec: 'android-device.yml:android-pixel-4'
-#        env:
-#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+      - name: Run Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'android-device.yml:android-pixel-4'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v4.3.1
