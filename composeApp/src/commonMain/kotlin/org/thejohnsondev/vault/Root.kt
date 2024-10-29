@@ -9,18 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.thejohnsondev.common.navigation.Screens
 import com.thejohnsondev.common.utils.Logger
-import com.thejohnsondev.presentation.signup.SignUpScreen
-import com.thejohnsondev.presentation.signup.SignUpViewModel
+import com.thejohnsondev.presentation.navigation.loginScreen
+import com.thejohnsondev.presentation.navigation.navigateToLogin
+import com.thejohnsondev.presentation.navigation.signUpScreen
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.VaultTheme
 import org.koin.compose.KoinContext
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3WindowSizeClassApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun Root(
     deviceThemeConfig: DeviceThemeConfig
@@ -42,18 +41,26 @@ fun Root(
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = "signup"
+                    startDestination = Screens.SignUpScreen.name
                 ) {
-                    composable("signup") {
-                        val viewModel = koinViewModel<SignUpViewModel>()
-                        SignUpScreen(
-                            windowSizeClass.widthSizeClass,
-                            viewModel, {
-                                // TODO implement navigation later
-                            }, {
-                                // TODO implement navigation later
-                            })
-                    }
+                    signUpScreen(
+                        windowSize = windowSizeClass.widthSizeClass,
+                        goToHome = {
+                            // TODO implement navigation later
+                        },
+                        goToLogin = {
+                            navController.navigateToLogin()
+                        }
+                    )
+                    loginScreen(
+                        windowSize = windowSizeClass.widthSizeClass,
+                        goToHome = {
+                            // TODO implement navigation later
+                        },
+                        goBack = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
             }
         }
