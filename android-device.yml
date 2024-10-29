@@ -1,7 +1,7 @@
 android-pixel-4:
   type: instrumentation
   app: composeApp/build/outputs/apk/debug/composeApp-debug.apk
-  test: composeApp/build/outputs/apk/androidTest/debug/composeApp-debug-androidTest.apk
+  test: core/common/build/outputs/apk/androidTest/debug/common-debug-androidTest.apk
   device:
     - model: redfin
       version: 30
