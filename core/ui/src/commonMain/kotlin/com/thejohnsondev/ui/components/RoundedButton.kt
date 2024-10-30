@@ -1,5 +1,6 @@
 package com.thejohnsondev.ui.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -18,13 +19,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.model.ButtonShape
+import com.thejohnsondev.ui.model.ButtonStyle
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
@@ -45,8 +49,13 @@ fun RoundedButton(
         contentColor = MaterialTheme.colorScheme.onPrimary,
     ),
     buttonShape: ButtonShape = ButtonShape.ROUNDED,
+    buttonStyle: ButtonStyle = ButtonStyle.REGULAR,
     disableBounceAnimation: Boolean = false
 ) {
+    val buttonColor =
+        if (enabled && !loading) colors.containerColor else colors.containerColor.copy(alpha = Percent70)
+    val contentColor = if (enabled) colors.contentColor else colors.contentColor.copy(alpha = Percent70)
+
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -66,8 +75,23 @@ fun RoundedButton(
                 if (enabled && !loading) {
                     onClick()
                 }
+            }
+            .applyIf(buttonStyle == ButtonStyle.OUTLINE) {
+                border(
+                    width = Size2,
+                    color = buttonColor,
+                    shape = RoundedCornerShape(
+                        topStart = buttonShape.topStart,
+                        topEnd = buttonShape.topEnd,
+                        bottomStart = buttonShape.bottomStart,
+                        bottomEnd = buttonShape.bottomEnd
+                    )
+                )
             },
-        color = if (enabled && !loading) colors.containerColor else colors.containerColor.copy(alpha = Percent70),
+        color = when (buttonStyle) {
+            ButtonStyle.REGULAR -> buttonColor
+            ButtonStyle.OUTLINE -> Color.Transparent
+        },
     ) {
         Row(
             modifier = Modifier
@@ -97,9 +121,10 @@ fun RoundedButton(
                 }
                 Text(
                     text = text,
-                    color = if (enabled) colors.contentColor else colors.contentColor.copy(
-                        alpha = Percent70
-                    ),
+                    color = when(buttonStyle) {
+                        ButtonStyle.REGULAR -> contentColor
+                        ButtonStyle.OUTLINE -> buttonColor
+                    },
                     style = MaterialTheme.typography.titleMedium
                 )
             }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Auth-->
+    <string name="app_name">PassGuard</string>
     <string name="email">Email</string>
     <string name="privacy_policy_link">https://andrewdobosh.notion.site/Privacy-Policy-3f95b4857e0e49a78b35f0ca837b4ec5</string>
     <string name="terms_of_use_link">https://andrewdobosh.notion.site/Terms-of-use-bb7607b71dbc40d9a336c9ed38d5a7e8</string>
@@ -9,4 +10,5 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="do_not_have_account">Don't have an account?</string>
     <string name="log_in">Log in</string>
+    <string name="your_fortress">Your digital fortress for password security</string>
 </resources>

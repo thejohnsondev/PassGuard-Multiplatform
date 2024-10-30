@@ -9,6 +9,7 @@ import com.thejohnsondev.presentation.login.LoginScreen
 import com.thejohnsondev.presentation.login.LoginViewModel
 import com.thejohnsondev.presentation.signup.SignUpScreen
 import com.thejohnsondev.presentation.signup.SignUpViewModel
+import com.thejohnsondev.presentation.welcome.WelcomeScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -29,6 +30,22 @@ fun NavController.navigateToSignUp() {
         popUpTo(Screens.SignUpScreen.name) {
             inclusive = true
         }
+    }
+}
+
+fun NavGraphBuilder.welcomeScreen(
+    windowSize: WindowWidthSizeClass,
+    goToSignUp: () -> Unit,
+    goToLogin: () -> Unit
+) {
+    composable(
+        route = Screens.Welcome.name
+    ) {
+        WelcomeScreen(
+            windowSize = windowSize,
+            goToSignUp = goToSignUp,
+            goToLogin = goToLogin
+        )
     }
 }
 

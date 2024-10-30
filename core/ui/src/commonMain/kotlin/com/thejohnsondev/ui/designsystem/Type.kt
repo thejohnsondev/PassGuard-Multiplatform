@@ -8,6 +8,13 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.Font
+import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Black
+import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Bold
+import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Italic
+import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Light
+import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Medium
+import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Regular
+import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Thin
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.poppins_black
 import vaultmultiplatform.core.ui.generated.resources.poppins_bold
@@ -50,7 +57,19 @@ fun getUbuntuFontFamily() = FontFamily(
 )
 
 @Composable
-fun getGlobalFontFamily() = getUbuntuFontFamily()
+fun getAlegreyaFontFamily() = FontFamily(
+    Font(Res.font.AlegreyaSans_Regular),
+    Font(Res.font.AlegreyaSans_Medium, FontWeight.Medium),
+    Font(Res.font.AlegreyaSans_Bold, FontWeight.SemiBold),
+    Font(Res.font.AlegreyaSans_Bold, FontWeight.Bold),
+    Font(Res.font.AlegreyaSans_Black, FontWeight.Black),
+    Font(Res.font.AlegreyaSans_Light, FontWeight.Light),
+    Font(Res.font.AlegreyaSans_Thin, FontWeight.Thin),
+    Font(Res.font.AlegreyaSans_Italic, FontWeight.Normal, style = FontStyle.Italic),
+)
+
+@Composable
+fun getGlobalFontFamily() = getAlegreyaFontFamily()
 
 @Composable
 fun getTypography() = Typography(

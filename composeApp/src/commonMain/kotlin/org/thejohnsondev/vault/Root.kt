@@ -14,7 +14,9 @@ import com.thejohnsondev.common.navigation.Screens
 import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.presentation.navigation.loginScreen
 import com.thejohnsondev.presentation.navigation.navigateToLogin
+import com.thejohnsondev.presentation.navigation.navigateToSignUp
 import com.thejohnsondev.presentation.navigation.signUpScreen
+import com.thejohnsondev.presentation.navigation.welcomeScreen
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.VaultTheme
 import org.koin.compose.KoinContext
@@ -41,8 +43,17 @@ fun Root(
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Screens.SignUpScreen.name
+                    startDestination = Screens.Welcome.name
                 ) {
+                    welcomeScreen(
+                        windowSize = windowSizeClass.widthSizeClass,
+                        goToSignUp = {
+                            navController.navigateToSignUp()
+                        },
+                        goToLogin = {
+                            navController.navigateToLogin()
+                        }
+                    )
                     signUpScreen(
                         windowSize = windowSizeClass.widthSizeClass,
                         goToHome = {
