@@ -4,5 +4,5 @@
         android:width="85dp"
         android:height="85dp"
         android:gravity="center"
-        android:drawable="@drawable/ic_logo"/>
+        android:drawable="@drawable/ic_vault_108_gradient"/>
 </layer-list>

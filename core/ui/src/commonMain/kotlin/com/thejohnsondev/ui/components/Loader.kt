@@ -23,7 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.cd_app_logo
-import vaultmultiplatform.core.ui.generated.resources.ic_logo_desktop
+import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 @Composable
 fun Loader(
@@ -46,7 +46,7 @@ fun Loader(
                 .size(Size48)
                 .scale(scale)
                 .align(Alignment.Center),
-            imageVector = vectorResource(Res.drawable.ic_logo_desktop),
+            imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
             contentDescription = stringResource(Res.string.cd_app_logo),
             tint = iconTintColor
         )

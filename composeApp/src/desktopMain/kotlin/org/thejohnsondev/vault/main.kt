@@ -20,7 +20,7 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
 import vaultmultiplatform.composeapp.generated.resources.Res
 import vaultmultiplatform.composeapp.generated.resources.app_name
-import vaultmultiplatform.composeapp.generated.resources.ic_logo_desktop
+import vaultmultiplatform.composeapp.generated.resources.ic_vault_108_gradient
 import java.awt.Dimension
 
 fun main() = application {
@@ -36,7 +36,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = stringResource(Res.string.app_name),
-        icon = painterResource(Res.drawable.ic_logo_desktop),
+        icon = painterResource(Res.drawable.ic_vault_108_gradient),
         state = windowState
     ) {
         window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)
