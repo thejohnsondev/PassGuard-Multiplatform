@@ -61,6 +61,7 @@ kotlin {
             api(project(":core:ui"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
+            api(project(":feature:vault:presentation"))
 
             // Compose
             implementation(compose.runtime)
