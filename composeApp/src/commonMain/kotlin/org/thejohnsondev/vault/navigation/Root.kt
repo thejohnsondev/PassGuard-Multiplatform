@@ -1,4 +1,4 @@
-package org.thejohnsondev.vault
+package org.thejohnsondev.vault.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -40,45 +40,7 @@ fun Root(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = Screens.Welcome.name
-                ) {
-                    welcomeScreen(
-                        windowSize = windowSizeClass.widthSizeClass,
-                        goToSignUp = {
-                            navController.navigateToSignUp()
-                        },
-                        goToLogin = {
-                            navController.navigateToLogin()
-                        }
-                    )
-                    signUpScreen(
-                        windowSize = windowSizeClass.widthSizeClass,
-                        goToHome = {
-                            // TODO implement navigation later
-                        },
-                        goToLogin = {
-                            navController.navigateToLogin()
-                        },
-                        goBack = {
-                            navController.popBackStack()
-                        }
-                    )
-                    loginScreen(
-                        windowSize = windowSizeClass.widthSizeClass,
-                        goToHome = {
-                            // TODO implement navigation later
-                        },
-                        goToSignUp = {
-                            navController.navigateToSignUp()
-                        },
-                        goBack = {
-                            navController.popBackStack()
-                        }
-                    )
-                }
+                AuthNavigation(windowSizeClass)
             }
         }
     }

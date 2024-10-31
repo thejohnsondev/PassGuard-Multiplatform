@@ -18,6 +18,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
+import org.thejohnsondev.vault.navigation.Root
 import vaultmultiplatform.composeapp.generated.resources.Res
 import vaultmultiplatform.composeapp.generated.resources.app_name
 import vaultmultiplatform.composeapp.generated.resources.ic_vault_108_gradient

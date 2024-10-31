@@ -33,6 +33,16 @@ fun NavController.navigateToSignUp() {
     }
 }
 
+fun NavController.navigateToWelcome() {
+    navigate(
+        Screens.Welcome.name
+    ) {
+        popUpTo(Screens.Welcome.name) {
+            inclusive = true
+        }
+    }
+}
+
 fun NavGraphBuilder.welcomeScreen(
     windowSize: WindowWidthSizeClass,
     goToSignUp: () -> Unit,
