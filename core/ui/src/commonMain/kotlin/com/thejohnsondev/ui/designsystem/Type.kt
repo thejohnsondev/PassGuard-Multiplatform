@@ -58,7 +58,7 @@ fun getUbuntuFontFamily() = FontFamily(
 
 @Composable
 fun getAlegreyaFontFamily() = FontFamily(
-    Font(Res.font.AlegreyaSans_Regular),
+    Font(Res.font.AlegreyaSans_Regular, FontWeight.Normal),
     Font(Res.font.AlegreyaSans_Medium, FontWeight.Medium),
     Font(Res.font.AlegreyaSans_Bold, FontWeight.SemiBold),
     Font(Res.font.AlegreyaSans_Bold, FontWeight.Bold),

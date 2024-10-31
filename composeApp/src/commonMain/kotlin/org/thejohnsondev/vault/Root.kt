@@ -61,12 +61,18 @@ fun Root(
                         },
                         goToLogin = {
                             navController.navigateToLogin()
+                        },
+                        goBack = {
+                            navController.popBackStack()
                         }
                     )
                     loginScreen(
                         windowSize = windowSizeClass.widthSizeClass,
                         goToHome = {
                             // TODO implement navigation later
+                        },
+                        goToSignUp = {
+                            navController.navigateToSignUp()
                         },
                         goBack = {
                             navController.popBackStack()

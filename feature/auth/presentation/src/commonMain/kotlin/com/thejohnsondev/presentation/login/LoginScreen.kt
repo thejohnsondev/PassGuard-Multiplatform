@@ -49,6 +49,7 @@ import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
+import com.thejohnsondev.ui.components.BackArrowButton
 import com.thejohnsondev.ui.components.ErrorSnackbar
 import com.thejohnsondev.ui.components.GlowPulsingBackground
 import com.thejohnsondev.ui.components.RoundedButton
@@ -62,6 +63,7 @@ import com.thejohnsondev.ui.designsystem.Size600
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.designsystem.isLight
+import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.getEmailErrorMessage
 import com.thejohnsondev.ui.utils.getPasswordErrorMessage
@@ -80,7 +82,8 @@ fun LoginScreen(
     windowSize: WindowWidthSizeClass,
     viewModel: LoginViewModel,
     goToHome: () -> Unit,
-    goToSignUp: () -> Unit
+    goToSignUp: () -> Unit,
+    goBack: () -> Unit
 ) {
     val screenState = viewModel.viewState.collectAsState(LoginViewModel.State())
     val emailState = rememberSaveable {
@@ -120,6 +123,7 @@ fun LoginScreen(
         passwordFocusRequest = passwordFocusRequest,
         snackbarHostState = snackbarHostState,
         onGoToSignUp = goToSignUp,
+        onGoBack = goBack,
         hideKeyboard = {
             keyboardController?.hide()
         },
@@ -139,6 +143,7 @@ fun LoginContent(
     passwordFocusRequest: FocusRequester,
     snackbarHostState: SnackbarHostState,
     onGoToSignUp: () -> Unit,
+    onGoBack: () -> Unit,
     hideKeyboard: () -> Unit,
     onAction: (LoginViewModel.Action) -> Unit
 ) {
@@ -161,6 +166,12 @@ fun LoginContent(
             }
         ) {
             Box {
+                if (showNavigationBackArrow) {
+                    BackArrowButton(
+                        modifier = Modifier.padding(Size16),
+                        onClick = onGoBack
+                    )
+                }
                 Box {
                     GlowPulsingBackground()
                 }

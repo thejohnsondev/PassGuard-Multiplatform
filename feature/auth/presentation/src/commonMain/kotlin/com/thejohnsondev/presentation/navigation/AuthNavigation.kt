@@ -53,6 +53,7 @@ fun NavGraphBuilder.welcomeScreen(
 fun NavGraphBuilder.loginScreen(
     windowSize: WindowWidthSizeClass,
     goToHome: () -> Unit,
+    goToSignUp: () -> Unit,
     goBack: () -> Unit
 ) {
     composable(
@@ -63,7 +64,8 @@ fun NavGraphBuilder.loginScreen(
             windowSize = windowSize,
             viewModel = viewModel,
             goToHome = goToHome,
-            goToSignUp = goBack
+            goToSignUp = goToSignUp,
+            goBack = goBack
         )
     }
 }
@@ -72,7 +74,8 @@ fun NavGraphBuilder.loginScreen(
 fun NavGraphBuilder.signUpScreen(
     windowSize: WindowWidthSizeClass,
     goToHome: () -> Unit,
-    goToLogin: () -> Unit
+    goToLogin: () -> Unit,
+    goBack: () -> Unit
 ) {
     composable(
         route = Screens.SignUpScreen.name
@@ -82,7 +85,8 @@ fun NavGraphBuilder.signUpScreen(
             windowSize = windowSize,
             viewModel = viewModel,
             goToHome = goToHome,
-            goToLogin = goToLogin
+            goToLogin = goToLogin,
+            goBack = goBack
         )
     }
 }
