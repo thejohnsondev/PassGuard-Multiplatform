@@ -10,7 +10,6 @@ import com.thejohnsondev.model.auth.AuthResponse
 import com.thejohnsondev.network.RemoteApi
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.thejohnsondev.data.BuildKonfig
 import kotlin.io.encoding.Base64
@@ -56,7 +55,8 @@ class AuthRepositoryImpl(
             Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray()),
             Base64.decode(BuildKonfig.AUTH_SECRET_IV.toByteArray())
         )
-        return flowOf(Either.Right(AuthResponse("token")))
+        val requestBody = AuthRequestBody(encryptedEmail, encryptedPassword)
+        return flowOf(remoteApi.signIn(requestBody))
     }
 
     override suspend fun signOut() {

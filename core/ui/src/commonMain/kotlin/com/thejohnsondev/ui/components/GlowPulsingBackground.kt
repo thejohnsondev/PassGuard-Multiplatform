@@ -48,8 +48,6 @@ fun GlowPulsingBackground(
             )
         },
         blur = blur
-    ) {
-
-    }
+    )
 
 }

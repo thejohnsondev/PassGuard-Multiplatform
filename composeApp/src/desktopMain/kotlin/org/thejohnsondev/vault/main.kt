@@ -1,6 +1,9 @@
 package org.thejohnsondev.vault
 
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -13,21 +16,36 @@ import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_WIDTH
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
+import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
+import org.thejohnsondev.vault.navigation.Root
 import vaultmultiplatform.composeapp.generated.resources.Res
 import vaultmultiplatform.composeapp.generated.resources.app_name
-import vaultmultiplatform.composeapp.generated.resources.ic_logo_desktop
+import vaultmultiplatform.composeapp.generated.resources.ic_vault_108_gradient
 import java.awt.Dimension
 
 fun main() = application {
     KoinInitializer().init()
+    val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
+        getKoin().get()
+    }
     val deviceThemeConfig: DeviceThemeConfig = remember {
         getKoin().get()
     }
+    val coroutineScope = rememberCoroutineScope()
+    val firstScreenRoute = remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(true) {
+        coroutineScope.launch {
+            firstScreenRoute.value = getFirstScreenRouteUseCase()
+        }
+    }
+
     val windowState = rememberWindowState(
         placement = WindowPlacement.Floating,
         position = WindowPosition.Aligned(Alignment.Center),
@@ -36,10 +54,14 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = stringResource(Res.string.app_name),
-        icon = painterResource(Res.drawable.ic_logo_desktop),
+        icon = painterResource(Res.drawable.ic_vault_108_gradient),
         state = windowState
     ) {
         window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)
-        Root(deviceThemeConfig)
+        firstScreenRoute.value?.let { route ->
+            Root(deviceThemeConfig, route)
+        } ?: kotlin.run {
+            DesktopSplash()
+        }
     }
 }

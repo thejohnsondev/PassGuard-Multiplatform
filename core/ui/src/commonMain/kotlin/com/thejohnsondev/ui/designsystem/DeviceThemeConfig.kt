@@ -7,3 +7,5 @@ expect class DeviceThemeConfig {
     fun getDynamicDarkColorScheme(): ColorScheme
     fun getDynamicLightColorScheme(): ColorScheme
 }
+
+expect val showNavigationBackArrow: Boolean

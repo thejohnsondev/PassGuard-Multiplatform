@@ -9,3 +9,5 @@ actual class DeviceThemeConfig {
 
     actual fun getDynamicLightColorScheme(): ColorScheme = LightColors
 }
+
+actual val showNavigationBackArrow: Boolean = true

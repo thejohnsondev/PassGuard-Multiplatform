@@ -14,7 +14,7 @@ fun BlurContainer(
     modifier: Modifier,
     blur: Float,
     component: @Composable BoxScope.() -> Unit,
-    content: @Composable BoxScope.() -> Unit
+    content: (@Composable BoxScope.() -> Unit)? = null
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Box(
@@ -28,7 +28,7 @@ fun BlurContainer(
         Box(
             contentAlignment = Alignment.Center
         ) {
-            content()
+            content?.invoke(this)
         }
     }
 }

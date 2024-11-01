@@ -20,3 +20,5 @@ actual class DeviceThemeConfig(
     @RequiresApi(Build.VERSION_CODES.S)
     actual fun getDynamicLightColorScheme(): ColorScheme = dynamicLightColorScheme(context)
 }
+
+actual val showNavigationBackArrow: Boolean = false

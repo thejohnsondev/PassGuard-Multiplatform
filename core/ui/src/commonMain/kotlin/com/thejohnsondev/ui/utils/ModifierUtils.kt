@@ -60,3 +60,5 @@ fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
 fun Modifier.testBorder() = composed {
     this.border(SizeBorder, Color.Red)
 }
+
+expect fun Modifier.cursorEnterAnimation(): Modifier

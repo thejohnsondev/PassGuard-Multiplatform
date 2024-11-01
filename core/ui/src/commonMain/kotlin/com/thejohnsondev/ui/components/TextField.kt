@@ -63,7 +63,10 @@ fun TextField(
                 cursorColor = MaterialTheme.colorScheme.primary
             ),
             label = {
-                Text(text = label)
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
@@ -83,13 +86,14 @@ fun TextField(
                         Icon(imageVector = image, description)
                     }
                 }
-            }
+            },
+            textStyle = MaterialTheme.typography.bodyLarge,
         )
         if (isError && errorText != null) {
             Text(
                 text = errorText,
                 color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(start = Size16)
             )
         }

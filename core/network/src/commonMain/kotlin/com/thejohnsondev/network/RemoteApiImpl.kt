@@ -7,9 +7,6 @@ import com.thejohnsondev.model.auth.AuthResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.URLProtocol
-import io.ktor.http.contentType
 import io.ktor.http.path
 
 class RemoteApiImpl(
@@ -19,11 +16,23 @@ class RemoteApiImpl(
     override suspend fun signUp(body: AuthRequestBody): Either<Error, AuthResponse> {
         return callWithMapping {
             client.post {
+                defaultRequestConfig()
                 url {
-                    protocol = URLProtocol.HTTPS
-                    host = BASE_URL
+                    path(SIGN_UP)
+                    defaultUrlConfig()
+                }
+                setBody(body)
+            }
+        }
+    }
+
+    override suspend fun signIn(body: AuthRequestBody): Either<Error, AuthResponse> {
+        return callWithMapping {
+            client.post {
+                defaultRequestConfig()
+                url {
                     path(LOGIN)
-                    contentType(ContentType.Application.Json)
+                    defaultUrlConfig()
                 }
                 setBody(body)
             }

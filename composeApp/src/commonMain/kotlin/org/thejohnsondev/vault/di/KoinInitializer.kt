@@ -6,6 +6,7 @@ import com.thejohnsondev.datastore.di.datastoreModule
 import com.thejohnsondev.domain.di.authDomainModule
 import com.thejohnsondev.network.di.networkModule
 import com.thejohnsondev.presentation.di.authPresentationModule
+import com.thejohnsondev.presentation.di.vaultPresentationModule
 import com.thejohnsondev.ui.di.uiModule
 
 expect class KoinInitializer {
@@ -20,5 +21,6 @@ val modules = listOf(
     uiModule,
     authPresentationModule,
     authDomainModule,
-    authDataModule
+    authDataModule,
+    vaultPresentationModule
 )
