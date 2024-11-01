@@ -15,12 +15,13 @@ import com.thejohnsondev.presentation.navigation.welcomeScreen
 
 @Composable
 fun AuthNavigation(
-    windowSizeClass: WindowWidthSizeClass
+    windowSizeClass: WindowWidthSizeClass,
+    firstScreenRoute: String
 ) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screens.CheckAuthScreen.name
+        startDestination = firstScreenRoute
     ) {
         checkAuthStateScreen(
             goToScreen = { route, navOptions ->

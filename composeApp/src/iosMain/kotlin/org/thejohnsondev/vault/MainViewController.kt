@@ -5,6 +5,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
+import org.thejohnsondev.vault.navigation.Root
 
 fun MainViewController() = ComposeUIViewController(
     configure = {
@@ -14,5 +15,5 @@ fun MainViewController() = ComposeUIViewController(
     val deviceThemeConfig: DeviceThemeConfig = remember {
         getKoin().get()
     }
-    Root(deviceThemeConfig)
+    Root(deviceThemeConfig, TODO() /* add firstScreenRoute retrieving */)
 }

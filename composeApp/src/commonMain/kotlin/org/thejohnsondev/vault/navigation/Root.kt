@@ -16,7 +16,8 @@ import org.koin.compose.KoinContext
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun Root(
-    deviceThemeConfig: DeviceThemeConfig
+    deviceThemeConfig: DeviceThemeConfig,
+    firstScreenRoute: String
 ) {
     LaunchedEffect(true) {
         initializeLibs()
@@ -32,7 +33,7 @@ fun Root(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                AuthNavigation(windowSizeClass.widthSizeClass)
+                AuthNavigation(windowSizeClass.widthSizeClass, firstScreenRoute)
             }
         }
     }

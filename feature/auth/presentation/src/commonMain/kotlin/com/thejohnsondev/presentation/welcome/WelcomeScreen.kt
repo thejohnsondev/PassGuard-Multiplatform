@@ -54,11 +54,12 @@ private const val BLUR_SCALE_ANIM_END = 1f
 private const val BLUR_SCALE_ANIM_DURATION = 1200
 private const val BLUR_SCALE_ANIM_DELAY = 500L
 
-private const val LOGO_Y_ANIM_START = 50f
-private const val LOGO_Y_ANIM_END = -50f
+private const val LOGO_Y_ANIM_START = 0f
+private const val LOGO_Y_ANIM_END = -300f
 private const val LOGO_SCALE_ANIM_START = 1.4f
 private const val LOGO_SCALE_ANIM_END = 1f
 
+private const val CONTENT_ALPHA_ANIM_DELAY = 200L
 private const val CONTENT_ALPHA_ANIM_START = 0f
 private const val CONTENT_ALPHA_ANIM_END = 1f
 
@@ -132,21 +133,22 @@ fun WelcomeContent(
                     },
                     blur = 150f
                 )
+                Image(
+                    modifier = Modifier.wrapContentSize()
+                        .scale(animatedLogoScale.value)
+                        .graphicsLayer {
+                            translationY = animatedLogoYPosition.value
+                        }
+                        .align(Alignment.Center),
+                    imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
+                    contentDescription = null // TODO add content description,
+                )
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Image(
-                    modifier = Modifier.wrapContentSize()
-                        .scale(animatedLogoScale.value)
-                        .graphicsLayer {
-                            translationY = animatedLogoYPosition.value
-                        },
-                    imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
-                    contentDescription = null // TODO add content description,
-                )
                 Text(
                     modifier = Modifier
                         .padding(vertical = Size8, horizontal = Size16)
@@ -231,6 +233,7 @@ private suspend fun startAnimations(
             animationSpec = tween(durationMillis = BLUR_SCALE_ANIM_DURATION)
         )
     }
+    delay(CONTENT_ALPHA_ANIM_DELAY)
     coroutineScope.launch {
         animatedContentAlpha.animateTo(
             targetValue = CONTENT_ALPHA_ANIM_END,
