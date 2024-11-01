@@ -8,15 +8,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import com.thejohnsondev.common.navigation.Screens
 import com.thejohnsondev.common.utils.Logger
-import com.thejohnsondev.presentation.navigation.loginScreen
-import com.thejohnsondev.presentation.navigation.navigateToLogin
-import com.thejohnsondev.presentation.navigation.navigateToSignUp
-import com.thejohnsondev.presentation.navigation.signUpScreen
-import com.thejohnsondev.presentation.navigation.welcomeScreen
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.VaultTheme
 import org.koin.compose.KoinContext
@@ -40,7 +32,7 @@ fun Root(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                AuthNavigation(windowSizeClass)
+                AuthNavigation(windowSizeClass.widthSizeClass)
             }
         }
     }
