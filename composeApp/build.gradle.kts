@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.gms)
+    alias(libs.plugins.crashlytics)
 }
 
 kotlin {
@@ -34,28 +36,70 @@ kotlin {
         val desktopMain by getting
         
         androidMain.dependencies {
+            // Compose
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            // Koin
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+
+            // Splashscreen
+            implementation(libs.androidx.core.splashscreen)
+
+            // Firebase
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.crashlytics)
+            implementation(libs.firebase.analytics)
         }
         commonMain.dependencies {
+            api(project(":core:common"))
+            api(project(":core:database"))
+            api(project(":core:datastore"))
+            api(project(":core:model"))
+            api(project(":core:network"))
+            api(project(":core:ui"))
+            api(project(":feature:auth:presentation"))
+            api(project(":feature:auth:data"))
+            api(project(":feature:vault:presentation"))
+
+            // Compose
             implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.material3.windowsizeclass.multiplatform)
+            implementation(compose.components.resources)
+            implementation(compose.material3)
+
+            // Koin
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.navigation.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain.get())
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+
+            }
+        }
     }
 }
 
 android {
-    namespace = "org.thejohnsondev.vaultdex"
+    namespace = "org.thejohnsondev.vault"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -63,7 +107,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "org.thejohnsondev.vaultdex"
+        applicationId = "org.thejohnsondev.vault"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -77,6 +121,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -93,12 +138,15 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "org.thejohnsondev.vaultdex.MainKt"
+        mainClass = "org.thejohnsondev.vault.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.thejohnsondev.vaultdex"
+            packageName = "org.thejohnsondev.vault"
             packageVersion = "1.0.0"
+            jvmArgs(
+                "-Dapple.awt.application.appearance=system"
+            )
         }
     }
 }

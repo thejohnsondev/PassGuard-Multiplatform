@@ -1,4 +1,4 @@
-rootProject.name = "VaultDexMultiplatform"
+rootProject.name = "VaultMultiplatform"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -29,3 +29,16 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":core")
+include(":core:common")
+include(":core:database")
+include(":core:datastore")
+include(":core:model")
+include(":core:network")
+include(":core:ui")
+include(":feature:auth:data")
+include(":feature:auth:domain")
+include(":feature:auth:presentation")
+include(":feature:vault:data")
+include(":feature:vault:domain")
+include(":feature:vault:presentation")
