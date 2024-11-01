@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.thejohnsondev.common.navigation.Screens
-import com.thejohnsondev.presentation.navigation.checkAuthStateScreen
 import com.thejohnsondev.presentation.navigation.loginScreen
 import com.thejohnsondev.presentation.navigation.navigateToLogin
 import com.thejohnsondev.presentation.navigation.navigateToSignUp
@@ -23,11 +22,6 @@ fun AuthNavigation(
         navController = navController,
         startDestination = firstScreenRoute
     ) {
-        checkAuthStateScreen(
-            goToScreen = { route, navOptions ->
-                navController.navigate(route, navOptions)
-            }
-        )
         welcomeScreen(
             windowSize = windowSizeClass,
             goToSignUp = {

@@ -3,11 +3,8 @@ package com.thejohnsondev.presentation.navigation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.thejohnsondev.common.navigation.Screens
-import com.thejohnsondev.presentation.check_auth_state.CheckAuthStateScreen
-import com.thejohnsondev.presentation.check_auth_state.CheckAuthStateViewModel
 import com.thejohnsondev.presentation.login.LoginScreen
 import com.thejohnsondev.presentation.login.LoginViewModel
 import com.thejohnsondev.presentation.signup.SignUpScreen
@@ -43,21 +40,6 @@ fun NavController.navigateToWelcome() {
         popUpTo(Screens.Welcome.name) {
             inclusive = true
         }
-    }
-}
-
-@OptIn(KoinExperimentalAPI::class)
-fun NavGraphBuilder.checkAuthStateScreen(
-    goToScreen: (String, NavOptions) -> Unit
-) {
-    composable(
-        route = Screens.CheckAuthScreen.name
-    ) {
-        val viewModel = koinViewModel<CheckAuthStateViewModel>()
-        CheckAuthStateScreen(
-            viewModel = viewModel,
-            goToScreen = goToScreen
-        )
     }
 }
 

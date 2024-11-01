@@ -2,7 +2,6 @@ package com.thejohnsondev.common.navigation
 
 enum class Screens {
     Welcome,
-    CheckAuthScreen,
     LoginScreen,
     SignUpScreen,
     HomeScreen,
