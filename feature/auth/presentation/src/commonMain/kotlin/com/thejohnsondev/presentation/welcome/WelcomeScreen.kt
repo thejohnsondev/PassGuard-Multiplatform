@@ -26,6 +26,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import com.thejohnsondev.ui.components.BlurContainer
 import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.designsystem.Percent80
@@ -55,7 +57,7 @@ private const val BLUR_SCALE_ANIM_DURATION = 1200
 private const val BLUR_SCALE_ANIM_DELAY = 500L
 
 private const val LOGO_Y_ANIM_START = 0f
-private const val LOGO_Y_ANIM_END = -300f
+private const val LOGO_Y_ANIM_END_PX = 100f
 private const val LOGO_SCALE_ANIM_START = 1.4f
 private const val LOGO_SCALE_ANIM_END = 1f
 
@@ -95,12 +97,16 @@ fun WelcomeContent(
     val animatedContentAlpha = remember {
         Animatable(CONTENT_ALPHA_ANIM_START)
     }
+    val animatedLogoYPosEnd = 0 - with(LocalDensity.current) {
+        LOGO_Y_ANIM_END_PX.dp.toPx()
+    }
 
     LaunchedEffect(true) {
         startAnimations(
             this,
             animatedBackgroundBlurScale,
             animatedLogoYPosition,
+            animatedLogoYPosEnd,
             animatedLogoScale,
             animatedContentAlpha
         )
@@ -211,6 +217,7 @@ private suspend fun startAnimations(
     coroutineScope: CoroutineScope,
     animatedBackgroundBlurScale: Animatable<Float, AnimationVector1D>,
     animatedLogoYPosition: Animatable<Float, AnimationVector1D>,
+    animatedLogoYPosEnd: Float,
     animatedLogoScale: Animatable<Float, AnimationVector1D>,
     animatedContentAlpha: Animatable<Float, AnimationVector1D>
 ) {
@@ -223,7 +230,7 @@ private suspend fun startAnimations(
     }
     coroutineScope.launch {
         animatedLogoYPosition.animateTo(
-            targetValue = LOGO_Y_ANIM_END,
+            targetValue = animatedLogoYPosEnd,
             animationSpec = tween(durationMillis = BLUR_SCALE_ANIM_DURATION)
         )
     }
