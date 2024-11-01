@@ -6,8 +6,8 @@ import com.thejohnsondev.data.AuthRepository
 class GetFirstScreenRouteUseCaseImpl(
     private val authRepository: AuthRepository,
 ) : GetFirstScreenRouteUseCase {
+    var isUseBiometrics = false // TODO Add later
     override suspend operator fun invoke(): String {
-        val isUseBiometrics = false // TODO Add later
 
         return if (isUserLoggedIn()) {
             if (isUseBiometrics) {

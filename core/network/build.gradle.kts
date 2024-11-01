@@ -64,10 +64,12 @@ kotlin {
 
             // Konnection check
             implementation(libs.konnection)
-
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.arrow.core)
+            implementation(libs.mockk)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
