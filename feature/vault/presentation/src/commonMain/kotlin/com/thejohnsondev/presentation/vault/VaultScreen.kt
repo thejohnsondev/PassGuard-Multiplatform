@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation
+package com.thejohnsondev.presentation.vault
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun VaultScreen(
+    viewModel: VaultViewModel,
     onClick: () -> Unit,
 ) {
     Column(
@@ -21,6 +22,7 @@ fun VaultScreen(
         Text(text = "Vault Screen")
         Button(
             onClick = {
+                viewModel.logout()
                 onClick()
             },
         ) {
