@@ -1,4 +1,4 @@
-package org.thejohnsondev.vault.navigation
+package org.thejohnsondev.vault
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +12,7 @@ import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.VaultTheme
 import org.koin.compose.KoinContext
+import org.thejohnsondev.vault.navigation.AuthNavigation
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
