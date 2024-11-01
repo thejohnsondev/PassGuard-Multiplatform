@@ -29,6 +29,7 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.model.ButtonStyle
+import com.thejohnsondev.ui.utils.cursorEnterAnimation
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
@@ -50,27 +51,29 @@ fun RoundedButton(
     ),
     buttonShape: ButtonShape = ButtonShape.ROUNDED,
     buttonStyle: ButtonStyle = ButtonStyle.REGULAR,
-    disableBounceAnimation: Boolean = false
+    disableBounceAnimation: Boolean = false,
+    disableCursorEnterAnimation: Boolean = false
 ) {
     val buttonColor =
         if (enabled && !loading) colors.containerColor else colors.containerColor.copy(alpha = Percent70)
     val contentColor = if (enabled) colors.contentColor else colors.contentColor.copy(alpha = Percent70)
-
+    val appliedShape = RoundedCornerShape(
+        topStart = buttonShape.topStart,
+        topEnd = buttonShape.topEnd,
+        bottomStart = buttonShape.bottomStart,
+        bottomEnd = buttonShape.bottomEnd
+    )
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .height(Size48)
-            .applyIf(!disableBounceAnimation) {
+            .applyIf(!disableBounceAnimation && enabled && !loading) {
                 bounceClick()
             }
-            .clip(
-                RoundedCornerShape(
-                    topStart = buttonShape.topStart,
-                    topEnd = buttonShape.topEnd,
-                    bottomStart = buttonShape.bottomStart,
-                    bottomEnd = buttonShape.bottomEnd
-                )
-            )
+            .applyIf(!disableCursorEnterAnimation && enabled && !loading) {
+                cursorEnterAnimation()
+            }
+            .clip(appliedShape)
             .clickable {
                 if (enabled && !loading) {
                     onClick()
@@ -80,12 +83,7 @@ fun RoundedButton(
                 border(
                     width = Size2,
                     color = buttonColor,
-                    shape = RoundedCornerShape(
-                        topStart = buttonShape.topStart,
-                        topEnd = buttonShape.topEnd,
-                        bottomStart = buttonShape.bottomStart,
-                        bottomEnd = buttonShape.bottomEnd
-                    )
+                    shape = appliedShape
                 )
             },
         color = when (buttonStyle) {
