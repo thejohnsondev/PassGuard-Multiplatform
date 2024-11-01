@@ -2,7 +2,7 @@ name: Run test
 
 on:
   pull_request:
-    branches: [develop, master]
+    branches: [develop]
 
 jobs:
   build:
@@ -40,6 +40,8 @@ jobs:
       - name: Run Unit Tests
         run: |
           ./gradlew :core:common:test
+          ./gradlew :core:network:test
+          ./gradlew :feature:auth:domain:test
 
       - name: Run Android tests on Firebase Test Lab
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
@@ -48,8 +50,11 @@ jobs:
         env:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v4.3.1
-        if: always() # always run even if the tests fail
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
         with:
-          report_paths: 'composeApp/build/test-results/**/*.xml'
+          files: |
+            core/common/build/test-results/**/*.xml
+            core/network/build/test-results/**/*.xml
+            feature/auth/domain/build/test-results/**/*.xml
