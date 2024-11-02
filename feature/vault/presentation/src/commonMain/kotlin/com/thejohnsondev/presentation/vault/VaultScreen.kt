@@ -31,7 +31,6 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 fun VaultScreen(
     viewModel: VaultViewModel,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
-    onClick: () -> Unit,
 ) {
     val snackBarHostState = remember {
         SnackbarHostState()
@@ -69,14 +68,6 @@ fun VaultScreen(
     ) {
 
         Text(text = "Vault Screen")
-        Button(
-            onClick = {
-                viewModel.logout()
-                onClick()
-            },
-        ) {
-            Text("Logout")
-        }
 
         LazyColumn(
             modifier = Modifier

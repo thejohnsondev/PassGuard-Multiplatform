@@ -18,6 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.thejohnsondev.common.navigation.Screens
 import com.thejohnsondev.presentation.navigation.navigateToWelcome
+import com.thejohnsondev.presentation.navigation.settingsScreen
+import com.thejohnsondev.presentation.navigation.toolsScreen
 import com.thejohnsondev.presentation.navigation.vaultScreen
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.HomeScaffold
@@ -56,11 +58,23 @@ fun HomeNavigation(
             ) {
                 vaultScreen(
                     windowSize = windowSizeClass,
-                    onClick = {
-                        rootNavController.navigateToWelcome()
-                    },
                     setScaffoldConfig = {
                         scaffoldState.value = it
+                    }
+                )
+                toolsScreen(
+                    windowSize = windowSizeClass,
+                    setScaffoldConfig = {
+                        scaffoldState.value = it
+                    }
+                )
+                settingsScreen(
+                    windowSize = windowSizeClass,
+                    setScaffoldConfig = {
+                        scaffoldState.value = it
+                    },
+                    onLogoutClick = {
+                        rootNavController.navigateToWelcome()
                     }
                 )
             }

@@ -24,8 +24,8 @@ sealed class BottomNavItem(
         index = 0
     )
 
-    data object Notes : BottomNavItem(
-        route = Screens.NotesScreen.name,
+    data object Tools : BottomNavItem(
+        route = Screens.ToolsScreen.name,
         titleRes = Res.string.tools,
         imgResId = Res.drawable.ic_tools,
         index = 1

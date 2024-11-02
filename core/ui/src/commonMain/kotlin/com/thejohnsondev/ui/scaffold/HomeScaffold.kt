@@ -68,7 +68,7 @@ fun HomeScaffold(
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val navigationItems = listOf(
-        BottomNavItem.Vault, BottomNavItem.Notes, BottomNavItem.Settings
+        BottomNavItem.Vault, BottomNavItem.Tools, BottomNavItem.Settings
     )
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
 

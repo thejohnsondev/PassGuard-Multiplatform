@@ -43,6 +43,7 @@ kotlin {
             api(project(":core:common"))
             api(project(":core:ui"))
             api(project(":feature:tools:domain"))
+            api(project(":feature:auth:domain"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 
