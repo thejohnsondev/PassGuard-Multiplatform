@@ -5,6 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import vaultmultiplatform.core.ui.generated.resources.Res
+import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 
 val LightColors = lightColorScheme(
@@ -95,3 +97,6 @@ fun VaultTheme(
         content = content
     )
 }
+
+@Composable
+fun getAppLogo() = Res.drawable.ic_vault_108_gradient

@@ -57,6 +57,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.material3)
             implementation(libs.material3.windowsizeclass.multiplatform)
+            implementation(libs.navigation.compose)
 
             // Koin
             api(libs.koin.core)

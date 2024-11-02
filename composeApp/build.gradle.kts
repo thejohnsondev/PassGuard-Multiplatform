@@ -71,13 +71,13 @@ kotlin {
             implementation(libs.material3.windowsizeclass.multiplatform)
             implementation(compose.components.resources)
             implementation(compose.material3)
+            implementation(libs.navigation.compose)
 
             // Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
-            implementation(libs.navigation.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

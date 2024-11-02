@@ -18,6 +18,9 @@
     <string name="password_error_no_small">Password must contain at least one lowercase letter.</string>
     <string name="email_error_incorrect">Email is no valid</string>
 
+    <string name="tools">Tools</string>
+    <string name="settings">Settings</string>
+
     <!--Content Description-->
     <string name="cd_app_logo">App Logo</string>
 </resources>
