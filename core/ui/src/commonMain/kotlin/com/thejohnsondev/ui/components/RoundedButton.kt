@@ -29,7 +29,6 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.model.ButtonStyle
-import com.thejohnsondev.ui.utils.cursorEnterAnimation
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
@@ -51,8 +50,7 @@ fun RoundedButton(
     ),
     buttonShape: ButtonShape = ButtonShape.ROUNDED,
     buttonStyle: ButtonStyle = ButtonStyle.REGULAR,
-    disableBounceAnimation: Boolean = false,
-    disableCursorEnterAnimation: Boolean = false
+    disableBounceAnimation: Boolean = false
 ) {
     val buttonColor =
         if (enabled && !loading) colors.containerColor else colors.containerColor.copy(alpha = Percent70)
@@ -69,9 +67,6 @@ fun RoundedButton(
             .height(Size48)
             .applyIf(!disableBounceAnimation && enabled && !loading) {
                 bounceClick()
-            }
-            .applyIf(!disableCursorEnterAnimation && enabled && !loading) {
-                cursorEnterAnimation()
             }
             .clip(appliedShape)
             .clickable {

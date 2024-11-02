@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,6 +52,7 @@ import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
+import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
@@ -173,19 +176,28 @@ fun HomeScaffold(
             WindowWidthSizeClass.Expanded -> {
                 PermanentNavigationDrawer(drawerContent = {
                     PermanentDrawerSheet(
-                        modifier = Modifier.width(DrawerWidth),
+                        modifier = Modifier.width(DrawerWidth)
+                            .fillMaxHeight(),
                         drawerContainerColor = MaterialTheme.colorScheme.surfaceDim,
-                        drawerShape = RoundedCornerShape(topEnd = Size32, bottomEnd = Size32),
+                        drawerShape = RoundedCornerShape(topEnd = SizeDefault, bottomEnd = Size32),
                     ) {
                         Column(
-                            modifier = Modifier.padding(Size8).align(Alignment.CenterHorizontally)
+                            modifier = Modifier
+                                .padding(start = Size8, end = Size8, top = Size16, bottom = Size8)
+                                .align(Alignment.CenterHorizontally)
                         ) {
                             VaultLogo(
                                 fontSize = MaterialTheme.typography.displaySmall.fontSize,
                             )
                         }
                         navigationItems.forEachIndexed { index, screen ->
+                            if (screen.index == BottomNavItem.Settings.index) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
                             NavigationDrawerItem(
+                                modifier = Modifier
+                                    .padding(horizontal = Size12, vertical = Size8)
+                                    .bounceClick(),
                                 label = { Text(text = stringResource(screen.titleRes)) },
                                 selected = scaffoldState.value.bottomBarItemIndex == index,
                                 onClick = {
@@ -201,14 +213,9 @@ fun HomeScaffold(
                                         painter = painterResource(screen.imgResId),
                                         contentDescription = stringResource(screen.titleRes)
                                     )
-                                },
-                                modifier = Modifier.padding(
-                                        horizontal = Size12,
-                                        vertical = Size8
-                                    )
+                                }
                             )
                         }
-
                     }
                 }) {
                     content(it)
@@ -220,7 +227,19 @@ fun HomeScaffold(
                     modifier = Modifier.width(RailWidth),
                     containerColor = MaterialTheme.colorScheme.surfaceDim
                 ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(Size8)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        VaultLogo(
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                        )
+                    }
                     navigationItems.forEachIndexed { index, screen ->
+                        if (screen.index == BottomNavItem.Settings.index) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
                         NavigationRailItem(icon = {
                             Icon(
                                 modifier = Modifier.size(Size24),

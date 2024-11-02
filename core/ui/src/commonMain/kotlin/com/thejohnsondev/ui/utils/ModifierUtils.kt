@@ -55,6 +55,7 @@ fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
                 }
             }
         }
+        .cursorEnterAnimation()
 }
 
 fun Modifier.testBorder() = composed {
