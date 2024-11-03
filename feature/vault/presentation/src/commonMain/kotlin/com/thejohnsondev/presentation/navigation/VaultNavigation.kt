@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -13,12 +14,13 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @OptIn(KoinExperimentalAPI::class)
 fun NavGraphBuilder.vaultScreen(
     windowSize: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
 ) {
     composable(
         route = Screens.VaultScreen.name
     ) {
         val viewModel = koinViewModel<VaultViewModel>()
-        VaultScreen(viewModel, setScaffoldConfig)
+        VaultScreen(windowSize, viewModel, paddingValues, setScaffoldConfig)
     }
 }

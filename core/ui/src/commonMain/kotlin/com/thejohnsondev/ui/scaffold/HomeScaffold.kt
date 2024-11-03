@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -31,14 +33,17 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
@@ -56,11 +61,17 @@ import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
+import dev.chrisbanes.haze.HazeDefaults
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
+import dev.chrisbanes.haze.materials.HazeMaterials
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable
 fun HomeScaffold(
     windowSize: WindowWidthSizeClass,
@@ -68,6 +79,7 @@ fun HomeScaffold(
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>,
     scrollBehavior: TopAppBarScrollBehavior,
+    hazeState: HazeState = remember { HazeState() },
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val navigationItems = listOf(
@@ -75,33 +87,47 @@ fun HomeScaffold(
     )
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
 
-        TopAppBar(modifier = Modifier.applyIf(windowSize == WindowWidthSizeClass.Expanded) {
-                padding(start = DrawerWidth)
-            }.applyIf(windowSize == WindowWidthSizeClass.Medium) {
-                padding(start = RailWidth)
-            }, title = {
-            scaffoldState.value.topAppBarTitle?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.SemiBold,
+        Box(
+            modifier = Modifier
+                .applyIf(windowSize == WindowWidthSizeClass.Expanded) { padding(start = DrawerWidth) }
+                .applyIf(windowSize == WindowWidthSizeClass.Medium) { padding(start = RailWidth) }
+                .hazeChild(
+                    state = hazeState,
+                    style = HazeMaterials.thin()
                 )
-            }
-        }, navigationIcon = {
-            scaffoldState.value.topAppBarIcon?.let {
-                Icon(
-                    modifier = Modifier.size(Size48).padding(start = Size16).clip(CircleShape)
-                        .bounceClick().applyIf(scaffoldState.value.onTopAppBarIconClick != null) {
-                            clickable {
-                                scaffoldState.value.onTopAppBarIconClick?.invoke()
-                            }
-                        },
-                    imageVector = it,
-                    contentDescription = null // TODO add content description
+        ) {
+            TopAppBar(
+                title = {
+                    scaffoldState.value.topAppBarTitle?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+                }, navigationIcon = {
+                    scaffoldState.value.topAppBarIcon?.let {
+                        Icon(
+                            modifier = Modifier.size(Size48).padding(start = Size16)
+                                .clip(CircleShape)
+                                .bounceClick()
+                                .applyIf(scaffoldState.value.onTopAppBarIconClick != null) {
+                                    clickable {
+                                        scaffoldState.value.onTopAppBarIconClick?.invoke()
+                                    }
+                                },
+                            imageVector = it,
+                            contentDescription = null // TODO add content description
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.White.copy(alpha = 0.03f),
                 )
-            }
-        }, scrollBehavior = scrollBehavior
-        )
+            )
+        }
 
     }, floatingActionButton = {
         if (scaffoldState.value.isFabVisible) {
@@ -127,33 +153,45 @@ fun HomeScaffold(
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
-    }, floatingActionButtonPosition = FabPosition.End, bottomBar = {
+    }, floatingActionButtonPosition = FabPosition.End,
+        bottomBar = {
         if (windowSize == WindowWidthSizeClass.Compact) {
             AnimatedVisibility(
                 visible = bottomBarState.value,
                 enter = slideInVertically(initialOffsetY = { it }),
                 exit = slideOutVertically(targetOffsetY = { it }),
             ) {
-                NavigationBar {
-                    navigationItems.forEachIndexed { index, screen ->
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    modifier = Modifier.size(Size24),
-                                    painter = painterResource(screen.imgResId),
-                                    contentDescription = stringResource(screen.titleRes)
-                                )
-                            },
-                            label = { Text(stringResource(screen.titleRes)) },
-                            selected = scaffoldState.value.bottomBarItemIndex == index,
-                            onClick = {
-                                navController.navigate(screen.route) {
-                                    popUpTo(screen.route) {
-                                        inclusive = true
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .hazeChild(
+                            state = hazeState,
+                            style = HazeMaterials.thin()
+                        )
+                ) {
+                    NavigationBar(
+                        containerColor = Color.White.copy(0.01f),
+                    ) {
+                        navigationItems.forEachIndexed { index, screen ->
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        modifier = Modifier.size(Size24),
+                                        painter = painterResource(screen.imgResId),
+                                        contentDescription = stringResource(screen.titleRes)
+                                    )
+                                },
+                                label = { Text(stringResource(screen.titleRes)) },
+                                selected = scaffoldState.value.bottomBarItemIndex == index,
+                                onClick = {
+                                    navController.navigate(screen.route) {
+                                        popUpTo(screen.route) {
+                                            inclusive = true
+                                        }
                                     }
                                 }
-                            },
-                        )
+                            )
+                        }
                     }
                 }
             }
@@ -218,7 +256,13 @@ fun HomeScaffold(
                         }
                     }
                 }) {
-                    content(it)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
+                    ) {
+                        content(it)
+                    }
                 }
             }
 
@@ -259,14 +303,23 @@ fun HomeScaffold(
                     }
                 }
                 Box(
-                    modifier = Modifier.padding(start = RailWidth)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = RailWidth)
+                        .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
                 ) {
                     content(it)
                 }
             }
 
             else -> {
-                content(it)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
+                ) {
+                    content(it)
+                }
             }
         }
     }

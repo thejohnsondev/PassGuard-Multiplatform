@@ -1,5 +1,7 @@
 package org.thejohnsondev.vault.navigation
 
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -21,6 +24,7 @@ import com.thejohnsondev.presentation.navigation.navigateToWelcome
 import com.thejohnsondev.presentation.navigation.settingsScreen
 import com.thejohnsondev.presentation.navigation.toolsScreen
 import com.thejohnsondev.presentation.navigation.vaultScreen
+import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.HomeScaffold
 
@@ -54,10 +58,16 @@ fun HomeNavigation(
             NavHost(
                 navController = navController,
                 startDestination = Screens.VaultScreen.name,
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier.padding(
+                    top = SizeDefault,
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                    bottom = SizeDefault
+                )
             ) {
                 vaultScreen(
                     windowSize = windowSizeClass,
+                    paddingValues = paddingValues,
                     setScaffoldConfig = {
                         scaffoldState.value = it
                     }
