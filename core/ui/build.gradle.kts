@@ -40,6 +40,9 @@ kotlin {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            // Compose
+            implementation(compose.components.uiToolingPreview)
         }
         commonMain.dependencies {
             implementation(libs.ktor.serialization.kotlinx.json)
