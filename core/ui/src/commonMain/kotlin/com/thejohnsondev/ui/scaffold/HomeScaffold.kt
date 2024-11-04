@@ -93,7 +93,7 @@ fun HomeScaffold(
                 .applyIf(windowSize == WindowWidthSizeClass.Medium) { padding(start = RailWidth) }
                 .hazeChild(
                     state = hazeState,
-                    style = HazeMaterials.thin()
+                    style = HazeMaterials.regular()
                 )
         ) {
             TopAppBar(
@@ -166,7 +166,7 @@ fun HomeScaffold(
                         .fillMaxWidth()
                         .hazeChild(
                             state = hazeState,
-                            style = HazeMaterials.thin()
+                            style = HazeMaterials.regular()
                         )
                 ) {
                     NavigationBar(
