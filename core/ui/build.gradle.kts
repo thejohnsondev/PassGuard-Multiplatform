@@ -70,6 +70,9 @@ kotlin {
             // Haze
             implementation(libs.haze.haze)
             implementation(libs.haze.materials)
+
+            // Landscapist Coil3
+            implementation(libs.landscapist.coil3)
         }
         commonTest.dependencies {
             // Testing
