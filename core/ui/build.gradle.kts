@@ -67,10 +67,9 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
 
+            // Haze
             implementation(libs.haze.haze)
             implementation(libs.haze.materials)
-
-
         }
         commonTest.dependencies {
             // Testing

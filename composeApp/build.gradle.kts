@@ -80,6 +80,10 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
+
+            // Haze
+            implementation(libs.haze.haze)
+            implementation(libs.haze.materials)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
