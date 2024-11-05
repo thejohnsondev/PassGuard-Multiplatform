@@ -21,7 +21,7 @@ import vaultmultiplatform.core.ui.generated.resources.ic_password
 fun LoadedImage(
     modifier: Modifier = Modifier,
     imageUrl: String,
-    errorImageVector: DrawableResource? = null,
+    errorDrawableResource: DrawableResource? = null,
     placeholderDrawableResource: DrawableResource? = null,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     contentScale: ContentScale = ContentScale.Crop,
@@ -41,8 +41,8 @@ fun LoadedImage(
                 Loader()
             },
             failure = {
-                errorImageVector?.let {
-                    Icon(painter = painterResource(errorImageVector), contentDescription = null)
+                errorDrawableResource?.let {
+                    Icon(painter = painterResource(errorDrawableResource), contentDescription = null)
                 }
             }
         )

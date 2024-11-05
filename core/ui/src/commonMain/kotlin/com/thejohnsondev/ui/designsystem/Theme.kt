@@ -79,17 +79,19 @@ fun VaultTheme(
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     customTheme: ThemeBrand? = ThemeBrand.DEFAULT, // todo add custom themes,
-    deviceThemeConfig: DeviceThemeConfig,
+    deviceThemeConfig: DeviceThemeConfig?,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && deviceThemeConfig.supportsDynamicTheming() -> {
-            if (darkTheme) deviceThemeConfig.getDynamicDarkColorScheme() else deviceThemeConfig.getDynamicLightColorScheme()
-        }
+    val colorScheme = deviceThemeConfig?.let {
+        when {
+            dynamicColor && deviceThemeConfig.supportsDynamicTheming() -> {
+                if (darkTheme) deviceThemeConfig.getDynamicDarkColorScheme() else deviceThemeConfig.getDynamicLightColorScheme()
+            }
 
-        darkTheme -> DarkColors
-        else -> LightColors
-    }
+            darkTheme -> DarkColors
+            else -> LightColors
+        }
+    } ?: if (darkTheme) DarkColors else LightColors
 
     MaterialTheme(
         colorScheme = colorScheme,

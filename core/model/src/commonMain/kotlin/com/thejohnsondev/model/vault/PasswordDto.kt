@@ -9,8 +9,8 @@ data class PasswordDto(
     val password: String,
     val additionalFields: List<AdditionalFieldModel> = emptyList(),
     override val id: String?,
-    override val createdTimeStamp: String,
-    override val modifiedTimeStamp: String,
+    override val createdTimeStamp: String? = null,
+    override val modifiedTimeStamp: String? = null,
     override val isFavorite: Boolean = false, // Ignore on the server side
     override val categoryId: String = DEFAULT_CATEGORY_ID,
 ) : VaultItem

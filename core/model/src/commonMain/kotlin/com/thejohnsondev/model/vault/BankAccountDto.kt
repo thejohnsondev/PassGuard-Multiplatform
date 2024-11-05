@@ -9,8 +9,8 @@ data class BankAccountDto(
     val cvv: String,
     val pin: String,
     override val id: String?,
-    override val createdTimeStamp: String,
-    override val modifiedTimeStamp: String,
+    override val createdTimeStamp: String? = null,
+    override val modifiedTimeStamp: String? = null,
     override val isFavorite: Boolean = false,
     override val categoryId: String = DEFAULT_CATEGORY_ID,
 ): VaultItem
