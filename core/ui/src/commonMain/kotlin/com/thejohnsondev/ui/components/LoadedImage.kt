@@ -14,8 +14,6 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import vaultmultiplatform.core.ui.generated.resources.Res
-import vaultmultiplatform.core.ui.generated.resources.ic_password
 
 @Composable
 fun LoadedImage(
@@ -25,7 +23,8 @@ fun LoadedImage(
     placeholderDrawableResource: DrawableResource? = null,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     contentScale: ContentScale = ContentScale.Crop,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    showLoading: Boolean = false
 ) {
     Surface(modifier = modifier, shape = shape, color = backgroundColor) {
         CoilImage(
@@ -35,10 +34,16 @@ fun LoadedImage(
                 alignment = Alignment.Center
             ),
             previewPlaceholder = placeholderDrawableResource?.let {
-                painterResource(Res.drawable.ic_password)
+                painterResource(it)
             },
             loading = {
-                Loader()
+                if (showLoading) {
+                    Loader()
+                } else {
+                    placeholderDrawableResource?.let {
+                        Icon(painter = painterResource(it), contentDescription = null)
+                    }
+                }
             },
             failure = {
                 errorDrawableResource?.let {
