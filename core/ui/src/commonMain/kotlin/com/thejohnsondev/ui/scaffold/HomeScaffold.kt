@@ -61,6 +61,7 @@ import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
+import com.thejohnsondev.ui.utils.isCompact
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
@@ -155,7 +156,7 @@ fun HomeScaffold(
         }
     }, floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
-        if (windowSize == WindowWidthSizeClass.Compact) {
+        if (windowSize.isCompact()) {
             AnimatedVisibility(
                 visible = bottomBarState.value,
                 enter = slideInVertically(initialOffsetY = { it }),

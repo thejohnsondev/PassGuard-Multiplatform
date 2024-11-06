@@ -36,6 +36,7 @@ kotlin {
 
     sourceSets {
         val desktopTest by getting
+        val desktopMain by getting
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
@@ -83,6 +84,9 @@ kotlin {
         desktopTest.dependencies {
             implementation(compose.desktop.currentOs)
         }
+        desktopMain.dependencies {
+            implementation(libs.androidx.ui.tooling.preview.desktop)
+        }
     }
 }
 
@@ -100,6 +104,12 @@ android {
 }
 
 dependencies {
+
+    // Preview
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+
+    // Tests
     androidTestImplementation(libs.androidx.ui.test.junit4.android)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

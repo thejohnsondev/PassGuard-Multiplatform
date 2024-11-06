@@ -341,7 +341,7 @@ fun LoginButtonSection(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surface)
             .applyIf(!windowSize.isCompact()) {
-                Modifier.width(Size580)
+                width(Size580)
             },
         verticalArrangement = Arrangement.Bottom
     ) {
