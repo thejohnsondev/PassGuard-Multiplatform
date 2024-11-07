@@ -8,7 +8,8 @@ data class PasswordUIModel(
     val password: String,
     val additionalFields: List<AdditionalFieldModel> = emptyList(),
     val createdTime: String,
-    val modifiedTime: String,
+    val modifiedTime: String?,
     val isFavorite: Boolean,
+    val isExpanded: Boolean = false,
     val category: CategoryModel,
 )

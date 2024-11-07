@@ -1,5 +1,6 @@
 package com.thejohnsondev.ui.components
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -12,6 +13,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
+import com.thejohnsondev.ui.designsystem.Size4
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -21,6 +23,7 @@ fun LoadedImage(
     imageUrl: String,
     errorDrawableResource: DrawableResource? = null,
     placeholderDrawableResource: DrawableResource? = null,
+    placeholderDrawableTintColor: Color = MaterialTheme.colorScheme.onSurface,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     contentScale: ContentScale = ContentScale.Crop,
     shape: Shape = RectangleShape,
@@ -38,7 +41,11 @@ fun LoadedImage(
             },
             loading = {
                 if (showLoading) {
-                    Loader()
+                    Loader(
+                        modifier = Modifier
+                            .padding(Size4)
+                            .align(Alignment.Center)
+                    )
                 } else {
                     placeholderDrawableResource?.let {
                         Icon(painter = painterResource(it), contentDescription = null)
@@ -47,7 +54,11 @@ fun LoadedImage(
             },
             failure = {
                 errorDrawableResource?.let {
-                    Icon(painter = painterResource(errorDrawableResource), contentDescription = null)
+                    Icon(
+                        painter = painterResource(errorDrawableResource),
+                        tint = placeholderDrawableTintColor,
+                        contentDescription = null
+                    )
                 }
             }
         )

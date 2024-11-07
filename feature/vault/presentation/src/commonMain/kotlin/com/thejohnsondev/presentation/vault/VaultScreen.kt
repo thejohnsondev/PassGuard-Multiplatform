@@ -17,17 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.model.vault.AdditionalFieldModel
 import com.thejohnsondev.model.vault.CategoryModel
 import com.thejohnsondev.model.vault.PasswordUIModel
 import com.thejohnsondev.ui.components.PasswordItem
+import com.thejohnsondev.ui.designsystem.Size68
 import com.thejohnsondev.ui.designsystem.getAppLogo
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
-import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
@@ -51,6 +53,9 @@ fun VaultScreen(
         }
     }
     val appLogo = vectorResource(getAppLogo())
+    var expanded by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(true) {
         setScaffoldConfig(
@@ -85,9 +90,10 @@ fun VaultScreen(
                     ),
                     AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
                 ),
-                createdTime = "2023-10-01T12:00:00Z",
-                modifiedTime = "2023-10-02T12:00:00Z",
-                isFavorite = true,
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                isExpanded = true,
                 category = CategoryModel(
                     id = "personal",
                     name = "Personal",
@@ -98,7 +104,7 @@ fun VaultScreen(
             PasswordUIModel(
                 id = "67890",
                 organization = "Example Organization 2",
-                organizationLogo = "https://example.com/logo2.png",
+                organizationLogo = null,
                 title = "Example Title 2",
                 password = "examplePassword456",
                 additionalFields = listOf(
@@ -111,7 +117,7 @@ fun VaultScreen(
                 ),
                 createdTime = "2023-10-03T12:00:00Z",
                 modifiedTime = "2023-10-04T12:00:00Z",
-                isFavorite = false,
+                isFavorite = true,
                 category = CategoryModel(
                     id = "work",
                     name = "Work",
@@ -122,7 +128,7 @@ fun VaultScreen(
             PasswordUIModel(
                 id = "11223",
                 organization = "Example Organization 3",
-                organizationLogo = "https://example.com/logo3.png",
+                organizationLogo = null,
                 title = "Example Title 3",
                 password = "examplePassword789",
                 additionalFields = listOf(
@@ -136,6 +142,7 @@ fun VaultScreen(
                 createdTime = "2023-10-05T12:00:00Z",
                 modifiedTime = "2023-10-06T12:00:00Z",
                 isFavorite = true,
+                isExpanded = true,
                 category = CategoryModel(
                     id = "finance",
                     name = "Finance",
@@ -146,7 +153,7 @@ fun VaultScreen(
             PasswordUIModel(
                 id = "44556",
                 organization = "Example Organization 4",
-                organizationLogo = "https://example.com/logo4.png",
+                organizationLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png",
                 title = "Example Title 4",
                 password = "examplePassword012",
                 additionalFields = listOf(
@@ -186,17 +193,26 @@ fun VaultScreen(
             items(passwordsList) {
                 PasswordItem(
                     item = it,
-                    onClick = {},
+                    onClick = {
+                        expanded = !expanded
+                    },
+                    isExpanded = it.isExpanded,
                     onDeleteClick = {},
                     onCopyClick = {},
                     onEditClick = {},
-                    onCopySensitiveClick = {}
+                    onCopySensitiveClick = {},
+                    onFavoriteClick = {},
+                    isFavorite = it.isFavorite
                 )
             }
-            if (windowSizeClass.isCompact()) {
-                item {
-                    Spacer(modifier = Modifier.padding(top = paddingValues.calculateBottomPadding()))
-                }
+            item {
+                Spacer(
+                    modifier = Modifier.padding(
+                        top = paddingValues.calculateBottomPadding().plus(
+                            Size68
+                        )
+                    )
+                )
             }
         }
     }

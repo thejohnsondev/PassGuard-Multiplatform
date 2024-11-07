@@ -1,5 +1,6 @@
 package com.thejohnsondev.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateDp
@@ -17,10 +18,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ButtonDefaults
@@ -28,6 +33,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,21 +54,26 @@ import com.thejohnsondev.common.utils.hidden
 import com.thejohnsondev.model.vault.AdditionalFieldModel
 import com.thejohnsondev.model.vault.PasswordUIModel
 import com.thejohnsondev.ui.designsystem.EqualRounded
-import com.thejohnsondev.ui.designsystem.Percent80
+import com.thejohnsondev.ui.designsystem.Percent50
+import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
-import com.thejohnsondev.ui.designsystem.Size2
+import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.Res
+import vaultmultiplatform.core.ui.generated.resources.created
 import vaultmultiplatform.core.ui.generated.resources.delete
 import vaultmultiplatform.core.ui.generated.resources.edit
 import vaultmultiplatform.core.ui.generated.resources.ic_password
+import vaultmultiplatform.core.ui.generated.resources.modified
+import vaultmultiplatform.core.ui.generated.resources.more_info
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -71,26 +82,26 @@ fun PasswordItem(
     item: PasswordUIModel,
     isReordering: Boolean = false,
     isDragging: Boolean = false,
+    isExpanded: Boolean = false,
+    isFavorite: Boolean = false,
     onClick: (PasswordUIModel) -> Unit,
     onCopySensitiveClick: (String) -> Unit,
     onCopyClick: (String) -> Unit,
+    onFavoriteClick: (PasswordUIModel) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
-    var expanded by remember {
-        mutableStateOf(false)
-    }
     val transitionState = remember {
-        MutableTransitionState(expanded).apply {
-            targetState = !expanded
+        MutableTransitionState(isExpanded).apply {
+            targetState = !isExpanded
         }
     }
     val transition = updateTransition(transitionState, label = "")
     val cardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+        if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
     }
     val draggingCardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -100,7 +111,7 @@ fun PasswordItem(
     val contentColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+        if (isExpanded) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
     }
     val draggingContentColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -110,7 +121,7 @@ fun PasswordItem(
     val cardPaddingHorizontal by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) Size8 else Size16
+        if (isExpanded) Size8 else Size16
     }
     val imageSize by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -137,7 +148,6 @@ fun PasswordItem(
                     .combinedClickable(
                         onClick = {
                             onClick(item)
-                            expanded = !expanded
                         },
                         onLongClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -169,14 +179,16 @@ fun PasswordItem(
                             imageUrl = item.organizationLogo ?: "",
                             errorDrawableResource = Res.drawable.ic_password,
                             placeholderDrawableResource = Res.drawable.ic_password,
-                            backgroundColor = Color.White
+                            placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
+                            backgroundColor = Color.White,
+                            showLoading = true
                         )
                     }
                     Column {
                         Text(
                             modifier = Modifier
                                 .padding(start = Size16)
-                                .fillMaxWidth(Percent80),
+                                .fillMaxWidth(Percent70),
                             text = item.organization,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
@@ -187,7 +199,7 @@ fun PasswordItem(
                         Text(
                             modifier = Modifier
                                 .padding(start = Size16)
-                                .fillMaxWidth(Percent80),
+                                .fillMaxWidth(Percent70),
                             text = item.title,
                             style = MaterialTheme.typography.bodyMedium,
                             color = if (isReordering) draggingContentColor else contentColor,
@@ -197,26 +209,47 @@ fun PasswordItem(
                     }
                 }
 
-                IconButton(
-                    modifier = Modifier
-                        .size(Size42)
-                        .bounceClick(),
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onCopySensitiveClick(item.password)
-                    }) {
-                    Icon(
-                        imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
-                        contentDescription = null,
-                        tint = if (isReordering) draggingContentColor else contentColor
-                    )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconButton(
+                        modifier = Modifier
+                            .size(Size36)
+                            .bounceClick(),
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onFavoriteClick(item)
+                        }) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
+                            contentDescription = null,
+                            tint = if (isFavorite) {
+                                if (isExpanded) contentColor else themeColorFavorite
+                            } else LocalContentColor.current
+                        )
+                    }
+                    IconButton(
+                        modifier = Modifier
+                            .size(Size36)
+                            .bounceClick(),
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onCopySensitiveClick(item.password)
+                        }) {
+                        Icon(
+                            imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
+                            contentDescription = null,
+                            tint = if (isReordering) draggingContentColor else contentColor
+                        )
+                    }
                 }
 
             }
         }
 
         ExpandableContent(
-            visible = expanded
+            visible = isExpanded
         ) {
             ExpandedContent(
                 passwordModel = item,
@@ -245,6 +278,9 @@ fun ExpandedContent(
     onEditClick: (PasswordUIModel) -> Unit
 ) {
     var isHidden by remember {
+        mutableStateOf(true)
+    }
+    var isInfoHidden by remember {
         mutableStateOf(true)
     }
     val haptic = LocalHapticFeedback.current
@@ -307,8 +343,8 @@ fun ExpandedContent(
         ) {
             RoundedButton(
                 modifier = Modifier
-                    .weight(0.5f)
-                    .padding(start = Size16, end = Size12, bottom = Size16, top = Size16)
+                    .weight(Percent50)
+                    .padding(start = Size16, end = Size4, bottom = Size8, top = Size16)
                     .bounceClick(),
                 text = stringResource(Res.string.edit),
                 imageVector = Icons.Filled.Edit,
@@ -324,8 +360,8 @@ fun ExpandedContent(
             )
             RoundedButton(
                 modifier = Modifier
-                    .weight(0.5f)
-                    .padding(start = Size2, end = Size16, bottom = Size16, top = Size16)
+                    .weight(Percent50)
+                    .padding(start = Size4, end = Size16, bottom = Size8, top = Size16)
                     .bounceClick(),
                 text = stringResource(Res.string.delete),
                 imageVector = Icons.Filled.Delete,
@@ -339,6 +375,79 @@ fun ExpandedContent(
                     onDeleteClick(passwordModel)
                 }
             )
+        }
+        Row(
+            modifier = Modifier.padding(start = Size8, end = Size16, bottom = Size8)
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            IconButton(
+                onClick = {
+                    isInfoHidden = !isInfoHidden
+                }) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = null
+                )
+            }
+            AnimatedVisibility(visible = isInfoHidden) {
+                Text(
+                    text = stringResource(Res.string.more_info),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+            AnimatedVisibility(visible = !isInfoHidden) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                ) {
+                    if (!passwordModel.modifiedTime.isNullOrBlank()) {
+                        Row(
+                            modifier = Modifier
+                                .padding(bottom = Size8),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(Size16),
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .padding(start = Size8),
+                                text = "${stringResource(Res.string.modified)}${passwordModel.modifiedTime.orEmpty()}",
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+                    Row(
+                        modifier = Modifier,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .size(Size16),
+                            imageVector = Icons.Default.Bolt,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(start = Size8),
+                            text = "${stringResource(Res.string.created)}${passwordModel.createdTime}",
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
         }
     }
 }
