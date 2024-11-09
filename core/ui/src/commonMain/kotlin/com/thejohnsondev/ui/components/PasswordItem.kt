@@ -113,6 +113,11 @@ fun PasswordItem(
     }, label = "") {
         if (isExpanded) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
     }
+    val favoriteColor by transition.animateColor({
+        tween(durationMillis = EXPAND_ANIM_DURATION)
+    }, label = "") {
+        if (isFavorite) themeColorFavorite else if (isExpanded) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+    }
     val draggingContentColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
@@ -224,9 +229,7 @@ fun PasswordItem(
                         Icon(
                             imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
                             contentDescription = null,
-                            tint = if (isFavorite) {
-                                if (isExpanded) contentColor else themeColorFavorite
-                            } else LocalContentColor.current
+                            tint = favoriteColor
                         )
                     }
                     IconButton(
@@ -253,6 +256,7 @@ fun PasswordItem(
         ) {
             ExpandedContent(
                 passwordModel = item,
+                contentColor = contentColor,
                 onCopyClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     onCopySensitiveClick(it)
@@ -273,6 +277,7 @@ fun PasswordItem(
 @Composable
 fun ExpandedContent(
     passwordModel: PasswordUIModel,
+    contentColor: Color,
     onCopyClick: (String) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit
@@ -389,13 +394,14 @@ fun ExpandedContent(
                 }) {
                 Icon(
                     imageVector = Icons.Default.Info,
+                    tint = contentColor,
                     contentDescription = null
                 )
             }
             AnimatedVisibility(visible = isInfoHidden) {
                 Text(
                     text = stringResource(Res.string.more_info),
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = contentColor,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -416,13 +422,13 @@ fun ExpandedContent(
                                     .size(Size16),
                                 imageVector = Icons.Default.Edit,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimary
+                                tint = contentColor
                             )
                             Text(
                                 modifier = Modifier
                                     .padding(start = Size8),
                                 text = "${stringResource(Res.string.modified)}${passwordModel.modifiedTime.orEmpty()}",
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = contentColor,
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }
