@@ -39,8 +39,9 @@ class VaultViewModel(
     }
 
     private fun fetchVault() = launch {
-        _passwordsList.emit(PasswordUIModel.testPasswordItems)
-        _allPasswordsList.emit(PasswordUIModel.testPasswordItems)
+        val items = PasswordUIModel.testPasswordItems
+        _passwordsList.emit(items)
+        _allPasswordsList.emit(items)
     }
 
     private fun deletePassword(password: PasswordUIModel) {
