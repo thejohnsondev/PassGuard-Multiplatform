@@ -4,6 +4,7 @@ import com.thejohnsondev.data.di.authDataModule
 import com.thejohnsondev.database.di.databaseModule
 import com.thejohnsondev.datastore.di.datastoreModule
 import com.thejohnsondev.domain.di.authDomainModule
+import com.thejohnsondev.domain.models.vaultDomainModule
 import com.thejohnsondev.network.di.networkModule
 import com.thejohnsondev.presentation.di.authPresentationModule
 import com.thejohnsondev.presentation.di.settingsPresentationModule
@@ -24,5 +25,6 @@ val modules = listOf(
     authDomainModule,
     authDataModule,
     settingsPresentationModule,
+    vaultDomainModule,
     vaultPresentationModule
 )

@@ -47,6 +47,7 @@ jobs:
           ./gradlew :core:common:test
           ./gradlew :core:network:test
           ./gradlew :feature:auth:domain:test
+          ./gradlew :feature:vault:domain:test
 
       - name: Run Android tests on Firebase Test Lab
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0

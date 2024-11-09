@@ -42,6 +42,12 @@ kotlin {
             // Arrow Either
             implementation(libs.arrow.core)
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.arrow.core)
+            implementation(libs.mockk)
+        }
     }
 }
 
