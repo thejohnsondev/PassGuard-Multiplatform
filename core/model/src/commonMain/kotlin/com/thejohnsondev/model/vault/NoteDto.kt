@@ -11,4 +11,4 @@ data class NoteDto(
     override val modifiedTimeStamp: String? = null,
     override val isFavorite: Boolean = false, // Ignore on the server side
     override val categoryId: String = DEFAULT_CATEGORY_ID,
-): VaultItem
+): VaultItemDto

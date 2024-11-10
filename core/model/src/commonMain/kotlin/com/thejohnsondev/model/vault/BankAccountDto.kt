@@ -13,4 +13,4 @@ data class BankAccountDto(
     override val modifiedTimeStamp: String? = null,
     override val isFavorite: Boolean = false,
     override val categoryId: String = DEFAULT_CATEGORY_ID,
-): VaultItem
+): VaultItemDto

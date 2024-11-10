@@ -1,4 +1,4 @@
-package com.thejohnsondev.domain.models
+package com.thejohnsondev.domain.di
 
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCaseImpl

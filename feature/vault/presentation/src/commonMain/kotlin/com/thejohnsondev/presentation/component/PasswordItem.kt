@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.presentation.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
@@ -33,7 +33,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -52,7 +51,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.common.utils.hidden
 import com.thejohnsondev.model.vault.AdditionalFieldModel
-import com.thejohnsondev.model.vault.PasswordUIModel
+import com.thejohnsondev.domain.models.PasswordUIModel
+import com.thejohnsondev.ui.components.ExpandableContent
+import com.thejohnsondev.ui.components.LoadedImage
+import com.thejohnsondev.ui.components.RoundedButton
+import com.thejohnsondev.ui.components.RoundedContainer
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Percent70
@@ -67,13 +70,13 @@ import com.thejohnsondev.ui.designsystem.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
-import vaultmultiplatform.core.ui.generated.resources.created
-import vaultmultiplatform.core.ui.generated.resources.delete
-import vaultmultiplatform.core.ui.generated.resources.edit
-import vaultmultiplatform.core.ui.generated.resources.ic_password
-import vaultmultiplatform.core.ui.generated.resources.modified
-import vaultmultiplatform.core.ui.generated.resources.more_info
+import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
+import vaultmultiplatform.feature.vault.presentation.generated.resources.created
+import vaultmultiplatform.feature.vault.presentation.generated.resources.delete
+import vaultmultiplatform.feature.vault.presentation.generated.resources.edit
+import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
+import vaultmultiplatform.feature.vault.presentation.generated.resources.modified
+import vaultmultiplatform.feature.vault.presentation.generated.resources.more_info
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

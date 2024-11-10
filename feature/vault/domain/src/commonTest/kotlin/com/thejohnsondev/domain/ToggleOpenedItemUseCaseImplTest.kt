@@ -1,6 +1,6 @@
 import com.thejohnsondev.domain.ToggleOpenedItemUseCaseImpl
 import com.thejohnsondev.model.vault.CategoryModel
-import com.thejohnsondev.model.vault.PasswordUIModel
+import com.thejohnsondev.domain.models.PasswordUIModel
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test

@@ -1,4 +1,7 @@
-package com.thejohnsondev.model.vault
+package com.thejohnsondev.domain.models
+
+import com.thejohnsondev.model.vault.AdditionalFieldModel
+import com.thejohnsondev.model.vault.CategoryModel
 
 data class PasswordUIModel(
     val id: String?,

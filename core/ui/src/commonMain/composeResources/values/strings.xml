@@ -21,12 +21,7 @@
     <string name="tools">Tools</string>
     <string name="settings">Settings</string>
 
-    <string name="edit">Edit</string>
-    <string name="delete">Delete</string>
 
-    <string name="created">Created: </string>
-    <string name="modified">Modified: </string>
-    <string name="more_info">More info</string>
 
     <!--Content Description-->
     <string name="cd_app_logo">App Logo</string>

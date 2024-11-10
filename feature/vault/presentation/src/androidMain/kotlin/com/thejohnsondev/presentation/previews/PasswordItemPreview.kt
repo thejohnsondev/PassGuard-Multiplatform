@@ -1,11 +1,11 @@
-package com.thejohnsondev.ui.previews
+package com.thejohnsondev.presentation.previews
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.model.vault.AdditionalFieldModel
 import com.thejohnsondev.model.vault.CategoryModel
-import com.thejohnsondev.model.vault.PasswordUIModel
-import com.thejohnsondev.ui.components.PasswordItem
+import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.designsystem.VaultTheme
 
 @Composable
@@ -60,7 +60,7 @@ fun PasswordItemSimpleLongNamesPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = PasswordUIModel(
+            item = com.thejohnsondev.domain.models.PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1 Long Name",
                 organizationLogo = "https://example.com/logo1.png",
@@ -103,7 +103,7 @@ fun PasswordItemFavoritePreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = PasswordUIModel(
+            item = com.thejohnsondev.domain.models.PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
@@ -147,7 +147,7 @@ fun PasswordItemExpandedPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = PasswordUIModel(
+            item = com.thejohnsondev.domain.models.PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
@@ -192,7 +192,7 @@ fun PasswordItemReorderingPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = PasswordUIModel(
+            item = com.thejohnsondev.domain.models.PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
@@ -237,7 +237,7 @@ fun PasswordItemDraggingPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = PasswordUIModel(
+            item = com.thejohnsondev.domain.models.PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",

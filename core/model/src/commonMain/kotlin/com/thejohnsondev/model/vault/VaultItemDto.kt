@@ -1,6 +1,6 @@
 package com.thejohnsondev.model.vault
 
-interface VaultItem {
+interface VaultItemDto {
     val id: String?
     val isFavorite: Boolean
     val createdTimeStamp: String?
