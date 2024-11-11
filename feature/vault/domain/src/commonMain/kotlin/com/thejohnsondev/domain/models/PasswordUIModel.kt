@@ -91,7 +91,7 @@ data class PasswordUIModel(
                 )
             ),
             PasswordUIModel(
-                id = "44556",
+                id = "f",
                 organization = "Example Organization 4",
                 organizationLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png",
                 title = "Example Title 4",
@@ -113,7 +113,247 @@ data class PasswordUIModel(
                     iconId = 4,
                     colorHex = "#FF0000"
                 )
-            )
+            ),
+            PasswordUIModel(
+                id = "hhh",
+                organization = "Example Organization 5",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "123kj45",
+                organization = "Example Organization 6",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "sf",
+                organization = "Example Organization 7",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "bcv",
+                organization = "Example Organization 8",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "12sdf345",
+                organization = "Example Organization 9",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "12nbv345",
+                organization = "Example Organization 10",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "sdf",
+                organization = "Example Organization 11",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "12gdf345",
+                organization = "Example Organization 12",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "12534345",
+                organization = "Example Organization 13",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
+            PasswordUIModel(
+                id = "4234234",
+                organization = "Example Organization 14",
+                organizationLogo = "https://example.com/logo1.png",
+                title = "Example Title 1",
+                password = "examplePassword123",
+                additionalFields = listOf(
+                    AdditionalFieldModel(
+                        id = "1",
+                        title = "exampleField1",
+                        value = "exampleValue1"
+                    ),
+                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                ),
+                modifiedTime = "November 2 2024 20:01",
+                createdTime = "November 1 2024 10:22",
+                isFavorite = false,
+                category = CategoryModel(
+                    id = "personal",
+                    name = "Personal",
+                    iconId = 1,
+                    colorHex = "#FFFFFF"
+                )
+            ),
         )
     }
 }

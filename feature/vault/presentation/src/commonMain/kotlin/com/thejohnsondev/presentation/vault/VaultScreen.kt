@@ -27,8 +27,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.thejohnsondev.model.vault.PasswordUIModel
-import com.thejohnsondev.ui.components.PasswordItem
+import com.thejohnsondev.domain.models.PasswordUIModel
+import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.designsystem.Size68
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.getAppLogo

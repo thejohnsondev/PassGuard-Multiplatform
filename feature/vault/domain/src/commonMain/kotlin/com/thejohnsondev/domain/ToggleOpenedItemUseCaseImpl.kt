@@ -1,6 +1,7 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.model.vault.PasswordUIModel
+import com.thejohnsondev.domain.models.PasswordUIModel
+
 
 class ToggleOpenedItemUseCaseImpl : ToggleOpenedItemUseCase {
 

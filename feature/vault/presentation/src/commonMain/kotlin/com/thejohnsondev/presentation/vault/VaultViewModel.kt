@@ -2,8 +2,8 @@ package com.thejohnsondev.presentation.vault
 
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
+import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.model.LoadingState
-import com.thejohnsondev.model.vault.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
