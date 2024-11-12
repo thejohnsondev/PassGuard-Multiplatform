@@ -3,18 +3,17 @@ package com.thejohnsondev.presentation.vault
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.SnackbarHostState
@@ -27,10 +26,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.presentation.component.PasswordItem
+import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Size68
-import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.getAppLogo
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
@@ -53,20 +53,16 @@ fun VaultScreen(
         SnackbarHostState()
     }
     val lazyListState = rememberLazyListState()
-    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
+
     val expandedFab by remember {
         derivedStateOf {
-            if (windowSizeClass.isCompact()) {
-                lazyListState.firstVisibleItemIndex == 0
-            } else {
-                lazyStaggeredGridState.firstVisibleItemIndex == 0
-            }
+            lazyListState.firstVisibleItemIndex == 0
         }
     }
     val appLogo = vectorResource(getAppLogo())
 
     LaunchedEffect(true) {
-        viewModel.perform(VaultViewModel.Action.FetchVault)
+        viewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))
         setScaffoldConfig(
             ScaffoldConfig(
                 topAppBarTitle = getString(Res.string.vault),
@@ -94,8 +90,8 @@ fun VaultScreen(
             windowSizeClass = windowSizeClass,
             paddingValues = paddingValues,
             lazyListState = lazyListState,
-            lazyStaggeredGridState = lazyStaggeredGridState,
             passwordsList = state.value.passwordsList,
+            listHeight = state.value.listHeight,
             onAction = viewModel::perform
         )
     }
@@ -106,10 +102,12 @@ fun VaultItemsList(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     lazyListState: LazyListState,
-    lazyStaggeredGridState: LazyStaggeredGridState,
-    passwordsList: List<PasswordUIModel>,
+    passwordsList: List<List<PasswordUIModel>>,
+    listHeight: Int,
     onAction: (VaultViewModel.Action) -> Unit
 ) {
+    val topPadding = paddingValues.calculateTopPadding()
+    val bottomPadding = paddingValues.calculateBottomPadding().plus(Size68)
     if (windowSizeClass.isCompact()) {
         LazyColumn(
             modifier = Modifier
@@ -117,9 +115,9 @@ fun VaultItemsList(
             state = lazyListState
         ) {
             item {
-                Spacer(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()))
+                Spacer(modifier = Modifier.height(topPadding))
             }
-            items(passwordsList) { passwordModel ->
+            items(passwordsList.first()) { passwordModel ->
                 PasswordItem(
                     modifier = Modifier
                         .animateItem(),
@@ -127,6 +125,7 @@ fun VaultItemsList(
                     onClick = {
                         onAction(
                             VaultViewModel.Action.ToggleOpenItem(
+                                windowSizeClass.isCompact(),
                                 passwordModel.id
                             )
                         )
@@ -141,49 +140,83 @@ fun VaultItemsList(
                 )
             }
             item {
-                Spacer(
-                    modifier = Modifier.padding(
-                        top = paddingValues.calculateBottomPadding().plus(
-                            Size68
-                        )
-                    )
-                )
+                Spacer(modifier = Modifier.height(bottomPadding))
             }
         }
     } else {
-        LazyVerticalStaggeredGrid(
-            modifier = Modifier.fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding()),
-            columns = StaggeredGridCells.Fixed(2),
-            state = lazyStaggeredGridState,
-            horizontalArrangement = Arrangement.spacedBy(Size8),
-            verticalItemSpacing = Size8,
+
+        val finalListHeight = listHeight.dp.plus(topPadding).plus(bottomPadding)
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            state = lazyListState
         ) {
-            items(passwordsList) { passwordModel ->
-                PasswordItem(
-                    modifier = Modifier
-                        .animateItem(),
-                    item = passwordModel,
-                    onClick = {
-                        onAction(VaultViewModel.Action.ToggleOpenItem(passwordModel.id))
-                    },
-                    isExpanded = passwordModel.isExpanded,
-                    onDeleteClick = {},
-                    onCopyClick = {},
-                    onEditClick = {},
-                    onCopySensitiveClick = {},
-                    onFavoriteClick = {},
-                    isFavorite = passwordModel.isFavorite
-                )
-            }
             item {
-                Spacer(
-                    modifier = Modifier.padding(
-                        top = paddingValues.calculateBottomPadding().plus(
-                            Size68
-                        )
-                    )
-                )
+                Row {
+                    LazyColumn(
+                        modifier = Modifier
+                            .weight(Percent50)
+                            .height(finalListHeight)
+                            .padding(top = topPadding, bottom = bottomPadding),
+                        userScrollEnabled = false
+                    ) {
+                        items(passwordsList.first()) { passwordModel ->
+                            PasswordItem(
+                                modifier = Modifier
+                                    .animateItem(),
+                                item = passwordModel,
+                                onClick = {
+                                    onAction(
+                                        VaultViewModel.Action.ToggleOpenItem(
+                                            windowSizeClass.isCompact(),
+                                            passwordModel.id
+                                        )
+                                    )
+                                },
+                                isExpanded = passwordModel.isExpanded,
+                                onDeleteClick = {},
+                                onCopyClick = {},
+                                onEditClick = {},
+                                onCopySensitiveClick = {},
+                                onFavoriteClick = {},
+                                isFavorite = passwordModel.isFavorite
+                            )
+                        }
+                    }
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .weight(Percent50)
+                            .height(finalListHeight)
+                            .padding(top = topPadding, bottom = bottomPadding),
+                        userScrollEnabled = false
+                    ) {
+                        items(passwordsList.last()) { passwordModel ->
+                            PasswordItem(
+                                modifier = Modifier
+                                    .animateItem(),
+                                item = passwordModel,
+                                onClick = {
+                                    onAction(
+                                        VaultViewModel.Action.ToggleOpenItem(
+                                            windowSizeClass.isCompact(),
+                                            passwordModel.id
+                                        )
+                                    )
+                                },
+                                isExpanded = passwordModel.isExpanded,
+                                onDeleteClick = {},
+                                onCopyClick = {},
+                                onEditClick = {},
+                                onCopySensitiveClick = {},
+                                onFavoriteClick = {},
+                                isFavorite = passwordModel.isFavorite
+                            )
+                        }
+                    }
+                }
             }
         }
     }
