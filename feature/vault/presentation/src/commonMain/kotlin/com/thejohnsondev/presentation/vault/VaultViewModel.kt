@@ -3,6 +3,7 @@ package com.thejohnsondev.presentation.vault
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.CalculateListSizeUseCase
+import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.model.LoadingState
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.combine
 class VaultViewModel(
     private val toggleOpenedItemUseCase: ToggleOpenedItemUseCase,
     private val calculateListSizeUseCase: CalculateListSizeUseCase,
-    private val splitItemsListUseCase: SplitItemsListUseCase
+    private val splitItemsListUseCase: SplitItemsListUseCase,
+    private val searchUseCase: SearchItemsUseCase
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -38,8 +40,8 @@ class VaultViewModel(
         when (action) {
             is Action.FetchVault -> fetchVault(action.isCompact)
             is Action.DeletePassword -> deletePassword(action.password)
-            is Action.Search -> search(action.query, action.isDeepSearchEnabled)
-            is Action.StopSearching -> stopSearching()
+            is Action.Search -> search(action.isCompact, action.query, action.isDeepSearchEnabled)
+            is Action.StopSearching -> stopSearching(action.isCompact)
             is Action.ShowHideConfirmDelete -> showHideConfirmDelete(action.deletePasswordPair)
             is Action.ToggleOpenItem -> toggleOpenItem(action.isCompact, action.itemId)
         }
@@ -58,12 +60,21 @@ class VaultViewModel(
         // TODO implement
     }
 
-    private fun search(query: String, isDeepSearchEnabled: Boolean) {
-        // TODO implement
+    private fun search(isCompact: Boolean, query: String, isDeepSearchEnabled: Boolean) = launch {
+        _isSearching.emit(true)
+        val resultList = searchUseCase(query, isDeepSearchEnabled, _allPasswordsList.value)
+        val dividedItems = splitItemsListUseCase(isCompact, resultList)
+        val itemsHeight = calculateListSizeUseCase(dividedItems)
+        _listHeight.emit(itemsHeight)
+        _passwordsList.emit(dividedItems)
     }
 
-    private fun stopSearching() {
-        // TODO implement
+    private fun stopSearching(isCompact: Boolean) = launch {
+        _isSearching.emit(false)
+        val dividedItems = splitItemsListUseCase(isCompact, _allPasswordsList.value)
+        val itemsHeight = calculateListSizeUseCase(dividedItems)
+        _listHeight.emit(itemsHeight)
+        _passwordsList.emit(dividedItems)
     }
 
     private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, PasswordUIModel?>) {
@@ -84,8 +95,8 @@ class VaultViewModel(
     sealed class Action {
         data class FetchVault(val isCompact: Boolean) : Action()
         data class DeletePassword(val password: PasswordUIModel) : Action()
-        data class Search(val query: String, val isDeepSearchEnabled: Boolean) : Action()
-        data object StopSearching : Action()
+        data class Search(val isCompact: Boolean, val query: String, val isDeepSearchEnabled: Boolean) : Action()
+        data class StopSearching(val isCompact: Boolean) : Action()
         data class ShowHideConfirmDelete(val deletePasswordPair: Pair<Boolean, PasswordUIModel?>) : Action()
         data class ToggleOpenItem(val isCompact: Boolean, val itemId: String?) : Action()
     }

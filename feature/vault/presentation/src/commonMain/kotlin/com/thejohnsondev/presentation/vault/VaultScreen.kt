@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -27,10 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.presentation.component.PasswordItem
+import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.designsystem.Percent50
+import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size68
+import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.getAppLogo
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
@@ -90,11 +91,27 @@ fun VaultScreen(
             windowSizeClass = windowSizeClass,
             paddingValues = paddingValues,
             lazyListState = lazyListState,
-            passwordsList = state.value.passwordsList,
-            listHeight = state.value.listHeight,
+            state = state.value,
             onAction = viewModel::perform
         )
     }
+}
+
+@Composable
+fun SearchBarItem(
+    modifier: Modifier = Modifier,
+    windowSizeClass: WindowWidthSizeClass,
+    isDeepSearchEnabled: Boolean,
+    onAction: (VaultViewModel.Action) -> Unit
+) {
+    SearchBar(
+        modifier = modifier,
+        onQueryEntered = { query ->
+            onAction(VaultViewModel.Action.Search(windowSizeClass.isCompact(), query, isDeepSearchEnabled))
+        },
+        onQueryClear = {
+            onAction(VaultViewModel.Action.StopSearching(windowSizeClass.isCompact()))
+        })
 }
 
 @Composable
@@ -102,8 +119,7 @@ fun VaultItemsList(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     lazyListState: LazyListState,
-    passwordsList: List<List<PasswordUIModel>>,
-    listHeight: Int,
+    state: VaultViewModel.State,
     onAction: (VaultViewModel.Action) -> Unit
 ) {
     val topPadding = paddingValues.calculateTopPadding()
@@ -117,7 +133,17 @@ fun VaultItemsList(
             item {
                 Spacer(modifier = Modifier.height(topPadding))
             }
-            items(passwordsList.first()) { passwordModel ->
+            item {
+                SearchBarItem(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = Size16, end = Size16, top = Size8, bottom = Size16),
+                    windowSizeClass = windowSizeClass,
+                    isDeepSearchEnabled = state.isDeepSearchEnabled,
+                    onAction = onAction
+                )
+            }
+            items(state.passwordsList.first()) { passwordModel ->
                 PasswordItem(
                     modifier = Modifier
                         .animateItem(),
@@ -145,24 +171,33 @@ fun VaultItemsList(
         }
     } else {
 
-        val finalListHeight = listHeight.dp.plus(topPadding).plus(bottomPadding)
+        val finalListHeight = state.listHeight.dp.plus(bottomPadding)
 
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .fillMaxSize(),
             state = lazyListState
         ) {
+            item {
+                SearchBarItem(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = Size16, end = Size16, top = topPadding.plus(Size8), bottom = Size16),
+                    windowSizeClass = windowSizeClass,
+                    isDeepSearchEnabled = state.isDeepSearchEnabled,
+                    onAction = onAction
+                )
+            }
             item {
                 Row {
                     LazyColumn(
                         modifier = Modifier
                             .weight(Percent50)
                             .height(finalListHeight)
-                            .padding(top = topPadding, bottom = bottomPadding),
+                            .padding(bottom = bottomPadding),
                         userScrollEnabled = false
                     ) {
-                        items(passwordsList.first()) { passwordModel ->
+                        items(state.passwordsList.first()) { passwordModel ->
                             PasswordItem(
                                 modifier = Modifier
                                     .animateItem(),
@@ -190,10 +225,10 @@ fun VaultItemsList(
                         modifier = Modifier
                             .weight(Percent50)
                             .height(finalListHeight)
-                            .padding(top = topPadding, bottom = bottomPadding),
+                            .padding(bottom = bottomPadding),
                         userScrollEnabled = false
                     ) {
-                        items(passwordsList.last()) { passwordModel ->
+                        items(state.passwordsList.last()) { passwordModel ->
                             PasswordItem(
                                 modifier = Modifier
                                     .animateItem(),

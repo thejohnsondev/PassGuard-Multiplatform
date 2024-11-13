@@ -2,6 +2,8 @@ package com.thejohnsondev.domain.di
 
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl
+import com.thejohnsondev.domain.SearchItemsUseCase
+import com.thejohnsondev.domain.SearchItemsUseCaseImpl
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCaseImpl
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
@@ -14,4 +16,5 @@ val vaultDomainModule = module {
     singleOf(::ToggleOpenedItemUseCaseImpl) { bind<ToggleOpenedItemUseCase>() }
     singleOf(::CalculateListSizeUseCaseImpl) { bind<CalculateListSizeUseCase>() }
     singleOf(::SplitItemsListUseCaseImpl) { bind<SplitItemsListUseCase>() }
+    singleOf(::SearchItemsUseCaseImpl) { bind<SearchItemsUseCase>() }
 }
