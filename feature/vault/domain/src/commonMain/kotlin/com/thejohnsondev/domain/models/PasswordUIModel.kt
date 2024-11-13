@@ -24,12 +24,8 @@ data class PasswordUIModel(
             title = "Example Title 1",
             password = "examplePassword123",
             additionalFields = listOf(
-                AdditionalFieldModel(
-                    id = "1",
-                    title = "exampleField1",
-                    value = "exampleValue1"
-                ),
-                AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                AdditionalFieldModel.testAdditionalField,
+                AdditionalFieldModel.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2")
             ),
             modifiedTime = "November 2 2024 20:01",
             createdTime = "November 1 2024 10:22",
@@ -42,29 +38,50 @@ data class PasswordUIModel(
             )
         )
         val testPasswordItems = listOf(
-            testPasswordUIModel,
+            testPasswordUIModel.copy(
+                id = "1",
+                additionalFields = listOf()
+            ),
             testPasswordUIModel.copy(
                 id = "2",
                 title = "Example Title 2",
                 organization = "Example Organization 2",
-                organizationLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
+                organizationLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png",
+                additionalFields = listOf(
+                    AdditionalFieldModel.testAdditionalField
+                )
             ),
             testPasswordUIModel.copy(
                 id = "3",
                 title = "Example Title 3",
                 organization = "Example Organization 3",
-                isFavorite = true
+                isFavorite = true,
+                additionalFields = listOf(
+                    AdditionalFieldModel.testAdditionalField,
+                    AdditionalFieldModel.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2")
+                )
             ),
             testPasswordUIModel.copy(
                 id = "4",
                 title = "Example Title 4",
                 organization = "Example Organization 4",
-                organizationLogo = "https://example.com/logo4.png"
+                organizationLogo = "https://example.com/logo4.png",
+                additionalFields = listOf(
+                    AdditionalFieldModel.testAdditionalField,
+                    AdditionalFieldModel.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2"),
+                    AdditionalFieldModel.testAdditionalField.copy(id = "3", title = "exampleField3", value = "exampleValue3"),
+                )
             ),
             testPasswordUIModel.copy(
                 id = "5",
                 title = "Example Title 5",
                 organization = "Example Organization 5",
+                additionalFields = listOf(
+                    AdditionalFieldModel.testAdditionalField,
+                    AdditionalFieldModel.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2"),
+                    AdditionalFieldModel.testAdditionalField.copy(id = "3", title = "exampleField3", value = "exampleValue3"),
+                    AdditionalFieldModel.testAdditionalField.copy(id = "4", title = "exampleField4", value = "exampleValue4"),
+                )
             ),
             testPasswordUIModel.copy(
                 id = "6",
