@@ -1,5 +1,7 @@
 package com.thejohnsondev.presentation.vault
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -200,7 +202,7 @@ fun VaultItemsList(
                         items(state.passwordsList.first()) { passwordModel ->
                             PasswordItem(
                                 modifier = Modifier
-                                    .animateItem(),
+                                    .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
                                 item = passwordModel,
                                 onClick = {
                                     onAction(
@@ -231,7 +233,7 @@ fun VaultItemsList(
                         items(state.passwordsList.last()) { passwordModel ->
                             PasswordItem(
                                 modifier = Modifier
-                                    .animateItem(),
+                                    .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
                                 item = passwordModel,
                                 onClick = {
                                     onAction(

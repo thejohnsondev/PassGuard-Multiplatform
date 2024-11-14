@@ -28,7 +28,10 @@ fun Modifier.applyIf(condition: Boolean, modifier: Modifier.() -> Modifier): Mod
     ) else this
 }
 
-fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
+fun Modifier.bounceClick(
+    minScale: Float = Percent95,
+    disableCursorEnterAnimation: Boolean = false
+) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
     val scale by animateFloatAsState(
         if (buttonState == ButtonState.Pressed) minScale else Percent100,
@@ -55,7 +58,10 @@ fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
                 }
             }
         }
-        .cursorEnterAnimation()
+        .applyIf(!disableCursorEnterAnimation) {
+            cursorEnterAnimation()
+        }
+
 }
 
 fun Modifier.testBorder() = composed {

@@ -33,6 +33,7 @@ val Size600 = 600.dp
 val DrawerWidth = 280.dp
 val RailWidth = 72.dp
 
+val Text12 = 12.sp
 val Text14 = 14.sp
 val Text18 = 18.sp
 val Text20 = 20.sp
@@ -46,4 +47,5 @@ val Percent50 = 0.5f
 val Percent80 = 0.8f
 val Percent90 = 0.9f
 val Percent95 = 0.95f
+val Percent98 = 0.98f
 val Percent100 = 1f
