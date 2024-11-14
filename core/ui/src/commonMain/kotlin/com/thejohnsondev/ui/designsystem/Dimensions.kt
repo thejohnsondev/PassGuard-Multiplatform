@@ -7,6 +7,7 @@ val SizeDefault = 0.dp
 val SizeBorder = 1.dp
 val Size2 = 2.dp
 val Size4 = 4.dp
+val Size6 = 6.dp
 val Size8 = 8.dp
 val Size12 = 12.dp
 val Size16 = 16.dp

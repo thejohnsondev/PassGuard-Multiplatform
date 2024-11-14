@@ -10,13 +10,17 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ContentCopy
@@ -50,8 +54,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.common.utils.hidden
-import com.thejohnsondev.model.vault.AdditionalFieldModel
 import com.thejohnsondev.domain.models.PasswordUIModel
+import com.thejohnsondev.model.vault.AdditionalFieldModel
 import com.thejohnsondev.ui.components.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.RoundedButton
@@ -65,6 +69,8 @@ import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
+import com.thejohnsondev.ui.designsystem.Size6
+import com.thejohnsondev.ui.designsystem.Size64
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
@@ -165,114 +171,123 @@ fun PasswordItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Row(
-                modifier = Modifier
-                    .padding(Size16)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Box {
                 Row(
+                    modifier = Modifier
+                        .padding(Size16)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Surface(
-                        modifier = Modifier.size(imageSize),
-                        color = Color.White,
-                        shape = EqualRounded.small
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        LoadedImage(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(Size4),
-                            imageUrl = item.organizationLogo ?: "",
-                            errorDrawableResource = Res.drawable.ic_password,
-                            placeholderDrawableResource = Res.drawable.ic_password,
-                            placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
-                            backgroundColor = Color.White,
-                            showLoading = true
-                        )
+                        Surface(
+                            modifier = Modifier.size(imageSize),
+                            color = Color.White,
+                            shape = EqualRounded.small
+                        ) {
+                            LoadedImage(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(Size4),
+                                imageUrl = item.organizationLogo ?: "",
+                                errorDrawableResource = Res.drawable.ic_password,
+                                placeholderDrawableResource = Res.drawable.ic_password,
+                                placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
+                                backgroundColor = Color.White,
+                                showLoading = true
+                            )
+                        }
+                        Column {
+                            Text(
+                                modifier = Modifier
+                                    .padding(start = Size16)
+                                    .fillMaxWidth(Percent70),
+                                text = item.organization,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = if (isReordering) draggingContentColor else contentColor,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .padding(start = Size16)
+                                    .fillMaxWidth(Percent70),
+                                text = item.title,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = if (isReordering) draggingContentColor else contentColor,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1
+                            )
+                        }
                     }
-                    Column {
-                        Text(
-                            modifier = Modifier
-                                .padding(start = Size16)
-                                .fillMaxWidth(Percent70),
-                            text = item.organization,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = if (isReordering) draggingContentColor else contentColor,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(start = Size16)
-                                .fillMaxWidth(Percent70),
-                            text = item.title,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = if (isReordering) draggingContentColor else contentColor,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-                    }
-                }
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        IconButton(
+                            modifier = Modifier
+                                .size(Size36)
+                                .bounceClick(),
+                            onClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onFavoriteClick(item)
+                            }) {
+                            Icon(
+                                imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
+                                contentDescription = null,
+                                tint = favoriteColor
+                            )
+                        }
+                        IconButton(
+                            modifier = Modifier
+                                .size(Size36)
+                                .bounceClick(),
+                            onClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onCopySensitiveClick(item.password)
+                            }) {
+                            Icon(
+                                imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
+                                contentDescription = null,
+                                tint = if (isReordering) draggingContentColor else contentColor
+                            )
+                        }
+                    }
+
+                }
+                Surface(
+                    modifier = Modifier
+                        .height(imageSize)
+                        .width(Size6)
+                        .align(Alignment.CenterStart),
+                    shape = RoundedCornerShape(topEnd = Size64, bottomEnd = Size64),
+                    color = Color(0xff0a2f2c5),
                 ) {
-                    IconButton(
-                        modifier = Modifier
-                            .size(Size36)
-                            .bounceClick(),
-                        onClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            onFavoriteClick(item)
-                        }) {
-                        Icon(
-                            imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
-                            contentDescription = null,
-                            tint = favoriteColor
-                        )
-                    }
-                    IconButton(
-                        modifier = Modifier
-                            .size(Size36)
-                            .bounceClick(),
-                        onClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            onCopySensitiveClick(item.password)
-                        }) {
-                        Icon(
-                            imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
-                            contentDescription = null,
-                            tint = if (isReordering) draggingContentColor else contentColor
-                        )
-                    }
                 }
-
+            }
+            ExpandableContent(
+                visible = isExpanded
+            ) {
+                ExpandedContent(
+                    passwordModel = item,
+                    contentColor = contentColor,
+                    onCopyClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onCopySensitiveClick(it)
+                    },
+                    onDeleteClick = {
+                        onDeleteClick(it)
+                    },
+                    onEditClick = {
+                        onEditClick(it)
+                    }
+                )
             }
         }
-
-        ExpandableContent(
-            visible = isExpanded
-        ) {
-            ExpandedContent(
-                passwordModel = item,
-                contentColor = contentColor,
-                onCopyClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onCopySensitiveClick(it)
-                },
-                onDeleteClick = {
-                    onDeleteClick(it)
-                },
-                onEditClick = {
-                    onEditClick(it)
-                }
-            )
-        }
-
     }
 
 }
