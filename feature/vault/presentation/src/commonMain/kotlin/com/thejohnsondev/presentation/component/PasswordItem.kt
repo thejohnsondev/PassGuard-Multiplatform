@@ -10,15 +10,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -28,6 +27,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material.icons.filled.Visibility
@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -66,12 +67,12 @@ import com.thejohnsondev.ui.designsystem.Percent75
 import com.thejohnsondev.ui.designsystem.Size10
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size6
-import com.thejohnsondev.ui.designsystem.Size64
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
@@ -85,7 +86,7 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_pass
 import vaultmultiplatform.feature.vault.presentation.generated.resources.modified
 import vaultmultiplatform.feature.vault.presentation.generated.resources.more_info
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordItem(
     modifier: Modifier = Modifier,
@@ -144,7 +145,6 @@ fun PasswordItem(
         if (isDragging) Size56 else Size42
     }
 
-
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -175,37 +175,51 @@ fun PasswordItem(
         ) {
             Row(
                 modifier = Modifier
-                    .padding(top = Size16, bottom = Size16, end = Size16)
+                    .padding(top = Size10, bottom = Size10, end = Size12)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Surface(
+                Box(
                     modifier = Modifier
-                        .height(imageSize)
-                        .width(Size6),
-                    shape = RoundedCornerShape(topEnd = Size64, bottomEnd = Size64),
-                    color = Color(0xff0a2f2c5),
-                    ) {
-                }
-                Surface(
-                    modifier = Modifier
-                        .padding(start = Size10)
-                        .size(imageSize),
-                    color = Color.White,
-                    shape = EqualRounded.small
+                        .padding(start = Size12)
+                        .size(imageSize + Size8)
                 ) {
-                    LoadedImage(
+                    Surface(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(Size4),
-                        imageUrl = item.organizationLogo ?: "",
-                        errorDrawableResource = Res.drawable.ic_password,
-                        placeholderDrawableResource = Res.drawable.ic_password,
-                        placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
-                        backgroundColor = Color.White,
-                        showLoading = true
-                    )
+                            .size(imageSize)
+                            .align(Alignment.Center),
+                        color = Color.White,
+                        shape = EqualRounded.small
+                    ) {
+                        LoadedImage(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(Size4),
+                            imageUrl = item.organizationLogo ?: "",
+                            errorDrawableResource = Res.drawable.ic_password,
+                            placeholderDrawableResource = Res.drawable.ic_password,
+                            placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
+                            backgroundColor = Color.White,
+                            showLoading = true
+                        )
+                    }
+                    Surface(
+                        modifier = Modifier
+                            .size(Size22)
+                            .align(Alignment.BottomEnd)
+                            .padding(top = Size4, start = Size4),
+                        shape = RoundedCornerShape(Size4),
+                        color = Color(0xff0a2f2c5)
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .size(Size6),
+                            imageVector = Icons.Default.Person,
+                            contentDescription = null,
+                            tint = Color(0xff46906B)
+                        )
+                    }
                 }
                 Column {
                     Text(
