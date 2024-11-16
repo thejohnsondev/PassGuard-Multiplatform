@@ -34,7 +34,7 @@ import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size68
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.getAppLogo
+import com.thejohnsondev.ui.designsystem.colorscheme.getAppLogo
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.isCompact

@@ -35,7 +35,7 @@ import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size580
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
-import com.thejohnsondev.ui.designsystem.isLight
+import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.model.ButtonStyle
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact

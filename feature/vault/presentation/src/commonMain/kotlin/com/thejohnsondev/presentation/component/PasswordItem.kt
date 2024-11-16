@@ -74,7 +74,7 @@ import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size6
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.themeColorFavorite
+import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
@@ -175,7 +175,7 @@ fun PasswordItem(
         ) {
             Row(
                 modifier = Modifier
-                    .padding(top = Size10, bottom = Size10, end = Size12)
+                    .padding(top = Size12, bottom = Size12, end = Size12)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically

@@ -10,7 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
-import com.thejohnsondev.ui.designsystem.VaultTheme
+import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import org.koin.compose.KoinContext
 import org.thejohnsondev.vault.navigation.AuthNavigation
 
@@ -24,7 +24,7 @@ fun Root(
         initializeLibs()
     }
     val windowSizeClass = calculateWindowSizeClass()
-    VaultTheme(
+    VaultDefaultTheme(
         dynamicColor = false,
         darkTheme = true,
         deviceThemeConfig = deviceThemeConfig
