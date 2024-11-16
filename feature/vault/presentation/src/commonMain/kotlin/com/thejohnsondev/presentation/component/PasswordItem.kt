@@ -112,7 +112,7 @@ fun PasswordItem(
     val cardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+        if (isExpanded) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
     }
     val draggingCardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -122,17 +122,17 @@ fun PasswordItem(
     val contentColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+        if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
     val favoriteColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isFavorite) themeColorFavorite else if (isExpanded) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+        if (isFavorite) themeColorFavorite else if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
     val draggingContentColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isDragging) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+        if (isDragging) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
     val cardPaddingHorizontal by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -331,7 +331,7 @@ fun ExpandedContent(
                 .clickable {
                     isHidden = !isHidden
                 },
-            color = MaterialTheme.colorScheme.surfaceVariant,
+            color = MaterialTheme.colorScheme.surfaceContainerLow,
             isFirstItem = true,
             isLastItem = passwordModel.additionalFields.isEmpty()
         ) {
@@ -344,7 +344,7 @@ fun ExpandedContent(
                 Text(
                     modifier = Modifier
                         .padding(horizontal = Size12, vertical = Size16), text = password,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Icon(
                     modifier = Modifier.padding(end = Size8),
@@ -382,8 +382,8 @@ fun ExpandedContent(
                 text = stringResource(Res.string.edit),
                 imageVector = Icons.Filled.Edit,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    contentColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 buttonShape = ButtonShape.START_ROUNDED,
                 onClick = {
@@ -470,13 +470,13 @@ fun ExpandedContent(
                                 .size(Size16),
                             imageVector = Icons.Default.Bolt,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Text(
                             modifier = Modifier
                                 .padding(start = Size8),
                             text = "${stringResource(Res.string.created)}${passwordModel.createdTime}",
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -508,7 +508,7 @@ fun AdditionalFieldItem(
                     onLongClick(additionalField.value)
                 }
             ),
-        color = MaterialTheme.colorScheme.surfaceVariant
+        color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -521,7 +521,8 @@ fun AdditionalFieldItem(
                 Text(
                     modifier = Modifier
                         .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
-                    text = additionalField.title
+                    text = additionalField.title,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     modifier = Modifier

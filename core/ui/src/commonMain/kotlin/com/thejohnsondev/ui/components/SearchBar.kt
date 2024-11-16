@@ -54,7 +54,7 @@ fun SearchBar(
                 disableCursorEnterAnimation = true
             ),
         shape = EqualRounded.large,
-        color = MaterialTheme.colorScheme.surfaceVariant
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
     ) {
         Row(
             modifier = Modifier

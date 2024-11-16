@@ -6,12 +6,12 @@ import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.model.vault.AdditionalFieldModel
 import com.thejohnsondev.model.vault.CategoryModel
 import com.thejohnsondev.presentation.component.PasswordItem
-import com.thejohnsondev.ui.designsystem.VaultTheme
+import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 
 @Composable
 @Preview
 fun PasswordItemSimplePreview() {
-    VaultTheme(
+    VaultDefaultTheme(
         dynamicColor = false,
         darkTheme = true,
         deviceThemeConfig = null
@@ -54,7 +54,7 @@ fun PasswordItemSimplePreview() {
 @Composable
 @Preview
 fun PasswordItemSimpleLongNamesPreview() {
-    VaultTheme(
+    VaultDefaultTheme(
         dynamicColor = false,
         darkTheme = true,
         deviceThemeConfig = null
@@ -97,7 +97,7 @@ fun PasswordItemSimpleLongNamesPreview() {
 @Composable
 @Preview
 fun PasswordItemFavoritePreview() {
-    VaultTheme(
+    VaultDefaultTheme(
         dynamicColor = false,
         darkTheme = true,
         deviceThemeConfig = null
@@ -141,7 +141,7 @@ fun PasswordItemFavoritePreview() {
 @Composable
 @Preview
 fun PasswordItemExpandedPreview() {
-    VaultTheme(
+    VaultDefaultTheme(
         dynamicColor = false,
         darkTheme = true,
         deviceThemeConfig = null
@@ -186,7 +186,7 @@ fun PasswordItemExpandedPreview() {
 @Composable
 @Preview
 fun PasswordItemReorderingPreview() {
-    VaultTheme(
+    VaultDefaultTheme(
         dynamicColor = false,
         darkTheme = true,
         deviceThemeConfig = null
@@ -231,7 +231,7 @@ fun PasswordItemReorderingPreview() {
 @Composable
 @Preview
 fun PasswordItemDraggingPreview() {
-    VaultTheme(
+    VaultDefaultTheme(
         dynamicColor = false,
         darkTheme = true,
         deviceThemeConfig = null

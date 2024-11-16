@@ -124,8 +124,8 @@ fun HomeScaffold(
                 },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.White.copy(alpha = 0.03f),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.03f),
                 )
             )
         }
@@ -171,7 +171,7 @@ fun HomeScaffold(
                         )
                 ) {
                     NavigationBar(
-                        containerColor = Color.White.copy(0.01f),
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.03f),
                     ) {
                         navigationItems.forEachIndexed { index, screen ->
                             NavigationBarItem(

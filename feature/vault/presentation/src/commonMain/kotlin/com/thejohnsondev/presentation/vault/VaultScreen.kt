@@ -17,7 +17,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -83,19 +85,24 @@ fun VaultScreen(
         )
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.surfaceContainerLowest
     ) {
-        VaultItemsList(
-            windowSizeClass = windowSizeClass,
-            paddingValues = paddingValues,
-            lazyListState = lazyListState,
-            state = state.value,
-            onAction = viewModel::perform
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            VaultItemsList(
+                windowSizeClass = windowSizeClass,
+                paddingValues = paddingValues,
+                lazyListState = lazyListState,
+                state = state.value,
+                onAction = viewModel::perform
+            )
+        }
     }
 }
 
