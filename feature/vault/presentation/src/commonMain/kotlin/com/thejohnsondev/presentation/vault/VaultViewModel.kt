@@ -21,6 +21,8 @@ class VaultViewModel(
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
     private val _passwordsList = MutableStateFlow<List<List<PasswordUIModel>>>(emptyList())
     private val _isSearching = MutableStateFlow(false)
+    private val _isFiltersOpened = MutableStateFlow(false)
+    private val _hasAnyFiltersApplied = MutableStateFlow(false)
     private val _isDeepSearchingEnabled = MutableStateFlow(false)
     private val _showHideConfirmDelete =
         MutableStateFlow<Pair<Boolean, PasswordUIModel?>>(Pair(false, null))
@@ -30,6 +32,8 @@ class VaultViewModel(
         _loadingState,
         _passwordsList,
         _isSearching,
+        _isFiltersOpened,
+        _hasAnyFiltersApplied,
         _isDeepSearchingEnabled, // TODO replace with setting from settings config
         _showHideConfirmDelete,
         _listHeight,
@@ -44,6 +48,7 @@ class VaultViewModel(
             is Action.StopSearching -> stopSearching(action.isCompact)
             is Action.ShowHideConfirmDelete -> showHideConfirmDelete(action.deletePasswordPair)
             is Action.ToggleOpenItem -> toggleOpenItem(action.isCompact, action.itemId)
+            is Action.ToggleIsFiltersOpened -> toggleFiltersOpened()
         }
     }
 
@@ -56,11 +61,19 @@ class VaultViewModel(
         _passwordsList.emit(dividedItems)
     }
 
+    private fun toggleFiltersOpened() {
+        _isFiltersOpened.value = !_isFiltersOpened.value
+    }
+
     private fun deletePassword(password: PasswordUIModel) {
         // TODO implement
     }
 
     private fun search(isCompact: Boolean, query: String, isDeepSearchEnabled: Boolean) = launch {
+        if (query.isEmpty()) {
+            stopSearching(isCompact)
+            return@launch
+        }
         _isSearching.emit(true)
         val resultList = searchUseCase(query, isDeepSearchEnabled, _allPasswordsList.value)
         val dividedItems = splitItemsListUseCase(isCompact, resultList)
@@ -99,12 +112,15 @@ class VaultViewModel(
         data class StopSearching(val isCompact: Boolean) : Action()
         data class ShowHideConfirmDelete(val deletePasswordPair: Pair<Boolean, PasswordUIModel?>) : Action()
         data class ToggleOpenItem(val isCompact: Boolean, val itemId: String?) : Action()
+        data object ToggleIsFiltersOpened : Action()
     }
 
     data class State(
         val loadingState: LoadingState = LoadingState.Loaded,
         val passwordsList: List<List<PasswordUIModel>> = listOf(emptyList()),
         val isSearching: Boolean = false,
+        val isFiltersOpened: Boolean = false,
+        val hasAnyFiltersApplied: Boolean = false,
         val isDeepSearchEnabled: Boolean = false,
         val deletePasswordPair: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
         val listHeight: Int = 0

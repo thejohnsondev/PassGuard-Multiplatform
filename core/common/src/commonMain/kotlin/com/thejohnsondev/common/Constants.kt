@@ -5,6 +5,7 @@ const val PASS_MIN_SIZE = 8
 const val DATA_STORE_FILE_NAME = "settings.preferences_pb"
 const val EMPTY = ""
 
+const val TOGGLE_ANIM_DURATION = 200
 const val EXPAND_ANIM_DURATION = 500
 
 const val DESKTOP_WINDOW_MIN_WIDTH = 800
