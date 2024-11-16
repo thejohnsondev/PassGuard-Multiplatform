@@ -1,6 +1,5 @@
 package com.thejohnsondev.ui.components
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.rememberTransition
@@ -25,7 +24,6 @@ fun ToggleButton(
     modifier: Modifier = Modifier,
     icon: ImageVector,
     iconSize: Dp = Size16,
-    isVisible: Boolean = true,
     isSelected: Boolean = false,
     onToggleClick: () -> Unit
 ) {
@@ -45,23 +43,20 @@ fun ToggleButton(
     }, label = "") {
         if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
     }
-    AnimatedVisibility(isVisible) {
-        Surface(
-            modifier = modifier
-                .clickable {
-                    onToggleClick()
-                },
-            color = filterContainerColor,
-        ) {
-            Icon(
-                modifier = Modifier
-                    .size(iconSize)
-                    .padding(Size16),
-                imageVector = icon,
-                contentDescription = null,
-                tint = filterContentColor
-            )
-        }
+
+    Surface(
+        modifier = modifier
+            .clickable {
+                onToggleClick() },
+        color = filterContainerColor,) {
+        Icon(
+            modifier = Modifier
+                .size(iconSize)
+                .padding(Size16),
+            imageVector = icon,
+            contentDescription = null,
+            tint = filterContentColor
+        )
     }
 
 }

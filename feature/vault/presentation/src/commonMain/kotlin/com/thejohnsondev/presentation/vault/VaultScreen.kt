@@ -43,7 +43,6 @@ import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ToggleButton
 import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Percent50i
-import com.thejohnsondev.ui.designsystem.Percent98
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size56
@@ -155,19 +154,20 @@ fun SearchBarRow(
                 onAction(VaultViewModel.Action.StopSearching(windowSizeClass.isCompact()))
             })
 
-        ToggleButton(
-            modifier = Modifier
-                .size(Size56)
-                .bounceClick()
-                .clip(RoundedCornerShape(percent = Percent50i)),
-            isVisible = !state.isSearching,
-            isSelected = state.isFiltersOpened,
-            icon = Icons.Default.FilterList,
-            iconSize = Size22,
-            onToggleClick = {
-                onAction(VaultViewModel.Action.ToggleIsFiltersOpened)
-            },
-        )
+        AnimatedVisibility(!state.isSearching) {
+            ToggleButton(
+                modifier = Modifier
+                    .size(Size56)
+                    .bounceClick()
+                    .clip(RoundedCornerShape(percent = Percent50i)),
+                isSelected = state.isFiltersOpened,
+                icon = Icons.Default.FilterList,
+                iconSize = Size22,
+                onToggleClick = {
+                    onAction(VaultViewModel.Action.ToggleIsFiltersOpened)
+                },
+            )
+        }
     }
 }
 
