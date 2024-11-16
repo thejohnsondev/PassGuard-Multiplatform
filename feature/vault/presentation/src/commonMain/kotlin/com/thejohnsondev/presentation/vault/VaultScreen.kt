@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -31,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.presentation.component.PasswordItem
+import com.thejohnsondev.ui.components.FilterGroup
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Size16
@@ -41,9 +44,14 @@ import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.add
+import vaultmultiplatform.feature.vault.presentation.generated.resources.all
+import vaultmultiplatform.feature.vault.presentation.generated.resources.bank_accounts
+import vaultmultiplatform.feature.vault.presentation.generated.resources.notes
+import vaultmultiplatform.feature.vault.presentation.generated.resources.passwords
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
 @Composable
@@ -124,6 +132,52 @@ fun SearchBarItem(
 }
 
 @Composable
+fun Filters() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(bottom = Size16),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        val filterAll = stringResource(Res.string.all)
+        val filterPasswords = stringResource(Res.string.passwords)
+        val filterBankAccounts = stringResource(Res.string.bank_accounts)
+        val filterNotes = stringResource(Res.string.notes)
+        val filters = listOf(
+            filterAll,
+            filterPasswords,
+            filterBankAccounts,
+            filterNotes
+        )
+        FilterGroup(
+            modifier = Modifier
+                .wrapContentHeight()
+                .wrapContentWidth(),
+            filters = filters, onFilterClick = {
+                when (it) {
+                    filterAll -> {
+
+                    }
+
+                    filterPasswords -> {
+
+                    }
+
+                    filterBankAccounts -> {
+
+                    }
+
+                    filterNotes -> {
+
+                    }
+                }
+            }, defaultSelected = filterAll
+        )
+    }
+}
+
+@Composable
 fun VaultItemsList(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
@@ -151,6 +205,9 @@ fun VaultItemsList(
                     isDeepSearchEnabled = state.isDeepSearchEnabled,
                     onAction = onAction
                 )
+            }
+            item {
+                Filters()
             }
             items(state.passwordsList.first()) { passwordModel ->
                 PasswordItem(
@@ -196,6 +253,9 @@ fun VaultItemsList(
                     isDeepSearchEnabled = state.isDeepSearchEnabled,
                     onAction = onAction
                 )
+            }
+            item {
+                Filters()
             }
             item {
                 Row {
