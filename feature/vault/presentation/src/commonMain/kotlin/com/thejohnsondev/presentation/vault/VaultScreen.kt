@@ -38,9 +38,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.presentation.component.PasswordItem
-import com.thejohnsondev.ui.components.FilterGroup
+import com.thejohnsondev.presentation.component.getVaultItemTypeFilters
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ToggleButton
+import com.thejohnsondev.ui.components.filter.FilterGroup
 import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Percent50i
 import com.thejohnsondev.ui.designsystem.Size16
@@ -54,14 +55,9 @@ import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.add
-import vaultmultiplatform.feature.vault.presentation.generated.resources.all
-import vaultmultiplatform.feature.vault.presentation.generated.resources.bank_accounts
-import vaultmultiplatform.feature.vault.presentation.generated.resources.notes
-import vaultmultiplatform.feature.vault.presentation.generated.resources.passwords
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
 @Composable
@@ -183,39 +179,14 @@ fun Filters(
                 .padding(bottom = Size16),
             horizontalArrangement = Arrangement.Start
         ) {
-            val filterAll = stringResource(Res.string.all)
-            val filterPasswords = stringResource(Res.string.passwords)
-            val filterBankAccounts = stringResource(Res.string.bank_accounts)
-            val filterNotes = stringResource(Res.string.notes)
-            val filters = listOf(
-                filterAll,
-                filterPasswords,
-                filterBankAccounts,
-                filterNotes
-            )
+            val filtersItemTypes = getVaultItemTypeFilters()
             FilterGroup(
                 modifier = Modifier
-                    .wrapContentHeight()
                     .wrapContentWidth(),
-                filters = filters, onFilterClick = {
-                    when (it) {
-                        filterAll -> {
+                filters = filtersItemTypes,
+                onFilterClick = {
 
-                        }
-
-                        filterPasswords -> {
-
-                        }
-
-                        filterBankAccounts -> {
-
-                        }
-
-                        filterNotes -> {
-
-                        }
-                    }
-                }, defaultSelected = filterAll
+                }, defaultSelected = filtersItemTypes.first()
             )
         }
     }

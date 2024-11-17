@@ -27,18 +27,18 @@ fun ToggleButton(
     isSelected: Boolean = false,
     onToggleClick: () -> Unit
 ) {
-    val filterTransition = remember {
+    val toggleButtonTransition = remember {
         MutableTransitionState(isSelected).apply {
             targetState = !isSelected
         }
     }
-    val transition = rememberTransition(filterTransition, label = "")
-    val filterContainerColor by transition.animateColor({
+    val transition = rememberTransition(toggleButtonTransition, label = "")
+    val toggleButtonContainerColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
         if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerLow
     }
-    val filterContentColor by transition.animateColor({
+    val toggleButtonContentColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
         if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
@@ -48,14 +48,14 @@ fun ToggleButton(
         modifier = modifier
             .clickable {
                 onToggleClick() },
-        color = filterContainerColor,) {
+        color = toggleButtonContainerColor,) {
         Icon(
             modifier = Modifier
                 .size(iconSize)
                 .padding(Size16),
             imageVector = icon,
             contentDescription = null,
-            tint = filterContentColor
+            tint = toggleButtonContentColor
         )
     }
 
