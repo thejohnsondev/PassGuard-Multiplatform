@@ -21,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,18 +34,16 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.model.Filter
+import com.thejohnsondev.ui.utils.mapToColor
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun FilterGroup(
     modifier: Modifier = Modifier,
     filters: List<Filter>,
-    onFilterClick: (Filter) -> Unit,
-    defaultSelected: Filter
+    onFilterClick: (Filter, Boolean) -> Unit
 ) {
-    val selectedFilter = remember {
-        mutableStateOf(defaultSelected)
-    }
-
     LazyRow(
         modifier = modifier
             .height(Size56),
@@ -62,11 +59,9 @@ fun FilterGroup(
                         bottom = Size8,
                         top = Size8
                     ),
-                filter = filter,
-                selected = selectedFilter.value
-            ) {
-                selectedFilter.value = it
-                onFilterClick(it)
+                filter = filter
+            ) { isSelected ->
+                onFilterClick(filter, isSelected)
             }
         }
     }
@@ -77,35 +72,33 @@ fun FilterGroup(
 fun Chip(
     modifier: Modifier = Modifier,
     filter: Filter,
-    selected: Filter,
-    onSelected: (Filter) -> Unit
+    onClick: (Boolean) -> Unit
 ) {
-    val isSelected = selected == filter
     val filterTransition = remember {
-        MutableTransitionState(isSelected).apply {
-            targetState = !isSelected
+        MutableTransitionState(filter.isSelected).apply {
+            targetState = !filter.isSelected
         }
     }
     val transition = rememberTransition(filterTransition, label = "")
     val filterContainerColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (isSelected) filter.contentColor else filter.backgroundColor
+        if (filter.isSelected) filter.contentColorResName.mapToColor() else filter.backgroundColorResName.mapToColor()
     }
     val filterContentColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (isSelected) filter.backgroundColor else filter.contentColor
+        if (filter.isSelected) filter.backgroundColorResName.mapToColor() else filter.contentColorResName.mapToColor()
     }
     val filterChipHorizontalPadding by transition.animateDp({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (isSelected) Size24 else Size16
+        if (filter.isSelected) Size24 else Size16
     }
     val filterChipVerticalPadding by transition.animateDp({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (isSelected) Size12 else Size8
+        if (filter.isSelected) Size12 else Size8
     }
 
     Row(
@@ -114,34 +107,36 @@ fun Chip(
         .clip(CircleShape)
             .background(filterContainerColor)
         .clickable {
-            onSelected(filter)
+            onClick(!filter.isSelected)
         },
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        filter.imageVector?.let {
+        val icon = filter.filterIcon?.imageVector
+            ?: filter.filterIcon?.imageVectorResId?.let { vectorResource(it) }
+        icon?.let {
             Icon(
                 modifier = Modifier.padding(
                     start = filterChipHorizontalPadding,
                     end = Size4
-                )
-                    .size(Size24),
+                ).size(Size24),
                 imageVector = it,
                 contentDescription = null,
                 tint = filterContentColor
             )
         }
         Text(
-            modifier = Modifier.padding(
-                top = filterChipVerticalPadding, bottom = filterChipVerticalPadding,
-                start = if (filter.imageVector != null) {
-                    Size4
-                } else {
-                    filterChipHorizontalPadding
-                },
-                end = filterChipHorizontalPadding
-            ),
-            text = filter.name,
+            modifier = Modifier
+                .padding(
+                    top = filterChipVerticalPadding, bottom = filterChipVerticalPadding,
+                    start = if (icon != null) {
+                        Size4
+                    } else {
+                        filterChipHorizontalPadding
+                    },
+                    end = filterChipHorizontalPadding
+                ),
+            text = stringResource(filter.nameResId),
             color = filterContentColor,
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center

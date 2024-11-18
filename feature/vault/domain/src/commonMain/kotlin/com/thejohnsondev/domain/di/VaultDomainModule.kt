@@ -2,6 +2,8 @@ package com.thejohnsondev.domain.di
 
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl
+import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
+import com.thejohnsondev.domain.ItemTypeFilterChangeUseCaseImpl
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SearchItemsUseCaseImpl
 import com.thejohnsondev.domain.SplitItemsListUseCase
@@ -17,4 +19,5 @@ val vaultDomainModule = module {
     singleOf(::CalculateListSizeUseCaseImpl) { bind<CalculateListSizeUseCase>() }
     singleOf(::SplitItemsListUseCaseImpl) { bind<SplitItemsListUseCase>() }
     singleOf(::SearchItemsUseCaseImpl) { bind<SearchItemsUseCase>() }
+    singleOf(::ItemTypeFilterChangeUseCaseImpl) { bind<ItemTypeFilterChangeUseCase>() }
 }

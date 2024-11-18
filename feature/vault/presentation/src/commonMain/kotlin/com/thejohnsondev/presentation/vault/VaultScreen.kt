@@ -169,7 +169,8 @@ fun SearchBarRow(
 
 @Composable
 fun Filters(
-    state: VaultViewModel.State
+    state: VaultViewModel.State,
+    onAction: (VaultViewModel.Action) -> Unit
 ) {
     AnimatedVisibility(visible = state.isFiltersOpened && !state.isSearching) {
         Row(
@@ -179,14 +180,13 @@ fun Filters(
                 .padding(bottom = Size16),
             horizontalArrangement = Arrangement.Start
         ) {
-            val filtersItemTypes = getVaultItemTypeFilters()
             FilterGroup(
                 modifier = Modifier
                     .wrapContentWidth(),
-                filters = filtersItemTypes,
-                onFilterClick = {
-
-                }, defaultSelected = filtersItemTypes.first()
+                filters = state.itemTypeFilters,
+                onFilterClick = { filter, isSelected ->
+                    onAction(VaultViewModel.Action.OnFilterClick(filter, isSelected))
+                }
             )
         }
     }
@@ -223,7 +223,7 @@ fun VaultItemsList(
                 )
             }
             item {
-                Filters(state)
+                Filters(state, onAction)
             }
             items(state.passwordsList.first()) { passwordModel ->
                 PasswordItem(
@@ -272,7 +272,7 @@ fun VaultItemsList(
                 )
             }
             item {
-                Filters(state)
+                Filters(state, onAction)
             }
             item {
                 Row {

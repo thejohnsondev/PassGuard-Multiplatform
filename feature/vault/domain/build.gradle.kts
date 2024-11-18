@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -32,6 +34,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:model"))
             api(project(":core:common"))
+            api(project(":core:ui"))
             implementation(project(":feature:auth:data"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -41,12 +44,15 @@ kotlin {
 
             // Arrow Either
             implementation(libs.arrow.core)
+
+            // Compose
+            implementation(compose.ui)
+            implementation(compose.components.resources)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.arrow.core)
-            implementation(libs.mockk)
         }
     }
 }
