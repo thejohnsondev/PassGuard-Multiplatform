@@ -15,7 +15,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import com.thejohnsondev.common.EMPTY
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent95
 import com.thejohnsondev.ui.designsystem.SizeBorder
@@ -35,7 +35,7 @@ fun Modifier.bounceClick(
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
     val scale by animateFloatAsState(
         if (buttonState == ButtonState.Pressed) minScale else Percent100,
-        label = EMPTY
+        label = String.empty
     )
 
     this.graphicsLayer {

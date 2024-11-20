@@ -16,8 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.thejohnsondev.common.EMPTY
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Size48
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -31,7 +30,7 @@ fun Loader(
     iconTintColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        val infiniteTransition = rememberInfiniteTransition(label = EMPTY)
+        val infiniteTransition = rememberInfiniteTransition(label = String.empty)
 
         val scale by infiniteTransition.animateFloat(
             initialValue = 1f,

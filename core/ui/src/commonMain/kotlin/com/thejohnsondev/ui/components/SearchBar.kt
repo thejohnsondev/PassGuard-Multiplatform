@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
-import com.thejohnsondev.common.EMPTY
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Percent98
@@ -72,7 +72,7 @@ fun SearchBar(
                 },
                 maxLines = 1,
                 value = searchQuery,
-                hint = if (searchQuery.isBlank()) stringResource(Res.string.search) else EMPTY,
+                hint = if (searchQuery.isBlank()) stringResource(Res.string.search) else String.empty,
                 textColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 focusRequester = focusRequester
             )
@@ -83,7 +83,7 @@ fun SearchBar(
                         .bounceClick()
                         .clip(EqualRounded.medium)
                         .clickable {
-                            searchQuery = EMPTY
+                            searchQuery = String.empty
                             onQueryClear()
                             focusManager.clearFocus()
                         },

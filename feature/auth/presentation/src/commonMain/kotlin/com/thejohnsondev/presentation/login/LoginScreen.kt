@@ -44,7 +44,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.thejohnsondev.common.EMPTY
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.validation.EmailValidationState
@@ -87,10 +87,10 @@ fun LoginScreen(
 ) {
     val screenState = viewModel.viewState.collectAsState(LoginViewModel.State())
     val emailState = rememberSaveable {
-        mutableStateOf(EMPTY)
+        mutableStateOf(String.empty)
     }
     val passwordState = rememberSaveable {
-        mutableStateOf(EMPTY)
+        mutableStateOf(String.empty)
     }
     val emailFocusRequest = remember { FocusRequester() }
     val passwordFocusRequest = remember { FocusRequester() }
