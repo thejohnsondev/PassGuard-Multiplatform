@@ -1,12 +1,12 @@
-package com.thejohnsondev.ui.model
+package com.thejohnsondev.uimodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
-import vaultmultiplatform.core.ui.generated.resources.pass
+import vaultmultiplatform.core.uimodel.generated.resources.Res
+import vaultmultiplatform.core.uimodel.generated.resources.pass
 
 data class Filter(
     val id: String,

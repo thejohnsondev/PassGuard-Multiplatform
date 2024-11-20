@@ -38,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.presentation.component.PasswordItem
-import com.thejohnsondev.presentation.component.getVaultItemTypeFilters
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ToggleButton
 import com.thejohnsondev.ui.components.filter.FilterGroup

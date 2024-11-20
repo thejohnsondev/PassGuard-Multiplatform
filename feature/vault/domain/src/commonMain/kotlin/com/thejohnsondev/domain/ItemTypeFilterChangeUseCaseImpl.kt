@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.ui.model.Filter
+import com.thejohnsondev.uimodel.Filter
 
 class ItemTypeFilterChangeUseCaseImpl : ItemTypeFilterChangeUseCase {
     override fun invoke(

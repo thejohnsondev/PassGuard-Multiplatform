@@ -50,6 +50,7 @@ kotlin {
 
             api(project(":core:model"))
             api(project(":core:common"))
+            implementation(project(":core:uimodel"))
 
             // Compose
             implementation(compose.runtime)

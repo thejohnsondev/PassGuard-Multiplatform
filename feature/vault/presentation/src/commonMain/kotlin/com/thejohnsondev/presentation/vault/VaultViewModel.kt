@@ -10,7 +10,7 @@ import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.presentation.component.getVaultItemTypeFilters
-import com.thejohnsondev.ui.model.Filter
+import com.thejohnsondev.uimodel.Filter
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class VaultViewModel(

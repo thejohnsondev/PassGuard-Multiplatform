@@ -33,8 +33,8 @@ import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.model.Filter
 import com.thejohnsondev.ui.utils.mapToColor
+import com.thejohnsondev.uimodel.Filter
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 

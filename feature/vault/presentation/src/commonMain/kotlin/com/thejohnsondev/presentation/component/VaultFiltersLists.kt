@@ -3,8 +3,8 @@ package com.thejohnsondev.presentation.component
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.StickyNote2
 import androidx.compose.material.icons.filled.CreditCard
-import com.thejohnsondev.ui.model.Filter
-import com.thejohnsondev.ui.model.FilterIcon
+import com.thejohnsondev.uimodel.Filter
+import com.thejohnsondev.uimodel.FilterIcon
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.all
 import vaultmultiplatform.feature.vault.presentation.generated.resources.bank_accounts
