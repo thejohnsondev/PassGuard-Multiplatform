@@ -3,7 +3,9 @@ package com.thejohnsondev.presentation.vault
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.components.SearchBar
@@ -52,6 +56,7 @@ import com.thejohnsondev.ui.designsystem.colorscheme.getAppLogo
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.bounceClick
+import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.vectorResource
@@ -172,19 +177,28 @@ fun Filters(
     onAction: (VaultViewModel.Action) -> Unit
 ) {
     AnimatedVisibility(visible = state.isFiltersOpened && !state.isSearching) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(bottom = Size16),
-            horizontalArrangement = Arrangement.Start
+                .wrapContentHeight(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
         ) {
             FilterGroup(
                 modifier = Modifier
                     .wrapContentWidth(),
                 filters = state.itemTypeFilters,
                 onFilterClick = { filter, isSelected ->
-                    onAction(VaultViewModel.Action.OnFilterClick(filter, isSelected))
+                    onAction(VaultViewModel.Action.OnFilterTypeClick(filter, isSelected))
+                }
+            )
+            FilterGroup(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(bottom = Size16),
+                filters = state.itemCategoryFilters,
+                onFilterClick = { filter, isSelected ->
+                    onAction(VaultViewModel.Action.OnFilterCategoryClick(filter, isSelected))
                 }
             )
         }

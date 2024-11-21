@@ -11,6 +11,9 @@ fun ColorScheme.isLight() = this.background.luminance() > 0.5
 val themeColorSuccessBackground = Color(0xFFC0E1B8)
 val themeColorSuccessForeground = Color(0xFF1E720A)
 val themeColorFavorite = Color(0xFFEAC612)
+val themeColorCategoryPersonalContent = Color(0xFF85F8A7)
+val themeColorCategoryFinanceContent = Color(0xFFF8F885)
+val themeColorCategoryOtherContent = Color(0xFFE7E7E7)
 
 val primaryLight = Color(0xFF09677F)
 val onPrimaryLight = Color(0xFFFFFFFF)

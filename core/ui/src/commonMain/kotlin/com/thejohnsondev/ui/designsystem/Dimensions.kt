@@ -19,6 +19,7 @@ val Size36 = 36.dp
 val Size40 = 40.dp
 val Size42 = 42.dp
 val Size48 = 48.dp
+val Size52 = 52.dp
 val Size56 = 56.dp
 val Size64 = 64.dp
 val Size68 = 68.dp

@@ -16,4 +16,9 @@
     <string name="passwords">Passwords</string>
     <string name="notes">Notes</string>
     <string name="bank_accounts">Bank Accounts</string>
+
+    <string name="personal">Personal</string>
+    <string name="work">Work</string>
+    <string name="finances">Finances</string>
+    <string name="other">Other</string>
 </resources>

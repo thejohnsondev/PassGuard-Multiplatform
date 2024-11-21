@@ -13,7 +13,6 @@ data class Filter(
     val nameResId: StringResource,
     val filterIcon: FilterIcon?,
     val contentColorResName: String,
-    val backgroundColorResName: String,
     val isSelected: Boolean = false
 ) {
     companion object {
@@ -26,7 +25,6 @@ data class Filter(
                 imageVector = Icons.Default.FilterList
             ),
             contentColorResName = "onPrimaryContainer",
-            backgroundColorResName = "primaryContainer",
             isSelected = true
         )
     }

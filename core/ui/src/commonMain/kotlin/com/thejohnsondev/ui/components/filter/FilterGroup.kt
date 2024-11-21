@@ -27,12 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import com.thejohnsondev.common.TOGGLE_ANIM_DURATION
+import com.thejohnsondev.ui.designsystem.Size10
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
-import com.thejohnsondev.ui.designsystem.Size56
+import com.thejohnsondev.ui.designsystem.Size52
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.mapToColor
 import com.thejohnsondev.uimodel.Filter
 import org.jetbrains.compose.resources.stringResource
@@ -46,7 +48,7 @@ fun FilterGroup(
 ) {
     LazyRow(
         modifier = modifier
-            .height(Size56),
+            .height(Size52),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -56,8 +58,8 @@ fun FilterGroup(
                     .padding(
                         start = if (filters.first() == filter) Size16 else Size8,
                         end = if (filters.last() == filter) Size16 else Size8,
-                        bottom = Size8,
-                        top = Size8
+                        bottom = Size4,
+                        top = Size4
                     ),
                 filter = filter
             ) { isSelected ->
@@ -83,12 +85,12 @@ fun Chip(
     val filterContainerColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (filter.isSelected) filter.contentColorResName.mapToColor() else filter.backgroundColorResName.mapToColor()
+        if (filter.isSelected) filter.contentColorResName.mapToColor() else filter.contentColorResName.mapToColor().darken()
     }
     val filterContentColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (filter.isSelected) filter.backgroundColorResName.mapToColor() else filter.contentColorResName.mapToColor()
+        if (filter.isSelected) filter.contentColorResName.mapToColor().darken() else filter.contentColorResName.mapToColor()
     }
     val filterChipHorizontalPadding by transition.animateDp({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
@@ -98,14 +100,14 @@ fun Chip(
     val filterChipVerticalPadding by transition.animateDp({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (filter.isSelected) Size12 else Size8
+        if (filter.isSelected) Size12 else Size10
     }
 
     Row(
         modifier = modifier
         .wrapContentHeight()
         .clip(CircleShape)
-            .background(filterContainerColor)
+        .background(filterContainerColor)
         .clickable {
             onClick(!filter.isSelected)
         },
