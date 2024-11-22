@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.domain.models.PasswordUIModel
+import com.thejohnsondev.uimodel.PasswordUIModel
 import com.thejohnsondev.model.vault.AdditionalFieldModel
 import kotlin.test.Test
 import kotlin.test.assertEquals

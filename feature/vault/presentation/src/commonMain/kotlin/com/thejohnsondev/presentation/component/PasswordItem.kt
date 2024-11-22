@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material.icons.filled.Visibility
@@ -48,6 +48,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -55,7 +56,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.common.utils.hidden
-import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.model.vault.AdditionalFieldModel
 import com.thejohnsondev.ui.components.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
@@ -71,11 +71,14 @@ import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
-import com.thejohnsondev.ui.designsystem.Size6
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.utils.bounceClick
+import com.thejohnsondev.ui.utils.darken
+import com.thejohnsondev.ui.utils.mapToColor
+import com.thejohnsondev.uimodel.PasswordUIModel
+import com.thejohnsondev.uimodel.getImageVector
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.created
@@ -203,21 +206,25 @@ fun PasswordItem(
                             showLoading = true
                         )
                     }
-                    Surface(
+                    Box(
                         modifier = Modifier
                             .size(Size22)
                             .align(Alignment.BottomEnd)
-                            .padding(top = Size4, start = Size4),
-                        shape = RoundedCornerShape(Size4),
-                        color = Color(0xff0a2f2c5)
+                            .padding(top = Size4, start = Size4)
+                            .clip(RoundedCornerShape(Size4))
+                            .background(item.category.contentColorResName.mapToColor().darken()),
                     ) {
-                        Icon(
-                            modifier = Modifier
-                                .size(Size6),
-                            imageVector = Icons.Default.Person,
-                            contentDescription = null,
-                            tint = Color(0xff46906B)
-                        )
+                        val icon = item.category.categoryIcon.getImageVector()
+                        icon?.let {
+                            Icon(
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(Size12),
+                                imageVector = icon,
+                                contentDescription = null,
+                                tint = item.category.contentColorResName.mapToColor()
+                            )
+                        }
                     }
                 }
                 Column {
@@ -279,25 +286,23 @@ fun PasswordItem(
             }
         }
 
-        ExpandableContent(
-                visible = isExpanded
-            ) {
-                ExpandedContent(
-                    passwordModel = item,
-                    contentColor = contentColor,
-                    onCopyClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onCopySensitiveClick(it)
-                    },
-                    onDeleteClick = {
-                        onDeleteClick(it)
-                    },
-                    onEditClick = {
-                        onEditClick(it)
-                    }
-                )
-            }
+        ExpandableContent(visible = isExpanded) {
+            ExpandedContent(
+                passwordModel = item,
+                contentColor = contentColor,
+                onCopyClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onCopySensitiveClick(it)
+                },
+                onDeleteClick = {
+                    onDeleteClick(it)
+                },
+                onEditClick = {
+                    onEditClick(it)
+                }
+            )
         }
+    }
 
 }
 

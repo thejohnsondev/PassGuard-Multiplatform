@@ -1,11 +1,11 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.Filter
+import com.thejohnsondev.uimodel.FilterUIModel
 
 interface ItemTypeFilterChangeUseCase {
     operator fun invoke(
-        filter: Filter,
+        filterUIModel: FilterUIModel,
         isSelected: Boolean,
-        filtersList: List<Filter>
-    ): List<Filter>
+        filtersList: List<FilterUIModel>
+    ): List<FilterUIModel>
 }

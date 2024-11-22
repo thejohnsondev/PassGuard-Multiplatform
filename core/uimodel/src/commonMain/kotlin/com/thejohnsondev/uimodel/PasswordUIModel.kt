@@ -1,7 +1,10 @@
-package com.thejohnsondev.domain.models
+package com.thejohnsondev.uimodel
 
 import com.thejohnsondev.model.vault.AdditionalFieldModel
-import com.thejohnsondev.model.vault.CategoryModel
+import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.othersFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.personalFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.workFilterUIModel
 
 data class PasswordUIModel(
     val id: String?,
@@ -14,7 +17,7 @@ data class PasswordUIModel(
     val modifiedTime: String?,
     val isFavorite: Boolean,
     val isExpanded: Boolean = false,
-    val category: CategoryModel,
+    val category: CategoryUIModel,
 ) {
     companion object {
         val testPasswordUIModel = PasswordUIModel(
@@ -30,12 +33,7 @@ data class PasswordUIModel(
             modifiedTime = "November 2 2024 20:01",
             createdTime = "November 1 2024 10:22",
             isFavorite = false,
-            category = CategoryModel(
-                id = "personal",
-                name = "Personal",
-                iconId = 1,
-                colorHex = "#FFFFFF"
-            )
+            category = personalFilterUIModel.mapToCategory()
         )
         val testPasswordItems = listOf(
             testPasswordUIModel.copy(
@@ -49,7 +47,8 @@ data class PasswordUIModel(
                 organizationLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png",
                 additionalFields = listOf(
                     AdditionalFieldModel.testAdditionalField
-                )
+                ),
+                category = workFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "3",
@@ -59,7 +58,8 @@ data class PasswordUIModel(
                 additionalFields = listOf(
                     AdditionalFieldModel.testAdditionalField,
                     AdditionalFieldModel.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2")
-                )
+                ),
+                category = workFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "4",
@@ -70,7 +70,8 @@ data class PasswordUIModel(
                     AdditionalFieldModel.testAdditionalField,
                     AdditionalFieldModel.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2"),
                     AdditionalFieldModel.testAdditionalField.copy(id = "3", title = "exampleField3", value = "exampleValue3"),
-                )
+                ),
+                category = workFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "5",
@@ -104,13 +105,15 @@ data class PasswordUIModel(
             testPasswordUIModel.copy(
                 id = "9",
                 title = "Example Title 9",
-                organization = "Example Organization 9"
+                organization = "Example Organization 9",
+                category = financeFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "10",
                 title = "Example Title 10",
                 organization = "Example Organization 10",
-                organizationLogo = "https://example.com/logo10.png"
+                organizationLogo = "https://example.com/logo10.png",
+                category = financeFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "11",
@@ -122,7 +125,8 @@ data class PasswordUIModel(
                 id = "12",
                 title = "Example Title 12",
                 organization = "Example Organization 12",
-                organizationLogo = "https://example.com/logo12.png"
+                organizationLogo = "https://example.com/logo12.png",
+                category = workFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "13",
@@ -139,7 +143,8 @@ data class PasswordUIModel(
                 id = "15",
                 title = "Example Title 15",
                 organization = "Example Organization 15",
-                isFavorite = true
+                isFavorite = true,
+                category = financeFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "16",
@@ -156,19 +161,22 @@ data class PasswordUIModel(
                 id = "18",
                 title = "Example Title 18",
                 organization = "Example Organization 18",
-                organizationLogo = "https://example.com/logo18.png"
+                organizationLogo = "https://example.com/logo18.png",
+                category = othersFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "19",
                 title = "Example Title 19",
                 organization = "Example Organization 19",
-                isFavorite = true
+                isFavorite = true,
+                category = othersFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "20",
                 title = "Example Title 20",
                 organization = "Example Organization 20",
-                organizationLogo = "https://example.com/logo20.png"
+                organizationLogo = "https://example.com/logo20.png",
+                category = othersFilterUIModel.mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "21",

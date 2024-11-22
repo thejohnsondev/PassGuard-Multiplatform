@@ -36,15 +36,15 @@ import com.thejohnsondev.ui.designsystem.Size52
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.mapToColor
-import com.thejohnsondev.uimodel.Filter
+import com.thejohnsondev.uimodel.FilterUIModel
+import com.thejohnsondev.uimodel.getImageVector
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun FilterGroup(
     modifier: Modifier = Modifier,
-    filters: List<Filter>,
-    onFilterClick: (Filter, Boolean) -> Unit
+    filters: List<FilterUIModel>,
+    onFilterClick: (FilterUIModel, Boolean) -> Unit
 ) {
     LazyRow(
         modifier = modifier
@@ -73,7 +73,7 @@ fun FilterGroup(
 @Composable
 fun Chip(
     modifier: Modifier = Modifier,
-    filter: Filter,
+    filter: FilterUIModel,
     onClick: (Boolean) -> Unit
 ) {
     val filterTransition = remember {
@@ -85,12 +85,14 @@ fun Chip(
     val filterContainerColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (filter.isSelected) filter.contentColorResName.mapToColor() else filter.contentColorResName.mapToColor().darken()
+        if (filter.isSelected) filter.contentColorResName.mapToColor() else filter.contentColorResName.mapToColor()
+            .darken()
     }
     val filterContentColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (filter.isSelected) filter.contentColorResName.mapToColor().darken() else filter.contentColorResName.mapToColor()
+        if (filter.isSelected) filter.contentColorResName.mapToColor()
+            .darken() else filter.contentColorResName.mapToColor()
     }
     val filterChipHorizontalPadding by transition.animateDp({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
@@ -114,8 +116,7 @@ fun Chip(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val icon = filter.filterIcon?.imageVector
-            ?: filter.filterIcon?.imageVectorResId?.let { vectorResource(it) }
+        val icon = filter.filterIcon.getImageVector()
         icon?.let {
             Icon(
                 modifier = Modifier.padding(

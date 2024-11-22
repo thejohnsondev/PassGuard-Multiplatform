@@ -7,11 +7,11 @@ import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
-import com.thejohnsondev.domain.models.PasswordUIModel
+import com.thejohnsondev.uimodel.PasswordUIModel
 import com.thejohnsondev.model.LoadingState
-import com.thejohnsondev.presentation.component.getVaultCategoryFilters
-import com.thejohnsondev.presentation.component.getVaultItemTypeFilters
-import com.thejohnsondev.uimodel.Filter
+import com.thejohnsondev.uimodel.FilterUIModel
+import com.thejohnsondev.uimodel.filterlists.getVaultCategoryFilters
+import com.thejohnsondev.uimodel.filterlists.getVaultItemTypeFilters
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class VaultViewModel(
@@ -71,12 +71,12 @@ class VaultViewModel(
         _passwordsList.emit(dividedItems)
     }
 
-    private fun onFilterTypeClick(filter: Filter, isSelected: Boolean) = launch {
+    private fun onFilterTypeClick(filter: FilterUIModel, isSelected: Boolean) = launch {
         val updatedFilters = itemTypeFilterChangeUseCase(filter, isSelected, _itemTypeFilters.value)
         _itemTypeFilters.emit(updatedFilters)
     }
 
-    private fun onFilterCategoryClick(filter: Filter, isSelected: Boolean) = launch {
+    private fun onFilterCategoryClick(filter: FilterUIModel, isSelected: Boolean) = launch {
         val updatedFilters = itemTypeFilterChangeUseCase(filter, isSelected, _itemCategoryFilters.value)
         _itemCategoryFilters.emit(updatedFilters)
     }
@@ -133,8 +133,8 @@ class VaultViewModel(
         data class ShowHideConfirmDelete(val deletePasswordPair: Pair<Boolean, PasswordUIModel?>) : Action()
         data class ToggleOpenItem(val isCompact: Boolean, val itemId: String?) : Action()
         data object ToggleIsFiltersOpened : Action()
-        data class OnFilterTypeClick(val filter: Filter, val isSelected: Boolean) : Action()
-        data class OnFilterCategoryClick(val filter: Filter, val isSelected: Boolean) : Action()
+        data class OnFilterTypeClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
+        data class OnFilterCategoryClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
     }
 
     data class State(
@@ -146,8 +146,8 @@ class VaultViewModel(
         val isDeepSearchEnabled: Boolean = false,
         val deletePasswordPair: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
         val listHeight: Int = 0,
-        val itemTypeFilters: List<Filter> = emptyList(),
-        val itemCategoryFilters: List<Filter> = emptyList()
+        val itemTypeFilters: List<FilterUIModel> = emptyList(),
+        val itemCategoryFilters: List<FilterUIModel> = emptyList()
     )
 
 }

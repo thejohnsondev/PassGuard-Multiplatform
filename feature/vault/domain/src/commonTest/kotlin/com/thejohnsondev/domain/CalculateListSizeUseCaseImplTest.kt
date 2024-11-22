@@ -3,7 +3,7 @@ package com.thejohnsondev.domain
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl.Companion.ADDITIONAL_FIELD_HEIGHT
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl.Companion.PASSWORD_EXPANDED_ITEM_HEIGHT
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl.Companion.PASSWORD_IDLE_ITEM_HEIGHT
-import com.thejohnsondev.domain.models.PasswordUIModel
+import com.thejohnsondev.uimodel.PasswordUIModel
 import com.thejohnsondev.model.vault.AdditionalFieldModel
 import kotlin.test.Test
 import kotlin.test.assertEquals

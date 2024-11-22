@@ -12,3 +12,19 @@ const val DESKTOP_WINDOW_MIN_WIDTH = 800
 const val DESKTOP_WINDOW_MIN_HEIGHT = 600
 const val DESKTOP_WINDOW_DEFAULT_WIDTH = 1080
 const val DESKTOP_WINDOW_DEFAULT_HEIGHT = 720
+
+const val COLOR_ID_onPrimaryContainer = "onPrimaryContainer"
+const val COLOR_ID_primaryContainer = "primaryContainer"
+const val COLOR_ID_themeColorCategoryPersonalContent = "themeColorCategoryPersonalContent"
+const val COLOR_ID_themeColorCategoryWorkContent = "themeColorCategoryWorkContent"
+const val COLOR_ID_themeColorCategoryFinanceContent = "themeColorCategoryFinanceContent"
+const val COLOR_ID_themeColorCategoryOtherContent = "themeColorCategoryOtherContent"
+
+const val VAULT_ITEM_CATEGORY_PERSONAL = "item_category_personal"
+const val VAULT_ITEM_CATEGORY_WORK = "item_category_work"
+const val VAULT_ITEM_CATEGORY_FINANCE = "item_category_finance"
+const val VAULT_ITEM_CATEGORY_OTHERS = "item_category_others"
+
+const val VAULT_ITEM_TYPE_PASSWORDS = "item_type_passwords"
+const val VAULT_ITEM_TYPE_NOTES = "item_type_notes"
+const val VAULT_ITEM_TYPE_BANK_ACCOUNTS = "item_type_bank_accounts"

@@ -1,7 +1,5 @@
 package com.thejohnsondev.model.vault
 
-import com.thejohnsondev.model.vault.CategoryModel.Companion.DEFAULT_CATEGORY_ID
-
 data class NoteDto(
     val title: String,
     val description: String,
@@ -10,5 +8,5 @@ data class NoteDto(
     override val createdTimeStamp: String? = null,
     override val modifiedTimeStamp: String? = null,
     override val isFavorite: Boolean = false, // Ignore on the server side
-    override val categoryId: String = DEFAULT_CATEGORY_ID,
+    override val categoryId: String,
 ): VaultItemDto

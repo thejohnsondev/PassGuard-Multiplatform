@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.domain.models.PasswordUIModel
+import com.thejohnsondev.uimodel.PasswordUIModel
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test

@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.Filter
+import com.thejohnsondev.uimodel.FilterUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -10,41 +10,41 @@ class ItemTypeFilterChangeUseCaseImplTest {
 
     @Test
     fun whenFilterIsSelectedItShouldBeUnselected() {
-        val filters = listOf(
-            Filter.testFilter.copy(id = "1", isSelected = true),
-            Filter.testFilter.copy(id = "2", isSelected = false)
+        val filterUIModels = listOf(
+            FilterUIModel.testFilterUIModel.copy(id = "1", isSelected = true),
+            FilterUIModel.testFilterUIModel.copy(id = "2", isSelected = false)
         )
-        val result = useCase.invoke(filters[0], false, filters)
+        val result = useCase.invoke(filterUIModels[0], false, filterUIModels)
         assertEquals(false, result.find { it.id == "1" }?.isSelected)
     }
 
     @Test
     fun whenFilterIsUnselectedItShouldBeSelected() {
-        val filters = listOf(
-            Filter.testFilter.copy(id = "1", isSelected = false),
-            Filter.testFilter.copy(id = "2", isSelected = false)
+        val filterUIModels = listOf(
+            FilterUIModel.testFilterUIModel.copy(id = "1", isSelected = false),
+            FilterUIModel.testFilterUIModel.copy(id = "2", isSelected = false)
         )
-        val result = useCase.invoke(filters[0], true, filters)
+        val result = useCase.invoke(filterUIModels[0], true, filterUIModels)
         assertEquals(true, result.find { it.id == "1" }?.isSelected)
     }
 
     @Test
     fun whenOtherFiltersAreUnselectedTheirStateShouldNotChange() {
-        val filters = listOf(
-            Filter.testFilter.copy(id = "1", isSelected = false),
-            Filter.testFilter.copy(id = "2", isSelected = false)
+        val filterUIModels = listOf(
+            FilterUIModel.testFilterUIModel.copy(id = "1", isSelected = false),
+            FilterUIModel.testFilterUIModel.copy(id = "2", isSelected = false)
         )
-        val result = useCase.invoke(filters[0], true, filters)
+        val result = useCase.invoke(filterUIModels[0], true, filterUIModels)
         assertEquals(false, result.find { it.id == "2" }?.isSelected)
     }
 
     @Test
     fun whenOtherFiltersAreSelectedTheirStateShouldNotChange() {
-        val filters = listOf(
-            Filter.testFilter.copy(id = "1", isSelected = false),
-            Filter.testFilter.copy(id = "2", isSelected = true)
+        val filterUIModels = listOf(
+            FilterUIModel.testFilterUIModel.copy(id = "1", isSelected = false),
+            FilterUIModel.testFilterUIModel.copy(id = "2", isSelected = true)
         )
-        val result = useCase.invoke(filters[0], true, filters)
+        val result = useCase.invoke(filterUIModels[0], true, filterUIModels)
         assertEquals(true, result.find { it.id == "2" }?.isSelected)
     }
 

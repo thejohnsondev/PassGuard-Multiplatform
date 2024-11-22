@@ -1,15 +1,15 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.Filter
+import com.thejohnsondev.uimodel.FilterUIModel
 
 class ItemTypeFilterChangeUseCaseImpl : ItemTypeFilterChangeUseCase {
     override fun invoke(
-        filter: Filter,
+        filterUIModel: FilterUIModel,
         isSelected: Boolean,
-        filtersList: List<Filter>
-    ): List<Filter> {
+        filtersList: List<FilterUIModel>
+    ): List<FilterUIModel> {
         return filtersList.map {
-            if (it.id == filter.id) {
+            if (it.id == filterUIModel.id) {
                 it.copy(isSelected = isSelected)
             } else {
                 it

@@ -12,6 +12,7 @@ val themeColorSuccessBackground = Color(0xFFC0E1B8)
 val themeColorSuccessForeground = Color(0xFF1E720A)
 val themeColorFavorite = Color(0xFFEAC612)
 val themeColorCategoryPersonalContent = Color(0xFF85F8A7)
+val themeColorCategoryWorkContent = Color(0xFF50e5f2)
 val themeColorCategoryFinanceContent = Color(0xFFF8F885)
 val themeColorCategoryOtherContent = Color(0xFFE7E7E7)
 

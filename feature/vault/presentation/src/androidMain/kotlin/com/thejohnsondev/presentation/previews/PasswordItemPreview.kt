@@ -2,11 +2,15 @@ package com.thejohnsondev.presentation.previews
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.thejohnsondev.domain.models.PasswordUIModel
 import com.thejohnsondev.model.vault.AdditionalFieldModel
-import com.thejohnsondev.model.vault.CategoryModel
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
+import com.thejohnsondev.uimodel.PasswordUIModel
+import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.othersFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.personalFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.workFilterUIModel
+import com.thejohnsondev.uimodel.mapToCategory
 
 @Composable
 @Preview
@@ -34,12 +38,7 @@ fun PasswordItemSimplePreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = CategoryModel(
-                    id = "personal",
-                    name = "Personal",
-                    iconId = 1,
-                    colorHex = "#FFFFFF"
-                )
+                category = othersFilterUIModel.mapToCategory()
             ),
             isReordering = false,
             onClick = {},
@@ -60,7 +59,7 @@ fun PasswordItemSimpleLongNamesPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = com.thejohnsondev.domain.models.PasswordUIModel(
+            item = PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1 Long Name",
                 organizationLogo = "https://example.com/logo1.png",
@@ -77,12 +76,7 @@ fun PasswordItemSimpleLongNamesPreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = CategoryModel(
-                    id = "personal",
-                    name = "Personal",
-                    iconId = 1,
-                    colorHex = "#FFFFFF"
-                )
+                category = financeFilterUIModel.mapToCategory()
             ),
             isReordering = false,
             onClick = {},
@@ -103,7 +97,7 @@ fun PasswordItemFavoritePreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = com.thejohnsondev.domain.models.PasswordUIModel(
+            item = PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
@@ -120,12 +114,7 @@ fun PasswordItemFavoritePreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = CategoryModel(
-                    id = "personal",
-                    name = "Personal",
-                    iconId = 1,
-                    colorHex = "#FFFFFF"
-                )
+                category = workFilterUIModel.mapToCategory()
             ),
             isFavorite = true,
             isReordering = false,
@@ -147,7 +136,7 @@ fun PasswordItemExpandedPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = com.thejohnsondev.domain.models.PasswordUIModel(
+            item = PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
@@ -164,12 +153,7 @@ fun PasswordItemExpandedPreview() {
                 modifiedTime = "November 2 2024 20:01",
                 createdTime = "November 1 2024 10:22",
                 isFavorite = false,
-                category = CategoryModel(
-                    id = "personal",
-                    name = "Personal",
-                    iconId = 1,
-                    colorHex = "#FFFFFF"
-                )
+                category = personalFilterUIModel.mapToCategory()
             ),
             isExpanded = true,
             isFavorite = true,
@@ -192,7 +176,7 @@ fun PasswordItemReorderingPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = com.thejohnsondev.domain.models.PasswordUIModel(
+            item = PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
@@ -209,12 +193,7 @@ fun PasswordItemReorderingPreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = CategoryModel(
-                    id = "personal",
-                    name = "Personal",
-                    iconId = 1,
-                    colorHex = "#FFFFFF"
-                )
+                category = personalFilterUIModel.mapToCategory()
             ),
             isExpanded = false,
             isFavorite = false,
@@ -237,7 +216,7 @@ fun PasswordItemDraggingPreview() {
         deviceThemeConfig = null
     ) {
         PasswordItem(
-            item = com.thejohnsondev.domain.models.PasswordUIModel(
+            item = PasswordUIModel(
                 id = "12345",
                 organization = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
@@ -254,12 +233,7 @@ fun PasswordItemDraggingPreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = CategoryModel(
-                    id = "personal",
-                    name = "Personal",
-                    iconId = 1,
-                    colorHex = "#FFFFFF"
-                )
+                category = personalFilterUIModel.mapToCategory()
             ),
             isExpanded = false,
             isFavorite = false,
