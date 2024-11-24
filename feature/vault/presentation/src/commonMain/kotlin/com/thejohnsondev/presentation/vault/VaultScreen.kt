@@ -102,20 +102,13 @@ fun VaultScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.surfaceContainerLowest
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            VaultItemsList(
-                windowSizeClass = windowSizeClass,
-                paddingValues = paddingValues,
-                lazyListState = lazyListState,
-                state = state.value,
-                onAction = viewModel::perform
-            )
-        }
+        VaultItemsList(
+            windowSizeClass = windowSizeClass,
+            paddingValues = paddingValues,
+            lazyListState = lazyListState,
+            state = state.value,
+            onAction = viewModel::perform
+        )
     }
 }
 
