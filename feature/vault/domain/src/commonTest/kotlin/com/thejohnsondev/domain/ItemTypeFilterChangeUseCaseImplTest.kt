@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.FilterUIModel
+import com.thejohnsondev.uimodel.models.FilterUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -48,4 +48,10 @@ class ItemTypeFilterChangeUseCaseImplTest {
         assertEquals(true, result.find { it.id == "2" }?.isSelected)
     }
 
+    @Test
+    fun whenFilterListIsEmptyItShouldReturnEmptyList() {
+        val filterUIModels = emptyList<FilterUIModel>()
+        val result = useCase.invoke(FilterUIModel.testFilterUIModel, true, filterUIModels)
+        assertEquals(0, result.size)
+    }
 }

@@ -2,15 +2,15 @@ package com.thejohnsondev.presentation.previews
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.thejohnsondev.model.vault.AdditionalFieldModel
+import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
-import com.thejohnsondev.uimodel.PasswordUIModel
+import com.thejohnsondev.uimodel.models.PasswordUIModel
 import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
 import com.thejohnsondev.uimodel.filterlists.othersFilterUIModel
 import com.thejohnsondev.uimodel.filterlists.personalFilterUIModel
 import com.thejohnsondev.uimodel.filterlists.workFilterUIModel
-import com.thejohnsondev.uimodel.mapToCategory
+import com.thejohnsondev.uimodel.mappers.mapToCategory
 
 @Composable
 @Preview
@@ -28,12 +28,12 @@ fun PasswordItemSimplePreview() {
                 title = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
-                    AdditionalFieldModel(
+                    AdditionalFieldDto(
                         id = "1",
                         title = "exampleField1",
                         value = "exampleValue1"
                     ),
-                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                    AdditionalFieldDto(id = "2", title = "exampleField2", value = "exampleValue2")
                 ),
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
@@ -66,12 +66,12 @@ fun PasswordItemSimpleLongNamesPreview() {
                 title = "Example Title 1 Long name Long name",
                 password = "examplePassword123",
                 additionalFields = listOf(
-                    AdditionalFieldModel(
+                    AdditionalFieldDto(
                         id = "1",
                         title = "exampleField1",
                         value = "exampleValue1"
                     ),
-                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                    AdditionalFieldDto(id = "2", title = "exampleField2", value = "exampleValue2")
                 ),
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
@@ -104,12 +104,12 @@ fun PasswordItemFavoritePreview() {
                 title = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
-                    AdditionalFieldModel(
+                    AdditionalFieldDto(
                         id = "1",
                         title = "exampleField1",
                         value = "exampleValue1"
                     ),
-                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                    AdditionalFieldDto(id = "2", title = "exampleField2", value = "exampleValue2")
                 ),
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
@@ -143,12 +143,12 @@ fun PasswordItemExpandedPreview() {
                 title = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
-                    AdditionalFieldModel(
+                    AdditionalFieldDto(
                         id = "1",
                         title = "exampleField1",
                         value = "exampleValue1"
                     ),
-                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                    AdditionalFieldDto(id = "2", title = "exampleField2", value = "exampleValue2")
                 ),
                 modifiedTime = "November 2 2024 20:01",
                 createdTime = "November 1 2024 10:22",
@@ -183,12 +183,12 @@ fun PasswordItemReorderingPreview() {
                 title = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
-                    AdditionalFieldModel(
+                    AdditionalFieldDto(
                         id = "1",
                         title = "exampleField1",
                         value = "exampleValue1"
                     ),
-                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                    AdditionalFieldDto(id = "2", title = "exampleField2", value = "exampleValue2")
                 ),
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
@@ -223,12 +223,12 @@ fun PasswordItemDraggingPreview() {
                 title = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
-                    AdditionalFieldModel(
+                    AdditionalFieldDto(
                         id = "1",
                         title = "exampleField1",
                         value = "exampleValue1"
                     ),
-                    AdditionalFieldModel(id = "2", title = "exampleField2", value = "exampleValue2")
+                    AdditionalFieldDto(id = "2", title = "exampleField2", value = "exampleValue2")
                 ),
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",

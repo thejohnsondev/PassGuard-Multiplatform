@@ -71,7 +71,7 @@ fun WelcomeScreen(
     goToSignUp: () -> Unit,
     goToLogin: () -> Unit
 ) {
-
+    // TODO apply system insets
     WelcomeContent(
         windowSize = windowSize,
         goToSignUp = goToSignUp,

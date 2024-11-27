@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.FilterUIModel
+import com.thejohnsondev.uimodel.models.FilterUIModel
 
 interface ItemTypeFilterChangeUseCase {
     operator fun invoke(

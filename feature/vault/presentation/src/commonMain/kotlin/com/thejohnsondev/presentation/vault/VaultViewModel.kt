@@ -4,17 +4,24 @@ import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
+import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
-import com.thejohnsondev.uimodel.PasswordUIModel
 import com.thejohnsondev.model.LoadingState
-import com.thejohnsondev.uimodel.FilterUIModel
+import com.thejohnsondev.model.vault.AdditionalFieldDto
+import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
 import com.thejohnsondev.uimodel.filterlists.getVaultCategoryFilters
 import com.thejohnsondev.uimodel.filterlists.getVaultItemTypeFilters
+import com.thejohnsondev.uimodel.mappers.mapToCategory
+import com.thejohnsondev.uimodel.models.FilterUIModel
+import com.thejohnsondev.uimodel.models.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class VaultViewModel(
+    private val passwordsService: PasswordsService,
     private val toggleOpenedItemUseCase: ToggleOpenedItemUseCase,
     private val calculateListSizeUseCase: CalculateListSizeUseCase,
     private val splitItemsListUseCase: SplitItemsListUseCase,
@@ -59,25 +66,63 @@ class VaultViewModel(
             is Action.ToggleIsFiltersOpened -> toggleFiltersOpened()
             is Action.OnFilterTypeClick -> onFilterTypeClick(action.filter, action.isSelected)
             is Action.OnFilterCategoryClick -> onFilterCategoryClick(action.filter, action.isSelected)
+            is Action.OnAddClick -> onAddClick()
+            is Action.OnDeletePasswordClick -> onDeletePasswordClick(action.passwordId)
         }
     }
 
+    private fun onDeletePasswordClick(passwordId: String) = launch {
+        passwordsService.deletePassword(passwordId)
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun onAddClick() = launch {
+        passwordsService.createOrUpdatePassword(
+            PasswordUIModel(
+                id = Uuid.random().toString(),
+                title = "Account ${Uuid.random()}",
+                organization = "Organization ${Uuid.random()}",
+                password = Uuid.random().toString(),
+                createdTime = "November 1 2024 10:22",
+                modifiedTime = "November 2 2024 20:01",
+                isFavorite = false,
+                category = financeFilterUIModel.mapToCategory(),
+                additionalFields = listOf(
+                    AdditionalFieldDto(
+                        id = Uuid.random().toString(),
+                        title = "Field ${Uuid.random()}",
+                        value = "Value ${Uuid.random()}"
+                    ),
+                    AdditionalFieldDto(
+                        id = Uuid.random().toString(),
+                        title = "Field ${Uuid.random()}",
+                        value = "Value ${Uuid.random()}"
+                    )
+                ),
+            )
+        )
+    }
+
     private fun fetchVault(isCompact: Boolean) = launch {
-        val items = PasswordUIModel.testPasswordItems
-        _allPasswordsList.emit(items)
-        val dividedItems = splitItemsListUseCase(isCompact, items)
-        val itemsHeight = calculateListSizeUseCase(dividedItems)
-        _listHeight.emit(itemsHeight)
-        _passwordsList.emit(dividedItems)
+        passwordsService.getUserPasswords().collect { items ->
+//            val items = PasswordUIModel.testPasswordItems
+            _allPasswordsList.emit(items)
+            val dividedItems = splitItemsListUseCase(isCompact, items)
+            val itemsHeight = calculateListSizeUseCase(dividedItems)
+            _listHeight.emit(itemsHeight)
+            _passwordsList.emit(dividedItems)
+        }
     }
 
     private fun onFilterTypeClick(filter: FilterUIModel, isSelected: Boolean) = launch {
         val updatedFilters = itemTypeFilterChangeUseCase(filter, isSelected, _itemTypeFilters.value)
+        // todo filter list
         _itemTypeFilters.emit(updatedFilters)
     }
 
     private fun onFilterCategoryClick(filter: FilterUIModel, isSelected: Boolean) = launch {
         val updatedFilters = itemTypeFilterChangeUseCase(filter, isSelected, _itemCategoryFilters.value)
+        // todo filter list
         _itemCategoryFilters.emit(updatedFilters)
     }
 
@@ -135,9 +180,12 @@ class VaultViewModel(
         data object ToggleIsFiltersOpened : Action()
         data class OnFilterTypeClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
         data class OnFilterCategoryClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
+        data object OnAddClick : Action()
+        data class OnDeletePasswordClick(val passwordId: String) : Action()
     }
 
     data class State(
+        // todo add screen state (LoadingState, ErrorState, DisplayContent), when Loading -> add skeleton loading
         val loadingState: LoadingState = LoadingState.Loaded,
         val passwordsList: List<List<PasswordUIModel>> = listOf(emptyList()),
         val isSearching: Boolean = false,

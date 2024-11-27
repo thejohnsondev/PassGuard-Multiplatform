@@ -1,4 +1,4 @@
-package com.thejohnsondev.uimodel
+package com.thejohnsondev.uimodel.models
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList

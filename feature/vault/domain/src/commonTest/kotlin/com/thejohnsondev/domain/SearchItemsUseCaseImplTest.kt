@@ -1,7 +1,7 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.PasswordUIModel
-import com.thejohnsondev.model.vault.AdditionalFieldModel
+import com.thejohnsondev.uimodel.models.PasswordUIModel
+import com.thejohnsondev.model.vault.AdditionalFieldDto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -62,7 +62,7 @@ class SearchItemsUseCaseImplTest {
                 organization = "Org1",
                 password = "pass1",
                 additionalFields = listOf(
-                    AdditionalFieldModel(id = "1", title = "Field1", value = "Value1")
+                    AdditionalFieldDto(id = "1", title = "Field1", value = "Value1")
                 )
             ),
             PasswordUIModel.testPasswordUIModel.copy(
@@ -71,7 +71,7 @@ class SearchItemsUseCaseImplTest {
                 organization = "Org2",
                 password = "pass2",
                 additionalFields = listOf(
-                    AdditionalFieldModel(id = "2", title = "Field2", value = "Value2")
+                    AdditionalFieldDto(id = "2", title = "Field2", value = "Value2")
                 )
             )
         )

@@ -61,6 +61,8 @@ kotlin {
             api(project(":core:ui"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
+            api(project(":feature:vault:data"))
+            api(project(":feature:vault:domain"))
             api(project(":feature:vault:presentation"))
             api(project(":feature:tools:presentation"))
             api(project(":feature:settings:presentation"))

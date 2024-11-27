@@ -89,7 +89,8 @@ fun VaultScreen(
                 fabTitle = getString(Res.string.add),
                 fabIcon = Icons.Default.Add,
                 onFabClick = {
-                    // TODO handle this
+                    // for testing
+                    viewModel.perform(VaultViewModel.Action.OnAddClick)
                 },
                 isFabExpanded = expandedFab,
                 snackBarHostState = snackBarHostState,
@@ -226,27 +227,37 @@ fun VaultItemsList(
             item {
                 Filters(state, onAction)
             }
-            items(state.passwordsList.first()) { passwordModel ->
-                PasswordItem(
-                    modifier = Modifier
-                        .animateItem(),
-                    item = passwordModel,
-                    onClick = {
-                        onAction(
-                            VaultViewModel.Action.ToggleOpenItem(
-                                windowSizeClass.isCompact(),
-                                passwordModel.id
+            if (state.passwordsList.isEmpty()) {
+                // todo add placeholder screen
+            } else {
+                items(state.passwordsList.first()) { passwordModel ->
+                    PasswordItem(
+                        modifier = Modifier
+                            .animateItem(),
+                        item = passwordModel,
+                        onClick = {
+                            onAction(
+                                VaultViewModel.Action.ToggleOpenItem(
+                                    windowSizeClass.isCompact(),
+                                    passwordModel.id
+                                )
                             )
-                        )
-                    },
-                    isExpanded = passwordModel.isExpanded,
-                    onDeleteClick = {},
-                    onCopyClick = {},
-                    onEditClick = {},
-                    onCopySensitiveClick = {},
-                    onFavoriteClick = {},
-                    isFavorite = passwordModel.isFavorite
-                )
+                        },
+                        isExpanded = passwordModel.isExpanded,
+                        onDeleteClick = {
+                            onAction(
+                                VaultViewModel.Action.OnDeletePasswordClick(
+                                    passwordModel.id
+                                )
+                            )
+                        },
+                        onCopyClick = {},
+                        onEditClick = {},
+                        onCopySensitiveClick = {},
+                        onFavoriteClick = {},
+                        isFavorite = passwordModel.isFavorite
+                    )
+                }
             }
             item {
                 Spacer(modifier = Modifier.height(bottomPadding))
@@ -275,67 +286,83 @@ fun VaultItemsList(
             item {
                 Filters(state, onAction)
             }
-            item {
-                Row {
-                    LazyColumn(
-                        modifier = Modifier
-                            .weight(Percent50)
-                            .height(finalListHeight)
-                            .padding(bottom = bottomPadding),
-                        userScrollEnabled = false
-                    ) {
-                        items(state.passwordsList.first()) { passwordModel ->
-                            PasswordItem(
-                                modifier = Modifier
-                                    .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
-                                item = passwordModel,
-                                onClick = {
-                                    onAction(
-                                        VaultViewModel.Action.ToggleOpenItem(
-                                            windowSizeClass.isCompact(),
-                                            passwordModel.id
+            if (state.passwordsList.isEmpty()) {
+                // todo add placeholder screen
+            } else {
+                item {
+                    Row {
+                        LazyColumn(
+                            modifier = Modifier
+                                .weight(Percent50)
+                                .height(finalListHeight)
+                                .padding(bottom = bottomPadding),
+                            userScrollEnabled = false
+                        ) {
+                            items(state.passwordsList.first()) { passwordModel ->
+                                PasswordItem(
+                                    modifier = Modifier
+                                        .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
+                                    item = passwordModel,
+                                    onClick = {
+                                        onAction(
+                                            VaultViewModel.Action.ToggleOpenItem(
+                                                windowSizeClass.isCompact(),
+                                                passwordModel.id
+                                            )
                                         )
-                                    )
-                                },
-                                isExpanded = passwordModel.isExpanded,
-                                onDeleteClick = {},
-                                onCopyClick = {},
-                                onEditClick = {},
-                                onCopySensitiveClick = {},
-                                onFavoriteClick = {},
-                                isFavorite = passwordModel.isFavorite
-                            )
+                                    },
+                                    isExpanded = passwordModel.isExpanded,
+                                    onDeleteClick = {
+                                        onAction(
+                                            VaultViewModel.Action.OnDeletePasswordClick(
+                                                passwordModel.id
+                                            )
+                                        )
+                                    },
+                                    onCopyClick = {},
+                                    onEditClick = {},
+                                    onCopySensitiveClick = {},
+                                    onFavoriteClick = {},
+                                    isFavorite = passwordModel.isFavorite
+                                )
+                            }
                         }
-                    }
 
-                    LazyColumn(
-                        modifier = Modifier
-                            .weight(Percent50)
-                            .height(finalListHeight)
-                            .padding(bottom = bottomPadding),
-                        userScrollEnabled = false
-                    ) {
-                        items(state.passwordsList.last()) { passwordModel ->
-                            PasswordItem(
-                                modifier = Modifier
-                                    .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
-                                item = passwordModel,
-                                onClick = {
-                                    onAction(
-                                        VaultViewModel.Action.ToggleOpenItem(
-                                            windowSizeClass.isCompact(),
-                                            passwordModel.id
+                        LazyColumn(
+                            modifier = Modifier
+                                .weight(Percent50)
+                                .height(finalListHeight)
+                                .padding(bottom = bottomPadding),
+                            userScrollEnabled = false
+                        ) {
+                            items(state.passwordsList.last()) { passwordModel ->
+                                PasswordItem(
+                                    modifier = Modifier
+                                        .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
+                                    item = passwordModel,
+                                    onClick = {
+                                        onAction(
+                                            VaultViewModel.Action.ToggleOpenItem(
+                                                windowSizeClass.isCompact(),
+                                                passwordModel.id
+                                            )
                                         )
-                                    )
-                                },
-                                isExpanded = passwordModel.isExpanded,
-                                onDeleteClick = {},
-                                onCopyClick = {},
-                                onEditClick = {},
-                                onCopySensitiveClick = {},
-                                onFavoriteClick = {},
-                                isFavorite = passwordModel.isFavorite
-                            )
+                                    },
+                                    isExpanded = passwordModel.isExpanded,
+                                    onDeleteClick = {
+                                        onAction(
+                                            VaultViewModel.Action.OnDeletePasswordClick(
+                                                passwordModel.id
+                                            )
+                                        )
+                                    },
+                                    onCopyClick = {},
+                                    onEditClick = {},
+                                    onCopySensitiveClick = {},
+                                    onFavoriteClick = {},
+                                    isFavorite = passwordModel.isFavorite
+                                )
+                            }
                         }
                     }
                 }

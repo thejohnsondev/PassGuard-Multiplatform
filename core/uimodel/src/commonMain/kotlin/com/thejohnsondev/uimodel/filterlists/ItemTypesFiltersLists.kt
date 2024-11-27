@@ -7,8 +7,8 @@ import com.thejohnsondev.common.COLOR_ID_onPrimaryContainer
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_BANK_ACCOUNTS
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_NOTES
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_PASSWORDS
-import com.thejohnsondev.uimodel.FilterUIModel
-import com.thejohnsondev.uimodel.FilterIcon
+import com.thejohnsondev.uimodel.models.FilterIcon
+import com.thejohnsondev.uimodel.models.FilterUIModel
 import vaultmultiplatform.core.uimodel.generated.resources.Res
 import vaultmultiplatform.core.uimodel.generated.resources.bank_accounts
 import vaultmultiplatform.core.uimodel.generated.resources.ic_password

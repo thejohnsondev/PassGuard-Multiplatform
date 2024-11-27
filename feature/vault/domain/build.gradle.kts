@@ -37,6 +37,7 @@ kotlin {
             api(project(":core:ui"))
             api(project(":core:uimodel"))
             implementation(project(":feature:auth:data"))
+            implementation(project(":feature:vault:data"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 

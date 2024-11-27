@@ -4,6 +4,8 @@ import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCaseImpl
+import com.thejohnsondev.domain.PasswordsService
+import com.thejohnsondev.domain.PasswordsServiceImpl
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SearchItemsUseCaseImpl
 import com.thejohnsondev.domain.SplitItemsListUseCase
@@ -20,4 +22,5 @@ val vaultDomainModule = module {
     singleOf(::SplitItemsListUseCaseImpl) { bind<SplitItemsListUseCase>() }
     singleOf(::SearchItemsUseCaseImpl) { bind<SearchItemsUseCase>() }
     singleOf(::ItemTypeFilterChangeUseCaseImpl) { bind<ItemTypeFilterChangeUseCase>() }
+    singleOf(::PasswordsServiceImpl) { bind<PasswordsService>() }
 }

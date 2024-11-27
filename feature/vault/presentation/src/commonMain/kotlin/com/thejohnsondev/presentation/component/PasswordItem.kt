@@ -56,7 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.common.utils.hidden
-import com.thejohnsondev.model.vault.AdditionalFieldModel
+import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.ui.components.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.RoundedButton
@@ -77,8 +77,8 @@ import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.mapToColor
-import com.thejohnsondev.uimodel.PasswordUIModel
-import com.thejohnsondev.uimodel.getImageVector
+import com.thejohnsondev.uimodel.models.PasswordUIModel
+import com.thejohnsondev.uimodel.models.getImageVector
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.created
@@ -493,7 +493,7 @@ fun ExpandedContent(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AdditionalFieldItem(
-    additionalField: AdditionalFieldModel,
+    additionalField: AdditionalFieldDto,
     onLongClick: (String) -> Unit
 ) {
     var isHidden by remember {

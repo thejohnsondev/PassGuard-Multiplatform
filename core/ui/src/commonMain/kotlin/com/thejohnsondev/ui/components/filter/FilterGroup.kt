@@ -36,8 +36,8 @@ import com.thejohnsondev.ui.designsystem.Size52
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.mapToColor
-import com.thejohnsondev.uimodel.FilterUIModel
-import com.thejohnsondev.uimodel.getImageVector
+import com.thejohnsondev.uimodel.models.FilterUIModel
+import com.thejohnsondev.uimodel.models.getImageVector
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

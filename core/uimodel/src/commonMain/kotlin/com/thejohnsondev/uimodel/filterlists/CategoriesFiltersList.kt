@@ -13,8 +13,8 @@ import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_FINANCE
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_OTHERS
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
-import com.thejohnsondev.uimodel.FilterIcon
-import com.thejohnsondev.uimodel.FilterUIModel
+import com.thejohnsondev.uimodel.models.FilterIcon
+import com.thejohnsondev.uimodel.models.FilterUIModel
 import vaultmultiplatform.core.uimodel.generated.resources.Res
 import vaultmultiplatform.core.uimodel.generated.resources.finances
 import vaultmultiplatform.core.uimodel.generated.resources.other

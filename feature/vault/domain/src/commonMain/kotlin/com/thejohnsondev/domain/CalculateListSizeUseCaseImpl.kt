@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.PasswordUIModel
+import com.thejohnsondev.uimodel.models.PasswordUIModel
 
 class CalculateListSizeUseCaseImpl : CalculateListSizeUseCase {
 
@@ -11,6 +11,7 @@ class CalculateListSizeUseCaseImpl : CalculateListSizeUseCase {
     }
 
     override fun invoke(list: List<List<PasswordUIModel>>): Int {
+        if (list.isEmpty()) return 0
         if (list.size == 1) {
             val firstList = list.first()
             val expandedItem = firstList.firstOrNull { it.isExpanded }

@@ -3,8 +3,8 @@ package com.thejohnsondev.domain
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl.Companion.ADDITIONAL_FIELD_HEIGHT
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl.Companion.PASSWORD_EXPANDED_ITEM_HEIGHT
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl.Companion.PASSWORD_IDLE_ITEM_HEIGHT
-import com.thejohnsondev.uimodel.PasswordUIModel
-import com.thejohnsondev.model.vault.AdditionalFieldModel
+import com.thejohnsondev.uimodel.models.PasswordUIModel
+import com.thejohnsondev.model.vault.AdditionalFieldDto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -81,7 +81,7 @@ class CalculateListSizeUseCaseImplTest {
             listOf(
                 PasswordUIModel.testPasswordUIModel.copy(
                     id = "1", isExpanded = true, additionalFields = listOf(
-                        AdditionalFieldModel.testAdditionalField
+                        AdditionalFieldDto.testAdditionalField
                     )
                 )
             )
@@ -98,8 +98,8 @@ class CalculateListSizeUseCaseImplTest {
             listOf(
                 PasswordUIModel.testPasswordUIModel.copy(
                     id = "1", isExpanded = true, additionalFields = listOf(
-                        AdditionalFieldModel.testAdditionalField,
-                        AdditionalFieldModel.testAdditionalField.copy(id = "2")
+                        AdditionalFieldDto.testAdditionalField,
+                        AdditionalFieldDto.testAdditionalField.copy(id = "2")
                     )
                 )
             )
@@ -116,8 +116,8 @@ class CalculateListSizeUseCaseImplTest {
             listOf(
                 PasswordUIModel.testPasswordUIModel.copy(
                     id = "1", isExpanded = true, additionalFields = listOf(
-                        AdditionalFieldModel.testAdditionalField,
-                        AdditionalFieldModel.testAdditionalField.copy(id = "2")
+                        AdditionalFieldDto.testAdditionalField,
+                        AdditionalFieldDto.testAdditionalField.copy(id = "2")
                     )
                 ),
                 PasswordUIModel.testPasswordUIModel.copy(id = "2", isExpanded = false),
@@ -135,7 +135,7 @@ class CalculateListSizeUseCaseImplTest {
             listOf(
                 PasswordUIModel.testPasswordUIModel.copy(
                     id = "1", isExpanded = false, additionalFields = listOf(
-                        AdditionalFieldModel.testAdditionalField
+                        AdditionalFieldDto.testAdditionalField
                     )
                 ),
                 PasswordUIModel.testPasswordUIModel.copy(id = "2", isExpanded = false),
@@ -143,8 +143,8 @@ class CalculateListSizeUseCaseImplTest {
             listOf(
                 PasswordUIModel.testPasswordUIModel.copy(
                     id = "3", isExpanded = true, additionalFields = listOf(
-                        AdditionalFieldModel.testAdditionalField,
-                        AdditionalFieldModel.testAdditionalField.copy(id = "2")
+                        AdditionalFieldDto.testAdditionalField,
+                        AdditionalFieldDto.testAdditionalField.copy(id = "2")
                     )
                 ),
                 PasswordUIModel.testPasswordUIModel.copy(id = "4", isExpanded = false),
@@ -162,7 +162,7 @@ class CalculateListSizeUseCaseImplTest {
             listOf(
                 PasswordUIModel.testPasswordUIModel.copy(
                     id = "1", isExpanded = true, additionalFields = listOf(
-                        AdditionalFieldModel.testAdditionalField
+                        AdditionalFieldDto.testAdditionalField
                     )
                 ),
                 PasswordUIModel.testPasswordUIModel.copy(id = "2", isExpanded = false),
@@ -170,8 +170,8 @@ class CalculateListSizeUseCaseImplTest {
             listOf(
                 PasswordUIModel.testPasswordUIModel.copy(
                     id = "3", isExpanded = true, additionalFields = listOf(
-                        AdditionalFieldModel.testAdditionalField,
-                        AdditionalFieldModel.testAdditionalField.copy(id = "2")
+                        AdditionalFieldDto.testAdditionalField,
+                        AdditionalFieldDto.testAdditionalField.copy(id = "2")
                     )
                 ),
                 PasswordUIModel.testPasswordUIModel.copy(id = "4", isExpanded = false),
@@ -180,6 +180,14 @@ class CalculateListSizeUseCaseImplTest {
         val result = useCase.invoke(list)
         val expectedHeight =
             PASSWORD_IDLE_ITEM_HEIGHT + ((PASSWORD_IDLE_ITEM_HEIGHT + PASSWORD_EXPANDED_ITEM_HEIGHT) + (ADDITIONAL_FIELD_HEIGHT * 2))
+        assertEquals(expectedHeight, result)
+    }
+
+    @Test
+    fun testReturnsCorrectSizeWhenListIsEmpty() {
+        val list = emptyList<List<PasswordUIModel>>()
+        val result = useCase.invoke(list)
+        val expectedHeight = 0
         assertEquals(expectedHeight, result)
     }
 }

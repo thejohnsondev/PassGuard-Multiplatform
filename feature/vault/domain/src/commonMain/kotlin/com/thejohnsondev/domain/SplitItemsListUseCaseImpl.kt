@@ -1,12 +1,13 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.PasswordUIModel
+import com.thejohnsondev.uimodel.models.PasswordUIModel
 
 class SplitItemsListUseCaseImpl : SplitItemsListUseCase {
     override fun invoke(
         isCompactScreen: Boolean,
         list: List<PasswordUIModel>
     ): List<List<PasswordUIModel>> {
+        if (list.isEmpty()) return emptyList()
         return if (isCompactScreen) {
             listOf(list)
         } else {

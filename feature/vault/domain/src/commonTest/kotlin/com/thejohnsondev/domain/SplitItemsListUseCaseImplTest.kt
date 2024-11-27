@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.PasswordUIModel
+import com.thejohnsondev.uimodel.models.PasswordUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
