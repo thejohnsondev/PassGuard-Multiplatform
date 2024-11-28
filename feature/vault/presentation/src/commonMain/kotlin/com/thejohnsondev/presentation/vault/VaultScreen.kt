@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.components.SearchBar
@@ -49,14 +51,18 @@ import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size68
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.getAppLogo
+import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.add
+import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault
+import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault_get_started
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
 @Composable
@@ -204,32 +210,33 @@ fun VaultItemsList(
 ) {
     val topPadding = paddingValues.calculateTopPadding()
     val bottomPadding = paddingValues.calculateBottomPadding().plus(Size68)
-    if (windowSizeClass.isCompact()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            state = lazyListState
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(topPadding))
-            }
-            item {
-                SearchBarRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = Size16, end = Size16, top = Size8, bottom = Size16),
-                    state = state,
-                    windowSizeClass = windowSizeClass,
-                    isDeepSearchEnabled = state.isDeepSearchEnabled,
-                    onAction = onAction
-                )
-            }
-            item {
-                Filters(state, onAction)
-            }
-            if (state.passwordsList.isEmpty()) {
-                // todo add placeholder screen
-            } else {
+    if (state.passwordsList.isEmpty()) {
+        EmptyListPlaceholder()
+    } else {
+        if (windowSizeClass.isCompact()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                state = lazyListState
+            ) {
+                item {
+                    Spacer(modifier = Modifier.height(topPadding))
+                }
+                item {
+                    SearchBarRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = Size16, end = Size16, top = Size8, bottom = Size16),
+                        state = state,
+                        windowSizeClass = windowSizeClass,
+                        isDeepSearchEnabled = state.isDeepSearchEnabled,
+                        onAction = onAction
+                    )
+                }
+                item {
+                    Filters(state, onAction)
+                }
+
                 items(state.passwordsList.first()) { passwordModel ->
                     PasswordItem(
                         modifier = Modifier
@@ -258,37 +265,37 @@ fun VaultItemsList(
                         isFavorite = passwordModel.isFavorite
                     )
                 }
-            }
-            item {
-                Spacer(modifier = Modifier.height(bottomPadding))
-            }
-        }
-    } else {
 
-        val finalListHeight = state.listHeight.dp.plus(bottomPadding)
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            state = lazyListState
-        ) {
-            item {
-                SearchBarRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = Size16, end = Size16, top = topPadding.plus(Size8), bottom = Size16),
-                    state = state,
-                    windowSizeClass = windowSizeClass,
-                    isDeepSearchEnabled = state.isDeepSearchEnabled,
-                    onAction = onAction
-                )
+                item {
+                    Spacer(modifier = Modifier.height(bottomPadding))
+                }
             }
-            item {
-                Filters(state, onAction)
-            }
-            if (state.passwordsList.isEmpty()) {
-                // todo add placeholder screen
-            } else {
+        } else {
+            val finalListHeight = state.listHeight.dp.plus(bottomPadding)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                state = lazyListState
+            ) {
+                item {
+                    SearchBarRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = Size16,
+                                end = Size16,
+                                top = topPadding.plus(Size8),
+                                bottom = Size16
+                            ),
+                        state = state,
+                        windowSizeClass = windowSizeClass,
+                        isDeepSearchEnabled = state.isDeepSearchEnabled,
+                        onAction = onAction
+                    )
+                }
+                item {
+                    Filters(state, onAction)
+                }
                 item {
                     Row {
                         LazyColumn(
@@ -368,5 +375,30 @@ fun VaultItemsList(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun EmptyListPlaceholder() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = stringResource(Res.string.empty_vault),
+            style = MaterialTheme.typography.headlineSmall,
+            fontFamily = getGlobalFontFamily(),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            modifier = Modifier
+                .padding(top = Size8),
+            text = stringResource(Res.string.empty_vault_get_started),
+            style = MaterialTheme.typography.bodyMedium,
+            fontFamily = getGlobalFontFamily(),
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }

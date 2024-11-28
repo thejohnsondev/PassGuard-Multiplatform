@@ -11,4 +11,7 @@
 
     <string name="filters">Filters</string>
     <string name="more">More</string>
+
+    <string name="empty_vault">Your vault is empty</string>
+    <string name="empty_vault_get_started">Get started by creating you first record</string>
 </resources>
