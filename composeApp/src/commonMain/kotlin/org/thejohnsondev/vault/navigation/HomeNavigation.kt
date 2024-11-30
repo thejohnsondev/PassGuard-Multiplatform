@@ -70,6 +70,9 @@ fun HomeNavigation(
                     paddingValues = paddingValues,
                     setScaffoldConfig = {
                         scaffoldState.value = it
+                    },
+                    updateIsEmptyVault = {
+                        scaffoldState.value = scaffoldState.value.copy(isEmptyVaultScreen = it)
                     }
                 )
                 toolsScreen(

@@ -43,11 +43,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
+import com.thejohnsondev.ui.components.CardWithAnimatedBorder
 import com.thejohnsondev.ui.components.VaultLogo
+import com.thejohnsondev.ui.components.getDefaultAnimatedBorderColors
 import com.thejohnsondev.ui.designsystem.DrawerWidth
 import com.thejohnsondev.ui.designsystem.RailWidth
 import com.thejohnsondev.ui.designsystem.Size12
@@ -132,27 +133,15 @@ fun HomeScaffold(
 
     }, floatingActionButton = {
         if (scaffoldState.value.isFabVisible) {
-            ExtendedFloatingActionButton(
-                modifier = Modifier.bounceClick(),
-                onClick = {
-                    scaffoldState.value.onFabClick()
-                },
-                expanded = scaffoldState.value.isFabExpanded,
-                icon = {
-                    scaffoldState.value.fabIcon?.let {
-                        Icon(
-                            imageVector = it, contentDescription = scaffoldState.value.fabTitle
-                        )
-                    }
-                },
-                text = {
-                    scaffoldState.value.fabTitle?.let {
-                        Text(text = it)
-                    }
-                },
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
+            if (scaffoldState.value.isEmptyVaultScreen) {
+                CardWithAnimatedBorder(
+                    borderColors = getDefaultAnimatedBorderColors()
+                ) {
+                    FloatingActionButton(scaffoldState)
+                }
+            } else {
+                FloatingActionButton(scaffoldState)
+            }
         }
     }, floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
@@ -324,4 +313,31 @@ fun HomeScaffold(
             }
         }
     }
+}
+
+@Composable
+fun FloatingActionButton(
+    scaffoldState: State<ScaffoldConfig>
+) {
+    ExtendedFloatingActionButton(
+        modifier = Modifier.bounceClick(),
+        onClick = {
+            scaffoldState.value.onFabClick()
+        },
+        expanded = scaffoldState.value.isFabExpanded,
+        icon = {
+            scaffoldState.value.fabIcon?.let {
+                Icon(
+                    imageVector = it, contentDescription = scaffoldState.value.fabTitle
+                )
+            }
+        },
+        text = {
+            scaffoldState.value.fabTitle?.let {
+                Text(text = it)
+            }
+        },
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+    )
 }

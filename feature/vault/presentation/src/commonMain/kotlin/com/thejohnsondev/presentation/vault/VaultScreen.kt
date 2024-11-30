@@ -71,6 +71,7 @@ fun VaultScreen(
     viewModel: VaultViewModel,
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
+    updateIsEmptyVault: (Boolean) -> Unit
 ) {
     val state = viewModel.state.collectAsState(VaultViewModel.State())
     val snackBarHostState = remember {
@@ -103,6 +104,9 @@ fun VaultScreen(
                 bottomBarItemIndex = BottomNavItem.Vault.index
             )
         )
+    }
+    LaunchedEffect(state.value.passwordsList.isEmpty()) {
+        updateIsEmptyVault(state.value.passwordsList.isEmpty())
     }
 
     Surface(
