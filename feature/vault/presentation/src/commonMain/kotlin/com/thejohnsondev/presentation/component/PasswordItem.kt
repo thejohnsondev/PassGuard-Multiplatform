@@ -348,12 +348,12 @@ fun ExpandedContent(
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = Size12, vertical = Size16),
                         .padding(horizontal = Size12, vertical = Size16)
                         .weight(1f)
+                        .basicMarquee(),
                     text = password,
-                    color = MaterialTheme.colorScheme.onSurface
                     color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1
                 )
                 Icon(
                     modifier = Modifier.padding(end = Size8),
@@ -533,17 +533,17 @@ fun AdditionalFieldItem(
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
                         .padding(start = Size8, end = Size8, top = Size12, bottom = Size4)
+                        .basicMarquee(),
                     text = additionalField.title,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
-                    text = value
                         .padding(start = Size8, end = Size8, top = Size4, bottom = Size12)
+                        .basicMarquee(), // TODO add option to disable it in UI settings
                     text = value,
+                    maxLines = 1
                 )
             }
             Icon(
