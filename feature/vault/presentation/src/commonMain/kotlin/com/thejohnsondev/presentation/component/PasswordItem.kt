@@ -537,6 +537,7 @@ fun AdditionalFieldItem(
                         .basicMarquee(),
                     text = additionalField.title,
                     color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1
                 )
                 Text(
                     modifier = Modifier
