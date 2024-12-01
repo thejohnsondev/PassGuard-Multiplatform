@@ -15,13 +15,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ContentCopy
@@ -64,7 +64,6 @@ import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.RoundedContainer
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent50
-import com.thejohnsondev.ui.designsystem.Percent75
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
@@ -230,27 +229,31 @@ fun PasswordItem(
                     }
                 }
                 Column(modifier = Modifier.weight(1f)){
-                    Text(
-                        modifier = Modifier
-                            .padding(start = Size16)
-                            .fillMaxWidth(),
-                        text = item.organization,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = if (isReordering) draggingContentColor else contentColor,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(start = Size16)
-                            .fillMaxWidth(),
-                        text = item.title,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = if (isReordering) draggingContentColor else contentColor,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
-                    )
+                    SelectionContainer {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = Size16)
+                                .fillMaxWidth(),
+                            text = item.organization,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = if (isReordering) draggingContentColor else contentColor,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1
+                        )
+                    }
+                    SelectionContainer {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = Size16)
+                                .fillMaxWidth(),
+                            text = item.title,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = if (isReordering) draggingContentColor else contentColor,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1
+                        )
+                    }
                 }
 
                 IconButton(
@@ -314,7 +317,7 @@ fun ExpandedContent(
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit
 ) {
-    var isHidden by remember {
+    var isHidden by remember {  // TODO add a UI setting to make it visible by default
         mutableStateOf(true)
     }
     var isInfoHidden by remember {
@@ -331,32 +334,34 @@ fun ExpandedContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = Size16, end = Size16)
-                ,
+                .padding(start = Size16, end = Size16),
             color = MaterialTheme.colorScheme.surfaceContainerLow,
             isFirstItem = true,
             isLastItem = passwordModel.additionalFields.isEmpty()
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        isHidden = !isHidden
-                    },
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = Size12, vertical = Size16)
-                        .weight(1f)
-                        .basicMarquee(),
-                    text = password,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1
-                )
+                SelectionContainer {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = Size12, vertical = Size16)
+                            .weight(1f),
+                        text = password,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
                 Icon(
-                    modifier = Modifier.padding(end = Size8),
+                    modifier = Modifier.padding(end = Size8)
+                        .clip(RoundedCornerShape(Size8))
+                        .clickable {
+                            isHidden = !isHidden
+                        },
                     imageVector = eyeImage,
                     contentDescription = null
                 )
@@ -508,15 +513,7 @@ fun AdditionalFieldItem(
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .combinedClickable(
-                onClick = {
-                    isHidden = !isHidden
-                },
-                onLongClick = {
-                    onLongClick(additionalField.value)
-                }
-            ),
+            .fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
@@ -531,28 +528,37 @@ fun AdditionalFieldItem(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4)
-                        .basicMarquee(),
-                    text = additionalField.title,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12)
-                        .basicMarquee(), // TODO add option to disable it in UI settings
-                    text = value,
-                    maxLines = 1
-                )
+                SelectionContainer {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
+                        text = additionalField.title,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+                SelectionContainer {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
+                        text = value,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             }
             Icon(
                 modifier = Modifier.padding(end = Size8)
-                    .size(Size24),
+                    .size(Size24)
+                    .clip(RoundedCornerShape(Size8))
+                    .clickable {
+                        isHidden = !isHidden
+                    },
                 imageVector = eyeImage,
                 contentDescription = null
             )
         }
+        // TODO fix issues with searching
     }
 }
