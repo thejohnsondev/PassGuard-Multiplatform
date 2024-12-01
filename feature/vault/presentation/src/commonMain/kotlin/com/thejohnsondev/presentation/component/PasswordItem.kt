@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -67,6 +68,7 @@ import com.thejohnsondev.ui.designsystem.Percent75
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
+import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size42
@@ -227,11 +229,11 @@ fun PasswordItem(
                         }
                     }
                 }
-                Column {
+                Column(modifier = Modifier.weight(1f)){
                     Text(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(Percent75),
+                            .fillMaxWidth(),
                         text = item.organization,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
@@ -242,7 +244,7 @@ fun PasswordItem(
                     Text(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(Percent75),
+                            .fillMaxWidth(),
                         text = item.title,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isReordering) draggingContentColor else contentColor,
@@ -250,8 +252,6 @@ fun PasswordItem(
                         maxLines = 1
                     )
                 }
-
-                Spacer(modifier = Modifier.weight(1f))
 
                 IconButton(
                     modifier = Modifier
@@ -349,8 +349,11 @@ fun ExpandedContent(
                 Text(
                     modifier = Modifier
                         .padding(horizontal = Size12, vertical = Size16),
+                        .padding(horizontal = Size12, vertical = Size16)
+                        .weight(1f)
                     text = password,
                     color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Icon(
                     modifier = Modifier.padding(end = Size8),
@@ -517,16 +520,21 @@ fun AdditionalFieldItem(
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
+            modifier = Modifier
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
+                modifier = Modifier
+                    .weight(1f),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
                     modifier = Modifier
                         .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
+                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4)
                     text = additionalField.title,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -534,10 +542,13 @@ fun AdditionalFieldItem(
                     modifier = Modifier
                         .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
                     text = value
+                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12)
+                    text = value,
                 )
             }
             Icon(
-                modifier = Modifier.padding(end = Size8),
+                modifier = Modifier.padding(end = Size8)
+                    .size(Size24),
                 imageVector = eyeImage,
                 contentDescription = null
             )
