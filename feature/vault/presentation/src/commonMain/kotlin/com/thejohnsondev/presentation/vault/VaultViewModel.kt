@@ -34,12 +34,13 @@ class VaultViewModel(
     private val _isSearching = MutableStateFlow(false)
     private val _isFiltersOpened = MutableStateFlow(false)
     private val _hasAnyFiltersApplied = MutableStateFlow(false)
-    private val _isDeepSearchingEnabled = MutableStateFlow(false)
+    private val _isDeepSearchingEnabled = MutableStateFlow(true)
     private val _showHideConfirmDelete =
         MutableStateFlow<Pair<Boolean, PasswordUIModel?>>(Pair(false, null))
     private val _listHeight = MutableStateFlow(0)
     private val _itemTypeFilters = MutableStateFlow(getVaultItemTypeFilters())
     private val _itemCategoryFilters = MutableStateFlow(getVaultCategoryFilters())
+    private val _isVaultEmpty = MutableStateFlow(false)
 
     val state = combine(
         _loadingState,
@@ -52,6 +53,7 @@ class VaultViewModel(
         _listHeight,
         _itemTypeFilters,
         _itemCategoryFilters,
+        _isVaultEmpty,
         ::State
     )
 
@@ -107,6 +109,7 @@ class VaultViewModel(
         passwordsService.getUserPasswords().collect { items ->
 //            val items = PasswordUIModel.testPasswordItems
             _allPasswordsList.emit(items)
+            _isVaultEmpty.emit(items.isEmpty())
             val dividedItems = splitItemsListUseCase(isCompact, items)
             val itemsHeight = calculateListSizeUseCase(dividedItems)
             _listHeight.emit(itemsHeight)
@@ -195,7 +198,8 @@ class VaultViewModel(
         val deletePasswordPair: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
         val listHeight: Int = 0,
         val itemTypeFilters: List<FilterUIModel> = emptyList(),
-        val itemCategoryFilters: List<FilterUIModel> = emptyList()
+        val itemCategoryFilters: List<FilterUIModel> = emptyList(),
+        val isVaultEmpty: Boolean = false
     )
 
 }
