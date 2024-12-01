@@ -332,22 +332,24 @@ fun ExpandedContent(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(start = Size16, end = Size16)
-                .clickable {
-                    isHidden = !isHidden
-                },
+                ,
             color = MaterialTheme.colorScheme.surfaceContainerLow,
             isFirstItem = true,
             isLastItem = passwordModel.additionalFields.isEmpty()
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .clickable {
+                        isHidden = !isHidden
+                    },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = Size12, vertical = Size16), text = password,
+                        .padding(horizontal = Size12, vertical = Size16),
+                    text = password,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Icon(
