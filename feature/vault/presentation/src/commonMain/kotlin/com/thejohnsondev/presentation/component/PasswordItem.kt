@@ -8,7 +8,6 @@ import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +35,6 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -89,7 +87,7 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_pass
 import vaultmultiplatform.feature.vault.presentation.generated.resources.modified
 import vaultmultiplatform.feature.vault.presentation.generated.resources.more_info
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PasswordItem(
     modifier: Modifier = Modifier,
@@ -559,6 +557,5 @@ fun AdditionalFieldItem(
                 contentDescription = null
             )
         }
-        // TODO fix issues with searching
     }
 }
