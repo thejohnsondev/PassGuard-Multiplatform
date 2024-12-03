@@ -73,7 +73,9 @@ import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
+import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
+import com.thejohnsondev.ui.utils.cursorEnterAnimation
 import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.mapToColor
 import com.thejohnsondev.uimodel.models.PasswordUIModel
@@ -138,7 +140,7 @@ fun PasswordItem(
     val cardPaddingHorizontal by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) Size8 else Size16
+        if (isExpanded) Size4 else Size8
     }
     val imageSize by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -150,7 +152,10 @@ fun PasswordItem(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal),
+            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal)
+            .applyIf(!isExpanded) {
+                cursorEnterAnimation()
+            },
         shape = EqualRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor

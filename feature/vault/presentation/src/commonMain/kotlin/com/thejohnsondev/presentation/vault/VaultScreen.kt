@@ -47,6 +47,7 @@ import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Percent50i
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
+import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size68
 import com.thejohnsondev.ui.designsystem.Size8
@@ -220,7 +221,8 @@ fun VaultItemsList(
         if (windowSizeClass.isCompact()) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(horizontal = Size4),
                 state = lazyListState
             ) {
                 item {
@@ -230,7 +232,7 @@ fun VaultItemsList(
                     SearchBarRow(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = Size16, end = Size16, top = Size8, bottom = Size16),
+                            .padding(start = Size8, end = Size8, top = Size8, bottom = Size16),
                         state = state,
                         windowSizeClass = windowSizeClass,
                         isDeepSearchEnabled = state.isDeepSearchEnabled,
@@ -308,7 +310,7 @@ fun VaultItemsList(
                             modifier = Modifier
                                 .weight(Percent50)
                                 .height(finalListHeight)
-                                .padding(bottom = bottomPadding),
+                                .padding(bottom = bottomPadding, start = Size4),
                             userScrollEnabled = false
                         ) {
                             if (state.passwordsList.isNotEmpty()) {
@@ -347,7 +349,7 @@ fun VaultItemsList(
                             modifier = Modifier
                                 .weight(Percent50)
                                 .height(finalListHeight)
-                                .padding(bottom = bottomPadding),
+                                .padding(bottom = bottomPadding, end = Size4),
                             userScrollEnabled = false
                         ) {
                             if (state.passwordsList.isNotEmpty()) {
