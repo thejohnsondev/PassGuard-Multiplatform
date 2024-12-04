@@ -163,6 +163,7 @@ fun SearchBarRow(
                 isSelected = state.isFiltersOpened,
                 icon = Icons.Default.FilterList,
                 iconSize = Size22,
+                showAccentDot = state.isAnyFiltersApplied,
                 onToggleClick = {
                     onAction(VaultViewModel.Action.ToggleIsFiltersOpened)
                 },

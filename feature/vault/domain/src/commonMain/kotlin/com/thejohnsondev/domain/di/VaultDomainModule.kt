@@ -2,6 +2,8 @@ package com.thejohnsondev.domain.di
 
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl
+import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
+import com.thejohnsondev.domain.CheckFiltersAppliedUseCaseImpl
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCaseImpl
 import com.thejohnsondev.domain.PasswordsService
@@ -17,10 +19,11 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val vaultDomainModule = module {
+    singleOf(::PasswordsServiceImpl) { bind<PasswordsService>() }
     singleOf(::ToggleOpenedItemUseCaseImpl) { bind<ToggleOpenedItemUseCase>() }
     singleOf(::CalculateListSizeUseCaseImpl) { bind<CalculateListSizeUseCase>() }
     singleOf(::SplitItemsListUseCaseImpl) { bind<SplitItemsListUseCase>() }
     singleOf(::SearchItemsUseCaseImpl) { bind<SearchItemsUseCase>() }
     singleOf(::ItemTypeFilterChangeUseCaseImpl) { bind<ItemTypeFilterChangeUseCase>() }
-    singleOf(::PasswordsServiceImpl) { bind<PasswordsService>() }
+    singleOf(::CheckFiltersAppliedUseCaseImpl) { bind<CheckFiltersAppliedUseCase>() }
 }
