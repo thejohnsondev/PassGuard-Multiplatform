@@ -11,6 +11,10 @@ plugins {
     alias(libs.plugins.crashlytics)
 }
 
+val appName = "PassGuard"
+val versionNameValue = "1.0.0"
+val versionCodeValue = 1
+
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -27,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = appName
             isStatic = true
         }
     }
@@ -120,8 +124,9 @@ android {
         applicationId = "org.thejohnsondev.vault"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = versionCodeValue
+        versionName = versionNameValue
+        setProperty("archivesBaseName", "${appName}-${versionName}-${versionCode}")
     }
     packaging {
         resources {
