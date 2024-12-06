@@ -66,7 +66,7 @@ class VaultViewModel(
             is Action.Search -> search(action.isCompact, action.query, action.isDeepSearchEnabled)
             is Action.StopSearching -> stopSearching(action.isCompact)
             is Action.ShowHideConfirmDelete -> showHideConfirmDelete(action.deletePasswordPair)
-            is Action.ToggleOpenItem -> toggleOpenItem(action.isCompact, action.itemId)
+            is Action.ToggleOpenItem -> toggleOpenItem(action.itemId)
             is Action.ToggleIsFiltersOpened -> toggleFiltersOpened()
             is Action.OnFilterTypeClick -> onFilterTypeClick(action.filter, action.isSelected)
             is Action.OnFilterCategoryClick -> onFilterCategoryClick(action.filter, action.isSelected)
@@ -168,7 +168,7 @@ class VaultViewModel(
         // TODO implement
     }
 
-    private fun toggleOpenItem(isCompact: Boolean, newOpenedItemId: String?) = launch {
+    private fun toggleOpenItem(newOpenedItemId: String?) = launch {
         val updatedList = toggleOpenedItemUseCase(
             newOpenedItemId,
             _passwordsList.value
@@ -185,7 +185,7 @@ class VaultViewModel(
         data class Search(val isCompact: Boolean, val query: String, val isDeepSearchEnabled: Boolean) : Action()
         data class StopSearching(val isCompact: Boolean) : Action()
         data class ShowHideConfirmDelete(val deletePasswordPair: Pair<Boolean, PasswordUIModel?>) : Action()
-        data class ToggleOpenItem(val isCompact: Boolean, val itemId: String?) : Action()
+        data class ToggleOpenItem(val itemId: String?) : Action()
         data object ToggleIsFiltersOpened : Action()
         data class OnFilterTypeClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
         data class OnFilterCategoryClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()

@@ -253,7 +253,6 @@ fun VaultItemsList(
                             onClick = {
                                 onAction(
                                     VaultViewModel.Action.ToggleOpenItem(
-                                        windowSizeClass.isCompact(),
                                         passwordModel.id
                                     )
                                 )
@@ -323,7 +322,6 @@ fun VaultItemsList(
                                         onClick = {
                                             onAction(
                                                 VaultViewModel.Action.ToggleOpenItem(
-                                                    windowSizeClass.isCompact(),
                                                     passwordModel.id
                                                 )
                                             )
@@ -362,7 +360,6 @@ fun VaultItemsList(
                                         onClick = {
                                             onAction(
                                                 VaultViewModel.Action.ToggleOpenItem(
-                                                    windowSizeClass.isCompact(),
                                                     passwordModel.id
                                                 )
                                             )
