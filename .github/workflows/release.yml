@@ -1,8 +1,8 @@
 name: Deploy to Google Play
 
 on:
-  push:
-    branches: [ master ]
+  pull_request:
+    branches: [master]
 
 jobs:
   test:
