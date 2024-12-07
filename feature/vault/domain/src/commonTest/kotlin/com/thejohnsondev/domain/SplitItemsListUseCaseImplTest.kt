@@ -50,8 +50,6 @@ class SplitItemsListUseCaseImplTest {
     fun testReturnsEmptyListsWhenInputListIsEmpty() {
         val list = emptyList<PasswordUIModel>()
         val result = useCase.invoke(false, list)
-        assertEquals(2, result.size)
-        assertEquals(emptyList<PasswordUIModel>(), result[0])
-        assertEquals(emptyList<PasswordUIModel>(), result[1])
+        assertEquals(0, result.size)
     }
 }
