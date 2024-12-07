@@ -128,4 +128,4 @@ jobs:
           releaseFiles: composeApp/build/outputs/bundle/release/PassGuard-release.aab
           track: internal
           status: completed
-          whatsNewDirectory: composeApp/src/main/play/release-notes
+          whatsNewDirectory: whatsNew
