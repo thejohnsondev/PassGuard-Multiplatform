@@ -17,6 +17,7 @@ import com.thejohnsondev.uimodel.filterlists.getVaultItemTypeFilters
 import com.thejohnsondev.uimodel.mappers.mapToCategory
 import com.thejohnsondev.uimodel.models.FilterUIModel
 import com.thejohnsondev.uimodel.models.PasswordUIModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -107,7 +108,7 @@ class VaultViewModel(
         )
     }
 
-    private fun fetchVault(isCompact: Boolean) = launch {
+    private fun fetchVault(isCompact: Boolean) = launchLoading {
         passwordsService.getUserPasswords().collect { items ->
 //            val items = PasswordUIModel.testPasswordItems
             _allPasswordsList.emit(items)
@@ -116,6 +117,8 @@ class VaultViewModel(
             val itemsHeight = calculateListSizeUseCase(dividedItems)
             _listHeight.emit(itemsHeight)
             _passwordsList.emit(dividedItems)
+            delay(1000) // TODO for test, remove later
+            showContent()
         }
     }
 
@@ -194,7 +197,6 @@ class VaultViewModel(
     }
 
     data class State(
-        // todo add screen state (LoadingState, ErrorState, DisplayContent), when Loading -> add skeleton loading
         val screenState: ScreenState = ScreenState.None,
         val passwordsList: List<List<PasswordUIModel>> = listOf(emptyList()),
         val isSearching: Boolean = false,

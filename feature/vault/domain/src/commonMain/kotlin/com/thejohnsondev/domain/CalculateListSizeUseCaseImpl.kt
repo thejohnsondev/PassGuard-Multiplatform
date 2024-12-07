@@ -1,14 +1,12 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.common.ADDITIONAL_FIELD_HEIGHT
+import com.thejohnsondev.common.PASSWORD_EXPANDED_ITEM_HEIGHT
+import com.thejohnsondev.common.PASSWORD_IDLE_ITEM_HEIGHT
 import com.thejohnsondev.uimodel.models.PasswordUIModel
 
 class CalculateListSizeUseCaseImpl : CalculateListSizeUseCase {
 
-    companion object {
-        const val PASSWORD_IDLE_ITEM_HEIGHT = 82
-        const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
-        const val ADDITIONAL_FIELD_HEIGHT = 84
-    }
 
     override fun invoke(list: List<List<PasswordUIModel>>): Int {
         if (list.isEmpty()) return 0

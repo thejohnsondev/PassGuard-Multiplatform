@@ -13,6 +13,10 @@ const val DESKTOP_WINDOW_MIN_HEIGHT = 600
 const val DESKTOP_WINDOW_DEFAULT_WIDTH = 1080
 const val DESKTOP_WINDOW_DEFAULT_HEIGHT = 720
 
+const val PASSWORD_IDLE_ITEM_HEIGHT = 82
+const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
+const val ADDITIONAL_FIELD_HEIGHT = 84
+
 const val COLOR_ID_onPrimaryContainer = "onPrimaryContainer"
 const val COLOR_ID_primaryContainer = "primaryContainer"
 const val COLOR_ID_themeColorCategoryPersonalContent = "themeColorCategoryPersonalContent"

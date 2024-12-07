@@ -26,6 +26,7 @@ val Size56 = 56.dp
 val Size64 = 64.dp
 val Size68 = 68.dp
 val Size72 = 72.dp
+val Size80 = 80.dp
 val Size86 = 86.dp
 val Size98 = 98.dp
 val Size128 = 128.dp

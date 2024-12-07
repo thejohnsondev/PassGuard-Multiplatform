@@ -3,7 +3,9 @@ package com.thejohnsondev.presentation.vault
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -25,7 +27,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -44,6 +45,7 @@ import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ToggleButton
 import com.thejohnsondev.ui.components.filter.FilterGroup
+import com.thejohnsondev.ui.components.loading.VaultLoading
 import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Percent50i
 import com.thejohnsondev.ui.designsystem.Size16
@@ -111,12 +113,13 @@ fun VaultScreen(
         updateIsEmptyVault(state.value.isVaultEmpty)
     }
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest)
     ) {
         when (state.value.screenState) {
-            is ScreenState.Loading -> {
+            is ScreenState.Loading,
+            ScreenState.None -> {
                 VaultLoading(
                     windowSizeClass = windowSizeClass,
                     paddingValues = paddingValues
@@ -135,13 +138,6 @@ fun VaultScreen(
     }
 }
 
-@Composable
-fun VaultLoading(
-    windowSizeClass: WindowWidthSizeClass,
-    paddingValues: PaddingValues
-) {
-    // TODO Implement
-}
 
 @Composable
 fun SearchBarRow(
