@@ -125,7 +125,7 @@ jobs:
 #        with:
 #          serviceAccountJson: service-account.json
 #          packageName: org.thejohnsondev.vault
-#          releaseFiles: composeApp/build/outputs/bundle/release/PassGuard-${{ github.run_number }}-release.aab
+#          releaseFiles: composeApp/build/outputs/bundle/release/PassGuard-release.aab
 #          track: internal
 #          status: completed
 #          whatsNewDirectory: composeApp/src/main/play/release-notes
