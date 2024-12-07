@@ -1,6 +1,6 @@
 android-pixel-4:
   type: instrumentation
-  app: composeApp/build/outputs/apk/debug/composeApp-debug.apk
+  app: composeApp/build/outputs/apk/debug/PassGuard-debug.apk
   test: core/common/build/outputs/apk/androidTest/debug/common-debug-androidTest.apk
   device:
     - model: redfin

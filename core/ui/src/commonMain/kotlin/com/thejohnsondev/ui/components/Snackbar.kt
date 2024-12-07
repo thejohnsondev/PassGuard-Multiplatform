@@ -21,9 +21,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.colorscheme.themeColorSuccessBackground
+import com.thejohnsondev.ui.designsystem.colorscheme.themeColorSuccessForeground
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
-import com.thejohnsondev.ui.designsystem.themeColorSuccessBackground
-import com.thejohnsondev.ui.designsystem.themeColorSuccessForeground
 
 @Composable
 fun SimpleSnackbar(

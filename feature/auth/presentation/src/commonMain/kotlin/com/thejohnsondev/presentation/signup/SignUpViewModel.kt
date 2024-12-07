@@ -6,8 +6,8 @@ import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.AuthService
 import com.thejohnsondev.domain.EmailValidateUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
-import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.auth.AuthResponse
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
@@ -35,8 +35,8 @@ class SignUpViewModel(
     ).stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     val viewState: Flow<State> = combine(
+        _screenState,
         _isSignUpSuccess,
-        _loadingState,
         _emailValidationState,
         _passwordValidationState,
         _signUpReadyState,
@@ -119,8 +119,8 @@ class SignUpViewModel(
     }
 
     data class State(
+        val screenState: ScreenState = ScreenState.None,
         val isSignUpSuccess: Boolean? = null,
-        val loadingState: LoadingState = LoadingState.Loaded,
         val emailValidationState: EmailValidationState? = null,
         val passwordValidationState: PasswordValidationState? = null,
         val signUpReady: Boolean = false,

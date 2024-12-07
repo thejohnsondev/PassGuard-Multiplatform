@@ -15,6 +15,7 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.add("-Xexpect-actual-classes")
         }
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
@@ -35,16 +36,21 @@ kotlin {
 
     sourceSets {
         val desktopTest by getting
+        val desktopMain by getting
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            // Compose
+            implementation(compose.components.uiToolingPreview)
         }
         commonMain.dependencies {
             implementation(libs.ktor.serialization.kotlinx.json)
 
             api(project(":core:model"))
             api(project(":core:common"))
+            implementation(project(":core:uimodel"))
 
             // Compose
             implementation(compose.runtime)
@@ -57,10 +63,18 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.material3)
             implementation(libs.material3.windowsizeclass.multiplatform)
+            implementation(libs.navigation.compose)
 
             // Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
+
+            // Haze
+            implementation(libs.haze.haze)
+            implementation(libs.haze.materials)
+
+            // Landscapist Coil3
+            implementation(libs.landscapist.coil3)
         }
         commonTest.dependencies {
             // Testing
@@ -70,6 +84,9 @@ kotlin {
         }
         desktopTest.dependencies {
             implementation(compose.desktop.currentOs)
+        }
+        desktopMain.dependencies {
+            implementation(libs.androidx.ui.tooling.preview.desktop)
         }
     }
 }
@@ -88,6 +105,12 @@ android {
 }
 
 dependencies {
+
+    // Preview
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+
+    // Tests
     androidTestImplementation(libs.androidx.ui.test.junit4.android)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

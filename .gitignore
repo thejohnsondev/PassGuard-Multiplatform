@@ -19,3 +19,4 @@ captures
 /package-lock.json
 /node_modules/
 /composeApp/settings.preferences_pb
+/keystore.jks

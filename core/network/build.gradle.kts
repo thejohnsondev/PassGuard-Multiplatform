@@ -11,6 +11,7 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.add("-Xexpect-actual-classes")
         }
     }
 
@@ -65,7 +66,7 @@ kotlin {
             // Konnection check
             implementation(libs.konnection)
         }
-        commonTest.dependencies {
+        androidUnitTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.arrow.core)

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.2"
+agp = "8.7.1"
 android-compileSdk = "34"
 android-minSdk = "29"
 android-targetSdk = "34"
@@ -22,6 +22,7 @@ kotlinx-coroutines = "1.9.0"
 koin = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
 kotlinxSerializationJson = "1.7.3"
+landscapistCoil3 = "2.4.1"
 material3WindowSizeClassMultiplatform = "0.5.0"
 mockk = "1.12.0"
 napier = "2.7.1"
@@ -41,6 +42,7 @@ coroutines = "1.9.0"
 gms = "4.4.2"
 crashlytcs = "3.0.2"
 uiTestJunit4Android = "1.7.4"
+haze = "0.7.3"
 
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
@@ -67,11 +69,15 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapistCoil3" }
 material3-windowsizeclass-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material3WindowSizeClassMultiplatform" }
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+haze-haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "haze" }
 
 # Android
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
@@ -107,6 +113,9 @@ sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", 
 
 #Android Biometric
 androidx-biometric = { module = "androidx.biometric:biometric-ktx", version.ref = "biometric" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose-plugin" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose-plugin" }
+androidx-ui-tooling-preview-desktop = { group = "androidx.compose.ui", name = "ui-tooling-preview-desktop", version.ref = "compose-plugin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

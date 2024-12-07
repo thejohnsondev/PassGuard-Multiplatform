@@ -12,7 +12,6 @@ import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
-import org.thejohnsondev.vault.navigation.Root
 
 class MainActivity : ComponentActivity() {
 

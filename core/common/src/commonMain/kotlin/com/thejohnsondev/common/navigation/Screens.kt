@@ -6,8 +6,8 @@ enum class Screens {
     SignUpScreen,
     HomeScreen,
     BiometricScreen,
-    NotesScreen,
     VaultScreen,
+    ToolsScreen,
     Settings,
     AddNote,
     AddEditPassword

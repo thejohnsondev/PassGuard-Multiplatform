@@ -2,6 +2,7 @@ package com.thejohnsondev.common.base
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.model.LoadingState
+import com.thejohnsondev.model.ScreenState
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -29,15 +30,15 @@ class BaseViewModelTest {
     @Test
     fun testLoading() = runTest {
         viewModel.publicLoading()
-        val result = viewModel.publicGetLoadingState().first()
-        assertEquals(LoadingState.Loading, result)
+        val result = viewModel.publicGetScreenState().first()
+        assertEquals(ScreenState.Loading, result)
     }
 
     @Test
-    fun testLoaded() = runTest {
+    fun testShowContent() = runTest {
         viewModel.publicLoaded()
-        val result = viewModel.publicGetLoadingState().first()
-        assertEquals(LoadingState.Loaded, result)
+        val result = viewModel.publicGetScreenState().first()
+        assertEquals(ScreenState.ShowContent, result)
     }
 
     @Test

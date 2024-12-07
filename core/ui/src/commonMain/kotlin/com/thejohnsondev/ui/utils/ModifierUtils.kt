@@ -15,10 +15,12 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import com.thejohnsondev.common.EMPTY
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent95
 import com.thejohnsondev.ui.designsystem.SizeBorder
+
+expect fun Modifier.cursorEnterAnimation(): Modifier
 
 enum class ButtonState { Pressed, Idle }
 
@@ -28,11 +30,14 @@ fun Modifier.applyIf(condition: Boolean, modifier: Modifier.() -> Modifier): Mod
     ) else this
 }
 
-fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
+fun Modifier.bounceClick(
+    minScale: Float = Percent95,
+    disableCursorEnterAnimation: Boolean = false
+) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
     val scale by animateFloatAsState(
         if (buttonState == ButtonState.Pressed) minScale else Percent100,
-        label = EMPTY
+        label = String.empty
     )
 
     this.graphicsLayer {
@@ -55,10 +60,12 @@ fun Modifier.bounceClick(minScale: Float = Percent95) = composed {
                 }
             }
         }
+        .applyIf(!disableCursorEnterAnimation) {
+            cursorEnterAnimation()
+        }
+
 }
 
 fun Modifier.testBorder() = composed {
     this.border(SizeBorder, Color.Red)
 }
-
-expect fun Modifier.cursorEnterAnimation(): Modifier

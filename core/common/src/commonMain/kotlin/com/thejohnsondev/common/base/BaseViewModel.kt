@@ -7,9 +7,9 @@ import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.common.utils.getPrettyErrorMessage
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
-import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.OneTimeEvent
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.UnknownError
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -26,8 +26,8 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel : ViewModel() {
 
     private val eventChannel = Channel<OneTimeEvent>()
-    protected val _loadingState: MutableStateFlow<LoadingState> =
-        MutableStateFlow(LoadingState.Loaded)
+    protected val _screenState: MutableStateFlow<ScreenState> =
+        MutableStateFlow(ScreenState.None)
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         viewModelScope.launch {
             handleError(UnknownError(throwable))
@@ -38,20 +38,20 @@ abstract class BaseViewModel : ViewModel() {
         .stateIn(viewModelScope, SharingStarted.Eagerly, OneTimeEvent.None)
 
     protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent)  {
-        loaded()
+        showContent()
         eventChannel.send(event)
     }
 
     protected suspend fun BaseViewModel.loading()  {
-        _loadingState.emit(LoadingState.Loading)
+        _screenState.emit(ScreenState.Loading)
     }
 
-    protected suspend fun BaseViewModel.loaded()  {
-        _loadingState.emit(LoadingState.Loaded)
+    protected suspend fun BaseViewModel.showContent() {
+        _screenState.emit(ScreenState.ShowContent)
     }
 
     protected suspend fun handleError(error: Error) {
-        loaded()
+        showContent()
         val errorMessage = when (error) {
             is HttpError -> error.message
             is NetworkError -> "Please, check your internet connection"

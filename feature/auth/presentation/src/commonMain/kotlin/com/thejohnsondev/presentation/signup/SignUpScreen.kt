@@ -47,9 +47,9 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.thejohnsondev.common.EMPTY
-import com.thejohnsondev.model.LoadingState
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
 import com.thejohnsondev.ui.components.BackArrowButton
@@ -69,7 +69,7 @@ import com.thejohnsondev.ui.designsystem.Size580
 import com.thejohnsondev.ui.designsystem.Size600
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
-import com.thejohnsondev.ui.designsystem.isLight
+import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.getEmailErrorMessage
@@ -99,10 +99,10 @@ fun SignUpScreen(
     val privacyPolicyUrl = stringResource(Res.string.privacy_policy_link)
     val termsOfUseUrl = stringResource(Res.string.terms_of_use_link)
     val emailState = rememberSaveable {
-        mutableStateOf(EMPTY)
+        mutableStateOf(String.empty)
     }
     val passwordState = rememberSaveable {
-        mutableStateOf(EMPTY)
+        mutableStateOf(String.empty)
     }
     val emailFocusRequest = remember { FocusRequester() }
     val passwordFocusRequest = remember { FocusRequester() }
@@ -236,7 +236,7 @@ fun SignUpContent(
                         .clip(RoundedCornerShape(Size24))
                 ) {
                     SignUpButtonSection(
-                        screenState = state,
+                        state = state,
                         windowSize = windowSize,
                         emailState = emailState,
                         passwordState = passwordState,
@@ -352,7 +352,7 @@ fun FieldsSection(
 
 @Composable
 fun SignUpButtonSection(
-    screenState: SignUpViewModel.State,
+    state: SignUpViewModel.State,
     windowSize: WindowWidthSizeClass,
     emailState: MutableState<String>,
     passwordState: MutableState<String>,
@@ -375,7 +375,7 @@ fun SignUpButtonSection(
                 .padding(horizontal = Size2),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = screenState.isPrivacyPolicyAccepted,
+            Checkbox(checked = state.isPrivacyPolicyAccepted,
                 onCheckedChange = {
                     onAction(SignUpViewModel.Action.AcceptPrivacyPolicy(it))
                 })
@@ -399,7 +399,7 @@ fun SignUpButtonSection(
         RoundedButton(
             text = stringResource(Res.string.sign_up),
             modifier = Modifier.padding(horizontal = Size16, vertical = Size16),
-            enabled = screenState.signUpReady,
+            enabled = state.signUpReady,
             onClick = {
                 hideKeyboard()
                 onAction(
@@ -409,7 +409,7 @@ fun SignUpButtonSection(
                     )
                 )
             },
-            loading = screenState.loadingState is LoadingState.Loading
+            loading = state.screenState is ScreenState.Loading
         )
     }
 }
