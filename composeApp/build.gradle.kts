@@ -126,7 +126,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = versionCodeValue
         versionName = versionNameValue
-        setProperty("archivesBaseName", "${appName}-${versionName}-${versionCode}")
+        setProperty("archivesBaseName", "${appName}-${versionCode}")
     }
     packaging {
         resources {
