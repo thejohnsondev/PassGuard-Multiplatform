@@ -112,7 +112,7 @@ jobs:
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: composeApp/build/outputs/bundle/release
-          singingKeyBase64: ${{ secrets.KEYSTORE }}
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
