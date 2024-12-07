@@ -9,7 +9,7 @@ import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
-import com.thejohnsondev.model.LoadingState
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
 import com.thejohnsondev.uimodel.filterlists.getVaultCategoryFilters
@@ -45,7 +45,7 @@ class VaultViewModel(
     private val _isVaultEmpty = MutableStateFlow(false)
 
     val state = combine(
-        _loadingState,
+        _screenState,
         _passwordsList,
         _isSearching,
         _isFiltersOpened,
@@ -195,7 +195,7 @@ class VaultViewModel(
 
     data class State(
         // todo add screen state (LoadingState, ErrorState, DisplayContent), when Loading -> add skeleton loading
-        val loadingState: LoadingState = LoadingState.Loaded,
+        val screenState: ScreenState = ScreenState.None,
         val passwordsList: List<List<PasswordUIModel>> = listOf(emptyList()),
         val isSearching: Boolean = false,
         val isFiltersOpened: Boolean = false,

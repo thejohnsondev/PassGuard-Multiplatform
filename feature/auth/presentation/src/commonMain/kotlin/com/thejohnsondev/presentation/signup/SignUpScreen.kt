@@ -48,8 +48,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.empty
-import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
 import com.thejohnsondev.ui.components.BackArrowButton
@@ -236,7 +236,7 @@ fun SignUpContent(
                         .clip(RoundedCornerShape(Size24))
                 ) {
                     SignUpButtonSection(
-                        screenState = state,
+                        state = state,
                         windowSize = windowSize,
                         emailState = emailState,
                         passwordState = passwordState,
@@ -352,7 +352,7 @@ fun FieldsSection(
 
 @Composable
 fun SignUpButtonSection(
-    screenState: SignUpViewModel.State,
+    state: SignUpViewModel.State,
     windowSize: WindowWidthSizeClass,
     emailState: MutableState<String>,
     passwordState: MutableState<String>,
@@ -375,7 +375,7 @@ fun SignUpButtonSection(
                 .padding(horizontal = Size2),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = screenState.isPrivacyPolicyAccepted,
+            Checkbox(checked = state.isPrivacyPolicyAccepted,
                 onCheckedChange = {
                     onAction(SignUpViewModel.Action.AcceptPrivacyPolicy(it))
                 })
@@ -399,7 +399,7 @@ fun SignUpButtonSection(
         RoundedButton(
             text = stringResource(Res.string.sign_up),
             modifier = Modifier.padding(horizontal = Size16, vertical = Size16),
-            enabled = screenState.signUpReady,
+            enabled = state.signUpReady,
             onClick = {
                 hideKeyboard()
                 onAction(
@@ -409,7 +409,7 @@ fun SignUpButtonSection(
                     )
                 )
             },
-            loading = screenState.loadingState is LoadingState.Loading
+            loading = state.screenState is ScreenState.Loading
         )
     }
 }

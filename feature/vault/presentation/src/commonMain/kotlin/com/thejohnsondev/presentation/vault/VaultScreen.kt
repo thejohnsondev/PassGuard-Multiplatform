@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ToggleButton
@@ -114,14 +115,32 @@ fun VaultScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.surfaceContainerLowest
     ) {
-        VaultItemsList(
-            windowSizeClass = windowSizeClass,
-            paddingValues = paddingValues,
-            lazyListState = lazyListState,
-            state = state.value,
-            onAction = viewModel::perform
-        )
+        when (state.value.screenState) {
+            is ScreenState.Loading -> {
+                VaultLoading(
+                    windowSizeClass = windowSizeClass,
+                    paddingValues = paddingValues
+                )
+            }
+            is ScreenState.ShowContent -> {
+                VaultItemsList(
+                    windowSizeClass = windowSizeClass,
+                    paddingValues = paddingValues,
+                    lazyListState = lazyListState,
+                    state = state.value,
+                    onAction = viewModel::perform
+                )
+            }
+        }
     }
+}
+
+@Composable
+fun VaultLoading(
+    windowSizeClass: WindowWidthSizeClass,
+    paddingValues: PaddingValues
+) {
+    // TODO Implement
 }
 
 @Composable

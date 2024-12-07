@@ -45,8 +45,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.empty
-import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
 import com.thejohnsondev.ui.components.BackArrowButton
@@ -216,7 +216,7 @@ fun LoginContent(
                         .clip(RoundedCornerShape(Size24))
                 ) {
                     LoginButtonSection(
-                        screenState = state,
+                        state = state,
                         windowSize = windowSize,
                         emailState = emailState,
                         passwordState = passwordState,
@@ -330,7 +330,7 @@ fun FieldsSection(
 
 @Composable
 fun LoginButtonSection(
-    screenState: LoginViewModel.State,
+    state: LoginViewModel.State,
     windowSize: WindowWidthSizeClass,
     emailState: MutableState<String>,
     passwordState: MutableState<String>,
@@ -348,7 +348,7 @@ fun LoginButtonSection(
         RoundedButton(
             text = stringResource(Res.string.log_in),
             modifier = Modifier.padding(horizontal = Size16, vertical = Size16),
-            enabled = screenState.loginReady,
+            enabled = state.loginReady,
             onClick = {
                 hideKeyboard()
                 onAction(
@@ -358,7 +358,7 @@ fun LoginButtonSection(
                     )
                 )
             },
-            loading = screenState.loadingState is LoadingState.Loading
+            loading = state.screenState is ScreenState.Loading
         )
     }
 }
