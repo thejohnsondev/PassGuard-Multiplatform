@@ -17,6 +17,7 @@ import com.thejohnsondev.ui.designsystem.Percent10
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.utils.applyIf
+import com.thejohnsondev.ui.utils.bounceClick
 
 @Composable
 fun BackArrowButton(
@@ -28,6 +29,7 @@ fun BackArrowButton(
     }
     Surface(
         modifier = modifier
+            .bounceClick()
             .clip(RoundedCornerShape(Size48))
             .applyIf(!wasClicked.value) {
                 clickable {

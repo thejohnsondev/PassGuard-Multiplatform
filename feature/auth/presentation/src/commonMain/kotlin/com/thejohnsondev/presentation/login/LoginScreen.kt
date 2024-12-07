@@ -44,9 +44,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.thejohnsondev.common.EMPTY
-import com.thejohnsondev.model.LoadingState
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
 import com.thejohnsondev.ui.components.BackArrowButton
@@ -62,7 +62,7 @@ import com.thejohnsondev.ui.designsystem.Size580
 import com.thejohnsondev.ui.designsystem.Size600
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
-import com.thejohnsondev.ui.designsystem.isLight
+import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.getEmailErrorMessage
@@ -87,10 +87,10 @@ fun LoginScreen(
 ) {
     val screenState = viewModel.viewState.collectAsState(LoginViewModel.State())
     val emailState = rememberSaveable {
-        mutableStateOf(EMPTY)
+        mutableStateOf(String.empty)
     }
     val passwordState = rememberSaveable {
-        mutableStateOf(EMPTY)
+        mutableStateOf(String.empty)
     }
     val emailFocusRequest = remember { FocusRequester() }
     val passwordFocusRequest = remember { FocusRequester() }
@@ -216,7 +216,7 @@ fun LoginContent(
                         .clip(RoundedCornerShape(Size24))
                 ) {
                     LoginButtonSection(
-                        screenState = state,
+                        state = state,
                         windowSize = windowSize,
                         emailState = emailState,
                         passwordState = passwordState,
@@ -330,7 +330,7 @@ fun FieldsSection(
 
 @Composable
 fun LoginButtonSection(
-    screenState: LoginViewModel.State,
+    state: LoginViewModel.State,
     windowSize: WindowWidthSizeClass,
     emailState: MutableState<String>,
     passwordState: MutableState<String>,
@@ -341,14 +341,14 @@ fun LoginButtonSection(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surface)
             .applyIf(!windowSize.isCompact()) {
-                Modifier.width(Size580)
+                width(Size580)
             },
         verticalArrangement = Arrangement.Bottom
     ) {
         RoundedButton(
             text = stringResource(Res.string.log_in),
             modifier = Modifier.padding(horizontal = Size16, vertical = Size16),
-            enabled = screenState.loginReady,
+            enabled = state.loginReady,
             onClick = {
                 hideKeyboard()
                 onAction(
@@ -358,7 +358,7 @@ fun LoginButtonSection(
                     )
                 )
             },
-            loading = screenState.loadingState is LoadingState.Loading
+            loading = state.screenState is ScreenState.Loading
         )
     }
 }

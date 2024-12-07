@@ -16,7 +16,7 @@ class TestViewModel : BaseViewModel() {
     }
 
     suspend fun publicLoaded() {
-        loaded()
+        showContent()
     }
 
     suspend fun publicHandleError(error: Error) {
@@ -31,5 +31,5 @@ class TestViewModel : BaseViewModel() {
         return launchLoading(block)
     }
 
-    fun publicGetLoadingState() = _loadingState
+    fun publicGetScreenState() = _screenState
 }

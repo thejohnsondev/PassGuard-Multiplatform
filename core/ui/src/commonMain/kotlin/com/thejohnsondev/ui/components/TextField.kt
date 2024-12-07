@@ -25,7 +25,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.thejohnsondev.common.EMPTY
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Size16
 
 @Composable
@@ -33,7 +33,7 @@ fun TextField(
     modifier: Modifier = Modifier,
     textState: MutableState<String>,
     onTextChanged: (String) -> Unit,
-    label: String = EMPTY,
+    label: String = String.empty,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
     singleLine: Boolean = true,

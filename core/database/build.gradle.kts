@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -29,13 +30,18 @@ kotlin {
     }
 
     sourceSets {
+        val desktopMain by getting
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            // SQLDelight
+            implementation(libs.sqldelight.android)
         }
         commonMain.dependencies {
             api(project(":core:common"))
+            api(project(":core:model"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 
@@ -45,9 +51,25 @@ kotlin {
 
             // Arrow Either
             implementation(libs.arrow.core)
+
+            // SQLDelight
+            implementation(libs.sqldelight.coroutines)
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        desktopMain.dependencies {
+            implementation(libs.sqldelight.jvm)
+        }
+        val iosMain by creating {
+            dependencies {
+                implementation(libs.sqldelight.native)
+            }
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("VaultDatabase") {
+            packageName.set("org.thejohnsondev.vault.database")
         }
     }
 }

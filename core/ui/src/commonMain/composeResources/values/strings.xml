@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Auth-->
+    <string name="search">Search</string>
     <string name="vault">Vault</string>
-    <string name="v">V</string>
-    <string name="ault">ault</string>
+    <string name="pass">Pass</string>
+    <string name="guard">Guard</string>
     <string name="buttons">Buttons</string>
     <string name="privacy_policy_link">https://andrewdobosh.notion.site/Privacy-Policy-3f95b4857e0e49a78b35f0ca837b4ec5</string>
     <string name="terms_of_use_link">https://andrewdobosh.notion.site/Terms-of-use-bb7607b71dbc40d9a336c9ed38d5a7e8</string>
@@ -17,6 +18,11 @@
     <string name="password_error_no_capital">Password must contain at least one uppercase letter.</string>
     <string name="password_error_no_small">Password must contain at least one lowercase letter.</string>
     <string name="email_error_incorrect">Email is no valid</string>
+
+    <string name="tools">Tools</string>
+    <string name="settings">Settings</string>
+
+
 
     <!--Content Description-->
     <string name="cd_app_logo">App Logo</string>

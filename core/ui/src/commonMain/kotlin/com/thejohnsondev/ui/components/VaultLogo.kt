@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.TextUnit
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.Res
-import vaultmultiplatform.core.ui.generated.resources.ault
-import vaultmultiplatform.core.ui.generated.resources.v
+import vaultmultiplatform.core.ui.generated.resources.guard
+import vaultmultiplatform.core.ui.generated.resources.pass
 
 @Composable
 fun VaultLogo(
@@ -33,7 +33,7 @@ fun VaultLogo(
                     fontSize = fontSize
                 ),
             ) {
-                append(stringResource(Res.string.v))
+                append(stringResource(Res.string.pass))
             }
             withStyle(
                 style = SpanStyle(
@@ -42,7 +42,7 @@ fun VaultLogo(
                     fontFamily = getGlobalFontFamily()
                 )
             ) {
-                append(stringResource(Res.string.ault))
+                append(stringResource(Res.string.guard))
             }
         })
 

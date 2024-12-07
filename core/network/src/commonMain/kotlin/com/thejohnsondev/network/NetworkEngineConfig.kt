@@ -8,7 +8,7 @@ data class NetworkEngineConfig(
     companion object {
         val default = NetworkEngineConfig(
             followRedirects = true,
-            connectTimeout = 10_000L,
+            connectTimeout = 20_000L,
             connectionRequestTimeout = 20_000L
         )
     }

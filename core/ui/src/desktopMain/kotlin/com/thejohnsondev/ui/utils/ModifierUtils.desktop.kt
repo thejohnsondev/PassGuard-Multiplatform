@@ -11,14 +11,14 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
-import com.thejohnsondev.common.EMPTY
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Percent100
 
 @OptIn(ExperimentalComposeUiApi::class)
 actual fun Modifier.cursorEnterAnimation(): Modifier = composed {
     var entered by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(
-        if (entered) 0.99f else Percent100, label = EMPTY
+        if (entered) 0.99f else Percent100, label = String.empty
     )
     this.graphicsLayer {
         scaleX = scale

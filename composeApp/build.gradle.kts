@@ -11,6 +11,10 @@ plugins {
     alias(libs.plugins.crashlytics)
 }
 
+val appName = "PassGuard"
+val versionNameValue = "1.0.0"
+val versionCodeValue = 1
+
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -27,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = appName
             isStatic = true
         }
     }
@@ -61,7 +65,11 @@ kotlin {
             api(project(":core:ui"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
+            api(project(":feature:vault:data"))
+            api(project(":feature:vault:domain"))
             api(project(":feature:vault:presentation"))
+            api(project(":feature:tools:presentation"))
+            api(project(":feature:settings:presentation"))
 
             // Compose
             implementation(compose.runtime)
@@ -71,30 +79,36 @@ kotlin {
             implementation(libs.material3.windowsizeclass.multiplatform)
             implementation(compose.components.resources)
             implementation(compose.material3)
+            implementation(libs.navigation.compose)
 
             // Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
-            implementation(libs.navigation.compose)
+
+            // Haze
+            implementation(libs.haze.haze)
+            implementation(libs.haze.materials)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
         val iosMain by creating {
-            dependsOn(commonMain.get())
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
             dependencies {
 
             }
         }
+
+        /* Example of how to create a source set that depends on multiple source sets
+        val jvmAndMacos by creating {
+            dependsOn(commonMain.get())
+        }
+
+        macosArm64Main.get().dependsOn(jvmAndMacos)
+        jvmMain.get().dependsOn(jvmAndMacos)
+         */
     }
 }
 
@@ -110,8 +124,9 @@ android {
         applicationId = "org.thejohnsondev.vault"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = versionCodeValue
+        versionName = versionNameValue
+        setProperty("archivesBaseName", appName)
     }
     packaging {
         resources {

@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS PasswordAdditionalField (
+    id TEXT NOT NULL PRIMARY KEY,
+    passwordId TEXT NOT NULL,
+    fieldTitle TEXT NOT NULL,
+    fieldValue TEXT NOT NULL
+);
+
+insert:
+INSERT OR REPLACE INTO PasswordAdditionalField (id, passwordId, fieldTitle, fieldValue) VALUES (?, ?, ?, ?);
+
+getByPasswordId:
+SELECT * FROM PasswordAdditionalField WHERE passwordId = ?;
+
+getById:
+SELECT * FROM PasswordAdditionalField WHERE id = ?;
+
+deleteByPasswordId:
+DELETE FROM PasswordAdditionalField WHERE passwordId = ?;
+
+deleteById:
+DELETE FROM PasswordAdditionalField WHERE id = ?;
+
+deleteAll:
+DELETE FROM PasswordAdditionalField;
