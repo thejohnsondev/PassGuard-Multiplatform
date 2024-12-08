@@ -152,10 +152,7 @@ fun PasswordItem(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal)
-            .applyIf(!isExpanded) {
-                cursorEnterAnimation()
-            },
+            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal),
         shape = EqualRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor
