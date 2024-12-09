@@ -229,7 +229,6 @@ fun PasswordItem(
                     }
                 }
                 Column(modifier = Modifier.weight(1f)){
-                    SelectionContainer {
                         Text(
                             modifier = Modifier
                                 .padding(start = Size16)
@@ -241,8 +240,6 @@ fun PasswordItem(
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )
-                    }
-                    SelectionContainer {
                         Text(
                             modifier = Modifier
                                 .padding(start = Size16)
@@ -253,7 +250,6 @@ fun PasswordItem(
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )
-                    }
                 }
 
                 IconButton(
@@ -341,11 +337,13 @@ fun ExpandedContent(
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .clickable {
+                        isHidden = !isHidden
+                    },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SelectionContainer {
                     Text(
                         modifier = Modifier
                             .padding(horizontal = Size12, vertical = Size16)
@@ -355,7 +353,6 @@ fun ExpandedContent(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                }
                 Icon(
                     modifier = Modifier.padding(end = Size8)
                         .clip(RoundedCornerShape(Size8))
@@ -513,7 +510,15 @@ fun AdditionalFieldItem(
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
     Surface(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .combinedClickable(
+                onClick = {
+                    isHidden = !isHidden
+                },
+                onLongClick = {
+                    onLongClick(additionalField.value)
+                }
+            ),
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
@@ -528,7 +533,6 @@ fun AdditionalFieldItem(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-                SelectionContainer {
                     Text(
                         modifier = Modifier
                             .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
@@ -537,8 +541,6 @@ fun AdditionalFieldItem(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                }
-                SelectionContainer {
                     Text(
                         modifier = Modifier
                             .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
@@ -546,7 +548,6 @@ fun AdditionalFieldItem(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                }
             }
             Icon(
                 modifier = Modifier.padding(end = Size8)
