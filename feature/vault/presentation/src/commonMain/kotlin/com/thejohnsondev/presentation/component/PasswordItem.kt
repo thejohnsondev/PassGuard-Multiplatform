@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ContentCopy
@@ -73,9 +72,7 @@ import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
-import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
-import com.thejohnsondev.ui.utils.cursorEnterAnimation
 import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.mapToColor
 import com.thejohnsondev.uimodel.models.PasswordUIModel
@@ -533,21 +530,21 @@ fun AdditionalFieldItem(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
-                        text = additionalField.title,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
-                        text = value,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
+                Text(
+                    modifier = Modifier
+                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
+                    text = additionalField.title,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
+                    text = value,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
             Icon(
                 modifier = Modifier.padding(end = Size8)
