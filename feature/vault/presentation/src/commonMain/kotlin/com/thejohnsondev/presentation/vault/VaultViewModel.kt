@@ -44,6 +44,8 @@ class VaultViewModel(
     private val _itemTypeFilters = MutableStateFlow(getVaultItemTypeFilters())
     private val _itemCategoryFilters = MutableStateFlow(getVaultCategoryFilters())
     private val _isVaultEmpty = MutableStateFlow(false)
+    private val _isAddVaultItemBottomSheetOpened = MutableStateFlow(false)
+    private val _editVaultItem = MutableStateFlow<PasswordUIModel?>(null)
 
     val state = combine(
         _screenState,
@@ -57,6 +59,7 @@ class VaultViewModel(
         _itemTypeFilters,
         _itemCategoryFilters,
         _isVaultEmpty,
+        _isAddVaultItemBottomSheetOpened,
         ::State
     )
 
@@ -71,41 +74,54 @@ class VaultViewModel(
             is Action.ToggleIsFiltersOpened -> toggleFiltersOpened()
             is Action.OnFilterTypeClick -> onFilterTypeClick(action.filter, action.isSelected)
             is Action.OnFilterCategoryClick -> onFilterCategoryClick(action.filter, action.isSelected)
-            is Action.OnAddClick -> onAddClick()
             is Action.OnDeletePasswordClick -> onDeletePasswordClick(action.passwordId)
+            is Action.OnAddClick -> onAddClick()
+            is Action.OnAddClose -> onAddClose()
+            is Action.OnEditClick -> onEditClick(action.password)
         }
+    }
+
+    private fun onEditClick(password: PasswordUIModel) = launch {
+        _isAddVaultItemBottomSheetOpened.emit(true)
+        _editVaultItem.emit(password)
     }
 
     private fun onDeletePasswordClick(passwordId: String) = launch {
         passwordsService.deletePassword(passwordId)
     }
 
+    private fun onAddClose() = launch {
+        _isAddVaultItemBottomSheetOpened.emit(false)
+    }
+
     @OptIn(ExperimentalUuidApi::class)
     private fun onAddClick() = launch {
-        passwordsService.createOrUpdatePassword(
-            PasswordUIModel(
-                id = Uuid.random().toString(),
-                title = "Account ${Uuid.random()}",
-                organization = "Organization ${Uuid.random()}",
-                password = Uuid.random().toString(),
-                createdTime = "November 1 2024 10:22",
-                modifiedTime = "November 2 2024 20:01",
-                isFavorite = false,
-                category = financeFilterUIModel.mapToCategory(),
-                additionalFields = listOf(
-                    AdditionalFieldDto(
-                        id = Uuid.random().toString(),
-                        title = "Field ${Uuid.random()}",
-                        value = "Value ${Uuid.random()}"
-                    ),
-                    AdditionalFieldDto(
-                        id = Uuid.random().toString(),
-                        title = "Field ${Uuid.random()}",
-                        value = "Value ${Uuid.random()}"
-                    )
-                ),
-            )
-        )
+        _isAddVaultItemBottomSheetOpened.emit(true)
+        // TODO this is for test, remove later
+//        passwordsService.createOrUpdatePassword(
+//            PasswordUIModel(
+//                id = Uuid.random().toString(),
+//                title = "Account ${Uuid.random()}",
+//                organization = "Organization ${Uuid.random()}",
+//                password = Uuid.random().toString(),
+//                createdTime = "November 1 2024 10:22",
+//                modifiedTime = "November 2 2024 20:01",
+//                isFavorite = false,
+//                category = financeFilterUIModel.mapToCategory(),
+//                additionalFields = listOf(
+//                    AdditionalFieldDto(
+//                        id = Uuid.random().toString(),
+//                        title = "Field ${Uuid.random()}",
+//                        value = "Value ${Uuid.random()}"
+//                    ),
+//                    AdditionalFieldDto(
+//                        id = Uuid.random().toString(),
+//                        title = "Field ${Uuid.random()}",
+//                        value = "Value ${Uuid.random()}"
+//                    )
+//                ),
+//            )
+//        )
     }
 
     private fun fetchVault(isCompact: Boolean) = launchLoading {
@@ -193,6 +209,10 @@ class VaultViewModel(
         data class OnFilterTypeClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
         data class OnFilterCategoryClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
         data object OnAddClick : Action()
+        data object OnAddClose : Action()
+        data class OnEditClick(
+            val password: PasswordUIModel
+        ) : Action()
         data class OnDeletePasswordClick(val passwordId: String) : Action()
     }
 
@@ -207,7 +227,9 @@ class VaultViewModel(
         val listHeight: Int = 0,
         val itemTypeFilters: List<FilterUIModel> = emptyList(),
         val itemCategoryFilters: List<FilterUIModel> = emptyList(),
-        val isVaultEmpty: Boolean = false
+        val isVaultEmpty: Boolean = false,
+        val isAddVaultItemBottomSheetOpened: Boolean = false,
+        val editVaultItem: PasswordUIModel? = null
     )
 
 }

@@ -25,9 +25,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.presentation.additem.AddVaultItemScreen
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ToggleButton
@@ -60,6 +63,7 @@ import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
+import com.thejohnsondev.uimodel.models.PasswordUIModel
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -69,15 +73,16 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_v
 import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault_get_started
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VaultScreen(
     windowSizeClass: WindowWidthSizeClass,
-    viewModel: VaultViewModel,
+    vaultViewModel: VaultViewModel,
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit
 ) {
-    val state = viewModel.state.collectAsState(VaultViewModel.State())
+    val state = vaultViewModel.state.collectAsState(VaultViewModel.State())
     val snackBarHostState = remember {
         SnackbarHostState()
     }
@@ -89,9 +94,10 @@ fun VaultScreen(
         }
     }
     val appLogo = vectorResource(getAppLogo())
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     LaunchedEffect(true) {
-        viewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))
+        vaultViewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))
         setScaffoldConfig(
             ScaffoldConfig(
                 topAppBarTitle = getString(Res.string.vault),
@@ -100,8 +106,7 @@ fun VaultScreen(
                 fabTitle = getString(Res.string.add),
                 fabIcon = Icons.Default.Add,
                 onFabClick = {
-                    // for testing
-                    viewModel.perform(VaultViewModel.Action.OnAddClick)
+                    vaultViewModel.perform(VaultViewModel.Action.OnAddClick)
                 },
                 isFabExpanded = expandedFab,
                 snackBarHostState = snackBarHostState,
@@ -111,6 +116,16 @@ fun VaultScreen(
     }
     LaunchedEffect(state.value.isVaultEmpty) {
         updateIsEmptyVault(state.value.isVaultEmpty)
+    }
+
+    if (state.value.isAddVaultItemBottomSheetOpened) {
+        AddVaultItemScreen(
+            paddingValues = paddingValues,
+            sheetState = sheetState,
+            onDismissRequest = {
+                vaultViewModel.perform(VaultViewModel.Action.OnAddClose)
+            }
+        )
     }
 
     Box(
@@ -131,7 +146,10 @@ fun VaultScreen(
                     paddingValues = paddingValues,
                     lazyListState = lazyListState,
                     state = state.value,
-                    onAction = viewModel::perform
+                    onAction = vaultViewModel::perform,
+                    onEditClick = { passwordModel ->
+                        vaultViewModel.perform(VaultViewModel.Action.OnEditClick(passwordModel))
+                    },
                 )
             }
         }
@@ -227,7 +245,8 @@ fun VaultItemsList(
     paddingValues: PaddingValues,
     lazyListState: LazyListState,
     state: VaultViewModel.State,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
+    onEditClick: (PasswordUIModel) -> Unit
 ) {
     val topPadding = paddingValues.calculateTopPadding()
     val bottomPadding = paddingValues.calculateBottomPadding().plus(Size68)
@@ -281,7 +300,9 @@ fun VaultItemsList(
                                 )
                             },
                             onCopyClick = {},
-                            onEditClick = {},
+                            onEditClick = {
+                                onEditClick(passwordModel)
+                            },
                             onCopySensitiveClick = {},
                             onFavoriteClick = {},
                             isFavorite = passwordModel.isFavorite
@@ -350,7 +371,9 @@ fun VaultItemsList(
                                             )
                                         },
                                         onCopyClick = {},
-                                        onEditClick = {},
+                                        onEditClick = {
+                                            onEditClick(passwordModel)
+                                        },
                                         onCopySensitiveClick = {},
                                         onFavoriteClick = {},
                                         isFavorite = passwordModel.isFavorite
@@ -388,7 +411,9 @@ fun VaultItemsList(
                                             )
                                         },
                                         onCopyClick = {},
-                                        onEditClick = {},
+                                        onEditClick = {
+                                            onEditClick(passwordModel)
+                                        },
                                         onCopySensitiveClick = {},
                                         onFavoriteClick = {},
                                         isFavorite = passwordModel.isFavorite
