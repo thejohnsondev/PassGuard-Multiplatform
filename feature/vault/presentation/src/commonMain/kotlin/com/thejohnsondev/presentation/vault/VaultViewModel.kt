@@ -10,17 +10,13 @@ import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.model.vault.AdditionalFieldDto
-import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
 import com.thejohnsondev.uimodel.filterlists.getVaultCategoryFilters
 import com.thejohnsondev.uimodel.filterlists.getVaultItemTypeFilters
-import com.thejohnsondev.uimodel.mappers.mapToCategory
 import com.thejohnsondev.uimodel.models.FilterUIModel
 import com.thejohnsondev.uimodel.models.PasswordUIModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 class VaultViewModel(
     private val passwordsService: PasswordsService,
@@ -44,8 +40,8 @@ class VaultViewModel(
     private val _itemTypeFilters = MutableStateFlow(getVaultItemTypeFilters())
     private val _itemCategoryFilters = MutableStateFlow(getVaultCategoryFilters())
     private val _isVaultEmpty = MutableStateFlow(false)
-    private val _isAddVaultItemBottomSheetOpened = MutableStateFlow(false)
-    private val _editVaultItem = MutableStateFlow<PasswordUIModel?>(null)
+    private val _editVaultItemContainer =
+        MutableStateFlow<Pair<Boolean, PasswordUIModel?>>(Pair(false, null))
 
     val state = combine(
         _screenState,
@@ -59,7 +55,7 @@ class VaultViewModel(
         _itemTypeFilters,
         _itemCategoryFilters,
         _isVaultEmpty,
-        _isAddVaultItemBottomSheetOpened,
+        _editVaultItemContainer,
         ::State
     )
 
@@ -82,8 +78,7 @@ class VaultViewModel(
     }
 
     private fun onEditClick(password: PasswordUIModel) = launch {
-        _isAddVaultItemBottomSheetOpened.emit(true)
-        _editVaultItem.emit(password)
+        _editVaultItemContainer.emit(Pair(true, password))
     }
 
     private fun onDeletePasswordClick(passwordId: String) = launch {
@@ -91,12 +86,12 @@ class VaultViewModel(
     }
 
     private fun onAddClose() = launch {
-        _isAddVaultItemBottomSheetOpened.emit(false)
+        _editVaultItemContainer.emit(Pair(false, null))
     }
 
     @OptIn(ExperimentalUuidApi::class)
     private fun onAddClick() = launch {
-        _isAddVaultItemBottomSheetOpened.emit(true)
+        _editVaultItemContainer.emit(Pair(true, null))
         // TODO this is for test, remove later
 //        passwordsService.createOrUpdatePassword(
 //            PasswordUIModel(
@@ -228,8 +223,7 @@ class VaultViewModel(
         val itemTypeFilters: List<FilterUIModel> = emptyList(),
         val itemCategoryFilters: List<FilterUIModel> = emptyList(),
         val isVaultEmpty: Boolean = false,
-        val isAddVaultItemBottomSheetOpened: Boolean = false,
-        val editVaultItem: PasswordUIModel? = null
+        val editVaultItemContainer: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
     )
 
 }

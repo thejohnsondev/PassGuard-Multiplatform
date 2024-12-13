@@ -118,10 +118,11 @@ fun VaultScreen(
         updateIsEmptyVault(state.value.isVaultEmpty)
     }
 
-    if (state.value.isAddVaultItemBottomSheetOpened) {
+    if (state.value.editVaultItemContainer.first) {
         AddVaultItemScreen(
             paddingValues = paddingValues,
             sheetState = sheetState,
+            vaultItem = state.value.editVaultItemContainer.second,
             onDismissRequest = {
                 vaultViewModel.perform(VaultViewModel.Action.OnAddClose)
             }
