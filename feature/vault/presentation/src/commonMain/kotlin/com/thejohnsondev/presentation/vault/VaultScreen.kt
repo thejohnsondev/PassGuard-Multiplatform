@@ -97,8 +97,7 @@ fun VaultScreen(
     }
     val appLogo = vectorResource(getAppLogo())
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-        confirmValueChange = { false }
+        skipPartiallyExpanded = true
     )
     val coroutineScope = rememberCoroutineScope()
 
