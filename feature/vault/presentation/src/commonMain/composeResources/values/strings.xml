@@ -24,4 +24,5 @@
     <string name="title_empty">Title is empty</string>
     <string name="password_empty">Password is empty</string>
     <string name="add_field">Add field</string>
+    <string name="save">Save</string>
 </resources>

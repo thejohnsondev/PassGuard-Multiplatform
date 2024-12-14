@@ -54,7 +54,12 @@ class AddVaultItemViewModel(
             )
 
             is Action.RemoveAdditionalField -> removeAdditionalField(action.id)
+            Action.SavePassword -> savePassword()
         }
+    }
+
+    private fun savePassword() = launch {
+        // TODO implement
     }
 
     private fun setPasswordForEdit(passwordUIModel: PasswordUIModel) = launch {
@@ -116,6 +121,7 @@ class AddVaultItemViewModel(
         data class EnterAdditionalFieldTitle(val id: String, val title: String) : Action()
         data class EnterAdditionalFieldValue(val id: String, val value: String) : Action()
         data class RemoveAdditionalField(val id: String) : Action()
+        data object SavePassword : Action()
     }
 
     data class State(

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -17,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,6 +26,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,18 +43,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.presentation.component.AdditionalField
+import com.thejohnsondev.ui.components.BackArrowButton
 import com.thejohnsondev.ui.components.HintTextField
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.RoundedContainer
 import com.thejohnsondev.ui.designsystem.EqualRounded
-import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
-import com.thejohnsondev.ui.designsystem.Size24
-import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
@@ -68,6 +68,7 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.add_fie
 import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
 import vaultmultiplatform.feature.vault.presentation.generated.resources.organization
 import vaultmultiplatform.feature.vault.presentation.generated.resources.password
+import vaultmultiplatform.feature.vault.presentation.generated.resources.save
 import vaultmultiplatform.feature.vault.presentation.generated.resources.title
 import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
 
@@ -88,6 +89,7 @@ fun AddVaultItemScreen(
             when (it) {
                 is OneTimeEvent.InfoMessage -> showErrorMessage(it.message)
                 is OneTimeEvent.SuccessNavigation -> {
+                    viewModel.clear()
                     onDismissRequest()
                 }
             }
@@ -105,6 +107,7 @@ fun AddVaultItemScreen(
         properties = ModalBottomSheetProperties(
             shouldDismissOnBackPress = false
         ),
+        dragHandle = null,
         containerColor = MaterialTheme.colorScheme.surface,
     ) {
         Surface(
@@ -114,7 +117,11 @@ fun AddVaultItemScreen(
             AddPasswordContent(
                 state = state.value,
                 vaultItem = vaultItem,
-                onAction = viewModel::perform
+                onAction = viewModel::perform,
+                onBackClick = {
+                    viewModel.clear()
+                    onDismissRequest()
+                }
             )
         }
     }
@@ -124,7 +131,8 @@ fun AddVaultItemScreen(
 fun AddPasswordContent(
     state: AddVaultItemViewModel.State,
     vaultItem: PasswordUIModel?,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+    onBackClick: () -> Unit
 ) {
 
     val organizationFocusRequester = remember {
@@ -155,18 +163,39 @@ fun AddPasswordContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .imePadding()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top,
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = Size16),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BackArrowButton(
+                    modifier = Modifier.padding(start = Size16),
+                    onClick = onBackClick
+                )
+                Button(
+                    modifier = Modifier
+                        .padding(end = Size16)
+                        .bounceClick(),
+                    onClick = {
+                        onAction(AddVaultItemViewModel.Action.SavePassword)
+                    }
+                ) {
+                    Text(text = stringResource(Res.string.save))
+                }
+            }
             Row(
                 modifier = Modifier.padding(Size16),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Surface(
-                    modifier = Modifier.size(Size36),
+                    modifier = Modifier.size(Size48),
                     color = Color.White,
                     shape = EqualRounded.small
                 ) {
@@ -176,6 +205,8 @@ fun AddPasswordContent(
                             .padding(Size4),
                         imageUrl = String.Companion.empty,
                         placeholderDrawableResource = Res.drawable.ic_password,
+                        errorDrawableResource = Res.drawable.ic_password,
+                        placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
                         backgroundColor = Color.White
                     )
                 }
@@ -203,7 +234,7 @@ fun AddPasswordContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(start = Size16, end = Size16, top = Size24),
+                    .padding(start = Size16, end = Size16),
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 isFirstItem = true,
             ) {
