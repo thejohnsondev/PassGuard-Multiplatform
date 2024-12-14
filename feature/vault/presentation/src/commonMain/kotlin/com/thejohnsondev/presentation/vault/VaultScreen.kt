@@ -37,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,6 +65,7 @@ import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import com.thejohnsondev.uimodel.models.PasswordUIModel
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -94,7 +96,11 @@ fun VaultScreen(
         }
     }
     val appLogo = vectorResource(getAppLogo())
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
+        confirmValueChange = { false }
+    )
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
         vaultViewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))
@@ -125,6 +131,14 @@ fun VaultScreen(
             vaultItem = state.value.editVaultItemContainer.second,
             onDismissRequest = {
                 vaultViewModel.perform(VaultViewModel.Action.OnAddClose)
+            },
+            showErrorMessage = {
+                coroutineScope.launch {
+                    snackBarHostState.showSnackbar(
+                        message = it,
+                        actionLabel = null
+                    )
+                }
             }
         )
     }
