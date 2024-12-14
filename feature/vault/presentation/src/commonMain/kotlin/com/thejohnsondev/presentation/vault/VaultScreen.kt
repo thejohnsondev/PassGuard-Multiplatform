@@ -125,6 +125,7 @@ fun VaultScreen(
 
     if (state.value.editVaultItemContainer.first) {
         AddVaultItemScreen(
+            windowSizeClass = windowSizeClass,
             paddingValues = paddingValues,
             sheetState = sheetState,
             vaultItem = state.value.editVaultItemContainer.second,

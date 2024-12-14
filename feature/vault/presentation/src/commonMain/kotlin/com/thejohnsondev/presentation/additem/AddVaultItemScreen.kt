@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -27,6 +28,7 @@ import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -58,7 +60,9 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.model.ButtonShape
+import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
+import com.thejohnsondev.ui.utils.isCompact
 import com.thejohnsondev.uimodel.models.PasswordUIModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -75,6 +79,7 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.visibil
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 fun AddVaultItemScreen(
+    windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     sheetState: SheetState,
     viewModel: AddVaultItemViewModel = koinViewModel<AddVaultItemViewModel>(),
@@ -98,7 +103,11 @@ fun AddVaultItemScreen(
 
     ModalBottomSheet(
         modifier = Modifier
-            .padding(top = paddingValues.calculateTopPadding()),
+            .applyIf(windowSizeClass.isCompact()) {
+                systemBarsPadding()
+            }.applyIf(!windowSizeClass.isCompact()) {
+                padding(top = paddingValues.calculateTopPadding())
+            },
         sheetState = sheetState,
         onDismissRequest = {
             viewModel.clear()
@@ -107,7 +116,33 @@ fun AddVaultItemScreen(
         properties = ModalBottomSheetProperties(
             shouldDismissOnBackPress = false
         ),
-        dragHandle = null,
+        dragHandle = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = Size16),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BackArrowButton(
+                    modifier = Modifier.padding(start = Size16),
+                    onClick = {
+                        viewModel.clear()
+                        onDismissRequest()
+                    }
+                )
+                Button(
+                    modifier = Modifier
+                        .padding(end = Size16)
+                        .bounceClick(),
+                    onClick = {
+                        viewModel.perform(AddVaultItemViewModel.Action.SavePassword)
+                    }
+                ) {
+                    Text(text = stringResource(Res.string.save))
+                }
+            }
+        },
         containerColor = MaterialTheme.colorScheme.surface,
     ) {
         Surface(
@@ -168,29 +203,7 @@ fun AddPasswordContent(
             verticalArrangement = Arrangement.Top,
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = Size16),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                BackArrowButton(
-                    modifier = Modifier.padding(start = Size16),
-                    onClick = onBackClick
-                )
-                Button(
-                    modifier = Modifier
-                        .padding(end = Size16)
-                        .bounceClick(),
-                    onClick = {
-                        onAction(AddVaultItemViewModel.Action.SavePassword)
-                    }
-                ) {
-                    Text(text = stringResource(Res.string.save))
-                }
-            }
-            Row(
-                modifier = Modifier.padding(Size16),
+                modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
