@@ -184,7 +184,6 @@ fun AddPasswordContent(
         if (vaultItem != null) {
             onAction(AddVaultItemViewModel.Action.SetPasswordForEdit(vaultItem))
         }
-        organizationFocusRequester.requestFocus()
     }
     var isPasswordHidden by remember {
         mutableStateOf(false)
@@ -301,7 +300,7 @@ fun AddPasswordContent(
                         onKeyboardAction = {
                             titleFocusRequester.requestFocus()
                         },
-                        imeAction = ImeAction.Next,
+                        imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Password,
                         passwordVisible = !isPasswordHidden
                     )
