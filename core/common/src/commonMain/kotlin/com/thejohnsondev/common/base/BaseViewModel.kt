@@ -14,18 +14,17 @@ import com.thejohnsondev.model.UnknownError
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    private val eventChannel = Channel<OneTimeEvent>()
+    private val eventChannel = MutableSharedFlow<OneTimeEvent>()
     protected val _screenState: MutableStateFlow<ScreenState> =
         MutableStateFlow(ScreenState.None)
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -34,12 +33,11 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    fun getEventFlow() = eventChannel.receiveAsFlow()
+    fun getEventFlow() = eventChannel
         .stateIn(viewModelScope, SharingStarted.Eagerly, OneTimeEvent.None)
 
     protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent)  {
-        showContent()
-        eventChannel.send(event)
+        eventChannel.emit(event)
     }
 
     protected suspend fun BaseViewModel.loading()  {

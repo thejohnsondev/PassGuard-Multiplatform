@@ -4,6 +4,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_FINANCE
+import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
+import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
+import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.othersFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.personalFilterUIModel
+import com.thejohnsondev.uimodel.filterlists.workFilterUIModel
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -28,6 +35,15 @@ data class FilterUIModel(
             contentColorResName = "onPrimaryContainer",
             isSelected = true
         )
+
+        fun getFilterUiModelById(id: String): FilterUIModel {
+            return when (id) {
+                VAULT_ITEM_CATEGORY_PERSONAL -> personalFilterUIModel
+                VAULT_ITEM_CATEGORY_WORK -> workFilterUIModel
+                VAULT_ITEM_CATEGORY_FINANCE -> financeFilterUIModel
+                else -> othersFilterUIModel
+            }
+        }
     }
 }
 

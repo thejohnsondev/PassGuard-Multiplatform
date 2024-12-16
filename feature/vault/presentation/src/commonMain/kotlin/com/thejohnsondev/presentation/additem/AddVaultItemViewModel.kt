@@ -1,29 +1,41 @@
 package com.thejohnsondev.presentation.additem
 
+import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
+import com.thejohnsondev.domain.DecryptPasswordsListUseCase
+import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
+import com.thejohnsondev.domain.GeneratePasswordModelUseCase
+import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
+import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.uimodel.models.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class AddVaultItemViewModel(
+    private val passwordsService: PasswordsService,
     private val addAdditionalFieldUseCase: AddAdditionalFieldUseCase,
     private val enterAdditionalFieldTitleUseCase: EnterAdditionalFieldTitleUseCase,
     private val enterAdditionalFieldValueUseCase: EnterAdditionalFieldValueUseCase,
-    private val removeAdditionalFieldUseCase: RemoveAdditionalFieldUseCase
+    private val removeAdditionalFieldUseCase: RemoveAdditionalFieldUseCase,
+    private val generatePasswordModelUseCase: GeneratePasswordModelUseCase,
+    private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase
 ) : BaseViewModel() {
 
-    private val _passwordId = MutableStateFlow(String.Companion.empty)
+    private val _passwordId = MutableStateFlow<String?>(null)
     private val _organization = MutableStateFlow(String.Companion.empty)
     private val _title = MutableStateFlow(String.Companion.empty)
     private val _password = MutableStateFlow(String.Companion.empty)
     private val _additionalFields = MutableStateFlow<List<AdditionalFieldDto>>(emptyList())
+    private val _createdTime = MutableStateFlow<String?>(null)
+    private val _selectedCategoryId = MutableStateFlow(VAULT_ITEM_CATEGORY_PERSONAL)
+    private val _isFavorite = MutableStateFlow(false)
     private val _isEdit = MutableStateFlow(false)
 
     val state = combine(
@@ -32,6 +44,8 @@ class AddVaultItemViewModel(
         _title,
         _password,
         _additionalFields,
+        _isFavorite,
+        _selectedCategoryId,
         _isEdit,
         ::State
     )
@@ -54,12 +68,26 @@ class AddVaultItemViewModel(
             )
 
             is Action.RemoveAdditionalField -> removeAdditionalField(action.id)
-            Action.SavePassword -> savePassword()
+            is Action.SavePassword -> savePassword()
         }
     }
 
     private fun savePassword() = launch {
         // TODO implement
+    private fun savePassword() = launchLoading {
+        val passwordDto = generatePasswordModelUseCase(
+            passwordId = _passwordId.value,
+            organization = _organization.value,
+            title = _title.value,
+            password = _password.value,
+            categoryId = _selectedCategoryId.value, // TODO add selecting category
+            additionalFields = _additionalFields.value,
+            createdTime = _createdTime.value,
+            isFavorite = _isFavorite.value // TODO add making favorite
+        )
+        val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
+        passwordsService.createOrUpdatePassword(encryptedPasswordDto)
+        sendEvent(OneTimeEvent.SuccessNavigation)
     }
 
     private fun setPasswordForEdit(passwordUIModel: PasswordUIModel) = launch {
@@ -68,6 +96,7 @@ class AddVaultItemViewModel(
         _title.emit(passwordUIModel.title)
         _password.emit(passwordUIModel.password)
         _additionalFields.emit(passwordUIModel.additionalFields)
+        _createdTime.emit(passwordUIModel.createdTime)
         _isEdit.emit(true)
     }
 
@@ -130,6 +159,8 @@ class AddVaultItemViewModel(
         val title: String = String.Companion.empty,
         val password: String = String.Companion.empty,
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
+        val isFavorite: Boolean = false,
+        val selectedCategoryId: String = VAULT_ITEM_CATEGORY_PERSONAL,
         val isEdit: Boolean = false
     )
 

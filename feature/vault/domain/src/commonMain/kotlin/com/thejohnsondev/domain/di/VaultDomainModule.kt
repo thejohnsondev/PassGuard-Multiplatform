@@ -6,12 +6,20 @@ import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCaseImpl
+import com.thejohnsondev.domain.DecryptPasswordsListUseCase
+import com.thejohnsondev.domain.DecryptPasswordsListUseCaseImpl
+import com.thejohnsondev.domain.EncryptPasswordModelUseCase
+import com.thejohnsondev.domain.EncryptPasswordModelUseCaseImpl
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCaseImpl
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCaseImpl
+import com.thejohnsondev.domain.GeneratePasswordModelUseCase
+import com.thejohnsondev.domain.GeneratePasswordModelUseCaseImpl
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCaseImpl
+import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
+import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCaseImpl
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.PasswordsServiceImpl
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
@@ -38,4 +46,8 @@ val vaultDomainModule = module {
     singleOf(::EnterAdditionalFieldTitleUseCaseImpl) { bind<EnterAdditionalFieldTitleUseCase>() }
     singleOf(::EnterAdditionalFieldValueUseCaseImpl) { bind<EnterAdditionalFieldValueUseCase>() }
     singleOf(::RemoveAdditionalFieldUseCaseImpl) { bind<RemoveAdditionalFieldUseCase>() }
+    singleOf(::GeneratePasswordModelUseCaseImpl) { bind<GeneratePasswordModelUseCase>() }
+    singleOf(::EncryptPasswordModelUseCaseImpl) { bind<EncryptPasswordModelUseCase>() }
+    singleOf(::DecryptPasswordsListUseCaseImpl) { bind<DecryptPasswordsListUseCase>() }
+    singleOf(::PasswordsMapToUiModelsUseCaseImpl) { bind<PasswordsMapToUiModelsUseCase>() }
 }
