@@ -60,6 +60,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.model.ButtonShape
+import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
@@ -152,11 +153,7 @@ fun AddVaultItemScreen(
             AddPasswordContent(
                 state = state.value,
                 vaultItem = vaultItem,
-                onAction = viewModel::perform,
-                onBackClick = {
-                    viewModel.clear()
-                    onDismissRequest()
-                }
+                onAction = viewModel::perform
             )
         }
     }
@@ -167,7 +164,6 @@ fun AddPasswordContent(
     state: AddVaultItemViewModel.State,
     vaultItem: PasswordUIModel?,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
-    onBackClick: () -> Unit
 ) {
 
     val organizationFocusRequester = remember {
@@ -179,6 +175,7 @@ fun AddPasswordContent(
     val passwordFocusRequester = remember {
         FocusRequester()
     }
+    val keyboardController = KeyboardManager.getKeyboardController()
 
     LaunchedEffect(true) {
         if (vaultItem != null) {
@@ -298,7 +295,7 @@ fun AddPasswordContent(
                         fontSize = Text20,
                         maxLines = 1,
                         onKeyboardAction = {
-                            titleFocusRequester.requestFocus()
+                            keyboardController?.hide()
                         },
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Password,
