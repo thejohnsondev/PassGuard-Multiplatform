@@ -58,6 +58,13 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.arrow.core)
         }
+
+        val unitTest by creating {
+            dependsOn(commonTest.get())
+            androidUnitTest.dependencies {
+                implementation(libs.mockk)
+            }
+        }
     }
 }
 
