@@ -53,6 +53,7 @@ val Percent60 = 0.6f
 val Percent50 = 0.5f
 val Percent50i = 50
 val Percent80 = 0.8f
+val Percent85 = 0.85f
 val Percent90 = 0.9f
 val Percent95 = 0.95f
 val Percent98 = 0.98f

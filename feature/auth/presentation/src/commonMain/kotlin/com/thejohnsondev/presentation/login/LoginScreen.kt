@@ -64,11 +64,11 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
+import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.getEmailErrorMessage
 import com.thejohnsondev.ui.utils.getPasswordErrorMessage
 import com.thejohnsondev.ui.utils.isCompact
-import com.thejohnsondev.ui.utils.keyboardAsState
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.auth.presentation.generated.resources.Res
 import vaultmultiplatform.feature.auth.presentation.generated.resources.do_not_have_account
@@ -98,7 +98,7 @@ fun LoginScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
-    val isKeyboardOpened by keyboardAsState()
+    val isKeyboardOpened by KeyboardManager.keyboardAsState()
 
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {

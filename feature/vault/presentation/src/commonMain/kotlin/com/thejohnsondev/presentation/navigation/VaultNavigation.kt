@@ -21,7 +21,13 @@ fun NavGraphBuilder.vaultScreen(
     composable(
         route = Screens.VaultScreen.name
     ) {
-        val viewModel = koinViewModel<VaultViewModel>()
-        VaultScreen(windowSize, viewModel, paddingValues, setScaffoldConfig, updateIsEmptyVault)
+        val vaultViewModel = koinViewModel<VaultViewModel>()
+        VaultScreen(
+            windowSize,
+            vaultViewModel,
+            paddingValues,
+            setScaffoldConfig,
+            updateIsEmptyVault
+        )
     }
 }

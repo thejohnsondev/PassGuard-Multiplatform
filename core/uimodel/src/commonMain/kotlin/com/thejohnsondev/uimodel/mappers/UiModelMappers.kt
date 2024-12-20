@@ -39,18 +39,3 @@ fun PasswordDto.mapToUiModel(): PasswordUIModel {
         }
     )
 }
-
-fun PasswordUIModel.mapToDto(): PasswordDto {
-    return PasswordDto(
-        id = this.id ?: throw IllegalArgumentException("Password id cannot be null"),
-        organization = this.organization,
-        organizationLogo = this.organizationLogo,
-        title = this.title,
-        password = this.password,
-        additionalFields = this.additionalFields,
-        createdTimeStamp = this.createdTime,
-        modifiedTimeStamp = this.modifiedTime,
-        isFavorite = this.isFavorite,
-        categoryId = this.category.id
-    )
-}
