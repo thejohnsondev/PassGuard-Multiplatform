@@ -65,6 +65,11 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Check out
@@ -92,3 +97,5 @@ jobs:
             core/common/build/test-results/**/*.xml
             core/network/build/test-results/**/*.xml
             feature/auth/domain/build/test-results/**/*.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
