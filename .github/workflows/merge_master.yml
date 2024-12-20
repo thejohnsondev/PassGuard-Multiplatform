@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  prepare-environment:
+  build-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -41,30 +41,15 @@ jobs:
       - name: Create BuildKonfig
         run: ./gradlew generateBuildKonfig
 
-  version-bump:
-    needs: prepare-environment
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Version Bump
         uses: chkfung/android-version-actions@v1.2.3
         with:
           gradlePath: composeApp/build.gradle.kts
           versionCode: ${{ github.run_number }}
 
-  build:
-    needs: version-bump
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease
 
-  sign-and-deploy:
-    depends-on: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Sign Bundle
         uses: r0adkll/sign-android-release@v1
         with:
