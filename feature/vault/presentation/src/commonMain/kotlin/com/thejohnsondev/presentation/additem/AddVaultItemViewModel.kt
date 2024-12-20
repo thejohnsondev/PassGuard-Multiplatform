@@ -72,8 +72,6 @@ class AddVaultItemViewModel(
         }
     }
 
-    private fun savePassword() = launch {
-        // TODO implement
     private fun savePassword() = launchLoading {
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
