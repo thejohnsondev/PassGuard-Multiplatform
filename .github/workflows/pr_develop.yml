@@ -73,4 +73,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: internal-testers
           file: composeApp/build/outputs/apk/debug/PassGuard-debug.apk
-          releaseNotesFile: whatsNew/whatsnew-en-US
+          releaseNotesFile: whatsNew/whatsnew-en-US.txt
