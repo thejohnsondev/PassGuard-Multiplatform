@@ -21,7 +21,7 @@ private val DEFAULT_SIMPLE_FORMAT = LocalDateTime.Format {
 fun String?.parseTime(format: DateTimeFormat<LocalDateTime> = DEFAULT_SIMPLE_FORMAT): String? {
     if (this == null) return null
     val timeStampValue = this.toLongOrNull()
-    timeStampValue ?: throw IllegalArgumentException("Invalid time stamp value: $this")
+    timeStampValue ?: return this
     val instant = Instant.fromEpochSeconds(timeStampValue)
     val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
     val formatted = localDateTime.format(format)

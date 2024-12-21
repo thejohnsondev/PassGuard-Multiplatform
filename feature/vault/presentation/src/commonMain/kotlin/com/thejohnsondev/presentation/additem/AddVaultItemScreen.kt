@@ -301,11 +301,12 @@ fun AddPasswordContent(
                         keyboardType = KeyboardType.Password,
                         passwordVisible = !isPasswordHidden
                     )
-                    IconButton(onClick = {
+                    IconButton(
+                        modifier = Modifier.padding(end = Size8),
+                        onClick = {
                         isPasswordHidden = !isPasswordHidden
                     }) {
                         Icon(
-                            modifier = Modifier.padding(end = Size8),
                             imageVector = eyeImage,
                             contentDescription = stringResource(Res.string.visibility),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
