@@ -1,8 +1,8 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.PasswordDto
-import kotlinx.datetime.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -19,7 +19,7 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
         isFavorite: Boolean
     ): PasswordDto {
         val finalPasswordId = passwordId ?: Uuid.random().toString()
-        val nowTime = Clock.System.now().epochSeconds.toString()
+        val nowTime = getCurrentTimeStamp()
         val finalCreatedTime = createdTime ?: nowTime
         val modifiedTime = if (createdTime == null) {
             null
