@@ -33,8 +33,8 @@ jobs:
           AUTH_SECRET_KEY: ${{ secrets.AUTH_SECRET_KEY }}
         run: |
           cat <<EOF > local.properties
-          AUTH_SECRET_IV:"$AUTH_SECRET_IV"
-          AUTH_SECRET_KEY:"$AUTH_SECRET_KEY"
+          auth_secret_key="$AUTH_SECRET_KEY"
+          auth_secret_iv="$AUTH_SECRET_IV"
           EOF
 
       - name: Create BuildKonfig
