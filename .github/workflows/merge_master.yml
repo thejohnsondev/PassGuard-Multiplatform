@@ -2,8 +2,7 @@ name: Deploy to Google Play
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   build-deploy:
