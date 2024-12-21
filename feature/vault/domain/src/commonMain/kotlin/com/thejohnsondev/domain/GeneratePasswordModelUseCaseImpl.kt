@@ -26,13 +26,14 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
         } else {
             nowTime
         }
+        val filteredAdditionalFields = additionalFields.filter { it.title.isNotBlank() && it.value.isNotBlank() }
         return PasswordDto(
             id = finalPasswordId,
             organization = organization,
             title = title,
             password = password,
             categoryId = categoryId,
-            additionalFields = additionalFields,
+            additionalFields = filteredAdditionalFields,
             createdTimeStamp = finalCreatedTime,
             modifiedTimeStamp = modifiedTime,
             isFavorite = isFavorite,

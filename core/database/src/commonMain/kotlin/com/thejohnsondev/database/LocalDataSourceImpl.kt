@@ -35,6 +35,7 @@ class LocalDataSourceImpl(
             isFavorite = passwordDto.isFavorite,
             id = passwordDto.id
         )
+        vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordDto.id)
         passwordDto.additionalFields.forEach {
             vaultDatabase.additionalFieldEntityQueries.insert(
                 passwordId = passwordDto.id,

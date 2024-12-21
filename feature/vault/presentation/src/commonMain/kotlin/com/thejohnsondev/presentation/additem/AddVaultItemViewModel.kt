@@ -131,11 +131,15 @@ class AddVaultItemViewModel(
     }
 
     fun clear() = launch {
+        _passwordId.emit(null)
         _screenState.emit(ScreenState.None)
         _organization.emit(String.Companion.empty)
         _title.emit(String.Companion.empty)
         _password.emit(String.Companion.empty)
         _additionalFields.emit(emptyList())
+        _createdTime.emit(null)
+        _selectedCategoryId.emit(VAULT_ITEM_CATEGORY_PERSONAL)
+        _isFavorite.emit(false)
         _isEdit.emit(false)
     }
 
