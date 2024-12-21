@@ -66,3 +66,12 @@ jobs:
             core/common/build/test-results/**/*.xml
             core/network/build/test-results/**/*.xml
             feature/auth/domain/build/test-results/**/*.xml
+            
+      - name: Deploy to App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: internal-testers
+          file: composeApp/build/outputs/apk/debug/PassGuard-debug.apk
+          releaseNotesFile: whatsNew/whatsnew-en-US.txt
