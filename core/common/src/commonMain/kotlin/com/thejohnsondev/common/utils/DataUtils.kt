@@ -9,7 +9,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
-
+// TODO extract into an use case in auth module
 fun String.isPasswordValid(): PasswordValidationState {
     val length = this.length
     if (length < PASS_MIN_SIZE) return PasswordValidationState.PasswordIncorrectState(
@@ -34,6 +34,7 @@ fun String.isPasswordValid(): PasswordValidationState {
     return PasswordValidationState.PasswordCorrectState
 }
 
+// TODO extract into an use case in auth module
 fun String.isEmailValid(): EmailValidationState {
     return if (this.isNotEmpty() && Regex(getEmailPattern()).matches(this)) {
         EmailValidationState.EmailCorrectState

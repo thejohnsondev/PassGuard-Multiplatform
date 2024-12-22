@@ -138,7 +138,8 @@ fun AddVaultItemScreen(
                         .bounceClick(),
                     onClick = {
                         viewModel.perform(AddVaultItemViewModel.Action.SavePassword)
-                    }
+                    },
+                    enabled = state.value.isValid,
                 ) {
                     Text(text = stringResource(Res.string.save))
                 }

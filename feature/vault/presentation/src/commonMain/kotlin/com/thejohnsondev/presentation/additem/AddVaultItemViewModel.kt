@@ -5,13 +5,13 @@ import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
-import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
+import com.thejohnsondev.domain.ValidatePasswordModelUseCase
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
@@ -25,7 +25,8 @@ class AddVaultItemViewModel(
     private val enterAdditionalFieldValueUseCase: EnterAdditionalFieldValueUseCase,
     private val removeAdditionalFieldUseCase: RemoveAdditionalFieldUseCase,
     private val generatePasswordModelUseCase: GeneratePasswordModelUseCase,
-    private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase
+    private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
+    private val validatePasswordModelUseCase: ValidatePasswordModelUseCase
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
@@ -36,6 +37,7 @@ class AddVaultItemViewModel(
     private val _createdTime = MutableStateFlow<String?>(null)
     private val _selectedCategoryId = MutableStateFlow(VAULT_ITEM_CATEGORY_PERSONAL)
     private val _isFavorite = MutableStateFlow(false)
+    private val _isValid = MutableStateFlow(false)
     private val _isEdit = MutableStateFlow(false)
 
     val state = combine(
@@ -46,6 +48,7 @@ class AddVaultItemViewModel(
         _additionalFields,
         _isFavorite,
         _selectedCategoryId,
+        _isValid,
         _isEdit,
         ::State
     )
@@ -96,18 +99,22 @@ class AddVaultItemViewModel(
         _additionalFields.emit(passwordUIModel.additionalFields)
         _createdTime.emit(passwordUIModel.createdTime)
         _isEdit.emit(true)
+        validateFields()
     }
 
     private fun enterOrganization(organization: String) = launch {
         _organization.emit(organization)
+        validateFields()
     }
 
     private fun enterTitle(title: String) = launch {
         _title.emit(title)
+        validateFields()
     }
 
     private fun enterPassword(password: String) = launch {
         _password.emit(password)
+        validateFields()
     }
 
     private fun addAdditionalField() = launch {
@@ -130,6 +137,15 @@ class AddVaultItemViewModel(
         _additionalFields.emit(updatedList)
     }
 
+    private suspend fun validateFields() {
+        val isValid = validatePasswordModelUseCase(
+            organization = _organization.value,
+            title = _title.value,
+            password = _password.value
+        )
+        _isValid.emit(isValid)
+    }
+
     fun clear() = launch {
         _passwordId.emit(null)
         _screenState.emit(ScreenState.None)
@@ -140,6 +156,7 @@ class AddVaultItemViewModel(
         _createdTime.emit(null)
         _selectedCategoryId.emit(VAULT_ITEM_CATEGORY_PERSONAL)
         _isFavorite.emit(false)
+        _isValid.emit(false)
         _isEdit.emit(false)
     }
 
@@ -163,7 +180,8 @@ class AddVaultItemViewModel(
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,
         val selectedCategoryId: String = VAULT_ITEM_CATEGORY_PERSONAL,
-        val isEdit: Boolean = false
+        val isValid: Boolean = false,
+        val isEdit: Boolean = false,
     )
 
 }
