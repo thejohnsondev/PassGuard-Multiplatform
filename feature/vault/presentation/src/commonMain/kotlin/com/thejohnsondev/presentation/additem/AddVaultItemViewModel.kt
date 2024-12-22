@@ -120,28 +120,33 @@ class AddVaultItemViewModel(
     private fun addAdditionalField() = launch {
         val updatedList = addAdditionalFieldUseCase(_additionalFields.value)
         _additionalFields.emit(updatedList)
+        validateFields()
     }
 
     private fun enterAdditionalFieldTitle(id: String, title: String) = launch {
         val updatedList = enterAdditionalFieldTitleUseCase(id, title, _additionalFields.value)
         _additionalFields.emit(updatedList)
+        validateFields()
     }
 
     private fun enterAdditionalFieldValue(id: String, value: String) = launch {
         val updatedList = enterAdditionalFieldValueUseCase(id, value, _additionalFields.value)
         _additionalFields.emit(updatedList)
+        validateFields()
     }
 
     private fun removeAdditionalField(id: String) = launch {
         val updatedList = removeAdditionalFieldUseCase(id, _additionalFields.value)
         _additionalFields.emit(updatedList)
+        validateFields()
     }
 
     private suspend fun validateFields() {
         val isValid = validatePasswordModelUseCase(
             organization = _organization.value,
             title = _title.value,
-            password = _password.value
+            password = _password.value,
+            additionalFieldsList = _additionalFields.value
         )
         _isValid.emit(isValid)
     }

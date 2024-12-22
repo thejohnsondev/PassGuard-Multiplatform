@@ -294,7 +294,7 @@ fun AddPasswordContent(
                         focusRequester = passwordFocusRequester,
                         textColor = MaterialTheme.colorScheme.onSurface,
                         fontSize = Text20,
-                        maxLines = 1,
+                        maxLines = 2,
                         onKeyboardAction = {
                             keyboardController?.hide()
                         },
