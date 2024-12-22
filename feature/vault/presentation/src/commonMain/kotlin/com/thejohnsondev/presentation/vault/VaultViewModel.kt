@@ -80,6 +80,7 @@ class VaultViewModel(
     }
 
     private fun onEditClick(password: PasswordUIModel) = launch {
+        _passwordsList.value = toggleOpenedItemUseCase(password.id, _passwordsList.value)
         _editVaultItemContainer.emit(Pair(true, password))
     }
 
@@ -92,6 +93,7 @@ class VaultViewModel(
     }
 
     private fun onAddClick() = launch {
+        _passwordsList.value = toggleOpenedItemUseCase(null, _passwordsList.value)
         _editVaultItemContainer.emit(Pair(true, null))
     }
 

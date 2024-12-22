@@ -1,5 +1,6 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.common.utils.parseTime
 import com.thejohnsondev.model.vault.PasswordDto
 import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
 import com.thejohnsondev.uimodel.filterlists.othersFilterUIModel
@@ -18,8 +19,8 @@ class PasswordsMapToUiModelsUseCaseImpl : PasswordsMapToUiModelsUseCase {
                 title = dto.title,
                 password = dto.password,
                 additionalFields = dto.additionalFields,
-                createdTime = dto.createdTimeStamp,
-                modifiedTime = dto.modifiedTimeStamp,
+                createdTime = dto.createdTimeStamp.parseTime(),
+                modifiedTime = dto.modifiedTimeStamp.parseTime(),
                 isFavorite = dto.isFavorite,
                 category = when (dto.categoryId) {
                     personalFilterUIModel.id -> personalFilterUIModel.mapToCategory()

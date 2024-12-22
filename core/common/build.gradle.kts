@@ -40,6 +40,8 @@ kotlin {
 
             // Logs
             implementation(libs.napier)
+
+            implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
             implementation(libs.androidx.ktx)

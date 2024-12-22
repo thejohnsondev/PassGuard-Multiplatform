@@ -138,7 +138,8 @@ fun AddVaultItemScreen(
                         .bounceClick(),
                     onClick = {
                         viewModel.perform(AddVaultItemViewModel.Action.SavePassword)
-                    }
+                    },
+                    enabled = state.value.isValid,
                 ) {
                     Text(text = stringResource(Res.string.save))
                 }
@@ -293,7 +294,7 @@ fun AddPasswordContent(
                         focusRequester = passwordFocusRequester,
                         textColor = MaterialTheme.colorScheme.onSurface,
                         fontSize = Text20,
-                        maxLines = 1,
+                        maxLines = 2,
                         onKeyboardAction = {
                             keyboardController?.hide()
                         },
@@ -301,11 +302,12 @@ fun AddPasswordContent(
                         keyboardType = KeyboardType.Password,
                         passwordVisible = !isPasswordHidden
                     )
-                    IconButton(onClick = {
+                    IconButton(
+                        modifier = Modifier.padding(end = Size8),
+                        onClick = {
                         isPasswordHidden = !isPasswordHidden
                     }) {
                         Icon(
-                            modifier = Modifier.padding(end = Size8),
                             imageVector = eyeImage,
                             contentDescription = stringResource(Res.string.visibility),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant

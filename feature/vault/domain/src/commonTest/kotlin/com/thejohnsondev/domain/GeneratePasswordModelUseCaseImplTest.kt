@@ -1,7 +1,7 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.model.vault.AdditionalFieldDto
-import kotlinx.datetime.Clock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -55,7 +55,7 @@ class GeneratePasswordModelUseCaseImplTest {
         val password = "TestPassword"
         val categoryId = "TestCategory"
         val additionalFields = listOf<AdditionalFieldDto>()
-        val createdTime = Clock.System.now().epochSeconds.toString()
+        val createdTime = getCurrentTimeStamp()
         val isFavorite = false
 
         val result = useCase.invoke(

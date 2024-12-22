@@ -30,6 +30,8 @@ import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCaseImpl
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCaseImpl
+import com.thejohnsondev.domain.ValidatePasswordModelUseCase
+import com.thejohnsondev.domain.ValidatePasswordModelUseCaseImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -50,4 +52,5 @@ val vaultDomainModule = module {
     singleOf(::EncryptPasswordModelUseCaseImpl) { bind<EncryptPasswordModelUseCase>() }
     singleOf(::DecryptPasswordsListUseCaseImpl) { bind<DecryptPasswordsListUseCase>() }
     singleOf(::PasswordsMapToUiModelsUseCaseImpl) { bind<PasswordsMapToUiModelsUseCase>() }
+    singleOf(::ValidatePasswordModelUseCaseImpl) { bind<ValidatePasswordModelUseCase>() }
 }

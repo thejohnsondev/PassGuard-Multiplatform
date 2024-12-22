@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -65,10 +66,7 @@ fun AdditionalField(
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
     Surface(
         modifier = modifier
-            .fillMaxWidth()
-            .clickable {
-                isHidden = !isHidden
-            },
+            .fillMaxWidth(),
         shape = EqualRounded.medium,
         color = MaterialTheme.colorScheme.surfaceVariant
     ) {
@@ -80,10 +78,7 @@ fun AdditionalField(
         ) {
             Surface(
                 modifier = Modifier
-                    .fillMaxWidth(Percent85)
-                    .clickable {
-                        isHidden = !isHidden
-                    },
+                    .weight(1f),
                 color = MaterialTheme.colorScheme.surfaceVariant
             ) {
                 Column {
@@ -130,12 +125,12 @@ fun AdditionalField(
                             )
                         }
                         IconButton(
+                            modifier = Modifier.padding(end = Size8),
                             onClick = {
                                 isHidden = !isHidden
                             }
                         ) {
                             Icon(
-                                modifier = Modifier.padding(end = Size8),
                                 imageVector = eyeImage,
                                 contentDescription = stringResource(Res.string.visibility),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -146,8 +141,8 @@ fun AdditionalField(
             }
             Surface(
                 modifier = Modifier
-                    .fillMaxWidth(Percent80)
                     .height(Size98)
+                    .wrapContentWidth()
                     .padding(Size4)
                     .clickable {
                         onDeleteClick()
