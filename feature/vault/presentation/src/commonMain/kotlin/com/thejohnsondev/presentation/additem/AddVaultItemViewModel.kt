@@ -72,6 +72,7 @@ class AddVaultItemViewModel(
 
             is Action.RemoveAdditionalField -> removeAdditionalField(action.id)
             is Action.SavePassword -> savePassword()
+            is Action.Clear -> clear()
         }
     }
 
@@ -175,6 +176,7 @@ class AddVaultItemViewModel(
         data class EnterAdditionalFieldValue(val id: String, val value: String) : Action()
         data class RemoveAdditionalField(val id: String) : Action()
         data object SavePassword : Action()
+        data object Clear : Action()
     }
 
     data class State(
