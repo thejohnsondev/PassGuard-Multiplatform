@@ -1,9 +1,9 @@
 package com.thejohnsondev.presentation.additem
 
+import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
-import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
@@ -17,6 +17,10 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.uimodel.models.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 
 class AddVaultItemViewModel(
     private val passwordsService: PasswordsService,
@@ -30,28 +34,17 @@ class AddVaultItemViewModel(
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
-    private val _organization = MutableStateFlow(String.Companion.empty)
-    private val _title = MutableStateFlow(String.Companion.empty)
-    private val _password = MutableStateFlow(String.Companion.empty)
-    private val _additionalFields = MutableStateFlow<List<AdditionalFieldDto>>(emptyList())
     private val _createdTime = MutableStateFlow<String?>(null)
-    private val _selectedCategoryId = MutableStateFlow(VAULT_ITEM_CATEGORY_PERSONAL)
-    private val _isFavorite = MutableStateFlow(false)
-    private val _isValid = MutableStateFlow(false)
-    private val _isEdit = MutableStateFlow(false)
 
+    private val _state = MutableStateFlow(State())
     val state = combine(
         _screenState,
-        _organization,
-        _title,
-        _password,
-        _additionalFields,
-        _isFavorite,
-        _selectedCategoryId,
-        _isValid,
-        _isEdit,
-        ::State
-    )
+        _state,
+    ) { screenState, state ->
+        state.copy(
+            screenState = screenState
+        )
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, State())
 
     fun perform(action: Action) {
         when (action) {
@@ -79,13 +72,13 @@ class AddVaultItemViewModel(
     private fun savePassword() = launchLoading {
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
-            organization = _organization.value,
-            title = _title.value,
-            password = _password.value,
-            categoryId = _selectedCategoryId.value, // TODO add selecting category
-            additionalFields = _additionalFields.value,
+            organization = _state.value.organization,
+            title = _state.value.title,
+            password = _state.value.password,
+            categoryId = _state.value.selectedCategoryId, // TODO add selecting category
+            additionalFields = _state.value.additionalFields,
             createdTime = _createdTime.value,
-            isFavorite = _isFavorite.value // TODO add making favorite
+            isFavorite = _state.value.isFavorite // TODO add making favorite
         )
         val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
@@ -94,76 +87,89 @@ class AddVaultItemViewModel(
 
     private fun setPasswordForEdit(passwordUIModel: PasswordUIModel) = launch {
         _passwordId.emit(passwordUIModel.id)
-        _organization.emit(passwordUIModel.organization)
-        _title.emit(passwordUIModel.title)
-        _password.emit(passwordUIModel.password)
-        _additionalFields.emit(passwordUIModel.additionalFields)
         _createdTime.emit(passwordUIModel.createdTime)
-        _isEdit.emit(true)
+        _state.update {
+            it.copy(
+                isEdit = true,
+                organization = passwordUIModel.organization,
+                title = passwordUIModel.title,
+                password = passwordUIModel.password,
+                additionalFields = passwordUIModel.additionalFields,
+            )
+        }
         validateFields()
     }
 
     private fun enterOrganization(organization: String) = launch {
-        _organization.emit(organization)
+        _state.update {
+            it.copy(organization = organization)
+        }
         validateFields()
     }
 
     private fun enterTitle(title: String) = launch {
-        _title.emit(title)
+        _state.update {
+            it.copy(title = title)
+        }
         validateFields()
     }
 
     private fun enterPassword(password: String) = launch {
-        _password.emit(password)
+        _state.update {
+            it.copy(password = password)
+        }
         validateFields()
     }
 
     private fun addAdditionalField() = launch {
-        val updatedList = addAdditionalFieldUseCase(_additionalFields.value)
-        _additionalFields.emit(updatedList)
+        val updatedList = addAdditionalFieldUseCase(_state.value.additionalFields)
+        _state.update {
+            it.copy(additionalFields = updatedList)
+        }
         validateFields()
     }
 
     private fun enterAdditionalFieldTitle(id: String, title: String) = launch {
-        val updatedList = enterAdditionalFieldTitleUseCase(id, title, _additionalFields.value)
-        _additionalFields.emit(updatedList)
+        val updatedList = enterAdditionalFieldTitleUseCase(id, title, _state.value.additionalFields)
+        _state.update {
+            it.copy(additionalFields = updatedList)
+        }
         validateFields()
     }
 
     private fun enterAdditionalFieldValue(id: String, value: String) = launch {
-        val updatedList = enterAdditionalFieldValueUseCase(id, value, _additionalFields.value)
-        _additionalFields.emit(updatedList)
+        val updatedList = enterAdditionalFieldValueUseCase(id, value, _state.value.additionalFields)
+        _state.update {
+            it.copy(additionalFields = updatedList)
+        }
         validateFields()
     }
 
     private fun removeAdditionalField(id: String) = launch {
-        val updatedList = removeAdditionalFieldUseCase(id, _additionalFields.value)
-        _additionalFields.emit(updatedList)
+        val updatedList = removeAdditionalFieldUseCase(id, _state.value.additionalFields)
+        _state.update {
+            it.copy(additionalFields = updatedList)
+        }
         validateFields()
     }
 
     private suspend fun validateFields() {
         val isValid = validatePasswordModelUseCase(
-            organization = _organization.value,
-            title = _title.value,
-            password = _password.value,
-            additionalFieldsList = _additionalFields.value
+            organization = _state.value.organization,
+            title = _state.value.title,
+            password = _state.value.password,
+            additionalFieldsList = _state.value.additionalFields
         )
-        _isValid.emit(isValid)
+        _state.update {
+            it.copy(isValid = isValid)
+        }
     }
 
     fun clear() = launch {
         _passwordId.emit(null)
         _screenState.emit(ScreenState.None)
-        _organization.emit(String.Companion.empty)
-        _title.emit(String.Companion.empty)
-        _password.emit(String.Companion.empty)
-        _additionalFields.emit(emptyList())
         _createdTime.emit(null)
-        _selectedCategoryId.emit(VAULT_ITEM_CATEGORY_PERSONAL)
-        _isFavorite.emit(false)
-        _isValid.emit(false)
-        _isEdit.emit(false)
+        _state.update { State() }
     }
 
     sealed class Action {
