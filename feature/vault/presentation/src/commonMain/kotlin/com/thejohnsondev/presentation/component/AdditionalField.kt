@@ -50,6 +50,7 @@ fun AdditionalField(
     modifier: Modifier = Modifier,
     title: String,
     value: String,
+    isEditMode: Boolean,
     onTitleChanged: (String) -> Unit,
     onValueChanged: (String) -> Unit,
     onDeleteClick: () -> Unit
@@ -164,7 +165,9 @@ fun AdditionalField(
             }
         }
     }
-    LaunchedEffect(titleFocusRequester) {
-        titleFocusRequester.requestFocus()
+    if (!isEditMode) {
+        LaunchedEffect(titleFocusRequester) {
+            titleFocusRequester.requestFocus()
+        }
     }
 }

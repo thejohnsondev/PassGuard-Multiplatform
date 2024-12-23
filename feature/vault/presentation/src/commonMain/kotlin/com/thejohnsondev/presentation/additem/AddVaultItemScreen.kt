@@ -343,7 +343,8 @@ fun AddPasswordContent(
                                 additionalField.id
                             )
                         )
-                    })
+                    },
+                    isEditMode = state.isEdit)
             }
             RoundedButton(
                 modifier = Modifier
