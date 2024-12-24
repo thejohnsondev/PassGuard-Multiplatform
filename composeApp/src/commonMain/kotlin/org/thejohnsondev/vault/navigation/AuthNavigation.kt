@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.thejohnsondev.common.navigation.Screens
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.navigation.loginScreen
 import com.thejohnsondev.presentation.navigation.navigateToLogin
 import com.thejohnsondev.presentation.navigation.navigateToSignUp
@@ -15,7 +15,7 @@ import com.thejohnsondev.presentation.navigation.welcomeScreen
 @Composable
 fun AuthNavigation(
     windowSizeClass: WindowWidthSizeClass,
-    firstScreenRoute: String
+    firstScreenRoute: Routes
 ) {
     val navController = rememberNavController()
     NavHost(
@@ -34,7 +34,7 @@ fun AuthNavigation(
         signUpScreen(
             windowSize = windowSizeClass,
             goToHome = {
-                navController.navigate(Screens.HomeScreen.name)
+                navController.navigate(Routes.HomeRoute)
             },
             goToLogin = {
                 navController.navigateToLogin()
@@ -46,7 +46,7 @@ fun AuthNavigation(
         loginScreen(
             windowSize = windowSizeClass,
             goToHome = {
-                navController.navigate(Screens.HomeScreen.name)
+                navController.navigate(Routes.HomeRoute)
             },
             goToSignUp = {
                 navController.navigateToSignUp()
@@ -55,9 +55,7 @@ fun AuthNavigation(
                 navController.popBackStack()
             }
         )
-        composable(
-            route = Screens.HomeScreen.name
-        ) {
+        composable<Routes.HomeRoute> {
             HomeNavigation(windowSizeClass, rootNavController = navController)
         }
     }

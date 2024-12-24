@@ -8,6 +8,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
@@ -18,7 +19,7 @@ import org.thejohnsondev.vault.navigation.AuthNavigation
 @Composable
 fun Root(
     deviceThemeConfig: DeviceThemeConfig,
-    firstScreenRoute: String
+    firstScreenRoute: Routes
 ) {
     LaunchedEffect(true) {
         initializeLibs()

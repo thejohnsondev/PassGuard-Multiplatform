@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.models.FilterUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
 
 interface CheckFiltersAppliedUseCase {
     operator fun invoke(

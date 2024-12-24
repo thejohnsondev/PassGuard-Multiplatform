@@ -1,4 +1,4 @@
-package com.thejohnsondev.uimodel.filterlists
+package com.thejohnsondev.ui.model.filterlists
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MonetizationOn
@@ -13,13 +13,13 @@ import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_FINANCE
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_OTHERS
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
-import com.thejohnsondev.uimodel.models.FilterIcon
-import com.thejohnsondev.uimodel.models.FilterUIModel
-import vaultmultiplatform.core.uimodel.generated.resources.Res
-import vaultmultiplatform.core.uimodel.generated.resources.finances
-import vaultmultiplatform.core.uimodel.generated.resources.other
-import vaultmultiplatform.core.uimodel.generated.resources.personal
-import vaultmultiplatform.core.uimodel.generated.resources.work
+import com.thejohnsondev.ui.model.FilterIcon
+import com.thejohnsondev.ui.model.FilterUIModel
+import vaultmultiplatform.core.ui.generated.resources.Res
+import vaultmultiplatform.core.ui.generated.resources.finances
+import vaultmultiplatform.core.ui.generated.resources.other
+import vaultmultiplatform.core.ui.generated.resources.personal
+import vaultmultiplatform.core.ui.generated.resources.work
 
 val personalFilterUIModel = FilterUIModel(
     id = VAULT_ITEM_CATEGORY_PERSONAL,

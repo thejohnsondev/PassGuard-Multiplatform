@@ -3,8 +3,8 @@ package com.thejohnsondev.domain
 import com.thejohnsondev.common.ADDITIONAL_FIELD_HEIGHT
 import com.thejohnsondev.common.PASSWORD_EXPANDED_ITEM_HEIGHT
 import com.thejohnsondev.common.PASSWORD_IDLE_ITEM_HEIGHT
-import com.thejohnsondev.uimodel.models.PasswordUIModel
 import com.thejohnsondev.model.vault.AdditionalFieldDto
+import com.thejohnsondev.ui.model.PasswordUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

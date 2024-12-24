@@ -1,6 +1,9 @@
 package com.thejohnsondev.ui.scaffold
 
-import com.thejohnsondev.common.navigation.Screens
+import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.navigation.Routes.SettingsRoute
+import com.thejohnsondev.common.navigation.Routes.ToolsRoute
+import com.thejohnsondev.common.navigation.Routes.VaultRoute
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import vaultmultiplatform.core.ui.generated.resources.Res
@@ -12,27 +15,27 @@ import vaultmultiplatform.core.ui.generated.resources.tools
 import vaultmultiplatform.core.ui.generated.resources.vault
 
 sealed class BottomNavItem(
-    val route: String,
+    val route: Routes,
     val titleRes: StringResource,
     val imgResId: DrawableResource,
     val index: Int
 ) {
     data object Vault : BottomNavItem(
-        route = Screens.VaultScreen.name,
+        route = VaultRoute,
         titleRes = Res.string.vault,
         imgResId = Res.drawable.ic_vault_108_gradient,
         index = 0
     )
 
     data object Tools : BottomNavItem(
-        route = Screens.ToolsScreen.name,
+        route = ToolsRoute,
         titleRes = Res.string.tools,
         imgResId = Res.drawable.ic_tools,
         index = 1
     )
 
     data object Settings : BottomNavItem(
-        route = Screens.Settings.name,
+        route = SettingsRoute,
         titleRes = Res.string.settings,
         imgResId = Res.drawable.ic_settings,
         index = 2

@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.models.FilterUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
