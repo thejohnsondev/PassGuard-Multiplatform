@@ -4,9 +4,11 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,7 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -34,8 +36,8 @@ import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size580
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
+import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.model.ButtonStyle
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
@@ -112,104 +114,150 @@ fun WelcomeContent(
         )
     }
 
-    Surface(
-        modifier = Modifier
-            .fillMaxSize(),
-        color = if (MaterialTheme.colorScheme.isLight()) {
-            Color.White
-        } else {
-            Color.Black
-        }
-    ) {
-        Box {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.Center)
-            ) {
-                BlurContainer(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    component = {
-                        Image(
-                            modifier = Modifier.fillMaxSize()
-                                .scale(animatedBackgroundBlurScale.value),
-                            imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
-                            contentDescription = null // TODO add content description
-                        )
-                    },
-                    blur = 150f
-                )
-                Image(
-                    modifier = Modifier.wrapContentSize()
-                        .scale(animatedLogoScale.value)
-                        .graphicsLayer {
-                            translationY = animatedLogoYPosition.value
-                        }
-                        .align(Alignment.Center),
-                    imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
-                    contentDescription = null // TODO add content description,
-                )
-            }
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = Size8, horizontal = Size16)
-                        .alpha(animatedContentAlpha.value),
-                    text = stringResource(Res.string.app_name),
-                    style = MaterialTheme.typography.displayMedium,
-                    fontFamily = getGlobalFontFamily()
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = Size8, horizontal = Size16)
-                        .alpha(animatedContentAlpha.value),
-                    text = stringResource(Res.string.your_fortress),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontFamily = getGlobalFontFamily(),
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = Percent80)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .applyIf(windowSize.isCompact()) {
-                        Modifier.fillMaxWidth()
+    Scaffold { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    if (MaterialTheme.colorScheme.isLight()) {
+                        Color.White
+                    } else {
+                        Color.Black
                     }
-                    .applyIf(!windowSize.isCompact()) {
-                        Modifier.width(Size580)
-                    }
-                    .wrapContentHeight()
-                    .padding(Size16)
+                )
+        ) {
+            LogoSection(
+                modifier = Modifier
+                    .align(Alignment.Center),
+                animatedBackgroundBlurScale = animatedBackgroundBlurScale,
+                animatedLogoScale = animatedLogoScale,
+                animatedLogoYPosition = animatedLogoYPosition
+            )
+            Titles(animatedContentAlpha)
+            ButtonsSection(
+                modifier = Modifier
                     .align(Alignment.BottomCenter),
-            ) {
-                RoundedButton(
-                    modifier = Modifier
-                        .padding(bottom = Size8, start = Size16, end = Size16)
-                        .alpha(animatedContentAlpha.value),
-                    text = stringResource(Res.string.log_in),
-                    onClick = {
-                        goToLogin()
-                    }
-                )
-                RoundedButton(
-                    modifier = Modifier
-                        .padding(
-                            top = Size8,
-                            bottom = Size16,
-                            start = Size16,
-                            end = Size16
-                        ).alpha(animatedContentAlpha.value),
-                    text = stringResource(Res.string.sign_up),
-                    onClick = {
-                        goToSignUp()
-                    },
-                    buttonStyle = ButtonStyle.OUTLINE
-                )
-            }
+                paddingValues = paddingValues,
+                windowSize = windowSize,
+                animatedContentAlpha = animatedContentAlpha,
+                goToLogin = goToLogin,
+                goToSignUp = goToSignUp
+            )
         }
+    }
+}
+
+@Composable
+private fun ButtonsSection(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    windowSize: WindowWidthSizeClass,
+    animatedContentAlpha: Animatable<Float, AnimationVector1D>,
+    goToLogin: () -> Unit,
+    goToSignUp: () -> Unit
+) {
+    Column(
+        modifier = modifier
+            .padding(bottom = paddingValues.calculateBottomPadding())
+            .applyIf(windowSize.isCompact()) {
+                Modifier.fillMaxWidth()
+            }
+            .applyIf(!windowSize.isCompact()) {
+                Modifier.width(Size580)
+            }
+            .wrapContentHeight()
+            .padding(Size16),
+    ) {
+        RoundedButton(
+            modifier = Modifier
+                .padding(bottom = Size8, start = Size16, end = Size16)
+                .alpha(animatedContentAlpha.value),
+            text = stringResource(Res.string.log_in),
+            onClick = {
+                goToLogin()
+            }
+        )
+        RoundedButton(
+            modifier = Modifier
+                .padding(
+                    top = Size8,
+                    bottom = Size16,
+                    start = Size16,
+                    end = Size16
+                ).alpha(animatedContentAlpha.value),
+            text = stringResource(Res.string.sign_up),
+            onClick = {
+                goToSignUp()
+            },
+            buttonStyle = ButtonStyle.OUTLINE
+        )
+    }
+}
+
+@Composable
+private fun Titles(
+    animatedContentAlpha: Animatable<Float, AnimationVector1D>
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(vertical = Size8, horizontal = Size16)
+                .alpha(animatedContentAlpha.value),
+            text = stringResource(Res.string.app_name),
+            style = MaterialTheme.typography.displayMedium,
+            fontFamily = getGlobalFontFamily()
+        )
+        Text(
+            modifier = Modifier
+                .padding(vertical = Size8, horizontal = Size16)
+                .alpha(animatedContentAlpha.value),
+            text = stringResource(Res.string.your_fortress),
+            style = MaterialTheme.typography.titleLarge,
+            fontFamily = getGlobalFontFamily(),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = Percent80)
+        )
+    }
+}
+
+@Composable
+private fun LogoSection(
+    modifier: Modifier = Modifier,
+    animatedBackgroundBlurScale: Animatable<Float, AnimationVector1D>,
+    animatedLogoScale: Animatable<Float, AnimationVector1D>,
+    animatedLogoYPosition: Animatable<Float, AnimationVector1D>
+) {
+    Box(
+        modifier = modifier
+    ) {
+        BlurContainer(
+            modifier = Modifier
+                .fillMaxSize(),
+            component = {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .scale(animatedBackgroundBlurScale.value),
+                    imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
+                    contentDescription = null // TODO add content description
+                )
+            },
+            blur = 150f
+        )
+        Image(
+            modifier = Modifier
+                .wrapContentSize()
+                .scale(animatedLogoScale.value)
+                .graphicsLayer {
+                    translationY = animatedLogoYPosition.value
+                }
+                .align(Alignment.Center),
+            imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
+            contentDescription = null // TODO add content description,
+        )
     }
 }
 

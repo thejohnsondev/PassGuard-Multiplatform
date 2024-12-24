@@ -38,7 +38,7 @@ class AddVaultItemViewModel(
 
     private val _state = MutableStateFlow(State())
     val state = combine(
-        _screenState,
+        screenState,
         _state,
     ) { screenState, state ->
         state.copy(
@@ -167,7 +167,7 @@ class AddVaultItemViewModel(
 
     fun clear() = launch {
         _passwordId.emit(null)
-        _screenState.emit(ScreenState.None)
+        screenState.emit(ScreenState.None)
         _createdTime.emit(null)
         _state.update { State() }
     }

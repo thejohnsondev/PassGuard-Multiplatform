@@ -38,7 +38,7 @@ class VaultViewModel(
 
     private val _state = MutableStateFlow(State())
     val state = combine(
-        _screenState,
+        screenState,
         _state,
     ) { screenState, state ->
         state.copy(

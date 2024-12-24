@@ -18,6 +18,13 @@ private val DEFAULT_SIMPLE_FORMAT = LocalDateTime.Format {
     year()
 }
 
+/**
+ * Extension function to parse a nullable String representing a timestamp into a formatted date-time string.
+ *
+ * @receiver String? The nullable String to be parsed.
+ * @param format DateTimeFormat<LocalDateTime> The format to use for parsing. Defaults to DEFAULT_SIMPLE_FORMAT.
+ * @return String? The formatted date-time string, or the original string if parsing fails.
+ */
 fun String?.parseTime(format: DateTimeFormat<LocalDateTime> = DEFAULT_SIMPLE_FORMAT): String? {
     if (this == null) return null
     val timeStampValue = this.toLongOrNull()

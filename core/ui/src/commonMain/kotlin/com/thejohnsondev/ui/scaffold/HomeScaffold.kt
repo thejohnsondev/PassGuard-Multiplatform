@@ -73,7 +73,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScaffold(
     windowSize: WindowWidthSizeClass,
@@ -88,49 +88,12 @@ fun HomeScaffold(
         BottomNavItem.Vault, BottomNavItem.Tools, BottomNavItem.Settings
     )
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
-
-        Box(
-            modifier = Modifier
-                .applyIf(windowSize == WindowWidthSizeClass.Expanded) { padding(start = DrawerWidth) }
-                .applyIf(windowSize == WindowWidthSizeClass.Medium) { padding(start = RailWidth) }
-                .hazeChild(
-                    state = hazeState,
-                    style = HazeMaterials.thick()
-                )
-        ) {
-            TopAppBar(
-                title = {
-                    scaffoldState.value.topAppBarTitle?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.headlineMedium,
-                            fontWeight = FontWeight.SemiBold,
-                        )
-                    }
-                }, navigationIcon = {
-                    scaffoldState.value.topAppBarIcon?.let {
-                        Icon(
-                            modifier = Modifier.size(Size48).padding(start = Size16)
-                                .clip(CircleShape)
-                                .bounceClick()
-                                .applyIf(scaffoldState.value.onTopAppBarIconClick != null) {
-                                    clickable {
-                                        scaffoldState.value.onTopAppBarIconClick?.invoke()
-                                    }
-                                },
-                            imageVector = it,
-                            contentDescription = null // TODO add content description
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.03f),
-                )
-            )
-        }
-
+        VaultTopBar(
+            windowSize = windowSize,
+            hazeState = hazeState,
+            scaffoldState = scaffoldState,
+            scrollBehavior = scrollBehavior
+        )
     }, floatingActionButton = {
         if (scaffoldState.value.isFabVisible) {
             if (scaffoldState.value.isEmptyVaultScreen) {
@@ -146,45 +109,7 @@ fun HomeScaffold(
     }, floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
         if (windowSize.isCompact()) {
-            AnimatedVisibility(
-                visible = bottomBarState.value,
-                enter = slideInVertically(initialOffsetY = { it }),
-                exit = slideOutVertically(targetOffsetY = { it }),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .hazeChild(
-                            state = hazeState,
-                            style = HazeMaterials.thick()
-                        )
-                ) {
-                    NavigationBar(
-                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.03f),
-                    ) {
-                        navigationItems.forEachIndexed { index, screen ->
-                            NavigationBarItem(
-                                icon = {
-                                    Icon(
-                                        modifier = Modifier.size(Size24),
-                                        painter = painterResource(screen.imgResId),
-                                        contentDescription = stringResource(screen.titleRes)
-                                    )
-                                },
-                                label = { Text(stringResource(screen.titleRes)) },
-                                selected = scaffoldState.value.bottomBarItemIndex == index,
-                                onClick = {
-                                    navController.navigate(screen.route) {
-                                        popUpTo(screen.route) {
-                                            inclusive = true
-                                        }
-                                    }
-                                }
-                            )
-                        }
-                    }
-                }
-            }
+            VaultBottomBar(bottomBarState, hazeState, navigationItems, scaffoldState, navController)
         }
     }, snackbarHost = {
         scaffoldState.value.snackBarHostState?.let { snackBarHostState ->
@@ -202,104 +127,25 @@ fun HomeScaffold(
     }) {
         when (windowSize) {
             WindowWidthSizeClass.Expanded -> {
-                PermanentNavigationDrawer(drawerContent = {
-                    PermanentDrawerSheet(
-                        modifier = Modifier.width(DrawerWidth)
-                            .fillMaxHeight(),
-                        drawerContainerColor = MaterialTheme.colorScheme.surfaceDim,
-                        drawerShape = RoundedCornerShape(topEnd = SizeDefault, bottomEnd = Size32),
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .padding(start = Size8, end = Size8, top = Size16, bottom = Size8)
-                                .align(Alignment.CenterHorizontally)
-                        ) {
-                            VaultLogo(
-                                fontSize = MaterialTheme.typography.displaySmall.fontSize,
-                            )
-                        }
-                        navigationItems.forEachIndexed { index, screen ->
-                            if (screen.index == BottomNavItem.Settings.index) {
-                                Spacer(modifier = Modifier.weight(1f))
-                            }
-                            NavigationDrawerItem(
-                                modifier = Modifier
-                                    .padding(horizontal = Size12, vertical = Size8)
-                                    .bounceClick(),
-                                label = { Text(text = stringResource(screen.titleRes)) },
-                                selected = scaffoldState.value.bottomBarItemIndex == index,
-                                onClick = {
-                                    navController.navigate(screen.route) {
-                                        popUpTo(screen.route) {
-                                            inclusive = true
-                                        }
-                                    }
-                                },
-                                icon = {
-                                    Icon(
-                                        modifier = Modifier.size(Size24),
-                                        painter = painterResource(screen.imgResId),
-                                        contentDescription = stringResource(screen.titleRes)
-                                    )
-                                }
-                            )
-                        }
-                    }
-                }) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
-                    ) {
-                        content(it)
-                    }
-                }
+                ExpandedNavigationBar(
+                    navigationItems = navigationItems,
+                    scaffoldState = scaffoldState,
+                    navController = navController,
+                    hazeState = hazeState,
+                    content = content,
+                    it = it
+                )
             }
 
             WindowWidthSizeClass.Medium -> {
-                NavigationRail(
-                    modifier = Modifier.width(RailWidth),
-                    containerColor = MaterialTheme.colorScheme.surfaceDim
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(Size8)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        VaultLogo(
-                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                        )
-                    }
-                    navigationItems.forEachIndexed { index, screen ->
-                        if (screen.index == BottomNavItem.Settings.index) {
-                            Spacer(modifier = Modifier.weight(1f))
-                        }
-                        NavigationRailItem(icon = {
-                            Icon(
-                                modifier = Modifier.size(Size24),
-                                painter = painterResource(screen.imgResId),
-                                contentDescription = stringResource(screen.titleRes)
-                            )
-                        },
-                            label = { Text(stringResource(screen.titleRes)) },
-                            selected = scaffoldState.value.bottomBarItemIndex == index,
-                            onClick = {
-                                navController.navigate(screen.route) {
-                                    popUpTo(screen.route) {
-                                        inclusive = true
-                                    }
-                                }
-                            })
-                    }
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = RailWidth)
-                        .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
-                ) {
-                    content(it)
-                }
+                MediumNavigationBar(
+                    navigationItems = navigationItems,
+                    scaffoldState = scaffoldState,
+                    navController = navController,
+                    hazeState = hazeState,
+                    content = content,
+                    it = it
+                )
             }
 
             else -> {
@@ -312,6 +158,224 @@ fun HomeScaffold(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun MediumNavigationBar(
+    navigationItems: List<BottomNavItem>,
+    scaffoldState: State<ScaffoldConfig>,
+    navController: NavHostController,
+    hazeState: HazeState,
+    content: @Composable (PaddingValues) -> Unit,
+    it: PaddingValues
+) {
+    NavigationRail(
+        modifier = Modifier.width(RailWidth),
+        containerColor = MaterialTheme.colorScheme.surfaceDim
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(Size8)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            VaultLogo(
+                fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            )
+        }
+        navigationItems.forEachIndexed { index, screen ->
+            if (screen.index == BottomNavItem.Settings.index) {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+            NavigationRailItem(icon = {
+                Icon(
+                    modifier = Modifier.size(Size24),
+                    painter = painterResource(screen.imgResId),
+                    contentDescription = stringResource(screen.titleRes)
+                )
+            },
+                label = { Text(stringResource(screen.titleRes)) },
+                selected = scaffoldState.value.bottomBarItemIndex == index,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo(screen.route) {
+                            inclusive = true
+                        }
+                    }
+                })
+        }
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = RailWidth)
+            .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
+    ) {
+        content(it)
+    }
+}
+
+@Composable
+private fun ExpandedNavigationBar(
+    navigationItems: List<BottomNavItem>,
+    scaffoldState: State<ScaffoldConfig>,
+    navController: NavHostController,
+    hazeState: HazeState,
+    content: @Composable (PaddingValues) -> Unit,
+    it: PaddingValues
+) {
+    PermanentNavigationDrawer(drawerContent = {
+        PermanentDrawerSheet(
+            modifier = Modifier.width(DrawerWidth)
+                .fillMaxHeight(),
+            drawerContainerColor = MaterialTheme.colorScheme.surfaceDim,
+            drawerShape = RoundedCornerShape(topEnd = SizeDefault, bottomEnd = Size32),
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(start = Size8, end = Size8, top = Size16, bottom = Size8)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                VaultLogo(
+                    fontSize = MaterialTheme.typography.displaySmall.fontSize,
+                )
+            }
+            navigationItems.forEachIndexed { index, screen ->
+                if (screen.index == BottomNavItem.Settings.index) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+                NavigationDrawerItem(
+                    modifier = Modifier
+                        .padding(horizontal = Size12, vertical = Size8)
+                        .bounceClick(),
+                    label = { Text(text = stringResource(screen.titleRes)) },
+                    selected = scaffoldState.value.bottomBarItemIndex == index,
+                    onClick = {
+                        navController.navigate(screen.route) {
+                            popUpTo(screen.route) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            modifier = Modifier.size(Size24),
+                            painter = painterResource(screen.imgResId),
+                            contentDescription = stringResource(screen.titleRes)
+                        )
+                    }
+                )
+            }
+        }
+    }) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
+        ) {
+            content(it)
+        }
+    }
+}
+
+@OptIn(ExperimentalHazeMaterialsApi::class)
+@Composable
+private fun VaultBottomBar(
+    bottomBarState: MutableState<Boolean>,
+    hazeState: HazeState,
+    navigationItems: List<BottomNavItem>,
+    scaffoldState: State<ScaffoldConfig>,
+    navController: NavHostController
+) {
+    AnimatedVisibility(
+        visible = bottomBarState.value,
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it }),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .hazeChild(
+                    state = hazeState,
+                    style = HazeMaterials.thick()
+                )
+        ) {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.03f),
+            ) {
+                navigationItems.forEachIndexed { index, screen ->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                modifier = Modifier.size(Size24),
+                                painter = painterResource(screen.imgResId),
+                                contentDescription = stringResource(screen.titleRes)
+                            )
+                        },
+                        label = { Text(stringResource(screen.titleRes)) },
+                        selected = scaffoldState.value.bottomBarItemIndex == index,
+                        onClick = {
+                            navController.navigate(screen.route) {
+                                popUpTo(screen.route) {
+                                    inclusive = true
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
+@Composable
+private fun VaultTopBar(
+    windowSize: WindowWidthSizeClass,
+    hazeState: HazeState,
+    scaffoldState: State<ScaffoldConfig>,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
+    Box(
+        modifier = Modifier
+            .applyIf(windowSize == WindowWidthSizeClass.Expanded) { padding(start = DrawerWidth) }
+            .applyIf(windowSize == WindowWidthSizeClass.Medium) { padding(start = RailWidth) }
+            .hazeChild(
+                state = hazeState,
+                style = HazeMaterials.thick()
+            )
+    ) {
+        TopAppBar(
+            title = {
+                scaffoldState.value.topAppBarTitle?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+            }, navigationIcon = {
+                scaffoldState.value.topAppBarIcon?.let {
+                    Icon(
+                        modifier = Modifier.size(Size48).padding(start = Size16)
+                            .clip(CircleShape)
+                            .bounceClick()
+                            .applyIf(scaffoldState.value.onTopAppBarIconClick != null) {
+                                clickable {
+                                    scaffoldState.value.onTopAppBarIconClick?.invoke()
+                                }
+                            },
+                        imageVector = it,
+                        contentDescription = null // TODO add content description
+                    )
+                }
+            },
+            scrollBehavior = scrollBehavior,
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.03f),
+            )
+        )
     }
 }
 

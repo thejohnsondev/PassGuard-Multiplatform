@@ -35,7 +35,7 @@ class SignUpViewModel(
     ).stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     val viewState: Flow<State> = combine(
-        _screenState,
+        screenState,
         _isSignUpSuccess,
         _emailValidationState,
         _passwordValidationState,

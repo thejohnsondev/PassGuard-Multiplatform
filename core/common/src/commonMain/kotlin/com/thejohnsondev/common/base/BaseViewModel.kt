@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel : ViewModel() {
 
     private val eventChannel = MutableSharedFlow<OneTimeEvent>()
-    protected val _screenState: MutableStateFlow<ScreenState> =
+    protected val screenState: MutableStateFlow<ScreenState> =
         MutableStateFlow(ScreenState.None)
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         viewModelScope.launch {
@@ -41,11 +41,11 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected suspend fun BaseViewModel.loading()  {
-        _screenState.emit(ScreenState.Loading)
+        screenState.emit(ScreenState.Loading)
     }
 
     protected suspend fun BaseViewModel.showContent() {
-        _screenState.emit(ScreenState.ShowContent)
+        screenState.emit(ScreenState.ShowContent)
     }
 
     protected suspend fun handleError(error: Error) {
