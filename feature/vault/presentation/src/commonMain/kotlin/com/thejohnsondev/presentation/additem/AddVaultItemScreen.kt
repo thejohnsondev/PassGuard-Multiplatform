@@ -60,6 +60,7 @@ import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
+import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.utils.KeyboardManager
@@ -87,15 +88,15 @@ fun AddVaultItemScreen(
     viewModel: AddVaultItemViewModel = koinViewModel<AddVaultItemViewModel>(),
     vaultItem: PasswordUIModel? = null,
     onDismissRequest: () -> Unit,
-    showErrorMessage: (String) -> Unit,
+    showSuccessMessage: (String) -> Unit
 ) {
     val state = viewModel.state.collectAsState(AddVaultItemViewModel.State())
 
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {
             when (it) {
-                is OneTimeEvent.InfoMessage -> showErrorMessage(it.message)
                 is OneTimeEvent.SuccessNavigation -> {
+                    it.message?.getAsText()?.let(showSuccessMessage)
                     viewModel.clear()
                     onDismissRequest()
                 }

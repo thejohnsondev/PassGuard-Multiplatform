@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -90,7 +91,10 @@ fun VaultScreen(
     updateIsEmptyVault: (Boolean) -> Unit
 ) {
     val state = vaultViewModel.state.collectAsState(VaultViewModel.State())
-    val snackBarHostState = remember {
+    val successSnackBarHostState = remember {
+        SnackbarHostState()
+    }
+    val errorSnackBarHostState = remember {
         SnackbarHostState()
     }
     val lazyListState = rememberLazyListState()
@@ -119,7 +123,8 @@ fun VaultScreen(
                     vaultViewModel.perform(VaultViewModel.Action.OnAddClick)
                 },
                 isFabExpanded = expandedFab, // TODO hiding fab on scroll doesn't work
-                snackBarHostState = snackBarHostState,
+                successSnackBarHostState = successSnackBarHostState,
+                errorSnackBarHostState = errorSnackBarHostState,
                 bottomBarItemIndex = BottomNavItem.Vault.index
             )
         )
@@ -137,11 +142,11 @@ fun VaultScreen(
             onDismissRequest = {
                 vaultViewModel.perform(VaultViewModel.Action.OnAddClose)
             },
-            showErrorMessage = {
+            showSuccessMessage = {
                 coroutineScope.launch {
-                    snackBarHostState.showSnackbar(
+                    successSnackBarHostState.showSnackbar(
                         message = it,
-                        actionLabel = null
+                        duration = SnackbarDuration.Short,
                     )
                 }
             }

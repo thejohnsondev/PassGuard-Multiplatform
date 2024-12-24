@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.model.validation.EmailIncorrectReason
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.validation.EmailValidationState
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,7 +21,7 @@ class EmailValidateUseCaseImplTest {
         val email = "invalid-email"
         val result = useCase(email)
         assertEquals(
-            EmailValidationState.EmailIncorrectState(EmailIncorrectReason.INCORRECT),
+            EmailValidationState.EmailIncorrectState(DisplayableMessageValue.EmailInvalid),
             result
         )
     }
@@ -31,7 +31,7 @@ class EmailValidateUseCaseImplTest {
         val email = ""
         val result = useCase(email)
         assertEquals(
-            EmailValidationState.EmailIncorrectState(EmailIncorrectReason.INCORRECT),
+            EmailValidationState.EmailIncorrectState(DisplayableMessageValue.EmailInvalid),
             result
         )
     }

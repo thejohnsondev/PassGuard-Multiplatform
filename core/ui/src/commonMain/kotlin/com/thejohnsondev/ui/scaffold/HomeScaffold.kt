@@ -29,7 +29,6 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -47,6 +46,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.thejohnsondev.ui.components.CardWithAnimatedBorder
+import com.thejohnsondev.ui.components.ErrorSnackbar
+import com.thejohnsondev.ui.components.InfoSnackbar
+import com.thejohnsondev.ui.components.SuccessSnackbar
 import com.thejohnsondev.ui.components.VaultLogo
 import com.thejohnsondev.ui.components.getDefaultAnimatedBorderColors
 import com.thejohnsondev.ui.designsystem.DrawerWidth
@@ -112,18 +114,34 @@ fun HomeScaffold(
             VaultBottomBar(bottomBarState, hazeState, navigationItems, scaffoldState, navController)
         }
     }, snackbarHost = {
-        scaffoldState.value.snackBarHostState?.let { snackBarHostState ->
-            SnackbarHost(snackBarHostState) { data ->
-                Snackbar(
-                    modifier = Modifier.padding(
-                            vertical = scaffoldState.value.snackBarPaddingVertical ?: Size86,
-                            horizontal = scaffoldState.value.snackBarPaddingHorizontal ?: Size16
-                        )
-                ) {
-                    Text(text = data.visuals.message)
+            val modifier = Modifier.padding(
+                vertical = scaffoldState.value.snackBarPaddingVertical ?: Size16,
+                horizontal = scaffoldState.value.snackBarPaddingHorizontal ?: Size16
+            )
+
+            scaffoldState.value.successSnackBarHostState?.let { snackBarHostState ->
+                SnackbarHost(snackBarHostState) { data ->
+                    SuccessSnackbar(
+                        modifier = modifier, message = data.visuals.message
+                    )
                 }
             }
-        }
+
+            scaffoldState.value.errorSnackBarHostState?.let { snackBarHostState ->
+                SnackbarHost(snackBarHostState) { data ->
+                    ErrorSnackbar(
+                        modifier = modifier, message = data.visuals.message
+                    )
+                }
+            }
+
+            scaffoldState.value.infoSnackBarHostState?.let { snackBarHostState ->
+                SnackbarHost(snackBarHostState) { data ->
+                    InfoSnackbar(
+                        modifier = modifier, message = data.visuals.message
+                    )
+                }
+            }
     }) {
         when (windowSize) {
             WindowWidthSizeClass.Expanded -> {

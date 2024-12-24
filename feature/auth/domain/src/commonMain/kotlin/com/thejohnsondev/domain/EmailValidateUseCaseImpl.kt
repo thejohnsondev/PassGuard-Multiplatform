@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.model.validation.EmailIncorrectReason
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.validation.EmailValidationState
 
 class EmailValidateUseCaseImpl : EmailValidateUseCase {
@@ -9,7 +9,7 @@ class EmailValidateUseCaseImpl : EmailValidateUseCase {
         return if (email.isNotEmpty() && Regex(getEmailPattern()).matches(email)) {
             EmailValidationState.EmailCorrectState
         } else {
-            EmailValidationState.EmailIncorrectState(EmailIncorrectReason.INCORRECT)
+            EmailValidationState.EmailIncorrectState(DisplayableMessageValue.EmailInvalid)
         }
     }
 

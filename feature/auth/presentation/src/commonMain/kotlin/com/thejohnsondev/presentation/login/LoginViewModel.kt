@@ -70,7 +70,7 @@ class LoginViewModel(
         saveUserToken(authResponse.token)
         saveUserEmail(email)
         generateAndSaveEncryptionKey(password)
-        sendEvent(OneTimeEvent.SuccessNavigation)
+        sendEvent(OneTimeEvent.SuccessNavigation())
     }
 
     private fun saveUserEmail(email: String) = launch {

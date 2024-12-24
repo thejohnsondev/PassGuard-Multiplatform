@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.thejohnsondev.common.utils.Logger
-import com.thejohnsondev.common.utils.getPrettyErrorMessage
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
 import com.thejohnsondev.model.NetworkError
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    private val eventChannel = MutableSharedFlow<OneTimeEvent>()
+    private val eventFlow = MutableSharedFlow<OneTimeEvent>()
     protected val screenState: MutableStateFlow<ScreenState> =
         MutableStateFlow(ScreenState.None)
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -33,11 +33,11 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    fun getEventFlow() = eventChannel
+    fun getEventFlow() = eventFlow
         .stateIn(viewModelScope, SharingStarted.Eagerly, OneTimeEvent.None)
 
     protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent)  {
-        eventChannel.emit(event)
+        eventFlow.emit(event)
     }
 
     protected suspend fun BaseViewModel.loading()  {
@@ -50,14 +50,14 @@ abstract class BaseViewModel : ViewModel() {
 
     protected suspend fun handleError(error: Error) {
         showContent()
-        val errorMessage = when (error) {
-            is HttpError -> error.message
-            is NetworkError -> "Please, check your internet connection"
-            is UnknownError -> error.throwable?.message
-            else -> error.throwable?.message
+        val errorDisplayMessage = when (error) {
+            is HttpError -> DisplayableMessageValue.StringValue(error.message)
+            is NetworkError -> DisplayableMessageValue.CheckInternetConnection
+            is UnknownError -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
+            else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
         }
-        Logger.e("${this::class.simpleName} error: ${error::class.simpleName} $errorMessage")
-        sendEvent(OneTimeEvent.InfoMessage(getPrettyErrorMessage(errorMessage)))
+        Logger.e("${this::class.simpleName} error: ${error::class.simpleName} ${errorDisplayMessage::class.simpleName}")
+        sendEvent(OneTimeEvent.ErrorMessage(errorDisplayMessage))
     }
 
     protected fun BaseViewModel.launch(block: suspend CoroutineScope.() -> Unit): Job {
