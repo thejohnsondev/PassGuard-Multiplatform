@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.common.navigation.Screens
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.data.AuthRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -8,7 +8,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class GetFirstScreenRouteUseCaseImplTest {
+class GetFirstScreenRoutesUseCaseImplTest {
 
     private val authRepository = mockk<AuthRepository>()
     private val useCase = GetFirstScreenRouteUseCaseImpl(authRepository)
@@ -19,7 +19,7 @@ class GetFirstScreenRouteUseCaseImplTest {
 
         val result = useCase.invoke()
 
-        assertEquals(Screens.HomeScreen.name, result)
+        assertEquals(Routes.HomeRoute, result)
     }
 
     @Test
@@ -29,7 +29,7 @@ class GetFirstScreenRouteUseCaseImplTest {
 
         val result = useCase.invoke()
 
-        assertEquals(Screens.BiometricScreen.name, result)
+        assertEquals(Routes.BiometricRoute, result)
     }
 
     @Test
@@ -38,6 +38,6 @@ class GetFirstScreenRouteUseCaseImplTest {
 
         val result = useCase.invoke()
 
-        assertEquals(Screens.Welcome.name, result)
+        assertEquals(Routes.WelcomeRoute, result)
     }
 }

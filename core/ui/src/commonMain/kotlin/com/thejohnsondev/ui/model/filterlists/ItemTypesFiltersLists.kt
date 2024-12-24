@@ -1,4 +1,4 @@
-package com.thejohnsondev.uimodel.filterlists
+package com.thejohnsondev.ui.model.filterlists
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.StickyNote2
@@ -7,13 +7,13 @@ import com.thejohnsondev.common.COLOR_ID_onPrimaryContainer
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_BANK_ACCOUNTS
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_NOTES
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_PASSWORDS
-import com.thejohnsondev.uimodel.models.FilterIcon
-import com.thejohnsondev.uimodel.models.FilterUIModel
-import vaultmultiplatform.core.uimodel.generated.resources.Res
-import vaultmultiplatform.core.uimodel.generated.resources.bank_accounts
-import vaultmultiplatform.core.uimodel.generated.resources.ic_password
-import vaultmultiplatform.core.uimodel.generated.resources.notes
-import vaultmultiplatform.core.uimodel.generated.resources.passwords
+import com.thejohnsondev.ui.model.FilterIcon
+import com.thejohnsondev.ui.model.FilterUIModel
+import vaultmultiplatform.core.ui.generated.resources.Res
+import vaultmultiplatform.core.ui.generated.resources.bank_accounts
+import vaultmultiplatform.core.ui.generated.resources.ic_password
+import vaultmultiplatform.core.ui.generated.resources.notes
+import vaultmultiplatform.core.ui.generated.resources.passwords
 
 val passwordsFilterUIModel = FilterUIModel(
     id = VAULT_ITEM_TYPE_PASSWORDS,

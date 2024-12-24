@@ -1,4 +1,4 @@
-package com.thejohnsondev.uimodel.models
+package com.thejohnsondev.ui.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
@@ -7,15 +7,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_FINANCE
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
-import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
-import com.thejohnsondev.uimodel.filterlists.othersFilterUIModel
-import com.thejohnsondev.uimodel.filterlists.personalFilterUIModel
-import com.thejohnsondev.uimodel.filterlists.workFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.financeFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.othersFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.workFilterUIModel
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.vectorResource
-import vaultmultiplatform.core.uimodel.generated.resources.Res
-import vaultmultiplatform.core.uimodel.generated.resources.pass
+import vaultmultiplatform.core.ui.generated.resources.Res
+import vaultmultiplatform.core.ui.generated.resources.pass
 
 data class FilterUIModel(
     val id: String,

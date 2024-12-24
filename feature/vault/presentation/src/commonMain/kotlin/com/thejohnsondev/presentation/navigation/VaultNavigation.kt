@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.thejohnsondev.common.navigation.Screens
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.vault.VaultScreen
 import com.thejohnsondev.presentation.vault.VaultViewModel
 import com.thejohnsondev.ui.model.ScaffoldConfig
@@ -18,9 +18,7 @@ fun NavGraphBuilder.vaultScreen(
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit
 ) {
-    composable(
-        route = Screens.VaultScreen.name
-    ) {
+    composable<Routes.VaultRoute> {
         val vaultViewModel = koinViewModel<VaultViewModel>()
         VaultScreen(
             windowSize,

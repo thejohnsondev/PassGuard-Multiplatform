@@ -1,7 +1,7 @@
 package com.thejohnsondev.presentation.vault
 
+import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
-import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
@@ -12,11 +12,15 @@ import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.uimodel.filterlists.getVaultCategoryFilters
-import com.thejohnsondev.uimodel.filterlists.getVaultItemTypeFilters
-import com.thejohnsondev.uimodel.models.FilterUIModel
-import com.thejohnsondev.uimodel.models.PasswordUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
+import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
+import com.thejohnsondev.ui.model.filterlists.getVaultItemTypeFilters
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 
 class VaultViewModel(
     private val passwordsService: PasswordsService,
@@ -31,40 +35,20 @@ class VaultViewModel(
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
-    private val _passwordsList = MutableStateFlow<List<List<PasswordUIModel>>>(emptyList())
-    private val _isSearching = MutableStateFlow(false)
-    private val _isFiltersOpened = MutableStateFlow(false)
-    private val _isAnyFiltersApplied = MutableStateFlow(false)
-    private val _isDeepSearchingEnabled = MutableStateFlow(true)
-    private val _showHideConfirmDelete =
-        MutableStateFlow<Pair<Boolean, PasswordUIModel?>>(Pair(false, null))
-    private val _listHeight = MutableStateFlow(0)
-    private val _itemTypeFilters = MutableStateFlow(getVaultItemTypeFilters())
-    private val _itemCategoryFilters = MutableStateFlow(getVaultCategoryFilters())
-    private val _isVaultEmpty = MutableStateFlow(false)
-    private val _editVaultItemContainer =
-        MutableStateFlow<Pair<Boolean, PasswordUIModel?>>(Pair(false, null))
 
+    private val _state = MutableStateFlow(State())
     val state = combine(
         _screenState,
-        _passwordsList,
-        _isSearching,
-        _isFiltersOpened,
-        _isAnyFiltersApplied,
-        _isDeepSearchingEnabled, // TODO replace with setting from settings config
-        _showHideConfirmDelete,
-        _listHeight,
-        _itemTypeFilters,
-        _itemCategoryFilters,
-        _isVaultEmpty,
-        _editVaultItemContainer,
-        ::State
-    )
+        _state,
+    ) { screenState, state ->
+        state.copy(
+            screenState = screenState
+        )
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, State())
 
     fun perform(action: Action) {
         when (action) {
             is Action.FetchVault -> fetchVault(action.isCompact)
-            is Action.DeletePassword -> deletePassword(action.password)
             is Action.Search -> search(action.isCompact, action.query, action.isDeepSearchEnabled)
             is Action.StopSearching -> stopSearching(action.isCompact)
             is Action.ShowHideConfirmDelete -> showHideConfirmDelete(action.deletePasswordPair)
@@ -80,8 +64,13 @@ class VaultViewModel(
     }
 
     private fun onEditClick(password: PasswordUIModel) = launch {
-        _passwordsList.value = toggleOpenedItemUseCase(password.id, _passwordsList.value)
-        _editVaultItemContainer.emit(Pair(true, password))
+        val updatedPasswordsList = toggleOpenedItemUseCase(password.id, _state.value.passwordsList)
+        _state.update {
+            it.copy(
+                passwordsList = updatedPasswordsList,
+                editVaultItemContainer = Pair(true, password)
+            )
+        }
     }
 
     private fun onDeletePasswordClick(passwordId: String) = launch {
@@ -89,50 +78,72 @@ class VaultViewModel(
     }
 
     private fun onAddClose() = launch {
-        _editVaultItemContainer.emit(Pair(false, null))
+        _state.update {
+            it.copy(
+                editVaultItemContainer = Pair(false, null)
+            )
+        }
     }
 
     private fun onAddClick() = launch {
-        _passwordsList.value = toggleOpenedItemUseCase(null, _passwordsList.value)
-        _editVaultItemContainer.emit(Pair(true, null))
+        val updatePasswordsList = toggleOpenedItemUseCase(null, _state.value.passwordsList)
+        _state.update {
+            it.copy(
+                passwordsList = updatePasswordsList,
+                editVaultItemContainer = Pair(true, null)
+            )
+        }
     }
 
     private fun fetchVault(isCompact: Boolean) = launchLoading {
         passwordsService.getUserPasswords().collect { items ->
             val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
             val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)
-            _allPasswordsList.emit(passwordsUiModels)
-            _isVaultEmpty.emit(items.isEmpty())
             val dividedItems = splitItemsListUseCase(isCompact, passwordsUiModels)
             val itemsHeight = calculateListSizeUseCase(dividedItems)
-            _listHeight.emit(itemsHeight)
-            _passwordsList.emit(dividedItems)
+            _allPasswordsList.emit(passwordsUiModels)
+            _state.update {
+                it.copy(
+                    isVaultEmpty = items.isEmpty(),
+                    listHeight = itemsHeight,
+                    passwordsList = dividedItems,
+                )
+            }
             showContent()
         }
     }
 
     private fun onFilterTypeClick(filter: FilterUIModel, isSelected: Boolean) = launch {
-        val updatedTypeFilters = itemTypeFilterChangeUseCase(filter, isSelected, _itemTypeFilters.value)
+        val updatedTypeFilters =
+            itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemTypeFilters)
+        val isAnyFiltersApplied =
+            checkFiltersAppliedUseCase(updatedTypeFilters, _state.value.itemCategoryFilters)
         // todo filter list
-        _itemTypeFilters.emit(updatedTypeFilters)
-        val isAnyFiltersApplied = checkFiltersAppliedUseCase(updatedTypeFilters, _itemCategoryFilters.value)
-        _isAnyFiltersApplied.emit(isAnyFiltersApplied)
+        _state.update {
+            it.copy(
+                itemTypeFilters = updatedTypeFilters,
+                isAnyFiltersApplied = isAnyFiltersApplied
+            )
+        }
     }
 
     private fun onFilterCategoryClick(filter: FilterUIModel, isSelected: Boolean) = launch {
-        val updatedCategoryFilters = itemTypeFilterChangeUseCase(filter, isSelected, _itemCategoryFilters.value)
-        // todo filter list
-        _itemCategoryFilters.emit(updatedCategoryFilters)
-        val isAnyFiltersApplied = checkFiltersAppliedUseCase(_itemTypeFilters.value, updatedCategoryFilters)
-        _isAnyFiltersApplied.emit(isAnyFiltersApplied)
+        val updatedCategoryFilters =
+            itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemCategoryFilters)
+        val isAnyFiltersApplied =
+            checkFiltersAppliedUseCase(_state.value.itemTypeFilters, updatedCategoryFilters)
+        _state.update {
+            it.copy(
+                itemCategoryFilters = updatedCategoryFilters,
+                isAnyFiltersApplied = isAnyFiltersApplied
+            )
+        }
     }
 
     private fun toggleFiltersOpened() {
-        _isFiltersOpened.value = !_isFiltersOpened.value
-    }
-
-    private fun deletePassword(password: PasswordUIModel) {
-        // TODO implement
+        _state.update {
+            it.copy(isFiltersOpened = !it.isFiltersOpened)
+        }
     }
 
     private fun search(isCompact: Boolean, query: String, isDeepSearchEnabled: Boolean) = launch {
@@ -140,20 +151,28 @@ class VaultViewModel(
             stopSearching(isCompact)
             return@launch
         }
-        _isSearching.emit(true)
         val resultList = searchUseCase(query, isDeepSearchEnabled, _allPasswordsList.value)
         val dividedItems = splitItemsListUseCase(isCompact, resultList)
         val itemsHeight = calculateListSizeUseCase(dividedItems)
-        _listHeight.emit(itemsHeight)
-        _passwordsList.emit(dividedItems)
+        _state.update {
+            it.copy(
+                isSearching = true,
+                listHeight = itemsHeight,
+                passwordsList = dividedItems
+            )
+        }
     }
 
     private fun stopSearching(isCompact: Boolean) = launch {
-        _isSearching.emit(false)
         val dividedItems = splitItemsListUseCase(isCompact, _allPasswordsList.value)
         val itemsHeight = calculateListSizeUseCase(dividedItems)
-        _listHeight.emit(itemsHeight)
-        _passwordsList.emit(dividedItems)
+        _state.update {
+            it.copy(
+                isSearching = false,
+                listHeight = itemsHeight,
+                passwordsList = dividedItems
+            )
+        }
     }
 
     private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, PasswordUIModel?>) {
@@ -163,17 +182,20 @@ class VaultViewModel(
     private fun toggleOpenItem(newOpenedItemId: String?) = launch {
         val updatedList = toggleOpenedItemUseCase(
             newOpenedItemId,
-            _passwordsList.value
+            _state.value.passwordsList
         )
         val itemsHeight = calculateListSizeUseCase(updatedList)
-        _listHeight.emit(itemsHeight)
-        _passwordsList.emit(updatedList)
+        _state.update {
+            it.copy(
+                passwordsList = updatedList,
+                listHeight = itemsHeight
+            )
+        }
     }
 
 
     sealed class Action {
         data class FetchVault(val isCompact: Boolean) : Action()
-        data class DeletePassword(val password: PasswordUIModel) : Action()
         data class Search(val isCompact: Boolean, val query: String, val isDeepSearchEnabled: Boolean) : Action()
         data class StopSearching(val isCompact: Boolean) : Action()
         data class ShowHideConfirmDelete(val deletePasswordPair: Pair<Boolean, PasswordUIModel?>) : Action()
@@ -198,8 +220,8 @@ class VaultViewModel(
         val isDeepSearchEnabled: Boolean = false,
         val deletePasswordPair: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
         val listHeight: Int = 0,
-        val itemTypeFilters: List<FilterUIModel> = emptyList(),
-        val itemCategoryFilters: List<FilterUIModel> = emptyList(),
+        val itemTypeFilters: List<FilterUIModel> = getVaultItemTypeFilters(),
+        val itemCategoryFilters: List<FilterUIModel> = getVaultCategoryFilters(),
         val isVaultEmpty: Boolean = false,
         val editVaultItemContainer: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
     )

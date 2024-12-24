@@ -4,7 +4,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.thejohnsondev.common.navigation.Screens
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.login.LoginScreen
 import com.thejohnsondev.presentation.login.LoginViewModel
 import com.thejohnsondev.presentation.signup.SignUpScreen
@@ -15,9 +15,9 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 fun NavController.navigateToLogin() {
     navigate(
-        Screens.LoginScreen.name
+        Routes.LoginRoute
     ) {
-        popUpTo(Screens.LoginScreen.name) {
+        popUpTo(Routes.LoginRoute) {
             inclusive = true
         }
     }
@@ -25,9 +25,9 @@ fun NavController.navigateToLogin() {
 
 fun NavController.navigateToSignUp() {
     navigate(
-        Screens.SignUpScreen.name
+        Routes.SignUpRoute
     ) {
-        popUpTo(Screens.SignUpScreen.name) {
+        popUpTo(Routes.SignUpRoute) {
             inclusive = true
         }
     }
@@ -35,9 +35,9 @@ fun NavController.navigateToSignUp() {
 
 fun NavController.navigateToWelcome() {
     navigate(
-        Screens.Welcome.name
+        Routes.WelcomeRoute
     ) {
-        popUpTo(Screens.Welcome.name) {
+        popUpTo(Routes.WelcomeRoute) {
             inclusive = true
         }
     }
@@ -48,9 +48,7 @@ fun NavGraphBuilder.welcomeScreen(
     goToSignUp: () -> Unit,
     goToLogin: () -> Unit
 ) {
-    composable(
-        route = Screens.Welcome.name
-    ) {
+    composable<Routes.WelcomeRoute> {
         WelcomeScreen(
             windowSize = windowSize,
             goToSignUp = goToSignUp,
@@ -66,9 +64,7 @@ fun NavGraphBuilder.loginScreen(
     goToSignUp: () -> Unit,
     goBack: () -> Unit
 ) {
-    composable(
-        route = Screens.LoginScreen.name
-    ) {
+    composable<Routes.LoginRoute> {
         val viewModel = koinViewModel<LoginViewModel>()
         LoginScreen(
             windowSize = windowSize,
@@ -87,9 +83,7 @@ fun NavGraphBuilder.signUpScreen(
     goToLogin: () -> Unit,
     goBack: () -> Unit
 ) {
-    composable(
-        route = Screens.SignUpScreen.name
-    ) {
+    composable<Routes.SignUpRoute> {
         val viewModel = koinViewModel<SignUpViewModel>()
         SignUpScreen(
             windowSize = windowSize,

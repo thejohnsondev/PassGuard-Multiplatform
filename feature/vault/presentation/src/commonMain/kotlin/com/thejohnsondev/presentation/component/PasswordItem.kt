@@ -72,11 +72,11 @@ import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.ButtonShape
+import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.darken
 import com.thejohnsondev.ui.utils.mapToColor
-import com.thejohnsondev.uimodel.models.PasswordUIModel
-import com.thejohnsondev.uimodel.models.getImageVector
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.created
