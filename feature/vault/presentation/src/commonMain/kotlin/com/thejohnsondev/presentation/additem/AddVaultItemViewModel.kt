@@ -15,7 +15,7 @@ import com.thejohnsondev.domain.ValidatePasswordModelUseCase
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
-import com.thejohnsondev.uimodel.models.PasswordUIModel
+import com.thejohnsondev.ui.model.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

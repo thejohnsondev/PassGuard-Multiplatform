@@ -12,10 +12,10 @@ import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.uimodel.filterlists.getVaultCategoryFilters
-import com.thejohnsondev.uimodel.filterlists.getVaultItemTypeFilters
-import com.thejohnsondev.uimodel.models.FilterUIModel
-import com.thejohnsondev.uimodel.models.PasswordUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
+import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
+import com.thejohnsondev.ui.model.filterlists.getVaultItemTypeFilters
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

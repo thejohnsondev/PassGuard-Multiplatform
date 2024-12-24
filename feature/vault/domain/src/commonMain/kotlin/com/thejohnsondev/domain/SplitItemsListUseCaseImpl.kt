@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.models.PasswordUIModel
+import com.thejohnsondev.ui.model.PasswordUIModel
 
 class SplitItemsListUseCaseImpl : SplitItemsListUseCase {
     override fun invoke(

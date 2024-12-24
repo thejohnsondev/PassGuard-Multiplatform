@@ -1,4 +1,4 @@
-package com.thejohnsondev.uimodel.models
+package com.thejohnsondev.ui.model
 
 import org.jetbrains.compose.resources.StringResource
 

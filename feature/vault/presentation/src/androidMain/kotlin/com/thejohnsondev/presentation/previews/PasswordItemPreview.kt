@@ -5,12 +5,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
-import com.thejohnsondev.uimodel.models.PasswordUIModel
-import com.thejohnsondev.uimodel.filterlists.financeFilterUIModel
-import com.thejohnsondev.uimodel.filterlists.othersFilterUIModel
-import com.thejohnsondev.uimodel.filterlists.personalFilterUIModel
-import com.thejohnsondev.uimodel.filterlists.workFilterUIModel
-import com.thejohnsondev.uimodel.mappers.mapToCategory
+import com.thejohnsondev.ui.model.models.PasswordUIModel
+import com.thejohnsondev.ui.model.filterlists.financeFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.othersFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.workFilterUIModel
+import com.thejohnsondev.ui.model.mappers.mapToCategory
 
 @Composable
 @Preview
