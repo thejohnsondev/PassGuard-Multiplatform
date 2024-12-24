@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.thejohnsondev.common.navigation.Screens
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.navigation.navigateToWelcome
 import com.thejohnsondev.presentation.navigation.settingsScreen
 import com.thejohnsondev.presentation.navigation.toolsScreen
@@ -57,7 +57,7 @@ fun HomeNavigation(
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = Screens.VaultScreen.name,
+                startDestination = Routes.VaultRoute,
                 modifier = Modifier.padding(
                     top = SizeDefault,
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),

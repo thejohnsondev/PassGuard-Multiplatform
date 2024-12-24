@@ -16,6 +16,7 @@ import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_WIDTH
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ fun main() = application {
         getKoin().get()
     }
     val coroutineScope = rememberCoroutineScope()
-    val firstScreenRoute = remember { mutableStateOf<String?>(null) }
+    val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
 
     LaunchedEffect(true) {
         coroutineScope.launch {

@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val getFirstScreenRoute = getKoin().get<GetFirstScreenRouteUseCase>()
         val deviceThemeConfig: DeviceThemeConfig = getKoin().get()
-        val firstScreenRoute = mutableStateOf<String?>(null)
+        val firstScreenRoute = mutableStateOf<Routes?>(null)
         lifecycleScope.launch {
             firstScreenRoute.value = getFirstScreenRoute()
         }
