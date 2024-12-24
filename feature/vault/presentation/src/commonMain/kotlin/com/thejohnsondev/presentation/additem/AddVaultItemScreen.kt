@@ -45,7 +45,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
-import com.thejohnsondev.presentation.component.AdditionalField
+import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.ui.components.BackArrowButton
 import com.thejohnsondev.ui.components.HintTextField
 import com.thejohnsondev.ui.components.LoadedImage
@@ -274,7 +274,7 @@ private fun AdditionalFieldsList(
     onAction: (AddVaultItemViewModel.Action) -> Unit
 ) {
     state.additionalFields.forEachIndexed { index, additionalField ->
-        AdditionalField(
+        AdditionalFieldItem(
             modifier = Modifier
                 .padding(start = Size16, end = Size16, top = Size8),
             title = additionalField.title,
