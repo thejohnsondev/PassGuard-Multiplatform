@@ -300,7 +300,8 @@ private fun AdditionalFieldsList(
                         additionalField.id
                     )
                 )
-            })
+            },
+            isEditMode = state.isEdit)
     }
 }
 
