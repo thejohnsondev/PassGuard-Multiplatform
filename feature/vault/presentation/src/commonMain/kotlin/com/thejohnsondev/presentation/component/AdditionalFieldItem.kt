@@ -31,8 +31,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.ui.components.HintTextField
 import com.thejohnsondev.ui.designsystem.EqualRounded
-import com.thejohnsondev.ui.designsystem.Percent80
-import com.thejohnsondev.ui.designsystem.Percent85
 import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size2
@@ -46,10 +44,11 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.value
 import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
 
 @Composable
-fun AdditionalField(
+fun AdditionalFieldItem(
     modifier: Modifier = Modifier,
     title: String,
     value: String,
+    isEditMode: Boolean,
     onTitleChanged: (String) -> Unit,
     onValueChanged: (String) -> Unit,
     onDeleteClick: () -> Unit
@@ -164,7 +163,9 @@ fun AdditionalField(
             }
         }
     }
-    LaunchedEffect(titleFocusRequester) {
-        titleFocusRequester.requestFocus()
+    if (!isEditMode) {
+        LaunchedEffect(titleFocusRequester) {
+            titleFocusRequester.requestFocus()
+        }
     }
 }
