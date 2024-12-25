@@ -17,9 +17,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
@@ -33,8 +32,7 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    fun getEventFlow() = eventFlow
-        .stateIn(viewModelScope, SharingStarted.Eagerly, OneTimeEvent.None)
+    fun getEventFlow() = eventFlow.asSharedFlow()
 
     protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent)  {
         eventFlow.emit(event)
