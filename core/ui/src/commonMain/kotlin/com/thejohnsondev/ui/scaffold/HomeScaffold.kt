@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
+import com.thejohnsondev.ui.components.AnimatedMessage
 import com.thejohnsondev.ui.components.CardWithAnimatedBorder
 import com.thejohnsondev.ui.components.ErrorSnackbar
 import com.thejohnsondev.ui.components.InfoSnackbar
@@ -59,9 +60,9 @@ import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
+import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
@@ -83,6 +84,7 @@ fun HomeScaffold(
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>,
     scrollBehavior: TopAppBarScrollBehavior,
+    showMessageState: MutableState<MessageContent?>,
     hazeState: HazeState = remember { HazeState() },
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -94,7 +96,8 @@ fun HomeScaffold(
             windowSize = windowSize,
             hazeState = hazeState,
             scaffoldState = scaffoldState,
-            scrollBehavior = scrollBehavior
+            scrollBehavior = scrollBehavior,
+            showMessageState = showMessageState
         )
     }, floatingActionButton = {
         if (scaffoldState.value.isFabVisible) {
@@ -352,7 +355,8 @@ private fun VaultTopBar(
     windowSize: WindowWidthSizeClass,
     hazeState: HazeState,
     scaffoldState: State<ScaffoldConfig>,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    showMessageState: MutableState<MessageContent?>
 ) {
     Box(
         modifier = Modifier
@@ -375,7 +379,9 @@ private fun VaultTopBar(
             }, navigationIcon = {
                 scaffoldState.value.topAppBarIcon?.let {
                     Icon(
-                        modifier = Modifier.size(Size48).padding(start = Size16)
+                        modifier = Modifier
+                            .size(Size48)
+                            .padding(start = Size16)
                             .clip(CircleShape)
                             .bounceClick()
                             .applyIf(scaffoldState.value.onTopAppBarIconClick != null) {
@@ -392,7 +398,16 @@ private fun VaultTopBar(
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                 scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.03f),
-            )
+            ),
+            actions = {
+                AnimatedMessage(
+                    modifier = Modifier.padding(end = Size8),
+                    messageContent = showMessageState.value,
+                    onAnimationFinished = {
+                        showMessageState.value = null
+                    }
+                )
+            }
         )
     }
 }

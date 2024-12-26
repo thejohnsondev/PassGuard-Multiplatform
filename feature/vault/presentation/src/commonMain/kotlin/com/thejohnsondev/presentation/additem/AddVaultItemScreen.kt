@@ -77,6 +77,7 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.organiz
 import vaultmultiplatform.feature.vault.presentation.generated.resources.password
 import vaultmultiplatform.feature.vault.presentation.generated.resources.save
 import vaultmultiplatform.feature.vault.presentation.generated.resources.title
+import vaultmultiplatform.feature.vault.presentation.generated.resources.update
 import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
@@ -183,7 +184,7 @@ private fun ModalDragHandle(
             },
             enabled = state.isValid,
         ) {
-            Text(text = stringResource(Res.string.save))
+            Text(text = stringResource(if (state.isEdit) Res.string.update else Res.string.save))
         }
     }
 }

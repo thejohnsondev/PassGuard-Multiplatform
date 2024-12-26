@@ -26,6 +26,7 @@ import com.thejohnsondev.presentation.navigation.toolsScreen
 import com.thejohnsondev.presentation.navigation.vaultScreen
 import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
+import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.scaffold.HomeScaffold
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,6 +43,9 @@ fun HomeNavigation(
         mutableStateOf(ScaffoldConfig())
     }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val showMessageState = remember {
+        mutableStateOf<MessageContent?>(null)
+    }
 
     Surface(
         modifier = Modifier
@@ -54,6 +58,7 @@ fun HomeNavigation(
             navController = navController,
             bottomBarState = bottomBarState,
             scrollBehavior = scrollBehavior,
+            showMessageState = showMessageState
         ) { paddingValues ->
             NavHost(
                 navController = navController,
@@ -73,6 +78,9 @@ fun HomeNavigation(
                     },
                     updateIsEmptyVault = {
                         scaffoldState.value = scaffoldState.value.copy(isEmptyVaultScreen = it)
+                    },
+                    onShowMessage = {
+                        showMessageState.value = it
                     }
                 )
                 toolsScreen(
