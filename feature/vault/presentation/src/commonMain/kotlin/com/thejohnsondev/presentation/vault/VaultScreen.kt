@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -67,10 +68,11 @@ import com.thejohnsondev.ui.designsystem.colorscheme.getAppLogo
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.ScaffoldConfig
+import com.thejohnsondev.ui.model.message.MessageContent
+import com.thejohnsondev.ui.model.message.MessageType
 import com.thejohnsondev.ui.scaffold.BottomNavItem
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -87,10 +89,14 @@ fun VaultScreen(
     vaultViewModel: VaultViewModel,
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
-    updateIsEmptyVault: (Boolean) -> Unit
+    updateIsEmptyVault: (Boolean) -> Unit,
+    onShowMessage: (MessageContent) -> Unit
 ) {
     val state = vaultViewModel.state.collectAsState(VaultViewModel.State())
-    val snackBarHostState = remember {
+    val successSnackBarHostState = remember {
+        SnackbarHostState()
+    }
+    val errorSnackBarHostState = remember {
         SnackbarHostState()
     }
     val lazyListState = rememberLazyListState()
@@ -119,7 +125,8 @@ fun VaultScreen(
                     vaultViewModel.perform(VaultViewModel.Action.OnAddClick)
                 },
                 isFabExpanded = expandedFab, // TODO hiding fab on scroll doesn't work
-                snackBarHostState = snackBarHostState,
+                successSnackBarHostState = successSnackBarHostState,
+                errorSnackBarHostState = errorSnackBarHostState,
                 bottomBarItemIndex = BottomNavItem.Vault.index
             )
         )
@@ -137,13 +144,13 @@ fun VaultScreen(
             onDismissRequest = {
                 vaultViewModel.perform(VaultViewModel.Action.OnAddClose)
             },
-            showErrorMessage = {
-                coroutineScope.launch {
-                    snackBarHostState.showSnackbar(
-                        message = it,
-                        actionLabel = null
-                    )
-                }
+            showSuccessMessage = {
+                val message = MessageContent(
+                    message = it,
+                    type = MessageType.SUCCESS,
+                    imageVector = Icons.Filled.Done
+                )
+                onShowMessage(message)
             }
         )
     }

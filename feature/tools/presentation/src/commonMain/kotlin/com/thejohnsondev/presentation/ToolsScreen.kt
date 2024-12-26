@@ -37,7 +37,7 @@ fun ToolsScreen(
                 ScaffoldConfig(
                     topAppBarTitle = getString(Res.string.tools),
                     topAppBarIcon = toolsIcon,
-                    snackBarHostState = snackBarHostState,
+                    successSnackBarHostState = snackBarHostState,
                     bottomBarItemIndex = BottomNavItem.Tools.index
                 )
             )

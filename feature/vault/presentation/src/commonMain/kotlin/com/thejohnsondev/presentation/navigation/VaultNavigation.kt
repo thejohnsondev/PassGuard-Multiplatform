@@ -8,6 +8,7 @@ import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.vault.VaultScreen
 import com.thejohnsondev.presentation.vault.VaultViewModel
 import com.thejohnsondev.ui.model.ScaffoldConfig
+import com.thejohnsondev.ui.model.message.MessageContent
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -16,7 +17,8 @@ fun NavGraphBuilder.vaultScreen(
     windowSize: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
-    updateIsEmptyVault: (Boolean) -> Unit
+    updateIsEmptyVault: (Boolean) -> Unit,
+    onShowMessage: (MessageContent) -> Unit
 ) {
     composable<Routes.VaultRoute> {
         val vaultViewModel = koinViewModel<VaultViewModel>()
@@ -25,7 +27,8 @@ fun NavGraphBuilder.vaultScreen(
             vaultViewModel,
             paddingValues,
             setScaffoldConfig,
-            updateIsEmptyVault
+            updateIsEmptyVault,
+            onShowMessage
         )
     }
 }

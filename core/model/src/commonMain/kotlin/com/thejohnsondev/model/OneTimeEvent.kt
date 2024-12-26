@@ -1,7 +1,8 @@
 package com.thejohnsondev.model
 
 open class OneTimeEvent {
-    object None: OneTimeEvent()
-    class InfoMessage(val message: String): OneTimeEvent()
-    object SuccessNavigation : OneTimeEvent()
+    data object None: OneTimeEvent()
+    data class SuccessMessage(val message: DisplayableMessageValue): OneTimeEvent()
+    data class ErrorMessage(val message: DisplayableMessageValue): OneTimeEvent()
+    data class SuccessNavigation(val message: DisplayableMessageValue? = null) : OneTimeEvent()
 }

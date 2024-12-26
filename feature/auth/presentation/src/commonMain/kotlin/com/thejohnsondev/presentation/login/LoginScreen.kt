@@ -64,10 +64,10 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
+import com.thejohnsondev.ui.displaymessage.getAsComposeText
+import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.applyIf
-import com.thejohnsondev.ui.utils.getEmailErrorMessage
-import com.thejohnsondev.ui.utils.getPasswordErrorMessage
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.auth.presentation.generated.resources.Res
@@ -103,15 +103,17 @@ fun LoginScreen(
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {
             when (it) {
-                is OneTimeEvent.InfoMessage -> {
-                    snackbarHostState.showSnackbar(it.message, duration = SnackbarDuration.Short)
+                is OneTimeEvent.ErrorMessage -> {
+                    snackbarHostState.showSnackbar(
+                        it.message.getAsText(),
+                        duration = SnackbarDuration.Short
+                    )
                 }
 
                 is OneTimeEvent.SuccessNavigation -> goToHome()
             }
         }
     }
-
 
     LoginContent(
         state = screenState.value,
@@ -277,10 +279,9 @@ fun FieldsSection(
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email,
                 isError = screenState.emailValidationState !is EmailValidationState.EmailCorrectState,
-                errorText = if (screenState.emailValidationState is EmailValidationState.EmailIncorrectState) getEmailErrorMessage(
-                    screenState.emailValidationState.reason
-                )
-                else null
+                errorText = if (screenState.emailValidationState is EmailValidationState.EmailIncorrectState) {
+                    screenState.emailValidationState.reason.getAsComposeText()
+                } else null
             )
             Spacer(modifier = Modifier.height(Size8))
             TextField(
@@ -299,10 +300,9 @@ fun FieldsSection(
                 },
                 keyboardType = KeyboardType.Password,
                 isError = screenState.passwordValidationState !is PasswordValidationState.PasswordCorrectState,
-                errorText = if (screenState.passwordValidationState is PasswordValidationState.PasswordIncorrectState) getPasswordErrorMessage(
-                    screenState.passwordValidationState.reason
-                )
-                else null
+                errorText = if (screenState.passwordValidationState is PasswordValidationState.PasswordIncorrectState) {
+                    screenState.passwordValidationState.reason.getAsComposeText()
+                } else null
             )
             DoNotHaveAccount(
                 modifier = Modifier

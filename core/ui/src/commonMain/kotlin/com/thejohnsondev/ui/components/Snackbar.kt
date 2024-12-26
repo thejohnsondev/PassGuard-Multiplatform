@@ -101,7 +101,7 @@ fun SuccessSnackbar(
         modifier = modifier,
         message = message,
         icon = Icons.Default.Done,
-        messageColor = themeColorSuccessBackground,
-        containerColor = themeColorSuccessForeground
+        messageColor = themeColorSuccessForeground,
+        containerColor = themeColorSuccessBackground
     )
 }

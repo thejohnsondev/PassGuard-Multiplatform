@@ -60,6 +60,7 @@ import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
+import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ButtonShape
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.utils.KeyboardManager
@@ -76,6 +77,7 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.organiz
 import vaultmultiplatform.feature.vault.presentation.generated.resources.password
 import vaultmultiplatform.feature.vault.presentation.generated.resources.save
 import vaultmultiplatform.feature.vault.presentation.generated.resources.title
+import vaultmultiplatform.feature.vault.presentation.generated.resources.update
 import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
@@ -87,15 +89,15 @@ fun AddVaultItemScreen(
     viewModel: AddVaultItemViewModel = koinViewModel<AddVaultItemViewModel>(),
     vaultItem: PasswordUIModel? = null,
     onDismissRequest: () -> Unit,
-    showErrorMessage: (String) -> Unit,
+    showSuccessMessage: (String) -> Unit
 ) {
     val state = viewModel.state.collectAsState(AddVaultItemViewModel.State())
 
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {
             when (it) {
-                is OneTimeEvent.InfoMessage -> showErrorMessage(it.message)
                 is OneTimeEvent.SuccessNavigation -> {
+                    it.message?.getAsText()?.let(showSuccessMessage)
                     viewModel.clear()
                     onDismissRequest()
                 }
@@ -182,7 +184,7 @@ private fun ModalDragHandle(
             },
             enabled = state.isValid,
         ) {
-            Text(text = stringResource(Res.string.save))
+            Text(text = stringResource(if (state.isEdit) Res.string.update else Res.string.save))
         }
     }
 }

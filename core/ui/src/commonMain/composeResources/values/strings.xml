@@ -31,7 +31,14 @@
     <string name="finances">Finances</string>
     <string name="other">Other</string>
 
+    <!--Messages-->
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="updated_success">Updated</string>
+    <string name="added_success">Saved</string>
+    <string name="check_internet_connection">Please, check your internet connection</string>
 
     <!--Content Description-->
     <string name="cd_app_logo">App Logo</string>
+
+    <string name="stub">Stub!</string>
 </resources>

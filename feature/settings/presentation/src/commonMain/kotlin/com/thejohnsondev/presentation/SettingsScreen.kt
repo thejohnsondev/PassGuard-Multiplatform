@@ -40,7 +40,7 @@ fun SettingsScreen(
                 ScaffoldConfig(
                     topAppBarTitle = getString(Res.string.settings),
                     topAppBarIcon = toolsIcon,
-                    snackBarHostState = snackBarHostState,
+                    successSnackBarHostState = snackBarHostState,
                     bottomBarItemIndex = BottomNavItem.Settings.index
                 )
             )

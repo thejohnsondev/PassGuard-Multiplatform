@@ -12,6 +12,7 @@ import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
 import com.thejohnsondev.domain.ValidatePasswordModelUseCase
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
@@ -82,7 +83,11 @@ class AddVaultItemViewModel(
         )
         val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
-        sendEvent(OneTimeEvent.SuccessNavigation)
+        sendEvent(
+            OneTimeEvent.SuccessNavigation(
+                if (_state.value.isEdit) DisplayableMessageValue.PasswordEditSuccess else DisplayableMessageValue.PasswordAddedSuccess
+            )
+        )
     }
 
     private fun setPasswordForEdit(passwordUIModel: PasswordUIModel) = launch {

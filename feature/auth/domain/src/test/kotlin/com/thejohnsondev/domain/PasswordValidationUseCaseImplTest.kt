@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.model.validation.IncorrectPasswordReason
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.validation.PasswordValidationState
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,7 +21,7 @@ class PasswordValidationUseCaseImplTest {
         val password = "Val1"
         val result = passwordValidationUseCase(password)
         assertEquals(
-            PasswordValidationState.PasswordIncorrectState(IncorrectPasswordReason.BAD_LENGTH),
+            PasswordValidationState.PasswordIncorrectState(DisplayableMessageValue.BadLength),
             result
         )
     }
@@ -31,7 +31,7 @@ class PasswordValidationUseCaseImplTest {
         val password = "ValidPassword"
         val result = passwordValidationUseCase(password)
         assertEquals(
-            PasswordValidationState.PasswordIncorrectState(IncorrectPasswordReason.NO_NUMBERS),
+            PasswordValidationState.PasswordIncorrectState(DisplayableMessageValue.NoNumbers),
             result
         )
     }
@@ -41,7 +41,7 @@ class PasswordValidationUseCaseImplTest {
         val password = "valid123"
         val result = passwordValidationUseCase(password)
         assertEquals(
-            PasswordValidationState.PasswordIncorrectState(IncorrectPasswordReason.NO_CAPITAL),
+            PasswordValidationState.PasswordIncorrectState(DisplayableMessageValue.NoCapital),
             result
         )
     }
@@ -51,7 +51,7 @@ class PasswordValidationUseCaseImplTest {
         val password = "VALID123"
         val result = passwordValidationUseCase(password)
         assertEquals(
-            PasswordValidationState.PasswordIncorrectState(IncorrectPasswordReason.NO_SMALL),
+            PasswordValidationState.PasswordIncorrectState(DisplayableMessageValue.NoSmall),
             result
         )
     }
