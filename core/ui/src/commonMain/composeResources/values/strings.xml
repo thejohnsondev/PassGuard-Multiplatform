@@ -20,8 +20,6 @@
     <string name="deep_search_description">Search by all details, not only titles</string>
     <string name="security_and_privacy_title">Security &amp; Privacy</string>
     <string name="security_and_privacy_description">Manage your security and privacy</string>
-    <string name="unlock_with_biometrics">Unlock with biometrics</string>
-    <string name="unlock_with_biometrics_description">Use fingerprint/face for verification when opening the app</string>
     <string name="block_screenshot">Block screenshot</string>
     <string name="block_screenshot_description">Blocks screenshot/screen capture inside the app</string>
     <string name="biometric_authentication">Biometric authentication</string>
@@ -29,8 +27,6 @@
     <string name="scan_to_unlock">Scan to unlock</string>
     <string name="manage_account">Manage account</string>
     <string name="dangerous_zone">Dangerous zone</string>
-    <string name="delete_account">Delete Account</string>
-    <string name="delete_account_confirm_message">Are you sure you want to delete the account? \nIt will remove all your data permanently.</string>
     <string name="setting_title_style">Style and appearance</string>
     <string name="setting_description_style">Customize the look and feel of the app</string>
     <string name="account">Account</string>

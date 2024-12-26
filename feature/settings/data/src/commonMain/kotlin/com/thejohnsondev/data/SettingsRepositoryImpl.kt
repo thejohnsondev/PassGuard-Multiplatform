@@ -1,5 +1,6 @@
 package com.thejohnsondev.data
 
+import com.thejohnsondev.common.utils.BiometricsProvider
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
@@ -7,7 +8,8 @@ import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
 
 class SettingsRepositoryImpl(
-    private val preferencesDataStore: PreferencesDataStore
+    private val preferencesDataStore: PreferencesDataStore,
+    private val biometricsProvider: BiometricsProvider
 ): SettingsRepository {
     override suspend fun updateCustomTheme(theme: ThemeBrand) {
         preferencesDataStore.setCustomTheme(theme)
@@ -31,5 +33,9 @@ class SettingsRepositoryImpl(
 
     override suspend fun getUserEmail(): String {
         return preferencesDataStore.getEmail()
+    }
+
+    override suspend fun getIsBiometricsAvailable(): Boolean {
+        return biometricsProvider.isBiometricsAvailable()
     }
 }

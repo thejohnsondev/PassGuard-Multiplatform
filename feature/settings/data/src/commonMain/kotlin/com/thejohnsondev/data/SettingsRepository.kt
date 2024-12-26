@@ -13,5 +13,6 @@ interface SettingsRepository {
     suspend fun updateGeneralSettings(generalSettings: GeneralSettings)
     suspend fun updatePrivacySettings(privacySettings: PrivacySettings)
     suspend fun getUserEmail(): String
+    suspend fun getIsBiometricsAvailable(): Boolean
 
 }
