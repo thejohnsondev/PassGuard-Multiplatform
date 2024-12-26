@@ -43,7 +43,7 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun deleteAccount(): Flow<Either<Error, Unit>> {
-        return flowOf(Either.Right(Unit))
+        return flowOf(remoteApi.deleteAccount())
     }
 
     override suspend fun changePassword(

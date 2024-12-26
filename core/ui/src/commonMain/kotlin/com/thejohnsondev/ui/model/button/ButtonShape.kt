@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.model
+package com.thejohnsondev.ui.model.button
 
 import androidx.compose.ui.unit.Dp
 import com.thejohnsondev.ui.designsystem.Size16

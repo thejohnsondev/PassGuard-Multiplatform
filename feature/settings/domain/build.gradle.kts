@@ -32,7 +32,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:model"))
             api(project(":core:common"))
-            implementation(project(":feature:tools:data"))
+            api(project(":feature:settings:data"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 

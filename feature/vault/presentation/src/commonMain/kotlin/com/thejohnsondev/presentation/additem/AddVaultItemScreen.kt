@@ -61,7 +61,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.displaymessage.getAsText
-import com.thejohnsondev.ui.model.ButtonShape
+import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.applyIf

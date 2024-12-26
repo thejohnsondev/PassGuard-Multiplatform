@@ -68,6 +68,8 @@ kotlin {
             api(project(":feature:vault:domain"))
             api(project(":feature:vault:presentation"))
             api(project(":feature:tools:presentation"))
+            api(project(":feature:settings:data"))
+            api(project(":feature:settings:domain"))
             api(project(":feature:settings:presentation"))
 
             // Compose

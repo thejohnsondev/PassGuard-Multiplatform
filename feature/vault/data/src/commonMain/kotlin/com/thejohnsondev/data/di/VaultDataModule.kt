@@ -1,4 +1,4 @@
-package com.thejohnsondev.di
+package com.thejohnsondev.data.di
 
 import com.thejohnsondev.data.PasswordsRepository
 import com.thejohnsondev.data.PasswordsRepositoryImpl

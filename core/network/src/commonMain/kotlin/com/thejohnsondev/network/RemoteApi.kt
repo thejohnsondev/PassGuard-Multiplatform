@@ -8,4 +8,5 @@ import com.thejohnsondev.model.auth.AuthResponse
 interface RemoteApi {
     suspend fun signUp(body: AuthRequestBody): Either<Error, AuthResponse>
     suspend fun signIn(body: AuthRequestBody): Either<Error, AuthResponse>
+    suspend fun deleteAccount(): Either<Error, Unit>
 }
