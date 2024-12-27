@@ -135,8 +135,8 @@ fun SettingsContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
-            SettingsList(state, onAction)
-            Dialogs(state, onAction)
+            SettingsList(state = state, onAction = onAction)
+            Dialogs(windowSizeClass = windowSizeClass, state = state, onAction = onAction)
         }
     }
 }
@@ -485,11 +485,13 @@ fun PrivacySettingsSubSection(
 
 @Composable
 fun Dialogs(
+    windowSizeClass: WindowWidthSizeClass,
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     if (state.openConfirmDeleteAccountDialog) {
         ConfirmAlertDialog(
+            windowWidthSizeClass = windowSizeClass,
             title = stringResource(Res.string.delete_account),
             message = stringResource(Res.string.delete_account_confirm_message),
             confirmButtonText = stringResource(Res.string.delete_account),
@@ -505,6 +507,7 @@ fun Dialogs(
     }
     if (state.openConfirmLogoutDialog) {
         ConfirmAlertDialog(
+            windowWidthSizeClass = windowSizeClass,
             title = stringResource(Res.string.logout),
             message = stringResource(Res.string.logout_confirm_message),
             confirmButtonText = stringResource(Res.string.logout),
