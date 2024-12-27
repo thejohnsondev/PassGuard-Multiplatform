@@ -91,6 +91,7 @@ fun HomeNavigation(
                 )
                 settingsScreen(
                     windowSize = windowSizeClass,
+                    paddingValues = paddingValues,
                     setScaffoldConfig = {
                         scaffoldState.value = it
                     },

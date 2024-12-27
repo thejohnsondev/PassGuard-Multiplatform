@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -13,11 +14,18 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @OptIn(KoinExperimentalAPI::class)
 fun NavGraphBuilder.settingsScreen(
     windowSize: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
 ) {
     composable<Routes.SettingsRoute> {
         val viewModel = koinViewModel<SettingsViewModel>()
-        SettingsScreen(windowSize, viewModel, setScaffoldConfig, onLogoutClick)
+        SettingsScreen(
+            windowSizeClass = windowSize,
+            paddingValues = paddingValues,
+            viewModel = viewModel,
+            setScaffoldConfig = setScaffoldConfig,
+            onLogoutClick = onLogoutClick
+        )
     }
 }

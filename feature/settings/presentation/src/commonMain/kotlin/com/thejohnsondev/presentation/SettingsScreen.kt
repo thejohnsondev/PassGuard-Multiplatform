@@ -2,7 +2,10 @@ package com.thejohnsondev.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,18 +16,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
@@ -34,6 +34,7 @@ import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.SelectableOptionItem
 import com.thejohnsondev.ui.components.SettingsItem
 import com.thejohnsondev.ui.components.ToggleOptionItem
+import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size4
@@ -44,6 +45,8 @@ import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.model.settings.SettingsSection
 import com.thejohnsondev.ui.model.settings.SettingsSubSection
 import com.thejohnsondev.ui.scaffold.BottomNavItem
+import com.thejohnsondev.ui.utils.applyIf
+import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.settings.presentation.generated.resources.Res
@@ -75,6 +78,7 @@ import vaultmultiplatform.feature.settings.presentation.generated.resources.yes
 @Composable
 fun SettingsScreen(
     windowSizeClass: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
     viewModel: SettingsViewModel,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
@@ -87,33 +91,47 @@ fun SettingsScreen(
                 bottomBarItemIndex = BottomNavItem.Settings.index
             )
         )
-        viewModel.perform(SettingsViewModel.Action.FetchData)
+        viewModel.perform(SettingsViewModel.Action.FetchSettings)
         viewModel.getEventFlow().collect {
+            when (it) {
+                is OneTimeEvent.SuccessNavigation -> onLogoutClick()
+            }
+        }
+    }
 
+    SettingsContent(
+        state = state.value,
+        windowSizeClass = windowSizeClass,
+        paddingValues = paddingValues,
+        onAction = { action ->
+            viewModel.perform(action)
         }
-    }
-    when (state.value.screenState) {
-        ScreenState.ShowContent -> {
-            SettingsContent(
-                state = state.value,
-                onAction = { action ->
-                    viewModel.perform(action)
-                }
-            )
-        }
-    }
+    )
 
 }
 
 @Composable
 fun SettingsContent(
     state: SettingsViewModel.State,
+    windowSizeClass: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
     onAction: (SettingsViewModel.Action) -> Unit
 ) {
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .padding(
+                bottom = paddingValues.calculateBottomPadding(),
+                top = paddingValues.calculateTopPadding()
+            ).fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest),
+    ) {
         Column(
             modifier = Modifier
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .fillMaxHeight()
+                .applyIf(!windowSizeClass.isCompact()) {
+                    fillMaxWidth(Percent80)
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
@@ -223,7 +241,7 @@ fun ManageAccountSubSection(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         ),
-        buttonShape = ButtonShape.TOP_ROUNDED
+        buttonShape = ButtonShape.ROUNDED
     )
     Column(
         modifier = Modifier
@@ -260,7 +278,7 @@ fun GeneralSettingsSubSection(
     onAction: (SettingsViewModel.Action) -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(Size16)
+        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
     ) {
         ToggleOptionItem(
             optionTitle = stringResource(Res.string.deep_search_title),
@@ -287,7 +305,7 @@ fun StyleSettingsSubSection(
     onAction: (SettingsViewModel.Action) -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(Size16)
+        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
     ) {
         Text(
             modifier = Modifier.padding(bottom = Size8),
@@ -419,7 +437,7 @@ fun PrivacySettingsSubSection(
     onAction: (SettingsViewModel.Action) -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(Size16)
+        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
     ) {
         if (state.isBiometricsAvailable) {
             ToggleOptionItem(
@@ -443,7 +461,9 @@ fun PrivacySettingsSubSection(
             }
         }
         ToggleOptionItem(
-            modifier = Modifier.padding(top = Size16),
+            modifier = Modifier.applyIf(state.isBiometricsAvailable) {
+                padding(top = Size16)
+            },
             optionTitle = stringResource(Res.string.block_screenshot),
             optionDescription = stringResource(Res.string.block_screenshot_description),
             isSelected = state.settingsConfig?.privacySettings?.isBlockScreenshotsEnabled

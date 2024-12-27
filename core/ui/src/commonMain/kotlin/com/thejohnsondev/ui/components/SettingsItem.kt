@@ -134,7 +134,7 @@ fun SettingsItem(
                         tint = iconColor
                     )
                 }
-                Spacer(modifier = Modifier.width(Size16))
+                Spacer(modifier = Modifier.width(Size8))
                 Column(
                     verticalArrangement = Arrangement.Center
                 ) {

@@ -1,5 +1,7 @@
 package com.thejohnsondev.domain.di
 
+import com.thejohnsondev.domain.GetSettingsFlowUseCase
+import com.thejohnsondev.domain.GetSettingsFlowUseCaseImpl
 import com.thejohnsondev.domain.GetUserEmailUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCaseImpl
 import com.thejohnsondev.domain.IsBiometricsAvailableUseCase
@@ -14,4 +16,5 @@ val settingsDomainModule = module {
     singleOf(::GetUserEmailUseCaseImpl) { bind<GetUserEmailUseCase>() }
     singleOf(::UpdateSettingsUseCaseImpl) { bind<UpdateSettingsUseCase>() }
     singleOf(::IsBiometricsAvailableUseCaseImpl) { bind<IsBiometricsAvailableUseCase>() }
+    singleOf(::GetSettingsFlowUseCaseImpl) { bind<GetSettingsFlowUseCase>() }
 }

@@ -5,12 +5,18 @@ import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
+import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
+import kotlinx.coroutines.flow.Flow
 
 class SettingsRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
     private val biometricsProvider: BiometricsProvider
 ): SettingsRepository {
+    override suspend fun getSettingsConfigFlow(): Flow<SettingsConfig> {
+        return preferencesDataStore.getSettingsConfigFlow()
+    }
+
     override suspend fun updateCustomTheme(theme: ThemeBrand) {
         preferencesDataStore.setCustomTheme(theme)
     }
