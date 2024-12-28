@@ -4,6 +4,7 @@ import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.network.HttpClientProvider
 import com.thejohnsondev.network.RemoteApi
 import com.thejohnsondev.network.RemoteApiImpl
+import com.thejohnsondev.network.interceptors.AuthTokenInterceptor
 import dev.tmapps.konnection.Konnection
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -28,6 +29,11 @@ val networkModule = module {
             val isInternetConnected = Konnection.instance.isConnected()
             if (!isInternetConnected) throw NoInternetConnectionException()
             execute(request)
+        }
+        client.plugin(HttpSend).intercept { request ->
+            val interceptedRequest = AuthTokenInterceptor(get())
+                .addAuthHeader(request)
+            execute(interceptedRequest)
         }
         client
     }

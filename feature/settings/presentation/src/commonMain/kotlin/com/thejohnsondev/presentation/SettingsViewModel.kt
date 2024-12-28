@@ -128,7 +128,9 @@ class SettingsViewModel(
     }
 
     private fun deleteAccount() = launch {
-        authService.deleteAccount()
+        authService.deleteAccount().onResult {
+            logout()
+        }
     }
 
     sealed class Action {
