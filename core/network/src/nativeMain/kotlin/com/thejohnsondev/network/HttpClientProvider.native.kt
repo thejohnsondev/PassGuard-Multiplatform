@@ -16,7 +16,7 @@ actual object HttpClientProvider {
         }
         install(Logging) {
             logger = Logger.SIMPLE
-            level = LogLevel.BODY
+            level = LogLevel.ALL
         }
     }
 }
