@@ -115,7 +115,7 @@ fun SignUpScreen(
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {
             when (it) {
-                is OneTimeEvent.SuccessMessage -> {
+                is OneTimeEvent.ErrorMessage -> {
                     snackbarHostState.showSnackbar(
                         it.message.getAsText(),
                         duration = SnackbarDuration.Short

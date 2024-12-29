@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -102,7 +104,8 @@ fun SettingsScreen(
                 is OneTimeEvent.ErrorMessage -> onShowError(
                     MessageContent(
                         message = it.message.getAsText(),
-                        type = MessageType.ERROR
+                        type = MessageType.ERROR,
+                        imageVector = Icons.Default.Error
                     )
                 )
             }

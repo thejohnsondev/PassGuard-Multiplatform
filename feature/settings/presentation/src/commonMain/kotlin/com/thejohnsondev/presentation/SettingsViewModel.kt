@@ -72,7 +72,6 @@ class SettingsViewModel(
     private fun fetchSettingsConfig() = launch {
         val userEmail = getUserEmailUseCase()
         getSettingsFlowUseCase.getSettingsConfigFlow().collect { config ->
-            Logger.e("updated settings config: $config")
             _state.update {
                 it.copy(
                     settingsConfig = config,
