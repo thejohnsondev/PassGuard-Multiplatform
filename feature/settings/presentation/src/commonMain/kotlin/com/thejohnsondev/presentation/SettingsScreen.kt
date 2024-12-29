@@ -40,8 +40,11 @@ import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.button.ButtonShape
+import com.thejohnsondev.ui.model.message.MessageContent
+import com.thejohnsondev.ui.model.message.MessageType
 import com.thejohnsondev.ui.model.settings.SettingsSection
 import com.thejohnsondev.ui.model.settings.SettingsSubSection
 import com.thejohnsondev.ui.scaffold.BottomNavItem
@@ -82,6 +85,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
+    onShowError: (MessageContent) -> Unit
 ) {
     val state = viewModel.state.collectAsState(SettingsViewModel.State())
     LaunchedEffect(true) {
@@ -95,6 +99,12 @@ fun SettingsScreen(
         viewModel.getEventFlow().collect {
             when (it) {
                 is OneTimeEvent.SuccessNavigation -> onLogoutClick()
+                is OneTimeEvent.ErrorMessage -> onShowError(
+                    MessageContent(
+                        message = it.message.getAsText(),
+                        type = MessageType.ERROR
+                    )
+                )
             }
         }
     }

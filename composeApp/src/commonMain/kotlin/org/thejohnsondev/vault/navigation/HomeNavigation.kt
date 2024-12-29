@@ -97,6 +97,9 @@ fun HomeNavigation(
                     },
                     onLogoutClick = {
                         rootNavController.navigateToWelcome()
+                    },
+                    onShowError = {
+                        showMessageState.value = it
                     }
                 )
             }

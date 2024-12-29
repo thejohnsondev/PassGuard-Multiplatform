@@ -110,7 +110,6 @@ fun VaultScreen(
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
         vaultViewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))

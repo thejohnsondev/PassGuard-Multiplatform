@@ -8,6 +8,7 @@ import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.SettingsScreen
 import com.thejohnsondev.presentation.SettingsViewModel
 import com.thejohnsondev.ui.model.ScaffoldConfig
+import com.thejohnsondev.ui.model.message.MessageContent
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -17,6 +18,7 @@ fun NavGraphBuilder.settingsScreen(
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
+    onShowError: (MessageContent) -> Unit,
 ) {
     composable<Routes.SettingsRoute> {
         val viewModel = koinViewModel<SettingsViewModel>()
@@ -25,7 +27,8 @@ fun NavGraphBuilder.settingsScreen(
             paddingValues = paddingValues,
             viewModel = viewModel,
             setScaffoldConfig = setScaffoldConfig,
-            onLogoutClick = onLogoutClick
+            onLogoutClick = onLogoutClick,
+            onShowError = onShowError,
         )
     }
 }
