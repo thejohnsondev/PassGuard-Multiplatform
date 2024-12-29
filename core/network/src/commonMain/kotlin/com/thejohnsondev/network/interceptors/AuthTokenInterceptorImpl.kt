@@ -8,23 +8,20 @@ class AuthTokenInterceptorImpl(
     private val preferenceDataStore: PreferencesDataStore,
 ) : AuthTokenInterceptor {
 
-    private var token: String? = null
-
     companion object {
         private const val AUTH_HEADER = "Authorization"
         private const val TOKEN_PREFIX = "Bearer "
     }
 
     private suspend fun getAuthToken(): String? {
-        return token ?: run {
-            token = preferenceDataStore.getAuthToken()
-            token
-        }
+        return preferenceDataStore.getAuthToken()
     }
 
     override suspend fun addAuthHeader(request: HttpRequestBuilder): HttpRequestBuilder {
         val token = getAuthToken()
-        request.header(AUTH_HEADER, "$TOKEN_PREFIX$token")
+        token?.let {
+            request.header(AUTH_HEADER, "$TOKEN_PREFIX$token")
+        }
         return request
     }
 }
