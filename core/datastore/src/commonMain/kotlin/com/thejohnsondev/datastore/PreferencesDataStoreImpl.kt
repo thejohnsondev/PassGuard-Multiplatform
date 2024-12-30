@@ -38,7 +38,7 @@ class PreferencesDataStoreImpl(
         val themeBrandMapped = when (themeBrand) {
             ThemeBrand.DEFAULT.ordinal -> ThemeBrand.DEFAULT
             ThemeBrand.BLUE_SKY.ordinal -> ThemeBrand.BLUE_SKY
-            ThemeBrand.GREEN_FOREST.ordinal -> ThemeBrand.GREEN_FOREST
+            ThemeBrand.DEEP_FOREST.ordinal -> ThemeBrand.DEEP_FOREST
             ThemeBrand.RED_ALGAE.ordinal -> ThemeBrand.RED_ALGAE
             ThemeBrand.SUNNY.ordinal -> ThemeBrand.SUNNY
             else -> ThemeBrand.DEFAULT

@@ -44,7 +44,7 @@ import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.BlueSkySelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.GreenForestSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DeepForestSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SunnySelectableItemColors
 import com.thejohnsondev.ui.displaymessage.getAsText
@@ -80,7 +80,7 @@ import vaultmultiplatform.feature.settings.presentation.generated.resources.sett
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_blue_sky
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_green_forest
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_deep_forest
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_red_algae
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_sunny
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics
@@ -342,7 +342,7 @@ fun StyleSettingsSubSection(
                     when (theme) {
                         ThemeBrand.DEFAULT -> Res.string.theme_default
                         ThemeBrand.BLUE_SKY -> Res.string.theme_blue_sky
-                        ThemeBrand.GREEN_FOREST -> Res.string.theme_green_forest
+                        ThemeBrand.DEEP_FOREST -> Res.string.theme_deep_forest
                         ThemeBrand.RED_ALGAE -> Res.string.theme_red_algae
                         ThemeBrand.SUNNY -> Res.string.theme_sunny
                         else -> Res.string.theme_default
@@ -354,7 +354,7 @@ fun StyleSettingsSubSection(
                 colors = when (theme) {
                     ThemeBrand.DEFAULT -> DefaultSelectableItemColors
                     ThemeBrand.BLUE_SKY -> BlueSkySelectableItemColors
-                    ThemeBrand.GREEN_FOREST -> GreenForestSelectableItemColors
+                    ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
                     ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
                     ThemeBrand.SUNNY -> SunnySelectableItemColors
                     else -> DefaultSelectableItemColors
