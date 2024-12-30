@@ -4,5 +4,5 @@ import com.thejohnsondev.model.settings.SettingsConfig
 import kotlinx.coroutines.flow.Flow
 
 interface GetSettingsFlowUseCase {
-    suspend fun getSettingsConfigFlow(): Flow<SettingsConfig>
+    suspend operator fun invoke(): Flow<SettingsConfig>
 }

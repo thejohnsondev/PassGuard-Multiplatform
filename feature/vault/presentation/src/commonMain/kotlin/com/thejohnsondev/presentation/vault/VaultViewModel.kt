@@ -107,7 +107,7 @@ class VaultViewModel(
     }
 
     private fun fetchSettings() = launch {
-        getSettingsFlowUseCase.getSettingsConfigFlow().collect {
+        getSettingsFlowUseCase.invoke().collect {
             _settingsConfig.emit(it)
         }
     }

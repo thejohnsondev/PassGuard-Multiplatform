@@ -2,7 +2,6 @@ package com.thejohnsondev.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
-import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.domain.AuthService
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
@@ -71,7 +70,7 @@ class SettingsViewModel(
 
     private fun fetchSettingsConfig() = launch {
         val userEmail = getUserEmailUseCase()
-        getSettingsFlowUseCase.getSettingsConfigFlow().collect { config ->
+        getSettingsFlowUseCase.invoke().collect { config ->
             _state.update {
                 it.copy(
                     settingsConfig = config,

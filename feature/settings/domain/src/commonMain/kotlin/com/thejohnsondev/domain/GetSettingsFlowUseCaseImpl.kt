@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 class GetSettingsFlowUseCaseImpl(
     private val settingsRepository: SettingsRepository
 ): GetSettingsFlowUseCase {
-    override suspend fun getSettingsConfigFlow(): Flow<SettingsConfig> {
+    override suspend operator fun invoke(): Flow<SettingsConfig> {
         return settingsRepository.getSettingsConfigFlow()
     }
 }
