@@ -6,7 +6,6 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
 
-// TODO cover with tests
 class UpdateSettingsUseCaseImpl(
     private val settingsRepository: SettingsRepository
 ): UpdateSettingsUseCase {
@@ -23,5 +22,4 @@ class UpdateSettingsUseCaseImpl(
         generalSettings?.let { settingsRepository.updateGeneralSettings(it) }
         privacySettings?.let { settingsRepository.updatePrivacySettings(it) }
     }
-
 }
