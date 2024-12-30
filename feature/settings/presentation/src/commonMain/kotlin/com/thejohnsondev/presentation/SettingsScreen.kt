@@ -42,6 +42,11 @@ import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.BlueSkySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.GreenForestSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.RedAlgaeSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SunnySelectableItemColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.button.ButtonShape
@@ -345,7 +350,15 @@ fun StyleSettingsSubSection(
                 ),
                 isLastItem = index == ThemeBrand.entries.size - 1,
                 isFirstItem = index == 0,
-                isSelected = state.settingsConfig?.customTheme == theme
+                isSelected = state.settingsConfig?.customTheme == theme,
+                colors = when (theme) {
+                    ThemeBrand.DEFAULT -> DefaultSelectableItemColors
+                    ThemeBrand.BLUE_SKY -> BlueSkySelectableItemColors
+                    ThemeBrand.GREEN_FOREST -> GreenForestSelectableItemColors
+                    ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
+                    ThemeBrand.SUNNY -> SunnySelectableItemColors
+                    else -> DefaultSelectableItemColors
+                }
             ) {
                 onAction(
                     SettingsViewModel.Action.UpdateUseDynamicColor(

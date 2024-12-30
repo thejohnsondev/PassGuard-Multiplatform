@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColor
 
 @Composable
 fun SelectableOptionItem(
@@ -27,8 +29,13 @@ fun SelectableOptionItem(
     isSelected: Boolean,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
+    colors: SelectableItemColor? = null,
     onOptionSelect: () -> Unit = {}
 ) {
+    val selectedContainerColor = colors?.getSelectedContainerColor() ?: MaterialTheme.colorScheme.primaryContainer
+    val unselectedContainerColor = colors?.getUnselectedContainerColor() ?: MaterialTheme.colorScheme.secondaryContainer
+    val selectedContentColor = colors?.getSelectedContentColor() ?: MaterialTheme.colorScheme.onPrimaryContainer
+    val unselectedContentColor = colors?.getUnselectedContentColor() ?: MaterialTheme.colorScheme.onSecondaryContainer
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -44,7 +51,7 @@ fun SelectableOptionItem(
             .clickable {
                 onOptionSelect()
             },
-        color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer,
+        color = if (isSelected) selectedContainerColor else unselectedContainerColor,
     ) {
         Row(
             modifier = Modifier
@@ -54,10 +61,10 @@ fun SelectableOptionItem(
         ) {
             Text(
                 text = optionTitle,
-                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
+                color = if (isSelected) selectedContentColor else unselectedContentColor
             )
             if (isSelected) {
-                Icon(imageVector = Icons.Default.Done, contentDescription = optionTitle)
+                Icon(imageVector = Icons.Default.Done, contentDescription = optionTitle, tint = selectedContentColor)
             }
         }
     }
