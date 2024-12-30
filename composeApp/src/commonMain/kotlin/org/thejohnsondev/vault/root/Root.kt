@@ -31,7 +31,8 @@ fun Root(
     VaultDefaultTheme(
         dynamicColor = shouldUseDynamicColor(settingsConfig),
         darkTheme = shouldUseDarkTheme(settingsConfig),
-        deviceThemeConfig = deviceThemeConfig
+        deviceThemeConfig = deviceThemeConfig,
+        customTheme = settingsConfig.customTheme
     ) {
         KoinContext {
             Surface(

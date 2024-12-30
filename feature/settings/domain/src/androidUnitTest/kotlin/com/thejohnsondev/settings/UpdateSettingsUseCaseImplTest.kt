@@ -18,7 +18,7 @@ class UpdateSettingsUseCaseImplTest {
 
     @Test
     fun invokeUpdatesThemeBrandWhenProvided() = runBlocking {
-        val themeBrand = ThemeBrand.ANDROID
+        val themeBrand = ThemeBrand.DEFAULT
 
         updateSettingsUseCase.invoke(themeBrand, null, null, null, null)
 

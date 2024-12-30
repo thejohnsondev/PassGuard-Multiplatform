@@ -73,8 +73,11 @@ import vaultmultiplatform.feature.settings.presentation.generated.resources.mana
 import vaultmultiplatform.feature.settings.presentation.generated.resources.no
 import vaultmultiplatform.feature.settings.presentation.generated.resources.settings
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_android
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_blue_sky
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_green_forest
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_red_algae
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_sunny
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics_description
 import vaultmultiplatform.feature.settings.presentation.generated.resources.use_dynamic_color
@@ -326,36 +329,35 @@ fun StyleSettingsSubSection(
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSecondary
         )
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(Res.string.theme_default),
-            isFirstItem = true,
-            isSelected = state.settingsConfig?.customTheme == ThemeBrand.DEFAULT
-        ) {
-            onAction(
-                SettingsViewModel.Action.UpdateUseCustomTheme(
-                    ThemeBrand.DEFAULT
+        ThemeBrand.entries.forEachIndexed { index, theme ->
+            SelectableOptionItem(
+                modifier = Modifier
+                    .padding(top = Size4),
+                optionTitle = stringResource(
+                    when (theme) {
+                        ThemeBrand.DEFAULT -> Res.string.theme_default
+                        ThemeBrand.BLUE_SKY -> Res.string.theme_blue_sky
+                        ThemeBrand.GREEN_FOREST -> Res.string.theme_green_forest
+                        ThemeBrand.RED_ALGAE -> Res.string.theme_red_algae
+                        ThemeBrand.SUNNY -> Res.string.theme_sunny
+                        else -> Res.string.theme_default
+                    }
+                ),
+                isLastItem = index == ThemeBrand.entries.size - 1,
+                isFirstItem = index == 0,
+                isSelected = state.settingsConfig?.customTheme == theme
+            ) {
+                onAction(
+                    SettingsViewModel.Action.UpdateUseDynamicColor(
+                        false
+                    )
                 )
-            )
-        }
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(Res.string.theme_android),
-            isLastItem = true,
-            isSelected = state.settingsConfig?.customTheme == ThemeBrand.ANDROID
-        ) {
-            onAction(
-                SettingsViewModel.Action.UpdateUseDynamicColor(
-                    false
+                onAction(
+                    SettingsViewModel.Action.UpdateUseCustomTheme(
+                        theme
+                    )
                 )
-            )
-            onAction(
-                SettingsViewModel.Action.UpdateUseCustomTheme(
-                    ThemeBrand.ANDROID
-                )
-            )
+            }
         }
         if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
             Text(
