@@ -9,6 +9,10 @@ import com.thejohnsondev.network.interceptors.AuthTokenInterceptorImpl
 import dev.tmapps.konnection.Konnection
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -24,6 +28,10 @@ val networkModule = module {
                     prettyPrint = true
                     isLenient = true
                 })
+            }
+            install(Logging) {
+                logger = Logger.SIMPLE
+                level = LogLevel.ALL
             }
         }
         client.plugin(HttpSend).intercept { request ->

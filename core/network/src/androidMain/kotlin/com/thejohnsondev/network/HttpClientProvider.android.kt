@@ -17,9 +17,5 @@ actual object HttpClientProvider {
                 readTimeout(Duration.ofMillis(NetworkEngineConfig.default.connectionRequestTimeout))
             }
         }
-        install(Logging) {
-            logger = Logger.SIMPLE
-            level = LogLevel.ALL
-        }
     }
 }
