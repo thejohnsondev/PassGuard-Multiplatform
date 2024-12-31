@@ -18,5 +18,6 @@ interface SettingsRepository {
     suspend fun getUserEmail(): String
     suspend fun getIsBiometricsAvailable(): Boolean
     suspend fun getIsDynamicThemeAvailable(): Boolean
+    suspend fun getIsBlockScreenshotAvailable(): Boolean
 
 }

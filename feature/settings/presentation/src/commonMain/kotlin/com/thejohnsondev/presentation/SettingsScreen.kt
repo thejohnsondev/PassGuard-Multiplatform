@@ -488,25 +488,26 @@ fun PrivacySettingsSubSection(
                 )
             }
         }
-        ToggleOptionItem(
-            modifier = Modifier.applyIf(state.isBiometricsAvailable) {
-                padding(top = Size16)
-            },
-            optionTitle = stringResource(Res.string.block_screenshot),
-            optionDescription = stringResource(Res.string.block_screenshot_description),
-            isSelected = state.settingsConfig?.privacySettings?.isBlockScreenshotsEnabled
-                ?: false,
-            isFirstItem = true,
-            isLastItem = true
-        ) {
-            onAction(
-                SettingsViewModel.Action.UpdatePrivacySettings(
-                    state.settingsConfig?.privacySettings?.copy(
-                        isBlockScreenshotsEnabled = it
+        if (state.isBlockingScreenshotsAvailable) {
+            ToggleOptionItem(
+                modifier = Modifier.applyIf(state.isBiometricsAvailable) {
+                    padding(top = Size16)
+                },
+                optionTitle = stringResource(Res.string.block_screenshot),
+                optionDescription = stringResource(Res.string.block_screenshot_description),
+                isSelected = state.settingsConfig?.privacySettings?.isBlockScreenshotsEnabled
+                    ?: false,
+                isFirstItem = true,
+                isLastItem = true
+            ) {
+                onAction(
+                    SettingsViewModel.Action.UpdatePrivacySettings(
+                        state.settingsConfig?.privacySettings?.copy(
+                            isBlockScreenshotsEnabled = it
+                        ) ?: PrivacySettings(isBlockScreenshotsEnabled = it)
                     )
-                        ?: PrivacySettings(isBlockScreenshotsEnabled = it)
                 )
-            )
+            }
         }
     }
 }

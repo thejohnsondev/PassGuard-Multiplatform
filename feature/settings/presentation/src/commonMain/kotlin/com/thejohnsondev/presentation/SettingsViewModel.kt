@@ -6,6 +6,7 @@ import com.thejohnsondev.domain.AuthService
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
 import com.thejohnsondev.domain.IsBiometricsAvailableUseCase
+import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
 import com.thejohnsondev.model.LoadingState
@@ -31,7 +32,8 @@ class SettingsViewModel(
     private val getUserEmailUseCase: GetUserEmailUseCase,
     private val updateSettingsUseCase: UpdateSettingsUseCase,
     private val isBiometricsAvailableUseCase: IsBiometricsAvailableUseCase,
-    private val isDynamicThemeAvailableUseCase: IsDynamicThemeAvailableUseCase
+    private val isDynamicThemeAvailableUseCase: IsDynamicThemeAvailableUseCase,
+    private val isBlockingScreenshotAvailableUseCase: IsBlockingScreenshotAvailableUseCase
 ): BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -74,13 +76,15 @@ class SettingsViewModel(
         val userEmail = getUserEmailUseCase()
 //        val isBiometricsAvailable = isBiometricsAvailableUseCase() // todo uncomment after implementation
         val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
+        val supportsBlockingScreenshots = isBlockingScreenshotAvailableUseCase()
         getSettingsFlowUseCase.invoke().collect { config ->
             _state.update {
                 it.copy(
                     settingsConfig = config,
                     userEmail = userEmail,
 //                    isBiometricsAvailable = isBiometricsAvailable, // todo uncomment after implementation
-                    supportsDynamicTheming = supportsDynamicTheming
+                    supportsDynamicTheming = supportsDynamicTheming,
+                    isBlockingScreenshotsAvailable = supportsBlockingScreenshots
                 )
             }
         }
@@ -165,7 +169,8 @@ class SettingsViewModel(
         val newPasswordValidationState: PasswordValidationState? = null,
         val isConfirmPasswordMatches: Boolean? = null,
         val isBiometricsAvailable: Boolean = false,
-        val supportsDynamicTheming: Boolean = false
+        val supportsDynamicTheming: Boolean = false,
+        val isBlockingScreenshotsAvailable: Boolean = false,
     )
 
 }

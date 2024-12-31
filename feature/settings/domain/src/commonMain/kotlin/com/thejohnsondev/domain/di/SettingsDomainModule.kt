@@ -8,6 +8,8 @@ import com.thejohnsondev.domain.IsBiometricsAvailableUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCaseImpl
 import com.thejohnsondev.domain.IsBiometricsAvailableUseCaseImpl
+import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
+import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCaseImpl
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCaseImpl
 import org.koin.core.module.dsl.bind
@@ -20,4 +22,5 @@ val settingsDomainModule = module {
     singleOf(::IsBiometricsAvailableUseCaseImpl) { bind<IsBiometricsAvailableUseCase>() }
     singleOf(::GetSettingsFlowUseCaseImpl) { bind<GetSettingsFlowUseCase>() }
     singleOf(::IsDynamicThemeAvailableUseCaseImpl) { bind<IsDynamicThemeAvailableUseCase>() }
+    singleOf(::IsBlockingScreenshotAvailableUseCaseImpl) { bind<IsBlockingScreenshotAvailableUseCase>() }
 }

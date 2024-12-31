@@ -50,4 +50,8 @@ class SettingsRepositoryImpl(
     override suspend fun getIsDynamicThemeAvailable(): Boolean {
         return deviceThemeConfig.supportsDynamicTheming()
     }
+
+    override suspend fun getIsBlockScreenshotAvailable(): Boolean {
+        return deviceThemeConfig.supportsBlockingScreenshots()
+    }
 }

@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             getSettingsUseCase.invoke().collect {
                 settingsConfig.value = it
+                applyPrivacySettings(it.privacySettings.isBlockScreenshotsEnabled)
             }
         }
         splashScreen.setKeepOnScreenCondition {
@@ -49,6 +50,17 @@ class MainActivity : ComponentActivity() {
             safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
                 Root(deviceThemeConfig, route, settings)
             }
+        }
+    }
+
+    private fun applyPrivacySettings(isBlockScreenshots: Boolean) {
+        if (isBlockScreenshots) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 

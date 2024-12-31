@@ -10,6 +10,7 @@ actual class DeviceThemeConfig {
     actual fun getDynamicDarkColorScheme(): ColorScheme = getDarkScheme()
 
     actual fun getDynamicLightColorScheme(): ColorScheme = getLightScheme()
+    actual fun supportsBlockingScreenshots(): Boolean = false
 }
 
 actual val showNavigationBackArrow: Boolean = true
