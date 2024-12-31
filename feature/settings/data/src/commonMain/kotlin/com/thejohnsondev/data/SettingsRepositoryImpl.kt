@@ -7,11 +7,13 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
+import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.flow.Flow
 
 class SettingsRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
-    private val biometricsProvider: BiometricsProvider
+    private val biometricsProvider: BiometricsProvider,
+    private val deviceThemeConfig: DeviceThemeConfig
 ): SettingsRepository {
     override suspend fun getSettingsConfigFlow(): Flow<SettingsConfig> {
         return preferencesDataStore.getSettingsConfigFlow()
@@ -43,5 +45,9 @@ class SettingsRepositoryImpl(
 
     override suspend fun getIsBiometricsAvailable(): Boolean {
         return biometricsProvider.isBiometricsAvailable()
+    }
+
+    override suspend fun getIsDynamicThemeAvailable(): Boolean {
+        return deviceThemeConfig.supportsDynamicTheming()
     }
 }

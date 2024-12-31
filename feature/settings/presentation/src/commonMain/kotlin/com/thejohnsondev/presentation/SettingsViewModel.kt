@@ -6,6 +6,7 @@ import com.thejohnsondev.domain.AuthService
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
 import com.thejohnsondev.domain.IsBiometricsAvailableUseCase
+import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
 import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
@@ -29,7 +30,8 @@ class SettingsViewModel(
     private val getSettingsFlowUseCase: GetSettingsFlowUseCase,
     private val getUserEmailUseCase: GetUserEmailUseCase,
     private val updateSettingsUseCase: UpdateSettingsUseCase,
-    private val isBiometricsAvailableUseCase: IsBiometricsAvailableUseCase
+    private val isBiometricsAvailableUseCase: IsBiometricsAvailableUseCase,
+    private val isDynamicThemeAvailableUseCase: IsDynamicThemeAvailableUseCase
 ): BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -70,11 +72,15 @@ class SettingsViewModel(
 
     private fun fetchSettingsConfig() = launch {
         val userEmail = getUserEmailUseCase()
+//        val isBiometricsAvailable = isBiometricsAvailableUseCase() // todo uncomment after implementation
+        val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
         getSettingsFlowUseCase.invoke().collect { config ->
             _state.update {
                 it.copy(
                     settingsConfig = config,
-                    userEmail = userEmail
+                    userEmail = userEmail,
+//                    isBiometricsAvailable = isBiometricsAvailable, // todo uncomment after implementation
+                    supportsDynamicTheming = supportsDynamicTheming
                 )
             }
         }
@@ -159,7 +165,7 @@ class SettingsViewModel(
         val newPasswordValidationState: PasswordValidationState? = null,
         val isConfirmPasswordMatches: Boolean? = null,
         val isBiometricsAvailable: Boolean = false,
-        val supportsDynamicTheming: Boolean = false // todo set from outside
+        val supportsDynamicTheming: Boolean = false
     )
 
 }
