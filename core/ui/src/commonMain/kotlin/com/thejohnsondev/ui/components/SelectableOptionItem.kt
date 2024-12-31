@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColor
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 
 @Composable
 fun SelectableOptionItem(
@@ -28,7 +28,7 @@ fun SelectableOptionItem(
     isSelected: Boolean,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
-    colors: SelectableItemColor? = null,
+    colors: SelectableItemColors? = null,
     onOptionSelect: () -> Unit = {}
 ) {
     val selectedContainerColor = colors?.getSelectedContainerColor() ?: MaterialTheme.colorScheme.primaryContainer

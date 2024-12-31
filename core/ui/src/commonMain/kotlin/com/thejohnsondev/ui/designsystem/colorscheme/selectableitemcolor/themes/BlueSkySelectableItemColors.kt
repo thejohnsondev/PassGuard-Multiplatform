@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor
+package com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,8 +12,9 @@ import com.thejohnsondev.ui.designsystem.colorscheme.primaryContainerDark_blueSk
 import com.thejohnsondev.ui.designsystem.colorscheme.primaryContainerLight_blueSky
 import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerDark_blueSky
 import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerLight_blueSky
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 
-object BlueSkySelectableItemColors : SelectableItemColor {
+object BlueSkySelectableItemColors : SelectableItemColors {
     @Composable
     override fun getSelectedContainerColor(): Color {
         return if (!MaterialTheme.colorScheme.isLight()) {

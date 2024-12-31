@@ -7,6 +7,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_FINANCE
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 import com.thejohnsondev.ui.model.filterlists.financeFilterUIModel
 import com.thejohnsondev.ui.model.filterlists.othersFilterUIModel
 import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
@@ -21,8 +23,8 @@ data class FilterUIModel(
     val id: String,
     val nameResId: StringResource,
     val filterIcon: FilterIcon,
-    val contentColorResName: String,
-    val isSelected: Boolean = false
+    val isSelected: Boolean = false,
+    val colors: SelectableItemColors = DefaultSelectableItemColors
 ) {
     companion object {
 
@@ -32,8 +34,7 @@ data class FilterUIModel(
             filterIcon = FilterIcon(
                 imageVector = Icons.Default.FilterList
             ),
-            contentColorResName = "onPrimaryContainer",
-            isSelected = true
+            isSelected = true,
         )
 
         fun getFilterUiModelById(id: String): FilterUIModel {

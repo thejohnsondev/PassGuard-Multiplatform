@@ -13,7 +13,7 @@ import com.thejohnsondev.ui.designsystem.colorscheme.primaryContainerLight
 import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerDark
 import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerLight
 
-object DefaultSelectableItemColors : SelectableItemColor {
+object DefaultSelectableItemColors : SelectableItemColors {
     @Composable
     override fun getSelectedContainerColor(): Color {
         return if (!MaterialTheme.colorScheme.isLight()) {

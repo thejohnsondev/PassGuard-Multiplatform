@@ -11,10 +11,26 @@ fun ColorScheme.isLight() = this.background.luminance() > 0.5
 val themeColorSuccessBackground = Color(0xFFC0E1B8)
 val themeColorSuccessForeground = Color(0xFF1E720A)
 val themeColorFavorite = Color(0xFFEAC612)
-val themeColorCategoryPersonalContent = Color(0xFF85F8A7)
-val themeColorCategoryWorkContent = Color(0xFF50e5f2)
-val themeColorCategoryFinanceContent = Color(0xFFF8F885)
-val themeColorCategoryOtherContent = Color(0xFFE7E7E7)
+
+val themeColorCategoryPersonalContentLight = Color(0xFF67BE7F)
+val themeColorCategoryPersonalContentDark = Color(0xFF85F8A7)
+val themeColorCategoryPersonalBackgroundDark = Color(0xFF2A4930)
+val themeColorCategoryPersonalBackgroundLight = Color(0xFFD4FDE0)
+
+val themeColorCategoryWorkContentLight = Color(0xFF3FAFB8)
+val themeColorCategoryWorkContentDark = Color(0xFF50e5f2)
+val themeColorCategoryWorkBackgroundDark = Color(0xFF1D4443)
+val themeColorCategoryWorkBackgroundLight = Color(0xFFC2F6FA)
+
+val themeColorCategoryFinanceContentLight = Color(0xFFBDBE66)
+val themeColorCategoryFinanceContentDark = Color(0xFFF8F885)
+val themeColorCategoryFinanceBackgroundDark = Color(0xFF474928)
+val themeColorCategoryFinanceBackgroundLight = Color(0xFFFDFDD4)
+
+val themeColorCategoryOtherContentLight = Color(0xFFB0B1AF)
+val themeColorCategoryOtherContentDark = Color(0xFFE7E7E7)
+val themeColorCategoryOtherBackgroundDark = Color(0xFF434540)
+val themeColorCategoryOtherBackgroundLight = Color(0xFFF6F6F6)
 
 val primaryLight = Color(0xFF09677F)
 val onPrimaryLight = Color(0xFFFFFFFF)

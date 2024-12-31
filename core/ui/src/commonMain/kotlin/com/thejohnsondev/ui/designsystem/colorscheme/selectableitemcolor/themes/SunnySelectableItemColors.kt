@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor
+package com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,8 +12,9 @@ import com.thejohnsondev.ui.designsystem.colorscheme.primaryContainerDark_sunny
 import com.thejohnsondev.ui.designsystem.colorscheme.primaryContainerLight_sunny
 import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerDark_sunny
 import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerLight_sunny
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 
-object SunnySelectableItemColors : SelectableItemColor {
+object SunnySelectableItemColors : SelectableItemColors {
     @Composable
     override fun getSelectedContainerColor(): Color {
         return if (!MaterialTheme.colorScheme.isLight()) {

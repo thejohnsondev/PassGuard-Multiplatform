@@ -42,11 +42,11 @@ import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.BlueSkySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.BlueSkySelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DeepForestSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.RedAlgaeSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SunnySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.button.ButtonShape

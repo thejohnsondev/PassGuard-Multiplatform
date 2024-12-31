@@ -34,8 +34,6 @@ import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size52
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.utils.darken
-import com.thejohnsondev.ui.utils.mapToColor
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.getImageVector
 import org.jetbrains.compose.resources.stringResource
@@ -85,14 +83,12 @@ fun Chip(
     val filterContainerColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (filter.isSelected) filter.contentColorResName.mapToColor() else filter.contentColorResName.mapToColor()
-            .darken()
+        if (filter.isSelected) filter.colors.getSelectedContainerColor() else filter.colors.getUnselectedContainerColor()
     }
     val filterContentColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (filter.isSelected) filter.contentColorResName.mapToColor()
-            .darken() else filter.contentColorResName.mapToColor()
+        if (filter.isSelected) filter.colors.getSelectedContentColor() else filter.colors.getUnselectedContentColor()
     }
     val filterChipHorizontalPadding by transition.animateDp({
         tween(durationMillis = TOGGLE_ANIM_DURATION)

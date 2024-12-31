@@ -5,14 +5,14 @@ import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Work
-import com.thejohnsondev.common.COLOR_ID_themeColorCategoryFinanceContent
-import com.thejohnsondev.common.COLOR_ID_themeColorCategoryOtherContent
-import com.thejohnsondev.common.COLOR_ID_themeColorCategoryPersonalContent
-import com.thejohnsondev.common.COLOR_ID_themeColorCategoryWorkContent
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_FINANCE
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_OTHERS
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.FinanceSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.OtherSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.PersonalSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.WorkSelectableItemColors
 import com.thejohnsondev.ui.model.FilterIcon
 import com.thejohnsondev.ui.model.FilterUIModel
 import vaultmultiplatform.core.ui.generated.resources.Res
@@ -27,7 +27,7 @@ val personalFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.Filled.Person
     ),
-    contentColorResName = COLOR_ID_themeColorCategoryPersonalContent,
+    colors = PersonalSelectableItemColors,
     isSelected = false
 )
 
@@ -37,7 +37,7 @@ val workFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.Default.Work
     ),
-    contentColorResName = COLOR_ID_themeColorCategoryWorkContent,
+    colors = WorkSelectableItemColors,
     isSelected = false
 )
 
@@ -47,7 +47,7 @@ val financeFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.Default.MonetizationOn
     ),
-    contentColorResName = COLOR_ID_themeColorCategoryFinanceContent,
+    colors = FinanceSelectableItemColors,
     isSelected = false
 )
 
@@ -57,7 +57,7 @@ val othersFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.Default.MoreHoriz
     ),
-    contentColorResName = COLOR_ID_themeColorCategoryOtherContent,
+    colors = OtherSelectableItemColors,
     isSelected = false
 )
 
