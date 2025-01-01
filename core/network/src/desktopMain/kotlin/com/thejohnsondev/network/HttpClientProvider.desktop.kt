@@ -14,9 +14,5 @@ actual object HttpClientProvider {
             connectTimeout = NetworkEngineConfig.default.connectTimeout
             connectionRequestTimeout = NetworkEngineConfig.default.connectionRequestTimeout
         }
-        install(Logging) {
-            logger = Logger.SIMPLE
-            level = LogLevel.BODY
-        }
     }
 }

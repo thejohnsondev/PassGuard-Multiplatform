@@ -262,12 +262,13 @@ private fun ExpandedNavigationBar(
                 )
             }
             navigationItems.forEachIndexed { index, screen ->
-                if (screen.index == BottomNavItem.Settings.index) {
+                val isSettingsItem = screen.index == BottomNavItem.Settings.index
+                if (isSettingsItem) {
                     Spacer(modifier = Modifier.weight(1f))
                 }
                 NavigationDrawerItem(
                     modifier = Modifier
-                        .padding(horizontal = Size12, vertical = Size8)
+                        .padding(horizontal = Size12, vertical = if (isSettingsItem) Size16 else Size8)
                         .bounceClick(),
                     label = { Text(text = stringResource(screen.titleRes)) },
                     selected = scaffoldState.value.bottomBarItemIndex == index,

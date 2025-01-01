@@ -14,9 +14,5 @@ actual object HttpClientProvider {
                 // TODO configure request here
             }
         }
-        install(Logging) {
-            logger = Logger.SIMPLE
-            level = LogLevel.BODY
-        }
     }
 }

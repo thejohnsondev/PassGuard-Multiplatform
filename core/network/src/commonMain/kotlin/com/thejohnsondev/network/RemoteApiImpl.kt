@@ -5,6 +5,7 @@ import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.auth.AuthRequestBody
 import com.thejohnsondev.model.auth.AuthResponse
 import io.ktor.client.HttpClient
+import io.ktor.client.request.delete
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.path
@@ -35,6 +36,18 @@ class RemoteApiImpl(
                     defaultUrlConfig()
                 }
                 setBody(body)
+            }
+        }
+    }
+
+    override suspend fun deleteAccount(): Either<Error, Unit> {
+        return callWithMapping {
+            client.delete {
+                defaultRequestConfig()
+                url {
+                    path(DELETE_ACCOUNT)
+                    defaultUrlConfig()
+                }
             }
         }
     }

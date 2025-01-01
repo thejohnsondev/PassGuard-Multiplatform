@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size8
 
 @Composable
 fun TextField(
@@ -94,7 +95,7 @@ fun TextField(
                 text = errorText,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = Size16)
+                modifier = Modifier.padding(start = Size16, top = Size8)
             )
         }
 

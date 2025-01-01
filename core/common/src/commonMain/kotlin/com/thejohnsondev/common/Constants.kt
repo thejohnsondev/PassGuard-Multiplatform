@@ -17,13 +17,6 @@ const val PASSWORD_IDLE_ITEM_HEIGHT = 82
 const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
 const val ADDITIONAL_FIELD_HEIGHT = 84
 
-const val COLOR_ID_onPrimaryContainer = "onPrimaryContainer"
-const val COLOR_ID_primaryContainer = "primaryContainer"
-const val COLOR_ID_themeColorCategoryPersonalContent = "themeColorCategoryPersonalContent"
-const val COLOR_ID_themeColorCategoryWorkContent = "themeColorCategoryWorkContent"
-const val COLOR_ID_themeColorCategoryFinanceContent = "themeColorCategoryFinanceContent"
-const val COLOR_ID_themeColorCategoryOtherContent = "themeColorCategoryOtherContent"
-
 const val VAULT_ITEM_CATEGORY_PERSONAL = "item_category_personal"
 const val VAULT_ITEM_CATEGORY_WORK = "item_category_work"
 const val VAULT_ITEM_CATEGORY_FINANCE = "item_category_finance"

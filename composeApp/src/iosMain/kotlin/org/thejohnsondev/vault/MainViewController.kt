@@ -5,6 +5,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
+import org.thejohnsondev.vault.root.Root
 
 fun MainViewController() = ComposeUIViewController(
     configure = {

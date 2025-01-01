@@ -14,6 +14,7 @@
 
     <string name="empty_vault">Your vault is empty</string>
     <string name="empty_vault_get_started">Get started by creating you first record</string>
+    <string name="nothing_found">Nothing found</string>
 
     <string name="organization">Organization</string>
     <string name="title">Title</string>

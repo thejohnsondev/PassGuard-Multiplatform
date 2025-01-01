@@ -91,11 +91,15 @@ fun HomeNavigation(
                 )
                 settingsScreen(
                     windowSize = windowSizeClass,
+                    paddingValues = paddingValues,
                     setScaffoldConfig = {
                         scaffoldState.value = it
                     },
                     onLogoutClick = {
                         rootNavController.navigateToWelcome()
+                    },
+                    onShowError = {
+                        showMessageState.value = it
                     }
                 )
             }

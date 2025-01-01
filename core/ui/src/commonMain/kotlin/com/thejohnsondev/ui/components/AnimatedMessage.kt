@@ -77,14 +77,14 @@ fun AnimatedMessage(
                 )
             }
             AnimatedVisibility(visible = isTextVisible.value) {
-                messageContent?.message?.let {
+                if (isMessageVisible(messageContent)) {
                     Text(
-                        text = messageContent.message,
+                        text = messageContent?.message.orEmpty(),
                         modifier = Modifier.padding(
                             top = Size8,
                             bottom = Size8,
                             end = Size8,
-                            start = if (messageContent.imageVector != null) Size4 else Size8
+                            start = if (messageContent?.imageVector != null) Size4 else Size8
                         ),
                         color = colorModel.messageColor,
                         style = MaterialTheme.typography.titleMedium,
@@ -101,12 +101,18 @@ fun AnimatedMessage(
     LaunchedEffect(isWholeMessageVisible.value) {
         if (messageContent != null) {
             delay(TEXT_SHOW_DELAY)
-            isTextVisible.value = true
-            delay(TEXT_HIDE_DELAY)
-            isTextVisible.value = false
+            if (isMessageVisible(messageContent)) {
+                isTextVisible.value = true
+                delay(TEXT_HIDE_DELAY)
+                isTextVisible.value = false
+            }
             delay(ICON_HIDE_DELAY)
             isWholeMessageVisible.value = false
             onAnimationFinished()
         }
     }
+}
+
+private fun isMessageVisible(messageContent: MessageContent?): Boolean {
+    return messageContent?.message?.isNotEmpty() ?: false
 }

@@ -73,8 +73,6 @@ import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.utils.bounceClick
-import com.thejohnsondev.ui.utils.darken
-import com.thejohnsondev.ui.utils.mapToColor
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.created
@@ -206,7 +204,7 @@ fun PasswordItem(
                             .align(Alignment.BottomEnd)
                             .padding(top = Size4, start = Size4)
                             .clip(RoundedCornerShape(Size4))
-                            .background(item.category.contentColorResName.mapToColor().darken()),
+                            .background(item.category.colors.getUnselectedContainerColor()),
                     ) {
                         val icon = item.category.categoryIcon.getImageVector()
                         icon?.let {
@@ -216,7 +214,7 @@ fun PasswordItem(
                                     .size(Size12),
                                 imageVector = icon,
                                 contentDescription = null,
-                                tint = item.category.contentColorResName.mapToColor()
+                                tint = item.category.colors.getUnselectedContentColor()
                             )
                         }
                     }

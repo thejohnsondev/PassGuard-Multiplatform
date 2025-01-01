@@ -8,6 +8,6 @@ fun FilterUIModel.mapToCategory(): CategoryUIModel {
         id = this.id,
         categoryNameResId = this.nameResId,
         categoryIcon = this.filterIcon,
-        contentColorResName = this.contentColorResName
+        colors = this.colors
     )
 }

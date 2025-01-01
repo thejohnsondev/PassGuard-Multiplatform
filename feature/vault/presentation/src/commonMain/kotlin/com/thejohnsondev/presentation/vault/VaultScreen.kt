@@ -38,7 +38,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,6 +79,7 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.add
 import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault
 import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault_get_started
+import vaultmultiplatform.feature.vault.presentation.generated.resources.nothing_found
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,7 +110,6 @@ fun VaultScreen(
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
         vaultViewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))
@@ -269,7 +268,7 @@ fun VaultItemsList(
     val topPadding = paddingValues.calculateTopPadding()
     val bottomPadding = paddingValues.calculateBottomPadding().plus(Size68)
     if (state.isVaultEmpty) {
-        EmptyListPlaceholder()
+        EmptyVaultPlaceholder()
     } else {
         if (windowSizeClass.isCompact()) {
             CompactScreenList(
@@ -334,6 +333,10 @@ private fun CompactScreenList(
                     onAction = onAction
                 )
             }
+        } else {
+            item {
+                NothingFoundPlaceholder()
+            }
         }
         item {
             Spacer(modifier = Modifier.height(bottomPadding))
@@ -376,15 +379,15 @@ private fun LargeScreenList(
             Filters(state, onAction)
         }
         item {
-            Row {
-                LazyColumn(
-                    modifier = Modifier
-                        .weight(Percent50)
-                        .height(finalListHeight)
-                        .padding(bottom = bottomPadding, start = Size4),
-                    userScrollEnabled = false
-                ) {
-                    if (state.passwordsList.isNotEmpty()) {
+            if (state.passwordsList.isNotEmpty()) {
+                Row {
+                    LazyColumn(
+                        modifier = Modifier
+                            .weight(Percent50)
+                            .height(finalListHeight)
+                            .padding(bottom = bottomPadding, start = Size4),
+                        userScrollEnabled = false
+                    ) {
                         items(state.passwordsList.first()) { passwordModel ->
                             BindPasswordItem(
                                 modifier = Modifier
@@ -394,16 +397,14 @@ private fun LargeScreenList(
                             )
                         }
                     }
-                }
 
-                LazyColumn(
-                    modifier = Modifier
-                        .weight(Percent50)
-                        .height(finalListHeight)
-                        .padding(bottom = bottomPadding, end = Size4),
-                    userScrollEnabled = false
-                ) {
-                    if (state.passwordsList.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .weight(Percent50)
+                            .height(finalListHeight)
+                            .padding(bottom = bottomPadding, end = Size4),
+                        userScrollEnabled = false
+                    ) {
                         items(state.passwordsList.last()) { passwordModel ->
                             BindPasswordItem(
                                 modifier = Modifier
@@ -414,6 +415,8 @@ private fun LargeScreenList(
                         }
                     }
                 }
+            } else {
+                NothingFoundPlaceholder()
             }
         }
     }
@@ -537,7 +540,7 @@ fun Filters(
 }
 
 @Composable
-fun EmptyListPlaceholder() {
+fun EmptyVaultPlaceholder() {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -557,6 +560,25 @@ fun EmptyListPlaceholder() {
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = getGlobalFontFamily(),
             color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@Composable
+fun NothingFoundPlaceholder() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(top = Size16),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(Res.string.nothing_found),
+            style = MaterialTheme.typography.headlineSmall,
+            fontFamily = getGlobalFontFamily(),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Bold
         )
     }
 }

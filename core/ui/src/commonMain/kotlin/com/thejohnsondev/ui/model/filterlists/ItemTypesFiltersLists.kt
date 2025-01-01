@@ -3,10 +3,10 @@ package com.thejohnsondev.ui.model.filterlists
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.StickyNote2
 import androidx.compose.material.icons.filled.CreditCard
-import com.thejohnsondev.common.COLOR_ID_onPrimaryContainer
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_BANK_ACCOUNTS
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_NOTES
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_PASSWORDS
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
 import com.thejohnsondev.ui.model.FilterIcon
 import com.thejohnsondev.ui.model.FilterUIModel
 import vaultmultiplatform.core.ui.generated.resources.Res
@@ -21,7 +21,7 @@ val passwordsFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVectorResId = Res.drawable.ic_password
     ),
-    contentColorResName = COLOR_ID_onPrimaryContainer,
+    colors = DefaultSelectableItemColors,
     isSelected = false
 )
 
@@ -31,7 +31,7 @@ val notesFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.AutoMirrored.Filled.StickyNote2
     ),
-    contentColorResName = COLOR_ID_onPrimaryContainer,
+    colors = DefaultSelectableItemColors,
     isSelected = false
 )
 
@@ -41,7 +41,7 @@ val bankAccountsFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.Default.CreditCard
     ),
-    contentColorResName = "onPrimaryContainer",
+    colors = DefaultSelectableItemColors,
     isSelected = false
 )
 

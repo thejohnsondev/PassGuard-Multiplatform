@@ -5,6 +5,7 @@ import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
+import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
 import com.thejohnsondev.domain.PasswordsService
@@ -12,6 +13,7 @@ import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
@@ -31,18 +33,22 @@ class VaultViewModel(
     private val itemTypeFilterChangeUseCase: ItemTypeFilterChangeUseCase,
     private val checkFiltersAppliedUseCase: CheckFiltersAppliedUseCase,
     private val decryptPasswordsListUseCase: DecryptPasswordsListUseCase,
-    private val passwordsMapToUiModelsUseCase: PasswordsMapToUiModelsUseCase
+    private val passwordsMapToUiModelsUseCase: PasswordsMapToUiModelsUseCase,
+    private val getSettingsFlowUseCase: GetSettingsFlowUseCase,
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
+    private val _settingsConfig = MutableStateFlow<SettingsConfig?>(null)
 
     private val _state = MutableStateFlow(State())
     val state = combine(
         screenState,
         _state,
-    ) { screenState, state ->
+        _settingsConfig
+    ) { screenState, state, settings ->
         state.copy(
-            screenState = screenState
+            screenState = screenState,
+            isDeepSearchEnabled = settings?.generalSettings?.isDeepSearchEnabled ?: false
         )
     }.stateIn(viewModelScope, SharingStarted.Eagerly, State())
 
@@ -95,7 +101,18 @@ class VaultViewModel(
         }
     }
 
-    private fun fetchVault(isCompact: Boolean) = launchLoading {
+    private fun fetchVault(isCompact: Boolean) {
+        fetchPasswords(isCompact)
+        fetchSettings()
+    }
+
+    private fun fetchSettings() = launch {
+        getSettingsFlowUseCase.invoke().collect {
+            _settingsConfig.emit(it)
+        }
+    }
+
+    private fun fetchPasswords(isCompact: Boolean) = launchLoading {
         passwordsService.getUserPasswords().collect { items ->
             val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
             val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)

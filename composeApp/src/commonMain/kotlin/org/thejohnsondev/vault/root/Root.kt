@@ -1,4 +1,4 @@
-package org.thejohnsondev.vault
+package org.thejohnsondev.vault.root
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +10,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.Logger
+import com.thejohnsondev.model.settings.DarkThemeConfig
+import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import org.koin.compose.KoinContext
@@ -19,16 +21,18 @@ import org.thejohnsondev.vault.navigation.AuthNavigation
 @Composable
 fun Root(
     deviceThemeConfig: DeviceThemeConfig,
-    firstScreenRoute: Routes
+    firstScreenRoute: Routes,
+    settingsConfig: SettingsConfig,
 ) {
     LaunchedEffect(true) {
         initializeLibs()
     }
     val windowSizeClass = calculateWindowSizeClass()
     VaultDefaultTheme(
-        dynamicColor = false,
-        darkTheme = true,
-        deviceThemeConfig = deviceThemeConfig
+        dynamicColor = shouldUseDynamicColor(settingsConfig),
+        darkTheme = shouldUseDarkTheme(settingsConfig),
+        deviceThemeConfig = deviceThemeConfig,
+        customTheme = settingsConfig.customTheme
     ) {
         KoinContext {
             Surface(
@@ -44,3 +48,17 @@ fun Root(
 private fun initializeLibs() {
     Logger.initialize()
 }
+
+@Composable
+private fun shouldUseDarkTheme(
+    settingsConfig: SettingsConfig,
+): Boolean = when (settingsConfig.darkThemeConfig) {
+    DarkThemeConfig.LIGHT -> false
+    DarkThemeConfig.DARK -> true
+    else -> true
+}
+
+@Composable
+private fun shouldUseDynamicColor(
+    settingsConfig: SettingsConfig,
+): Boolean = settingsConfig.useDynamicColor
