@@ -42,8 +42,8 @@ import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.BlueSkySelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.BlueSkySelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
@@ -79,8 +79,8 @@ import vaultmultiplatform.feature.settings.presentation.generated.resources.no
 import vaultmultiplatform.feature.settings.presentation.generated.resources.settings
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_blue_sky
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_deep_forest
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_red_algae
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_sunny
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics
@@ -360,16 +360,8 @@ fun StyleSettingsSubSection(
                     else -> DefaultSelectableItemColors
                 }
             ) {
-                onAction(
-                    SettingsViewModel.Action.UpdateUseDynamicColor(
-                        false
-                    )
-                )
-                onAction(
-                    SettingsViewModel.Action.UpdateUseCustomTheme(
-                        theme
-                    )
-                )
+                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                onAction(SettingsViewModel.Action.UpdateUseCustomTheme(theme))
             }
         }
         if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
@@ -389,11 +381,7 @@ fun StyleSettingsSubSection(
                 isFirstItem = true,
                 isSelected = state.settingsConfig.useDynamicColor
             ) {
-                onAction(
-                    SettingsViewModel.Action.UpdateUseDynamicColor(
-                        true
-                    )
-                )
+                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
             }
             SelectableOptionItem(
                 modifier = Modifier
@@ -402,11 +390,7 @@ fun StyleSettingsSubSection(
                 isLastItem = true,
                 isSelected = !state.settingsConfig.useDynamicColor
             ) {
-                onAction(
-                    SettingsViewModel.Action.UpdateUseDynamicColor(
-                        false
-                    )
-                )
+                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
             }
         }
         Text(
@@ -425,11 +409,7 @@ fun StyleSettingsSubSection(
             isFirstItem = true,
             isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.SYSTEM
         ) {
-            onAction(
-                SettingsViewModel.Action.UpdateDarkThemeConfig(
-                    DarkThemeConfig.SYSTEM
-                )
-            )
+            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.SYSTEM))
         }
         SelectableOptionItem(
             modifier = Modifier
@@ -437,11 +417,7 @@ fun StyleSettingsSubSection(
             optionTitle = stringResource(Res.string.dark_mode_preference_dark),
             isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.DARK
         ) {
-            onAction(
-                SettingsViewModel.Action.UpdateDarkThemeConfig(
-                    DarkThemeConfig.DARK
-                )
-            )
+            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.DARK))
         }
         SelectableOptionItem(
             modifier = Modifier
@@ -450,11 +426,7 @@ fun StyleSettingsSubSection(
             isLastItem = true,
             isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.LIGHT
         ) {
-            onAction(
-                SettingsViewModel.Action.UpdateDarkThemeConfig(
-                    DarkThemeConfig.LIGHT
-                )
-            )
+            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.LIGHT))
         }
     }
 }
