@@ -16,13 +16,18 @@ import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_WIDTH
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
+import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
+import com.thejohnsondev.domain.GetSettingsFlowUseCase
+import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
+import org.thejohnsondev.vault.root.Root
 import vaultmultiplatform.composeapp.generated.resources.Res
 import vaultmultiplatform.composeapp.generated.resources.app_name
 import vaultmultiplatform.composeapp.generated.resources.ic_vault_108_gradient
@@ -33,15 +38,24 @@ fun main() = application {
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
         getKoin().get()
     }
+    val getSettingsUseCase: GetSettingsFlowUseCase = remember {
+        getKoin().get()
+    }
     val deviceThemeConfig: DeviceThemeConfig = remember {
         getKoin().get()
     }
     val coroutineScope = rememberCoroutineScope()
-    val firstScreenRoute = remember { mutableStateOf<String?>(null) }
+    val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
+    val settingsConfig = remember { mutableStateOf<SettingsConfig?>(null) }
 
     LaunchedEffect(true) {
         coroutineScope.launch {
             firstScreenRoute.value = getFirstScreenRouteUseCase()
+        }
+        coroutineScope.launch {
+            getSettingsUseCase.invoke().collect {
+                settingsConfig.value = it
+            }
         }
     }
 
@@ -57,8 +71,8 @@ fun main() = application {
         state = windowState
     ) {
         window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)
-        firstScreenRoute.value?.let { route ->
-            Root(deviceThemeConfig, route)
+        safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
+            Root(deviceThemeConfig, route, settings)
         } ?: kotlin.run {
             DesktopSplash()
         }

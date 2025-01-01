@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.uimodel.models.FilterUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
 
 class CheckFiltersAppliedUseCaseImpl : CheckFiltersAppliedUseCase {
     override operator fun invoke(

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.thejohnsondev.common.utils.Logger
-import com.thejohnsondev.common.utils.getPrettyErrorMessage
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
 import com.thejohnsondev.model.NetworkError
@@ -17,16 +17,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    private val eventChannel = Channel<OneTimeEvent>()
-    protected val _screenState: MutableStateFlow<ScreenState> =
+    private val eventFlow = Channel<OneTimeEvent>()
+    protected val screenState: MutableStateFlow<ScreenState> =
         MutableStateFlow(ScreenState.None)
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         viewModelScope.launch {
@@ -34,32 +32,30 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    fun getEventFlow() = eventChannel.receiveAsFlow()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, OneTimeEvent.None)
+    fun getEventFlow() = eventFlow.receiveAsFlow()
 
     protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent)  {
-        showContent()
-        eventChannel.send(event)
+        eventFlow.send(event)
     }
 
     protected suspend fun BaseViewModel.loading()  {
-        _screenState.emit(ScreenState.Loading)
+        screenState.emit(ScreenState.Loading)
     }
 
     protected suspend fun BaseViewModel.showContent() {
-        _screenState.emit(ScreenState.ShowContent)
+        screenState.emit(ScreenState.ShowContent)
     }
 
     protected suspend fun handleError(error: Error) {
         showContent()
-        val errorMessage = when (error) {
-            is HttpError -> error.message
-            is NetworkError -> "Please, check your internet connection"
-            is UnknownError -> error.throwable?.message
-            else -> error.throwable?.message
+        val errorDisplayMessage = when (error) {
+            is HttpError -> DisplayableMessageValue.StringValue(error.message)
+            is NetworkError -> DisplayableMessageValue.CheckInternetConnection
+            is UnknownError -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
+            else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
         }
-        Logger.e("${this::class.simpleName} error: ${error::class.simpleName} $errorMessage")
-        sendEvent(OneTimeEvent.InfoMessage(getPrettyErrorMessage(errorMessage)))
+        Logger.e("${this::class.simpleName} error: ${error::class.simpleName} ${errorDisplayMessage::class.simpleName}")
+        sendEvent(OneTimeEvent.ErrorMessage(errorDisplayMessage))
     }
 
     protected fun BaseViewModel.launch(block: suspend CoroutineScope.() -> Unit): Job {

@@ -8,10 +8,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
+import com.thejohnsondev.domain.GetSettingsFlowUseCase
+import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
+import org.thejohnsondev.vault.root.Root
 
 class MainActivity : ComponentActivity() {
 
@@ -19,13 +24,21 @@ class MainActivity : ComponentActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         val getFirstScreenRoute = getKoin().get<GetFirstScreenRouteUseCase>()
+        val getSettingsUseCase = getKoin().get<GetSettingsFlowUseCase>()
         val deviceThemeConfig: DeviceThemeConfig = getKoin().get()
-        val firstScreenRoute = mutableStateOf<String?>(null)
+        val firstScreenRoute = mutableStateOf<Routes?>(null)
+        val settingsConfig = mutableStateOf<SettingsConfig?>(null)
         lifecycleScope.launch {
             firstScreenRoute.value = getFirstScreenRoute()
         }
+        lifecycleScope.launch {
+            getSettingsUseCase.invoke().collect {
+                settingsConfig.value = it
+                applyPrivacySettings(it.privacySettings.isBlockScreenshotsEnabled)
+            }
+        }
         splashScreen.setKeepOnScreenCondition {
-            firstScreenRoute.value == null
+            firstScreenRoute.value == null || settingsConfig.value == null
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setFlags(
@@ -34,9 +47,20 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            firstScreenRoute.value?.let {
-                Root(deviceThemeConfig, it)
+            safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
+                Root(deviceThemeConfig, route, settings)
             }
+        }
+    }
+
+    private fun applyPrivacySettings(isBlockScreenshots: Boolean) {
+        if (isBlockScreenshots) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 

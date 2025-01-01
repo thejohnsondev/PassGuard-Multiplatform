@@ -6,6 +6,7 @@ expect class DeviceThemeConfig {
     fun supportsDynamicTheming(): Boolean
     fun getDynamicDarkColorScheme(): ColorScheme
     fun getDynamicLightColorScheme(): ColorScheme
+    fun supportsBlockingScreenshots(): Boolean
 }
 
 expect val showNavigationBackArrow: Boolean

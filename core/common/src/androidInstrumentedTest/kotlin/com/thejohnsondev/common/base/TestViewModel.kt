@@ -31,5 +31,5 @@ class TestViewModel : BaseViewModel() {
         return launchLoading(block)
     }
 
-    fun publicGetScreenState() = _screenState
+    fun publicGetScreenState() = screenState
 }

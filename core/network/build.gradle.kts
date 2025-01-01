@@ -46,6 +46,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:common"))
             api(project(":core:model"))
+            api(project(":core:datastore"))
 
             implementation(libs.kotlinx.coroutines.core)
 

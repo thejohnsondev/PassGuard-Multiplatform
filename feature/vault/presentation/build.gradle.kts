@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
 }
-
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -42,8 +41,8 @@ kotlin {
             api(project(":core:model"))
             api(project(":core:common"))
             api(project(":core:ui"))
-            api(project(":core:uimodel"))
             api(project(":feature:vault:domain"))
+            api(project(":feature:settings:domain"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 
@@ -58,13 +57,13 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.material3)
             implementation(libs.material3.windowsizeclass.multiplatform)
+            implementation(libs.navigation.compose)
 
             // Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
-            implementation(libs.navigation.compose)
 
             // Arrow Either
             implementation(libs.arrow.core)
@@ -75,6 +74,7 @@ kotlin {
         }
     }
 }
+
 
 android {
     namespace = "org.thejohnsondev.presentation"

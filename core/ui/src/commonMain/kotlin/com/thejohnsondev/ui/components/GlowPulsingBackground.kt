@@ -35,19 +35,22 @@ fun GlowPulsingBackground(
         ), label = ""
     )
 
-    BlurContainer(
-        modifier = modifier,
-        component = {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(Size16)
-                    .clip(CircleShape)
-                    .scale(scale)
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-            )
-        },
-        blur = blur
-    )
+    Box {
+        BlurContainer(
+            modifier = modifier,
+            component = {
+                Box(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(Size16)
+                        .clip(CircleShape)
+                        .scale(scale)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                )
+            },
+            blur = blur
+        )
+    }
+
 
 }

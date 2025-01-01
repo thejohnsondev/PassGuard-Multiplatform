@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings">Settings</string>
+    <string name="manage_account">Manage account</string>
+    <string name="logout">Logout</string>
+    <string name="dangerous_zone">Dangerous zone</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_confirm_message">Are you sure you want to delete the account? \nIt will remove all your data permanently.</string>
+    <string name="unlock_with_biometrics">Unlock with biometrics</string>
+    <string name="unlock_with_biometrics_description">Use fingerprint/face for verification when opening the app</string>
+    <string name="block_screenshot">Block screenshot</string>
+    <string name="block_screenshot_description">Blocks screenshot/screen capture inside the app</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout_confirm_message">Are you sure you want to log out?</string>
+    <string name="dark_mode_preference">Dark mode preference</string>
+    <string name="dark_mode_preference_system">Use system settings</string>
+    <string name="dark_mode_preference_dark">Dark</string>
+    <string name="dark_mode_preference_light">Light</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="use_dynamic_color">Use Dynamic Colors</string>
+    <string name="theme_default">Default</string>
+    <string name="theme_blue_sky">Blue Sky</string>
+    <string name="theme_deep_forest">Deep Forest</string>
+    <string name="theme_red_algae">Red Algae</string>
+    <string name="theme_sunny">Sunny</string>
+    <string name="theme">Theme</string>
+    <string name="deep_search_title">Deep search</string>
+    <string name="deep_search_description">Search by all details, not only titles</string>
+
 </resources>

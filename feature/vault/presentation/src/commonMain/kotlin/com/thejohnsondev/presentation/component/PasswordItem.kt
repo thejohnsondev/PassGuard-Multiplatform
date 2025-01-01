@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ContentCopy
@@ -32,7 +31,6 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -58,33 +56,26 @@ import com.thejohnsondev.common.utils.hidden
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.ui.components.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
-import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.RoundedContainer
+import com.thejohnsondev.ui.components.RoundedIconButton
 import com.thejohnsondev.ui.designsystem.EqualRounded
-import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
-import com.thejohnsondev.ui.model.ButtonShape
-import com.thejohnsondev.ui.utils.applyIf
+import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.utils.bounceClick
-import com.thejohnsondev.ui.utils.cursorEnterAnimation
-import com.thejohnsondev.ui.utils.darken
-import com.thejohnsondev.ui.utils.mapToColor
-import com.thejohnsondev.uimodel.models.PasswordUIModel
-import com.thejohnsondev.uimodel.models.getImageVector
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.created
-import vaultmultiplatform.feature.vault.presentation.generated.resources.delete
-import vaultmultiplatform.feature.vault.presentation.generated.resources.edit
 import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
 import vaultmultiplatform.feature.vault.presentation.generated.resources.modified
 import vaultmultiplatform.feature.vault.presentation.generated.resources.more_info
@@ -152,10 +143,7 @@ fun PasswordItem(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal)
-            .applyIf(!isExpanded) {
-                cursorEnterAnimation()
-            },
+            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal),
         shape = EqualRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor
@@ -216,7 +204,7 @@ fun PasswordItem(
                             .align(Alignment.BottomEnd)
                             .padding(top = Size4, start = Size4)
                             .clip(RoundedCornerShape(Size4))
-                            .background(item.category.contentColorResName.mapToColor().darken()),
+                            .background(item.category.colors.getUnselectedContainerColor()),
                     ) {
                         val icon = item.category.categoryIcon.getImageVector()
                         icon?.let {
@@ -226,13 +214,12 @@ fun PasswordItem(
                                     .size(Size12),
                                 imageVector = icon,
                                 contentDescription = null,
-                                tint = item.category.contentColorResName.mapToColor()
+                                tint = item.category.colors.getUnselectedContentColor()
                             )
                         }
                     }
                 }
                 Column(modifier = Modifier.weight(1f)){
-                    SelectionContainer {
                         Text(
                             modifier = Modifier
                                 .padding(start = Size16)
@@ -244,8 +231,6 @@ fun PasswordItem(
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )
-                    }
-                    SelectionContainer {
                         Text(
                             modifier = Modifier
                                 .padding(start = Size16)
@@ -256,7 +241,6 @@ fun PasswordItem(
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )
-                    }
                 }
 
                 IconButton(
@@ -323,9 +307,6 @@ fun ExpandedContent(
     var isHidden by remember {  // TODO add a UI setting to make it visible by default
         mutableStateOf(true)
     }
-    var isInfoHidden by remember {
-        mutableStateOf(true)
-    }
     val haptic = LocalHapticFeedback.current
     val password = if (isHidden) passwordModel.password.hidden() else passwordModel.password
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
@@ -344,11 +325,13 @@ fun ExpandedContent(
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .clickable {
+                        isHidden = !isHidden
+                    },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SelectionContainer {
                     Text(
                         modifier = Modifier
                             .padding(horizontal = Size12, vertical = Size16)
@@ -358,7 +341,6 @@ fun ExpandedContent(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                }
                 Icon(
                     modifier = Modifier.padding(end = Size8)
                         .clip(RoundedCornerShape(Size8))
@@ -388,115 +370,122 @@ fun ExpandedContent(
             }
         }
         Row(
+            modifier = Modifier.fillMaxWidth()
+                .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.End
         ) {
-            RoundedButton(
+            MoreInfo(
                 modifier = Modifier
-                    .weight(Percent50)
-                    .padding(start = Size16, end = Size4, bottom = Size8, top = Size16)
-                    .bounceClick(),
-                text = stringResource(Res.string.edit),
-                imageVector = Icons.Filled.Edit,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    contentColor = MaterialTheme.colorScheme.primaryContainer
-                ),
-                buttonShape = ButtonShape.START_ROUNDED,
+                    .weight(1f),
+                contentColor = contentColor,
+                passwordModel = passwordModel
+            )
+            RoundedIconButton(
+                modifier = Modifier
+                    .padding(start = Size16, end = Size4, bottom = Size16, top = Size16)
+                    .size(Size40),
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     onEditClick(passwordModel)
-                }
+                },
+                imageVector = Icons.Filled.Edit,
+                containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                iconColor = MaterialTheme.colorScheme.primaryContainer
             )
-            RoundedButton(
+            RoundedIconButton(
                 modifier = Modifier
-                    .weight(Percent50)
-                    .padding(start = Size4, end = Size16, bottom = Size8, top = Size16)
-                    .bounceClick(),
-                text = stringResource(Res.string.delete),
-                imageVector = Icons.Filled.Delete,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer
-                ),
-                buttonShape = ButtonShape.END_ROUNDED,
+                    .padding(start = Size4, end = Size16, bottom = Size16, top = Size16)
+                    .size(Size40),
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     onDeleteClick(passwordModel)
-                }
+                },
+                imageVector = Icons.Filled.Delete,
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                iconColor = MaterialTheme.colorScheme.onErrorContainer
             )
         }
-        Row(
-            modifier = Modifier.padding(start = Size8, end = Size16, bottom = Size8)
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            IconButton(
-                onClick = {
-                    isInfoHidden = !isInfoHidden
-                }) {
-                Icon(
-                    imageVector = Icons.Default.Info,
-                    tint = contentColor,
-                    contentDescription = null
-                )
-            }
-            AnimatedVisibility(visible = isInfoHidden) {
-                Text(
-                    text = stringResource(Res.string.more_info),
-                    color = contentColor,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-            AnimatedVisibility(visible = !isInfoHidden) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                ) {
-                    if (!passwordModel.modifiedTime.isNullOrBlank()) {
-                        Row(
-                            modifier = Modifier
-                                .padding(bottom = Size8),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                modifier = Modifier
-                                    .size(Size16),
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = null,
-                                tint = contentColor
-                            )
-                            Text(
-                                modifier = Modifier
-                                    .padding(start = Size8),
-                                text = "${stringResource(Res.string.modified)}${passwordModel.modifiedTime.orEmpty()}",
-                                color = contentColor,
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
-                    }
+    }
+}
+
+@Composable
+private fun MoreInfo(
+    modifier: Modifier = Modifier,
+    contentColor: Color,
+    passwordModel: PasswordUIModel
+) {
+    var isInfoHidden by remember {
+        mutableStateOf(true)
+    }
+    Row(
+        modifier = modifier.padding(start = Size8, end = Size16),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        IconButton(
+            onClick = {
+                isInfoHidden = !isInfoHidden
+            }) {
+            Icon(
+                imageVector = Icons.Default.Info,
+                tint = contentColor,
+                contentDescription = null
+            )
+        }
+        AnimatedVisibility(visible = isInfoHidden) {
+            Text(
+                text = stringResource(Res.string.more_info),
+                color = contentColor,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+        AnimatedVisibility(visible = !isInfoHidden) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            ) {
+                if (!passwordModel.modifiedTime.isNullOrBlank()) {
                     Row(
-                        modifier = Modifier,
+                        modifier = Modifier
+                            .padding(bottom = Size8),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             modifier = Modifier
                                 .size(Size16),
-                            imageVector = Icons.Default.Bolt,
+                            imageVector = Icons.Default.Edit,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            tint = contentColor
                         )
                         Text(
                             modifier = Modifier
                                 .padding(start = Size8),
-                            text = "${stringResource(Res.string.created)}${passwordModel.createdTime}",
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            text = "${stringResource(Res.string.modified)}${passwordModel.modifiedTime.orEmpty()}",
+                            color = contentColor,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
+                }
+                Row(
+                    modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(Size16),
+                        imageVector = Icons.Default.Bolt,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size8),
+                        text = "${stringResource(Res.string.created)}${passwordModel.createdTime}",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
         }
@@ -516,7 +505,15 @@ fun AdditionalFieldItem(
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
     Surface(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .combinedClickable(
+                onClick = {
+                    isHidden = !isHidden
+                },
+                onLongClick = {
+                    onLongClick(additionalField.value)
+                }
+            ),
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
@@ -531,25 +528,21 @@ fun AdditionalFieldItem(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-                SelectionContainer {
-                    Text(
-                        modifier = Modifier
-                            .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
-                        text = additionalField.title,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                SelectionContainer {
-                    Text(
-                        modifier = Modifier
-                            .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
-                        text = value,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
+                Text(
+                    modifier = Modifier
+                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
+                    text = additionalField.title,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
+                    text = value,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
             Icon(
                 modifier = Modifier.padding(end = Size8)

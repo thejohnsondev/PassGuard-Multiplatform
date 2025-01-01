@@ -35,6 +35,7 @@ kotlin {
         }
         commonMain.dependencies {
             api(project(":core:common"))
+            api(project(":core:model"))
 
             api(libs.datastore)
             api(libs.datastore.preferences)

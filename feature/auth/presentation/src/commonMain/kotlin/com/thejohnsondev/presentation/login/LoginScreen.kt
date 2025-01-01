@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -64,11 +64,11 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
+import com.thejohnsondev.ui.displaymessage.getAsComposeText
+import com.thejohnsondev.ui.displaymessage.getAsText
+import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.applyIf
-import com.thejohnsondev.ui.utils.getEmailErrorMessage
-import com.thejohnsondev.ui.utils.getPasswordErrorMessage
 import com.thejohnsondev.ui.utils.isCompact
-import com.thejohnsondev.ui.utils.keyboardAsState
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.auth.presentation.generated.resources.Res
 import vaultmultiplatform.feature.auth.presentation.generated.resources.do_not_have_account
@@ -98,20 +98,22 @@ fun LoginScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
-    val isKeyboardOpened by keyboardAsState()
+    val isKeyboardOpened by KeyboardManager.keyboardAsState()
 
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {
             when (it) {
-                is OneTimeEvent.InfoMessage -> {
-                    snackbarHostState.showSnackbar(it.message, duration = SnackbarDuration.Short)
+                is OneTimeEvent.ErrorMessage -> {
+                    snackbarHostState.showSnackbar(
+                        it.message.getAsText(),
+                        duration = SnackbarDuration.Short
+                    )
                 }
 
                 is OneTimeEvent.SuccessNavigation -> goToHome()
             }
         }
     }
-
 
     LoginContent(
         state = screenState.value,
@@ -157,73 +159,56 @@ fun LoginContent(
             )
         }
     }) { paddingValues ->
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = if (MaterialTheme.colorScheme.isLight()) {
-                Color.White
-            } else {
-                Color.Black
-            }
+        Box(
+            modifier = Modifier.fillMaxSize().background(
+                if (MaterialTheme.colorScheme.isLight()) {
+                    Color.White
+                } else {
+                    Color.Black
+                }
+            )
         ) {
-            Box {
-                if (showNavigationBackArrow) {
-                    BackArrowButton(
-                        modifier = Modifier.padding(Size16),
-                        onClick = onGoBack
+            if (showNavigationBackArrow) {
+                BackArrowButton(
+                    modifier = Modifier.padding(Size16), onClick = onGoBack
+                )
+            }
+            GlowPulsingBackground()
+            FieldsSection(
+                largeScreenModifier = Modifier
+                    .width(Size600)
+                    .padding(bottom = Size16)
+                    .align(Alignment.Center),
+                screenState = state,
+                emailState = emailState,
+                passwordState = passwordState,
+                emailFocusRequest = emailFocusRequest,
+                passwordFocusRequest = passwordFocusRequest,
+                isKeyboardOpened = isKeyboardOpened,
+                paddingValues = paddingValues,
+                windowSize = windowSize,
+                hideKeyboard = hideKeyboard,
+                onGoToSignUp = onGoToSignUp,
+                onAction = onAction
+            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(
+                        bottom = if (!windowSize.isCompact()) Size16 else paddingValues.calculateBottomPadding(),
+                        start = Size8,
+                        end = Size8
                     )
-                }
-                Box {
-                    GlowPulsingBackground()
-                }
-                Column(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .scrollable(rememberScrollState(), Orientation.Vertical)
-                        .applyIf(!windowSize.isCompact()) {
-                            Modifier
-                                .width(Size600)
-                                .padding(bottom = Size16)
-                                .align(Alignment.Center)
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    AnimatedVisibility(
-                        visible = !isKeyboardOpened
-                    ) {
-                        Column {
-                            LogoSection()
-                        }
-                    }
-                    FieldsSection(
-                        screenState = state,
-                        emailState = emailState,
-                        passwordState = passwordState,
-                        emailFocusRequest = emailFocusRequest,
-                        passwordFocusRequest = passwordFocusRequest,
-                        onGoToSignUp = onGoToSignUp,
-                        hideKeyboard = hideKeyboard,
-                        onAction = onAction
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(
-                            bottom = if (!windowSize.isCompact()) Size16 else paddingValues.calculateBottomPadding(),
-                            start = Size8,
-                            end = Size8
-                        )
-                        .clip(RoundedCornerShape(Size24))
-                ) {
-                    LoginButtonSection(
-                        state = state,
-                        windowSize = windowSize,
-                        emailState = emailState,
-                        passwordState = passwordState,
-                        hideKeyboard = hideKeyboard,
-                        onAction = onAction
-                    )
-                }
+                    .clip(RoundedCornerShape(Size24))
+            ) {
+                LoginButtonSection(
+                    state = state,
+                    windowSize = windowSize,
+                    emailState = emailState,
+                    passwordState = passwordState,
+                    hideKeyboard = hideKeyboard,
+                    onAction = onAction
+                )
             }
         }
     }
@@ -231,23 +216,42 @@ fun LoginContent(
 
 @Composable
 fun FieldsSection(
+    largeScreenModifier: Modifier = Modifier,
     screenState: LoginViewModel.State,
     emailState: MutableState<String>,
     passwordState: MutableState<String>,
     emailFocusRequest: FocusRequester,
     passwordFocusRequest: FocusRequester,
-    onGoToSignUp: () -> Unit,
+    isKeyboardOpened: Boolean,
+    paddingValues: PaddingValues,
+    windowSize: WindowWidthSizeClass,
     hideKeyboard: () -> Unit,
+    onGoToSignUp: () -> Unit,
     onAction: (LoginViewModel.Action) -> Unit
 ) {
-    Surface(
+    Column(
         modifier = Modifier
-            .fillMaxHeight()
-            .padding(horizontal = Size8),
-        color = MaterialTheme.colorScheme.surface,
-        shape = RoundedCornerShape(Size24)
+            .padding(paddingValues)
+            .scrollable(rememberScrollState(), Orientation.Vertical)
+            .applyIf(!windowSize.isCompact()) {
+                largeScreenModifier
+            },
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column {
+        AnimatedVisibility(
+            visible = !isKeyboardOpened
+        ) {
+            Column {
+                com.thejohnsondev.presentation.signup.LogoSection()
+            }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(horizontal = Size8)
+                .clip(RoundedCornerShape(Size24))
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -275,10 +279,9 @@ fun FieldsSection(
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email,
                 isError = screenState.emailValidationState !is EmailValidationState.EmailCorrectState,
-                errorText = if (screenState.emailValidationState is EmailValidationState.EmailIncorrectState) getEmailErrorMessage(
-                    screenState.emailValidationState.reason
-                )
-                else null
+                errorText = if (screenState.emailValidationState is EmailValidationState.EmailIncorrectState) {
+                    screenState.emailValidationState.reason.getAsComposeText()
+                } else null
             )
             Spacer(modifier = Modifier.height(Size8))
             TextField(
@@ -297,34 +300,44 @@ fun FieldsSection(
                 },
                 keyboardType = KeyboardType.Password,
                 isError = screenState.passwordValidationState !is PasswordValidationState.PasswordCorrectState,
-                errorText = if (screenState.passwordValidationState is PasswordValidationState.PasswordIncorrectState) getPasswordErrorMessage(
-                    screenState.passwordValidationState.reason
-                )
-                else null
+                errorText = if (screenState.passwordValidationState is PasswordValidationState.PasswordIncorrectState) {
+                    screenState.passwordValidationState.reason.getAsComposeText()
+                } else null
             )
-            Row(
-                horizontalArrangement = Arrangement.Center,
+            DoNotHaveAccount(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(Size16)
-            ) {
-                Text(
-                    text = stringResource(Res.string.do_not_have_account),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Text(
-                    text = stringResource(Res.string.sign_up),
-                    modifier = Modifier
-                        .padding(start = Size4)
-                        .clickable {
-                            onGoToSignUp()
-                        },
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
+                    .padding(Size16),
+                onGoToSignUp = onGoToSignUp
+            )
         }
+    }
+}
+
+@Composable
+private fun DoNotHaveAccount(
+    modifier: Modifier = Modifier,
+    onGoToSignUp: () -> Unit
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(Res.string.do_not_have_account),
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Text(
+            text = stringResource(Res.string.sign_up),
+            modifier = Modifier
+                .padding(start = Size4)
+                .clickable {
+                    onGoToSignUp()
+                },
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 

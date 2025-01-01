@@ -13,7 +13,6 @@ plugins {
 
 val appName = "PassGuard"
 val versionNameValue = "1.0.0"
-val versionCodeValue = 1
 
 kotlin {
     androidTarget {
@@ -69,6 +68,8 @@ kotlin {
             api(project(":feature:vault:domain"))
             api(project(":feature:vault:presentation"))
             api(project(":feature:tools:presentation"))
+            api(project(":feature:settings:data"))
+            api(project(":feature:settings:domain"))
             api(project(":feature:settings:presentation"))
 
             // Compose
@@ -124,7 +125,7 @@ android {
         applicationId = "org.thejohnsondev.vault"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = versionCodeValue
+        versionCode = 1
         versionName = versionNameValue
         setProperty("archivesBaseName", appName)
     }
@@ -136,7 +137,6 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

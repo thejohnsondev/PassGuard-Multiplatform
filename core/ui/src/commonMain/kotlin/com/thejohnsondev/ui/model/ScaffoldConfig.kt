@@ -15,7 +15,9 @@ data class ScaffoldConfig(
     val isFabExpanded: Boolean = false,
     val snackBarPaddingHorizontal: Dp? = null,
     val snackBarPaddingVertical: Dp? = null,
-    val snackBarHostState: SnackbarHostState? = null,
+    val successSnackBarHostState: SnackbarHostState? = null,
+    val errorSnackBarHostState: SnackbarHostState? = null,
+    val infoSnackBarHostState: SnackbarHostState? = null,
     val bottomBarItemIndex: Int = 0,
     val isEmptyVaultScreen: Boolean = false
 )

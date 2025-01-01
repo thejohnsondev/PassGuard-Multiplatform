@@ -1,18 +1,14 @@
 package com.thejohnsondev.data
 
 import arrow.core.Either
-import com.thejohnsondev.common.encryption.EncryptionUtils
 import com.thejohnsondev.database.LocalDataSource
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.auth.AuthRequestBody
 import com.thejohnsondev.model.auth.AuthResponse
 import com.thejohnsondev.network.RemoteApi
-import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import org.thejohnsondev.data.BuildKonfig
-import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 class AuthRepositoryImpl(
@@ -21,41 +17,19 @@ class AuthRepositoryImpl(
     private val remoteApi: RemoteApi
 ) : AuthRepository {
 
-    @OptIn(ExperimentalEncodingApi::class)
     override suspend fun signUp(
         email: String,
         password: String
     ): Flow<Either<Error, AuthResponse>>  {
-        val encryptedEmail = EncryptionUtils.encrypt(
-            email,
-            Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray()),
-            Base64.decode(BuildKonfig.AUTH_SECRET_IV.toByteArray())
-        )
-        val encryptedPassword = EncryptionUtils.encrypt(
-            password,
-            Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray()),
-            Base64.decode(BuildKonfig.AUTH_SECRET_IV.toByteArray())
-        )
-        val requestBody = AuthRequestBody(encryptedEmail, encryptedPassword)
+        val requestBody = AuthRequestBody(email, password)
         return flowOf(remoteApi.signUp(requestBody))
     }
 
-    @OptIn(ExperimentalEncodingApi::class)
     override suspend fun singIn(
         email: String,
         password: String
     ): Flow<Either<Error, AuthResponse>> {
-        val encryptedEmail = EncryptionUtils.encrypt(
-            email,
-            Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray()),
-            Base64.decode(BuildKonfig.AUTH_SECRET_IV.toByteArray())
-        )
-        val encryptedPassword = EncryptionUtils.encrypt(
-            password,
-            Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray()),
-            Base64.decode(BuildKonfig.AUTH_SECRET_IV.toByteArray())
-        )
-        val requestBody = AuthRequestBody(encryptedEmail, encryptedPassword)
+        val requestBody = AuthRequestBody(email, password)
         return flowOf(remoteApi.signIn(requestBody))
     }
 
@@ -69,7 +43,7 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun deleteAccount(): Flow<Either<Error, Unit>> {
-        return flowOf(Either.Right(Unit))
+        return flowOf(remoteApi.deleteAccount())
     }
 
     override suspend fun changePassword(
@@ -77,10 +51,6 @@ class AuthRepositoryImpl(
         newPassword: String
     ): Flow<Either<Error, Boolean>> {
         return flowOf(Either.Right(true))
-    }
-
-    override suspend fun saveKey(key: ByteArray) {
-        preferencesDataStore.saveKey(key)
     }
 
     override suspend fun saveAuthToken(token: String) {

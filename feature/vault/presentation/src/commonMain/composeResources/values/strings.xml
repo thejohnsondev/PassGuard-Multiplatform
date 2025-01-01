@@ -14,4 +14,17 @@
 
     <string name="empty_vault">Your vault is empty</string>
     <string name="empty_vault_get_started">Get started by creating you first record</string>
+    <string name="nothing_found">Nothing found</string>
+
+    <string name="organization">Organization</string>
+    <string name="title">Title</string>
+    <string name="value">Value</string>
+    <string name="password">Password</string>
+    <string name="visibility">Visibility</string>
+    <string name="organization_empty">Organization is empty</string>
+    <string name="title_empty">Title is empty</string>
+    <string name="password_empty">Password is empty</string>
+    <string name="add_field">Add field</string>
+    <string name="save">Save</string>
+    <string name="update">Update</string>
 </resources>

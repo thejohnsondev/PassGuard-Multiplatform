@@ -7,86 +7,576 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
-import com.thejohnsondev.ui.designsystem.ThemeBrand
 import com.thejohnsondev.ui.designsystem.getTypography
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
-val lightScheme = lightColorScheme(
-    primary = primaryLight,
-    onPrimary = onPrimaryLight,
-    primaryContainer = primaryContainerLight,
-    onPrimaryContainer = onPrimaryContainerLight,
-    secondary = secondaryLight,
-    onSecondary = onSecondaryLight,
-    secondaryContainer = secondaryContainerLight,
-    onSecondaryContainer = onSecondaryContainerLight,
-    tertiary = tertiaryLight,
-    onTertiary = onTertiaryLight,
-    tertiaryContainer = tertiaryContainerLight,
-    onTertiaryContainer = onTertiaryContainerLight,
-    error = errorLight,
-    onError = onErrorLight,
-    errorContainer = errorContainerLight,
-    onErrorContainer = onErrorContainerLight,
-    background = backgroundLight,
-    onBackground = onBackgroundLight,
-    surface = surfaceLight,
-    onSurface = onSurfaceLight,
-    surfaceVariant = surfaceVariantLight,
-    onSurfaceVariant = onSurfaceVariantLight,
-    outline = outlineLight,
-    outlineVariant = outlineVariantLight,
-    scrim = scrimLight,
-    inverseSurface = inverseSurfaceLight,
-    inverseOnSurface = inverseOnSurfaceLight,
-    inversePrimary = inversePrimaryLight,
-    surfaceDim = surfaceDimLight,
-    surfaceBright = surfaceBrightLight,
-    surfaceContainerLowest = surfaceContainerLowestLight,
-    surfaceContainerLow = surfaceContainerLowLight,
-    surfaceContainer = surfaceContainerLight,
-    surfaceContainerHigh = surfaceContainerHighLight,
-    surfaceContainerHighest = surfaceContainerHighestLight,
+fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
+    primary = when(customTheme) {
+        ThemeBrand.DEFAULT -> primaryLight
+        ThemeBrand.BLUE_SKY -> primaryLight_blueSky
+        ThemeBrand.DEEP_FOREST -> primaryLight_deepForest
+        ThemeBrand.RED_ALGAE -> primaryLight_redAlgae
+        ThemeBrand.SUNNY -> primaryLight_sunny
+        else -> primaryLight
+    },
+    onPrimary = when(customTheme) {
+        ThemeBrand.DEFAULT -> onPrimaryLight
+        ThemeBrand.BLUE_SKY -> onPrimaryLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onPrimaryLight_deepForest
+        ThemeBrand.RED_ALGAE -> onPrimaryLight_redAlgae
+        ThemeBrand.SUNNY -> onPrimaryLight_sunny
+        else -> onPrimaryLight
+    },
+    primaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> primaryContainerLight
+        ThemeBrand.BLUE_SKY -> primaryContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> primaryContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> primaryContainerLight_redAlgae
+        ThemeBrand.SUNNY -> primaryContainerLight_sunny
+        else -> primaryContainerLight
+    },
+    onPrimaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onPrimaryContainerLight
+        ThemeBrand.BLUE_SKY -> onPrimaryContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onPrimaryContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> onPrimaryContainerLight_redAlgae
+        ThemeBrand.SUNNY -> onPrimaryContainerLight_sunny
+        else -> onPrimaryContainerLight
+    },
+    secondary = when(customTheme) {
+        ThemeBrand.DEFAULT -> secondaryLight
+        ThemeBrand.BLUE_SKY -> secondaryLight_blueSky
+        ThemeBrand.DEEP_FOREST -> secondaryLight_deepForest
+        ThemeBrand.RED_ALGAE -> secondaryLight_redAlgae
+        ThemeBrand.SUNNY -> secondaryLight_sunny
+        else -> secondaryLight
+    },
+    onSecondary = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSecondaryLight
+        ThemeBrand.BLUE_SKY -> onSecondaryLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onSecondaryLight_deepForest
+        ThemeBrand.RED_ALGAE -> onSecondaryLight_redAlgae
+        ThemeBrand.SUNNY -> onSecondaryLight_sunny
+        else -> onSecondaryLight
+    },
+    secondaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> secondaryContainerLight
+        ThemeBrand.BLUE_SKY -> secondaryContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> secondaryContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> secondaryContainerLight_redAlgae
+        ThemeBrand.SUNNY -> secondaryContainerLight_sunny
+        else -> secondaryContainerLight
+    },
+    onSecondaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSecondaryContainerLight
+        ThemeBrand.BLUE_SKY -> onSecondaryContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onSecondaryContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> onSecondaryContainerLight_redAlgae
+        ThemeBrand.SUNNY -> onSecondaryContainerLight_sunny
+        else -> onSecondaryContainerLight
+    },
+    tertiary = when(customTheme) {
+        ThemeBrand.DEFAULT -> tertiaryLight
+        ThemeBrand.BLUE_SKY -> tertiaryLight_blueSky
+        ThemeBrand.DEEP_FOREST -> tertiaryLight_deepForest
+        ThemeBrand.RED_ALGAE -> tertiaryLight_redAlgae
+        ThemeBrand.SUNNY -> tertiaryLight_sunny
+        else -> tertiaryLight
+    },
+    onTertiary = when(customTheme) {
+        ThemeBrand.DEFAULT -> onTertiaryLight
+        ThemeBrand.BLUE_SKY -> onTertiaryLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onTertiaryLight_deepForest
+        ThemeBrand.RED_ALGAE -> onTertiaryLight_redAlgae
+        ThemeBrand.SUNNY -> onTertiaryLight_sunny
+        else -> onTertiaryLight
+    },
+    tertiaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> tertiaryContainerLight
+        ThemeBrand.BLUE_SKY -> tertiaryContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> tertiaryContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> tertiaryContainerLight_redAlgae
+        ThemeBrand.SUNNY -> tertiaryContainerLight_sunny
+        else -> tertiaryContainerLight
+    },
+    onTertiaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onTertiaryContainerLight
+        ThemeBrand.BLUE_SKY -> onTertiaryContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onTertiaryContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> onTertiaryContainerLight_redAlgae
+        ThemeBrand.SUNNY -> onTertiaryContainerLight_sunny
+        else -> onTertiaryContainerLight
+    },
+    error = when(customTheme) {
+        ThemeBrand.DEFAULT -> errorLight
+        ThemeBrand.BLUE_SKY -> errorLight_blueSky
+        ThemeBrand.DEEP_FOREST -> errorLight_deepForest
+        ThemeBrand.RED_ALGAE -> errorLight_redAlgae
+        ThemeBrand.SUNNY -> errorLight_sunny
+        else -> errorLight
+    },
+    onError = when(customTheme) {
+        ThemeBrand.DEFAULT -> onErrorLight
+        ThemeBrand.BLUE_SKY -> onErrorLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onErrorLight_deepForest
+        ThemeBrand.RED_ALGAE -> onErrorLight_redAlgae
+        ThemeBrand.SUNNY -> onErrorLight_sunny
+        else -> onErrorLight
+    },
+    errorContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> errorContainerLight
+        ThemeBrand.BLUE_SKY -> errorContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> errorContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> errorContainerLight_redAlgae
+        ThemeBrand.SUNNY -> errorContainerLight_sunny
+        else -> errorContainerLight
+    },
+    onErrorContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onErrorContainerLight
+        ThemeBrand.BLUE_SKY -> onErrorContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onErrorContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> onErrorContainerLight_redAlgae
+        ThemeBrand.SUNNY -> onErrorContainerLight_sunny
+        else -> onErrorContainerLight
+    },
+    background = when(customTheme) {
+        ThemeBrand.DEFAULT -> backgroundLight
+        ThemeBrand.BLUE_SKY -> backgroundLight_blueSky
+        ThemeBrand.DEEP_FOREST -> backgroundLight_deepForest
+        ThemeBrand.RED_ALGAE -> backgroundLight_redAlgae
+        ThemeBrand.SUNNY -> backgroundLight_sunny
+        else -> backgroundLight
+    },
+    onBackground = when(customTheme) {
+        ThemeBrand.DEFAULT -> onBackgroundLight
+        ThemeBrand.BLUE_SKY -> onBackgroundLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onBackgroundLight_deepForest
+        ThemeBrand.RED_ALGAE -> onBackgroundLight_redAlgae
+        ThemeBrand.SUNNY -> onBackgroundLight_sunny
+        else -> onBackgroundLight
+    },
+    surface = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceLight
+        ThemeBrand.BLUE_SKY -> surfaceLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceLight_sunny
+        else -> surfaceLight
+    },
+    onSurface = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSurfaceLight
+        ThemeBrand.BLUE_SKY -> onSurfaceLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onSurfaceLight_deepForest
+        ThemeBrand.RED_ALGAE -> onSurfaceLight_redAlgae
+        ThemeBrand.SUNNY -> onSurfaceLight_sunny
+        else -> onSurfaceLight
+    },
+    surfaceVariant = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceVariantLight
+        ThemeBrand.BLUE_SKY -> surfaceVariantLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceVariantLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceVariantLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceVariantLight_sunny
+        else -> surfaceVariantLight
+    },
+    onSurfaceVariant = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSurfaceVariantLight
+        ThemeBrand.BLUE_SKY -> onSurfaceVariantLight_blueSky
+        ThemeBrand.DEEP_FOREST -> onSurfaceVariantLight_deepForest
+        ThemeBrand.RED_ALGAE -> onSurfaceVariantLight_redAlgae
+        ThemeBrand.SUNNY -> onSurfaceVariantLight_sunny
+        else -> onSurfaceVariantLight
+    },
+    outline = when(customTheme) {
+        ThemeBrand.DEFAULT -> outlineLight
+        ThemeBrand.BLUE_SKY -> outlineLight_blueSky
+        ThemeBrand.DEEP_FOREST -> outlineLight_deepForest
+        ThemeBrand.RED_ALGAE -> outlineLight_redAlgae
+        ThemeBrand.SUNNY -> outlineLight_sunny
+        else -> outlineLight
+    },
+    outlineVariant = when(customTheme) {
+        ThemeBrand.DEFAULT -> outlineVariantLight
+        ThemeBrand.BLUE_SKY -> outlineVariantLight_blueSky
+        ThemeBrand.DEEP_FOREST -> outlineVariantLight_deepForest
+        ThemeBrand.RED_ALGAE -> outlineVariantLight_redAlgae
+        ThemeBrand.SUNNY -> outlineVariantLight_sunny
+        else -> outlineVariantLight
+    },
+    scrim = when(customTheme) {
+        ThemeBrand.DEFAULT -> scrimLight
+        ThemeBrand.BLUE_SKY -> scrimLight_blueSky
+        ThemeBrand.DEEP_FOREST -> scrimLight_deepForest
+        ThemeBrand.RED_ALGAE -> scrimLight_redAlgae
+        ThemeBrand.SUNNY -> scrimLight_sunny
+        else -> scrimLight
+    },
+    inverseSurface = when(customTheme) {
+        ThemeBrand.DEFAULT -> inverseSurfaceLight
+        ThemeBrand.BLUE_SKY -> inverseSurfaceLight_blueSky
+        ThemeBrand.DEEP_FOREST -> inverseSurfaceLight_deepForest
+        ThemeBrand.RED_ALGAE -> inverseSurfaceLight_redAlgae
+        ThemeBrand.SUNNY -> inverseSurfaceLight_sunny
+        else -> inverseSurfaceLight
+    },
+    inverseOnSurface = when(customTheme) {
+        ThemeBrand.DEFAULT -> inverseOnSurfaceLight
+        ThemeBrand.BLUE_SKY -> inverseOnSurfaceLight_blueSky
+        ThemeBrand.DEEP_FOREST -> inverseOnSurfaceLight_deepForest
+        ThemeBrand.RED_ALGAE -> inverseOnSurfaceLight_redAlgae
+        ThemeBrand.SUNNY -> inverseOnSurfaceLight_sunny
+        else -> inverseOnSurfaceLight
+    },
+    inversePrimary = when(customTheme) {
+        ThemeBrand.DEFAULT -> inversePrimaryLight
+        ThemeBrand.BLUE_SKY -> inversePrimaryLight_blueSky
+        ThemeBrand.DEEP_FOREST -> inversePrimaryLight_deepForest
+        ThemeBrand.RED_ALGAE -> inversePrimaryLight_redAlgae
+        ThemeBrand.SUNNY -> inversePrimaryLight_sunny
+        else -> inversePrimaryLight
+    },
+    surfaceDim = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceDimLight
+        ThemeBrand.BLUE_SKY -> surfaceDimLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceDimLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceDimLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceDimLight_sunny
+        else -> surfaceDimLight
+    },
+    surfaceBright = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceBrightLight
+        ThemeBrand.BLUE_SKY -> surfaceBrightLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceBrightLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceBrightLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceBrightLight_sunny
+        else -> surfaceBrightLight
+    },
+    surfaceContainerLowest = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerLowestLight
+        ThemeBrand.BLUE_SKY -> surfaceContainerLowestLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerLowestLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerLowestLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerLowestLight_sunny
+        else -> surfaceContainerLowestLight
+    },
+    surfaceContainerLow = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerLowLight
+        ThemeBrand.BLUE_SKY -> surfaceContainerLowLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerLowLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerLowLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerLowLight_sunny
+        else -> surfaceContainerLowLight
+    },
+    surfaceContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerLight
+        ThemeBrand.BLUE_SKY -> surfaceContainerLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerLight_sunny
+        else -> surfaceContainerLight
+    },
+    surfaceContainerHigh = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerHighLight
+        ThemeBrand.BLUE_SKY -> surfaceContainerHighLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerHighLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerHighLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerHighLight_sunny
+        else -> surfaceContainerHighLight
+    },
+    surfaceContainerHighest = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerHighestLight
+        ThemeBrand.BLUE_SKY -> surfaceContainerHighestLight_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerHighestLight_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerHighestLight_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerHighestLight_sunny
+        else -> surfaceContainerHighestLight
+    }
 )
 
-val darkScheme = darkColorScheme(
-    primary = primaryDark,
-    onPrimary = onPrimaryDark,
-    primaryContainer = primaryContainerDark,
-    onPrimaryContainer = onPrimaryContainerDark,
-    secondary = secondaryDark,
-    onSecondary = onSecondaryDark,
-    secondaryContainer = secondaryContainerDark,
-    onSecondaryContainer = onSecondaryContainerDark,
-    tertiary = tertiaryDark,
-    onTertiary = onTertiaryDark,
-    tertiaryContainer = tertiaryContainerDark,
-    onTertiaryContainer = onTertiaryContainerDark,
-    error = errorDark,
-    onError = onErrorDark,
-    errorContainer = errorContainerDark,
-    onErrorContainer = onErrorContainerDark,
-    background = backgroundDark,
-    onBackground = onBackgroundDark,
-    surface = surfaceDark,
-    onSurface = onSurfaceDark,
-    surfaceVariant = surfaceVariantDark,
-    onSurfaceVariant = onSurfaceVariantDark,
-    outline = outlineDark,
-    outlineVariant = outlineVariantDark,
-    scrim = scrimDark,
-    inverseSurface = inverseSurfaceDark,
-    inverseOnSurface = inverseOnSurfaceDark,
-    inversePrimary = inversePrimaryDark,
-    surfaceDim = surfaceDimDark,
-    surfaceBright = surfaceBrightDark,
-    surfaceContainerLowest = surfaceContainerLowestDark,
-    surfaceContainerLow = surfaceContainerLowDark,
-    surfaceContainer = surfaceContainerDark,
-    surfaceContainerHigh = surfaceContainerHighDark,
-    surfaceContainerHighest = surfaceContainerHighestDark,
+fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
+    primary = when(customTheme) {
+        ThemeBrand.DEFAULT -> primaryDark
+        ThemeBrand.BLUE_SKY -> primaryDark_blueSky
+        ThemeBrand.DEEP_FOREST -> primaryDark_deepForest
+        ThemeBrand.RED_ALGAE -> primaryDark_redAlgae
+        ThemeBrand.SUNNY -> primaryDark_sunny
+        else -> primaryDark
+    },
+    onPrimary = when(customTheme) {
+        ThemeBrand.DEFAULT -> onPrimaryDark
+        ThemeBrand.BLUE_SKY -> onPrimaryDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onPrimaryDark_deepForest
+        ThemeBrand.RED_ALGAE -> onPrimaryDark_redAlgae
+        ThemeBrand.SUNNY -> onPrimaryDark_sunny
+        else -> onPrimaryDark
+    },
+    primaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> primaryContainerDark
+        ThemeBrand.BLUE_SKY -> primaryContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> primaryContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> primaryContainerDark_redAlgae
+        ThemeBrand.SUNNY -> primaryContainerDark_sunny
+        else -> primaryContainerDark
+    },
+    onPrimaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onPrimaryContainerDark
+        ThemeBrand.BLUE_SKY -> onPrimaryContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onPrimaryContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> onPrimaryContainerDark_redAlgae
+        ThemeBrand.SUNNY -> onPrimaryContainerDark_sunny
+        else -> onPrimaryContainerDark
+    },
+    secondary = when(customTheme) {
+        ThemeBrand.DEFAULT -> secondaryDark
+        ThemeBrand.BLUE_SKY -> secondaryDark_blueSky
+        ThemeBrand.DEEP_FOREST -> secondaryDark_deepForest
+        ThemeBrand.RED_ALGAE -> secondaryDark_redAlgae
+        ThemeBrand.SUNNY -> secondaryDark_sunny
+        else -> secondaryDark
+    },
+    onSecondary = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSecondaryDark
+        ThemeBrand.BLUE_SKY -> onSecondaryDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onSecondaryDark_deepForest
+        ThemeBrand.RED_ALGAE -> onSecondaryDark_redAlgae
+        ThemeBrand.SUNNY -> onSecondaryDark_sunny
+        else -> onSecondaryDark
+    },
+    secondaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> secondaryContainerDark
+        ThemeBrand.BLUE_SKY -> secondaryContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> secondaryContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> secondaryContainerDark_redAlgae
+        ThemeBrand.SUNNY -> secondaryContainerDark_sunny
+        else -> secondaryContainerDark
+    },
+    onSecondaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSecondaryContainerDark
+        ThemeBrand.BLUE_SKY -> onSecondaryContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onSecondaryContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> onSecondaryContainerDark_redAlgae
+        ThemeBrand.SUNNY -> onSecondaryContainerDark_sunny
+        else -> onSecondaryContainerDark
+    },
+    tertiary = when(customTheme) {
+        ThemeBrand.DEFAULT -> tertiaryDark
+        ThemeBrand.BLUE_SKY -> tertiaryDark_blueSky
+        ThemeBrand.DEEP_FOREST -> tertiaryDark_deepForest
+        ThemeBrand.RED_ALGAE -> tertiaryDark_redAlgae
+        ThemeBrand.SUNNY -> tertiaryDark_sunny
+        else -> tertiaryDark
+    },
+    onTertiary = when(customTheme) {
+        ThemeBrand.DEFAULT -> onTertiaryDark
+        ThemeBrand.BLUE_SKY -> onTertiaryDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onTertiaryDark_deepForest
+        ThemeBrand.RED_ALGAE -> onTertiaryDark_redAlgae
+        ThemeBrand.SUNNY -> onTertiaryDark_sunny
+        else -> onTertiaryDark
+    },
+    tertiaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> tertiaryContainerDark
+        ThemeBrand.BLUE_SKY -> tertiaryContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> tertiaryContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> tertiaryContainerDark_redAlgae
+        ThemeBrand.SUNNY -> tertiaryContainerDark_sunny
+        else -> tertiaryContainerDark
+    },
+    onTertiaryContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onTertiaryContainerDark
+        ThemeBrand.BLUE_SKY -> onTertiaryContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onTertiaryContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> onTertiaryContainerDark_redAlgae
+        ThemeBrand.SUNNY -> onTertiaryContainerDark_sunny
+        else -> onTertiaryContainerDark
+    },
+    error = when(customTheme) {
+        ThemeBrand.DEFAULT -> errorDark
+        ThemeBrand.BLUE_SKY -> errorDark_blueSky
+        ThemeBrand.DEEP_FOREST -> errorDark_deepForest
+        ThemeBrand.RED_ALGAE -> errorDark_redAlgae
+        ThemeBrand.SUNNY -> errorDark_sunny
+        else -> errorDark
+    },
+    onError = when(customTheme) {
+        ThemeBrand.DEFAULT -> onErrorDark
+        ThemeBrand.BLUE_SKY -> onErrorDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onErrorDark_deepForest
+        ThemeBrand.RED_ALGAE -> onErrorDark_redAlgae
+        ThemeBrand.SUNNY -> onErrorDark_sunny
+        else -> onErrorDark
+    },
+    errorContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> errorContainerDark
+        ThemeBrand.BLUE_SKY -> errorContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> errorContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> errorContainerDark_redAlgae
+        ThemeBrand.SUNNY -> errorContainerDark_sunny
+        else -> errorContainerDark
+    },
+    onErrorContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> onErrorContainerDark
+        ThemeBrand.BLUE_SKY -> onErrorContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onErrorContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> onErrorContainerDark_redAlgae
+        ThemeBrand.SUNNY -> onErrorContainerDark_sunny
+        else -> onErrorContainerDark
+    },
+    background = when(customTheme) {
+        ThemeBrand.DEFAULT -> backgroundDark
+        ThemeBrand.BLUE_SKY -> backgroundDark_blueSky
+        ThemeBrand.DEEP_FOREST -> backgroundDark_deepForest
+        ThemeBrand.RED_ALGAE -> backgroundDark_redAlgae
+        ThemeBrand.SUNNY -> backgroundDark_sunny
+        else -> backgroundDark
+    },
+    onBackground = when(customTheme) {
+        ThemeBrand.DEFAULT -> onBackgroundDark
+        ThemeBrand.BLUE_SKY -> onBackgroundDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onBackgroundDark_deepForest
+        ThemeBrand.RED_ALGAE -> onBackgroundDark_redAlgae
+        ThemeBrand.SUNNY -> onBackgroundDark_sunny
+        else -> onBackgroundDark
+    },
+    surface = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceDark
+        ThemeBrand.BLUE_SKY -> surfaceDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceDark_sunny
+        else -> surfaceDark
+    },
+    onSurface = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSurfaceDark
+        ThemeBrand.BLUE_SKY -> onSurfaceDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onSurfaceDark_deepForest
+        ThemeBrand.RED_ALGAE -> onSurfaceDark_redAlgae
+        ThemeBrand.SUNNY -> onSurfaceDark_sunny
+        else -> onSurfaceDark
+    },
+    surfaceVariant = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceVariantDark
+        ThemeBrand.BLUE_SKY -> surfaceVariantDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceVariantDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceVariantDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceVariantDark_sunny
+        else -> surfaceVariantDark
+    },
+    onSurfaceVariant = when(customTheme) {
+        ThemeBrand.DEFAULT -> onSurfaceVariantDark
+        ThemeBrand.BLUE_SKY -> onSurfaceVariantDark_blueSky
+        ThemeBrand.DEEP_FOREST -> onSurfaceVariantDark_deepForest
+        ThemeBrand.RED_ALGAE -> onSurfaceVariantDark_redAlgae
+        ThemeBrand.SUNNY -> onSurfaceVariantDark_sunny
+        else -> onSurfaceVariantDark
+    },
+    outline = when(customTheme) {
+        ThemeBrand.DEFAULT -> outlineDark
+        ThemeBrand.BLUE_SKY -> outlineDark_blueSky
+        ThemeBrand.DEEP_FOREST -> outlineDark_deepForest
+        ThemeBrand.RED_ALGAE -> outlineDark_redAlgae
+        ThemeBrand.SUNNY -> outlineDark_sunny
+        else -> outlineDark
+    },
+    outlineVariant = when(customTheme) {
+        ThemeBrand.DEFAULT -> outlineVariantDark
+        ThemeBrand.BLUE_SKY -> outlineVariantDark_blueSky
+        ThemeBrand.DEEP_FOREST -> outlineVariantDark_deepForest
+        ThemeBrand.RED_ALGAE -> outlineVariantDark_redAlgae
+        ThemeBrand.SUNNY -> outlineVariantDark_sunny
+        else -> outlineVariantDark
+    },
+    scrim = when(customTheme) {
+        ThemeBrand.DEFAULT -> scrimDark
+        ThemeBrand.BLUE_SKY -> scrimDark_blueSky
+        ThemeBrand.DEEP_FOREST -> scrimDark_deepForest
+        ThemeBrand.RED_ALGAE -> scrimDark_redAlgae
+        ThemeBrand.SUNNY -> scrimDark_sunny
+        else -> scrimDark
+    },
+    inverseSurface = when(customTheme) {
+        ThemeBrand.DEFAULT -> inverseSurfaceDark
+        ThemeBrand.BLUE_SKY -> inverseSurfaceDark_blueSky
+        ThemeBrand.DEEP_FOREST -> inverseSurfaceDark_deepForest
+        ThemeBrand.RED_ALGAE -> inverseSurfaceDark_redAlgae
+        ThemeBrand.SUNNY -> inverseSurfaceDark_sunny
+        else -> inverseSurfaceDark
+    },
+    inverseOnSurface = when(customTheme) {
+        ThemeBrand.DEFAULT -> inverseOnSurfaceDark
+        ThemeBrand.BLUE_SKY -> inverseOnSurfaceDark_blueSky
+        ThemeBrand.DEEP_FOREST -> inverseOnSurfaceDark_deepForest
+        ThemeBrand.RED_ALGAE -> inverseOnSurfaceDark_redAlgae
+        ThemeBrand.SUNNY -> inverseOnSurfaceDark_sunny
+        else -> inverseOnSurfaceDark
+    },
+    inversePrimary = when(customTheme) {
+        ThemeBrand.DEFAULT -> inversePrimaryDark
+        ThemeBrand.BLUE_SKY -> inversePrimaryDark_blueSky
+        ThemeBrand.DEEP_FOREST -> inversePrimaryDark_deepForest
+        ThemeBrand.RED_ALGAE -> inversePrimaryDark_redAlgae
+        ThemeBrand.SUNNY -> inversePrimaryDark_sunny
+        else -> inversePrimaryDark
+    },
+    surfaceDim = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceDimDark
+        ThemeBrand.BLUE_SKY -> surfaceDimDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceDimDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceDimDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceDimDark_sunny
+        else -> surfaceDimDark
+    },
+    surfaceBright = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceBrightDark
+        ThemeBrand.BLUE_SKY -> surfaceBrightDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceBrightDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceBrightDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceBrightDark_sunny
+        else -> surfaceBrightDark
+    },
+    surfaceContainerLowest = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerLowestDark
+        ThemeBrand.BLUE_SKY -> surfaceContainerLowestDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerLowestDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerLowestDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerLowestDark_sunny
+        else -> surfaceContainerLowestDark
+    },
+    surfaceContainerLow = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerLowDark
+        ThemeBrand.BLUE_SKY -> surfaceContainerLowDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerLowDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerLowDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerLowDark_sunny
+        else -> surfaceContainerLowDark
+    },
+    surfaceContainer = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerDark
+        ThemeBrand.BLUE_SKY -> surfaceContainerDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerDark_sunny
+        else -> surfaceContainerDark
+    },
+    surfaceContainerHigh = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerHighDark
+        ThemeBrand.BLUE_SKY -> surfaceContainerHighDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerHighDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerHighDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerHighDark_sunny
+        else -> surfaceContainerHighDark
+    },
+    surfaceContainerHighest = when(customTheme) {
+        ThemeBrand.DEFAULT -> surfaceContainerHighestDark
+        ThemeBrand.BLUE_SKY -> surfaceContainerHighestDark_blueSky
+        ThemeBrand.DEEP_FOREST -> surfaceContainerHighestDark_deepForest
+        ThemeBrand.RED_ALGAE -> surfaceContainerHighestDark_redAlgae
+        ThemeBrand.SUNNY -> surfaceContainerHighestDark_sunny
+        else -> surfaceContainerHighestDark
+    }
 )
 
 private val mediumContrastLightColorScheme = lightColorScheme(
@@ -268,10 +758,10 @@ fun VaultDefaultTheme(
                 if (darkTheme) deviceThemeConfig.getDynamicDarkColorScheme() else deviceThemeConfig.getDynamicLightColorScheme()
             }
 
-            darkTheme -> darkScheme
-            else -> lightScheme
+            darkTheme -> getDarkScheme(customTheme)
+            else -> getLightScheme(customTheme)
         }
-    } ?: if (darkTheme) darkScheme else lightScheme
+    } ?: if (darkTheme) getDarkScheme(customTheme) else getLightScheme(customTheme)
 
     MaterialTheme(
         colorScheme = colorScheme,

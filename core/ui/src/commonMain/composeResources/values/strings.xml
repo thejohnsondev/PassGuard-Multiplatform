@@ -13,6 +13,24 @@
     <string name="terms_of_use"> Terms of Use</string>
     <string name="privacy_policy">Privacy Policy.</string>
 
+    <!--Settings-->
+    <string name="general_title">General</string>
+    <string name="general_description">General settings</string>
+    <string name="deep_search_title">Deep search</string>
+    <string name="deep_search_description">Search by all details, not only titles</string>
+    <string name="security_and_privacy_title">Security &amp; Privacy</string>
+    <string name="security_and_privacy_description">Manage your security and privacy</string>
+    <string name="block_screenshot">Block screenshot</string>
+    <string name="block_screenshot_description">Blocks screenshot/screen capture inside the app</string>
+    <string name="biometric_authentication">Biometric authentication</string>
+    <string name="biometric_authentication_description">Unlock the app with your fingerprint or face</string>
+    <string name="scan_to_unlock">Scan to unlock</string>
+    <string name="manage_account">Manage account</string>
+    <string name="dangerous_zone">Dangerous zone</string>
+    <string name="setting_title_style">Style and appearance</string>
+    <string name="setting_description_style">Customize the look and feel of the app</string>
+    <string name="account">Account</string>
+
     <string name="password_error_bad_length">Password must contain at least 8 characters.</string>
     <string name="password_error_no_numbers">Password must contain at least one number.</string>
     <string name="password_error_no_capital">Password must contain at least one uppercase letter.</string>
@@ -22,8 +40,23 @@
     <string name="tools">Tools</string>
     <string name="settings">Settings</string>
 
+    <string name="passwords">Passwords</string>
+    <string name="notes">Notes</string>
+    <string name="bank_accounts">Bank Accounts</string>
 
+    <string name="personal">Personal</string>
+    <string name="work">Work</string>
+    <string name="finances">Finances</string>
+    <string name="other">Other</string>
+
+    <!--Messages-->
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="updated_success">Updated</string>
+    <string name="added_success">Saved</string>
+    <string name="check_internet_connection">Please, check your internet connection</string>
 
     <!--Content Description-->
     <string name="cd_app_logo">App Logo</string>
+
+    <string name="stub">Stub!</string>
 </resources>

@@ -40,6 +40,12 @@ kotlin {
 
             // Logs
             implementation(libs.napier)
+
+            // DateTime
+            implementation(libs.kotlinx.datetime)
+
+            // Koin
+            api(libs.koin.core)
         }
         androidMain.dependencies {
             implementation(libs.androidx.ktx)

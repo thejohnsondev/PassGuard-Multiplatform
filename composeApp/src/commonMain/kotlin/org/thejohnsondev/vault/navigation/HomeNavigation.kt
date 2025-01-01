@@ -19,13 +19,14 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.thejohnsondev.common.navigation.Screens
+import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.navigation.navigateToWelcome
 import com.thejohnsondev.presentation.navigation.settingsScreen
 import com.thejohnsondev.presentation.navigation.toolsScreen
 import com.thejohnsondev.presentation.navigation.vaultScreen
 import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
+import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.scaffold.HomeScaffold
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,6 +43,9 @@ fun HomeNavigation(
         mutableStateOf(ScaffoldConfig())
     }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val showMessageState = remember {
+        mutableStateOf<MessageContent?>(null)
+    }
 
     Surface(
         modifier = Modifier
@@ -54,10 +58,11 @@ fun HomeNavigation(
             navController = navController,
             bottomBarState = bottomBarState,
             scrollBehavior = scrollBehavior,
+            showMessageState = showMessageState
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = Screens.VaultScreen.name,
+                startDestination = Routes.VaultRoute,
                 modifier = Modifier.padding(
                     top = SizeDefault,
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
@@ -73,6 +78,9 @@ fun HomeNavigation(
                     },
                     updateIsEmptyVault = {
                         scaffoldState.value = scaffoldState.value.copy(isEmptyVaultScreen = it)
+                    },
+                    onShowMessage = {
+                        showMessageState.value = it
                     }
                 )
                 toolsScreen(
@@ -83,11 +91,15 @@ fun HomeNavigation(
                 )
                 settingsScreen(
                     windowSize = windowSizeClass,
+                    paddingValues = paddingValues,
                     setScaffoldConfig = {
                         scaffoldState.value = it
                     },
                     onLogoutClick = {
                         rootNavController.navigateToWelcome()
+                    },
+                    onShowError = {
+                        showMessageState.value = it
                     }
                 )
             }

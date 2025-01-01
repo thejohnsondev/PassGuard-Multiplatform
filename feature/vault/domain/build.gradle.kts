@@ -35,7 +35,6 @@ kotlin {
             api(project(":core:model"))
             api(project(":core:common"))
             api(project(":core:ui"))
-            api(project(":core:uimodel"))
             implementation(project(":feature:auth:data"))
             implementation(project(":feature:vault:data"))
 
@@ -50,11 +49,20 @@ kotlin {
             // Compose
             implementation(compose.ui)
             implementation(compose.components.resources)
+
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.arrow.core)
+        }
+
+        val unitTest by creating {
+            dependsOn(commonTest.get())
+            androidUnitTest.dependencies {
+                implementation(libs.mockk)
+            }
         }
     }
 }

@@ -27,8 +27,8 @@ import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
-import com.thejohnsondev.ui.model.ButtonShape
-import com.thejohnsondev.ui.model.ButtonStyle
+import com.thejohnsondev.ui.model.button.ButtonShape
+import com.thejohnsondev.ui.model.button.ButtonStyle
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
