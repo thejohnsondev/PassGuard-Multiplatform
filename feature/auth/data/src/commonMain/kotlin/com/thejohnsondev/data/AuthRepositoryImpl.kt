@@ -4,12 +4,13 @@ import arrow.core.Either
 import com.thejohnsondev.database.LocalDataSource
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.Error
-import com.thejohnsondev.model.auth.AuthRequestBody
-import com.thejohnsondev.model.auth.AuthResponse
+import com.thejohnsondev.model.auth.firebase.FBAuthDeleteAccountBody
+import com.thejohnsondev.model.auth.firebase.FBAuthRequestBody
+import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
+import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.network.RemoteApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 class AuthRepositoryImpl(
     private val localDataSource: LocalDataSource,
@@ -18,19 +19,17 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     override suspend fun signUp(
-        email: String,
-        password: String
-    ): Flow<Either<Error, AuthResponse>>  {
-        val requestBody = AuthRequestBody(email, password)
-        return flowOf(remoteApi.signUp(requestBody))
+        body: FBAuthRequestBody,
+        apiKey: String
+    ): Flow<Either<Error, FBAuthSignUpResponse>> {
+        return flowOf(remoteApi.signUp(body, apiKey))
     }
 
     override suspend fun singIn(
-        email: String,
-        password: String
-    ): Flow<Either<Error, AuthResponse>> {
-        val requestBody = AuthRequestBody(email, password)
-        return flowOf(remoteApi.signIn(requestBody))
+        body: FBAuthRequestBody,
+        apiKey: String
+    ): Flow<Either<Error, FBAuthSignInResponse>> {
+        return flowOf(remoteApi.signIn(body, apiKey))
     }
 
     override suspend fun signOut() {
@@ -42,8 +41,12 @@ class AuthRepositoryImpl(
         return preferencesDataStore.isUserLoggedIn()
     }
 
-    override suspend fun deleteAccount(): Flow<Either<Error, Unit>> {
-        return flowOf(remoteApi.deleteAccount())
+    override suspend fun deleteAccount(
+        apiKey: String
+    ): Flow<Either<Error, Unit>> {
+        val token = preferencesDataStore.getAuthToken()
+        val body = FBAuthDeleteAccountBody(token)
+        return flowOf(remoteApi.deleteAccount(body, apiKey))
     }
 
     override suspend fun changePassword(

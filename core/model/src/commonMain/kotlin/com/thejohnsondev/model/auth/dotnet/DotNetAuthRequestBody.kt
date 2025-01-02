@@ -1,9 +1,9 @@
-package com.thejohnsondev.model.auth
+package com.thejohnsondev.model.auth.dotnet
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AuthRequestBody(
+data class DotNetAuthRequestBody(
     val email: String,
     val password: String
 )

@@ -1,8 +1,8 @@
-package com.thejohnsondev.model.auth
+package com.thejohnsondev.model.auth.dotnet
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AuthResponse(
+data class DotNetAuthResponse(
     val token: String
 )

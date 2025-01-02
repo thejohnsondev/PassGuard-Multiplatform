@@ -5,12 +5,11 @@ import com.thejohnsondev.data.AuthRepository
 import com.thejohnsondev.data.EncryptionRepository
 import com.thejohnsondev.data.GenerateKeyRepository
 import com.thejohnsondev.model.Error
-import com.thejohnsondev.model.auth.AuthResponse
-import io.ktor.utils.io.core.toByteArray
+import com.thejohnsondev.model.auth.firebase.FBAuthRequestBody
+import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
+import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import kotlinx.coroutines.flow.Flow
 import org.thejohnsondev.domain.BuildKonfig
-import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 class AuthServiceImpl(
     private val authRepository: AuthRepository,
@@ -18,48 +17,24 @@ class AuthServiceImpl(
     private val encryptionRepository: EncryptionRepository
 ) : AuthService {
 
-    @OptIn(ExperimentalEncodingApi::class)
-    private val authSecretKey: ByteArray by lazy {
-        Base64.decode(BuildKonfig.AUTH_SECRET_KEY.toByteArray())
-    }
-
-    @OptIn(ExperimentalEncodingApi::class)
-    private val authSecretIv: ByteArray by lazy {
-        Base64.decode(BuildKonfig.AUTH_SECRET_IV.toByteArray())
+    private val apiKey: String by lazy {
+        BuildKonfig.FIREBASE_API_KEY
     }
 
     override suspend fun signIn(
         email: String,
         password: String
-    ): Flow<Either<Error, AuthResponse>> {
-        val encryptedEmail = encryptionRepository.encrypt(
-            email,
-            authSecretKey,
-            authSecretIv
-        )
-        val encryptedPassword = encryptionRepository.encrypt(
-            password,
-            authSecretKey,
-            authSecretIv
-        )
-        return authRepository.singIn(encryptedEmail, encryptedPassword)
+    ): Flow<Either<Error, FBAuthSignInResponse>> {
+        val requestBody = FBAuthRequestBody(email, password, true)
+        return authRepository.singIn(requestBody, apiKey)
     }
 
     override suspend fun signUp(
         email: String,
         password: String
-    ): Flow<Either<Error, AuthResponse>> {
-        val encryptedEmail = encryptionRepository.encrypt(
-            email,
-            authSecretKey,
-            authSecretIv
-        )
-        val encryptedPassword = encryptionRepository.encrypt(
-            password,
-            authSecretKey,
-            authSecretIv
-        )
-        return authRepository.signUp(encryptedEmail, encryptedPassword)
+    ): Flow<Either<Error, FBAuthSignUpResponse>> {
+        val requestBody = FBAuthRequestBody(email, password, true)
+        return authRepository.signUp(requestBody, apiKey)
     }
 
     override suspend fun logout() {
@@ -74,7 +49,7 @@ class AuthServiceImpl(
     }
 
     override suspend fun deleteAccount(): Flow<Either<Error, Unit>> {
-        return authRepository.deleteAccount()
+        return authRepository.deleteAccount(apiKey)
     }
 
     override suspend fun generateKey(password: String): Flow<Either<Error, ByteArray>> {

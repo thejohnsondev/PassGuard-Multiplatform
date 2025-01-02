@@ -6,6 +6,7 @@ import com.thejohnsondev.model.HttpError
 import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.model.UnknownError
+import com.thejohnsondev.model.auth.firebase.FBErrorBody
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
@@ -24,6 +25,12 @@ suspend inline fun <reified T> callWithMapping(call: (() -> HttpResponse)): Eith
 
             else -> {
                 Either.Left(HttpError(response.status.value, response.body<String>())) // TODO change the String type to a generic response model
+                try {
+                    val fbResponse = response.body<FBErrorBody>()
+                    Either.Left(HttpError(code = fbResponse.error.code, message = fbResponse.error.message))
+                } catch (e: Exception) {
+                    Either.Left(HttpError(response.status.value, response.body<String>()))
+                }
             }
         }
     }.mapLeft {
@@ -37,7 +44,7 @@ suspend inline fun <reified T> callWithMapping(call: (() -> HttpResponse)): Eith
 
 fun URLBuilder.defaultUrlConfig() {
     protocol = URLProtocol.HTTPS
-    host = BASE_URL
+    host = FIREBASE_BASE_URL
 }
 
 fun HttpMessageBuilder.defaultRequestConfig() {
