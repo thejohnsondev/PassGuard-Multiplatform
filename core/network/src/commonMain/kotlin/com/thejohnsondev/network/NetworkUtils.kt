@@ -24,7 +24,6 @@ suspend inline fun <reified T> callWithMapping(call: (() -> HttpResponse)): Eith
             }
 
             else -> {
-                Either.Left(HttpError(response.status.value, response.body<String>())) // TODO change the String type to a generic response model
                 try {
                     val fbResponse = response.body<FBErrorBody>()
                     Either.Left(HttpError(code = fbResponse.error.code, message = fbResponse.error.message))

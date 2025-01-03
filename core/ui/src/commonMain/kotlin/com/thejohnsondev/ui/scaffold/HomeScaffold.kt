@@ -402,7 +402,7 @@ private fun VaultTopBar(
             ),
             actions = {
                 AnimatedMessage(
-                    modifier = Modifier.padding(end = Size8),
+                    modifier = Modifier.padding(horizontal = Size8),
                     messageContent = showMessageState.value,
                     onAnimationFinished = {
                         showMessageState.value = null

@@ -16,7 +16,7 @@ import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     primary = when(customTheme) {
         ThemeBrand.DEFAULT -> primaryLight
-        ThemeBrand.BLUE_SKY -> primaryLight_blueSky
+        ThemeBrand.TEAL -> primaryLight_teal
         ThemeBrand.DEEP_FOREST -> primaryLight_deepForest
         ThemeBrand.RED_ALGAE -> primaryLight_redAlgae
         ThemeBrand.SUNNY -> primaryLight_sunny
@@ -24,7 +24,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onPrimary = when(customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryLight
-        ThemeBrand.BLUE_SKY -> onPrimaryLight_blueSky
+        ThemeBrand.TEAL -> onPrimaryLight_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryLight_deepForest
         ThemeBrand.RED_ALGAE -> onPrimaryLight_redAlgae
         ThemeBrand.SUNNY -> onPrimaryLight_sunny
@@ -32,7 +32,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     primaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> primaryContainerLight
-        ThemeBrand.BLUE_SKY -> primaryContainerLight_blueSky
+        ThemeBrand.TEAL -> primaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> primaryContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> primaryContainerLight_redAlgae
         ThemeBrand.SUNNY -> primaryContainerLight_sunny
@@ -40,7 +40,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onPrimaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryContainerLight
-        ThemeBrand.BLUE_SKY -> onPrimaryContainerLight_blueSky
+        ThemeBrand.TEAL -> onPrimaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> onPrimaryContainerLight_redAlgae
         ThemeBrand.SUNNY -> onPrimaryContainerLight_sunny
@@ -48,7 +48,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     secondary = when(customTheme) {
         ThemeBrand.DEFAULT -> secondaryLight
-        ThemeBrand.BLUE_SKY -> secondaryLight_blueSky
+        ThemeBrand.TEAL -> secondaryLight_teal
         ThemeBrand.DEEP_FOREST -> secondaryLight_deepForest
         ThemeBrand.RED_ALGAE -> secondaryLight_redAlgae
         ThemeBrand.SUNNY -> secondaryLight_sunny
@@ -56,7 +56,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onSecondary = when(customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryLight
-        ThemeBrand.BLUE_SKY -> onSecondaryLight_blueSky
+        ThemeBrand.TEAL -> onSecondaryLight_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryLight_deepForest
         ThemeBrand.RED_ALGAE -> onSecondaryLight_redAlgae
         ThemeBrand.SUNNY -> onSecondaryLight_sunny
@@ -64,7 +64,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     secondaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> secondaryContainerLight
-        ThemeBrand.BLUE_SKY -> secondaryContainerLight_blueSky
+        ThemeBrand.TEAL -> secondaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> secondaryContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> secondaryContainerLight_redAlgae
         ThemeBrand.SUNNY -> secondaryContainerLight_sunny
@@ -72,7 +72,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onSecondaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryContainerLight
-        ThemeBrand.BLUE_SKY -> onSecondaryContainerLight_blueSky
+        ThemeBrand.TEAL -> onSecondaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> onSecondaryContainerLight_redAlgae
         ThemeBrand.SUNNY -> onSecondaryContainerLight_sunny
@@ -80,7 +80,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     tertiary = when(customTheme) {
         ThemeBrand.DEFAULT -> tertiaryLight
-        ThemeBrand.BLUE_SKY -> tertiaryLight_blueSky
+        ThemeBrand.TEAL -> tertiaryLight_teal
         ThemeBrand.DEEP_FOREST -> tertiaryLight_deepForest
         ThemeBrand.RED_ALGAE -> tertiaryLight_redAlgae
         ThemeBrand.SUNNY -> tertiaryLight_sunny
@@ -88,7 +88,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onTertiary = when(customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryLight
-        ThemeBrand.BLUE_SKY -> onTertiaryLight_blueSky
+        ThemeBrand.TEAL -> onTertiaryLight_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryLight_deepForest
         ThemeBrand.RED_ALGAE -> onTertiaryLight_redAlgae
         ThemeBrand.SUNNY -> onTertiaryLight_sunny
@@ -96,7 +96,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     tertiaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> tertiaryContainerLight
-        ThemeBrand.BLUE_SKY -> tertiaryContainerLight_blueSky
+        ThemeBrand.TEAL -> tertiaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> tertiaryContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> tertiaryContainerLight_redAlgae
         ThemeBrand.SUNNY -> tertiaryContainerLight_sunny
@@ -104,7 +104,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onTertiaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryContainerLight
-        ThemeBrand.BLUE_SKY -> onTertiaryContainerLight_blueSky
+        ThemeBrand.TEAL -> onTertiaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> onTertiaryContainerLight_redAlgae
         ThemeBrand.SUNNY -> onTertiaryContainerLight_sunny
@@ -112,7 +112,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     error = when(customTheme) {
         ThemeBrand.DEFAULT -> errorLight
-        ThemeBrand.BLUE_SKY -> errorLight_blueSky
+        ThemeBrand.TEAL -> errorLight_teal
         ThemeBrand.DEEP_FOREST -> errorLight_deepForest
         ThemeBrand.RED_ALGAE -> errorLight_redAlgae
         ThemeBrand.SUNNY -> errorLight_sunny
@@ -120,7 +120,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onError = when(customTheme) {
         ThemeBrand.DEFAULT -> onErrorLight
-        ThemeBrand.BLUE_SKY -> onErrorLight_blueSky
+        ThemeBrand.TEAL -> onErrorLight_teal
         ThemeBrand.DEEP_FOREST -> onErrorLight_deepForest
         ThemeBrand.RED_ALGAE -> onErrorLight_redAlgae
         ThemeBrand.SUNNY -> onErrorLight_sunny
@@ -128,7 +128,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     errorContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> errorContainerLight
-        ThemeBrand.BLUE_SKY -> errorContainerLight_blueSky
+        ThemeBrand.TEAL -> errorContainerLight_teal
         ThemeBrand.DEEP_FOREST -> errorContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> errorContainerLight_redAlgae
         ThemeBrand.SUNNY -> errorContainerLight_sunny
@@ -136,7 +136,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onErrorContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onErrorContainerLight
-        ThemeBrand.BLUE_SKY -> onErrorContainerLight_blueSky
+        ThemeBrand.TEAL -> onErrorContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onErrorContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> onErrorContainerLight_redAlgae
         ThemeBrand.SUNNY -> onErrorContainerLight_sunny
@@ -144,7 +144,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     background = when(customTheme) {
         ThemeBrand.DEFAULT -> backgroundLight
-        ThemeBrand.BLUE_SKY -> backgroundLight_blueSky
+        ThemeBrand.TEAL -> backgroundLight_teal
         ThemeBrand.DEEP_FOREST -> backgroundLight_deepForest
         ThemeBrand.RED_ALGAE -> backgroundLight_redAlgae
         ThemeBrand.SUNNY -> backgroundLight_sunny
@@ -152,7 +152,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onBackground = when(customTheme) {
         ThemeBrand.DEFAULT -> onBackgroundLight
-        ThemeBrand.BLUE_SKY -> onBackgroundLight_blueSky
+        ThemeBrand.TEAL -> onBackgroundLight_teal
         ThemeBrand.DEEP_FOREST -> onBackgroundLight_deepForest
         ThemeBrand.RED_ALGAE -> onBackgroundLight_redAlgae
         ThemeBrand.SUNNY -> onBackgroundLight_sunny
@@ -160,7 +160,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surface = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceLight
-        ThemeBrand.BLUE_SKY -> surfaceLight_blueSky
+        ThemeBrand.TEAL -> surfaceLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceLight_redAlgae
         ThemeBrand.SUNNY -> surfaceLight_sunny
@@ -168,7 +168,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onSurface = when(customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceLight
-        ThemeBrand.BLUE_SKY -> onSurfaceLight_blueSky
+        ThemeBrand.TEAL -> onSurfaceLight_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceLight_deepForest
         ThemeBrand.RED_ALGAE -> onSurfaceLight_redAlgae
         ThemeBrand.SUNNY -> onSurfaceLight_sunny
@@ -176,7 +176,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceVariant = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceVariantLight
-        ThemeBrand.BLUE_SKY -> surfaceVariantLight_blueSky
+        ThemeBrand.TEAL -> surfaceVariantLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceVariantLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceVariantLight_redAlgae
         ThemeBrand.SUNNY -> surfaceVariantLight_sunny
@@ -184,7 +184,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     onSurfaceVariant = when(customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceVariantLight
-        ThemeBrand.BLUE_SKY -> onSurfaceVariantLight_blueSky
+        ThemeBrand.TEAL -> onSurfaceVariantLight_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceVariantLight_deepForest
         ThemeBrand.RED_ALGAE -> onSurfaceVariantLight_redAlgae
         ThemeBrand.SUNNY -> onSurfaceVariantLight_sunny
@@ -192,7 +192,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     outline = when(customTheme) {
         ThemeBrand.DEFAULT -> outlineLight
-        ThemeBrand.BLUE_SKY -> outlineLight_blueSky
+        ThemeBrand.TEAL -> outlineLight_teal
         ThemeBrand.DEEP_FOREST -> outlineLight_deepForest
         ThemeBrand.RED_ALGAE -> outlineLight_redAlgae
         ThemeBrand.SUNNY -> outlineLight_sunny
@@ -200,7 +200,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     outlineVariant = when(customTheme) {
         ThemeBrand.DEFAULT -> outlineVariantLight
-        ThemeBrand.BLUE_SKY -> outlineVariantLight_blueSky
+        ThemeBrand.TEAL -> outlineVariantLight_teal
         ThemeBrand.DEEP_FOREST -> outlineVariantLight_deepForest
         ThemeBrand.RED_ALGAE -> outlineVariantLight_redAlgae
         ThemeBrand.SUNNY -> outlineVariantLight_sunny
@@ -208,7 +208,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     scrim = when(customTheme) {
         ThemeBrand.DEFAULT -> scrimLight
-        ThemeBrand.BLUE_SKY -> scrimLight_blueSky
+        ThemeBrand.TEAL -> scrimLight_teal
         ThemeBrand.DEEP_FOREST -> scrimLight_deepForest
         ThemeBrand.RED_ALGAE -> scrimLight_redAlgae
         ThemeBrand.SUNNY -> scrimLight_sunny
@@ -216,7 +216,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     inverseSurface = when(customTheme) {
         ThemeBrand.DEFAULT -> inverseSurfaceLight
-        ThemeBrand.BLUE_SKY -> inverseSurfaceLight_blueSky
+        ThemeBrand.TEAL -> inverseSurfaceLight_teal
         ThemeBrand.DEEP_FOREST -> inverseSurfaceLight_deepForest
         ThemeBrand.RED_ALGAE -> inverseSurfaceLight_redAlgae
         ThemeBrand.SUNNY -> inverseSurfaceLight_sunny
@@ -224,7 +224,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     inverseOnSurface = when(customTheme) {
         ThemeBrand.DEFAULT -> inverseOnSurfaceLight
-        ThemeBrand.BLUE_SKY -> inverseOnSurfaceLight_blueSky
+        ThemeBrand.TEAL -> inverseOnSurfaceLight_teal
         ThemeBrand.DEEP_FOREST -> inverseOnSurfaceLight_deepForest
         ThemeBrand.RED_ALGAE -> inverseOnSurfaceLight_redAlgae
         ThemeBrand.SUNNY -> inverseOnSurfaceLight_sunny
@@ -232,7 +232,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     inversePrimary = when(customTheme) {
         ThemeBrand.DEFAULT -> inversePrimaryLight
-        ThemeBrand.BLUE_SKY -> inversePrimaryLight_blueSky
+        ThemeBrand.TEAL -> inversePrimaryLight_teal
         ThemeBrand.DEEP_FOREST -> inversePrimaryLight_deepForest
         ThemeBrand.RED_ALGAE -> inversePrimaryLight_redAlgae
         ThemeBrand.SUNNY -> inversePrimaryLight_sunny
@@ -240,7 +240,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceDim = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceDimLight
-        ThemeBrand.BLUE_SKY -> surfaceDimLight_blueSky
+        ThemeBrand.TEAL -> surfaceDimLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceDimLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceDimLight_redAlgae
         ThemeBrand.SUNNY -> surfaceDimLight_sunny
@@ -248,7 +248,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceBright = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceBrightLight
-        ThemeBrand.BLUE_SKY -> surfaceBrightLight_blueSky
+        ThemeBrand.TEAL -> surfaceBrightLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceBrightLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceBrightLight_redAlgae
         ThemeBrand.SUNNY -> surfaceBrightLight_sunny
@@ -256,7 +256,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceContainerLowest = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowestLight
-        ThemeBrand.BLUE_SKY -> surfaceContainerLowestLight_blueSky
+        ThemeBrand.TEAL -> surfaceContainerLowestLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowestLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerLowestLight_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerLowestLight_sunny
@@ -264,7 +264,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceContainerLow = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowLight
-        ThemeBrand.BLUE_SKY -> surfaceContainerLowLight_blueSky
+        ThemeBrand.TEAL -> surfaceContainerLowLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerLowLight_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerLowLight_sunny
@@ -272,7 +272,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLight
-        ThemeBrand.BLUE_SKY -> surfaceContainerLight_blueSky
+        ThemeBrand.TEAL -> surfaceContainerLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerLight_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerLight_sunny
@@ -280,7 +280,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceContainerHigh = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighLight
-        ThemeBrand.BLUE_SKY -> surfaceContainerHighLight_blueSky
+        ThemeBrand.TEAL -> surfaceContainerHighLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerHighLight_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerHighLight_sunny
@@ -288,7 +288,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
     },
     surfaceContainerHighest = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighestLight
-        ThemeBrand.BLUE_SKY -> surfaceContainerHighestLight_blueSky
+        ThemeBrand.TEAL -> surfaceContainerHighestLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighestLight_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerHighestLight_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerHighestLight_sunny
@@ -299,7 +299,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
 fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     primary = when(customTheme) {
         ThemeBrand.DEFAULT -> primaryDark
-        ThemeBrand.BLUE_SKY -> primaryDark_blueSky
+        ThemeBrand.TEAL -> primaryDark_teal
         ThemeBrand.DEEP_FOREST -> primaryDark_deepForest
         ThemeBrand.RED_ALGAE -> primaryDark_redAlgae
         ThemeBrand.SUNNY -> primaryDark_sunny
@@ -307,7 +307,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onPrimary = when(customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryDark
-        ThemeBrand.BLUE_SKY -> onPrimaryDark_blueSky
+        ThemeBrand.TEAL -> onPrimaryDark_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryDark_deepForest
         ThemeBrand.RED_ALGAE -> onPrimaryDark_redAlgae
         ThemeBrand.SUNNY -> onPrimaryDark_sunny
@@ -315,7 +315,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     primaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> primaryContainerDark
-        ThemeBrand.BLUE_SKY -> primaryContainerDark_blueSky
+        ThemeBrand.TEAL -> primaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> primaryContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> primaryContainerDark_redAlgae
         ThemeBrand.SUNNY -> primaryContainerDark_sunny
@@ -323,7 +323,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onPrimaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryContainerDark
-        ThemeBrand.BLUE_SKY -> onPrimaryContainerDark_blueSky
+        ThemeBrand.TEAL -> onPrimaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> onPrimaryContainerDark_redAlgae
         ThemeBrand.SUNNY -> onPrimaryContainerDark_sunny
@@ -331,7 +331,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     secondary = when(customTheme) {
         ThemeBrand.DEFAULT -> secondaryDark
-        ThemeBrand.BLUE_SKY -> secondaryDark_blueSky
+        ThemeBrand.TEAL -> secondaryDark_teal
         ThemeBrand.DEEP_FOREST -> secondaryDark_deepForest
         ThemeBrand.RED_ALGAE -> secondaryDark_redAlgae
         ThemeBrand.SUNNY -> secondaryDark_sunny
@@ -339,7 +339,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onSecondary = when(customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryDark
-        ThemeBrand.BLUE_SKY -> onSecondaryDark_blueSky
+        ThemeBrand.TEAL -> onSecondaryDark_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryDark_deepForest
         ThemeBrand.RED_ALGAE -> onSecondaryDark_redAlgae
         ThemeBrand.SUNNY -> onSecondaryDark_sunny
@@ -347,7 +347,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     secondaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> secondaryContainerDark
-        ThemeBrand.BLUE_SKY -> secondaryContainerDark_blueSky
+        ThemeBrand.TEAL -> secondaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> secondaryContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> secondaryContainerDark_redAlgae
         ThemeBrand.SUNNY -> secondaryContainerDark_sunny
@@ -355,7 +355,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onSecondaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryContainerDark
-        ThemeBrand.BLUE_SKY -> onSecondaryContainerDark_blueSky
+        ThemeBrand.TEAL -> onSecondaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> onSecondaryContainerDark_redAlgae
         ThemeBrand.SUNNY -> onSecondaryContainerDark_sunny
@@ -363,7 +363,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     tertiary = when(customTheme) {
         ThemeBrand.DEFAULT -> tertiaryDark
-        ThemeBrand.BLUE_SKY -> tertiaryDark_blueSky
+        ThemeBrand.TEAL -> tertiaryDark_teal
         ThemeBrand.DEEP_FOREST -> tertiaryDark_deepForest
         ThemeBrand.RED_ALGAE -> tertiaryDark_redAlgae
         ThemeBrand.SUNNY -> tertiaryDark_sunny
@@ -371,7 +371,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onTertiary = when(customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryDark
-        ThemeBrand.BLUE_SKY -> onTertiaryDark_blueSky
+        ThemeBrand.TEAL -> onTertiaryDark_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryDark_deepForest
         ThemeBrand.RED_ALGAE -> onTertiaryDark_redAlgae
         ThemeBrand.SUNNY -> onTertiaryDark_sunny
@@ -379,7 +379,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     tertiaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> tertiaryContainerDark
-        ThemeBrand.BLUE_SKY -> tertiaryContainerDark_blueSky
+        ThemeBrand.TEAL -> tertiaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> tertiaryContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> tertiaryContainerDark_redAlgae
         ThemeBrand.SUNNY -> tertiaryContainerDark_sunny
@@ -387,7 +387,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onTertiaryContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryContainerDark
-        ThemeBrand.BLUE_SKY -> onTertiaryContainerDark_blueSky
+        ThemeBrand.TEAL -> onTertiaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> onTertiaryContainerDark_redAlgae
         ThemeBrand.SUNNY -> onTertiaryContainerDark_sunny
@@ -395,7 +395,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     error = when(customTheme) {
         ThemeBrand.DEFAULT -> errorDark
-        ThemeBrand.BLUE_SKY -> errorDark_blueSky
+        ThemeBrand.TEAL -> errorDark_teal
         ThemeBrand.DEEP_FOREST -> errorDark_deepForest
         ThemeBrand.RED_ALGAE -> errorDark_redAlgae
         ThemeBrand.SUNNY -> errorDark_sunny
@@ -403,7 +403,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onError = when(customTheme) {
         ThemeBrand.DEFAULT -> onErrorDark
-        ThemeBrand.BLUE_SKY -> onErrorDark_blueSky
+        ThemeBrand.TEAL -> onErrorDark_teal
         ThemeBrand.DEEP_FOREST -> onErrorDark_deepForest
         ThemeBrand.RED_ALGAE -> onErrorDark_redAlgae
         ThemeBrand.SUNNY -> onErrorDark_sunny
@@ -411,7 +411,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     errorContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> errorContainerDark
-        ThemeBrand.BLUE_SKY -> errorContainerDark_blueSky
+        ThemeBrand.TEAL -> errorContainerDark_teal
         ThemeBrand.DEEP_FOREST -> errorContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> errorContainerDark_redAlgae
         ThemeBrand.SUNNY -> errorContainerDark_sunny
@@ -419,7 +419,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onErrorContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> onErrorContainerDark
-        ThemeBrand.BLUE_SKY -> onErrorContainerDark_blueSky
+        ThemeBrand.TEAL -> onErrorContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onErrorContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> onErrorContainerDark_redAlgae
         ThemeBrand.SUNNY -> onErrorContainerDark_sunny
@@ -427,7 +427,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     background = when(customTheme) {
         ThemeBrand.DEFAULT -> backgroundDark
-        ThemeBrand.BLUE_SKY -> backgroundDark_blueSky
+        ThemeBrand.TEAL -> backgroundDark_teal
         ThemeBrand.DEEP_FOREST -> backgroundDark_deepForest
         ThemeBrand.RED_ALGAE -> backgroundDark_redAlgae
         ThemeBrand.SUNNY -> backgroundDark_sunny
@@ -435,7 +435,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onBackground = when(customTheme) {
         ThemeBrand.DEFAULT -> onBackgroundDark
-        ThemeBrand.BLUE_SKY -> onBackgroundDark_blueSky
+        ThemeBrand.TEAL -> onBackgroundDark_teal
         ThemeBrand.DEEP_FOREST -> onBackgroundDark_deepForest
         ThemeBrand.RED_ALGAE -> onBackgroundDark_redAlgae
         ThemeBrand.SUNNY -> onBackgroundDark_sunny
@@ -443,7 +443,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surface = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceDark
-        ThemeBrand.BLUE_SKY -> surfaceDark_blueSky
+        ThemeBrand.TEAL -> surfaceDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceDark_redAlgae
         ThemeBrand.SUNNY -> surfaceDark_sunny
@@ -451,7 +451,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onSurface = when(customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceDark
-        ThemeBrand.BLUE_SKY -> onSurfaceDark_blueSky
+        ThemeBrand.TEAL -> onSurfaceDark_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceDark_deepForest
         ThemeBrand.RED_ALGAE -> onSurfaceDark_redAlgae
         ThemeBrand.SUNNY -> onSurfaceDark_sunny
@@ -459,7 +459,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceVariant = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceVariantDark
-        ThemeBrand.BLUE_SKY -> surfaceVariantDark_blueSky
+        ThemeBrand.TEAL -> surfaceVariantDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceVariantDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceVariantDark_redAlgae
         ThemeBrand.SUNNY -> surfaceVariantDark_sunny
@@ -467,7 +467,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     onSurfaceVariant = when(customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceVariantDark
-        ThemeBrand.BLUE_SKY -> onSurfaceVariantDark_blueSky
+        ThemeBrand.TEAL -> onSurfaceVariantDark_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceVariantDark_deepForest
         ThemeBrand.RED_ALGAE -> onSurfaceVariantDark_redAlgae
         ThemeBrand.SUNNY -> onSurfaceVariantDark_sunny
@@ -475,7 +475,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     outline = when(customTheme) {
         ThemeBrand.DEFAULT -> outlineDark
-        ThemeBrand.BLUE_SKY -> outlineDark_blueSky
+        ThemeBrand.TEAL -> outlineDark_teal
         ThemeBrand.DEEP_FOREST -> outlineDark_deepForest
         ThemeBrand.RED_ALGAE -> outlineDark_redAlgae
         ThemeBrand.SUNNY -> outlineDark_sunny
@@ -483,7 +483,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     outlineVariant = when(customTheme) {
         ThemeBrand.DEFAULT -> outlineVariantDark
-        ThemeBrand.BLUE_SKY -> outlineVariantDark_blueSky
+        ThemeBrand.TEAL -> outlineVariantDark_teal
         ThemeBrand.DEEP_FOREST -> outlineVariantDark_deepForest
         ThemeBrand.RED_ALGAE -> outlineVariantDark_redAlgae
         ThemeBrand.SUNNY -> outlineVariantDark_sunny
@@ -491,7 +491,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     scrim = when(customTheme) {
         ThemeBrand.DEFAULT -> scrimDark
-        ThemeBrand.BLUE_SKY -> scrimDark_blueSky
+        ThemeBrand.TEAL -> scrimDark_teal
         ThemeBrand.DEEP_FOREST -> scrimDark_deepForest
         ThemeBrand.RED_ALGAE -> scrimDark_redAlgae
         ThemeBrand.SUNNY -> scrimDark_sunny
@@ -499,7 +499,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     inverseSurface = when(customTheme) {
         ThemeBrand.DEFAULT -> inverseSurfaceDark
-        ThemeBrand.BLUE_SKY -> inverseSurfaceDark_blueSky
+        ThemeBrand.TEAL -> inverseSurfaceDark_teal
         ThemeBrand.DEEP_FOREST -> inverseSurfaceDark_deepForest
         ThemeBrand.RED_ALGAE -> inverseSurfaceDark_redAlgae
         ThemeBrand.SUNNY -> inverseSurfaceDark_sunny
@@ -507,7 +507,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     inverseOnSurface = when(customTheme) {
         ThemeBrand.DEFAULT -> inverseOnSurfaceDark
-        ThemeBrand.BLUE_SKY -> inverseOnSurfaceDark_blueSky
+        ThemeBrand.TEAL -> inverseOnSurfaceDark_teal
         ThemeBrand.DEEP_FOREST -> inverseOnSurfaceDark_deepForest
         ThemeBrand.RED_ALGAE -> inverseOnSurfaceDark_redAlgae
         ThemeBrand.SUNNY -> inverseOnSurfaceDark_sunny
@@ -515,7 +515,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     inversePrimary = when(customTheme) {
         ThemeBrand.DEFAULT -> inversePrimaryDark
-        ThemeBrand.BLUE_SKY -> inversePrimaryDark_blueSky
+        ThemeBrand.TEAL -> inversePrimaryDark_teal
         ThemeBrand.DEEP_FOREST -> inversePrimaryDark_deepForest
         ThemeBrand.RED_ALGAE -> inversePrimaryDark_redAlgae
         ThemeBrand.SUNNY -> inversePrimaryDark_sunny
@@ -523,7 +523,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceDim = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceDimDark
-        ThemeBrand.BLUE_SKY -> surfaceDimDark_blueSky
+        ThemeBrand.TEAL -> surfaceDimDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceDimDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceDimDark_redAlgae
         ThemeBrand.SUNNY -> surfaceDimDark_sunny
@@ -531,7 +531,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceBright = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceBrightDark
-        ThemeBrand.BLUE_SKY -> surfaceBrightDark_blueSky
+        ThemeBrand.TEAL -> surfaceBrightDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceBrightDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceBrightDark_redAlgae
         ThemeBrand.SUNNY -> surfaceBrightDark_sunny
@@ -539,7 +539,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceContainerLowest = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowestDark
-        ThemeBrand.BLUE_SKY -> surfaceContainerLowestDark_blueSky
+        ThemeBrand.TEAL -> surfaceContainerLowestDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowestDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerLowestDark_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerLowestDark_sunny
@@ -547,7 +547,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceContainerLow = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowDark
-        ThemeBrand.BLUE_SKY -> surfaceContainerLowDark_blueSky
+        ThemeBrand.TEAL -> surfaceContainerLowDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerLowDark_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerLowDark_sunny
@@ -555,7 +555,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceContainer = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerDark
-        ThemeBrand.BLUE_SKY -> surfaceContainerDark_blueSky
+        ThemeBrand.TEAL -> surfaceContainerDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerDark_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerDark_sunny
@@ -563,7 +563,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceContainerHigh = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighDark
-        ThemeBrand.BLUE_SKY -> surfaceContainerHighDark_blueSky
+        ThemeBrand.TEAL -> surfaceContainerHighDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerHighDark_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerHighDark_sunny
@@ -571,176 +571,12 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
     },
     surfaceContainerHighest = when(customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighestDark
-        ThemeBrand.BLUE_SKY -> surfaceContainerHighestDark_blueSky
+        ThemeBrand.TEAL -> surfaceContainerHighestDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighestDark_deepForest
         ThemeBrand.RED_ALGAE -> surfaceContainerHighestDark_redAlgae
         ThemeBrand.SUNNY -> surfaceContainerHighestDark_sunny
         else -> surfaceContainerHighestDark
     }
-)
-
-private val mediumContrastLightColorScheme = lightColorScheme(
-    primary = primaryLightMediumContrast,
-    onPrimary = onPrimaryLightMediumContrast,
-    primaryContainer = primaryContainerLightMediumContrast,
-    onPrimaryContainer = onPrimaryContainerLightMediumContrast,
-    secondary = secondaryLightMediumContrast,
-    onSecondary = onSecondaryLightMediumContrast,
-    secondaryContainer = secondaryContainerLightMediumContrast,
-    onSecondaryContainer = onSecondaryContainerLightMediumContrast,
-    tertiary = tertiaryLightMediumContrast,
-    onTertiary = onTertiaryLightMediumContrast,
-    tertiaryContainer = tertiaryContainerLightMediumContrast,
-    onTertiaryContainer = onTertiaryContainerLightMediumContrast,
-    error = errorLightMediumContrast,
-    onError = onErrorLightMediumContrast,
-    errorContainer = errorContainerLightMediumContrast,
-    onErrorContainer = onErrorContainerLightMediumContrast,
-    background = backgroundLightMediumContrast,
-    onBackground = onBackgroundLightMediumContrast,
-    surface = surfaceLightMediumContrast,
-    onSurface = onSurfaceLightMediumContrast,
-    surfaceVariant = surfaceVariantLightMediumContrast,
-    onSurfaceVariant = onSurfaceVariantLightMediumContrast,
-    outline = outlineLightMediumContrast,
-    outlineVariant = outlineVariantLightMediumContrast,
-    scrim = scrimLightMediumContrast,
-    inverseSurface = inverseSurfaceLightMediumContrast,
-    inverseOnSurface = inverseOnSurfaceLightMediumContrast,
-    inversePrimary = inversePrimaryLightMediumContrast,
-    surfaceDim = surfaceDimLightMediumContrast,
-    surfaceBright = surfaceBrightLightMediumContrast,
-    surfaceContainerLowest = surfaceContainerLowestLightMediumContrast,
-    surfaceContainerLow = surfaceContainerLowLightMediumContrast,
-    surfaceContainer = surfaceContainerLightMediumContrast,
-    surfaceContainerHigh = surfaceContainerHighLightMediumContrast,
-    surfaceContainerHighest = surfaceContainerHighestLightMediumContrast,
-)
-
-private val highContrastLightColorScheme = lightColorScheme(
-    primary = primaryLightHighContrast,
-    onPrimary = onPrimaryLightHighContrast,
-    primaryContainer = primaryContainerLightHighContrast,
-    onPrimaryContainer = onPrimaryContainerLightHighContrast,
-    secondary = secondaryLightHighContrast,
-    onSecondary = onSecondaryLightHighContrast,
-    secondaryContainer = secondaryContainerLightHighContrast,
-    onSecondaryContainer = onSecondaryContainerLightHighContrast,
-    tertiary = tertiaryLightHighContrast,
-    onTertiary = onTertiaryLightHighContrast,
-    tertiaryContainer = tertiaryContainerLightHighContrast,
-    onTertiaryContainer = onTertiaryContainerLightHighContrast,
-    error = errorLightHighContrast,
-    onError = onErrorLightHighContrast,
-    errorContainer = errorContainerLightHighContrast,
-    onErrorContainer = onErrorContainerLightHighContrast,
-    background = backgroundLightHighContrast,
-    onBackground = onBackgroundLightHighContrast,
-    surface = surfaceLightHighContrast,
-    onSurface = onSurfaceLightHighContrast,
-    surfaceVariant = surfaceVariantLightHighContrast,
-    onSurfaceVariant = onSurfaceVariantLightHighContrast,
-    outline = outlineLightHighContrast,
-    outlineVariant = outlineVariantLightHighContrast,
-    scrim = scrimLightHighContrast,
-    inverseSurface = inverseSurfaceLightHighContrast,
-    inverseOnSurface = inverseOnSurfaceLightHighContrast,
-    inversePrimary = inversePrimaryLightHighContrast,
-    surfaceDim = surfaceDimLightHighContrast,
-    surfaceBright = surfaceBrightLightHighContrast,
-    surfaceContainerLowest = surfaceContainerLowestLightHighContrast,
-    surfaceContainerLow = surfaceContainerLowLightHighContrast,
-    surfaceContainer = surfaceContainerLightHighContrast,
-    surfaceContainerHigh = surfaceContainerHighLightHighContrast,
-    surfaceContainerHighest = surfaceContainerHighestLightHighContrast,
-)
-
-private val mediumContrastDarkColorScheme = darkColorScheme(
-    primary = primaryDarkMediumContrast,
-    onPrimary = onPrimaryDarkMediumContrast,
-    primaryContainer = primaryContainerDarkMediumContrast,
-    onPrimaryContainer = onPrimaryContainerDarkMediumContrast,
-    secondary = secondaryDarkMediumContrast,
-    onSecondary = onSecondaryDarkMediumContrast,
-    secondaryContainer = secondaryContainerDarkMediumContrast,
-    onSecondaryContainer = onSecondaryContainerDarkMediumContrast,
-    tertiary = tertiaryDarkMediumContrast,
-    onTertiary = onTertiaryDarkMediumContrast,
-    tertiaryContainer = tertiaryContainerDarkMediumContrast,
-    onTertiaryContainer = onTertiaryContainerDarkMediumContrast,
-    error = errorDarkMediumContrast,
-    onError = onErrorDarkMediumContrast,
-    errorContainer = errorContainerDarkMediumContrast,
-    onErrorContainer = onErrorContainerDarkMediumContrast,
-    background = backgroundDarkMediumContrast,
-    onBackground = onBackgroundDarkMediumContrast,
-    surface = surfaceDarkMediumContrast,
-    onSurface = onSurfaceDarkMediumContrast,
-    surfaceVariant = surfaceVariantDarkMediumContrast,
-    onSurfaceVariant = onSurfaceVariantDarkMediumContrast,
-    outline = outlineDarkMediumContrast,
-    outlineVariant = outlineVariantDarkMediumContrast,
-    scrim = scrimDarkMediumContrast,
-    inverseSurface = inverseSurfaceDarkMediumContrast,
-    inverseOnSurface = inverseOnSurfaceDarkMediumContrast,
-    inversePrimary = inversePrimaryDarkMediumContrast,
-    surfaceDim = surfaceDimDarkMediumContrast,
-    surfaceBright = surfaceBrightDarkMediumContrast,
-    surfaceContainerLowest = surfaceContainerLowestDarkMediumContrast,
-    surfaceContainerLow = surfaceContainerLowDarkMediumContrast,
-    surfaceContainer = surfaceContainerDarkMediumContrast,
-    surfaceContainerHigh = surfaceContainerHighDarkMediumContrast,
-    surfaceContainerHighest = surfaceContainerHighestDarkMediumContrast,
-)
-
-private val highContrastDarkColorScheme = darkColorScheme(
-    primary = primaryDarkHighContrast,
-    onPrimary = onPrimaryDarkHighContrast,
-    primaryContainer = primaryContainerDarkHighContrast,
-    onPrimaryContainer = onPrimaryContainerDarkHighContrast,
-    secondary = secondaryDarkHighContrast,
-    onSecondary = onSecondaryDarkHighContrast,
-    secondaryContainer = secondaryContainerDarkHighContrast,
-    onSecondaryContainer = onSecondaryContainerDarkHighContrast,
-    tertiary = tertiaryDarkHighContrast,
-    onTertiary = onTertiaryDarkHighContrast,
-    tertiaryContainer = tertiaryContainerDarkHighContrast,
-    onTertiaryContainer = onTertiaryContainerDarkHighContrast,
-    error = errorDarkHighContrast,
-    onError = onErrorDarkHighContrast,
-    errorContainer = errorContainerDarkHighContrast,
-    onErrorContainer = onErrorContainerDarkHighContrast,
-    background = backgroundDarkHighContrast,
-    onBackground = onBackgroundDarkHighContrast,
-    surface = surfaceDarkHighContrast,
-    onSurface = onSurfaceDarkHighContrast,
-    surfaceVariant = surfaceVariantDarkHighContrast,
-    onSurfaceVariant = onSurfaceVariantDarkHighContrast,
-    outline = outlineDarkHighContrast,
-    outlineVariant = outlineVariantDarkHighContrast,
-    scrim = scrimDarkHighContrast,
-    inverseSurface = inverseSurfaceDarkHighContrast,
-    inverseOnSurface = inverseOnSurfaceDarkHighContrast,
-    inversePrimary = inversePrimaryDarkHighContrast,
-    surfaceDim = surfaceDimDarkHighContrast,
-    surfaceBright = surfaceBrightDarkHighContrast,
-    surfaceContainerLowest = surfaceContainerLowestDarkHighContrast,
-    surfaceContainerLow = surfaceContainerLowDarkHighContrast,
-    surfaceContainer = surfaceContainerDarkHighContrast,
-    surfaceContainerHigh = surfaceContainerHighDarkHighContrast,
-    surfaceContainerHighest = surfaceContainerHighestDarkHighContrast,
-)
-
-@Immutable
-data class ColorFamily(
-    val color: Color,
-    val onColor: Color,
-    val colorContainer: Color,
-    val onColorContainer: Color
-)
-
-val unspecified_scheme = ColorFamily(
-    Color.Unspecified, Color.Unspecified, Color.Unspecified, Color.Unspecified
 )
 
 @Composable

@@ -93,6 +93,7 @@ fun getFirebaseErrorMessage(rawError: String?): String {
         "USER_MISMATCH" -> "The supplied credentials do not correspond to the previously signed in user."
         "WEAK_PASSWORD" -> "The password must be 6 characters long or more."
         "WEB_STORAGE_UNSUPPORTED" -> "This browser is not supported or 3rd party cookies and data may be disabled."
+        "INVALID_LOGIN_CREDENTIALS" -> "Your login credentials are invalid."
         else -> rawError ?: "Unexpected error"
     }
 }
