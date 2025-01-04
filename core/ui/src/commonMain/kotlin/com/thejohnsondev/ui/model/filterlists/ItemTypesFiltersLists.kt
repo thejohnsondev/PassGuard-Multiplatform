@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.CreditCard
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_BANK_ACCOUNTS
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_NOTES
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_PASSWORDS
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.MaterialSelectableItemColors
 import com.thejohnsondev.ui.model.FilterIcon
 import com.thejohnsondev.ui.model.FilterUIModel
 import vaultmultiplatform.core.ui.generated.resources.Res
@@ -21,7 +21,7 @@ val passwordsFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVectorResId = Res.drawable.ic_password
     ),
-    colors = DefaultSelectableItemColors,
+    colors = MaterialSelectableItemColors,
     isSelected = false
 )
 
@@ -31,7 +31,7 @@ val notesFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.AutoMirrored.Filled.StickyNote2
     ),
-    colors = DefaultSelectableItemColors,
+    colors = MaterialSelectableItemColors,
     isSelected = false
 )
 
@@ -41,7 +41,7 @@ val bankAccountsFilterUIModel = FilterUIModel(
     filterIcon = FilterIcon(
         imageVector = Icons.Default.CreditCard
     ),
-    colors = DefaultSelectableItemColors,
+    colors = MaterialSelectableItemColors,
     isSelected = false
 )
 
