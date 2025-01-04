@@ -24,6 +24,7 @@ import com.thejohnsondev.common.TOGGLE_ANIM_DURATION
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.colorscheme.MaterialSelectableItemColors
 
 @Composable
 fun ToggleButton(
@@ -43,12 +44,12 @@ fun ToggleButton(
     val toggleButtonContainerColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerLow
+        if (isSelected) MaterialSelectableItemColors.getSelectedContainerColor() else MaterialSelectableItemColors.getUnselectedContainerColor()
     }
     val toggleButtonContentColor by transition.animateColor({
         tween(durationMillis = TOGGLE_ANIM_DURATION)
     }, label = "") {
-        if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+        if (isSelected) MaterialSelectableItemColors.getSelectedContentColor() else MaterialSelectableItemColors.getUnselectedContentColor()
     }
 
     Box {
