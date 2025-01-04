@@ -5,5 +5,6 @@ enum class ThemeBrand {
     SUNNY,
     TEAL,
     DEEP_FOREST,
-    RED_ALGAE
+    RED_ALGAE,
+    VIOLET
 }

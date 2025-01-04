@@ -47,6 +47,7 @@ import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.VioletSelectableItemsColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.button.ButtonShape
@@ -83,6 +84,7 @@ import vaultmultiplatform.feature.settings.presentation.generated.resources.them
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_red_algae
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_sunny
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_violet
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics_description
 import vaultmultiplatform.feature.settings.presentation.generated.resources.use_dynamic_color
@@ -408,6 +410,7 @@ fun StyleSettingsSubSection(
                         ThemeBrand.DEEP_FOREST -> Res.string.theme_deep_forest
                         ThemeBrand.RED_ALGAE -> Res.string.theme_red_algae
                         ThemeBrand.SUNNY -> Res.string.theme_sunny
+                        ThemeBrand.VIOLET -> Res.string.theme_violet
                         else -> Res.string.theme_default
                     }
                 ),
@@ -420,6 +423,7 @@ fun StyleSettingsSubSection(
                     ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
                     ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
                     ThemeBrand.SUNNY -> SunnySelectableItemColors
+                    ThemeBrand.VIOLET -> VioletSelectableItemsColors
                     else -> DefaultSelectableItemColors
                 }
             ) {
