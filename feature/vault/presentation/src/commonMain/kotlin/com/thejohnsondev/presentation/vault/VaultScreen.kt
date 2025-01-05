@@ -82,6 +82,8 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_v
 import vaultmultiplatform.feature.vault.presentation.generated.resources.nothing_found
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
+private const val SHIMMER_PASSWORDS_COUNT = 10
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VaultScreen(
@@ -130,6 +132,7 @@ fun VaultScreen(
             )
         )
     }
+
     LaunchedEffect(state.value.isVaultEmpty) {
         updateIsEmptyVault(state.value.isVaultEmpty)
     }
@@ -172,7 +175,8 @@ internal fun VaultScreenContent(
     onAction: (VaultViewModel.Action) -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
     ) {
         when (state.screenState) {
@@ -204,11 +208,12 @@ private fun VaultLoading(
 ) {
     val topPadding = paddingValues.calculateTopPadding()
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(top = topPadding),
     ) {
         ShimmerSearchBar()
-        repeat(10) {
+        repeat(SHIMMER_PASSWORDS_COUNT) {
             ShimmerPasswordItem(windowSizeClass)
         }
     }
