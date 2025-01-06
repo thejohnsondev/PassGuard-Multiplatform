@@ -45,6 +45,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.TealSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MonochromeSelectableItemsColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.VioletSelectableItemsColors
@@ -82,6 +83,7 @@ import vaultmultiplatform.feature.settings.presentation.generated.resources.them
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_teal
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_deep_forest
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_monochrome
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_red_algae
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_sunny
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_violet
@@ -411,6 +413,7 @@ fun StyleSettingsSubSection(
                         ThemeBrand.RED_ALGAE -> Res.string.theme_red_algae
                         ThemeBrand.SUNNY -> Res.string.theme_sunny
                         ThemeBrand.VIOLET -> Res.string.theme_violet
+                        ThemeBrand.MONOCHROME -> Res.string.theme_monochrome
                         else -> Res.string.theme_default
                     }
                 ),
@@ -424,6 +427,7 @@ fun StyleSettingsSubSection(
                     ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
                     ThemeBrand.SUNNY -> SunnySelectableItemColors
                     ThemeBrand.VIOLET -> VioletSelectableItemsColors
+                    ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
                     else -> DefaultSelectableItemColors
                 }
             ) {

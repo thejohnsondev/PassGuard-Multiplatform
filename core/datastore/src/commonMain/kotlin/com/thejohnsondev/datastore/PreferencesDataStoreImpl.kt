@@ -42,6 +42,7 @@ class PreferencesDataStoreImpl(
             ThemeBrand.RED_ALGAE.ordinal -> ThemeBrand.RED_ALGAE
             ThemeBrand.SUNNY.ordinal -> ThemeBrand.SUNNY
             ThemeBrand.VIOLET.ordinal -> ThemeBrand.VIOLET
+            ThemeBrand.MONOCHROME.ordinal -> ThemeBrand.MONOCHROME
             else -> ThemeBrand.DEFAULT
         }
         val darkThemeConfigMapped = when (darkThemeConfig) {
