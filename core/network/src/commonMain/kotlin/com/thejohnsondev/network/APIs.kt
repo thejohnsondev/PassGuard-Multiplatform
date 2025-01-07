@@ -11,5 +11,6 @@ const val FIREBASE_BASE_URL = "identitytoolkit.googleapis.com"
 const val FIREBASE_SIGN_UP = "/v1/accounts:signUp"
 const val FIREBASE_LOGIN = "/v1/accounts:signInWithPassword"
 const val FIREBASE_DELETE_ACCOUNT = "/v1/accounts:delete"
+const val FIREBASE_REFRESH_TOKEN = "/v1/token"
 
 const val QUERY_KEY = "key"
