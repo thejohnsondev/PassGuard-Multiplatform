@@ -37,10 +37,12 @@ class PreferencesDataStoreImpl(
     ): SettingsConfig {
         val themeBrandMapped = when (themeBrand) {
             ThemeBrand.DEFAULT.ordinal -> ThemeBrand.DEFAULT
-            ThemeBrand.BLUE_SKY.ordinal -> ThemeBrand.BLUE_SKY
+            ThemeBrand.TEAL.ordinal -> ThemeBrand.TEAL
             ThemeBrand.DEEP_FOREST.ordinal -> ThemeBrand.DEEP_FOREST
             ThemeBrand.RED_ALGAE.ordinal -> ThemeBrand.RED_ALGAE
             ThemeBrand.SUNNY.ordinal -> ThemeBrand.SUNNY
+            ThemeBrand.VIOLET.ordinal -> ThemeBrand.VIOLET
+            ThemeBrand.MONOCHROME.ordinal -> ThemeBrand.MONOCHROME
             else -> ThemeBrand.DEFAULT
         }
         val darkThemeConfigMapped = when (darkThemeConfig) {

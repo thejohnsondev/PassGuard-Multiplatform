@@ -29,7 +29,8 @@ import com.thejohnsondev.ui.model.message.MessageType
 import kotlinx.coroutines.delay
 
 private const val TEXT_SHOW_DELAY = 750L
-private const val TEXT_HIDE_DELAY = 1500L
+private const val TEXT_SUCCESS_HIDE_DELAY = 1500L
+private const val TEXT_ERROR_HIDE_DELAY = 3000L
 private const val ICON_HIDE_DELAY = 100L
 
 @Composable
@@ -103,7 +104,11 @@ fun AnimatedMessage(
             delay(TEXT_SHOW_DELAY)
             if (isMessageVisible(messageContent)) {
                 isTextVisible.value = true
-                delay(TEXT_HIDE_DELAY)
+                if (isMessageError(messageContent)) {
+                    delay(TEXT_ERROR_HIDE_DELAY)
+                } else {
+                    delay(TEXT_SUCCESS_HIDE_DELAY)
+                }
                 isTextVisible.value = false
             }
             delay(ICON_HIDE_DELAY)
@@ -115,4 +120,8 @@ fun AnimatedMessage(
 
 private fun isMessageVisible(messageContent: MessageContent?): Boolean {
     return messageContent?.message?.isNotEmpty() ?: false
+}
+
+private fun isMessageError(messageContent: MessageContent?): Boolean {
+    return messageContent?.type == MessageType.ERROR
 }

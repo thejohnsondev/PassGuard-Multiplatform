@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.thejohnsondev.common.utils.Logger
+import com.thejohnsondev.common.utils.getFirebaseErrorMessage
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
@@ -49,12 +50,14 @@ abstract class BaseViewModel : ViewModel() {
     protected suspend fun handleError(error: Error) {
         showContent()
         val errorDisplayMessage = when (error) {
-            is HttpError -> DisplayableMessageValue.StringValue(error.message)
+            is HttpError -> DisplayableMessageValue.StringValue(
+                getFirebaseErrorMessage(error.message)
+            )
             is NetworkError -> DisplayableMessageValue.CheckInternetConnection
             is UnknownError -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
             else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
         }
-        Logger.e("${this::class.simpleName} error: ${error::class.simpleName} ${errorDisplayMessage::class.simpleName}")
+        Logger.e("${this::class.simpleName} error: $error -- $errorDisplayMessage")
         sendEvent(OneTimeEvent.ErrorMessage(errorDisplayMessage))
     }
 

@@ -20,10 +20,12 @@
     <string name="no">No</string>
     <string name="use_dynamic_color">Use Dynamic Colors</string>
     <string name="theme_default">Default</string>
-    <string name="theme_blue_sky">Blue Sky</string>
+    <string name="theme_teal">Teal</string>
     <string name="theme_deep_forest">Deep Forest</string>
     <string name="theme_red_algae">Red Algae</string>
     <string name="theme_sunny">Sunny</string>
+    <string name="theme_violet">Violet</string>
+    <string name="theme_monochrome">Monochrome</string>
     <string name="theme">Theme</string>
     <string name="deep_search_title">Deep search</string>
     <string name="deep_search_description">Search by all details, not only titles</string>

@@ -3,9 +3,7 @@ package com.thejohnsondev.network.di
 import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.network.HttpClientProvider
 import com.thejohnsondev.network.RemoteApi
-import com.thejohnsondev.network.RemoteApiImpl
-import com.thejohnsondev.network.interceptors.AuthTokenInterceptor
-import com.thejohnsondev.network.interceptors.AuthTokenInterceptorImpl
+import com.thejohnsondev.network.FirebaseRemoteApiImpl
 import dev.tmapps.konnection.Konnection
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -27,6 +25,7 @@ val networkModule = module {
                 json(Json {
                     prettyPrint = true
                     isLenient = true
+                    ignoreUnknownKeys = true
                 })
             }
             install(Logging) {
@@ -39,14 +38,9 @@ val networkModule = module {
             if (!isInternetConnected) throw NoInternetConnectionException()
             execute(request)
         }
-        client.plugin(HttpSend).intercept { request ->
-            val interceptedRequest = get<AuthTokenInterceptor>().addAuthHeader(request)
-            execute(interceptedRequest)
-        }
         client
     }
-    singleOf(::AuthTokenInterceptorImpl) { bind<AuthTokenInterceptor>() }
-    singleOf(::RemoteApiImpl) { bind<RemoteApi>() }
+    singleOf(::FirebaseRemoteApiImpl) { bind<RemoteApi>() }
     single {
         Konnection.instance
     }

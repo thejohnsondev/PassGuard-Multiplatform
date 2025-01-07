@@ -89,6 +89,11 @@ buildkonfig {
             "AUTH_SECRET_IV",
             localProperties["auth_secret_iv"]?.toString() ?: ""
         )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "FIREBASE_API_KEY",
+            localProperties["firebase_api_key"]?.toString() ?: ""
+        )
     }
 
 }
