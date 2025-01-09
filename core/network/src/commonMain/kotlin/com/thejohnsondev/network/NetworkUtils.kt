@@ -1,10 +1,12 @@
 package com.thejohnsondev.network
 
 import arrow.core.Either
+import com.thejohnsondev.common.ERROR_CREDENTIAL_TOO_OLD_LOGIN_AGAIN
 import com.thejohnsondev.common.ERROR_INVALID_ID_TOKEN
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
-import com.thejohnsondev.model.InvalidCredentialError
+import com.thejohnsondev.model.InvalidTokenError
+import com.thejohnsondev.model.LoginAgainError
 import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.model.UnknownError
@@ -26,10 +28,16 @@ suspend inline fun <reified T> callWithMapping(call: (() -> HttpResponse)): Eith
             }
             400 -> {
                 try {
-                    if (response.body<FBErrorBody>().error.message == ERROR_INVALID_ID_TOKEN) {
-                        Either.Left(InvalidCredentialError)
-                    } else {
-                        Either.Left(HttpError(response.status.value, response.body<String>()))
+                    when (response.body<FBErrorBody>().error.message) {
+                        ERROR_INVALID_ID_TOKEN -> {
+                            Either.Left(InvalidTokenError)
+                        }
+                        ERROR_CREDENTIAL_TOO_OLD_LOGIN_AGAIN -> {
+                            Either.Left(LoginAgainError)
+                        }
+                        else -> {
+                            Either.Left(HttpError(response.status.value, response.body<String>()))
+                        }
                     }
                 } catch (e: Exception) {
                     Either.Left(HttpError(response.status.value, "Cast error"))

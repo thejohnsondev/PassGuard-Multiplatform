@@ -18,4 +18,5 @@ data class HttpError(
 data class NetworkError(val cause: Throwable) : Error(cause)
 
 data class UnknownError(val cause: Throwable) : Error(cause)
-data object InvalidCredentialError : Error()
+data object InvalidTokenError : Error()
+data object LoginAgainError : Error()

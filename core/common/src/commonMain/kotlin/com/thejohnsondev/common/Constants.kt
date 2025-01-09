@@ -27,3 +27,4 @@ const val VAULT_ITEM_TYPE_NOTES = "item_type_notes"
 const val VAULT_ITEM_TYPE_BANK_ACCOUNTS = "item_type_bank_accounts"
 
 const val ERROR_INVALID_ID_TOKEN = "INVALID_ID_TOKEN"
+const val ERROR_CREDENTIAL_TOO_OLD_LOGIN_AGAIN = "CREDENTIAL_TOO_OLD_LOGIN_AGAIN"
