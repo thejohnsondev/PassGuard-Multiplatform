@@ -8,7 +8,7 @@ import com.thejohnsondev.common.utils.getFirebaseErrorMessage
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
-import com.thejohnsondev.model.InvalidCredentialError
+import com.thejohnsondev.model.InvalidTokenError
 import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -101,7 +101,7 @@ abstract class BaseViewModel : ViewModel() {
     ) = launch {
         call().first().fold(
             ifLeft = { error ->
-                if (error is InvalidCredentialError) {
+                if (error is InvalidTokenError) {
                     // refresh token
                     refreshToken?.invoke()
                     call().onResult(
