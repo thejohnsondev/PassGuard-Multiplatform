@@ -12,6 +12,8 @@ interface PreferencesDataStore {
     suspend fun getSettingsConfigFlow(): Flow<SettingsConfig>
     suspend fun getAuthToken(): String
     suspend fun saveAuthToken(token: String)
+    suspend fun getRefreshAuthToken(): String
+    suspend fun saveRefreshAuthToken(token: String)
     suspend fun isUserLoggedIn(): Boolean
     suspend fun clearUserData()
     suspend fun saveKey(key: ByteArray)

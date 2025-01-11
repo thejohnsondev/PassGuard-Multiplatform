@@ -43,10 +43,12 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.BlueSkySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.TealSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MonochromeSelectableItemsColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.VioletSelectableItemsColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.button.ButtonShape
@@ -78,11 +80,13 @@ import vaultmultiplatform.feature.settings.presentation.generated.resources.mana
 import vaultmultiplatform.feature.settings.presentation.generated.resources.no
 import vaultmultiplatform.feature.settings.presentation.generated.resources.settings
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_blue_sky
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_teal
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_deep_forest
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_monochrome
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_red_algae
 import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_sunny
+import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_violet
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics
 import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics_description
 import vaultmultiplatform.feature.settings.presentation.generated.resources.use_dynamic_color
@@ -329,74 +333,8 @@ fun StyleSettingsSubSection(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
     ) {
         Text(
-            modifier = Modifier.padding(bottom = Size8),
-            text = stringResource(Res.string.theme),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSecondary
-        )
-        ThemeBrand.entries.forEachIndexed { index, theme ->
-            SelectableOptionItem(
-                modifier = Modifier
-                    .padding(top = Size4),
-                optionTitle = stringResource(
-                    when (theme) {
-                        ThemeBrand.DEFAULT -> Res.string.theme_default
-                        ThemeBrand.BLUE_SKY -> Res.string.theme_blue_sky
-                        ThemeBrand.DEEP_FOREST -> Res.string.theme_deep_forest
-                        ThemeBrand.RED_ALGAE -> Res.string.theme_red_algae
-                        ThemeBrand.SUNNY -> Res.string.theme_sunny
-                        else -> Res.string.theme_default
-                    }
-                ),
-                isLastItem = index == ThemeBrand.entries.size - 1,
-                isFirstItem = index == 0,
-                isSelected = state.settingsConfig?.customTheme == theme,
-                colors = when (theme) {
-                    ThemeBrand.DEFAULT -> DefaultSelectableItemColors
-                    ThemeBrand.BLUE_SKY -> BlueSkySelectableItemColors
-                    ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
-                    ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
-                    ThemeBrand.SUNNY -> SunnySelectableItemColors
-                    else -> DefaultSelectableItemColors
-                }
-            ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
-                onAction(SettingsViewModel.Action.UpdateUseCustomTheme(theme))
-            }
-        }
-        if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
-            Text(
-                modifier = Modifier.padding(
-                    bottom = Size8,
-                    top = Size16
-                ),
-                text = stringResource(Res.string.use_dynamic_color),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSecondary
-            )
-            SelectableOptionItem(
-                modifier = Modifier
-                    .padding(top = Size4),
-                optionTitle = stringResource(Res.string.yes),
-                isFirstItem = true,
-                isSelected = state.settingsConfig.useDynamicColor
-            ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
-            }
-            SelectableOptionItem(
-                modifier = Modifier
-                    .padding(top = Size4),
-                optionTitle = stringResource(Res.string.no),
-                isLastItem = true,
-                isSelected = !state.settingsConfig.useDynamicColor
-            ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
-            }
-        }
-        Text(
             modifier = Modifier.padding(
-                bottom = Size8,
-                top = Size16
+                bottom = Size8
             ),
             text = stringResource(Res.string.dark_mode_preference),
             style = MaterialTheme.typography.titleLarge,
@@ -428,6 +366,76 @@ fun StyleSettingsSubSection(
         ) {
             onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.LIGHT))
         }
+        if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
+            Text(
+                modifier = Modifier.padding(
+                    bottom = Size8,
+                    top = Size8
+                ),
+                text = stringResource(Res.string.use_dynamic_color),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
+            SelectableOptionItem(
+                modifier = Modifier
+                    .padding(top = Size4),
+                optionTitle = stringResource(Res.string.yes),
+                isFirstItem = true,
+                isSelected = state.settingsConfig.useDynamicColor
+            ) {
+                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
+            }
+            SelectableOptionItem(
+                modifier = Modifier
+                    .padding(top = Size4),
+                optionTitle = stringResource(Res.string.no),
+                isLastItem = true,
+                isSelected = !state.settingsConfig.useDynamicColor
+            ) {
+                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+            }
+        }
+        Text(
+            modifier = Modifier.padding(vertical = Size8),
+            text = stringResource(Res.string.theme),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSecondary
+        )
+        ThemeBrand.entries.forEachIndexed { index, theme ->
+            SelectableOptionItem(
+                modifier = Modifier
+                    .padding(top = Size4),
+                optionTitle = stringResource(
+                    when (theme) {
+                        ThemeBrand.DEFAULT -> Res.string.theme_default
+                        ThemeBrand.TEAL -> Res.string.theme_teal
+                        ThemeBrand.DEEP_FOREST -> Res.string.theme_deep_forest
+                        ThemeBrand.RED_ALGAE -> Res.string.theme_red_algae
+                        ThemeBrand.SUNNY -> Res.string.theme_sunny
+                        ThemeBrand.VIOLET -> Res.string.theme_violet
+                        ThemeBrand.MONOCHROME -> Res.string.theme_monochrome
+                        else -> Res.string.theme_default
+                    }
+                ),
+                isLastItem = index == ThemeBrand.entries.size - 1,
+                isFirstItem = index == 0,
+                isSelected = state.settingsConfig?.customTheme == theme,
+                colors = when (theme) {
+                    ThemeBrand.DEFAULT -> DefaultSelectableItemColors
+                    ThemeBrand.TEAL -> TealSelectableItemColors
+                    ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
+                    ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
+                    ThemeBrand.SUNNY -> SunnySelectableItemColors
+                    ThemeBrand.VIOLET -> VioletSelectableItemsColors
+                    ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
+                    else -> DefaultSelectableItemColors
+                }
+            ) {
+                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                onAction(SettingsViewModel.Action.UpdateUseCustomTheme(theme))
+            }
+        }
+
     }
 }
 

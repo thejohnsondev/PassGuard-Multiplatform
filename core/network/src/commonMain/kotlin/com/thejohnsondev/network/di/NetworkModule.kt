@@ -1,11 +1,9 @@
 package com.thejohnsondev.network.di
 
 import com.thejohnsondev.model.NoInternetConnectionException
+import com.thejohnsondev.network.FirebaseRemoteApiImpl
 import com.thejohnsondev.network.HttpClientProvider
 import com.thejohnsondev.network.RemoteApi
-import com.thejohnsondev.network.RemoteApiImpl
-import com.thejohnsondev.network.interceptors.AuthTokenInterceptor
-import com.thejohnsondev.network.interceptors.AuthTokenInterceptorImpl
 import dev.tmapps.konnection.Konnection
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -15,6 +13,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -27,6 +28,7 @@ val networkModule = module {
                 json(Json {
                     prettyPrint = true
                     isLenient = true
+                    ignoreUnknownKeys = true
                 })
             }
             install(Logging) {
@@ -39,15 +41,13 @@ val networkModule = module {
             if (!isInternetConnected) throw NoInternetConnectionException()
             execute(request)
         }
-        client.plugin(HttpSend).intercept { request ->
-            val interceptedRequest = get<AuthTokenInterceptor>().addAuthHeader(request)
-            execute(interceptedRequest)
-        }
         client
     }
-    singleOf(::AuthTokenInterceptorImpl) { bind<AuthTokenInterceptor>() }
-    singleOf(::RemoteApiImpl) { bind<RemoteApi>() }
+    singleOf(::FirebaseRemoteApiImpl) { bind<RemoteApi>() }
     single {
         Konnection.instance
+    }
+    single {
+        CoroutineScope(Dispatchers.IO)
     }
 }

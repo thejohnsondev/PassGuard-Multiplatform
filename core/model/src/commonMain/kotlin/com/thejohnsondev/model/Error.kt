@@ -1,9 +1,13 @@
 package com.thejohnsondev.model
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+
 class NoInternetConnectionException: Throwable()
 
+@Serializable
 open class Error(
-    val throwable: Throwable? = null
+    @Transient val throwable: Throwable? = null
 )
 
 data class HttpError(
@@ -14,3 +18,5 @@ data class HttpError(
 data class NetworkError(val cause: Throwable) : Error(cause)
 
 data class UnknownError(val cause: Throwable) : Error(cause)
+data object InvalidTokenError : Error()
+data object LoginAgainError : Error()

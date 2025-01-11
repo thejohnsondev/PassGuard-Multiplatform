@@ -7,7 +7,7 @@ import com.thejohnsondev.domain.EmailValidateUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.model.auth.AuthResponse
+import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
 import kotlinx.coroutines.flow.Flow
@@ -63,11 +63,11 @@ class LoginViewModel(
     }
 
     private fun handleAuthResponse(
-        authResponse: AuthResponse,
+        authResponse: FBAuthSignInResponse,
         email: String,
         password: String
     ) = launch {
-        saveUserToken(authResponse.token)
+        saveUserToken(authResponse)
         saveUserEmail(email)
         generateAndSaveEncryptionKey(password)
         sendEvent(OneTimeEvent.SuccessNavigation())
@@ -77,8 +77,13 @@ class LoginViewModel(
         authService.saveEmail(email)
     }
 
-    private fun saveUserToken(token: String) = launch {
-        authService.saveAuthToken(token)
+    private fun saveUserToken(response: FBAuthSignInResponse) = launch {
+        response.idToken?.let {
+            authService.saveAuthToken(it)
+        }
+        response.refreshToken?.let {
+            authService.saveRefreshAuthToken(it)
+        }
     }
 
     private suspend fun generateAndSaveEncryptionKey(password: String) {

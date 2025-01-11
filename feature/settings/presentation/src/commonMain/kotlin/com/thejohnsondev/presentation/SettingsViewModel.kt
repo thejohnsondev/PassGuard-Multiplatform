@@ -136,9 +136,20 @@ class SettingsViewModel(
     }
 
     private fun deleteAccount() = launch {
-        authService.deleteAccount().onResult {
-            logout()
-        }
+        makeApiCall(
+            call = {
+                authService.deleteAccount()
+            },
+            onSuccess = {
+                logout()
+            },
+            refreshToken = {
+                authService.refreshToken().onResult {
+                    authService.saveAuthToken(it.idToken)
+                    authService.saveRefreshAuthToken(it.refreshToken)
+                }
+            }
+        )
     }
 
     sealed class Action {

@@ -37,10 +37,12 @@ class PreferencesDataStoreImpl(
     ): SettingsConfig {
         val themeBrandMapped = when (themeBrand) {
             ThemeBrand.DEFAULT.ordinal -> ThemeBrand.DEFAULT
-            ThemeBrand.BLUE_SKY.ordinal -> ThemeBrand.BLUE_SKY
+            ThemeBrand.TEAL.ordinal -> ThemeBrand.TEAL
             ThemeBrand.DEEP_FOREST.ordinal -> ThemeBrand.DEEP_FOREST
             ThemeBrand.RED_ALGAE.ordinal -> ThemeBrand.RED_ALGAE
             ThemeBrand.SUNNY.ordinal -> ThemeBrand.SUNNY
+            ThemeBrand.VIOLET.ordinal -> ThemeBrand.VIOLET
+            ThemeBrand.MONOCHROME.ordinal -> ThemeBrand.MONOCHROME
             else -> ThemeBrand.DEFAULT
         }
         val darkThemeConfigMapped = when (darkThemeConfig) {
@@ -64,11 +66,20 @@ class PreferencesDataStoreImpl(
     }
 
     override suspend fun getAuthToken(): String {
-        return dataStore.getString(KEY_AUTH_TOKEN, String.Companion.empty)
+        val token = dataStore.getString(KEY_AUTH_TOKEN, String.Companion.empty)
+        return token
     }
 
     override suspend fun saveAuthToken(token: String) {
         dataStore.saveString(KEY_AUTH_TOKEN, token)
+    }
+
+    override suspend fun getRefreshAuthToken(): String {
+        return dataStore.getString(KEY_REFRESH_AUTH_TOKEN, String.Companion.empty)
+    }
+
+    override suspend fun saveRefreshAuthToken(token: String) {
+        dataStore.saveString(KEY_REFRESH_AUTH_TOKEN, token)
     }
 
     override suspend fun isUserLoggedIn(): Boolean {
@@ -123,6 +134,7 @@ class PreferencesDataStoreImpl(
 
     companion object {
         private const val KEY_AUTH_TOKEN = "auth_token"
+        private const val KEY_REFRESH_AUTH_TOKEN = "refresh_auth_token"
         private const val KEY_EMAIL = "email"
         private const val KEY_KEY = "key"
         private const val THEME_BRAND = "theme-brand"

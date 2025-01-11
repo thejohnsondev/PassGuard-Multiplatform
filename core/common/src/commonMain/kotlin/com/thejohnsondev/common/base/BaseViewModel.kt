@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.thejohnsondev.common.utils.Logger
+import com.thejohnsondev.common.utils.getFirebaseErrorMessage
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
+import com.thejohnsondev.model.InvalidTokenError
 import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -49,12 +51,14 @@ abstract class BaseViewModel : ViewModel() {
     protected suspend fun handleError(error: Error) {
         showContent()
         val errorDisplayMessage = when (error) {
-            is HttpError -> DisplayableMessageValue.StringValue(error.message)
+            is HttpError -> DisplayableMessageValue.StringValue(
+                getFirebaseErrorMessage(error.message)
+            )
             is NetworkError -> DisplayableMessageValue.CheckInternetConnection
             is UnknownError -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
             else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
         }
-        Logger.e("${this::class.simpleName} error: ${error::class.simpleName} ${errorDisplayMessage::class.simpleName}")
+        Logger.e("${this::class.simpleName} error: $error -- $errorDisplayMessage")
         sendEvent(OneTimeEvent.ErrorMessage(errorDisplayMessage))
     }
 
@@ -83,10 +87,33 @@ abstract class BaseViewModel : ViewModel() {
 
     protected suspend fun <T> Flow<Either<Error, T>>.onResult(
         onError: ((Error) -> Unit)? = null,
-        onSuccess: (T) -> Unit
+        onSuccess: suspend (T) -> Unit
     ) = first().fold(
         ifLeft = { error -> onError?.invoke(error) ?: handleError(error) },
         ifRight = { result -> onSuccess(result) }
     )
+
+    protected inline fun <reified E : Error, reified T> BaseViewModel.makeApiCall(
+        noinline call: suspend () -> Flow<Either<E, T>>,
+        noinline onError: ((Error) -> Unit)? = null,
+        noinline refreshToken: (suspend () -> Unit)? = null,
+        noinline onSuccess: (T) -> Unit
+    ) = launch {
+        call().first().fold(
+            ifLeft = { error ->
+                if (error is InvalidTokenError) {
+                    // refresh token
+                    refreshToken?.invoke()
+                    call().onResult(
+                        onError = onError,
+                        onSuccess = onSuccess
+                    )
+                } else {
+                    onError?.invoke(error) ?: handleError(error)
+                }
+            },
+            ifRight = { result -> onSuccess(result) }
+        )
+    }
 
 }

@@ -26,4 +26,7 @@ sealed class Routes {
 
     @Serializable
     data object SettingsRoute : Routes()
+
+    @Serializable
+    data object AskToLoginRoute: Routes()
 }
