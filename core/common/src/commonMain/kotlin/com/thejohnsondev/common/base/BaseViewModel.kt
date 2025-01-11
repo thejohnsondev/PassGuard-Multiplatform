@@ -8,6 +8,7 @@ import com.thejohnsondev.common.utils.getFirebaseErrorMessage
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
+import com.thejohnsondev.model.InvalidTokenError
 import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -86,10 +87,33 @@ abstract class BaseViewModel : ViewModel() {
 
     protected suspend fun <T> Flow<Either<Error, T>>.onResult(
         onError: ((Error) -> Unit)? = null,
-        onSuccess: (T) -> Unit
+        onSuccess: suspend (T) -> Unit
     ) = first().fold(
         ifLeft = { error -> onError?.invoke(error) ?: handleError(error) },
         ifRight = { result -> onSuccess(result) }
     )
+
+    protected inline fun <reified E : Error, reified T> BaseViewModel.makeApiCall(
+        noinline call: suspend () -> Flow<Either<E, T>>,
+        noinline onError: ((Error) -> Unit)? = null,
+        noinline refreshToken: (suspend () -> Unit)? = null,
+        noinline onSuccess: (T) -> Unit
+    ) = launch {
+        call().first().fold(
+            ifLeft = { error ->
+                if (error is InvalidTokenError) {
+                    // refresh token
+                    refreshToken?.invoke()
+                    call().onResult(
+                        onError = onError,
+                        onSuccess = onSuccess
+                    )
+                } else {
+                    onError?.invoke(error) ?: handleError(error)
+                }
+            },
+            ifRight = { result -> onSuccess(result) }
+        )
+    }
 
 }

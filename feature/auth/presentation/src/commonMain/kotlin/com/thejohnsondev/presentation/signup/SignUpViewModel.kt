@@ -76,7 +76,7 @@ class SignUpViewModel(
         email: String,
         password: String
     ) = launch {
-        saveUserToken(authResponse.idToken)
+        saveUserToken(authResponse)
         saveUserEmail(email)
         generateAndSaveEncryptionKey(password)
         sendEvent(OneTimeEvent.SuccessNavigation())
@@ -86,9 +86,12 @@ class SignUpViewModel(
         authService.saveEmail(email)
     }
 
-    private fun saveUserToken(token: String?) = launch {
-        token?.let {
-            authService.saveAuthToken(token)
+    private fun saveUserToken(response: FBAuthSignUpResponse) = launch {
+        response.idToken?.let {
+            authService.saveAuthToken(it)
+        }
+        response.refreshToken?.let {
+            authService.saveRefreshAuthToken(it)
         }
     }
 

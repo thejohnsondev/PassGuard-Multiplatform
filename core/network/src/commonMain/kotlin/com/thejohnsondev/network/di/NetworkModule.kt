@@ -1,9 +1,9 @@
 package com.thejohnsondev.network.di
 
 import com.thejohnsondev.model.NoInternetConnectionException
+import com.thejohnsondev.network.FirebaseRemoteApiImpl
 import com.thejohnsondev.network.HttpClientProvider
 import com.thejohnsondev.network.RemoteApi
-import com.thejohnsondev.network.FirebaseRemoteApiImpl
 import dev.tmapps.konnection.Konnection
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -13,6 +13,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -43,5 +46,8 @@ val networkModule = module {
     singleOf(::FirebaseRemoteApiImpl) { bind<RemoteApi>() }
     single {
         Konnection.instance
+    }
+    single {
+        CoroutineScope(Dispatchers.IO)
     }
 }

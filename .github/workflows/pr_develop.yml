@@ -36,7 +36,7 @@ jobs:
           cat <<EOF > local.properties
           auth_secret_key=$AUTH_SECRET_KEY
           auth_secret_iv=$AUTH_SECRET_IV
-          firebase_api_key=FIREBASE_API_KEY
+          firebase_api_key=$FIREBASE_API_KEY
           EOF
 
       - name: Create BuildKonfig
@@ -76,4 +76,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: internal-testers
           file: composeApp/build/outputs/apk/debug/PassGuard-debug.apk
-          releaseNotes: Deployed to App Distribution for testing
+          releaseNotes: Added delete account functionality

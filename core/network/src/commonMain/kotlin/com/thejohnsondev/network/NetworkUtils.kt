@@ -1,8 +1,12 @@
 package com.thejohnsondev.network
 
 import arrow.core.Either
+import com.thejohnsondev.common.ERROR_CREDENTIAL_TOO_OLD_LOGIN_AGAIN
+import com.thejohnsondev.common.ERROR_INVALID_ID_TOKEN
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
+import com.thejohnsondev.model.InvalidTokenError
+import com.thejohnsondev.model.LoginAgainError
 import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.model.UnknownError
@@ -22,11 +26,26 @@ suspend inline fun <reified T> callWithMapping(call: (() -> HttpResponse)): Eith
             in 200..300 -> {
                 Either.Right(response.body<T>())
             }
-
+            400 -> {
+                try {
+                    when (response.body<FBErrorBody>().error.message) {
+                        ERROR_INVALID_ID_TOKEN -> {
+                            Either.Left(InvalidTokenError)
+                        }
+                        ERROR_CREDENTIAL_TOO_OLD_LOGIN_AGAIN -> {
+                            Either.Left(LoginAgainError)
+                        }
+                        else -> {
+                            Either.Left(HttpError(response.status.value, response.body<String>()))
+                        }
+                    }
+                } catch (e: Exception) {
+                    Either.Left(HttpError(response.status.value, "Cast error"))
+                }
+            }
             else -> {
                 try {
-                    val fbResponse = response.body<FBErrorBody>()
-                    Either.Left(HttpError(code = fbResponse.error.code, message = fbResponse.error.message))
+                    Either.Left(response.body<Error>())
                 } catch (e: Exception) {
                     Either.Left(HttpError(response.status.value, response.body<String>()))
                 }
@@ -46,6 +65,8 @@ fun URLBuilder.defaultUrlConfig() {
     host = FIREBASE_BASE_URL
 }
 
-fun HttpMessageBuilder.defaultRequestConfig() {
-    contentType(ContentType.Application.Json)
+fun HttpMessageBuilder.defaultRequestConfig(
+    contentType: ContentType = ContentType.Application.Json
+) {
+    contentType(contentType)
 }

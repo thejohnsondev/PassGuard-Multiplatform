@@ -8,6 +8,9 @@ import com.thejohnsondev.model.auth.firebase.FBAuthDeleteAccountBody
 import com.thejohnsondev.model.auth.firebase.FBAuthRequestBody
 import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
+import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
+import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
+import com.thejohnsondev.model.auth.firebase.GRAND_TYPE_REFRESH
 import com.thejohnsondev.network.RemoteApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -19,17 +22,15 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     override suspend fun signUp(
-        body: FBAuthRequestBody,
-        apiKey: String
+        body: FBAuthRequestBody
     ): Flow<Either<Error, FBAuthSignUpResponse>> {
-        return flowOf(remoteApi.signUp(body, apiKey))
+        return flowOf(remoteApi.signUp(body))
     }
 
     override suspend fun singIn(
-        body: FBAuthRequestBody,
-        apiKey: String
+        body: FBAuthRequestBody
     ): Flow<Either<Error, FBAuthSignInResponse>> {
-        return flowOf(remoteApi.signIn(body, apiKey))
+        return flowOf(remoteApi.signIn(body))
     }
 
     override suspend fun signOut() {
@@ -41,12 +42,10 @@ class AuthRepositoryImpl(
         return preferencesDataStore.isUserLoggedIn()
     }
 
-    override suspend fun deleteAccount(
-        apiKey: String
-    ): Flow<Either<Error, Unit>> {
+    override suspend fun deleteAccount(): Flow<Either<Error, Unit>> {
         val token = preferencesDataStore.getAuthToken()
         val body = FBAuthDeleteAccountBody(token)
-        return flowOf(remoteApi.deleteAccount(body, apiKey))
+        return flowOf(remoteApi.deleteAccount(body))
     }
 
     override suspend fun changePassword(
@@ -62,6 +61,21 @@ class AuthRepositoryImpl(
 
     override suspend fun saveEmail(email: String) {
         preferencesDataStore.saveEmail(email)
+    }
+
+    override suspend fun saveRefreshAuthToken(refreshAuthToken: String) {
+        preferencesDataStore.saveRefreshAuthToken(refreshAuthToken)
+    }
+
+    override suspend fun refreshToken(): Flow<Either<Error, FBRefreshTokenResponseBody>> {
+        return flowOf(
+            remoteApi.refreshToken(
+                body = FBRefreshTokenRequestBody(
+                    grantType = GRAND_TYPE_REFRESH,
+                    refreshToken = preferencesDataStore.getRefreshAuthToken()
+                )
+            )
+        )
     }
 
 }
