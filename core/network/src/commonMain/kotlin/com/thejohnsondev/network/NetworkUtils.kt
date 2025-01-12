@@ -28,7 +28,7 @@ suspend inline fun <reified T> callWithMapping(call: (() -> HttpResponse)): Eith
             }
             400 -> {
                 try {
-                    when (response.body<FBErrorBody>().error.message) {
+                    when (val errorMessageCode = response.body<FBErrorBody>().error.message) {
                         ERROR_INVALID_ID_TOKEN -> {
                             Either.Left(InvalidTokenError)
                         }
@@ -36,7 +36,7 @@ suspend inline fun <reified T> callWithMapping(call: (() -> HttpResponse)): Eith
                             Either.Left(LoginAgainError)
                         }
                         else -> {
-                            Either.Left(HttpError(response.status.value, response.body<String>()))
+                            Either.Left(HttpError(response.status.value, errorMessageCode))
                         }
                     }
                 } catch (e: Exception) {

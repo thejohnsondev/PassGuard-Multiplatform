@@ -31,6 +31,7 @@ import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
+import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
 import com.thejohnsondev.ui.components.ConfirmAlertDialog
 import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.SelectableOptionItem
@@ -498,7 +499,7 @@ fun Dialogs(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
-    if (state.openConfirmDeleteAccountDialog) {
+    if (state.isConfirmDeleteAccountDialogOpened) {
         ConfirmAlertDialog(
             windowWidthSizeClass = windowSizeClass,
             title = stringResource(Res.string.delete_account),
@@ -507,14 +508,14 @@ fun Dialogs(
             cancelButtonText = stringResource(Res.string.cancel),
             onConfirm = {
                 onAction(SettingsViewModel.Action.CloseConfirmDeleteAccountDialog)
-                onAction(SettingsViewModel.Action.DeleteAccount)
+                onAction(SettingsViewModel.Action.OpenDeleteAccountPasswordConfirm)
             },
             onCancel = {
                 onAction(SettingsViewModel.Action.CloseConfirmDeleteAccountDialog)
             }
         )
     }
-    if (state.openConfirmLogoutDialog) {
+    if (state.isConfirmLogoutDialogOpened) {
         ConfirmAlertDialog(
             windowWidthSizeClass = windowSizeClass,
             title = stringResource(Res.string.logout),
@@ -528,6 +529,13 @@ fun Dialogs(
             onCancel = {
                 onAction(SettingsViewModel.Action.CloseConfirmLogoutDialog)
             }
+        )
+    }
+    if (state.isDeleteAccountPasswordConfirmDialogOpened) {
+        DeleteAccountPasswordConfirmDialog(
+            state = state,
+            onAction = onAction,
+            windowWidthSizeClass = windowSizeClass
         )
     }
 }

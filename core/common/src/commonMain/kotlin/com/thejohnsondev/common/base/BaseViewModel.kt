@@ -36,11 +36,11 @@ abstract class BaseViewModel : ViewModel() {
 
     fun getEventFlow() = eventFlow.receiveAsFlow()
 
-    protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent)  {
+    protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent) {
         eventFlow.send(event)
     }
 
-    protected suspend fun BaseViewModel.loading()  {
+    protected suspend fun BaseViewModel.loading() {
         screenState.emit(ScreenState.Loading)
     }
 
@@ -54,8 +54,12 @@ abstract class BaseViewModel : ViewModel() {
             is HttpError -> DisplayableMessageValue.StringValue(
                 getFirebaseErrorMessage(error.message)
             )
+
             is NetworkError -> DisplayableMessageValue.CheckInternetConnection
-            is UnknownError -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
+            is UnknownError -> DisplayableMessageValue.StringValue(
+                error.throwable?.message ?: "Unknown error"
+            )
+
             else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
         }
         Logger.e("${this::class.simpleName} error: $error -- $errorDisplayMessage")
