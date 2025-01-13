@@ -29,5 +29,8 @@
     <string name="theme">Theme</string>
     <string name="deep_search_title">Deep search</string>
     <string name="deep_search_description">Search by all details, not only titles</string>
-
+    <string name="enter_password">Enter your password</string>
+    <string name="confirm_delete_account_with_password">To confirm account deletion, please enter your password. Note: this action can not be undone.</string>
+    <string name="confirm">Confirm</string>
+    <string name="password">Password</string>
 </resources>
