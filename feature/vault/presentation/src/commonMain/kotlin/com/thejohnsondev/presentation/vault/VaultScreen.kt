@@ -327,7 +327,7 @@ private fun CompactScreenList(
             )
         }
         item {
-            Filters(state, onAction)
+            Filters(windowSizeClass, state, onAction)
         }
         if (state.passwordsList.isNotEmpty()) {
             items(state.passwordsList.first()) { passwordModel ->
@@ -381,7 +381,7 @@ private fun LargeScreenList(
             )
         }
         item {
-            Filters(state, onAction)
+            Filters(windowSizeClass, state, onAction)
         }
         item {
             if (state.passwordsList.isNotEmpty()) {
@@ -512,6 +512,7 @@ fun SearchBarRow(
 
 @Composable
 fun Filters(
+    windowSizeClass: WindowWidthSizeClass,
     state: VaultViewModel.State,
     onAction: (VaultViewModel.Action) -> Unit
 ) {
@@ -528,7 +529,7 @@ fun Filters(
                     .wrapContentWidth(),
                 filters = state.itemTypeFilters,
                 onFilterClick = { filter, isSelected ->
-                    onAction(VaultViewModel.Action.OnFilterTypeClick(filter, isSelected))
+                    onAction(VaultViewModel.Action.OnFilterTypeClick(windowSizeClass.isCompact(), filter, isSelected))
                 }
             )
             FilterGroup(
@@ -537,7 +538,7 @@ fun Filters(
                     .padding(bottom = Size16),
                 filters = state.itemCategoryFilters,
                 onFilterClick = { filter, isSelected ->
-                    onAction(VaultViewModel.Action.OnFilterCategoryClick(filter, isSelected))
+                    onAction(VaultViewModel.Action.OnFilterCategoryClick(windowSizeClass.isCompact(), filter, isSelected))
                 }
             )
         }

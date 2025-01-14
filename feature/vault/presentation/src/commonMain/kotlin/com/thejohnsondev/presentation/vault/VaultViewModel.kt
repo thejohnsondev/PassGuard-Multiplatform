@@ -5,6 +5,7 @@ import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
+import com.thejohnsondev.domain.FilterItemsUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
@@ -35,6 +36,7 @@ class VaultViewModel(
     private val decryptPasswordsListUseCase: DecryptPasswordsListUseCase,
     private val passwordsMapToUiModelsUseCase: PasswordsMapToUiModelsUseCase,
     private val getSettingsFlowUseCase: GetSettingsFlowUseCase,
+    private val filterItemsUseCase: FilterItemsUseCase
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -60,8 +62,8 @@ class VaultViewModel(
             is Action.ShowHideConfirmDelete -> showHideConfirmDelete(action.deletePasswordPair)
             is Action.ToggleOpenItem -> toggleOpenItem(action.itemId)
             is Action.ToggleIsFiltersOpened -> toggleFiltersOpened()
-            is Action.OnFilterTypeClick -> onFilterTypeClick(action.filter, action.isSelected)
-            is Action.OnFilterCategoryClick -> onFilterCategoryClick(action.filter, action.isSelected)
+            is Action.OnFilterTypeClick -> onFilterTypeClick(action.isCompact, action.filter, action.isSelected)
+            is Action.OnFilterCategoryClick -> onFilterCategoryClick(action.isCompact, action.filter, action.isSelected)
             is Action.OnDeletePasswordClick -> onDeletePasswordClick(action.passwordId)
             is Action.OnAddClick -> onAddClick()
             is Action.OnAddClose -> onAddClose()
@@ -130,29 +132,46 @@ class VaultViewModel(
         }
     }
 
-    private fun onFilterTypeClick(filter: FilterUIModel, isSelected: Boolean) = launch {
+    private fun onFilterTypeClick(isCompact: Boolean, filter: FilterUIModel, isSelected: Boolean) = launch {
         val updatedTypeFilters =
             itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemTypeFilters)
         val isAnyFiltersApplied =
             checkFiltersAppliedUseCase(updatedTypeFilters, _state.value.itemCategoryFilters)
-        // todo filter list
+        val filteredItems = filterItemsUseCase(
+            _allPasswordsList.value,
+            updatedTypeFilters,
+            _state.value.itemCategoryFilters
+        )
+        val dividedItems = splitItemsListUseCase(isCompact, filteredItems)
+        val itemsHeight = calculateListSizeUseCase(dividedItems)
         _state.update {
             it.copy(
                 itemTypeFilters = updatedTypeFilters,
-                isAnyFiltersApplied = isAnyFiltersApplied
+                isAnyFiltersApplied = isAnyFiltersApplied,
+                listHeight = itemsHeight,
+                passwordsList = dividedItems
             )
         }
     }
 
-    private fun onFilterCategoryClick(filter: FilterUIModel, isSelected: Boolean) = launch {
+    private fun onFilterCategoryClick(isCompact: Boolean, filter: FilterUIModel, isSelected: Boolean) = launch {
         val updatedCategoryFilters =
             itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemCategoryFilters)
         val isAnyFiltersApplied =
             checkFiltersAppliedUseCase(_state.value.itemTypeFilters, updatedCategoryFilters)
+        val filteredItems = filterItemsUseCase(
+            _allPasswordsList.value,
+            _state.value.itemTypeFilters,
+            updatedCategoryFilters
+        )
+        val dividedItems = splitItemsListUseCase(isCompact, filteredItems)
+        val itemsHeight = calculateListSizeUseCase(dividedItems)
         _state.update {
             it.copy(
                 itemCategoryFilters = updatedCategoryFilters,
-                isAnyFiltersApplied = isAnyFiltersApplied
+                isAnyFiltersApplied = isAnyFiltersApplied,
+                listHeight = itemsHeight,
+                passwordsList = dividedItems
             )
         }
     }
@@ -218,8 +237,8 @@ class VaultViewModel(
         data class ShowHideConfirmDelete(val deletePasswordPair: Pair<Boolean, PasswordUIModel?>) : Action()
         data class ToggleOpenItem(val itemId: String?) : Action()
         data object ToggleIsFiltersOpened : Action()
-        data class OnFilterTypeClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
-        data class OnFilterCategoryClick(val filter: FilterUIModel, val isSelected: Boolean) : Action()
+        data class OnFilterTypeClick(val isCompact: Boolean, val filter: FilterUIModel, val isSelected: Boolean) : Action()
+        data class OnFilterCategoryClick(val isCompact: Boolean, val filter: FilterUIModel, val isSelected: Boolean) : Action()
         data object OnAddClick : Action()
         data object OnAddClose : Action()
         data class OnEditClick(
