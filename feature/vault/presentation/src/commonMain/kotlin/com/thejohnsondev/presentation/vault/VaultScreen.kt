@@ -113,8 +113,9 @@ fun VaultScreen(
         skipPartiallyExpanded = true
     )
 
+    vaultViewModel.perform(VaultViewModel.Action.UpdateIsScreenCompact(windowSizeClass.isCompact()))
     LaunchedEffect(true) {
-        vaultViewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))
+        vaultViewModel.perform(VaultViewModel.Action.FetchVault)
         setScaffoldConfig(
             ScaffoldConfig(
                 topAppBarTitle = getString(Res.string.vault),
@@ -482,14 +483,13 @@ fun SearchBarRow(
             onQueryEntered = { query ->
                 onAction(
                     VaultViewModel.Action.Search(
-                        windowSizeClass.isCompact(),
                         query,
                         isDeepSearchEnabled
                     )
                 )
             },
             onQueryClear = {
-                onAction(VaultViewModel.Action.StopSearching(windowSizeClass.isCompact()))
+                onAction(VaultViewModel.Action.StopSearching)
             })
 
         AnimatedVisibility(!state.isSearching) {
@@ -529,7 +529,7 @@ fun Filters(
                     .wrapContentWidth(),
                 filters = state.itemTypeFilters,
                 onFilterClick = { filter, isSelected ->
-                    onAction(VaultViewModel.Action.OnFilterTypeClick(windowSizeClass.isCompact(), filter, isSelected))
+                    onAction(VaultViewModel.Action.OnFilterTypeClick(filter, isSelected))
                 }
             )
             FilterGroup(
@@ -538,7 +538,7 @@ fun Filters(
                     .padding(bottom = Size16),
                 filters = state.itemCategoryFilters,
                 onFilterClick = { filter, isSelected ->
-                    onAction(VaultViewModel.Action.OnFilterCategoryClick(windowSizeClass.isCompact(), filter, isSelected))
+                    onAction(VaultViewModel.Action.OnFilterCategoryClick(filter, isSelected))
                 }
             )
         }
