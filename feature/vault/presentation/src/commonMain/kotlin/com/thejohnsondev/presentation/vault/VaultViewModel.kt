@@ -129,19 +129,26 @@ class VaultViewModel(
         }
     }
 
+    private fun prepareToUpdateItemsList(items: List<PasswordUIModel>) {
+        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, items)
+        val itemsHeight = calculateListSizeUseCase(dividedItems)
+        _state.update {
+            it.copy(
+                listHeight = itemsHeight,
+                passwordsList = dividedItems
+            )
+        }
+    }
+
     private fun fetchPasswords() = launchLoading {
         passwordsService.getUserPasswords().collect { items ->
             val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
             val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)
-            val dividedItems =
-                splitItemsListUseCase(_state.value.isScreenCompact, passwordsUiModels)
-            val itemsHeight = calculateListSizeUseCase(dividedItems)
+            prepareToUpdateItemsList(passwordsUiModels)
             _allPasswordsList.emit(passwordsUiModels)
             _state.update {
                 it.copy(
-                    isVaultEmpty = items.isEmpty(),
-                    listHeight = itemsHeight,
-                    passwordsList = dividedItems,
+                    isVaultEmpty = items.isEmpty()
                 )
             }
             showContent()
@@ -158,14 +165,11 @@ class VaultViewModel(
             updatedTypeFilters,
             _state.value.itemCategoryFilters
         )
-        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, filteredItems)
-        val itemsHeight = calculateListSizeUseCase(dividedItems)
+        prepareToUpdateItemsList(filteredItems)
         _state.update {
             it.copy(
                 itemTypeFilters = updatedTypeFilters,
-                isAnyFiltersApplied = isAnyFiltersApplied,
-                listHeight = itemsHeight,
-                passwordsList = dividedItems
+                isAnyFiltersApplied = isAnyFiltersApplied
             )
         }
     }
@@ -183,14 +187,11 @@ class VaultViewModel(
             _state.value.itemTypeFilters,
             updatedCategoryFilters
         )
-        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, filteredItems)
-        val itemsHeight = calculateListSizeUseCase(dividedItems)
+        prepareToUpdateItemsList(filteredItems)
         _state.update {
             it.copy(
                 itemCategoryFilters = updatedCategoryFilters,
                 isAnyFiltersApplied = isAnyFiltersApplied,
-                listHeight = itemsHeight,
-                passwordsList = dividedItems
             )
         }
     }
@@ -207,26 +208,19 @@ class VaultViewModel(
             return@launch
         }
         val resultList = searchUseCase(query, isDeepSearchEnabled, _allPasswordsList.value)
-        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, resultList)
-        val itemsHeight = calculateListSizeUseCase(dividedItems)
+        prepareToUpdateItemsList(resultList)
         _state.update {
             it.copy(
-                isSearching = true,
-                listHeight = itemsHeight,
-                passwordsList = dividedItems
+                isSearching = true
             )
         }
     }
 
     private fun stopSearching() = launch {
-        val dividedItems =
-            splitItemsListUseCase(_state.value.isScreenCompact, _allPasswordsList.value)
-        val itemsHeight = calculateListSizeUseCase(dividedItems)
+        prepareToUpdateItemsList(_allPasswordsList.value)
         _state.update {
             it.copy(
                 isSearching = false,
-                listHeight = itemsHeight,
-                passwordsList = dividedItems
             )
         }
     }
