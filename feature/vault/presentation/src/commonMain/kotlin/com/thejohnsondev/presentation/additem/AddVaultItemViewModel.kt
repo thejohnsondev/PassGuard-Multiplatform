@@ -16,6 +16,7 @@ import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
+import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -71,12 +72,13 @@ class AddVaultItemViewModel(
     }
 
     private fun savePassword() = launchLoading {
+        val selectedCategoryId = _state.value.selectedCategory?.id ?: VAULT_ITEM_CATEGORY_PERSONAL
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
             organization = _state.value.organization,
             title = _state.value.title,
             password = _state.value.password,
-            categoryId = _state.value.selectedCategoryId, // TODO add selecting category
+            categoryId = selectedCategoryId,
             additionalFields = _state.value.additionalFields,
             createdTime = _createdTime.value,
             isFavorite = _state.value.isFavorite // TODO add making favorite
@@ -100,6 +102,7 @@ class AddVaultItemViewModel(
                 title = passwordUIModel.title,
                 password = passwordUIModel.password,
                 additionalFields = passwordUIModel.additionalFields,
+                selectedCategory = passwordUIModel.category
             )
         }
         validateFields()
@@ -197,7 +200,7 @@ class AddVaultItemViewModel(
         val password: String = String.Companion.empty,
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,
-        val selectedCategoryId: String = VAULT_ITEM_CATEGORY_PERSONAL,
+        val selectedCategory: CategoryUIModel? = null,
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
     )
