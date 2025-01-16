@@ -149,7 +149,7 @@ internal fun AddVaultItemContent(
     ) {
         AddPasswordFields(
             state = state,
-                vaultItem = vaultItem,
+            vaultItem = vaultItem,
             onAction = onAction
         )
     }
@@ -208,7 +208,8 @@ internal fun AddPasswordFields(
     val isPasswordHidden = remember {
         mutableStateOf(false)
     }
-    val eyeImage = if (isPasswordHidden.value) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+    val eyeImage =
+        if (isPasswordHidden.value) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
 
     LaunchedEffect(true) {
         if (vaultItem != null) {
@@ -234,6 +235,7 @@ internal fun AddPasswordFields(
                 organizationFocusRequester = organizationFocusRequester,
                 titleFocusRequester = titleFocusRequester
             )
+            CategorySelector(state = state, onAction = onAction)
             TitleField(
                 onAction = onAction,
                 state = state,
@@ -271,6 +273,30 @@ internal fun AddPasswordFields(
 }
 
 @Composable
+private fun CategorySelector(
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit
+) {
+    RoundedContainer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(start = Size16, end = Size16, top = Size8),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Size12),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+        }
+    }
+}
+
+@Composable
 private fun AdditionalFieldsList(
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit
@@ -303,7 +329,8 @@ private fun AdditionalFieldsList(
                     )
                 )
             },
-            isEditMode = state.isEdit)
+            isEditMode = state.isEdit
+        )
     }
 }
 
