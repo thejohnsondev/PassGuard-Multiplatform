@@ -208,7 +208,7 @@ private fun Titles(
                 .padding(vertical = Size8, horizontal = Size16)
                 .alpha(animatedContentAlpha.value),
             text = stringResource(Res.string.app_name),
-            style = MaterialTheme.typography.displayMedium,
+            style = MaterialTheme.typography.displaySmall,
             fontFamily = getGlobalFontFamily()
         )
         Text(
@@ -216,7 +216,7 @@ private fun Titles(
                 .padding(vertical = Size8, horizontal = Size16)
                 .alpha(animatedContentAlpha.value),
             text = stringResource(Res.string.your_fortress),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             fontFamily = getGlobalFontFamily(),
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = Percent80)
         )
