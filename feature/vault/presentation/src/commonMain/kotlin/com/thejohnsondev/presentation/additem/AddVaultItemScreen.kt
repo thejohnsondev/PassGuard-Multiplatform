@@ -283,6 +283,8 @@ private fun CategorySelector(
             .wrapContentHeight()
             .padding(start = Size16, end = Size16, top = Size8),
         color = MaterialTheme.colorScheme.surfaceVariant,
+        isTopRounded = true,
+        isBottomRounded = true
     ) {
         Row(
             modifier = Modifier
@@ -349,7 +351,7 @@ private fun PasswordField(
             .wrapContentHeight()
             .padding(start = Size16, end = Size16, top = Size8),
         color = MaterialTheme.colorScheme.surfaceVariant,
-        isLastItem = true,
+        isBottomRounded = true,
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -404,7 +406,7 @@ private fun TitleField(
             .wrapContentHeight()
             .padding(start = Size16, end = Size16),
         color = MaterialTheme.colorScheme.surfaceVariant,
-        isFirstItem = true,
+        isTopRounded = true,
     ) {
         HintTextField(
             modifier = Modifier

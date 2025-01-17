@@ -16,17 +16,17 @@ import com.thejohnsondev.ui.designsystem.Size4
 fun RoundedContainer(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.surfaceVariant,
-    isFirstItem: Boolean = false,
-    isLastItem: Boolean = false,
+    isTopRounded: Boolean = false,
+    isBottomRounded: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(
-            topStart = if (isFirstItem) Size16 else Size4,
-            topEnd = if (isFirstItem) Size16 else Size4,
-            bottomStart = if (isLastItem) Size16 else Size4,
-            bottomEnd = if (isLastItem) Size16 else Size4
+            topStart = if (isTopRounded) Size16 else Size4,
+            topEnd = if (isTopRounded) Size16 else Size4,
+            bottomStart = if (isBottomRounded) Size16 else Size4,
+            bottomEnd = if (isBottomRounded) Size16 else Size4
         ),
         color = color
     ) {

@@ -320,8 +320,8 @@ fun ExpandedContent(
                 .wrapContentHeight()
                 .padding(start = Size16, end = Size16),
             color = MaterialTheme.colorScheme.surfaceContainerLow,
-            isFirstItem = true,
-            isLastItem = passwordModel.additionalFields.isEmpty()
+            isTopRounded = true,
+            isBottomRounded = passwordModel.additionalFields.isEmpty()
         ) {
             Row(
                 modifier = Modifier
@@ -360,8 +360,8 @@ fun ExpandedContent(
                         .wrapContentHeight()
                         .padding(start = Size16, end = Size16, top = Size4),
                     color = MaterialTheme.colorScheme.surfaceVariant,
-                    isFirstItem = false,
-                    isLastItem = index == passwordModel.additionalFields.size - 1
+                    isTopRounded = false,
+                    isBottomRounded = index == passwordModel.additionalFields.size - 1
                 ) {
                     AdditionalFieldItem(additionalField = it) {
                         onCopyClick(it)
