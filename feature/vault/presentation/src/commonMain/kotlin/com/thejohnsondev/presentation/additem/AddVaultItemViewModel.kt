@@ -16,7 +16,13 @@ import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
+import com.thejohnsondev.ui.model.CategoryUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
+import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
+import com.thejohnsondev.ui.model.mappers.mapToCategory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -67,22 +73,29 @@ class AddVaultItemViewModel(
             is Action.RemoveAdditionalField -> removeAdditionalField(action.id)
             is Action.SavePassword -> savePassword()
             is Action.Clear -> clear()
+            is Action.SelectCategory -> selectCategory(action.category)
         }
     }
 
+    private fun selectCategory(category: CategoryUIModel) = launch {
+        _state.update { it.copy(selectedCategory = category) }
+    }
+
     private fun savePassword() = launchLoading {
+        val selectedCategoryId = _state.value.selectedCategory.id
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
             organization = _state.value.organization,
             title = _state.value.title,
             password = _state.value.password,
-            categoryId = _state.value.selectedCategoryId, // TODO add selecting category
+            categoryId = selectedCategoryId,
             additionalFields = _state.value.additionalFields,
             createdTime = _createdTime.value,
             isFavorite = _state.value.isFavorite // TODO add making favorite
         )
         val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
+        delay(SAVE_ANIMATE_TIME)
         sendEvent(
             OneTimeEvent.SuccessNavigation(
                 if (_state.value.isEdit) DisplayableMessageValue.PasswordEditSuccess else DisplayableMessageValue.PasswordAddedSuccess
@@ -100,6 +113,7 @@ class AddVaultItemViewModel(
                 title = passwordUIModel.title,
                 password = passwordUIModel.password,
                 additionalFields = passwordUIModel.additionalFields,
+                selectedCategory = passwordUIModel.category
             )
         }
         validateFields()
@@ -186,6 +200,7 @@ class AddVaultItemViewModel(
         data class EnterAdditionalFieldTitle(val id: String, val title: String) : Action()
         data class EnterAdditionalFieldValue(val id: String, val value: String) : Action()
         data class RemoveAdditionalField(val id: String) : Action()
+        data class SelectCategory(val category: CategoryUIModel) : Action()
         data object SavePassword : Action()
         data object Clear : Action()
     }
@@ -197,9 +212,14 @@ class AddVaultItemViewModel(
         val password: String = String.Companion.empty,
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,
-        val selectedCategoryId: String = VAULT_ITEM_CATEGORY_PERSONAL,
+        val selectedCategory: CategoryUIModel = personalFilterUIModel.mapToCategory(),
+        val itemCategoryFilters: List<FilterUIModel> = getVaultCategoryFilters(),
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
     )
+
+    companion object {
+        private const val SAVE_ANIMATE_TIME = 300L
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.thejohnsondev.ui.components
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -14,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size48
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -43,6 +45,7 @@ fun LoadedImage(
                 if (showLoading) {
                     Loader(
                         modifier = Modifier
+                            .size(Size48)
                             .padding(Size4)
                             .align(Alignment.Center)
                     )

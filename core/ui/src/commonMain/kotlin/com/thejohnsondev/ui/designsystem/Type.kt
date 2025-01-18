@@ -15,6 +15,13 @@ import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Light
 import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Medium
 import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Regular
 import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Thin
+import vaultmultiplatform.core.ui.generated.resources.Outfit_Black
+import vaultmultiplatform.core.ui.generated.resources.Outfit_Bold
+import vaultmultiplatform.core.ui.generated.resources.Outfit_Light
+import vaultmultiplatform.core.ui.generated.resources.Outfit_Medium
+import vaultmultiplatform.core.ui.generated.resources.Outfit_Regular
+import vaultmultiplatform.core.ui.generated.resources.Outfit_SemiBold
+import vaultmultiplatform.core.ui.generated.resources.Outfit_Thin
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.poppins_black
 import vaultmultiplatform.core.ui.generated.resources.poppins_bold
@@ -69,7 +76,19 @@ fun getAlegreyaFontFamily() = FontFamily(
 )
 
 @Composable
-fun getGlobalFontFamily() = getAlegreyaFontFamily()
+fun getOutfitFontFamily() = FontFamily(
+    Font(Res.font.Outfit_Regular),
+    Font(Res.font.Outfit_Medium, FontWeight.Medium),
+    Font(Res.font.Outfit_SemiBold, FontWeight.SemiBold),
+    Font(Res.font.Outfit_Bold, FontWeight.Bold),
+    Font(Res.font.Outfit_Black, FontWeight.Black),
+    Font(Res.font.Outfit_Light, FontWeight.Light),
+    Font(Res.font.Outfit_Thin, FontWeight.Thin),
+    Font(Res.font.Outfit_Regular, FontWeight.Normal, style = FontStyle.Italic),
+)
+
+@Composable
+fun getGlobalFontFamily() = getOutfitFontFamily()
 
 @Composable
 fun getTypography() = Typography(

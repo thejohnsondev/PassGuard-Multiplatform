@@ -37,6 +37,7 @@ import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size98
+import com.thejohnsondev.ui.utils.KeyboardManager
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.title
@@ -62,12 +63,13 @@ fun AdditionalFieldItem(
     var isHidden by remember {
         mutableStateOf(false)
     }
+    val keyboardController = KeyboardManager.getKeyboardController()
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
     Surface(
         modifier = modifier
             .fillMaxWidth(),
         shape = EqualRounded.medium,
-        color = MaterialTheme.colorScheme.surfaceVariant
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
     ) {
         Row(
             modifier = Modifier
@@ -78,7 +80,7 @@ fun AdditionalFieldItem(
             Surface(
                 modifier = Modifier
                     .weight(1f),
-                color = MaterialTheme.colorScheme.surfaceVariant
+                color = MaterialTheme.colorScheme.surfaceContainerHigh
             ) {
                 Column {
                     HintTextField(
@@ -96,7 +98,11 @@ fun AdditionalFieldItem(
                         },
                         hint = stringResource(Res.string.title)
                     )
-                    HorizontalDivider()
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .padding(horizontal = Size8),
+                        thickness = Size2
+                    )
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
@@ -119,7 +125,7 @@ fun AdditionalFieldItem(
                                 passwordVisible = !isHidden,
                                 hint = stringResource(Res.string.value),
                                 onKeyboardAction = {
-                                    // TODO add function for closing the keyboard on iOS and Android
+                                    keyboardController?.hide()
                                 }
                             )
                         }

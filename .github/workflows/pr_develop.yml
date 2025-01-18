@@ -68,12 +68,33 @@ jobs:
             core/common/build/test-results/**/*.xml
             core/network/build/test-results/**/*.xml
             feature/auth/domain/build/test-results/**/*.xml
-            
+
+      - name: Assemble Release Apk
+        run: ./gradlew assembleRelease
+
+      - name: Sign Bundle
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: composeApp/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Signed release APK
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+
       - name: Deploy to App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: internal-testers
-          file: composeApp/build/outputs/apk/debug/PassGuard-debug.apk
-          releaseNotes: Added delete account functionality
+          file: ${{steps.sign_app.outputs.signedReleaseFile}}
+          releaseNotes: Added new features to add password screen
