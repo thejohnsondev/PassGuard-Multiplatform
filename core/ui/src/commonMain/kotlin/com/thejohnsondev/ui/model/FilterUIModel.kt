@@ -46,6 +46,10 @@ data class FilterUIModel(
             }
         }
     }
+
+    override fun toString(): String {
+        return "FilterUIModel(id=$id, isSelected=$isSelected)"
+    }
 }
 
 data class FilterIcon(

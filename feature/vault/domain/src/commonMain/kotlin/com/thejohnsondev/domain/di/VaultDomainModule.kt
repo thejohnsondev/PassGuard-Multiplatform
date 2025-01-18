@@ -14,6 +14,8 @@ import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCaseImpl
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCaseImpl
+import com.thejohnsondev.domain.FilterItemsUseCase
+import com.thejohnsondev.domain.FilterItemsUseCaseImpl
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCaseImpl
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
@@ -53,4 +55,5 @@ val vaultDomainModule = module {
     singleOf(::DecryptPasswordsListUseCaseImpl) { bind<DecryptPasswordsListUseCase>() }
     singleOf(::PasswordsMapToUiModelsUseCaseImpl) { bind<PasswordsMapToUiModelsUseCase>() }
     singleOf(::ValidatePasswordModelUseCaseImpl) { bind<ValidatePasswordModelUseCase>() }
+    singleOf(::FilterItemsUseCaseImpl) { bind<FilterItemsUseCase>() }
 }

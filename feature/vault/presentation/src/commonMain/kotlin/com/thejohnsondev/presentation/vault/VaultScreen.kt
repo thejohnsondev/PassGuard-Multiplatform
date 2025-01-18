@@ -113,8 +113,9 @@ fun VaultScreen(
         skipPartiallyExpanded = true
     )
 
+    vaultViewModel.perform(VaultViewModel.Action.UpdateIsScreenCompact(windowSizeClass.isCompact()))
     LaunchedEffect(true) {
-        vaultViewModel.perform(VaultViewModel.Action.FetchVault(isCompact = windowSizeClass.isCompact()))
+        vaultViewModel.perform(VaultViewModel.Action.FetchVault)
         setScaffoldConfig(
             ScaffoldConfig(
                 topAppBarTitle = getString(Res.string.vault),
@@ -327,7 +328,7 @@ private fun CompactScreenList(
             )
         }
         item {
-            Filters(state, onAction)
+            Filters(windowSizeClass, state, onAction)
         }
         if (state.passwordsList.isNotEmpty()) {
             items(state.passwordsList.first()) { passwordModel ->
@@ -381,7 +382,7 @@ private fun LargeScreenList(
             )
         }
         item {
-            Filters(state, onAction)
+            Filters(windowSizeClass, state, onAction)
         }
         item {
             if (state.passwordsList.isNotEmpty()) {
@@ -482,14 +483,13 @@ fun SearchBarRow(
             onQueryEntered = { query ->
                 onAction(
                     VaultViewModel.Action.Search(
-                        windowSizeClass.isCompact(),
                         query,
                         isDeepSearchEnabled
                     )
                 )
             },
             onQueryClear = {
-                onAction(VaultViewModel.Action.StopSearching(windowSizeClass.isCompact()))
+                onAction(VaultViewModel.Action.StopSearching)
             })
 
         AnimatedVisibility(!state.isSearching) {
@@ -512,6 +512,7 @@ fun SearchBarRow(
 
 @Composable
 fun Filters(
+    windowSizeClass: WindowWidthSizeClass,
     state: VaultViewModel.State,
     onAction: (VaultViewModel.Action) -> Unit
 ) {
