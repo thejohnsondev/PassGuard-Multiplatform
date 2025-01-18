@@ -71,6 +71,7 @@ import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -83,6 +84,8 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.save
 import vaultmultiplatform.feature.vault.presentation.generated.resources.title
 import vaultmultiplatform.feature.vault.presentation.generated.resources.update
 import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
+
+private const val DELAY_BEFORE_FOCUS = 500L
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
@@ -300,6 +303,7 @@ internal fun AddPasswordFields(
 
     LaunchedEffect(Unit) {
         if (vaultItemForEdit == null) {
+            delay(DELAY_BEFORE_FOCUS)
             organizationFocusRequester.requestFocus()
         }
     }
