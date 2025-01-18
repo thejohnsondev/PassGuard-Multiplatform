@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
+import com.thejohnsondev.ui.designsystem.Percent60
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 
@@ -70,7 +71,7 @@ fun HintTextField(
                 text = hint,
                 modifier = modifier,
                 style = TextStyle(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = Percent60),
                     fontSize = fontSize,
                     fontFamily = getGlobalFontFamily()
                 )
