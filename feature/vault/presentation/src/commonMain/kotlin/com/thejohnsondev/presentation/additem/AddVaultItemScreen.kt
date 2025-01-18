@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -268,6 +269,7 @@ internal fun AddPasswordFields(
             )
             AdditionalFieldsList(
                 modifier = Modifier
+                    .wrapContentSize()
                     .padding(top = Size8, bottom = Size8),
                 state = state,
                 onAction = onAction
@@ -295,7 +297,7 @@ private fun AdditionalFieldsList(
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit
 ) {
-    Box(
+    Column(
         modifier = modifier
     ) {
         state.additionalFields.forEach { additionalField ->
