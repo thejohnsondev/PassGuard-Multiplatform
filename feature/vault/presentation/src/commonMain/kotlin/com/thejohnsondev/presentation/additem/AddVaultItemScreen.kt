@@ -153,7 +153,7 @@ internal fun AddVaultItemContent(
     ) {
         AddPasswordFields(
             state = state,
-            vaultItem = vaultItem,
+            vaultItemForEdit = vaultItem,
             onAction = onAction
         )
     }
@@ -203,7 +203,7 @@ private fun ModalDragHandle(
 @Composable
 internal fun AddPasswordFields(
     state: AddVaultItemViewModel.State,
-    vaultItem: PasswordUIModel?,
+    vaultItemForEdit: PasswordUIModel?,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
     val organizationFocusRequester = remember {
@@ -223,8 +223,8 @@ internal fun AddPasswordFields(
         if (isPasswordHidden.value) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
 
     LaunchedEffect(true) {
-        if (vaultItem != null) {
-            onAction(AddVaultItemViewModel.Action.SetPasswordForEdit(vaultItem))
+        if (vaultItemForEdit != null) {
+            onAction(AddVaultItemViewModel.Action.SetPasswordForEdit(vaultItemForEdit))
         }
     }
 
@@ -295,6 +295,12 @@ internal fun AddPasswordFields(
                 ),
                 buttonShape = ButtonShape.ROUNDED
             )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (vaultItemForEdit == null) {
+            organizationFocusRequester.requestFocus()
         }
     }
 
