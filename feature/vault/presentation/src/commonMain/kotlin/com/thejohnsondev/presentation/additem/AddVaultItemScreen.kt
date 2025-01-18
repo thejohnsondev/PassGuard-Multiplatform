@@ -2,7 +2,6 @@ package com.thejohnsondev.presentation.additem
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,17 +45,20 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.ui.components.BackArrowButton
 import com.thejohnsondev.ui.components.HintTextField
 import com.thejohnsondev.ui.components.LoadedImage
+import com.thejohnsondev.ui.components.Loader
 import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.RoundedContainer
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
@@ -186,7 +188,14 @@ private fun ModalDragHandle(
             },
             enabled = state.isValid,
         ) {
-            Text(text = stringResource(if (state.isEdit) Res.string.update else Res.string.save))
+            if (state.screenState is ScreenState.Loading) {
+                Loader(
+                    modifier = Modifier.size(Size24),
+                    iconTintColor = MaterialTheme.colorScheme.onPrimary
+                )
+            } else {
+                Text(text = stringResource(if (state.isEdit) Res.string.update else Res.string.save))
+            }
         }
     }
 }

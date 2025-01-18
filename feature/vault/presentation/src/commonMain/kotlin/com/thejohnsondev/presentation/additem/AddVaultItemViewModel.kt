@@ -22,6 +22,7 @@ import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
 import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
 import com.thejohnsondev.ui.model.mappers.mapToCategory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -81,7 +82,7 @@ class AddVaultItemViewModel(
     }
 
     private fun savePassword() = launchLoading {
-        val selectedCategoryId = _state.value.selectedCategory?.id ?: VAULT_ITEM_CATEGORY_PERSONAL
+        val selectedCategoryId = _state.value.selectedCategory.id
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
             organization = _state.value.organization,
@@ -94,6 +95,7 @@ class AddVaultItemViewModel(
         )
         val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
+        delay(SAVE_ANIMATE_TIME)
         sendEvent(
             OneTimeEvent.SuccessNavigation(
                 if (_state.value.isEdit) DisplayableMessageValue.PasswordEditSuccess else DisplayableMessageValue.PasswordAddedSuccess
@@ -215,5 +217,9 @@ class AddVaultItemViewModel(
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
     )
+
+    companion object {
+        private const val SAVE_ANIMATE_TIME = 300L
+    }
 
 }
