@@ -17,7 +17,11 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.ui.model.CategoryUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
+import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
+import com.thejohnsondev.ui.model.mappers.mapToCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -68,7 +72,12 @@ class AddVaultItemViewModel(
             is Action.RemoveAdditionalField -> removeAdditionalField(action.id)
             is Action.SavePassword -> savePassword()
             is Action.Clear -> clear()
+            is Action.SelectCategory -> selectCategory(action.category)
         }
+    }
+
+    private fun selectCategory(category: CategoryUIModel) = launch {
+        _state.update { it.copy(selectedCategory = category) }
     }
 
     private fun savePassword() = launchLoading {
@@ -189,6 +198,7 @@ class AddVaultItemViewModel(
         data class EnterAdditionalFieldTitle(val id: String, val title: String) : Action()
         data class EnterAdditionalFieldValue(val id: String, val value: String) : Action()
         data class RemoveAdditionalField(val id: String) : Action()
+        data class SelectCategory(val category: CategoryUIModel) : Action()
         data object SavePassword : Action()
         data object Clear : Action()
     }
@@ -200,7 +210,8 @@ class AddVaultItemViewModel(
         val password: String = String.Companion.empty,
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,
-        val selectedCategory: CategoryUIModel? = null,
+        val selectedCategory: CategoryUIModel = personalFilterUIModel.mapToCategory(),
+        val itemCategoryFilters: List<FilterUIModel> = getVaultCategoryFilters(),
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
     )

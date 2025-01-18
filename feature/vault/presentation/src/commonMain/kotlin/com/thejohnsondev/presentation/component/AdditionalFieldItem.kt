@@ -67,7 +67,7 @@ fun AdditionalFieldItem(
         modifier = modifier
             .fillMaxWidth(),
         shape = EqualRounded.medium,
-        color = MaterialTheme.colorScheme.surfaceVariant
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
     ) {
         Row(
             modifier = Modifier
@@ -78,7 +78,7 @@ fun AdditionalFieldItem(
             Surface(
                 modifier = Modifier
                     .weight(1f),
-                color = MaterialTheme.colorScheme.surfaceVariant
+                color = MaterialTheme.colorScheme.surfaceContainerHigh
             ) {
                 Column {
                     HintTextField(
@@ -96,7 +96,11 @@ fun AdditionalFieldItem(
                         },
                         hint = stringResource(Res.string.title)
                     )
-                    HorizontalDivider()
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .padding(horizontal = Size8),
+                        thickness = Size2
+                    )
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically

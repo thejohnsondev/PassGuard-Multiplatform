@@ -2,10 +2,10 @@ package com.thejohnsondev.presentation.additem
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,6 +46,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
+import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.ui.components.BackArrowButton
 import com.thejohnsondev.ui.components.HintTextField
 import com.thejohnsondev.ui.components.LoadedImage
@@ -61,8 +62,8 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.displaymessage.getAsText
-import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
@@ -235,14 +236,29 @@ internal fun AddPasswordFields(
                 organizationFocusRequester = organizationFocusRequester,
                 titleFocusRequester = titleFocusRequester
             )
-            CategorySelector(state = state, onAction = onAction)
+            CategorySelectorItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = Size16, vertical = Size8),
+                state = state,
+                onAction = onAction
+            )
             TitleField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = Size16, end = Size16, top = Size8),
                 onAction = onAction,
                 state = state,
                 titleFocusRequester = titleFocusRequester,
                 passwordFocusRequester = passwordFocusRequester
             )
             PasswordField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = Size16, end = Size16, top = Size8, bottom = Size8),
                 onAction = onAction,
                 state = state,
                 passwordFocusRequester = passwordFocusRequester,
@@ -250,13 +266,14 @@ internal fun AddPasswordFields(
                 isPasswordHidden = isPasswordHidden,
                 eyeImage = eyeImage
             )
-            Spacer(modifier = Modifier.size(Size16))
-            AdditionalFieldsList(state = state, onAction = onAction)
-            RoundedButton(
+            AdditionalFieldsList(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Size16)
-                    .bounceClick(),
+                    .padding(top = Size8, bottom = Size8),
+                state = state,
+                onAction = onAction
+            )
+            RoundedButton(
+                modifier = Modifier.fillMaxWidth().padding(Size16).bounceClick(),
                 text = stringResource(Res.string.add_field),
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.AddAdditionalField)
@@ -273,71 +290,54 @@ internal fun AddPasswordFields(
 }
 
 @Composable
-private fun CategorySelector(
+private fun AdditionalFieldsList(
+    modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit
 ) {
-    RoundedContainer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = Size16, end = Size16, top = Size8),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        isTopRounded = true,
-        isBottomRounded = true
+    Box(
+        modifier = modifier
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Size12),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
+        state.additionalFields.forEach { additionalField ->
+            AdditionalFieldItem(
+                modifier = Modifier
+                    .padding(
+                        start = Size16,
+                        end = Size16,
+                        bottom = Size8
+                    ),
+                title = additionalField.title,
+                value = additionalField.value,
+                onTitleChanged = { title ->
+                    onAction(
+                        AddVaultItemViewModel.Action.EnterAdditionalFieldTitle(
+                            id = additionalField.id, title
+                        )
+                    )
+                },
+                onValueChanged = { value ->
+                    onAction(
+                        AddVaultItemViewModel.Action.EnterAdditionalFieldValue(
+                            additionalField.id, value
+                        )
+                    )
+                },
+                onDeleteClick = {
+                    onAction(
+                        AddVaultItemViewModel.Action.RemoveAdditionalField(
+                            additionalField.id
+                        )
+                    )
+                },
+                isEditMode = state.isEdit
+            )
         }
     }
 }
 
 @Composable
-private fun AdditionalFieldsList(
-    state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
-) {
-    state.additionalFields.forEachIndexed { index, additionalField ->
-        AdditionalFieldItem(
-            modifier = Modifier
-                .padding(start = Size16, end = Size16, top = Size8),
-            title = additionalField.title,
-            value = additionalField.value,
-            onTitleChanged = { title ->
-                onAction(
-                    AddVaultItemViewModel.Action.EnterAdditionalFieldTitle(
-                        id = additionalField.id,
-                        title
-                    )
-                )
-            },
-            onValueChanged = { value ->
-                onAction(
-                    AddVaultItemViewModel.Action.EnterAdditionalFieldValue(
-                        additionalField.id,
-                        value
-                    )
-                )
-            }, onDeleteClick = {
-                onAction(
-                    AddVaultItemViewModel.Action.RemoveAdditionalField(
-                        additionalField.id
-                    )
-                )
-            },
-            isEditMode = state.isEdit
-        )
-    }
-}
-
-@Composable
 private fun PasswordField(
+    modifier: Modifier = Modifier,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     state: AddVaultItemViewModel.State,
     passwordFocusRequester: FocusRequester,
@@ -346,11 +346,8 @@ private fun PasswordField(
     eyeImage: ImageVector
 ) {
     RoundedContainer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = Size16, end = Size16, top = Size8),
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
         isBottomRounded = true,
     ) {
         Row(
@@ -358,9 +355,7 @@ private fun PasswordField(
             verticalAlignment = Alignment.CenterVertically
         ) {
             HintTextField(
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .fillMaxWidth(Percent90)
+                modifier = Modifier.wrapContentHeight().fillMaxWidth(Percent90)
                     .padding(horizontal = Size12, vertical = Size16),
                 onValueChanged = { password ->
                     onAction(AddVaultItemViewModel.Action.EnterPassword(password))
@@ -378,11 +373,9 @@ private fun PasswordField(
                 keyboardType = KeyboardType.Password,
                 passwordVisible = !isPasswordHidden.value
             )
-            IconButton(
-                modifier = Modifier.padding(end = Size8),
-                onClick = {
-                    isPasswordHidden.value = !isPasswordHidden.value
-                }) {
+            IconButton(modifier = Modifier.padding(end = Size8), onClick = {
+                isPasswordHidden.value = !isPasswordHidden.value
+            }) {
                 Icon(
                     imageVector = eyeImage,
                     contentDescription = stringResource(Res.string.visibility),
@@ -395,23 +388,19 @@ private fun PasswordField(
 
 @Composable
 private fun TitleField(
+    modifier: Modifier = Modifier,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     state: AddVaultItemViewModel.State,
     titleFocusRequester: FocusRequester,
     passwordFocusRequester: FocusRequester
 ) {
     RoundedContainer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = Size16, end = Size16),
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
         isTopRounded = true,
     ) {
         HintTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
+            modifier = Modifier.fillMaxWidth().wrapContentHeight()
                 .padding(horizontal = Size12, vertical = Size16),
             onValueChanged = { title ->
                 onAction(AddVaultItemViewModel.Action.EnterTitle(title))

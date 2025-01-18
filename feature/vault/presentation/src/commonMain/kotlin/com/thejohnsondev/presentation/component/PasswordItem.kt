@@ -359,7 +359,7 @@ fun ExpandedContent(
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .padding(start = Size16, end = Size16, top = Size4),
-                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     isTopRounded = false,
                     isBottomRounded = index == passwordModel.additionalFields.size - 1
                 ) {

@@ -15,6 +15,8 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.additem.AddVaultItemContent
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
+import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
+import com.thejohnsondev.ui.model.mappers.mapToCategory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -78,7 +80,8 @@ private fun AddVaultItemEditPreview() {
                     AdditionalFieldDto(
                         id = "2", title = "exampleField2", value = "exampleValue2"
                     )
-                )
+                ),
+                selectedCategory = personalFilterUIModel.mapToCategory()
             ),
             sheetState = sheetState,
             windowSizeClass = WindowWidthSizeClass.Compact,
