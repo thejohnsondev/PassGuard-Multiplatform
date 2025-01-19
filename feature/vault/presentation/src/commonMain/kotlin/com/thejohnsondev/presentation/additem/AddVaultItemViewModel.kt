@@ -1,7 +1,6 @@
 package com.thejohnsondev.presentation.additem
 
 import androidx.lifecycle.viewModelScope
-import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
@@ -18,10 +17,9 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.model.PasswordUIModel
-import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
-import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
-import com.thejohnsondev.ui.model.mappers.mapToCategory
+import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,7 +35,7 @@ class AddVaultItemViewModel(
     private val removeAdditionalFieldUseCase: RemoveAdditionalFieldUseCase,
     private val generatePasswordModelUseCase: GeneratePasswordModelUseCase,
     private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
-    private val validatePasswordModelUseCase: ValidatePasswordModelUseCase
+    private val validatePasswordModelUseCase: ValidatePasswordModelUseCase,
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
@@ -212,8 +210,8 @@ class AddVaultItemViewModel(
         val password: String = String.Companion.empty,
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,
-        val selectedCategory: CategoryUIModel = personalFilterUIModel.mapToCategory(),
-        val itemCategoryFilters: List<FilterUIModel> = getVaultCategoryFilters(),
+        val selectedCategory: CategoryUIModel = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory(),
+        val itemCategoryFilters: List<FilterUIModel> = FiltersProvider.Category.getVaultCategoryFilters(),
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
     )

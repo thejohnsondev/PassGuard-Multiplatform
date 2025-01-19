@@ -1,11 +1,8 @@
 package com.thejohnsondev.ui.model
 
 import com.thejohnsondev.model.vault.AdditionalFieldDto
-import com.thejohnsondev.ui.model.filterlists.financeFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.othersFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.workFilterUIModel
-import com.thejohnsondev.ui.model.mappers.mapToCategory
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
+import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 
 data class PasswordUIModel(
     val id: String,
@@ -29,12 +26,16 @@ data class PasswordUIModel(
             password = "examplePassword123",
             additionalFields = listOf(
                 AdditionalFieldDto.testAdditionalField,
-                AdditionalFieldDto.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2")
+                AdditionalFieldDto.testAdditionalField.copy(
+                    id = "2",
+                    title = "exampleField2",
+                    value = "exampleValue2"
+                )
             ),
             modifiedTime = "November 2 2024 20:01",
             createdTime = "November 1 2024 10:22",
             isFavorite = false,
-            category = personalFilterUIModel.mapToCategory()
+            category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
         )
         val testPasswordItems = listOf(
             testPasswordUIModel.copy(
@@ -49,7 +50,7 @@ data class PasswordUIModel(
                 additionalFields = listOf(
                     AdditionalFieldDto.testAdditionalField
                 ),
-                category = workFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "3",
@@ -58,9 +59,13 @@ data class PasswordUIModel(
                 isFavorite = true,
                 additionalFields = listOf(
                     AdditionalFieldDto.testAdditionalField,
-                    AdditionalFieldDto.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2")
+                    AdditionalFieldDto.testAdditionalField.copy(
+                        id = "2",
+                        title = "exampleField2",
+                        value = "exampleValue2"
+                    )
                 ),
-                category = workFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "4",
@@ -69,10 +74,18 @@ data class PasswordUIModel(
                 organizationLogo = "https://example.com/logo4.png",
                 additionalFields = listOf(
                     AdditionalFieldDto.testAdditionalField,
-                    AdditionalFieldDto.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2"),
-                    AdditionalFieldDto.testAdditionalField.copy(id = "3", title = "exampleField3", value = "exampleValue3"),
+                    AdditionalFieldDto.testAdditionalField.copy(
+                        id = "2",
+                        title = "exampleField2",
+                        value = "exampleValue2"
+                    ),
+                    AdditionalFieldDto.testAdditionalField.copy(
+                        id = "3",
+                        title = "exampleField3",
+                        value = "exampleValue3"
+                    ),
                 ),
-                category = workFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "5",
@@ -80,9 +93,21 @@ data class PasswordUIModel(
                 organization = "Example Organization 5",
                 additionalFields = listOf(
                     AdditionalFieldDto.testAdditionalField,
-                    AdditionalFieldDto.testAdditionalField.copy(id = "2", title = "exampleField2", value = "exampleValue2"),
-                    AdditionalFieldDto.testAdditionalField.copy(id = "3", title = "exampleField3", value = "exampleValue3"),
-                    AdditionalFieldDto.testAdditionalField.copy(id = "4", title = "exampleField4", value = "exampleValue4"),
+                    AdditionalFieldDto.testAdditionalField.copy(
+                        id = "2",
+                        title = "exampleField2",
+                        value = "exampleValue2"
+                    ),
+                    AdditionalFieldDto.testAdditionalField.copy(
+                        id = "3",
+                        title = "exampleField3",
+                        value = "exampleValue3"
+                    ),
+                    AdditionalFieldDto.testAdditionalField.copy(
+                        id = "4",
+                        title = "exampleField4",
+                        value = "exampleValue4"
+                    ),
                 )
             ),
             testPasswordUIModel.copy(
@@ -107,14 +132,14 @@ data class PasswordUIModel(
                 id = "9",
                 title = "Example Title 9",
                 organization = "Example Organization 9",
-                category = financeFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "10",
                 title = "Example Title 10",
                 organization = "Example Organization 10",
                 organizationLogo = "https://example.com/logo10.png",
-                category = financeFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "11",
@@ -127,7 +152,7 @@ data class PasswordUIModel(
                 title = "Example Title 12",
                 organization = "Example Organization 12",
                 organizationLogo = "https://example.com/logo12.png",
-                category = workFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "13",
@@ -145,7 +170,7 @@ data class PasswordUIModel(
                 title = "Example Title 15",
                 organization = "Example Organization 15",
                 isFavorite = true,
-                category = financeFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "16",
@@ -163,21 +188,21 @@ data class PasswordUIModel(
                 title = "Example Title 18",
                 organization = "Example Organization 18",
                 organizationLogo = "https://example.com/logo18.png",
-                category = othersFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "19",
                 title = "Example Title 19",
                 organization = "Example Organization 19",
                 isFavorite = true,
-                category = othersFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "20",
                 title = "Example Title 20",
                 organization = "Example Organization 20",
                 organizationLogo = "https://example.com/logo20.png",
-                category = othersFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             testPasswordUIModel.copy(
                 id = "21",
