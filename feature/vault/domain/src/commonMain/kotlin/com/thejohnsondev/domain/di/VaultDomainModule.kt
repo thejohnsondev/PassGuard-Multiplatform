@@ -16,8 +16,12 @@ import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCaseImpl
 import com.thejohnsondev.domain.FilterItemsUseCase
 import com.thejohnsondev.domain.FilterItemsUseCaseImpl
+import com.thejohnsondev.domain.AppliedFiltersService
+import com.thejohnsondev.domain.AppliedFiltersServiceImpl
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCaseImpl
+import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
+import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCaseImpl
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCaseImpl
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
@@ -32,6 +36,8 @@ import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCaseImpl
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCaseImpl
+import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
+import com.thejohnsondev.domain.UpdateSelectedFiltersUseCaseImpl
 import com.thejohnsondev.domain.ValidatePasswordModelUseCase
 import com.thejohnsondev.domain.ValidatePasswordModelUseCaseImpl
 import org.koin.core.module.dsl.bind
@@ -56,4 +62,7 @@ val vaultDomainModule = module {
     singleOf(::PasswordsMapToUiModelsUseCaseImpl) { bind<PasswordsMapToUiModelsUseCase>() }
     singleOf(::ValidatePasswordModelUseCaseImpl) { bind<ValidatePasswordModelUseCase>() }
     singleOf(::FilterItemsUseCaseImpl) { bind<FilterItemsUseCase>() }
+    singleOf(::AppliedFiltersServiceImpl) { bind<AppliedFiltersService>() }
+    singleOf(::UpdateSelectedFiltersUseCaseImpl) { bind<UpdateSelectedFiltersUseCase>() }
+    singleOf(::GetSelectedFiltersIDsUseCaseImpl) { bind<GetSelectedFiltersIDsUseCase>() }
 }

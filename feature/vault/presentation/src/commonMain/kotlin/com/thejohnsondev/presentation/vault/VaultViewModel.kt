@@ -6,6 +6,8 @@ import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.FilterItemsUseCase
+import com.thejohnsondev.domain.AppliedFiltersService
+import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
@@ -13,6 +15,7 @@ import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
+import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.model.FilterUIModel
@@ -36,6 +39,9 @@ class VaultViewModel(
     private val passwordsMapToUiModelsUseCase: PasswordsMapToUiModelsUseCase,
     private val getSettingsFlowUseCase: GetSettingsFlowUseCase,
     private val filterItemsUseCase: FilterItemsUseCase,
+    private val appliedFiltersService: AppliedFiltersService,
+    private val updateSelectedFiltersUseCase: UpdateSelectedFiltersUseCase,
+    private val getSelectedFiltersIDsUseCase: GetSelectedFiltersIDsUseCase,
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -118,8 +124,29 @@ class VaultViewModel(
     }
 
     private fun fetchVault() {
-        fetchPasswords()
+        fetchFilters()
         fetchSettings()
+        fetchPasswords()
+    }
+
+    private fun fetchFilters() = launch {
+        val itemTypeFilters = FiltersProvider.ItemType.getVaultItemTypeFilters()
+        val itemCategoryFilters = FiltersProvider.Category.getVaultCategoryFilters()
+        val appliedItemTypeFiltersIDs = appliedFiltersService.getAppliedItemTypeFilters()
+        val appliedCategoryFiltersIDs = appliedFiltersService.getAppliedItemCategoryFilters()
+        val updatedItemTypeFilters =
+            updateSelectedFiltersUseCase(itemTypeFilters, appliedItemTypeFiltersIDs)
+        val updatedCategoryFilters =
+            updateSelectedFiltersUseCase(itemCategoryFilters, appliedCategoryFiltersIDs)
+        val isAnyFiltersApplied =
+            checkFiltersAppliedUseCase(updatedItemTypeFilters, updatedCategoryFilters)
+        _state.update {
+            it.copy(
+                itemTypeFilters = updatedItemTypeFilters,
+                itemCategoryFilters = updatedCategoryFilters,
+                isAnyFiltersApplied = isAnyFiltersApplied
+            )
+        }
     }
 
     private fun fetchSettings() = launch {
@@ -128,8 +155,13 @@ class VaultViewModel(
         }
     }
 
-    private fun prepareToUpdateItemsList(items: List<PasswordUIModel>) {
-        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, items)
+    private suspend fun prepareToUpdateItemsList(items: List<PasswordUIModel>) {
+        val filteredItems = filterItemsUseCase(
+            items = items,
+            typeFilters = _state.value.itemTypeFilters,
+            categoryFilters = _state.value.itemCategoryFilters,
+        )
+        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, filteredItems)
         val itemsHeight = calculateListSizeUseCase(dividedItems)
         _state.update {
             it.copy(
@@ -159,18 +191,14 @@ class VaultViewModel(
             itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemTypeFilters)
         val isAnyFiltersApplied =
             checkFiltersAppliedUseCase(updatedTypeFilters, _state.value.itemCategoryFilters)
-        val filteredItems = filterItemsUseCase(
-            _allPasswordsList.value,
-            updatedTypeFilters,
-            _state.value.itemCategoryFilters
-        )
-        prepareToUpdateItemsList(filteredItems)
         _state.update {
             it.copy(
                 itemTypeFilters = updatedTypeFilters,
                 isAnyFiltersApplied = isAnyFiltersApplied
             )
         }
+        saveAppliedFilters()
+        prepareToUpdateItemsList(_allPasswordsList.value)
     }
 
     private fun onFilterCategoryClick(
@@ -181,18 +209,21 @@ class VaultViewModel(
             itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemCategoryFilters)
         val isAnyFiltersApplied =
             checkFiltersAppliedUseCase(_state.value.itemTypeFilters, updatedCategoryFilters)
-        val filteredItems = filterItemsUseCase(
-            _allPasswordsList.value,
-            _state.value.itemTypeFilters,
-            updatedCategoryFilters
-        )
-        prepareToUpdateItemsList(filteredItems)
         _state.update {
             it.copy(
                 itemCategoryFilters = updatedCategoryFilters,
                 isAnyFiltersApplied = isAnyFiltersApplied,
             )
         }
+        saveAppliedFilters()
+        prepareToUpdateItemsList(_allPasswordsList.value)
+    }
+
+    private fun saveAppliedFilters() = launch {
+        val appliedItemTypeFilters = getSelectedFiltersIDsUseCase(_state.value.itemTypeFilters)
+        val appliedCategoryFilters = getSelectedFiltersIDsUseCase(_state.value.itemCategoryFilters)
+        appliedFiltersService.updateAppliedItemTypeFilters(appliedItemTypeFilters)
+        appliedFiltersService.updateAppliedCategoryFilters(appliedCategoryFilters)
     }
 
     private fun toggleFiltersOpened() {
@@ -287,8 +318,8 @@ class VaultViewModel(
         val isDeepSearchEnabled: Boolean = false,
         val deletePasswordPair: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
         val listHeight: Int = 0,
-        val itemTypeFilters: List<FilterUIModel> = FiltersProvider.ItemType.getVaultItemTypeFilters(),
-        val itemCategoryFilters: List<FilterUIModel> = FiltersProvider.Category.getVaultCategoryFilters(),
+        val itemTypeFilters: List<FilterUIModel> = listOf(),
+        val itemCategoryFilters: List<FilterUIModel> = listOf(),
         val isVaultEmpty: Boolean = false,
         val editVaultItemContainer: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
     )
