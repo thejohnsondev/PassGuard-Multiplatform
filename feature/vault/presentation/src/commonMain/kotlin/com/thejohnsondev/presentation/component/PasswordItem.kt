@@ -220,27 +220,27 @@ fun PasswordItem(
                     }
                 }
                 Column(modifier = Modifier.weight(1f)){
-                        Text(
-                            modifier = Modifier
-                                .padding(start = Size16)
-                                .fillMaxWidth(),
-                            text = item.organization,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = if (isReordering) draggingContentColor else contentColor,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(start = Size16)
-                                .fillMaxWidth(),
-                            text = item.title,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = if (isReordering) draggingContentColor else contentColor,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size16)
+                            .fillMaxWidth(),
+                        text = item.organization,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (isReordering) draggingContentColor else contentColor,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size16)
+                            .fillMaxWidth(),
+                        text = item.title,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (isReordering) draggingContentColor else contentColor,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
                 }
 
                 IconButton(

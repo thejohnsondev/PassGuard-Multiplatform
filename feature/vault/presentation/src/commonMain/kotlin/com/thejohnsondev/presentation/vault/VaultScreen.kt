@@ -92,7 +92,7 @@ fun VaultScreen(
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
-    onShowMessage: (MessageContent) -> Unit
+    onShowMessage: (MessageContent) -> Unit,
 ) {
     val state = vaultViewModel.state.collectAsState(VaultViewModel.State())
     val successSnackBarHostState = remember {
@@ -173,7 +173,7 @@ internal fun VaultScreenContent(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     lazyListState: LazyListState,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -205,7 +205,7 @@ internal fun VaultScreenContent(
 @Composable
 private fun VaultLoading(
     windowSizeClass: WindowWidthSizeClass,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     val topPadding = paddingValues.calculateTopPadding()
     Column(
@@ -233,7 +233,7 @@ private fun ShimmerSearchBar() {
 
 @Composable
 private fun ShimmerPasswordItem(
-    windowSizeClass: WindowWidthSizeClass
+    windowSizeClass: WindowWidthSizeClass,
 ) {
     Row(
         modifier = Modifier
@@ -269,7 +269,7 @@ fun VaultItemsList(
     paddingValues: PaddingValues,
     lazyListState: LazyListState,
     state: VaultViewModel.State,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     val topPadding = paddingValues.calculateTopPadding()
     val bottomPadding = paddingValues.calculateBottomPadding().plus(Size68)
@@ -331,7 +331,11 @@ private fun CompactScreenList(
             Filters(windowSizeClass, state, onAction)
         }
         if (state.passwordsList.isNotEmpty()) {
-            items(state.passwordsList.first()) { passwordModel ->
+            items(
+                items = state.passwordsList.first(),
+                key = {
+                    it.id
+                }) { passwordModel ->
                 BindPasswordItem(
                     modifier = Modifier
                         .animateItem(),
@@ -394,7 +398,10 @@ private fun LargeScreenList(
                             .padding(bottom = bottomPadding, start = Size4),
                         userScrollEnabled = false
                     ) {
-                        items(state.passwordsList.first()) { passwordModel ->
+                        items(items = state.passwordsList.first(),
+                            key = {
+                                it.id
+                            }) { passwordModel ->
                             BindPasswordItem(
                                 modifier = Modifier
                                     .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
@@ -411,7 +418,10 @@ private fun LargeScreenList(
                             .padding(bottom = bottomPadding, end = Size4),
                         userScrollEnabled = false
                     ) {
-                        items(state.passwordsList.last()) { passwordModel ->
+                        items(items = state.passwordsList.last(),
+                            key = {
+                                it.id
+                            }) { passwordModel ->
                             BindPasswordItem(
                                 modifier = Modifier
                                     .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
@@ -432,7 +442,7 @@ private fun LargeScreenList(
 private fun BindPasswordItem(
     modifier: Modifier = Modifier,
     passwordModel: PasswordUIModel,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     PasswordItem(
         modifier = modifier,
@@ -457,7 +467,14 @@ private fun BindPasswordItem(
             onAction(VaultViewModel.Action.OnEditClick(passwordModel))
         },
         onCopySensitiveClick = {},
-        onFavoriteClick = {},
+        onFavoriteClick = {
+            onAction(
+                VaultViewModel.Action.OnMarkAsFavoriteClick(
+                    passwordModel.id,
+                    !passwordModel.isFavorite
+                )
+            )
+        },
         isFavorite = passwordModel.isFavorite
     )
 }
@@ -469,7 +486,7 @@ fun SearchBarRow(
     state: VaultViewModel.State,
     windowSizeClass: WindowWidthSizeClass,
     isDeepSearchEnabled: Boolean,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -514,7 +531,7 @@ fun SearchBarRow(
 fun Filters(
     windowSizeClass: WindowWidthSizeClass,
     state: VaultViewModel.State,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     AnimatedVisibility(visible = state.isFiltersOpened && !state.isSearching) {
         Column(

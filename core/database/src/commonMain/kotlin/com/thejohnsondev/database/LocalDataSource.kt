@@ -10,6 +10,7 @@ interface LocalDataSource {
     suspend fun createOrUpdatePassword(passwordDto: PasswordDto)
     suspend fun updatePasswords(passwordList: List<PasswordDto>)
     suspend fun deletePassword(passwordId: String)
+    suspend fun updateIsFavorite(passwordId: String, isFavorite: Boolean)
 
     suspend fun logout()
 }

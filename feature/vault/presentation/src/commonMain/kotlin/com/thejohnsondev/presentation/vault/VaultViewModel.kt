@@ -2,17 +2,19 @@ package com.thejohnsondev.presentation.vault
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.domain.AppliedFiltersService
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.FilterItemsUseCase
-import com.thejohnsondev.domain.AppliedFiltersService
 import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.SearchItemsUseCase
+import com.thejohnsondev.domain.SortOrder
+import com.thejohnsondev.domain.SortVaultItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
@@ -42,6 +44,7 @@ class VaultViewModel(
     private val appliedFiltersService: AppliedFiltersService,
     private val updateSelectedFiltersUseCase: UpdateSelectedFiltersUseCase,
     private val getSelectedFiltersIDsUseCase: GetSelectedFiltersIDsUseCase,
+    private val sortVaultItemsUseCase: SortVaultItemsUseCase,
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -82,7 +85,15 @@ class VaultViewModel(
             is Action.OnAddClose -> onAddClose()
             is Action.OnEditClick -> onEditClick(action.password)
             is Action.UpdateIsScreenCompact -> updateIsScreenCompact(action.isCompact)
+            is Action.OnMarkAsFavoriteClick -> onMarkAsFavoriteClick(
+                action.passwordId,
+                action.isFavorite
+            )
         }
+    }
+
+    private fun onMarkAsFavoriteClick(passwordId: String, isFavorite: Boolean) = launch {
+        passwordsService.updateIsFavorite(passwordId, isFavorite)
     }
 
     private fun updateIsScreenCompact(isCompact: Boolean) = launch {
@@ -161,7 +172,12 @@ class VaultViewModel(
             typeFilters = _state.value.itemTypeFilters,
             categoryFilters = _state.value.itemCategoryFilters,
         )
-        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, filteredItems)
+        val sortedList = sortVaultItemsUseCase(
+            filteredItems,
+            sortOrder = SortOrder.DATE_DESC, // TODO implement UI for selecting sort order
+            keepFavoriteAtTop = true // TODO implement UI for this
+        )
+        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, sortedList)
         val itemsHeight = calculateListSizeUseCase(dividedItems)
         _state.update {
             it.copy(
@@ -306,6 +322,7 @@ class VaultViewModel(
         ) : Action()
 
         data class OnDeletePasswordClick(val passwordId: String) : Action()
+        data class OnMarkAsFavoriteClick(val passwordId: String, val isFavorite: Boolean) : Action()
     }
 
     data class State(

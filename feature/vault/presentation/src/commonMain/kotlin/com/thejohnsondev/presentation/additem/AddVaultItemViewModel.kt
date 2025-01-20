@@ -89,7 +89,7 @@ class AddVaultItemViewModel(
             categoryId = selectedCategoryId,
             additionalFields = _state.value.additionalFields,
             createdTime = _createdTime.value,
-            isFavorite = _state.value.isFavorite // TODO add making favorite
+            isFavorite = _state.value.isFavorite
         )
         val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
@@ -111,7 +111,8 @@ class AddVaultItemViewModel(
                 title = passwordUIModel.title,
                 password = passwordUIModel.password,
                 additionalFields = passwordUIModel.additionalFields,
-                selectedCategory = passwordUIModel.category
+                selectedCategory = passwordUIModel.category,
+                isFavorite = passwordUIModel.isFavorite
             )
         }
         validateFields()

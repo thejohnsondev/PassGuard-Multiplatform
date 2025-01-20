@@ -14,8 +14,13 @@ private val DEFAULT_SIMPLE_FORMAT = LocalDateTime.Format {
     monthName(MonthNames.ENGLISH_ABBREVIATED)
     char(' ')
     dayOfMonth()
-    char(',')
-    year()
+    char(' ')
+    char('a')
+    char('t')
+    char(' ')
+    hour()
+    char(':')
+    minute()
 }
 
 /**

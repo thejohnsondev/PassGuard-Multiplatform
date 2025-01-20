@@ -57,6 +57,10 @@ class LocalDataSourceImpl(
         vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordId)
     }
 
+    override suspend fun updateIsFavorite(passwordId: String, isFavorite: Boolean) {
+        vaultDatabase.passwordEntityQueries.updateIsFavorite(isFavorite = isFavorite, id = passwordId)
+    }
+
     override suspend fun logout() {
         vaultDatabase.passwordEntityQueries.deleteAll()
         vaultDatabase.additionalFieldEntityQueries.deleteAll()

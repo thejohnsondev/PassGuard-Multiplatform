@@ -32,6 +32,8 @@ import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCaseImpl
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SearchItemsUseCaseImpl
+import com.thejohnsondev.domain.SortVaultItemsUseCase
+import com.thejohnsondev.domain.SortVaultItemsUseCaseImpl
 import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCaseImpl
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
@@ -65,4 +67,5 @@ val vaultDomainModule = module {
     singleOf(::AppliedFiltersServiceImpl) { bind<AppliedFiltersService>() }
     singleOf(::UpdateSelectedFiltersUseCaseImpl) { bind<UpdateSelectedFiltersUseCase>() }
     singleOf(::GetSelectedFiltersIDsUseCaseImpl) { bind<GetSelectedFiltersIDsUseCase>() }
+    singleOf(::SortVaultItemsUseCaseImpl) { bind<SortVaultItemsUseCase>() }
 }

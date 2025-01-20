@@ -18,4 +18,8 @@ class PasswordsServiceImpl(
     override suspend fun deletePassword(passwordId: String) {
         passwordsRepository.deletePassword(passwordId)
     }
+
+    override suspend fun updateIsFavorite(passwordId: String, isFavorite: Boolean) {
+        passwordsRepository.updateIsFavorite(passwordId, isFavorite)
+    }
 }
