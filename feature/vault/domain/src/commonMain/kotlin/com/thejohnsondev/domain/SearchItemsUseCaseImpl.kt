@@ -11,8 +11,8 @@ class SearchItemsUseCaseImpl : SearchItemsUseCase {
         if (query.isEmpty()) return list
         return if (isDeepSearchEnabled) {
             list.filter {
-                it.title.contains(query, ignoreCase = true)
-                        || it.organization.contains(query, ignoreCase = true)
+                it.userName.contains(query, ignoreCase = true)
+                        || it.title.contains(query, ignoreCase = true)
                         || it.password.contains(query, ignoreCase = true)
                         || it.additionalFields.any { field ->
                     field.value.contains(query, ignoreCase = true)
@@ -21,8 +21,8 @@ class SearchItemsUseCaseImpl : SearchItemsUseCase {
             }
         } else {
             list.filter {
-                it.title.contains(query, ignoreCase = true)
-                        || it.organization.contains(query, ignoreCase = true)
+                it.userName.contains(query, ignoreCase = true)
+                        || it.title.contains(query, ignoreCase = true)
             }
         }
     }

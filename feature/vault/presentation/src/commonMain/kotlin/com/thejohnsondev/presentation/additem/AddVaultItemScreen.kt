@@ -78,11 +78,11 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.add_field
 import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
-import vaultmultiplatform.feature.vault.presentation.generated.resources.organization
 import vaultmultiplatform.feature.vault.presentation.generated.resources.password
 import vaultmultiplatform.feature.vault.presentation.generated.resources.save
 import vaultmultiplatform.feature.vault.presentation.generated.resources.title
 import vaultmultiplatform.feature.vault.presentation.generated.resources.update
+import vaultmultiplatform.feature.vault.presentation.generated.resources.username
 import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
 
 private const val DELAY_BEFORE_FOCUS = 500L
@@ -209,10 +209,10 @@ internal fun AddPasswordFields(
     vaultItemForEdit: PasswordUIModel?,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
-    val organizationFocusRequester = remember {
+    val titleFocusRequester = remember {
         FocusRequester()
     }
-    val titleFocusRequester = remember {
+    val userNameFocusRequester = remember {
         FocusRequester()
     }
     val passwordFocusRequester = remember {
@@ -243,11 +243,11 @@ internal fun AddPasswordFields(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top,
         ) {
-            OrganizationField(
+            TitleField(
                 onAction = onAction,
                 state = state,
-                organizationFocusRequester = organizationFocusRequester,
-                titleFocusRequester = titleFocusRequester
+                titleFocusRequester = titleFocusRequester,
+                userNameFocusRequester = userNameFocusRequester
             )
             CategorySelectorItem(
                 modifier = Modifier
@@ -257,14 +257,14 @@ internal fun AddPasswordFields(
                 state = state,
                 onAction = onAction
             )
-            TitleField(
+            UserNameField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(start = Size16, end = Size16, top = Size8),
                 onAction = onAction,
                 state = state,
-                titleFocusRequester = titleFocusRequester,
+                userNameFocusRequester = userNameFocusRequester,
                 passwordFocusRequester = passwordFocusRequester
             )
             PasswordField(
@@ -304,7 +304,7 @@ internal fun AddPasswordFields(
     LaunchedEffect(Unit) {
         if (vaultItemForEdit == null) {
             delay(DELAY_BEFORE_FOCUS)
-            organizationFocusRequester.requestFocus()
+            titleFocusRequester.requestFocus()
         }
     }
 
@@ -408,11 +408,11 @@ private fun PasswordField(
 }
 
 @Composable
-private fun TitleField(
+private fun UserNameField(
     modifier: Modifier = Modifier,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     state: AddVaultItemViewModel.State,
-    titleFocusRequester: FocusRequester,
+    userNameFocusRequester: FocusRequester,
     passwordFocusRequester: FocusRequester
 ) {
     RoundedContainer(
@@ -423,12 +423,12 @@ private fun TitleField(
         HintTextField(
             modifier = Modifier.fillMaxWidth().wrapContentHeight()
                 .padding(horizontal = Size12, vertical = Size16),
-            onValueChanged = { title ->
-                onAction(AddVaultItemViewModel.Action.EnterTitle(title))
+            onValueChanged = { userName ->
+                onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
             },
-            value = state.title,
-            hint = stringResource(Res.string.title),
-            focusRequester = titleFocusRequester,
+            value = state.userName,
+            hint = stringResource(Res.string.username),
+            focusRequester = userNameFocusRequester,
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text20,
             maxLines = 2,
@@ -442,11 +442,11 @@ private fun TitleField(
 }
 
 @Composable
-private fun OrganizationField(
+private fun TitleField(
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     state: AddVaultItemViewModel.State,
-    organizationFocusRequester: FocusRequester,
-    titleFocusRequester: FocusRequester
+    titleFocusRequester: FocusRequester,
+    userNameFocusRequester: FocusRequester
 ) {
     Row(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16),
@@ -474,17 +474,17 @@ private fun OrganizationField(
                 .wrapContentHeight()
                 .fillMaxWidth()
                 .padding(start = Size16),
-            onValueChanged = { organization ->
-                onAction(AddVaultItemViewModel.Action.EnterOrganization(organization))
+            onValueChanged = { title ->
+                onAction(AddVaultItemViewModel.Action.EnterTitle(title))
             },
-            value = state.organization,
-            focusRequester = organizationFocusRequester,
-            hint = stringResource(Res.string.organization),
+            value = state.title,
+            focusRequester = titleFocusRequester,
+            hint = stringResource(Res.string.title),
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text22,
             maxLines = 2,
             onKeyboardAction = {
-                titleFocusRequester.requestFocus()
+                userNameFocusRequester.requestFocus()
             },
             imeAction = ImeAction.Next
         )

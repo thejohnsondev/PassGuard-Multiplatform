@@ -68,8 +68,8 @@ private fun AddVaultItemEditPreview() {
                 screenState = ScreenState.ShowContent,
                 isEdit = true,
                 password = "examplePassword123",
-                title = "Example Title 1",
-                organization = "Example Organization 1",
+                userName = "Example Title 1",
+                title = "Example Organization 1",
                 isValid = true,
                 additionalFields = listOf(
                     AdditionalFieldDto(

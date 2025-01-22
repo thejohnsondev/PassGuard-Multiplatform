@@ -2,9 +2,9 @@ package com.thejohnsondev.model.vault
 
 
 data class PasswordDto(
-    val organization: String,
-    val organizationLogo: String? = null,
     val title: String,
+    val organizationLogo: String? = null,
+    val userName: String,
     val password: String,
     val additionalFields: List<AdditionalFieldDto> = emptyList(),
     override val id: String,

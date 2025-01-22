@@ -54,9 +54,9 @@ class AddVaultItemViewModel(
     fun perform(action: Action) {
         when (action) {
             is Action.SetPasswordForEdit -> setPasswordForEdit(action.passwordUIModel)
-            is Action.EnterOrganization -> enterOrganization(action.organization)
-            is Action.EnterPassword -> enterPassword(action.password)
             is Action.EnterTitle -> enterTitle(action.title)
+            is Action.EnterPassword -> enterPassword(action.password)
+            is Action.EnterUserName -> enterUserName(action.userName)
             is Action.AddAdditionalField -> addAdditionalField()
             is Action.EnterAdditionalFieldTitle -> enterAdditionalFieldTitle(
                 action.id,
@@ -83,8 +83,8 @@ class AddVaultItemViewModel(
         val selectedCategoryId = _state.value.selectedCategory.id
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
-            organization = _state.value.organization,
             title = _state.value.title,
+            userName = _state.value.userName,
             password = _state.value.password,
             categoryId = selectedCategoryId,
             additionalFields = _state.value.additionalFields,
@@ -107,8 +107,8 @@ class AddVaultItemViewModel(
         _state.update {
             it.copy(
                 isEdit = true,
-                organization = passwordUIModel.organization,
                 title = passwordUIModel.title,
+                userName = passwordUIModel.userName,
                 password = passwordUIModel.password,
                 additionalFields = passwordUIModel.additionalFields,
                 selectedCategory = passwordUIModel.category,
@@ -118,16 +118,16 @@ class AddVaultItemViewModel(
         validateFields()
     }
 
-    private fun enterOrganization(organization: String) = launch {
+    private fun enterTitle(title: String) = launch {
         _state.update {
-            it.copy(organization = organization)
+            it.copy(title = title)
         }
         validateFields()
     }
 
-    private fun enterTitle(title: String) = launch {
+    private fun enterUserName(userName: String) = launch {
         _state.update {
-            it.copy(title = title)
+            it.copy(userName = userName)
         }
         validateFields()
     }
@@ -173,8 +173,8 @@ class AddVaultItemViewModel(
 
     private suspend fun validateFields() {
         val isValid = validatePasswordModelUseCase(
-            organization = _state.value.organization,
             title = _state.value.title,
+            userName = _state.value.userName,
             password = _state.value.password,
             additionalFieldsList = _state.value.additionalFields
         )
@@ -192,8 +192,8 @@ class AddVaultItemViewModel(
 
     sealed class Action {
         data class SetPasswordForEdit(val passwordUIModel: PasswordUIModel) : Action()
-        data class EnterOrganization(val organization: String) : Action()
         data class EnterTitle(val title: String) : Action()
+        data class EnterUserName(val userName: String) : Action()
         data class EnterPassword(val password: String) : Action()
         data object AddAdditionalField : Action()
         data class EnterAdditionalFieldTitle(val id: String, val title: String) : Action()
@@ -206,8 +206,8 @@ class AddVaultItemViewModel(
 
     data class State(
         val screenState: ScreenState = ScreenState.None,
-        val organization: String = String.Companion.empty,
         val title: String = String.Companion.empty,
+        val userName: String = String.Companion.empty,
         val password: String = String.Companion.empty,
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,

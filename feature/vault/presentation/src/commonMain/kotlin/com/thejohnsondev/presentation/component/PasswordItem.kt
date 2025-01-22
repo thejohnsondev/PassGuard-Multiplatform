@@ -161,7 +161,7 @@ fun PasswordItem(
                         },
                         onLongClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            onCopyClick(item.title)
+                            onCopyClick(item.userName)
                         })
             },
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -224,7 +224,7 @@ fun PasswordItem(
                         modifier = Modifier
                             .padding(start = Size16)
                             .fillMaxWidth(),
-                        text = item.organization,
+                        text = item.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = if (isReordering) draggingContentColor else contentColor,
@@ -235,7 +235,7 @@ fun PasswordItem(
                         modifier = Modifier
                             .padding(start = Size16)
                             .fillMaxWidth(),
-                        text = item.title,
+                        text = item.userName,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isReordering) draggingContentColor else contentColor,
                         overflow = TextOverflow.Ellipsis,

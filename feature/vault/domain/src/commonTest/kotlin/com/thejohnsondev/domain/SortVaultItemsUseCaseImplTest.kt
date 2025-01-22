@@ -11,8 +11,8 @@ class SortVaultItemsUseCaseImplTest {
 
     private val item1 = PasswordUIModel.testPasswordUIModel.copy(
         id = "1",
-        title = "Item 1",
-        organization = "Org A",
+        userName = "Item 1",
+        title = "Org A",
         createdTime = "Jan 20 at 15:14",
         modifiedTime = "Jan 20 at 15:15",
         isFavorite = false
@@ -20,8 +20,8 @@ class SortVaultItemsUseCaseImplTest {
 
     private val item2 = PasswordUIModel.testPasswordUIModel.copy(
         id = "2",
-        title = "Item 2",
-        organization = "Org B",
+        userName = "Item 2",
+        title = "Org B",
         createdTime = "Jan 20 at 15:14",
         modifiedTime = null,
         isFavorite = true
@@ -29,8 +29,8 @@ class SortVaultItemsUseCaseImplTest {
 
     private val item3 = PasswordUIModel.testPasswordUIModel.copy(
         id = "3",
-        title = "Item 3",
-        organization = "Org C",
+        userName = "Item 3",
+        title = "Org C",
         createdTime = "Jan 20 at 15:13",
         modifiedTime = "Jan 20 at 15:16",
         isFavorite = false

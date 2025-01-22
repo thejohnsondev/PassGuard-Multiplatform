@@ -20,9 +20,9 @@ fun PasswordItemSimplePreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -58,9 +58,9 @@ fun PasswordItemSimpleLongNamesPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1 Long Name",
+                title = "Example Organization 1 Long Name",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1 Long name Long name",
+                userName = "Example Title 1 Long name Long name",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -96,9 +96,9 @@ fun PasswordItemFavoritePreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -135,9 +135,9 @@ fun PasswordItemExpandedPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -175,9 +175,9 @@ fun PasswordItemReorderingPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -215,9 +215,9 @@ fun PasswordItemDraggingPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(

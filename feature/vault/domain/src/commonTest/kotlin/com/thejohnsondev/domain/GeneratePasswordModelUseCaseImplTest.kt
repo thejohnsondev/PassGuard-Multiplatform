@@ -19,8 +19,8 @@ class GeneratePasswordModelUseCaseImplTest {
 
     @Test
     fun invoke_generatesPasswordModelWithNewId() {
-        val organization = "TestOrg"
-        val title = "TestTitle"
+        val title = "TestOrg"
+        val userName = "TestTitle"
         val password = "TestPassword"
         val categoryId = "TestCategory"
         val additionalFields = listOf<AdditionalFieldDto>()
@@ -28,8 +28,8 @@ class GeneratePasswordModelUseCaseImplTest {
 
         val result = useCase.invoke(
             passwordId = null,
-            organization = organization,
             title = title,
+            userName = userName,
             password = password,
             categoryId = categoryId,
             additionalFields = additionalFields,
@@ -37,8 +37,8 @@ class GeneratePasswordModelUseCaseImplTest {
             isFavorite = isFavorite
         )
 
-        assertEquals(organization, result.organization)
         assertEquals(title, result.title)
+        assertEquals(userName, result.userName)
         assertEquals(password, result.password)
         assertEquals(categoryId, result.categoryId)
         assertEquals(additionalFields, result.additionalFields)
@@ -50,8 +50,8 @@ class GeneratePasswordModelUseCaseImplTest {
     @Test
     fun invoke_generatesPasswordModelWithProvidedId() {
         val passwordId = Uuid.random().toString()
-        val organization = "TestOrg"
-        val title = "TestTitle"
+        val title = "TestOrg"
+        val userName = "TestTitle"
         val password = "TestPassword"
         val categoryId = "TestCategory"
         val additionalFields = listOf<AdditionalFieldDto>()
@@ -60,8 +60,8 @@ class GeneratePasswordModelUseCaseImplTest {
 
         val result = useCase.invoke(
             passwordId = passwordId,
-            organization = organization,
             title = title,
+            userName = userName,
             password = password,
             categoryId = categoryId,
             additionalFields = additionalFields,
@@ -70,8 +70,8 @@ class GeneratePasswordModelUseCaseImplTest {
         )
 
         assertEquals(passwordId, result.id)
-        assertEquals(organization, result.organization)
         assertEquals(title, result.title)
+        assertEquals(userName, result.userName)
         assertEquals(password, result.password)
         assertEquals(categoryId, result.categoryId)
         assertEquals(additionalFields, result.additionalFields)
@@ -84,8 +84,8 @@ class GeneratePasswordModelUseCaseImplTest {
     @Test
     fun invoke_generatesPasswordModelWithNullModifiedTime() {
         val passwordId = Uuid.random().toString()
-        val organization = "TestOrg"
-        val title = "TestTitle"
+        val title = "TestOrg"
+        val userName = "TestTitle"
         val password = "TestPassword"
         val categoryId = "TestCategory"
         val additionalFields = listOf<AdditionalFieldDto>()
@@ -94,8 +94,8 @@ class GeneratePasswordModelUseCaseImplTest {
 
         val result = useCase.invoke(
             passwordId = passwordId,
-            organization = organization,
             title = title,
+            userName = userName,
             password = password,
             categoryId = categoryId,
             additionalFields = additionalFields,
@@ -104,8 +104,8 @@ class GeneratePasswordModelUseCaseImplTest {
         )
 
         assertEquals(passwordId, result.id)
-        assertEquals(organization, result.organization)
         assertEquals(title, result.title)
+        assertEquals(userName, result.userName)
         assertEquals(password, result.password)
         assertEquals(categoryId, result.categoryId)
         assertEquals(additionalFields, result.additionalFields)

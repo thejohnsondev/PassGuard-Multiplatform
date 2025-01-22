@@ -25,9 +25,9 @@ class EncryptPasswordModelUseCaseImplTest {
     fun invoke_encryptsAllFields() = runBlocking {
         val passwordDto = PasswordDto(
             id = "1",
-            organization = "Org",
+            title = "Org",
             organizationLogo = "Logo",
-            title = "Title",
+            userName = "Title",
             password = "Password",
             additionalFields = listOf(
                 AdditionalFieldDto(id = "1", title = "Field1", value = "Value1")
@@ -48,9 +48,9 @@ class EncryptPasswordModelUseCaseImplTest {
 
         val result = useCase.invoke(passwordDto)
 
-        assertEquals("EncryptedOrg", result.organization)
+        assertEquals("EncryptedOrg", result.title)
         assertEquals("EncryptedLogo", result.organizationLogo)
-        assertEquals("EncryptedTitle", result.title)
+        assertEquals("EncryptedTitle", result.userName)
         assertEquals("EncryptedPassword", result.password)
         assertEquals("EncryptedCreated", result.createdTimeStamp)
         assertEquals("EncryptedModified", result.modifiedTimeStamp)
@@ -64,9 +64,9 @@ class EncryptPasswordModelUseCaseImplTest {
     fun invoke_handlesNullFields() = runBlocking {
         val passwordDto = PasswordDto(
             id = "1",
-            organization = "Org",
+            title = "Org",
             organizationLogo = null,
-            title = "Title",
+            userName = "Title",
             password = "Password",
             additionalFields = emptyList(),
             createdTimeStamp = null,
@@ -80,9 +80,9 @@ class EncryptPasswordModelUseCaseImplTest {
 
         val result = useCase.invoke(passwordDto)
 
-        assertEquals("EncryptedOrg", result.organization)
+        assertEquals("EncryptedOrg", result.title)
         assertEquals(null, result.organizationLogo)
-        assertEquals("EncryptedTitle", result.title)
+        assertEquals("EncryptedTitle", result.userName)
         assertEquals("EncryptedPassword", result.password)
         assertEquals(null, result.createdTimeStamp)
         assertEquals(null, result.modifiedTimeStamp)

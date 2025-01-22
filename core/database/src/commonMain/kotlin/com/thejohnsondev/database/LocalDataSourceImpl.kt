@@ -25,9 +25,9 @@ class LocalDataSourceImpl(
 
     override suspend fun createOrUpdatePassword(passwordDto: PasswordDto) {
         vaultDatabase.passwordEntityQueries.insert(
-            organization = passwordDto.organization,
-            organizationLogo = passwordDto.organizationLogo,
             title = passwordDto.title,
+            organizationLogo = passwordDto.organizationLogo,
+            userName = passwordDto.userName,
             password = passwordDto.password,
             createdTimeStamp = passwordDto.createdTimeStamp,
             modifiedTimeStamp = passwordDto.modifiedTimeStamp,

@@ -14,8 +14,8 @@ class SortVaultItemsUseCaseImpl : SortVaultItemsUseCase {
             }
 
             SortOrder.DATE_ASC -> unsortedList.sortedBy { it.modifiedTime ?: it.createdTime }
-            SortOrder.ALPHABETICAL_DESC -> unsortedList.sortedByDescending { it.organization }
-            SortOrder.ALPHABETICAL_ASC -> unsortedList.sortedBy { it.organization }
+            SortOrder.ALPHABETICAL_DESC -> unsortedList.sortedByDescending { it.title }
+            SortOrder.ALPHABETICAL_ASC -> unsortedList.sortedBy { it.title }
         }
 
         return if (keepFavoriteAtTop) {

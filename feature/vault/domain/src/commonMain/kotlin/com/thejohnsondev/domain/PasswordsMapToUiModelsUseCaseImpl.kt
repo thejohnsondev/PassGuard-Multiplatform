@@ -11,9 +11,9 @@ class PasswordsMapToUiModelsUseCaseImpl : PasswordsMapToUiModelsUseCase {
         return passwordsDto.map { dto ->
             PasswordUIModel(
                 id = dto.id,
-                organization = dto.organization,
-                organizationLogo = dto.organizationLogo,
                 title = dto.title,
+                organizationLogo = dto.organizationLogo,
+                userName = dto.userName,
                 password = dto.password,
                 additionalFields = dto.additionalFields,
                 createdTime = dto.createdTimeStamp.parseTime(),
