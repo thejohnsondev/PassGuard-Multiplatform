@@ -22,4 +22,20 @@ class AppliedFiltersServiceImpl(
         return vaultRepository.getAppliedItemCategoryFilters()
     }
 
+    override suspend fun updateAppliedSortOrder(sortOrder: String) {
+        vaultRepository.updateAppliedSortOrder(sortOrder)
+    }
+
+    override suspend fun getAppliedSortOrder(): String {
+        return vaultRepository.getAppliedSortOrder()
+    }
+
+    override suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean) {
+        vaultRepository.updateAppliedShowFavoritesAtTop(showFavoritesAtTop)
+    }
+
+    override suspend fun getAppliedShowFavoritesAtTop(): Boolean {
+        return vaultRepository.getAppliedShowFavoritesAtTop()
+    }
+
 }

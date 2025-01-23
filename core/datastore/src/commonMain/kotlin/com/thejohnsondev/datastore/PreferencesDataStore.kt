@@ -29,4 +29,8 @@ interface PreferencesDataStore {
     suspend fun getAppliedItemTypeFilters(): List<String>
     suspend fun updateAppliedCategoryFilters(categoryFilters: List<String>)
     suspend fun getAppliedCategoryFilters(): List<String>
+    suspend fun updateAppliedSortOrder(sortOrder: String)
+    suspend fun getAppliedSortOrder(): String
+    suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
+    suspend fun getAppliedShowFavoritesAtTop(): Boolean
 }

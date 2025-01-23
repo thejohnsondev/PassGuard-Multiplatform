@@ -2,7 +2,7 @@ package com.thejohnsondev.domain
 
 import com.thejohnsondev.ui.model.FilterUIModel
 
-class ItemTypeFilterChangeUseCaseImpl : ItemTypeFilterChangeUseCase {
+class ItemFilterChangeUseCaseImpl : ItemFilterChangeUseCase {
     override fun invoke(
         filterUIModel: FilterUIModel,
         isSelected: Boolean,

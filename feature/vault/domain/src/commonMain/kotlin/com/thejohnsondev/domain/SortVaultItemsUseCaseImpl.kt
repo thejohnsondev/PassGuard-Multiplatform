@@ -1,12 +1,13 @@
 package com.thejohnsondev.domain
 
 import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.SortOrder
 
 class SortVaultItemsUseCaseImpl : SortVaultItemsUseCase {
     override suspend operator fun invoke(
         unsortedList: List<PasswordUIModel>,
         sortOrder: SortOrder,
-        keepFavoriteAtTop: Boolean,
+        showFavoritesAtTop: Boolean,
     ): List<PasswordUIModel> {
         val sortedList = when (sortOrder) {
             SortOrder.DATE_DESC -> unsortedList.sortedByDescending {
@@ -14,11 +15,11 @@ class SortVaultItemsUseCaseImpl : SortVaultItemsUseCase {
             }
 
             SortOrder.DATE_ASC -> unsortedList.sortedBy { it.modifiedTime ?: it.createdTime }
-            SortOrder.ALPHABETICAL_DESC -> unsortedList.sortedByDescending { it.title }
-            SortOrder.ALPHABETICAL_ASC -> unsortedList.sortedBy { it.title }
+            SortOrder.TITLE_DESC -> unsortedList.sortedByDescending { it.title }
+            SortOrder.TITLE_ASC -> unsortedList.sortedBy { it.title }
         }
 
-        return if (keepFavoriteAtTop) {
+        return if (showFavoritesAtTop) {
             sortedList
                 .sortedWith(compareByDescending<PasswordUIModel> {
                     it.isFavorite

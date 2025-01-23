@@ -1,6 +1,7 @@
 package com.thejohnsondev.domain
 
 import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.SortOrder
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -54,14 +55,14 @@ class SortVaultItemsUseCaseImplTest {
 
     @Test
     fun sort_alphabeticalDesc() = runBlocking {
-        val result = sortVaultItemsUseCase(unsortedList, SortOrder.ALPHABETICAL_DESC, false)
+        val result = sortVaultItemsUseCase(unsortedList, SortOrder.TITLE_DESC, false)
         val expected = listOf(item3, item2, item1)
         assertEquals(expected, result)
     }
 
     @Test
     fun sort_alphabeticalAsc() = runBlocking {
-        val result = sortVaultItemsUseCase(unsortedList, SortOrder.ALPHABETICAL_ASC, false)
+        val result = sortVaultItemsUseCase(unsortedList, SortOrder.TITLE_ASC, false)
         val expected = listOf(item1, item2, item3)
         assertEquals(expected, result)
     }
@@ -82,14 +83,14 @@ class SortVaultItemsUseCaseImplTest {
 
     @Test
     fun sort_alphabeticalDesc_keepFavoriteAtTop() = runBlocking {
-        val result = sortVaultItemsUseCase(unsortedList, SortOrder.ALPHABETICAL_DESC, true)
+        val result = sortVaultItemsUseCase(unsortedList, SortOrder.TITLE_DESC, true)
         val expected = listOf(item2, item3, item1)
         assertEquals(expected, result)
     }
 
     @Test
     fun sort_alphabeticalAsc_keepFavoriteAtTop() = runBlocking {
-        val result = sortVaultItemsUseCase(unsortedList, SortOrder.ALPHABETICAL_ASC, true)
+        val result = sortVaultItemsUseCase(unsortedList, SortOrder.TITLE_ASC, true)
         val expected = listOf(item2, item1, item3)
         assertEquals(expected, result)
     }

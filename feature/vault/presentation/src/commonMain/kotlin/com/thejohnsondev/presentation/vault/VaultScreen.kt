@@ -26,6 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -51,6 +52,7 @@ import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ShimmerEffect
 import com.thejohnsondev.ui.components.ToggleButton
+import com.thejohnsondev.ui.components.filter.Chip
 import com.thejohnsondev.ui.components.filter.FilterGroup
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent50
@@ -79,7 +81,9 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.add
 import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault
 import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault_get_started
+import vaultmultiplatform.feature.vault.presentation.generated.resources.filters
 import vaultmultiplatform.feature.vault.presentation.generated.resources.nothing_found
+import vaultmultiplatform.feature.vault.presentation.generated.resources.sort_by
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
 private const val SHIMMER_PASSWORDS_COUNT = 10
@@ -328,7 +332,10 @@ private fun CompactScreenList(
             )
         }
         item {
-            Filters(windowSizeClass, state, onAction)
+            Sorting(state, onAction)
+        }
+        item {
+            Filters(state, onAction)
         }
         if (state.passwordsList.isNotEmpty()) {
             items(
@@ -386,7 +393,10 @@ private fun LargeScreenList(
             )
         }
         item {
-            Filters(windowSizeClass, state, onAction)
+            Sorting(state, onAction)
+        }
+        item {
+            Filters(state, onAction)
         }
         item {
             if (state.passwordsList.isNotEmpty()) {
@@ -512,6 +522,22 @@ fun SearchBarRow(
         AnimatedVisibility(!state.isSearching) {
             ToggleButton(
                 modifier = Modifier
+                    .padding(end = Size8)
+                    .size(Size56)
+                    .bounceClick()
+                    .clip(RoundedCornerShape(percent = Percent50i)),
+                isSelected = state.isSortingOpened,
+                icon = Icons.Default.SwapVert,
+                iconSize = Size22,
+                onToggleClick = {
+                    onAction(VaultViewModel.Action.ToggleSortingOpened)
+                },
+            )
+        }
+
+        AnimatedVisibility(!state.isSearching) {
+            ToggleButton(
+                modifier = Modifier
                     .size(Size56)
                     .bounceClick()
                     .clip(RoundedCornerShape(percent = Percent50i)),
@@ -529,7 +555,6 @@ fun SearchBarRow(
 
 @Composable
 fun Filters(
-    windowSizeClass: WindowWidthSizeClass,
     state: VaultViewModel.State,
     onAction: (VaultViewModel.Action) -> Unit,
 ) {
@@ -541,6 +566,13 @@ fun Filters(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
+            Text(
+                text = stringResource(Res.string.filters),
+                style = MaterialTheme.typography.titleLarge,
+                fontFamily = getGlobalFontFamily(),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = Size8, start = Size16, bottom = Size16)
+            )
             FilterGroup(
                 modifier = Modifier
                     .wrapContentWidth(),
@@ -558,6 +590,58 @@ fun Filters(
                     onAction(VaultViewModel.Action.OnFilterCategoryClick(filter, isSelected))
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun Sorting(
+    state: VaultViewModel.State,
+    onAction: (VaultViewModel.Action) -> Unit,
+) {
+    AnimatedVisibility(visible = state.isSortingOpened && !state.isSearching) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(Res.string.sort_by),
+                style = MaterialTheme.typography.titleLarge,
+                fontFamily = getGlobalFontFamily(),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = Size8, start = Size16, bottom = Size16)
+            )
+            FilterGroup(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(bottom = Size4),
+                filters = state.sortOrderFilters,
+                onFilterClick = { filter, _ ->
+                    onAction(VaultViewModel.Action.OnFilterSortByClick(filter))
+                }
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Chip(
+                    modifier = Modifier
+                        .padding(
+                            start = Size8,
+                            end = Size4,
+                            bottom = Size16,
+                            top = Size4
+                        ),
+                    filter = state.showFavoritesAtTopFilter
+                ) { isSelected ->
+                    onAction(VaultViewModel.Action.OnShowFavoritesAtTopClick(isSelected))
+                }
+            }
         }
     }
 }

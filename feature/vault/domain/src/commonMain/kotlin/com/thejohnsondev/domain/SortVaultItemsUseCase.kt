@@ -1,18 +1,12 @@
 package com.thejohnsondev.domain
 
 import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.model.SortOrder
 
 interface SortVaultItemsUseCase {
     suspend operator fun invoke(
         unsortedList: List<PasswordUIModel>,
         sortOrder: SortOrder,
-        keepFavoriteAtTop: Boolean,
+        showFavoritesAtTop: Boolean,
     ): List<PasswordUIModel>
-}
-
-enum class SortOrder {
-    DATE_DESC,
-    DATE_ASC,
-    ALPHABETICAL_DESC,
-    ALPHABETICAL_ASC,
 }

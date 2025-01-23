@@ -20,4 +20,20 @@ class VaultRepositoryImpl(
     override suspend fun getAppliedItemCategoryFilters(): List<String> {
         return preferencesDataStore.getAppliedCategoryFilters()
     }
+
+    override suspend fun updateAppliedSortOrder(sortOrder: String) {
+        preferencesDataStore.updateAppliedSortOrder(sortOrder)
+    }
+
+    override suspend fun getAppliedSortOrder(): String {
+        return preferencesDataStore.getAppliedSortOrder()
+    }
+
+    override suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean) {
+        preferencesDataStore.updateAppliedShowFavoritesAtTop(showFavoritesAtTop)
+    }
+
+    override suspend fun getAppliedShowFavoritesAtTop(): Boolean {
+        return preferencesDataStore.getAppliedShowFavoritesAtTop()
+    }
 }
