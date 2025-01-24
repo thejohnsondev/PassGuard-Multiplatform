@@ -20,7 +20,7 @@ import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_BANK_ACCOUNTS
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_NOTES
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_PASSWORDS
-import com.thejohnsondev.ui.designsystem.colorscheme.MaterialSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.FinanceSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.OtherSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.PersonalSelectableItemColors

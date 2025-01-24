@@ -30,10 +30,11 @@ import com.thejohnsondev.common.TOGGLE_ANIM_DURATION
 import com.thejohnsondev.ui.designsystem.Size10
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size20
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size52
-import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.getImageVector
 import org.jetbrains.compose.resources.stringResource
@@ -54,8 +55,8 @@ fun FilterGroup(
             Chip(
                 modifier = Modifier
                     .padding(
-                        start = if (filters.first() == filter) Size8 else Size4,
-                        end = if (filters.last() == filter) Size8 else Size4,
+                        start = if (filters.first() == filter) SizeDefault else Size4,
+                        end = if (filters.last() == filter) SizeDefault else Size4,
                         bottom = Size4,
                         top = Size4
                     ),
@@ -118,7 +119,7 @@ fun Chip(
                 modifier = Modifier.padding(
                     start = filterChipHorizontalPadding,
                     end = Size4
-                ).size(Size24),
+                ).size(Size20),
                 imageVector = it,
                 contentDescription = null,
                 tint = filterContentColor
@@ -137,7 +138,7 @@ fun Chip(
                 ),
             text = stringResource(filter.nameResId),
             color = filterContentColor,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center
         )
     }

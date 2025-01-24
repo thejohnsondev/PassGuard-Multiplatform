@@ -562,7 +562,8 @@ fun Filters(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight(),
+                .wrapContentHeight()
+                .padding(horizontal = Size16),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
@@ -571,7 +572,7 @@ fun Filters(
                 style = MaterialTheme.typography.titleLarge,
                 fontFamily = getGlobalFontFamily(),
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(top = Size8, start = Size16, bottom = Size16)
+                modifier = Modifier.padding(bottom = Size8),
             )
             FilterGroup(
                 modifier = Modifier
@@ -603,7 +604,8 @@ fun Sorting(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight(),
+                .wrapContentHeight()
+                .padding(horizontal = Size16),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
@@ -612,7 +614,7 @@ fun Sorting(
                 style = MaterialTheme.typography.titleLarge,
                 fontFamily = getGlobalFontFamily(),
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(top = Size8, start = Size16, bottom = Size16)
+                modifier = Modifier.padding(bottom = Size8)
             )
             FilterGroup(
                 modifier = Modifier
@@ -632,7 +634,6 @@ fun Sorting(
                 Chip(
                     modifier = Modifier
                         .padding(
-                            start = Size8,
                             end = Size4,
                             bottom = Size16,
                             top = Size4
