@@ -1,7 +1,6 @@
 package com.thejohnsondev.presentation.additem
 
 import androidx.lifecycle.viewModelScope
-import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
@@ -18,10 +17,9 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.model.PasswordUIModel
-import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
-import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
-import com.thejohnsondev.ui.model.mappers.mapToCategory
+import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,7 +35,7 @@ class AddVaultItemViewModel(
     private val removeAdditionalFieldUseCase: RemoveAdditionalFieldUseCase,
     private val generatePasswordModelUseCase: GeneratePasswordModelUseCase,
     private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
-    private val validatePasswordModelUseCase: ValidatePasswordModelUseCase
+    private val validatePasswordModelUseCase: ValidatePasswordModelUseCase,
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
@@ -56,9 +54,9 @@ class AddVaultItemViewModel(
     fun perform(action: Action) {
         when (action) {
             is Action.SetPasswordForEdit -> setPasswordForEdit(action.passwordUIModel)
-            is Action.EnterOrganization -> enterOrganization(action.organization)
-            is Action.EnterPassword -> enterPassword(action.password)
             is Action.EnterTitle -> enterTitle(action.title)
+            is Action.EnterPassword -> enterPassword(action.password)
+            is Action.EnterUserName -> enterUserName(action.userName)
             is Action.AddAdditionalField -> addAdditionalField()
             is Action.EnterAdditionalFieldTitle -> enterAdditionalFieldTitle(
                 action.id,
@@ -85,13 +83,13 @@ class AddVaultItemViewModel(
         val selectedCategoryId = _state.value.selectedCategory.id
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
-            organization = _state.value.organization,
             title = _state.value.title,
+            userName = _state.value.userName,
             password = _state.value.password,
             categoryId = selectedCategoryId,
             additionalFields = _state.value.additionalFields,
             createdTime = _createdTime.value,
-            isFavorite = _state.value.isFavorite // TODO add making favorite
+            isFavorite = _state.value.isFavorite
         )
         val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
@@ -109,19 +107,13 @@ class AddVaultItemViewModel(
         _state.update {
             it.copy(
                 isEdit = true,
-                organization = passwordUIModel.organization,
                 title = passwordUIModel.title,
+                userName = passwordUIModel.userName,
                 password = passwordUIModel.password,
                 additionalFields = passwordUIModel.additionalFields,
-                selectedCategory = passwordUIModel.category
+                selectedCategory = passwordUIModel.category,
+                isFavorite = passwordUIModel.isFavorite
             )
-        }
-        validateFields()
-    }
-
-    private fun enterOrganization(organization: String) = launch {
-        _state.update {
-            it.copy(organization = organization)
         }
         validateFields()
     }
@@ -129,6 +121,13 @@ class AddVaultItemViewModel(
     private fun enterTitle(title: String) = launch {
         _state.update {
             it.copy(title = title)
+        }
+        validateFields()
+    }
+
+    private fun enterUserName(userName: String) = launch {
+        _state.update {
+            it.copy(userName = userName)
         }
         validateFields()
     }
@@ -174,8 +173,8 @@ class AddVaultItemViewModel(
 
     private suspend fun validateFields() {
         val isValid = validatePasswordModelUseCase(
-            organization = _state.value.organization,
             title = _state.value.title,
+            userName = _state.value.userName,
             password = _state.value.password,
             additionalFieldsList = _state.value.additionalFields
         )
@@ -193,8 +192,8 @@ class AddVaultItemViewModel(
 
     sealed class Action {
         data class SetPasswordForEdit(val passwordUIModel: PasswordUIModel) : Action()
-        data class EnterOrganization(val organization: String) : Action()
         data class EnterTitle(val title: String) : Action()
+        data class EnterUserName(val userName: String) : Action()
         data class EnterPassword(val password: String) : Action()
         data object AddAdditionalField : Action()
         data class EnterAdditionalFieldTitle(val id: String, val title: String) : Action()
@@ -207,13 +206,13 @@ class AddVaultItemViewModel(
 
     data class State(
         val screenState: ScreenState = ScreenState.None,
-        val organization: String = String.Companion.empty,
         val title: String = String.Companion.empty,
+        val userName: String = String.Companion.empty,
         val password: String = String.Companion.empty,
         val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,
-        val selectedCategory: CategoryUIModel = personalFilterUIModel.mapToCategory(),
-        val itemCategoryFilters: List<FilterUIModel> = getVaultCategoryFilters(),
+        val selectedCategory: CategoryUIModel = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory(),
+        val itemCategoryFilters: List<FilterUIModel> = FiltersProvider.Category.getVaultCategoryFilters(),
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
     )

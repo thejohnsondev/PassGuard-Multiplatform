@@ -59,4 +59,10 @@
     <string name="cd_app_logo">App Logo</string>
 
     <string name="stub">Stub!</string>
+
+    <string name="sort_title_az">Title A-Z</string>
+    <string name="sort_title_za">Title Z-A</string>
+    <string name="sort_date_newest">Date Newest</string>
+    <string name="sort_date_oldest">Date Oldest</string>
+    <string name="show_favorites_at_top">Show favorites at top</string>
 </resources>

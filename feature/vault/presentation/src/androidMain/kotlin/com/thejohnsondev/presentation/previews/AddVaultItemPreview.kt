@@ -15,8 +15,8 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.additem.AddVaultItemContent
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
-import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
-import com.thejohnsondev.ui.model.mappers.mapToCategory
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
+import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -68,8 +68,8 @@ private fun AddVaultItemEditPreview() {
                 screenState = ScreenState.ShowContent,
                 isEdit = true,
                 password = "examplePassword123",
-                title = "Example Title 1",
-                organization = "Example Organization 1",
+                userName = "Example Title 1",
+                title = "Example Organization 1",
                 isValid = true,
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -81,7 +81,7 @@ private fun AddVaultItemEditPreview() {
                         id = "2", title = "exampleField2", value = "exampleValue2"
                     )
                 ),
-                selectedCategory = personalFilterUIModel.mapToCategory()
+                selectedCategory = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             sheetState = sheetState,
             windowSizeClass = WindowWidthSizeClass.Compact,

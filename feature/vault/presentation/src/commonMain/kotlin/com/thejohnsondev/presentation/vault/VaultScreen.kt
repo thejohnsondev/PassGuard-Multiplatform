@@ -26,6 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -51,6 +52,7 @@ import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.components.SearchBar
 import com.thejohnsondev.ui.components.ShimmerEffect
 import com.thejohnsondev.ui.components.ToggleButton
+import com.thejohnsondev.ui.components.filter.Chip
 import com.thejohnsondev.ui.components.filter.FilterGroup
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent50
@@ -79,7 +81,9 @@ import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.add
 import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault
 import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault_get_started
+import vaultmultiplatform.feature.vault.presentation.generated.resources.filters
 import vaultmultiplatform.feature.vault.presentation.generated.resources.nothing_found
+import vaultmultiplatform.feature.vault.presentation.generated.resources.sort_by
 import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
 
 private const val SHIMMER_PASSWORDS_COUNT = 10
@@ -92,7 +96,7 @@ fun VaultScreen(
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
-    onShowMessage: (MessageContent) -> Unit
+    onShowMessage: (MessageContent) -> Unit,
 ) {
     val state = vaultViewModel.state.collectAsState(VaultViewModel.State())
     val successSnackBarHostState = remember {
@@ -173,7 +177,7 @@ internal fun VaultScreenContent(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     lazyListState: LazyListState,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -205,7 +209,7 @@ internal fun VaultScreenContent(
 @Composable
 private fun VaultLoading(
     windowSizeClass: WindowWidthSizeClass,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     val topPadding = paddingValues.calculateTopPadding()
     Column(
@@ -233,7 +237,7 @@ private fun ShimmerSearchBar() {
 
 @Composable
 private fun ShimmerPasswordItem(
-    windowSizeClass: WindowWidthSizeClass
+    windowSizeClass: WindowWidthSizeClass,
 ) {
     Row(
         modifier = Modifier
@@ -269,7 +273,7 @@ fun VaultItemsList(
     paddingValues: PaddingValues,
     lazyListState: LazyListState,
     state: VaultViewModel.State,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     val topPadding = paddingValues.calculateTopPadding()
     val bottomPadding = paddingValues.calculateBottomPadding().plus(Size68)
@@ -328,10 +332,17 @@ private fun CompactScreenList(
             )
         }
         item {
-            Filters(windowSizeClass, state, onAction)
+            Sorting(state, onAction)
+        }
+        item {
+            Filters(state, onAction)
         }
         if (state.passwordsList.isNotEmpty()) {
-            items(state.passwordsList.first()) { passwordModel ->
+            items(
+                items = state.passwordsList.first(),
+                key = {
+                    it.id
+                }) { passwordModel ->
                 BindPasswordItem(
                     modifier = Modifier
                         .animateItem(),
@@ -382,7 +393,10 @@ private fun LargeScreenList(
             )
         }
         item {
-            Filters(windowSizeClass, state, onAction)
+            Sorting(state, onAction)
+        }
+        item {
+            Filters(state, onAction)
         }
         item {
             if (state.passwordsList.isNotEmpty()) {
@@ -394,7 +408,10 @@ private fun LargeScreenList(
                             .padding(bottom = bottomPadding, start = Size4),
                         userScrollEnabled = false
                     ) {
-                        items(state.passwordsList.first()) { passwordModel ->
+                        items(items = state.passwordsList.first(),
+                            key = {
+                                it.id
+                            }) { passwordModel ->
                             BindPasswordItem(
                                 modifier = Modifier
                                     .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
@@ -411,7 +428,10 @@ private fun LargeScreenList(
                             .padding(bottom = bottomPadding, end = Size4),
                         userScrollEnabled = false
                     ) {
-                        items(state.passwordsList.last()) { passwordModel ->
+                        items(items = state.passwordsList.last(),
+                            key = {
+                                it.id
+                            }) { passwordModel ->
                             BindPasswordItem(
                                 modifier = Modifier
                                     .animateItem(placementSpec = spring(stiffness = Spring.StiffnessLow)),
@@ -432,7 +452,7 @@ private fun LargeScreenList(
 private fun BindPasswordItem(
     modifier: Modifier = Modifier,
     passwordModel: PasswordUIModel,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     PasswordItem(
         modifier = modifier,
@@ -457,7 +477,14 @@ private fun BindPasswordItem(
             onAction(VaultViewModel.Action.OnEditClick(passwordModel))
         },
         onCopySensitiveClick = {},
-        onFavoriteClick = {},
+        onFavoriteClick = {
+            onAction(
+                VaultViewModel.Action.OnMarkAsFavoriteClick(
+                    passwordModel.id,
+                    !passwordModel.isFavorite
+                )
+            )
+        },
         isFavorite = passwordModel.isFavorite
     )
 }
@@ -469,7 +496,7 @@ fun SearchBarRow(
     state: VaultViewModel.State,
     windowSizeClass: WindowWidthSizeClass,
     isDeepSearchEnabled: Boolean,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -495,6 +522,22 @@ fun SearchBarRow(
         AnimatedVisibility(!state.isSearching) {
             ToggleButton(
                 modifier = Modifier
+                    .padding(end = Size8)
+                    .size(Size56)
+                    .bounceClick()
+                    .clip(RoundedCornerShape(percent = Percent50i)),
+                isSelected = state.isSortingOpened,
+                icon = Icons.Default.SwapVert,
+                iconSize = Size22,
+                onToggleClick = {
+                    onAction(VaultViewModel.Action.ToggleSortingOpened)
+                },
+            )
+        }
+
+        AnimatedVisibility(!state.isSearching) {
+            ToggleButton(
+                modifier = Modifier
                     .size(Size56)
                     .bounceClick()
                     .clip(RoundedCornerShape(percent = Percent50i)),
@@ -512,18 +555,25 @@ fun SearchBarRow(
 
 @Composable
 fun Filters(
-    windowSizeClass: WindowWidthSizeClass,
     state: VaultViewModel.State,
-    onAction: (VaultViewModel.Action) -> Unit
+    onAction: (VaultViewModel.Action) -> Unit,
 ) {
     AnimatedVisibility(visible = state.isFiltersOpened && !state.isSearching) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight(),
+                .wrapContentHeight()
+                .padding(horizontal = Size16),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
+            Text(
+                text = stringResource(Res.string.filters),
+                style = MaterialTheme.typography.titleLarge,
+                fontFamily = getGlobalFontFamily(),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = Size8),
+            )
             FilterGroup(
                 modifier = Modifier
                     .wrapContentWidth(),
@@ -541,6 +591,58 @@ fun Filters(
                     onAction(VaultViewModel.Action.OnFilterCategoryClick(filter, isSelected))
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun Sorting(
+    state: VaultViewModel.State,
+    onAction: (VaultViewModel.Action) -> Unit,
+) {
+    AnimatedVisibility(visible = state.isSortingOpened && !state.isSearching) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(horizontal = Size16),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(Res.string.sort_by),
+                style = MaterialTheme.typography.titleLarge,
+                fontFamily = getGlobalFontFamily(),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = Size8)
+            )
+            FilterGroup(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(bottom = Size4),
+                filters = state.sortOrderFilters,
+                onFilterClick = { filter, _ ->
+                    onAction(VaultViewModel.Action.OnFilterSortByClick(filter))
+                }
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Chip(
+                    modifier = Modifier
+                        .padding(
+                            end = Size4,
+                            bottom = Size16,
+                            top = Size4
+                        ),
+                    filter = state.showFavoritesAtTopFilter
+                ) { isSelected ->
+                    onAction(VaultViewModel.Action.OnShowFavoritesAtTopClick(isSelected))
+                }
+            }
         }
     }
 }

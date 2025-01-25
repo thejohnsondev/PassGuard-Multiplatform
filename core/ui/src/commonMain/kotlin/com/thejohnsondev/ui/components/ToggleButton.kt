@@ -24,7 +24,7 @@ import com.thejohnsondev.common.TOGGLE_ANIM_DURATION
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.colorscheme.MaterialSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 
 @Composable
 fun ToggleButton(

@@ -2,6 +2,7 @@ package com.thejohnsondev.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.thejohnsondev.common.SORT_TIME_NEW
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.model.settings.DarkThemeConfig
@@ -14,7 +15,7 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 class PreferencesDataStoreImpl(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : PreferencesDataStore {
 
     override suspend fun getSettingsConfigFlow(): Flow<SettingsConfig> = combine(
@@ -33,7 +34,7 @@ class PreferencesDataStoreImpl(
         darkThemeConfig: Int,
         isDeepSearchEnabled: Boolean,
         isUnlockWithBiometrics: Boolean,
-        isBlockScreenshots: Boolean
+        isBlockScreenshots: Boolean,
     ): SettingsConfig {
         val themeBrandMapped = when (themeBrand) {
             ThemeBrand.DEFAULT.ordinal -> ThemeBrand.DEFAULT
@@ -132,7 +133,52 @@ class PreferencesDataStoreImpl(
         dataStore.saveBoolean(BLOCK_SCREENSHOTS, privacySettings.isBlockScreenshotsEnabled)
     }
 
+    override suspend fun updateAppliedItemTypeFilters(itemTypeFilters: List<String>) {
+        dataStore.saveString(
+            KEY_APPLIED_ITEM_TYPE_FILTERS, itemTypeFilters.joinToString(
+                IDS_SEPARATOR
+            )
+        )
+    }
+
+    override suspend fun getAppliedItemTypeFilters(): List<String> {
+        val itemTypeFilters =
+            dataStore.getString(KEY_APPLIED_ITEM_TYPE_FILTERS, String.Companion.empty)
+        return itemTypeFilters.split(IDS_SEPARATOR)
+    }
+
+    override suspend fun updateAppliedCategoryFilters(categoryFilters: List<String>) {
+        dataStore.saveString(
+            KEY_APPLIED_CATEGORY_FILTERS, categoryFilters.joinToString(
+                IDS_SEPARATOR
+            )
+        )
+    }
+
+    override suspend fun getAppliedCategoryFilters(): List<String> {
+        val categoryFilters =
+            dataStore.getString(KEY_APPLIED_CATEGORY_FILTERS, String.Companion.empty)
+        return categoryFilters.split(IDS_SEPARATOR)
+    }
+
+    override suspend fun updateAppliedSortOrder(sortOrder: String) {
+        dataStore.saveString(KEY_APPLIED_SORT_ORDER, sortOrder)
+    }
+
+    override suspend fun getAppliedSortOrder(): String {
+        return dataStore.getString(KEY_APPLIED_SORT_ORDER, SORT_TIME_NEW)
+    }
+
+    override suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean) {
+        dataStore.saveBoolean(KEY_APPLIED_FAVORITES_AT_TOP, showFavoritesAtTop)
+    }
+
+    override suspend fun getAppliedShowFavoritesAtTop(): Boolean {
+        return dataStore.getBoolean(KEY_APPLIED_FAVORITES_AT_TOP, true)
+    }
+
     companion object {
+        private const val IDS_SEPARATOR = ","
         private const val KEY_AUTH_TOKEN = "auth_token"
         private const val KEY_REFRESH_AUTH_TOKEN = "refresh_auth_token"
         private const val KEY_EMAIL = "email"
@@ -143,6 +189,10 @@ class PreferencesDataStoreImpl(
         private const val USE_DEEP_SEARCH = "use-deep-search"
         private const val UNLOCK_WITH_BIOMETRICS = "unlock-with-biometrics"
         private const val BLOCK_SCREENSHOTS = "block-screenshots"
+        private const val KEY_APPLIED_ITEM_TYPE_FILTERS = "applied-item-type-filters"
+        private const val KEY_APPLIED_CATEGORY_FILTERS = "applied-category-filters"
+        private const val KEY_APPLIED_SORT_ORDER = "applied-sort-order"
+        private const val KEY_APPLIED_FAVORITES_AT_TOP = "applied-favorites-at-top"
     }
 
 }

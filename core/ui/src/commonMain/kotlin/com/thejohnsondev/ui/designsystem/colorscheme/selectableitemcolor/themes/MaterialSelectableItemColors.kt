@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.designsystem.colorscheme
+package com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -9,7 +9,7 @@ object MaterialSelectableItemColors: SelectableItemColors {
 
     @Composable
     override fun getSelectedContainerColor(): Color {
-        return MaterialTheme.colorScheme.primaryContainer
+        return MaterialTheme.colorScheme.onSecondaryContainer
     }
 
     @Composable
@@ -19,7 +19,7 @@ object MaterialSelectableItemColors: SelectableItemColors {
 
     @Composable
     override fun getSelectedContentColor(): Color {
-        return MaterialTheme.colorScheme.onPrimaryContainer
+        return MaterialTheme.colorScheme.secondaryContainer
     }
 
     @Composable

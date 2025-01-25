@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,6 +62,7 @@ import com.thejohnsondev.ui.components.RoundedIconButton
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size32
@@ -72,6 +74,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
+import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
@@ -143,7 +146,14 @@ fun PasswordItem(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal),
+            .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal)
+            .applyIf(item.showUpdateAnimation) { // TODO update to animated gradient
+                border(
+                    width = Size2,
+                    color = Color.Green,
+                    shape = EqualRounded.medium
+                )
+            },
         shape = EqualRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor
@@ -161,7 +171,7 @@ fun PasswordItem(
                         },
                         onLongClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            onCopyClick(item.title)
+                            onCopyClick(item.userName)
                         })
             },
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -220,27 +230,27 @@ fun PasswordItem(
                     }
                 }
                 Column(modifier = Modifier.weight(1f)){
-                        Text(
-                            modifier = Modifier
-                                .padding(start = Size16)
-                                .fillMaxWidth(),
-                            text = item.organization,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = if (isReordering) draggingContentColor else contentColor,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(start = Size16)
-                                .fillMaxWidth(),
-                            text = item.title,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = if (isReordering) draggingContentColor else contentColor,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size16)
+                            .fillMaxWidth(),
+                        text = item.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (isReordering) draggingContentColor else contentColor,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size16)
+                            .fillMaxWidth(),
+                        text = item.userName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (isReordering) draggingContentColor else contentColor,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
                 }
 
                 IconButton(

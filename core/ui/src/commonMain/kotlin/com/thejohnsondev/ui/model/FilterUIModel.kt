@@ -4,15 +4,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_FINANCE
-import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
-import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
-import com.thejohnsondev.ui.model.filterlists.financeFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.othersFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.workFilterUIModel
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -37,13 +30,13 @@ data class FilterUIModel(
             isSelected = true,
         )
 
-        fun getFilterUiModelById(id: String): FilterUIModel {
-            return when (id) {
-                VAULT_ITEM_CATEGORY_PERSONAL -> personalFilterUIModel
-                VAULT_ITEM_CATEGORY_WORK -> workFilterUIModel
-                VAULT_ITEM_CATEGORY_FINANCE -> financeFilterUIModel
-                else -> othersFilterUIModel
-            }
+        fun FilterUIModel.mapToCategory(): CategoryUIModel {
+            return CategoryUIModel(
+                id = this.id,
+                categoryNameResId = this.nameResId,
+                categoryIcon = this.filterIcon,
+                colors = this.colors
+            )
         }
     }
 

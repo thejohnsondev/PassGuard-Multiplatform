@@ -10,8 +10,8 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
     @OptIn(ExperimentalUuidApi::class)
     override fun invoke(
         passwordId: String?,
-        organization: String,
         title: String,
+        userName: String,
         password: String,
         categoryId: String,
         additionalFields: List<AdditionalFieldDto>,
@@ -29,8 +29,8 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
         val filteredAdditionalFields = additionalFields.filter { it.title.isNotBlank() && it.value.isNotBlank() }
         return PasswordDto(
             id = finalPasswordId,
-            organization = organization,
             title = title,
+            userName = userName,
             password = password,
             categoryId = categoryId,
             additionalFields = filteredAdditionalFields,

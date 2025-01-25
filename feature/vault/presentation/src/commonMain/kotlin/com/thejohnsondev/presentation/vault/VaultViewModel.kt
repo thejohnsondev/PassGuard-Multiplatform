@@ -2,23 +2,29 @@ package com.thejohnsondev.presentation.vault
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.domain.AppliedFiltersService
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.FilterItemsUseCase
+import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
-import com.thejohnsondev.domain.ItemTypeFilterChangeUseCase
+import com.thejohnsondev.domain.ItemFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.SearchItemsUseCase
+import com.thejohnsondev.domain.SortOrderChangeUseCase
+import com.thejohnsondev.domain.SortVaultItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
+import com.thejohnsondev.domain.StopModifiedItemAnimUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
+import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.PasswordUIModel
-import com.thejohnsondev.ui.model.filterlists.getVaultCategoryFilters
-import com.thejohnsondev.ui.model.filterlists.getVaultItemTypeFilters
+import com.thejohnsondev.ui.model.SortOrder.Companion.toSortOrder
+import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -31,12 +37,18 @@ class VaultViewModel(
     private val calculateListSizeUseCase: CalculateListSizeUseCase,
     private val splitItemsListUseCase: SplitItemsListUseCase,
     private val searchUseCase: SearchItemsUseCase,
-    private val itemTypeFilterChangeUseCase: ItemTypeFilterChangeUseCase,
+    private val itemFilterChangeUseCase: ItemFilterChangeUseCase,
     private val checkFiltersAppliedUseCase: CheckFiltersAppliedUseCase,
     private val decryptPasswordsListUseCase: DecryptPasswordsListUseCase,
     private val passwordsMapToUiModelsUseCase: PasswordsMapToUiModelsUseCase,
     private val getSettingsFlowUseCase: GetSettingsFlowUseCase,
-    private val filterItemsUseCase: FilterItemsUseCase
+    private val filterItemsUseCase: FilterItemsUseCase,
+    private val appliedFiltersService: AppliedFiltersService,
+    private val updateSelectedFiltersUseCase: UpdateSelectedFiltersUseCase,
+    private val getSelectedFiltersIDsUseCase: GetSelectedFiltersIDsUseCase,
+    private val sortVaultItemsUseCase: SortVaultItemsUseCase,
+    private val sortOrderChangeUseCase: SortOrderChangeUseCase,
+    private val stopModifiedItemAnimUseCase: StopModifiedItemAnimUseCase,
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -62,6 +74,7 @@ class VaultViewModel(
             is Action.ShowHideConfirmDelete -> showHideConfirmDelete(action.deletePasswordPair)
             is Action.ToggleOpenItem -> toggleOpenItem(action.itemId)
             is Action.ToggleIsFiltersOpened -> toggleFiltersOpened()
+            is Action.ToggleSortingOpened -> toggleSortingOpened()
             is Action.OnFilterTypeClick -> onFilterTypeClick(
                 action.filter,
                 action.isSelected
@@ -72,12 +85,41 @@ class VaultViewModel(
                 action.isSelected
             )
 
+            is Action.OnFilterSortByClick -> onFilterSortByClick(action.filter)
+            is Action.OnShowFavoritesAtTopClick -> onShowFavoritesAtTopClick(action.isSelected)
+
             is Action.OnDeletePasswordClick -> onDeletePasswordClick(action.passwordId)
             is Action.OnAddClick -> onAddClick()
             is Action.OnAddClose -> onAddClose()
             is Action.OnEditClick -> onEditClick(action.password)
             is Action.UpdateIsScreenCompact -> updateIsScreenCompact(action.isCompact)
+            is Action.OnMarkAsFavoriteClick -> onMarkAsFavoriteClick(
+                action.passwordId,
+                action.isFavorite
+            )
         }
+    }
+
+    private fun onShowFavoritesAtTopClick(selected: Boolean) = launch {
+        updateShowFavoritesAtTop(selected)
+        saveAppliedFilters()
+        prepareToUpdateItemsList(_allPasswordsList.value)
+    }
+
+    private fun onFilterSortByClick(filter: FilterUIModel) = launch {
+        val updatedSortOrderFilters = sortOrderChangeUseCase(
+            filter,
+            _state.value.sortOrderFilters,
+        )
+        _state.update {
+            it.copy(sortOrderFilters = updatedSortOrderFilters)
+        }
+        saveAppliedFilters()
+        prepareToUpdateItemsList(_allPasswordsList.value)
+    }
+
+    private fun onMarkAsFavoriteClick(passwordId: String, isFavorite: Boolean) = launch {
+        passwordsService.updateIsFavorite(passwordId, isFavorite)
     }
 
     private fun updateIsScreenCompact(isCompact: Boolean) = launch {
@@ -119,8 +161,48 @@ class VaultViewModel(
     }
 
     private fun fetchVault() {
-        fetchPasswords()
+        fetchFilters()
         fetchSettings()
+        fetchPasswords()
+    }
+
+    private fun fetchFilters() = launch {
+        val itemTypeFilters = FiltersProvider.ItemType.getVaultItemTypeFilters()
+        val itemCategoryFilters = FiltersProvider.Category.getVaultCategoryFilters()
+        val sortOrderFilters = FiltersProvider.Sorting.getSortOrderFilters()
+
+        val appliedItemTypeFiltersIDs = appliedFiltersService.getAppliedItemTypeFilters()
+        val appliedCategoryFiltersIDs = appliedFiltersService.getAppliedItemCategoryFilters()
+        val appliedSortOrderID = appliedFiltersService.getAppliedSortOrder()
+        val showFavoritesAtTop = appliedFiltersService.getAppliedShowFavoritesAtTop()
+
+        val updatedItemTypeFilters =
+            updateSelectedFiltersUseCase(itemTypeFilters, appliedItemTypeFiltersIDs)
+        val updatedCategoryFilters =
+            updateSelectedFiltersUseCase(itemCategoryFilters, appliedCategoryFiltersIDs)
+        val updatedSortOrderFilters = updateSelectedFiltersUseCase(
+            sortOrderFilters,
+            listOf(appliedSortOrderID)
+        )
+        val isAnyFiltersApplied =
+            checkFiltersAppliedUseCase(updatedItemTypeFilters, updatedCategoryFilters)
+        _state.update {
+            it.copy(
+                itemTypeFilters = updatedItemTypeFilters,
+                itemCategoryFilters = updatedCategoryFilters,
+                isAnyFiltersApplied = isAnyFiltersApplied,
+                sortOrderFilters = updatedSortOrderFilters,
+            )
+        }
+        updateShowFavoritesAtTop(showFavoritesAtTop)
+    }
+
+    private fun updateShowFavoritesAtTop(isSelected: Boolean) {
+        _state.update {
+            it.copy(
+                showFavoritesAtTopFilter = _state.value.showFavoritesAtTopFilter.copy(isSelected = isSelected)
+            )
+        }
     }
 
     private fun fetchSettings() = launch {
@@ -129,8 +211,18 @@ class VaultViewModel(
         }
     }
 
-    private fun prepareToUpdateItemsList(items: List<PasswordUIModel>) {
-        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, items)
+    private suspend fun prepareToUpdateItemsList(items: List<PasswordUIModel>) {
+        val filteredItems = filterItemsUseCase(
+            items = items,
+            typeFilters = _state.value.itemTypeFilters,
+            categoryFilters = _state.value.itemCategoryFilters,
+        )
+        val sortedList = sortVaultItemsUseCase(
+            filteredItems,
+            sortOrder = _state.value.sortOrderFilters.toSortOrder(),
+            showFavoritesAtTop = _state.value.showFavoritesAtTopFilter.isSelected
+        )
+        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, sortedList)
         val itemsHeight = calculateListSizeUseCase(dividedItems)
         _state.update {
             it.copy(
@@ -152,54 +244,69 @@ class VaultViewModel(
                 )
             }
             showContent()
+            stopModifiedItemAnim()
         }
+    }
+
+    private fun stopModifiedItemAnim() = launch {
+        val updatedList = stopModifiedItemAnimUseCase(_state.value.passwordsList)
+        prepareToUpdateItemsList(updatedList)
     }
 
     private fun onFilterTypeClick(filter: FilterUIModel, isSelected: Boolean) = launch {
         val updatedTypeFilters =
-            itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemTypeFilters)
+            itemFilterChangeUseCase(filter, isSelected, _state.value.itemTypeFilters)
         val isAnyFiltersApplied =
             checkFiltersAppliedUseCase(updatedTypeFilters, _state.value.itemCategoryFilters)
-        val filteredItems = filterItemsUseCase(
-            _allPasswordsList.value,
-            updatedTypeFilters,
-            _state.value.itemCategoryFilters
-        )
-        prepareToUpdateItemsList(filteredItems)
         _state.update {
             it.copy(
                 itemTypeFilters = updatedTypeFilters,
                 isAnyFiltersApplied = isAnyFiltersApplied
             )
         }
+        saveAppliedFilters()
+        prepareToUpdateItemsList(_allPasswordsList.value)
     }
 
     private fun onFilterCategoryClick(
         filter: FilterUIModel,
-        isSelected: Boolean
+        isSelected: Boolean,
     ) = launch {
         val updatedCategoryFilters =
-            itemTypeFilterChangeUseCase(filter, isSelected, _state.value.itemCategoryFilters)
+            itemFilterChangeUseCase(filter, isSelected, _state.value.itemCategoryFilters)
         val isAnyFiltersApplied =
             checkFiltersAppliedUseCase(_state.value.itemTypeFilters, updatedCategoryFilters)
-        val filteredItems = filterItemsUseCase(
-            _allPasswordsList.value,
-            _state.value.itemTypeFilters,
-            updatedCategoryFilters
-        )
-        prepareToUpdateItemsList(filteredItems)
         _state.update {
             it.copy(
                 itemCategoryFilters = updatedCategoryFilters,
                 isAnyFiltersApplied = isAnyFiltersApplied,
             )
         }
+        saveAppliedFilters()
+        prepareToUpdateItemsList(_allPasswordsList.value)
+    }
+
+    private fun saveAppliedFilters() = launch {
+        val appliedItemTypeFilters = getSelectedFiltersIDsUseCase(_state.value.itemTypeFilters)
+        val appliedCategoryFilters = getSelectedFiltersIDsUseCase(_state.value.itemCategoryFilters)
+        val appliedSortOrder = getSelectedFiltersIDsUseCase(_state.value.sortOrderFilters)
+        val showFavoritesAtTop = _state.value.showFavoritesAtTopFilter.isSelected
+        appliedFiltersService.updateAppliedItemTypeFilters(appliedItemTypeFilters)
+        appliedFiltersService.updateAppliedCategoryFilters(appliedCategoryFilters)
+        appliedSortOrder.firstOrNull()?.let {
+            appliedFiltersService.updateAppliedSortOrder(it)
+        }
+        appliedFiltersService.updateAppliedShowFavoritesAtTop(showFavoritesAtTop)
     }
 
     private fun toggleFiltersOpened() {
         _state.update {
             it.copy(isFiltersOpened = !it.isFiltersOpened)
         }
+    }
+
+    private fun toggleSortingOpened() {
+        _state.update { it.copy(isSortingOpened = !it.isSortingOpened) }
     }
 
     private fun search(query: String, isDeepSearchEnabled: Boolean) = launch {
@@ -249,33 +356,43 @@ class VaultViewModel(
         data object FetchVault : Action()
         data class Search(
             val query: String,
-            val isDeepSearchEnabled: Boolean
+            val isDeepSearchEnabled: Boolean,
         ) : Action()
 
         data object StopSearching : Action()
         data class ShowHideConfirmDelete(
-            val deletePasswordPair: Pair<Boolean, PasswordUIModel?>
+            val deletePasswordPair: Pair<Boolean, PasswordUIModel?>,
         ) : Action()
 
         data class ToggleOpenItem(val itemId: String?) : Action()
         data object ToggleIsFiltersOpened : Action()
+        data object ToggleSortingOpened : Action()
         data class OnFilterTypeClick(
             val filter: FilterUIModel,
-            val isSelected: Boolean
+            val isSelected: Boolean,
         ) : Action()
 
         data class OnFilterCategoryClick(
             val filter: FilterUIModel,
-            val isSelected: Boolean
+            val isSelected: Boolean,
+        ) : Action()
+
+        data class OnFilterSortByClick(
+            val filter: FilterUIModel,
+        ) : Action()
+
+        data class OnShowFavoritesAtTopClick(
+            val isSelected: Boolean,
         ) : Action()
 
         data object OnAddClick : Action()
         data object OnAddClose : Action()
         data class OnEditClick(
-            val password: PasswordUIModel
+            val password: PasswordUIModel,
         ) : Action()
 
         data class OnDeletePasswordClick(val passwordId: String) : Action()
+        data class OnMarkAsFavoriteClick(val passwordId: String, val isFavorite: Boolean) : Action()
     }
 
     data class State(
@@ -284,12 +401,15 @@ class VaultViewModel(
         val passwordsList: List<List<PasswordUIModel>> = listOf(emptyList()),
         val isSearching: Boolean = false,
         val isFiltersOpened: Boolean = false,
+        val isSortingOpened: Boolean = false,
         val isAnyFiltersApplied: Boolean = false,
         val isDeepSearchEnabled: Boolean = false,
         val deletePasswordPair: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
         val listHeight: Int = 0,
-        val itemTypeFilters: List<FilterUIModel> = getVaultItemTypeFilters(),
-        val itemCategoryFilters: List<FilterUIModel> = getVaultCategoryFilters(),
+        val itemTypeFilters: List<FilterUIModel> = listOf(),
+        val itemCategoryFilters: List<FilterUIModel> = listOf(),
+        val sortOrderFilters: List<FilterUIModel> = listOf(),
+        val showFavoritesAtTopFilter: FilterUIModel = FiltersProvider.Sorting.sortShowFavoritesAtTopFilterUIModel,
         val isVaultEmpty: Boolean = false,
         val editVaultItemContainer: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
     )

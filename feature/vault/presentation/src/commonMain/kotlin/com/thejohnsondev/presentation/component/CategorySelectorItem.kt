@@ -43,7 +43,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.getImageVector
-import com.thejohnsondev.ui.model.mappers.mapToCategory
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
 import vaultmultiplatform.feature.vault.presentation.generated.resources.category
