@@ -16,6 +16,7 @@ data class PasswordUIModel(
     val isFavorite: Boolean,
     val isExpanded: Boolean = false,
     val category: CategoryUIModel,
+    val showUpdateAnimation: Boolean = false
 ) {
     companion object {
         val testPasswordUIModel = PasswordUIModel(

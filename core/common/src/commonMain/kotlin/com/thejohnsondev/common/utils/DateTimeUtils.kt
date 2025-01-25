@@ -43,3 +43,9 @@ fun String?.parseTime(format: DateTimeFormat<LocalDateTime> = DEFAULT_SIMPLE_FOR
 fun getCurrentTimeStamp(): String {
     return Clock.System.now().epochSeconds.toString()
 }
+
+fun String.getTimeDifferenceInMillis(): Long {
+    val currentTime = Clock.System.now().epochSeconds
+    val timeStampValue = this.toLongOrNull()
+    return currentTime - (timeStampValue ?: 0)
+}

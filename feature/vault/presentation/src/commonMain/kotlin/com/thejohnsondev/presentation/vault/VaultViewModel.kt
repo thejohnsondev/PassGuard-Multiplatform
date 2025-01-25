@@ -16,6 +16,7 @@ import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SortOrderChangeUseCase
 import com.thejohnsondev.domain.SortVaultItemsUseCase
 import com.thejohnsondev.domain.SplitItemsListUseCase
+import com.thejohnsondev.domain.StopModifiedItemAnimUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
 import com.thejohnsondev.model.ScreenState
@@ -47,6 +48,7 @@ class VaultViewModel(
     private val getSelectedFiltersIDsUseCase: GetSelectedFiltersIDsUseCase,
     private val sortVaultItemsUseCase: SortVaultItemsUseCase,
     private val sortOrderChangeUseCase: SortOrderChangeUseCase,
+    private val stopModifiedItemAnimUseCase: StopModifiedItemAnimUseCase,
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -242,7 +244,13 @@ class VaultViewModel(
                 )
             }
             showContent()
+            stopModifiedItemAnim()
         }
+    }
+
+    private fun stopModifiedItemAnim() = launch {
+        val updatedList = stopModifiedItemAnimUseCase(_state.value.passwordsList)
+        prepareToUpdateItemsList(updatedList)
     }
 
     private fun onFilterTypeClick(filter: FilterUIModel, isSelected: Boolean) = launch {
