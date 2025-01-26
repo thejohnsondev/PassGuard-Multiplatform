@@ -249,7 +249,8 @@ class VaultViewModel(
     }
 
     private fun stopModifiedItemAnim() = launch {
-        val updatedList = stopModifiedItemAnimUseCase(_state.value.passwordsList)
+        val updatedList = stopModifiedItemAnimUseCase(_allPasswordsList.value)
+        _allPasswordsList.emit(updatedList)
         prepareToUpdateItemsList(updatedList)
     }
 
