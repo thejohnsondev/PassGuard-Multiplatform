@@ -71,10 +71,10 @@ import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.SizeMinus
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
-import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
@@ -100,60 +100,70 @@ fun PasswordItem(
     onEditClick: (PasswordUIModel) -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
-    val transitionState = remember {
+    val itemTransitionState = remember {
         MutableTransitionState(isExpanded).apply {
             targetState = !isExpanded
         }
     }
-    val transition = rememberTransition(transitionState, label = "")
-    val cardBgColor by transition.animateColor({
+    val borderTransitionState = remember {
+        MutableTransitionState(!item.showUpdateAnimation).apply {
+            targetState = item.showUpdateAnimation
+        }
+    }
+    val itemTransition = rememberTransition(itemTransitionState, label = "")
+    val borderTransition = rememberTransition(borderTransitionState, label = "")
+    val cardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isExpanded) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
     }
-    val draggingCardBgColor by transition.animateColor({
+    val draggingCardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isDragging) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
     }
-    val contentColor by transition.animateColor({
+    val contentColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val favoriteColor by transition.animateColor({
+    val favoriteColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isFavorite) themeColorFavorite else if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val draggingContentColor by transition.animateColor({
+    val draggingContentColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isDragging) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val cardPaddingHorizontal by transition.animateDp({
+    val cardPaddingHorizontal by itemTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isExpanded) Size4 else Size8
     }
-    val imageSize by transition.animateDp({
+    val imageSize by itemTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isDragging) Size56 else Size42
     }
+    val borderWidth by borderTransition.animateDp({
+        tween(durationMillis = EXPAND_ANIM_DURATION)
+    }, label = "") {
+        if (item.showUpdateAnimation) Size2 else SizeMinus
+    }
+    val modifiedItemBorderColor = MaterialTheme.colorScheme.primary
 
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal)
-            .applyIf(item.showUpdateAnimation) { // TODO update to animated gradient
-                border(
-                    width = Size2,
-                    color = Color.Green,
-                    shape = EqualRounded.medium
-                )
-            },
+            .border(
+                width = borderWidth,
+                color = modifiedItemBorderColor,
+                shape = EqualRounded.medium
+            ),
         shape = EqualRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor
@@ -342,15 +352,15 @@ fun ExpandedContent(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = Size12, vertical = Size16)
-                            .weight(1f),
-                        text = password,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = Size12, vertical = Size16)
+                        .weight(1f),
+                    text = password,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
                 Icon(
                     modifier = Modifier.padding(end = Size8)
                         .clip(RoundedCornerShape(Size8))
