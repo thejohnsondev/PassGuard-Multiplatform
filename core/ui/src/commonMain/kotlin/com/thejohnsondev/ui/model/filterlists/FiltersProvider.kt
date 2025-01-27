@@ -27,8 +27,8 @@ import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 import com.thejohnsondev.ui.model.FilterIcon
 import com.thejohnsondev.ui.model.FilterUIModel
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.bank_accounts
 import vaultmultiplatform.core.ui.generated.resources.finances
 import vaultmultiplatform.core.ui.generated.resources.ic_password
@@ -55,7 +55,7 @@ object FiltersProvider {
             id = VAULT_ITEM_TYPE_PASSWORDS,
             nameResId = ResString.passwords,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_password
+                imageVectorResId = ResDrawable.ic_password
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -160,7 +160,7 @@ object FiltersProvider {
             id = SORT_TITLE_AZ,
             nameResId = ResString.sort_title_az,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_alph_az
+                imageVectorResId = ResDrawable.ic_sort_alph_az
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -170,7 +170,7 @@ object FiltersProvider {
             id = SORT_TITLE_ZA,
             nameResId = ResString.sort_title_za,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_alph_za
+                imageVectorResId = ResDrawable.ic_sort_alph_za
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -180,7 +180,7 @@ object FiltersProvider {
             id = SORT_TIME_NEW,
             nameResId = ResString.sort_date_newest,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_time_new
+                imageVectorResId = ResDrawable.ic_sort_time_new
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -190,7 +190,7 @@ object FiltersProvider {
             id = SORT_TIME_OLD,
             nameResId = ResString.sort_date_oldest,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_time_old
+                imageVectorResId = ResDrawable.ic_sort_time_old
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false

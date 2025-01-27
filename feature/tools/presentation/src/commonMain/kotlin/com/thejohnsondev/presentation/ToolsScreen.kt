@@ -15,14 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.coming_soon
+import vaultmultiplatform.core.ui.generated.resources.ic_tools
 import vaultmultiplatform.core.ui.generated.resources.tools
-import vaultmultiplatform.feature.tools.presentation.generated.resources.Res
-import vaultmultiplatform.feature.tools.presentation.generated.resources.ic_tools
 
 @Composable
 fun ToolsScreen(
@@ -36,7 +36,7 @@ fun ToolsScreen(
         val snackBarHostState = remember {
             SnackbarHostState()
         }
-        val toolsIcon = vectorResource(Res.drawable.ic_tools)
+        val toolsIcon = vectorResource(ResDrawable.ic_tools)
         LaunchedEffect(true) {
             setScaffoldConfig(
                 ScaffoldConfig(

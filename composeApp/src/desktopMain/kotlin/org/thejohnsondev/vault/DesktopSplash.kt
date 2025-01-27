@@ -10,9 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import com.thejohnsondev.ui.utils.ResDrawable
 import org.jetbrains.compose.resources.vectorResource
-import vaultmultiplatform.composeapp.generated.resources.Res
-import vaultmultiplatform.composeapp.generated.resources.ic_vault_108_gradient
+import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 private const val LOGO_SCALE = 1.4f
 
@@ -27,7 +27,7 @@ fun DesktopSplash() {
                 modifier = Modifier.wrapContentSize()
                     .align(Alignment.Center)
                     .scale(LOGO_SCALE),
-                imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
+                imageVector = vectorResource(ResDrawable.ic_vault_108_gradient),
                 contentDescription = null // TODO add content description,
             )
         }

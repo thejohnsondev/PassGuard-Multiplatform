@@ -68,6 +68,7 @@ import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.utils.KeyboardManager
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
@@ -77,14 +78,13 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import vaultmultiplatform.core.ui.generated.resources.add_field
+import vaultmultiplatform.core.ui.generated.resources.ic_password
 import vaultmultiplatform.core.ui.generated.resources.password
 import vaultmultiplatform.core.ui.generated.resources.save
 import vaultmultiplatform.core.ui.generated.resources.title
 import vaultmultiplatform.core.ui.generated.resources.update
 import vaultmultiplatform.core.ui.generated.resources.username
 import vaultmultiplatform.core.ui.generated.resources.visibility
-import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
 
 private const val DELAY_BEFORE_FOCUS = 500L
 
@@ -464,8 +464,8 @@ private fun TitleField(
                     .fillMaxSize()
                     .padding(Size4),
                 imageUrl = String.empty,
-                placeholderDrawableResource = Res.drawable.ic_password,
-                errorDrawableResource = Res.drawable.ic_password,
+                placeholderDrawableResource = ResDrawable.ic_password,
+                errorDrawableResource = ResDrawable.ic_password,
                 placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
                 backgroundColor = Color.White
             )

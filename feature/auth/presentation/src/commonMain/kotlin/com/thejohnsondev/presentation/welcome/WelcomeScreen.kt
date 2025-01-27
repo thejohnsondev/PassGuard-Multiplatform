@@ -39,6 +39,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.model.button.ButtonStyle
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
@@ -48,11 +49,10 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.app_name
+import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 import vaultmultiplatform.core.ui.generated.resources.log_in
 import vaultmultiplatform.core.ui.generated.resources.sign_up
 import vaultmultiplatform.core.ui.generated.resources.your_fortress
-import vaultmultiplatform.feature.auth.presentation.generated.resources.Res
-import vaultmultiplatform.feature.auth.presentation.generated.resources.ic_vault_108_gradient
 
 private const val BLUR_SCALE_ANIM_START = 0f
 private const val BLUR_SCALE_ANIM_END = 1f
@@ -242,7 +242,7 @@ private fun LogoSection(
                     modifier = Modifier
                         .fillMaxSize()
                         .scale(animatedBackgroundBlurScale.value),
-                    imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
+                    imageVector = vectorResource(ResDrawable.ic_vault_108_gradient),
                     contentDescription = null // TODO add content description
                 )
             },
@@ -256,7 +256,7 @@ private fun LogoSection(
                     translationY = animatedLogoYPosition.value
                 }
                 .align(Alignment.Center),
-            imageVector = vectorResource(Res.drawable.ic_vault_108_gradient),
+            imageVector = vectorResource(ResDrawable.ic_vault_108_gradient),
             contentDescription = null // TODO add content description,
         )
     }

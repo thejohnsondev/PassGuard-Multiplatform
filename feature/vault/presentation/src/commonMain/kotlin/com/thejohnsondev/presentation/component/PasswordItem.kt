@@ -75,14 +75,14 @@ import com.thejohnsondev.ui.designsystem.SizeMinus
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.created
+import vaultmultiplatform.core.ui.generated.resources.ic_password
 import vaultmultiplatform.core.ui.generated.resources.modified
 import vaultmultiplatform.core.ui.generated.resources.more_info
-import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -212,8 +212,8 @@ fun PasswordItem(
                                 .fillMaxSize()
                                 .padding(Size4),
                             imageUrl = item.organizationLogo ?: "",
-                            errorDrawableResource = Res.drawable.ic_password,
-                            placeholderDrawableResource = Res.drawable.ic_password,
+                            errorDrawableResource = ResDrawable.ic_password,
+                            placeholderDrawableResource = ResDrawable.ic_password,
                             placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
                             backgroundColor = Color.White,
                             showLoading = true
