@@ -44,11 +44,11 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.TealSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MonochromeSelectableItemsColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.TealSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.VioletSelectableItemsColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
@@ -58,40 +58,40 @@ import com.thejohnsondev.ui.model.message.MessageType
 import com.thejohnsondev.ui.model.settings.SettingsSection
 import com.thejohnsondev.ui.model.settings.SettingsSubSection
 import com.thejohnsondev.ui.scaffold.BottomNavItem
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.feature.settings.presentation.generated.resources.Res
-import vaultmultiplatform.feature.settings.presentation.generated.resources.block_screenshot
-import vaultmultiplatform.feature.settings.presentation.generated.resources.block_screenshot_description
-import vaultmultiplatform.feature.settings.presentation.generated.resources.cancel
-import vaultmultiplatform.feature.settings.presentation.generated.resources.dangerous_zone
-import vaultmultiplatform.feature.settings.presentation.generated.resources.dark_mode_preference
-import vaultmultiplatform.feature.settings.presentation.generated.resources.dark_mode_preference_dark
-import vaultmultiplatform.feature.settings.presentation.generated.resources.dark_mode_preference_light
-import vaultmultiplatform.feature.settings.presentation.generated.resources.dark_mode_preference_system
-import vaultmultiplatform.feature.settings.presentation.generated.resources.deep_search_description
-import vaultmultiplatform.feature.settings.presentation.generated.resources.deep_search_title
-import vaultmultiplatform.feature.settings.presentation.generated.resources.delete_account
-import vaultmultiplatform.feature.settings.presentation.generated.resources.delete_account_confirm_message
-import vaultmultiplatform.feature.settings.presentation.generated.resources.logout
-import vaultmultiplatform.feature.settings.presentation.generated.resources.logout_confirm_message
-import vaultmultiplatform.feature.settings.presentation.generated.resources.manage_account
-import vaultmultiplatform.feature.settings.presentation.generated.resources.no
-import vaultmultiplatform.feature.settings.presentation.generated.resources.settings
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_teal
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_deep_forest
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_default
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_monochrome
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_red_algae
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_sunny
-import vaultmultiplatform.feature.settings.presentation.generated.resources.theme_violet
-import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics
-import vaultmultiplatform.feature.settings.presentation.generated.resources.unlock_with_biometrics_description
-import vaultmultiplatform.feature.settings.presentation.generated.resources.use_dynamic_color
-import vaultmultiplatform.feature.settings.presentation.generated.resources.yes
+import vaultmultiplatform.core.ui.generated.resources.block_screenshot
+import vaultmultiplatform.core.ui.generated.resources.block_screenshot_description
+import vaultmultiplatform.core.ui.generated.resources.cancel
+import vaultmultiplatform.core.ui.generated.resources.dangerous_zone
+import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference
+import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference_dark
+import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference_light
+import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference_system
+import vaultmultiplatform.core.ui.generated.resources.deep_search_description
+import vaultmultiplatform.core.ui.generated.resources.deep_search_title
+import vaultmultiplatform.core.ui.generated.resources.delete_account
+import vaultmultiplatform.core.ui.generated.resources.delete_account_confirm_message
+import vaultmultiplatform.core.ui.generated.resources.logout
+import vaultmultiplatform.core.ui.generated.resources.logout_confirm_message
+import vaultmultiplatform.core.ui.generated.resources.manage_account
+import vaultmultiplatform.core.ui.generated.resources.no
+import vaultmultiplatform.core.ui.generated.resources.settings
+import vaultmultiplatform.core.ui.generated.resources.theme
+import vaultmultiplatform.core.ui.generated.resources.theme_deep_forest
+import vaultmultiplatform.core.ui.generated.resources.theme_default
+import vaultmultiplatform.core.ui.generated.resources.theme_monochrome
+import vaultmultiplatform.core.ui.generated.resources.theme_red_algae
+import vaultmultiplatform.core.ui.generated.resources.theme_sunny
+import vaultmultiplatform.core.ui.generated.resources.theme_teal
+import vaultmultiplatform.core.ui.generated.resources.theme_violet
+import vaultmultiplatform.core.ui.generated.resources.unlock_with_biometrics
+import vaultmultiplatform.core.ui.generated.resources.unlock_with_biometrics_description
+import vaultmultiplatform.core.ui.generated.resources.use_dynamic_color
+import vaultmultiplatform.core.ui.generated.resources.yes
 
 @Composable
 fun SettingsScreen(
@@ -100,13 +100,13 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
-    onShowError: (MessageContent) -> Unit
+    onShowError: (MessageContent) -> Unit,
 ) {
     val state = viewModel.state.collectAsState(SettingsViewModel.State())
     LaunchedEffect(true) {
         setScaffoldConfig(
             ScaffoldConfig(
-                topAppBarTitle = getString(Res.string.settings),
+                topAppBarTitle = getString(ResString.settings),
                 bottomBarItemIndex = BottomNavItem.Settings.index
             )
         )
@@ -141,7 +141,7 @@ fun SettingsContent(
     state: SettingsViewModel.State,
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
-    onAction: (SettingsViewModel.Action) -> Unit
+    onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -193,7 +193,7 @@ fun SettingsList(
 
 @Composable
 fun SettingsSectionTitle(
-    section: SettingsSection
+    section: SettingsSection,
 ) {
     section.sectionTitleRes?.let { sectionTitleRes ->
         Column {
@@ -217,7 +217,7 @@ fun SettingsSubSections(
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     val subsectionDescription =
-        if (subSection.sectionTitleRes == Res.string.manage_account) {
+        if (subSection.sectionTitleRes == ResString.manage_account) {
             state.userEmail.orEmpty()
         } else {
             subSection.sectionDescriptionRes?.let { stringResource(resource = it) } ?: ""
@@ -259,7 +259,7 @@ fun ManageAccountSubSection(
         modifier = Modifier
             .height(Size72)
             .padding(start = Size16, end = Size16, bottom = Size16, top = Size2),
-        text = stringResource(resource = Res.string.logout),
+        text = stringResource(resource = ResString.logout),
         onClick = {
             onAction(SettingsViewModel.Action.OpenConfirmLogoutDialog)
         },
@@ -278,7 +278,7 @@ fun ManageAccountSubSection(
             .background(MaterialTheme.colorScheme.errorContainer)
     ) {
         Text(
-            text = stringResource(Res.string.dangerous_zone),
+            text = stringResource(ResString.dangerous_zone),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onErrorContainer,
             modifier = Modifier.padding(start = Size16, top = Size16)
@@ -286,7 +286,7 @@ fun ManageAccountSubSection(
         RoundedButton(
             modifier = Modifier
                 .padding(Size16),
-            text = stringResource(Res.string.delete_account),
+            text = stringResource(ResString.delete_account),
             onClick = {
                 onAction(SettingsViewModel.Action.OpenConfirmDeleteAccountDialog)
             },
@@ -301,14 +301,14 @@ fun ManageAccountSubSection(
 @Composable
 fun GeneralSettingsSubSection(
     state: SettingsViewModel.State,
-    onAction: (SettingsViewModel.Action) -> Unit
+    onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
     ) {
         ToggleOptionItem(
-            optionTitle = stringResource(Res.string.deep_search_title),
-            optionDescription = stringResource(Res.string.deep_search_description),
+            optionTitle = stringResource(ResString.deep_search_title),
+            optionDescription = stringResource(ResString.deep_search_description),
             isSelected = state.settingsConfig?.generalSettings?.isDeepSearchEnabled
                 ?: false,
             isFirstItem = true,
@@ -328,7 +328,7 @@ fun GeneralSettingsSubSection(
 @Composable
 fun StyleSettingsSubSection(
     state: SettingsViewModel.State,
-    onAction: (SettingsViewModel.Action) -> Unit
+    onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
@@ -337,14 +337,14 @@ fun StyleSettingsSubSection(
             modifier = Modifier.padding(
                 bottom = Size8
             ),
-            text = stringResource(Res.string.dark_mode_preference),
+            text = stringResource(ResString.dark_mode_preference),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSecondary
         )
         SelectableOptionItem(
             modifier = Modifier
                 .padding(top = Size4),
-            optionTitle = stringResource(Res.string.dark_mode_preference_system),
+            optionTitle = stringResource(ResString.dark_mode_preference_system),
             isFirstItem = true,
             isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.SYSTEM
         ) {
@@ -353,7 +353,7 @@ fun StyleSettingsSubSection(
         SelectableOptionItem(
             modifier = Modifier
                 .padding(top = Size4),
-            optionTitle = stringResource(Res.string.dark_mode_preference_dark),
+            optionTitle = stringResource(ResString.dark_mode_preference_dark),
             isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.DARK
         ) {
             onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.DARK))
@@ -361,7 +361,7 @@ fun StyleSettingsSubSection(
         SelectableOptionItem(
             modifier = Modifier
                 .padding(top = Size4),
-            optionTitle = stringResource(Res.string.dark_mode_preference_light),
+            optionTitle = stringResource(ResString.dark_mode_preference_light),
             isLastItem = true,
             isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.LIGHT
         ) {
@@ -373,14 +373,14 @@ fun StyleSettingsSubSection(
                     bottom = Size8,
                     top = Size8
                 ),
-                text = stringResource(Res.string.use_dynamic_color),
+                text = stringResource(ResString.use_dynamic_color),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSecondary
             )
             SelectableOptionItem(
                 modifier = Modifier
                     .padding(top = Size4),
-                optionTitle = stringResource(Res.string.yes),
+                optionTitle = stringResource(ResString.yes),
                 isFirstItem = true,
                 isSelected = state.settingsConfig.useDynamicColor
             ) {
@@ -389,7 +389,7 @@ fun StyleSettingsSubSection(
             SelectableOptionItem(
                 modifier = Modifier
                     .padding(top = Size4),
-                optionTitle = stringResource(Res.string.no),
+                optionTitle = stringResource(ResString.no),
                 isLastItem = true,
                 isSelected = !state.settingsConfig.useDynamicColor
             ) {
@@ -398,7 +398,7 @@ fun StyleSettingsSubSection(
         }
         Text(
             modifier = Modifier.padding(vertical = Size8),
-            text = stringResource(Res.string.theme),
+            text = stringResource(ResString.theme),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSecondary
         )
@@ -408,14 +408,14 @@ fun StyleSettingsSubSection(
                     .padding(top = Size4),
                 optionTitle = stringResource(
                     when (theme) {
-                        ThemeBrand.DEFAULT -> Res.string.theme_default
-                        ThemeBrand.TEAL -> Res.string.theme_teal
-                        ThemeBrand.DEEP_FOREST -> Res.string.theme_deep_forest
-                        ThemeBrand.RED_ALGAE -> Res.string.theme_red_algae
-                        ThemeBrand.SUNNY -> Res.string.theme_sunny
-                        ThemeBrand.VIOLET -> Res.string.theme_violet
-                        ThemeBrand.MONOCHROME -> Res.string.theme_monochrome
-                        else -> Res.string.theme_default
+                        ThemeBrand.DEFAULT -> ResString.theme_default
+                        ThemeBrand.TEAL -> ResString.theme_teal
+                        ThemeBrand.DEEP_FOREST -> ResString.theme_deep_forest
+                        ThemeBrand.RED_ALGAE -> ResString.theme_red_algae
+                        ThemeBrand.SUNNY -> ResString.theme_sunny
+                        ThemeBrand.VIOLET -> ResString.theme_violet
+                        ThemeBrand.MONOCHROME -> ResString.theme_monochrome
+                        else -> ResString.theme_default
                     }
                 ),
                 isLastItem = index == ThemeBrand.entries.size - 1,
@@ -443,15 +443,15 @@ fun StyleSettingsSubSection(
 @Composable
 fun PrivacySettingsSubSection(
     state: SettingsViewModel.State,
-    onAction: (SettingsViewModel.Action) -> Unit
+    onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
     ) {
         if (state.isBiometricsAvailable) {
             ToggleOptionItem(
-                optionTitle = stringResource(Res.string.unlock_with_biometrics),
-                optionDescription = stringResource(Res.string.unlock_with_biometrics_description),
+                optionTitle = stringResource(ResString.unlock_with_biometrics),
+                optionDescription = stringResource(ResString.unlock_with_biometrics_description),
                 isSelected = state.settingsConfig?.privacySettings?.isUnlockWithBiometricEnabled
                     ?: false,
                 isFirstItem = true,
@@ -474,8 +474,8 @@ fun PrivacySettingsSubSection(
                 modifier = Modifier.applyIf(state.isBiometricsAvailable) {
                     padding(top = Size16)
                 },
-                optionTitle = stringResource(Res.string.block_screenshot),
-                optionDescription = stringResource(Res.string.block_screenshot_description),
+                optionTitle = stringResource(ResString.block_screenshot),
+                optionDescription = stringResource(ResString.block_screenshot_description),
                 isSelected = state.settingsConfig?.privacySettings?.isBlockScreenshotsEnabled
                     ?: false,
                 isFirstItem = true,
@@ -502,10 +502,10 @@ fun Dialogs(
     if (state.isConfirmDeleteAccountDialogOpened) {
         ConfirmAlertDialog(
             windowWidthSizeClass = windowSizeClass,
-            title = stringResource(Res.string.delete_account),
-            message = stringResource(Res.string.delete_account_confirm_message),
-            confirmButtonText = stringResource(Res.string.delete_account),
-            cancelButtonText = stringResource(Res.string.cancel),
+            title = stringResource(ResString.delete_account),
+            message = stringResource(ResString.delete_account_confirm_message),
+            confirmButtonText = stringResource(ResString.delete_account),
+            cancelButtonText = stringResource(ResString.cancel),
             onConfirm = {
                 onAction(SettingsViewModel.Action.CloseConfirmDeleteAccountDialog)
                 onAction(SettingsViewModel.Action.OpenDeleteAccountPasswordConfirm)
@@ -518,10 +518,10 @@ fun Dialogs(
     if (state.isConfirmLogoutDialogOpened) {
         ConfirmAlertDialog(
             windowWidthSizeClass = windowSizeClass,
-            title = stringResource(Res.string.logout),
-            message = stringResource(Res.string.logout_confirm_message),
-            confirmButtonText = stringResource(Res.string.logout),
-            cancelButtonText = stringResource(Res.string.cancel),
+            title = stringResource(ResString.logout),
+            message = stringResource(ResString.logout_confirm_message),
+            confirmButtonText = stringResource(ResString.logout),
+            cancelButtonText = stringResource(ResString.cancel),
             onConfirm = {
                 onAction(SettingsViewModel.Action.CloseConfirmLogoutDialog)
                 onAction(SettingsViewModel.Action.Logout)

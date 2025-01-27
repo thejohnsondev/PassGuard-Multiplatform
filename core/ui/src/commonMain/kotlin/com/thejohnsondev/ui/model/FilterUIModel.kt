@@ -6,10 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.vectorResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.pass
 
 data class FilterUIModel(
@@ -17,13 +17,13 @@ data class FilterUIModel(
     val nameResId: StringResource,
     val filterIcon: FilterIcon,
     val isSelected: Boolean = false,
-    val colors: SelectableItemColors = DefaultSelectableItemColors
+    val colors: SelectableItemColors = DefaultSelectableItemColors,
 ) {
     companion object {
 
         val testFilterUIModel = FilterUIModel(
             id = "test_filter",
-            nameResId = Res.string.pass,
+            nameResId = ResString.pass,
             filterIcon = FilterIcon(
                 imageVector = Icons.Default.FilterList
             ),
@@ -47,7 +47,7 @@ data class FilterUIModel(
 
 data class FilterIcon(
     val imageVector: ImageVector? = null,
-    val imageVectorResId: DrawableResource? = null
+    val imageVectorResId: DrawableResource? = null,
 )
 
 @Composable

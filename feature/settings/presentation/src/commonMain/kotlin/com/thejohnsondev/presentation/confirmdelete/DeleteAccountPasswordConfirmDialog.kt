@@ -28,15 +28,15 @@ import com.thejohnsondev.ui.components.TextField
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.displaymessage.getAsComposeText
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.feature.settings.presentation.generated.resources.Res
-import vaultmultiplatform.feature.settings.presentation.generated.resources.cancel
-import vaultmultiplatform.feature.settings.presentation.generated.resources.confirm
-import vaultmultiplatform.feature.settings.presentation.generated.resources.confirm_delete_account_with_password
-import vaultmultiplatform.feature.settings.presentation.generated.resources.enter_password
-import vaultmultiplatform.feature.settings.presentation.generated.resources.password
+import vaultmultiplatform.core.ui.generated.resources.cancel
+import vaultmultiplatform.core.ui.generated.resources.confirm
+import vaultmultiplatform.core.ui.generated.resources.confirm_delete_account_with_password
+import vaultmultiplatform.core.ui.generated.resources.enter_password
+import vaultmultiplatform.core.ui.generated.resources.password
 
 @Composable
 fun DeleteAccountPasswordConfirmDialog(
@@ -50,14 +50,14 @@ fun DeleteAccountPasswordConfirmDialog(
     }, icon = {
         Icon(imageVector = Icons.Default.Warning, null)
     }, title = {
-        Text(text = stringResource(Res.string.enter_password))
+        Text(text = stringResource(ResString.enter_password))
     }, text = {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Text(text = stringResource(Res.string.confirm_delete_account_with_password))
+            Text(text = stringResource(ResString.confirm_delete_account_with_password))
             TextField(
                 modifier = Modifier.padding(vertical = Size8),
                 textState = enteredPassword,
@@ -65,7 +65,7 @@ fun DeleteAccountPasswordConfirmDialog(
                     enteredPassword.value = it
                     onAction(SettingsViewModel.Action.DeleteAccountPasswordConfirmEntered(it))
                 },
-                label = stringResource(Res.string.password),
+                label = stringResource(ResString.password),
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
                 isError = state.deleteAccountPasswordConfirmValidationState !is PasswordValidationState.PasswordCorrectState,
@@ -78,7 +78,7 @@ fun DeleteAccountPasswordConfirmDialog(
         onAction(SettingsViewModel.Action.CloseDeleteAccountPasswordConfirm)
     }, confirmButton = {
         RoundedButton(
-            text = stringResource(Res.string.confirm),
+            text = stringResource(ResString.confirm),
             onClick = {
                 onAction(SettingsViewModel.Action.DeleteAccountPasswordConfirm(enteredPassword.value))
             },
@@ -90,7 +90,7 @@ fun DeleteAccountPasswordConfirmDialog(
         )
     }, dismissButton = {
         RoundedButton(
-            text = stringResource(Res.string.cancel), onClick = {
+            text = stringResource(ResString.cancel), onClick = {
                 onAction(SettingsViewModel.Action.CloseDeleteAccountPasswordConfirm)
             }, colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,

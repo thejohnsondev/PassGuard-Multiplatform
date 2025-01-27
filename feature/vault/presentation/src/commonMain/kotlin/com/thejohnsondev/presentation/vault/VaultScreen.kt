@@ -72,19 +72,19 @@ import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.model.message.MessageType
 import com.thejohnsondev.ui.scaffold.BottomNavItem
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.add
-import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault
-import vaultmultiplatform.feature.vault.presentation.generated.resources.empty_vault_get_started
-import vaultmultiplatform.feature.vault.presentation.generated.resources.filters
-import vaultmultiplatform.feature.vault.presentation.generated.resources.nothing_found
-import vaultmultiplatform.feature.vault.presentation.generated.resources.sort_by
-import vaultmultiplatform.feature.vault.presentation.generated.resources.vault
+import vaultmultiplatform.core.ui.generated.resources.add
+import vaultmultiplatform.core.ui.generated.resources.empty_vault
+import vaultmultiplatform.core.ui.generated.resources.empty_vault_get_started
+import vaultmultiplatform.core.ui.generated.resources.filters
+import vaultmultiplatform.core.ui.generated.resources.nothing_found
+import vaultmultiplatform.core.ui.generated.resources.sort_by
+import vaultmultiplatform.core.ui.generated.resources.vault
 
 private const val SHIMMER_PASSWORDS_COUNT = 10
 
@@ -122,10 +122,10 @@ fun VaultScreen(
         vaultViewModel.perform(VaultViewModel.Action.FetchVault)
         setScaffoldConfig(
             ScaffoldConfig(
-                topAppBarTitle = getString(Res.string.vault),
+                topAppBarTitle = getString(ResString.vault),
                 topAppBarIcon = appLogo,
                 isFabVisible = true,
-                fabTitle = getString(Res.string.add),
+                fabTitle = getString(ResString.add),
                 fabIcon = Icons.Default.Add,
                 onFabClick = {
                     vaultViewModel.perform(VaultViewModel.Action.OnAddClick)
@@ -186,7 +186,8 @@ internal fun VaultScreenContent(
     ) {
         when (state.screenState) {
             is ScreenState.Loading,
-            ScreenState.None -> {
+            ScreenState.None,
+                -> {
                 VaultLoading(
                     windowSizeClass = windowSizeClass,
                     paddingValues = paddingValues
@@ -568,7 +569,7 @@ fun Filters(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(Res.string.filters),
+                text = stringResource(ResString.filters),
                 style = MaterialTheme.typography.titleLarge,
                 fontFamily = getGlobalFontFamily(),
                 color = MaterialTheme.colorScheme.onSurface,
@@ -610,7 +611,7 @@ fun Sorting(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(Res.string.sort_by),
+                text = stringResource(ResString.sort_by),
                 style = MaterialTheme.typography.titleLarge,
                 fontFamily = getGlobalFontFamily(),
                 color = MaterialTheme.colorScheme.onSurface,
@@ -655,7 +656,7 @@ fun EmptyVaultPlaceholder() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(Res.string.empty_vault),
+            text = stringResource(ResString.empty_vault),
             style = MaterialTheme.typography.headlineSmall,
             fontFamily = getGlobalFontFamily(),
             color = MaterialTheme.colorScheme.onSurface,
@@ -664,7 +665,7 @@ fun EmptyVaultPlaceholder() {
         Text(
             modifier = Modifier
                 .padding(top = Size8),
-            text = stringResource(Res.string.empty_vault_get_started),
+            text = stringResource(ResString.empty_vault_get_started),
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = getGlobalFontFamily(),
             color = MaterialTheme.colorScheme.onSurface
@@ -682,7 +683,7 @@ fun NothingFoundPlaceholder() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(Res.string.nothing_found),
+            text = stringResource(ResString.nothing_found),
             style = MaterialTheme.typography.headlineSmall,
             fontFamily = getGlobalFontFamily(),
             color = MaterialTheme.colorScheme.onSurface,

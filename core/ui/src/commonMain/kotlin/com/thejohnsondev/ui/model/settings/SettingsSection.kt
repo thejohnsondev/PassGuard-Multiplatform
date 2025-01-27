@@ -1,12 +1,12 @@
 package com.thejohnsondev.ui.model.settings
 
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.StringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.account
 
 data class SettingsSection(
     val sectionTitleRes: StringResource? = null,
-    val subsections: List<SettingsSubSection>
+    val subsections: List<SettingsSubSection>,
 ) {
     companion object {
         fun getSettingsSections(): List<SettingsSection> = listOf(
@@ -18,7 +18,7 @@ data class SettingsSection(
                 )
             ),
             SettingsSection(
-                sectionTitleRes = Res.string.account,
+                sectionTitleRes = ResString.account,
                 subsections = listOf(
                     SettingsSubSection.ManageAccountSub
                 )

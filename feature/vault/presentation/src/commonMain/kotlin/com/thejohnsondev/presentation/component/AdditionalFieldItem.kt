@@ -38,11 +38,11 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size98
 import com.thejohnsondev.ui.utils.KeyboardManager
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.title
-import vaultmultiplatform.feature.vault.presentation.generated.resources.value
-import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
+import vaultmultiplatform.core.ui.generated.resources.title
+import vaultmultiplatform.core.ui.generated.resources.value
+import vaultmultiplatform.core.ui.generated.resources.visibility
 
 @Composable
 fun AdditionalFieldItem(
@@ -52,7 +52,7 @@ fun AdditionalFieldItem(
     isEditMode: Boolean,
     onTitleChanged: (String) -> Unit,
     onValueChanged: (String) -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
 ) {
     val titleFocusRequester = remember {
         FocusRequester()
@@ -96,7 +96,7 @@ fun AdditionalFieldItem(
                         onKeyboardAction = {
                             valueFocusRequester.requestFocus()
                         },
-                        hint = stringResource(Res.string.title)
+                        hint = stringResource(ResString.title)
                     )
                     HorizontalDivider(
                         modifier = Modifier
@@ -123,7 +123,7 @@ fun AdditionalFieldItem(
                                 imeAction = androidx.compose.ui.text.input.ImeAction.Done,
                                 keyboardType = KeyboardType.Password,
                                 passwordVisible = !isHidden,
-                                hint = stringResource(Res.string.value),
+                                hint = stringResource(ResString.value),
                                 onKeyboardAction = {
                                     keyboardController?.hide()
                                 }
@@ -137,7 +137,7 @@ fun AdditionalFieldItem(
                         ) {
                             Icon(
                                 imageVector = eyeImage,
-                                contentDescription = stringResource(Res.string.visibility),
+                                contentDescription = stringResource(ResString.visibility),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -163,7 +163,7 @@ fun AdditionalFieldItem(
                 Icon(
                     modifier = Modifier.padding(horizontal = Size4),
                     imageVector = Icons.Default.Delete,
-                    contentDescription = stringResource(Res.string.visibility),
+                    contentDescription = stringResource(ResString.visibility),
                     tint = MaterialTheme.colorScheme.surfaceVariant
                 )
             }

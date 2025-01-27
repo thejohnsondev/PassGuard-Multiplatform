@@ -39,6 +39,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.model.button.ButtonStyle
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
 import kotlinx.coroutines.CoroutineScope
@@ -46,12 +47,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import vaultmultiplatform.core.ui.generated.resources.app_name
+import vaultmultiplatform.core.ui.generated.resources.log_in
+import vaultmultiplatform.core.ui.generated.resources.sign_up
+import vaultmultiplatform.core.ui.generated.resources.your_fortress
 import vaultmultiplatform.feature.auth.presentation.generated.resources.Res
-import vaultmultiplatform.feature.auth.presentation.generated.resources.app_name
 import vaultmultiplatform.feature.auth.presentation.generated.resources.ic_vault_108_gradient
-import vaultmultiplatform.feature.auth.presentation.generated.resources.log_in
-import vaultmultiplatform.feature.auth.presentation.generated.resources.sign_up
-import vaultmultiplatform.feature.auth.presentation.generated.resources.your_fortress
 
 private const val BLUR_SCALE_ANIM_START = 0f
 private const val BLUR_SCALE_ANIM_END = 1f
@@ -71,7 +72,7 @@ private const val CONTENT_ALPHA_ANIM_END = 1f
 fun WelcomeScreen(
     windowSize: WindowWidthSizeClass,
     goToSignUp: () -> Unit,
-    goToLogin: () -> Unit
+    goToLogin: () -> Unit,
 ) {
     // TODO apply system insets
     WelcomeContent(
@@ -85,7 +86,7 @@ fun WelcomeScreen(
 fun WelcomeContent(
     windowSize: WindowWidthSizeClass,
     goToSignUp: () -> Unit,
-    goToLogin: () -> Unit
+    goToLogin: () -> Unit,
 ) {
     val animatedBackgroundBlurScale = remember {
         Animatable(BLUR_SCALE_ANIM_START)
@@ -154,7 +155,7 @@ private fun ButtonsSection(
     windowSize: WindowWidthSizeClass,
     animatedContentAlpha: Animatable<Float, AnimationVector1D>,
     goToLogin: () -> Unit,
-    goToSignUp: () -> Unit
+    goToSignUp: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -172,7 +173,7 @@ private fun ButtonsSection(
             modifier = Modifier
                 .padding(bottom = Size8, start = Size16, end = Size16)
                 .alpha(animatedContentAlpha.value),
-            text = stringResource(Res.string.log_in),
+            text = stringResource(ResString.log_in),
             onClick = {
                 goToLogin()
             }
@@ -185,7 +186,7 @@ private fun ButtonsSection(
                     start = Size16,
                     end = Size16
                 ).alpha(animatedContentAlpha.value),
-            text = stringResource(Res.string.sign_up),
+            text = stringResource(ResString.sign_up),
             onClick = {
                 goToSignUp()
             },
@@ -196,7 +197,7 @@ private fun ButtonsSection(
 
 @Composable
 private fun Titles(
-    animatedContentAlpha: Animatable<Float, AnimationVector1D>
+    animatedContentAlpha: Animatable<Float, AnimationVector1D>,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -207,7 +208,7 @@ private fun Titles(
             modifier = Modifier
                 .padding(vertical = Size8, horizontal = Size16)
                 .alpha(animatedContentAlpha.value),
-            text = stringResource(Res.string.app_name),
+            text = stringResource(ResString.app_name),
             style = MaterialTheme.typography.displaySmall,
             fontFamily = getGlobalFontFamily()
         )
@@ -215,7 +216,7 @@ private fun Titles(
             modifier = Modifier
                 .padding(vertical = Size8, horizontal = Size16)
                 .alpha(animatedContentAlpha.value),
-            text = stringResource(Res.string.your_fortress),
+            text = stringResource(ResString.your_fortress),
             style = MaterialTheme.typography.titleMedium,
             fontFamily = getGlobalFontFamily(),
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = Percent80)
@@ -228,7 +229,7 @@ private fun LogoSection(
     modifier: Modifier = Modifier,
     animatedBackgroundBlurScale: Animatable<Float, AnimationVector1D>,
     animatedLogoScale: Animatable<Float, AnimationVector1D>,
-    animatedLogoYPosition: Animatable<Float, AnimationVector1D>
+    animatedLogoYPosition: Animatable<Float, AnimationVector1D>,
 ) {
     Box(
         modifier = modifier
@@ -267,7 +268,7 @@ private suspend fun startAnimations(
     animatedLogoYPosition: Animatable<Float, AnimationVector1D>,
     animatedLogoYPosEnd: Float,
     animatedLogoScale: Animatable<Float, AnimationVector1D>,
-    animatedContentAlpha: Animatable<Float, AnimationVector1D>
+    animatedContentAlpha: Animatable<Float, AnimationVector1D>,
 ) {
     delay(BLUR_SCALE_ANIM_DELAY)
     coroutineScope.launch {

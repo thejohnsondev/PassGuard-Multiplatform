@@ -75,13 +75,14 @@ import com.thejohnsondev.ui.designsystem.SizeMinus
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
+import vaultmultiplatform.core.ui.generated.resources.created
+import vaultmultiplatform.core.ui.generated.resources.modified
+import vaultmultiplatform.core.ui.generated.resources.more_info
 import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.created
 import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
-import vaultmultiplatform.feature.vault.presentation.generated.resources.modified
-import vaultmultiplatform.feature.vault.presentation.generated.resources.more_info
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -97,7 +98,7 @@ fun PasswordItem(
     onCopyClick: (String) -> Unit,
     onFavoriteClick: (PasswordUIModel) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
-    onEditClick: (PasswordUIModel) -> Unit
+    onEditClick: (PasswordUIModel) -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
     val itemTransitionState = remember {
@@ -239,7 +240,7 @@ fun PasswordItem(
                         }
                     }
                 }
-                Column(modifier = Modifier.weight(1f)){
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         modifier = Modifier
                             .padding(start = Size16)
@@ -322,7 +323,7 @@ fun ExpandedContent(
     contentColor: Color,
     onCopyClick: (String) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
-    onEditClick: (PasswordUIModel) -> Unit
+    onEditClick: (PasswordUIModel) -> Unit,
 ) {
     var isHidden by remember {  // TODO add a UI setting to make it visible by default
         mutableStateOf(true)
@@ -433,7 +434,7 @@ fun ExpandedContent(
 private fun MoreInfo(
     modifier: Modifier = Modifier,
     contentColor: Color,
-    passwordModel: PasswordUIModel
+    passwordModel: PasswordUIModel,
 ) {
     var isInfoHidden by remember {
         mutableStateOf(true)
@@ -455,7 +456,7 @@ private fun MoreInfo(
         }
         AnimatedVisibility(visible = isInfoHidden) {
             Text(
-                text = stringResource(Res.string.more_info),
+                text = stringResource(ResString.more_info),
                 color = contentColor,
                 style = MaterialTheme.typography.bodySmall
             )
@@ -482,7 +483,7 @@ private fun MoreInfo(
                         Text(
                             modifier = Modifier
                                 .padding(start = Size8),
-                            text = "${stringResource(Res.string.modified)}${passwordModel.modifiedTime.orEmpty()}",
+                            text = "${stringResource(ResString.modified)}${passwordModel.modifiedTime.orEmpty()}",
                             color = contentColor,
                             style = MaterialTheme.typography.bodySmall
                         )
@@ -502,7 +503,7 @@ private fun MoreInfo(
                     Text(
                         modifier = Modifier
                             .padding(start = Size8),
-                        text = "${stringResource(Res.string.created)}${passwordModel.createdTime}",
+                        text = "${stringResource(ResString.created)}${passwordModel.createdTime}",
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -516,7 +517,7 @@ private fun MoreInfo(
 @Composable
 fun AdditionalFieldItem(
     additionalField: AdditionalFieldDto,
-    onLongClick: (String) -> Unit
+    onLongClick: (String) -> Unit,
 ) {
     var isHidden by remember {
         mutableStateOf(true)

@@ -15,18 +15,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.scaffold.BottomNavItem
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import vaultmultiplatform.core.ui.generated.resources.coming_soon
+import vaultmultiplatform.core.ui.generated.resources.tools
 import vaultmultiplatform.feature.tools.presentation.generated.resources.Res
-import vaultmultiplatform.feature.tools.presentation.generated.resources.coming_soon
 import vaultmultiplatform.feature.tools.presentation.generated.resources.ic_tools
-import vaultmultiplatform.feature.tools.presentation.generated.resources.tools
 
 @Composable
 fun ToolsScreen(
     windowSizeClass: WindowWidthSizeClass,
-    setScaffoldConfig: (ScaffoldConfig) -> Unit
+    setScaffoldConfig: (ScaffoldConfig) -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -39,7 +40,7 @@ fun ToolsScreen(
         LaunchedEffect(true) {
             setScaffoldConfig(
                 ScaffoldConfig(
-                    topAppBarTitle = getString(Res.string.tools),
+                    topAppBarTitle = getString(ResString.tools),
                     topAppBarIcon = toolsIcon,
                     successSnackBarHostState = snackBarHostState,
                     bottomBarItemIndex = BottomNavItem.Tools.index
@@ -53,7 +54,7 @@ fun ToolsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = stringResource(Res.string.coming_soon))
+            Text(text = stringResource(ResString.coming_soon))
         }
 
     }
