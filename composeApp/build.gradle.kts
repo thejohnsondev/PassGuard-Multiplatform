@@ -93,8 +93,11 @@ kotlin {
             implementation(libs.haze.materials)
         }
         desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
+            implementation(compose.desktop.currentOs) {
+                exclude("org.jetbrains.compose.material")
+            }
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.compose.jetbrains.expui.theme)
         }
         val iosMain by creating {
             dependencies {
@@ -162,6 +165,7 @@ compose.desktop {
             jvmArgs(
                 "-Dapple.awt.application.appearance=system"
             )
+            modules("jdk.unsupported")
         }
     }
 }
