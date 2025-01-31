@@ -67,15 +67,15 @@ import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
 import com.thejohnsondev.ui.displaymessage.getAsComposeText
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.utils.KeyboardManager
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.feature.auth.presentation.generated.resources.Res
-import vaultmultiplatform.feature.auth.presentation.generated.resources.do_not_have_account
-import vaultmultiplatform.feature.auth.presentation.generated.resources.email
-import vaultmultiplatform.feature.auth.presentation.generated.resources.log_in
-import vaultmultiplatform.feature.auth.presentation.generated.resources.password
-import vaultmultiplatform.feature.auth.presentation.generated.resources.sign_up
+import vaultmultiplatform.core.ui.generated.resources.do_not_have_account
+import vaultmultiplatform.core.ui.generated.resources.email
+import vaultmultiplatform.core.ui.generated.resources.log_in
+import vaultmultiplatform.core.ui.generated.resources.password
+import vaultmultiplatform.core.ui.generated.resources.sign_up
 
 @Composable
 fun LoginScreen(
@@ -83,7 +83,7 @@ fun LoginScreen(
     viewModel: LoginViewModel,
     goToHome: () -> Unit,
     goToSignUp: () -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
 ) {
     val screenState = viewModel.viewState.collectAsState(LoginViewModel.State())
     val emailState = rememberSaveable {
@@ -147,7 +147,7 @@ fun LoginContent(
     onGoToSignUp: () -> Unit,
     onGoBack: () -> Unit,
     hideKeyboard: () -> Unit,
-    onAction: (LoginViewModel.Action) -> Unit
+    onAction: (LoginViewModel.Action) -> Unit,
 ) {
     Scaffold(snackbarHost = {
         SnackbarHost(
@@ -227,7 +227,7 @@ fun FieldsSection(
     windowSize: WindowWidthSizeClass,
     hideKeyboard: () -> Unit,
     onGoToSignUp: () -> Unit,
-    onAction: (LoginViewModel.Action) -> Unit
+    onAction: (LoginViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -256,7 +256,7 @@ fun FieldsSection(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(Size16),
-                text = stringResource(Res.string.log_in),
+                text = stringResource(ResString.log_in),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -271,7 +271,7 @@ fun FieldsSection(
                     emailState.value = it
                     onAction(LoginViewModel.Action.ValidateEmail(it))
                 },
-                label = stringResource(Res.string.email),
+                label = stringResource(ResString.email),
                 onKeyboardAction = KeyboardActions {
                     passwordFocusRequest.requestFocus()
 
@@ -293,7 +293,7 @@ fun FieldsSection(
                     passwordState.value = it
                     onAction(LoginViewModel.Action.ValidatePassword(it))
                 },
-                label = stringResource(Res.string.password),
+                label = stringResource(ResString.password),
                 imeAction = ImeAction.Done,
                 onKeyboardAction = KeyboardActions {
                     hideKeyboard()
@@ -317,18 +317,18 @@ fun FieldsSection(
 @Composable
 private fun DoNotHaveAccount(
     modifier: Modifier = Modifier,
-    onGoToSignUp: () -> Unit
+    onGoToSignUp: () -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
         Text(
-            text = stringResource(Res.string.do_not_have_account),
+            text = stringResource(ResString.do_not_have_account),
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = stringResource(Res.string.sign_up),
+            text = stringResource(ResString.sign_up),
             modifier = Modifier
                 .padding(start = Size4)
                 .clickable {
@@ -348,7 +348,7 @@ fun LoginButtonSection(
     emailState: MutableState<String>,
     passwordState: MutableState<String>,
     hideKeyboard: () -> Unit,
-    onAction: (LoginViewModel.Action) -> Unit
+    onAction: (LoginViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -359,7 +359,7 @@ fun LoginButtonSection(
         verticalArrangement = Arrangement.Bottom
     ) {
         RoundedButton(
-            text = stringResource(Res.string.log_in),
+            text = stringResource(ResString.log_in),
             modifier = Modifier.padding(horizontal = Size16, vertical = Size16),
             enabled = state.loginReady,
             onClick = {

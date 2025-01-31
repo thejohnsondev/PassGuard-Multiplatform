@@ -3,6 +3,7 @@ agp = "8.7.1"
 android-compileSdk = "34"
 android-minSdk = "29"
 android-targetSdk = "34"
+composeJetbrainsExpuiTheme = "2.0.0"
 firebaseBom = "33.5.1"
 konnection = "1.4.3"
 kotlinxDatetime = "0.6.1"
@@ -48,6 +49,7 @@ haze = "0.7.3"
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
+compose-jetbrains-expui-theme = { module = "com.bybutter.compose:compose-jetbrains-expui-theme", version.ref = "composeJetbrainsExpuiTheme" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }

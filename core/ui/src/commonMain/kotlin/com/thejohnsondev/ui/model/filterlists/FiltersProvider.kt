@@ -20,14 +20,15 @@ import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_BANK_ACCOUNTS
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_NOTES
 import com.thejohnsondev.common.VAULT_ITEM_TYPE_PASSWORDS
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.FinanceSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.OtherSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.PersonalSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.WorkSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 import com.thejohnsondev.ui.model.FilterIcon
 import com.thejohnsondev.ui.model.FilterUIModel
-import vaultmultiplatform.core.ui.generated.resources.Res
+import com.thejohnsondev.ui.utils.ResDrawable
+import com.thejohnsondev.ui.utils.ResString
 import vaultmultiplatform.core.ui.generated.resources.bank_accounts
 import vaultmultiplatform.core.ui.generated.resources.finances
 import vaultmultiplatform.core.ui.generated.resources.ic_password
@@ -52,9 +53,9 @@ object FiltersProvider {
 
         val passwordsFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_TYPE_PASSWORDS,
-            nameResId = Res.string.passwords,
+            nameResId = ResString.passwords,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_password
+                imageVectorResId = ResDrawable.ic_password
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -62,7 +63,7 @@ object FiltersProvider {
 
         val notesFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_TYPE_NOTES,
-            nameResId = Res.string.notes,
+            nameResId = ResString.notes,
             filterIcon = FilterIcon(
                 imageVector = Icons.AutoMirrored.Filled.StickyNote2
             ),
@@ -72,7 +73,7 @@ object FiltersProvider {
 
         val bankAccountsFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_TYPE_BANK_ACCOUNTS,
-            nameResId = Res.string.bank_accounts,
+            nameResId = ResString.bank_accounts,
             filterIcon = FilterIcon(
                 imageVector = Icons.Default.CreditCard
             ),
@@ -98,7 +99,7 @@ object FiltersProvider {
 
         val personalFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_PERSONAL,
-            nameResId = Res.string.personal,
+            nameResId = ResString.personal,
             filterIcon = FilterIcon(
                 imageVector = Icons.Filled.Person
             ),
@@ -108,7 +109,7 @@ object FiltersProvider {
 
         val workFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_WORK,
-            nameResId = Res.string.work,
+            nameResId = ResString.work,
             filterIcon = FilterIcon(
                 imageVector = Icons.Default.Work
             ),
@@ -118,7 +119,7 @@ object FiltersProvider {
 
         val financeFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_FINANCE,
-            nameResId = Res.string.finances,
+            nameResId = ResString.finances,
             filterIcon = FilterIcon(
                 imageVector = Icons.Default.MonetizationOn
             ),
@@ -128,7 +129,7 @@ object FiltersProvider {
 
         val othersFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_OTHERS,
-            nameResId = Res.string.other,
+            nameResId = ResString.other,
             filterIcon = FilterIcon(
                 imageVector = Icons.Default.MoreHoriz
             ),
@@ -157,9 +158,9 @@ object FiltersProvider {
     object Sorting {
         val sortTitleAZFilterUIModel = FilterUIModel(
             id = SORT_TITLE_AZ,
-            nameResId = Res.string.sort_title_az,
+            nameResId = ResString.sort_title_az,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_alph_az
+                imageVectorResId = ResDrawable.ic_sort_alph_az
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -167,9 +168,9 @@ object FiltersProvider {
 
         val sortTitleZAFilterUIModel = FilterUIModel(
             id = SORT_TITLE_ZA,
-            nameResId = Res.string.sort_title_za,
+            nameResId = ResString.sort_title_za,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_alph_za
+                imageVectorResId = ResDrawable.ic_sort_alph_za
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -177,9 +178,9 @@ object FiltersProvider {
 
         val sortTimeNewFilterUIModel = FilterUIModel(
             id = SORT_TIME_NEW,
-            nameResId = Res.string.sort_date_newest,
+            nameResId = ResString.sort_date_newest,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_time_new
+                imageVectorResId = ResDrawable.ic_sort_time_new
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -187,9 +188,9 @@ object FiltersProvider {
 
         val sortTimeOldFilterUIModel = FilterUIModel(
             id = SORT_TIME_OLD,
-            nameResId = Res.string.sort_date_oldest,
+            nameResId = ResString.sort_date_oldest,
             filterIcon = FilterIcon(
-                imageVectorResId = Res.drawable.ic_sort_time_old
+                imageVectorResId = ResDrawable.ic_sort_time_old
             ),
             colors = MaterialSelectableItemColors,
             isSelected = false
@@ -197,7 +198,7 @@ object FiltersProvider {
 
         val sortShowFavoritesAtTopFilterUIModel = FilterUIModel(
             id = SORT_SHOW_FAVORITES_AT_TOP,
-            nameResId = Res.string.show_favorites_at_top,
+            nameResId = ResString.show_favorites_at_top,
             filterIcon = FilterIcon(
                 imageVector = Icons.Default.Star
             ),

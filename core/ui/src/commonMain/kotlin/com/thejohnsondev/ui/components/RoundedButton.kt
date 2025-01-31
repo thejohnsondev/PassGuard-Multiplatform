@@ -29,17 +29,17 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.model.button.ButtonStyle
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.buttons
 import vaultmultiplatform.core.ui.generated.resources.cd_app_logo
 
 @Composable
 fun RoundedButton(
     modifier: Modifier = Modifier,
-    text: String = stringResource(Res.string.buttons),
+    text: String = stringResource(ResString.buttons),
     imageVector: ImageVector? = null,
     loading: Boolean = false,
     enabled: Boolean = true,
@@ -50,11 +50,12 @@ fun RoundedButton(
     ),
     buttonShape: ButtonShape = ButtonShape.ROUNDED,
     buttonStyle: ButtonStyle = ButtonStyle.REGULAR,
-    disableBounceAnimation: Boolean = false
+    disableBounceAnimation: Boolean = false,
 ) {
     val buttonColor =
         if (enabled && !loading) colors.containerColor else colors.containerColor.copy(alpha = Percent70)
-    val contentColor = if (enabled) colors.contentColor else colors.contentColor.copy(alpha = Percent70)
+    val contentColor =
+        if (enabled) colors.contentColor else colors.contentColor.copy(alpha = Percent70)
     val appliedShape = RoundedCornerShape(
         topStart = buttonShape.topStart,
         topEnd = buttonShape.topEnd,
@@ -106,7 +107,7 @@ fun RoundedButton(
                             .padding(end = Size4)
                             .size(Size16),
                         imageVector = safeImageVector,
-                        contentDescription = stringResource(Res.string.cd_app_logo),
+                        contentDescription = stringResource(ResString.cd_app_logo),
                         tint = if (enabled) colors.contentColor else colors.contentColor.copy(
                             alpha = Percent70
                         )
@@ -114,7 +115,7 @@ fun RoundedButton(
                 }
                 Text(
                     text = text,
-                    color = when(buttonStyle) {
+                    color = when (buttonStyle) {
                         ButtonStyle.REGULAR -> contentColor
                         ButtonStyle.OUTLINE -> buttonColor
                     },

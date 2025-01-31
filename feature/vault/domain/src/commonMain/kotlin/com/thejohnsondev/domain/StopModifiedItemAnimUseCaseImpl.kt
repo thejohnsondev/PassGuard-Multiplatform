@@ -9,16 +9,13 @@ class StopModifiedItemAnimUseCaseImpl : StopModifiedItemAnimUseCase {
         private const val MODIFIED_ITEM_ANIMATION_DURATION = 1500L
     }
 
-    override suspend operator fun invoke(
-        passwordsList: List<List<PasswordUIModel>>,
-    ): List<PasswordUIModel> {
-        val combinedPasswordsList = passwordsList.flatten()
-        val animatedItemPos = combinedPasswordsList
+    override suspend fun invoke(passwordsList: List<PasswordUIModel>): List<PasswordUIModel> {
+        val animatedItemPos = passwordsList
             .indexOfFirst { it.showUpdateAnimation }
-        if (animatedItemPos == -1) return combinedPasswordsList
+        if (animatedItemPos == -1) return passwordsList
 
         delay(MODIFIED_ITEM_ANIMATION_DURATION)
-        return combinedPasswordsList
+        return passwordsList
             .mapIndexed { index, item ->
                 if (index == animatedItemPos) {
                     item.copy(showUpdateAnimation = false)

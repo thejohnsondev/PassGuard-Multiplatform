@@ -7,7 +7,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
@@ -22,15 +21,19 @@ import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
+import com.thejohnsondev.ui.utils.ResDrawable
+import com.thejohnsondev.ui.utils.ResString
+import io.kanro.compose.jetbrains.expui.theme.DarkTheme
+import io.kanro.compose.jetbrains.expui.window.JBWindow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
 import org.thejohnsondev.vault.root.Root
-import vaultmultiplatform.composeapp.generated.resources.Res
-import vaultmultiplatform.composeapp.generated.resources.app_name
-import vaultmultiplatform.composeapp.generated.resources.ic_vault_108_gradient
+import vaultmultiplatform.core.ui.generated.resources.app_name
+import vaultmultiplatform.core.ui.generated.resources.ic_vault_24_gradient
 import java.awt.Dimension
 
 fun main() = application {
@@ -64,10 +67,11 @@ fun main() = application {
         position = WindowPosition.Aligned(Alignment.Center),
         size = DpSize(DESKTOP_WINDOW_DEFAULT_WIDTH.dp, DESKTOP_WINDOW_DEFAULT_HEIGHT.dp),
     )
-    Window(
+    JBWindow(
         onCloseRequest = ::exitApplication,
-        title = stringResource(Res.string.app_name),
-        icon = painterResource(Res.drawable.ic_vault_108_gradient),
+        title = stringResource(ResString.app_name),
+        icon = painterResource(ResDrawable.ic_vault_24_gradient),
+        theme = DarkTheme,
         state = windowState
     ) {
         window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)

@@ -6,8 +6,8 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.StringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.general_description
 import vaultmultiplatform.core.ui.generated.resources.general_title
 import vaultmultiplatform.core.ui.generated.resources.manage_account
@@ -20,31 +20,31 @@ sealed class SettingsSubSection(
     val sectionTitleRes: StringResource,
     val sectionDescriptionRes: StringResource? = null,
     val sectionIcon: ImageVector,
-    val expanded: Boolean
+    val expanded: Boolean,
 ) {
     data object ManageAccountSub : SettingsSubSection(
-        sectionTitleRes = Res.string.manage_account,
+        sectionTitleRes = ResString.manage_account,
         sectionIcon = Icons.Default.Person,
         expanded = false
     )
 
     data object GeneralSettingsSub : SettingsSubSection(
-        sectionTitleRes = Res.string.general_title,
-        sectionDescriptionRes = Res.string.general_description,
+        sectionTitleRes = ResString.general_title,
+        sectionDescriptionRes = ResString.general_description,
         sectionIcon = Icons.Default.Settings,
         expanded = false
     )
 
     data object StyleSettingsSub : SettingsSubSection(
-        sectionTitleRes = Res.string.setting_title_style,
-        sectionDescriptionRes = Res.string.setting_description_style,
+        sectionTitleRes = ResString.setting_title_style,
+        sectionDescriptionRes = ResString.setting_description_style,
         sectionIcon = Icons.Default.FormatPaint,
         expanded = false
     )
 
     data object PrivacySettingsSub : SettingsSubSection(
-        sectionTitleRes = Res.string.security_and_privacy_title,
-        sectionDescriptionRes = Res.string.security_and_privacy_description,
+        sectionTitleRes = ResString.security_and_privacy_title,
+        sectionDescriptionRes = ResString.security_and_privacy_description,
         sectionIcon = Icons.Default.Security,
         expanded = false
     )

@@ -71,17 +71,18 @@ import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size42
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.SizeMinus
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
-import com.thejohnsondev.ui.utils.applyIf
+import com.thejohnsondev.ui.utils.ResDrawable
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.created
-import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
-import vaultmultiplatform.feature.vault.presentation.generated.resources.modified
-import vaultmultiplatform.feature.vault.presentation.generated.resources.more_info
+import vaultmultiplatform.core.ui.generated.resources.created
+import vaultmultiplatform.core.ui.generated.resources.ic_password
+import vaultmultiplatform.core.ui.generated.resources.modified
+import vaultmultiplatform.core.ui.generated.resources.more_info
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -97,63 +98,73 @@ fun PasswordItem(
     onCopyClick: (String) -> Unit,
     onFavoriteClick: (PasswordUIModel) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
-    onEditClick: (PasswordUIModel) -> Unit
+    onEditClick: (PasswordUIModel) -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
-    val transitionState = remember {
+    val itemTransitionState = remember {
         MutableTransitionState(isExpanded).apply {
             targetState = !isExpanded
         }
     }
-    val transition = rememberTransition(transitionState, label = "")
-    val cardBgColor by transition.animateColor({
+    val borderTransitionState = remember {
+        MutableTransitionState(!item.showUpdateAnimation).apply {
+            targetState = item.showUpdateAnimation
+        }
+    }
+    val itemTransition = rememberTransition(itemTransitionState, label = "")
+    val borderTransition = rememberTransition(borderTransitionState, label = "")
+    val cardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isExpanded) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
     }
-    val draggingCardBgColor by transition.animateColor({
+    val draggingCardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isDragging) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
     }
-    val contentColor by transition.animateColor({
+    val contentColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val favoriteColor by transition.animateColor({
+    val favoriteColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isFavorite) themeColorFavorite else if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val draggingContentColor by transition.animateColor({
+    val draggingContentColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isDragging) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val cardPaddingHorizontal by transition.animateDp({
+    val cardPaddingHorizontal by itemTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isExpanded) Size4 else Size8
     }
-    val imageSize by transition.animateDp({
+    val imageSize by itemTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isDragging) Size56 else Size42
     }
+    val borderWidth by borderTransition.animateDp({
+        tween(durationMillis = EXPAND_ANIM_DURATION)
+    }, label = "") {
+        if (item.showUpdateAnimation) Size2 else SizeMinus
+    }
+    val modifiedItemBorderColor = MaterialTheme.colorScheme.primary
 
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(start = cardPaddingHorizontal, bottom = Size8, end = cardPaddingHorizontal)
-            .applyIf(item.showUpdateAnimation) { // TODO update to animated gradient
-                border(
-                    width = Size2,
-                    color = Color.Green,
-                    shape = EqualRounded.medium
-                )
-            },
+            .border(
+                width = borderWidth,
+                color = modifiedItemBorderColor,
+                shape = EqualRounded.medium
+            ),
         shape = EqualRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor
@@ -201,8 +212,8 @@ fun PasswordItem(
                                 .fillMaxSize()
                                 .padding(Size4),
                             imageUrl = item.organizationLogo ?: "",
-                            errorDrawableResource = Res.drawable.ic_password,
-                            placeholderDrawableResource = Res.drawable.ic_password,
+                            errorDrawableResource = ResDrawable.ic_password,
+                            placeholderDrawableResource = ResDrawable.ic_password,
                             placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
                             backgroundColor = Color.White,
                             showLoading = true
@@ -229,7 +240,7 @@ fun PasswordItem(
                         }
                     }
                 }
-                Column(modifier = Modifier.weight(1f)){
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         modifier = Modifier
                             .padding(start = Size16)
@@ -312,7 +323,7 @@ fun ExpandedContent(
     contentColor: Color,
     onCopyClick: (String) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
-    onEditClick: (PasswordUIModel) -> Unit
+    onEditClick: (PasswordUIModel) -> Unit,
 ) {
     var isHidden by remember {  // TODO add a UI setting to make it visible by default
         mutableStateOf(true)
@@ -342,15 +353,15 @@ fun ExpandedContent(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = Size12, vertical = Size16)
-                            .weight(1f),
-                        text = password,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = Size12, vertical = Size16)
+                        .weight(1f),
+                    text = password,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
                 Icon(
                     modifier = Modifier.padding(end = Size8)
                         .clip(RoundedCornerShape(Size8))
@@ -423,7 +434,7 @@ fun ExpandedContent(
 private fun MoreInfo(
     modifier: Modifier = Modifier,
     contentColor: Color,
-    passwordModel: PasswordUIModel
+    passwordModel: PasswordUIModel,
 ) {
     var isInfoHidden by remember {
         mutableStateOf(true)
@@ -445,7 +456,7 @@ private fun MoreInfo(
         }
         AnimatedVisibility(visible = isInfoHidden) {
             Text(
-                text = stringResource(Res.string.more_info),
+                text = stringResource(ResString.more_info),
                 color = contentColor,
                 style = MaterialTheme.typography.bodySmall
             )
@@ -472,7 +483,7 @@ private fun MoreInfo(
                         Text(
                             modifier = Modifier
                                 .padding(start = Size8),
-                            text = "${stringResource(Res.string.modified)}${passwordModel.modifiedTime.orEmpty()}",
+                            text = "${stringResource(ResString.modified)}${passwordModel.modifiedTime.orEmpty()}",
                             color = contentColor,
                             style = MaterialTheme.typography.bodySmall
                         )
@@ -492,7 +503,7 @@ private fun MoreInfo(
                     Text(
                         modifier = Modifier
                             .padding(start = Size8),
-                        text = "${stringResource(Res.string.created)}${passwordModel.createdTime}",
+                        text = "${stringResource(ResString.created)}${passwordModel.createdTime}",
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -506,7 +517,7 @@ private fun MoreInfo(
 @Composable
 fun AdditionalFieldItem(
     additionalField: AdditionalFieldDto,
-    onLongClick: (String) -> Unit
+    onLongClick: (String) -> Unit,
 ) {
     var isHidden by remember {
         mutableStateOf(true)

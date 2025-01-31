@@ -68,6 +68,8 @@ import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.utils.KeyboardManager
+import com.thejohnsondev.ui.utils.ResDrawable
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
@@ -75,15 +77,14 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.add_field
-import vaultmultiplatform.feature.vault.presentation.generated.resources.ic_password
-import vaultmultiplatform.feature.vault.presentation.generated.resources.password
-import vaultmultiplatform.feature.vault.presentation.generated.resources.save
-import vaultmultiplatform.feature.vault.presentation.generated.resources.title
-import vaultmultiplatform.feature.vault.presentation.generated.resources.update
-import vaultmultiplatform.feature.vault.presentation.generated.resources.username
-import vaultmultiplatform.feature.vault.presentation.generated.resources.visibility
+import vaultmultiplatform.core.ui.generated.resources.add_field
+import vaultmultiplatform.core.ui.generated.resources.ic_password
+import vaultmultiplatform.core.ui.generated.resources.password
+import vaultmultiplatform.core.ui.generated.resources.save
+import vaultmultiplatform.core.ui.generated.resources.title
+import vaultmultiplatform.core.ui.generated.resources.update
+import vaultmultiplatform.core.ui.generated.resources.username
+import vaultmultiplatform.core.ui.generated.resources.visibility
 
 private const val DELAY_BEFORE_FOCUS = 500L
 
@@ -96,7 +97,7 @@ fun AddVaultItemScreen(
     viewModel: AddVaultItemViewModel = koinViewModel<AddVaultItemViewModel>(),
     vaultItem: PasswordUIModel? = null,
     onDismissRequest: () -> Unit,
-    showSuccessMessage: (String) -> Unit
+    showSuccessMessage: (String) -> Unit,
 ) {
     val state = viewModel.state.collectAsState(AddVaultItemViewModel.State())
 
@@ -166,7 +167,7 @@ internal fun AddVaultItemContent(
 private fun ModalDragHandle(
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     onDismissRequest: () -> Unit,
-    state: AddVaultItemViewModel.State
+    state: AddVaultItemViewModel.State,
 ) {
     Row(
         modifier = Modifier
@@ -197,7 +198,7 @@ private fun ModalDragHandle(
                     iconTintColor = MaterialTheme.colorScheme.onPrimary
                 )
             } else {
-                Text(text = stringResource(if (state.isEdit) Res.string.update else Res.string.save))
+                Text(text = stringResource(if (state.isEdit) ResString.update else ResString.save))
             }
         }
     }
@@ -288,7 +289,7 @@ internal fun AddPasswordFields(
             )
             RoundedButton(
                 modifier = Modifier.fillMaxWidth().padding(Size16).bounceClick(),
-                text = stringResource(Res.string.add_field),
+                text = stringResource(ResString.add_field),
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.AddAdditionalField)
                 },
@@ -314,7 +315,7 @@ internal fun AddPasswordFields(
 private fun AdditionalFieldsList(
     modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -364,7 +365,7 @@ private fun PasswordField(
     passwordFocusRequester: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
     isPasswordHidden: MutableState<Boolean>,
-    eyeImage: ImageVector
+    eyeImage: ImageVector,
 ) {
     RoundedContainer(
         modifier = modifier,
@@ -381,7 +382,7 @@ private fun PasswordField(
                 onValueChanged = { password ->
                     onAction(AddVaultItemViewModel.Action.EnterPassword(password))
                 },
-                hint = stringResource(Res.string.password),
+                hint = stringResource(ResString.password),
                 value = state.password,
                 focusRequester = passwordFocusRequester,
                 textColor = MaterialTheme.colorScheme.onSurface,
@@ -399,7 +400,7 @@ private fun PasswordField(
             }) {
                 Icon(
                     imageVector = eyeImage,
-                    contentDescription = stringResource(Res.string.visibility),
+                    contentDescription = stringResource(ResString.visibility),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -413,7 +414,7 @@ private fun UserNameField(
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     state: AddVaultItemViewModel.State,
     userNameFocusRequester: FocusRequester,
-    passwordFocusRequester: FocusRequester
+    passwordFocusRequester: FocusRequester,
 ) {
     RoundedContainer(
         modifier = modifier,
@@ -427,7 +428,7 @@ private fun UserNameField(
                 onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
             },
             value = state.userName,
-            hint = stringResource(Res.string.username),
+            hint = stringResource(ResString.username),
             focusRequester = userNameFocusRequester,
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text20,
@@ -446,7 +447,7 @@ private fun TitleField(
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     state: AddVaultItemViewModel.State,
     titleFocusRequester: FocusRequester,
-    userNameFocusRequester: FocusRequester
+    userNameFocusRequester: FocusRequester,
 ) {
     Row(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16),
@@ -463,8 +464,8 @@ private fun TitleField(
                     .fillMaxSize()
                     .padding(Size4),
                 imageUrl = String.empty,
-                placeholderDrawableResource = Res.drawable.ic_password,
-                errorDrawableResource = Res.drawable.ic_password,
+                placeholderDrawableResource = ResDrawable.ic_password,
+                errorDrawableResource = ResDrawable.ic_password,
                 placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
                 backgroundColor = Color.White
             )
@@ -479,7 +480,7 @@ private fun TitleField(
             },
             value = state.title,
             focusRequester = titleFocusRequester,
-            hint = stringResource(Res.string.title),
+            hint = stringResource(ResString.title),
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text22,
             maxLines = 2,

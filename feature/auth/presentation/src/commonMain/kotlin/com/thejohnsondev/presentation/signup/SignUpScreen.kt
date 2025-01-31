@@ -74,17 +74,17 @@ import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
 import com.thejohnsondev.ui.displaymessage.getAsComposeText
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.utils.KeyboardManager
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.feature.auth.presentation.generated.resources.Res
-import vaultmultiplatform.feature.auth.presentation.generated.resources.already_have_an_account
-import vaultmultiplatform.feature.auth.presentation.generated.resources.email
-import vaultmultiplatform.feature.auth.presentation.generated.resources.log_in
-import vaultmultiplatform.feature.auth.presentation.generated.resources.password
-import vaultmultiplatform.feature.auth.presentation.generated.resources.privacy_policy_link
-import vaultmultiplatform.feature.auth.presentation.generated.resources.sign_up
-import vaultmultiplatform.feature.auth.presentation.generated.resources.terms_of_use_link
+import vaultmultiplatform.core.ui.generated.resources.already_have_an_account
+import vaultmultiplatform.core.ui.generated.resources.email
+import vaultmultiplatform.core.ui.generated.resources.log_in
+import vaultmultiplatform.core.ui.generated.resources.password
+import vaultmultiplatform.core.ui.generated.resources.privacy_policy_link
+import vaultmultiplatform.core.ui.generated.resources.sign_up
+import vaultmultiplatform.core.ui.generated.resources.terms_of_use_link
 
 @Composable
 fun SignUpScreen(
@@ -92,12 +92,12 @@ fun SignUpScreen(
     viewModel: SignUpViewModel,
     goToHome: () -> Unit,
     goToLogin: () -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
 ) {
     val screenState = viewModel.viewState.collectAsState(SignUpViewModel.State())
     val uriHandler = LocalUriHandler.current
-    val privacyPolicyUrl = stringResource(Res.string.privacy_policy_link)
-    val termsOfUseUrl = stringResource(Res.string.terms_of_use_link)
+    val privacyPolicyUrl = stringResource(ResString.privacy_policy_link)
+    val termsOfUseUrl = stringResource(ResString.terms_of_use_link)
     val emailState = rememberSaveable {
         mutableStateOf(String.empty)
     }
@@ -166,7 +166,7 @@ fun SignUpContent(
     hideKeyboard: () -> Unit,
     openPrivacyPolicy: () -> Unit,
     openTermsOfUse: () -> Unit,
-    onAction: (SignUpViewModel.Action) -> Unit
+    onAction: (SignUpViewModel.Action) -> Unit,
 ) {
     Scaffold(snackbarHost = {
         SnackbarHost(
@@ -251,7 +251,7 @@ fun FieldsSection(
     windowSize: WindowWidthSizeClass,
     onGoToLogin: () -> Unit,
     hideKeyboard: () -> Unit,
-    onAction: (SignUpViewModel.Action) -> Unit
+    onAction: (SignUpViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -280,7 +280,7 @@ fun FieldsSection(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(Size16),
-                text = stringResource(Res.string.sign_up),
+                text = stringResource(ResString.sign_up),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -295,7 +295,7 @@ fun FieldsSection(
                     emailState.value = it
                     onAction(SignUpViewModel.Action.ValidateEmail(it))
                 },
-                label = stringResource(Res.string.email),
+                label = stringResource(ResString.email),
                 onKeyboardAction = KeyboardActions {
                     passwordFocusRequest.requestFocus()
 
@@ -317,7 +317,7 @@ fun FieldsSection(
                     passwordState.value = it
                     onAction(SignUpViewModel.Action.ValidatePassword(it))
                 },
-                label = stringResource(Res.string.password),
+                label = stringResource(ResString.password),
                 imeAction = ImeAction.Done,
                 onKeyboardAction = KeyboardActions {
                     hideKeyboard()
@@ -341,18 +341,18 @@ fun FieldsSection(
 @Composable
 private fun AleradyHaveAccount(
     modifier: Modifier = Modifier,
-    onGoToLogin: () -> Unit
+    onGoToLogin: () -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
         Text(
-            text = stringResource(Res.string.already_have_an_account),
+            text = stringResource(ResString.already_have_an_account),
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = stringResource(Res.string.log_in),
+            text = stringResource(ResString.log_in),
             modifier = Modifier
                 .padding(start = Size4)
                 .clickable {
@@ -375,7 +375,7 @@ fun SignUpButtonSection(
     hideKeyboard: () -> Unit,
     openPrivacyPolicy: () -> Unit,
     openTermsOfUse: () -> Unit,
-    onAction: (SignUpViewModel.Action) -> Unit
+    onAction: (SignUpViewModel.Action) -> Unit,
 ) {
     val text = PrivacyPolicyAcceptText()
     Column(
@@ -413,7 +413,7 @@ fun SignUpButtonSection(
             }
         }
         RoundedButton(
-            text = stringResource(Res.string.sign_up),
+            text = stringResource(ResString.sign_up),
             modifier = Modifier.padding(horizontal = Size16, vertical = Size16),
             enabled = state.signUpReady,
             onClick = {
