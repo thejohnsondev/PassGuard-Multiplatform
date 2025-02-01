@@ -17,6 +17,8 @@ const val PASSWORD_IDLE_ITEM_HEIGHT = 82
 const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
 const val ADDITIONAL_FIELD_HEIGHT = 84
 
+const val SECRET_KEY_SIZE = 256
+
 const val VAULT_ITEM_CATEGORY_PERSONAL = "item_category_personal"
 const val VAULT_ITEM_CATEGORY_WORK = "item_category_work"
 const val VAULT_ITEM_CATEGORY_FINANCE = "item_category_finance"

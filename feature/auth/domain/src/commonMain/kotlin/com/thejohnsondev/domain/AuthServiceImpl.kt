@@ -48,8 +48,8 @@ class AuthServiceImpl(
         return authRepository.deleteAccount()
     }
 
-    override suspend fun generateKey(password: String): Flow<Either<Error, ByteArray>> {
-        return generateKeyRepository.generateKey(password)
+    override suspend fun generateKeyWithPBKDF(password: String): Flow<Either<Error, ByteArray>> {
+        return generateKeyRepository.generateKeyWithPBKDF(password)
     }
 
     override suspend fun saveKey(key: ByteArray) {

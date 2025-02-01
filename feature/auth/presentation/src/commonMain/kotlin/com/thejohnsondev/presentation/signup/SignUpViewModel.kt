@@ -96,7 +96,7 @@ class SignUpViewModel(
     }
 
     private suspend fun generateAndSaveEncryptionKey(password: String) {
-        authService.generateKey(password).onResult {
+        authService.generateKeyWithPBKDF(password).onResult {
             handleGenerateKeySuccess(it)
         }
     }

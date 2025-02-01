@@ -26,21 +26,21 @@ class EncryptionUtilsTest {
 
     @Test
     fun testPbkdfPasswordSimple() {
-        val key = EncryptionUtils.generateKey(passwordSimple)
+        val key = EncryptionUtils.generateKeyWithPBKDF(passwordSimple)
         assertEquals(expectedKeySize, key.toList().size)
         assertEquals(passwordSimpleDerivedKey.toList(), key.toList())
     }
 
     @Test
     fun testPbkdfPasswordComplex() {
-        val key = EncryptionUtils.generateKey(passwordComplex)
+        val key = EncryptionUtils.generateKeyWithPBKDF(passwordComplex)
         assertEquals(16, key.size)
         assertEquals(passwordComplexDerivedKey.toList(), key.toList())
     }
 
     @Test
     fun testPbkdfPasswordVeryComplex() {
-        val key = EncryptionUtils.generateKey(passwordVeryComplex)
+        val key = EncryptionUtils.generateKeyWithPBKDF(passwordVeryComplex)
         assertEquals(16, key.size)
         assertEquals(passwordVeryComplexDerivedKey.toList(), key.toList())
     }
