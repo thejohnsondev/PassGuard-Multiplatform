@@ -6,7 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.presentation.navigation.selectVaultTypeScreen
 import com.thejohnsondev.presentation.navigation.loginScreen
+import com.thejohnsondev.presentation.navigation.navigateToSelectVaultTypeRoute
 import com.thejohnsondev.presentation.navigation.navigateToLogin
 import com.thejohnsondev.presentation.navigation.navigateToSignUp
 import com.thejohnsondev.presentation.navigation.signUpScreen
@@ -15,7 +17,7 @@ import com.thejohnsondev.presentation.navigation.welcomeScreen
 @Composable
 fun AuthNavigation(
     windowSizeClass: WindowWidthSizeClass,
-    firstScreenRoute: Routes
+    firstScreenRoute: Routes,
 ) {
     val navController = rememberNavController()
     NavHost(
@@ -24,11 +26,8 @@ fun AuthNavigation(
     ) {
         welcomeScreen(
             windowSize = windowSizeClass,
-            goToSignUp = {
-                navController.navigateToSignUp()
-            },
-            goToLogin = {
-                navController.navigateToLogin()
+            goToSelectVaultType = {
+                navController.navigateToSelectVaultTypeRoute()
             }
         )
         signUpScreen(
@@ -47,6 +46,21 @@ fun AuthNavigation(
             windowSize = windowSizeClass,
             goToHome = {
                 navController.navigate(Routes.HomeRoute)
+            },
+            goToSignUp = {
+                navController.navigateToSignUp()
+            },
+            goBack = {
+                navController.popBackStack()
+            }
+        )
+        selectVaultTypeScreen(
+            windowSize = windowSizeClass,
+            goToHome = {
+                navController.navigate(Routes.HomeRoute)
+            },
+            goToLogin = {
+                navController.navigateToLogin()
             },
             goToSignUp = {
                 navController.navigateToSignUp()
