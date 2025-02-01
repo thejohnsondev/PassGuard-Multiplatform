@@ -12,9 +12,9 @@ class GenerateKeyRepositoryImpl: GenerateKeyRepository {
         return flowOf(Either.Right(generatedKey))
     }
 
-    override fun generateSecretKey(): Flow<ByteArray> {
+    override fun generateSecretKey(): ByteArray {
         val generatedKey = EncryptionUtils.generateSecretKey()
-        return flowOf(generatedKey)
+        return generatedKey
     }
 
 }

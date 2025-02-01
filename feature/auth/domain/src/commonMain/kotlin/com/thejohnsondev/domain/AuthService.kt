@@ -28,9 +28,7 @@ interface AuthService {
 
     suspend fun deleteAccount(): Flow<Either<Error, Unit>>
 
-    suspend fun generateKeyWithPBKDF(password: String): Flow<Either<Error, ByteArray>>
-
-    suspend fun saveKey(key: ByteArray)
+    suspend fun generateSecretKey()
 
     suspend fun saveAuthToken(authToken: String)
     suspend fun saveRefreshAuthToken(refreshAuthToken: String)

@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GenerateKeyRepository {
     fun generateKeyWithPBKDF(password: String): Flow<Either<Error, ByteArray>>
-    fun generateSecretKey(): Flow<ByteArray>
+    fun generateSecretKey(): ByteArray
 }
