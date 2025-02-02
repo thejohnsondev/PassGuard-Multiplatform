@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.accept_and_agree
@@ -27,7 +28,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
                 fontFamily = getGlobalFontFamily()
             ),
         ) {
-            append(stringResource(Res.string.accept_and_agree))
+            append(stringResource(ResString.accept_and_agree))
             append(" ")
         }
         withStyle(
@@ -40,7 +41,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
             )
         ) {
             pushStringAnnotation(tag = TERMS_OF_USE_TAG, annotation = "click")
-            append(stringResource(Res.string.terms_of_use))
+            append(stringResource(ResString.terms_of_use))
         }
         withStyle(
             style = SpanStyle(
@@ -51,7 +52,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
             ),
         ) {
             append(" ")
-            append(stringResource(Res.string.and))
+            append(stringResource(ResString.and))
             append(" ")
         }
         withStyle(
@@ -64,7 +65,7 @@ fun PrivacyPolicyAcceptText(): AnnotatedString {
             )
         ) {
             pushStringAnnotation(tag = PRIVACY_POLICY_TAG, annotation = "click")
-            append(stringResource(Res.string.privacy_policy))
+            append(stringResource(ResString.privacy_policy))
         }
     }
     return text

@@ -14,15 +14,15 @@ class SearchItemsUseCaseImplTest {
         val list = listOf(
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "1",
-                title = "Title1",
-                organization = "Org1",
+                userName = "Title1",
+                title = "Org1",
                 password = "pass1",
                 additionalFields = emptyList()
             ),
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "2",
-                title = "Title2",
-                organization = "Org2",
+                userName = "Title2",
+                title = "Org2",
                 password = "pass2",
                 additionalFields = emptyList()
             )
@@ -32,19 +32,19 @@ class SearchItemsUseCaseImplTest {
     }
 
     @Test
-    fun testReturnsFilteredListWhenDeepSearchDisabledAndQueryMatchesTitleOrOrganization() {
+    fun testReturnsFilteredListWhenDeepSearchDisabledAndQueryMatchesTitleOrUsername() {
         val list = listOf(
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "1",
-                title = "Title1",
-                organization = "Org1",
+                userName = "Title1",
+                title = "Org1",
                 password = "pass1",
                 additionalFields = emptyList()
             ),
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "2",
-                title = "Title2",
-                organization = "Org2",
+                userName = "Title2",
+                title = "Org2",
                 password = "pass2",
                 additionalFields = emptyList()
             )
@@ -54,12 +54,12 @@ class SearchItemsUseCaseImplTest {
     }
 
     @Test
-    fun testReturnsFilteredListWhenDeepSearchEnabledAndQueryMatchesTitleOrganizationPasswordOrAdditionalFields() {
+    fun testReturnsFilteredListWhenDeepSearchEnabledAndQueryMatchesTitleUsernamePasswordOrAdditionalFields() {
         val list = listOf(
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "1",
-                title = "Title1",
-                organization = "Org1",
+                userName = "Title1",
+                title = "Org1",
                 password = "pass1",
                 additionalFields = listOf(
                     AdditionalFieldDto(id = "1", title = "Field1", value = "Value1")
@@ -67,8 +67,8 @@ class SearchItemsUseCaseImplTest {
             ),
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "2",
-                title = "Title2",
-                organization = "Org2",
+                userName = "Title2",
+                title = "Org2",
                 password = "pass2",
                 additionalFields = listOf(
                     AdditionalFieldDto(id = "2", title = "Field2", value = "Value2")
@@ -84,15 +84,15 @@ class SearchItemsUseCaseImplTest {
         val list = listOf(
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "1",
-                title = "Title1",
-                organization = "Org1",
+                userName = "Title1",
+                title = "Org1",
                 password = "pass1",
                 additionalFields = emptyList()
             ),
             PasswordUIModel.testPasswordUIModel.copy(
                 id = "2",
-                title = "Title2",
-                organization = "Org2",
+                userName = "Title2",
+                title = "Org2",
                 password = "pass2",
                 additionalFields = emptyList()
             )

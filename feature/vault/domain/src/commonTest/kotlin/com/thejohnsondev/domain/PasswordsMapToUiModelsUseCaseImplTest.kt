@@ -22,9 +22,9 @@ class PasswordsMapToUiModelsUseCaseImplTest {
         val passwordsDto = listOf(
             PasswordDto(
                 id = "1",
-                organization = "Org1",
+                title = "Org1",
                 organizationLogo = "Logo1",
-                title = "Title1",
+                userName = "Title1",
                 password = "Password1",
                 additionalFields = listOf(
                     AdditionalFieldDto(id = "1", title = "Field1", value = "Value1")
@@ -41,9 +41,9 @@ class PasswordsMapToUiModelsUseCaseImplTest {
         assertEquals(1, result.size)
         val uiModel = result[0]
         assertEquals("1", uiModel.id)
-        assertEquals("Org1", uiModel.organization)
+        assertEquals("Org1", uiModel.title)
         assertEquals("Logo1", uiModel.organizationLogo)
-        assertEquals("Title1", uiModel.title)
+        assertEquals("Title1", uiModel.userName)
         assertEquals("Password1", uiModel.password)
         assertEquals(1, uiModel.additionalFields.size)
         assertEquals("Created1", uiModel.createdTime)
@@ -57,9 +57,9 @@ class PasswordsMapToUiModelsUseCaseImplTest {
         val passwordsDto = listOf(
             PasswordDto(
                 id = "1",
-                organization = "Org1",
+                title = "Org1",
                 organizationLogo = "Logo1",
-                title = "Title1",
+                userName = "Title1",
                 password = "Password1",
                 additionalFields = listOf(
                     AdditionalFieldDto(id = "1", title = "Field1", value = "Value1")

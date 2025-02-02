@@ -9,9 +9,9 @@ class EncryptPasswordModelUseCaseImpl(
 ) : EncryptPasswordModelUseCase {
     override suspend operator fun invoke(passwordDto: PasswordDto): PasswordDto {
         return passwordDto.copy(
-            organization = encryptionRepository.encrypt(passwordDto.organization),
-            organizationLogo = passwordDto.organizationLogo?.let { encryptionRepository.encrypt(it) },
             title = encryptionRepository.encrypt(passwordDto.title),
+            organizationLogo = passwordDto.organizationLogo?.let { encryptionRepository.encrypt(it) },
+            userName = encryptionRepository.encrypt(passwordDto.userName),
             password = encryptionRepository.encrypt(passwordDto.password),
             additionalFields = passwordDto.additionalFields.map { encryptAdditionalField(it) },
             createdTimeStamp = passwordDto.createdTimeStamp?.let { encryptionRepository.encrypt(it) },

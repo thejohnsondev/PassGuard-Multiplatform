@@ -1,0 +1,60 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="108dp"
+            android:height="108dp"
+            android:viewportWidth="108"
+            android:viewportHeight="108">
+            <group
+                android:name="group"
+                android:pivotX="54"
+                android:pivotY="54"
+                android:scaleX="0.85"
+                android:scaleY="0.85">
+                <path
+                    android:pathData="M53.99,103C53.19,103 52.39,102.76 51.71,102.3C22.25,82.48 5.24,52.87 5,21.03C4.98,19.17 6.24,17.53 8.04,17.05L52.95,5.13C53.63,4.95 54.35,4.95 55.05,5.13L99.97,17.05C101.77,17.53 103.01,19.17 103.01,21.03C102.79,52.85 85.75,82.48 56.29,102.3C55.59,102.76 54.79,103 53.99,103ZM59.54,60.78C67.4,58.38 73.11,51.08 73.11,42.45C73.11,31.87 64.53,23.29 53.95,23.29C43.37,23.29 34.8,31.87 34.8,42.45C34.8,51.06 40.48,58.34 48.3,60.76C48.12,61.28 47.75,61.91 46.91,62.21C46.59,62.32 46.33,62.4 46.11,62.46L46.11,62.46L46.11,62.46C45.27,62.72 45.14,62.76 45.14,63.73H48.44V60.8C48.44,60.8 48.44,60.8 48.44,60.8L48.44,74.36C48.44,77.42 50.93,79.91 53.99,79.91C57.06,79.91 59.54,77.42 59.54,74.36L59.54,60.78ZM45.14,63.73H48.44V67.52C48.44,67.34 48.38,65.78 46.91,65.26C46.59,65.15 46.33,65.07 46.11,65L46.11,65L46.11,65C45.27,64.75 45.14,64.71 45.14,63.73ZM48.44,67.53C48.44,67.53 48.44,67.53 48.44,67.52V67.53ZM45.14,71.33H48.44V75.12C48.44,74.94 48.38,73.38 46.91,72.86C46.59,72.75 46.33,72.67 46.11,72.6C45.27,72.35 45.14,72.31 45.14,71.33ZM48.44,75.14C48.44,75.14 48.44,75.13 48.44,75.12V75.14ZM48.44,71.33H45.14C45.14,70.36 45.27,70.32 46.11,70.07C46.33,70 46.59,69.92 46.91,69.81C48.38,69.29 48.44,67.73 48.44,67.55V71.33ZM48.44,67.53V67.55C48.44,67.54 48.44,67.53 48.44,67.53ZM62.57,42.43C62.57,47.2 58.7,51.07 53.93,51.07C49.16,51.07 45.29,47.2 45.29,42.43C45.29,37.65 49.16,33.79 53.93,33.79C58.7,33.79 62.57,37.65 62.57,42.43Z"
+                    android:fillType="evenOdd">
+                    <aapt:attr name="android:fillColor">
+                        <gradient
+                            android:startX="120.67"
+                            android:startY="9.46"
+                            android:endX="13.28"
+                            android:endY="76.17"
+                            android:type="linear">
+                            <item android:offset="0" android:color="#FFFAFA37"/>
+                            <item android:offset="0.24" android:color="#FF31BBF7"/>
+                            <item android:offset="0.44" android:color="#FF3A74CC"/>
+                            <item android:offset="0.71" android:color="#FF2746B0"/>
+                            <item android:offset="0.97" android:color="#FF324AE8"/>
+                        </gradient>
+                    </aapt:attr>
+                </path>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="group">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="scaleX"
+                    android:startOffset="200"
+                    android:duration="750"
+                    android:valueFrom="0.3"
+                    android:valueTo="0.5"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/overshoot_interpolator"/>
+                <objectAnimator
+                    android:propertyName="scaleY"
+                    android:startOffset="200"
+                    android:duration="750"
+                    android:valueFrom="0.3"
+                    android:valueTo="0.5"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/overshoot_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

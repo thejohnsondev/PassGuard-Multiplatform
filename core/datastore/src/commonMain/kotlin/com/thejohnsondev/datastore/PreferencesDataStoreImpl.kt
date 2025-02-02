@@ -2,6 +2,7 @@ package com.thejohnsondev.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.thejohnsondev.common.SORT_TIME_NEW
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.model.settings.DarkThemeConfig
@@ -14,7 +15,7 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 class PreferencesDataStoreImpl(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : PreferencesDataStore {
 
     override suspend fun getSettingsConfigFlow(): Flow<SettingsConfig> = combine(
@@ -33,7 +34,7 @@ class PreferencesDataStoreImpl(
         darkThemeConfig: Int,
         isDeepSearchEnabled: Boolean,
         isUnlockWithBiometrics: Boolean,
-        isBlockScreenshots: Boolean
+        isBlockScreenshots: Boolean,
     ): SettingsConfig {
         val themeBrandMapped = when (themeBrand) {
             ThemeBrand.DEFAULT.ordinal -> ThemeBrand.DEFAULT
@@ -82,24 +83,24 @@ class PreferencesDataStoreImpl(
         dataStore.saveString(KEY_REFRESH_AUTH_TOKEN, token)
     }
 
-    override suspend fun isUserLoggedIn(): Boolean {
-        return getAuthToken().isNotEmpty()
+    override suspend fun isVaultInitialized(): Boolean {
+        return getSecretKey().isNotEmpty()
     }
 
     override suspend fun clearUserData() {
         dataStore.clearString(KEY_AUTH_TOKEN)
         dataStore.clearString(KEY_EMAIL)
-        dataStore.clearString(KEY_KEY)
+        dataStore.clearString(KEY_SECRET_KEY)
     }
 
     @OptIn(ExperimentalEncodingApi::class)
-    override suspend fun saveKey(key: ByteArray) {
-        dataStore.saveString(KEY_KEY, Base64.encode(key))
+    override suspend fun saveSecretKey(key: ByteArray) {
+        dataStore.saveString(KEY_SECRET_KEY, Base64.encode(key))
     }
 
     @OptIn(ExperimentalEncodingApi::class)
-    override suspend fun getKey(): ByteArray {
-        val keyString = dataStore.getString(KEY_KEY, String.Companion.empty)
+    override suspend fun getSecretKey(): ByteArray {
+        val keyString = dataStore.getString(KEY_SECRET_KEY, String.Companion.empty)
         return Base64.decode(keyString)
     }
 
@@ -132,17 +133,66 @@ class PreferencesDataStoreImpl(
         dataStore.saveBoolean(BLOCK_SCREENSHOTS, privacySettings.isBlockScreenshotsEnabled)
     }
 
+    override suspend fun updateAppliedItemTypeFilters(itemTypeFilters: List<String>) {
+        dataStore.saveString(
+            KEY_APPLIED_ITEM_TYPE_FILTERS, itemTypeFilters.joinToString(
+                IDS_SEPARATOR
+            )
+        )
+    }
+
+    override suspend fun getAppliedItemTypeFilters(): List<String> {
+        val itemTypeFilters =
+            dataStore.getString(KEY_APPLIED_ITEM_TYPE_FILTERS, String.Companion.empty)
+        return itemTypeFilters.split(IDS_SEPARATOR)
+    }
+
+    override suspend fun updateAppliedCategoryFilters(categoryFilters: List<String>) {
+        dataStore.saveString(
+            KEY_APPLIED_CATEGORY_FILTERS, categoryFilters.joinToString(
+                IDS_SEPARATOR
+            )
+        )
+    }
+
+    override suspend fun getAppliedCategoryFilters(): List<String> {
+        val categoryFilters =
+            dataStore.getString(KEY_APPLIED_CATEGORY_FILTERS, String.Companion.empty)
+        return categoryFilters.split(IDS_SEPARATOR)
+    }
+
+    override suspend fun updateAppliedSortOrder(sortOrder: String) {
+        dataStore.saveString(KEY_APPLIED_SORT_ORDER, sortOrder)
+    }
+
+    override suspend fun getAppliedSortOrder(): String {
+        return dataStore.getString(KEY_APPLIED_SORT_ORDER, SORT_TIME_NEW)
+    }
+
+    override suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean) {
+        dataStore.saveBoolean(KEY_APPLIED_FAVORITES_AT_TOP, showFavoritesAtTop)
+    }
+
+    override suspend fun getAppliedShowFavoritesAtTop(): Boolean {
+        return dataStore.getBoolean(KEY_APPLIED_FAVORITES_AT_TOP, true)
+    }
+
     companion object {
+        private const val IDS_SEPARATOR = ","
         private const val KEY_AUTH_TOKEN = "auth_token"
         private const val KEY_REFRESH_AUTH_TOKEN = "refresh_auth_token"
         private const val KEY_EMAIL = "email"
-        private const val KEY_KEY = "key"
+        private const val KEY_SECRET_KEY = "secret-key"
         private const val THEME_BRAND = "theme-brand"
         private const val USE_DYNAMIC_COLOR = "use-dynamic-color"
         private const val DARK_THEME_CONFIG = "dark-theme-config"
         private const val USE_DEEP_SEARCH = "use-deep-search"
         private const val UNLOCK_WITH_BIOMETRICS = "unlock-with-biometrics"
         private const val BLOCK_SCREENSHOTS = "block-screenshots"
+        private const val KEY_APPLIED_ITEM_TYPE_FILTERS = "applied-item-type-filters"
+        private const val KEY_APPLIED_CATEGORY_FILTERS = "applied-category-filters"
+        private const val KEY_APPLIED_SORT_ORDER = "applied-sort-order"
+        private const val KEY_APPLIED_FAVORITES_AT_TOP = "applied-favorites-at-top"
     }
 
 }

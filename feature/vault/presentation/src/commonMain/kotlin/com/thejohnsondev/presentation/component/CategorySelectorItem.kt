@@ -1,7 +1,6 @@
 package com.thejohnsondev.presentation.component
 
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
@@ -42,17 +41,17 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.model.getImageVector
-import com.thejohnsondev.ui.model.mappers.mapToCategory
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.feature.vault.presentation.generated.resources.Res
-import vaultmultiplatform.feature.vault.presentation.generated.resources.category
+import vaultmultiplatform.core.ui.generated.resources.category
 
 @Composable
 fun CategorySelectorItem(
     modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
     val isExpanded = remember { mutableStateOf(false) }
     val category = state.selectedCategory
@@ -79,7 +78,7 @@ fun CategorySelectorItem(
 @Composable
 private fun SelectedCategoryContainer(
     isExpanded: MutableState<Boolean>,
-    category: CategoryUIModel
+    category: CategoryUIModel,
 ) {
     val transitionState = remember {
         MutableTransitionState(isExpanded.value).apply {
@@ -104,7 +103,7 @@ private fun SelectedCategoryContainer(
     ) {
         Text(
             modifier = Modifier.padding(Size12),
-            text = stringResource(Res.string.category),
+            text = stringResource(ResString.category),
             style = MaterialTheme.typography.titleMedium,
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -154,7 +153,7 @@ private fun SelectedCategoryChip(category: CategoryUIModel) {
 private fun AvailableCategoriesList(
     isExpanded: MutableState<Boolean>,
     state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
     ExpandableContent(isExpanded.value) {
         state.itemCategoryFilters.forEach { filter ->

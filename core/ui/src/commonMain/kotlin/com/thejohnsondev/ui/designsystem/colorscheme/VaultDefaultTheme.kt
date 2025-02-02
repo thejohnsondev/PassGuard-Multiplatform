@@ -8,11 +8,11 @@ import androidx.compose.runtime.Composable
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.getTypography
-import vaultmultiplatform.core.ui.generated.resources.Res
+import com.thejohnsondev.ui.utils.ResDrawable
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
-    primary = when(customTheme) {
+    primary = when (customTheme) {
         ThemeBrand.DEFAULT -> primaryLight
         ThemeBrand.TEAL -> primaryLight_teal
         ThemeBrand.DEEP_FOREST -> primaryLight_deepForest
@@ -22,7 +22,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> primaryLight_monochrome
         else -> primaryLight
     },
-    onPrimary = when(customTheme) {
+    onPrimary = when (customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryLight
         ThemeBrand.TEAL -> onPrimaryLight_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryLight_deepForest
@@ -32,7 +32,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onPrimaryLight_monochrome
         else -> onPrimaryLight
     },
-    primaryContainer = when(customTheme) {
+    primaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> primaryContainerLight
         ThemeBrand.TEAL -> primaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> primaryContainerLight_deepForest
@@ -42,7 +42,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> primaryContainerLight_monochrome
         else -> primaryContainerLight
     },
-    onPrimaryContainer = when(customTheme) {
+    onPrimaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryContainerLight
         ThemeBrand.TEAL -> onPrimaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryContainerLight_deepForest
@@ -52,7 +52,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onPrimaryContainerLight_monochrome
         else -> onPrimaryContainerLight
     },
-    secondary = when(customTheme) {
+    secondary = when (customTheme) {
         ThemeBrand.DEFAULT -> secondaryLight
         ThemeBrand.TEAL -> secondaryLight_teal
         ThemeBrand.DEEP_FOREST -> secondaryLight_deepForest
@@ -62,7 +62,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> secondaryLight_monochrome
         else -> secondaryLight
     },
-    onSecondary = when(customTheme) {
+    onSecondary = when (customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryLight
         ThemeBrand.TEAL -> onSecondaryLight_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryLight_deepForest
@@ -72,7 +72,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onSecondaryLight_monochrome
         else -> onSecondaryLight
     },
-    secondaryContainer = when(customTheme) {
+    secondaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> secondaryContainerLight
         ThemeBrand.TEAL -> secondaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> secondaryContainerLight_deepForest
@@ -82,7 +82,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> secondaryContainerLight_monochrome
         else -> secondaryContainerLight
     },
-    onSecondaryContainer = when(customTheme) {
+    onSecondaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryContainerLight
         ThemeBrand.TEAL -> onSecondaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryContainerLight_deepForest
@@ -92,7 +92,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onSecondaryContainerLight_monochrome
         else -> onSecondaryContainerLight
     },
-    tertiary = when(customTheme) {
+    tertiary = when (customTheme) {
         ThemeBrand.DEFAULT -> tertiaryLight
         ThemeBrand.TEAL -> tertiaryLight_teal
         ThemeBrand.DEEP_FOREST -> tertiaryLight_deepForest
@@ -102,7 +102,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> tertiaryLight_monochrome
         else -> tertiaryLight
     },
-    onTertiary = when(customTheme) {
+    onTertiary = when (customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryLight
         ThemeBrand.TEAL -> onTertiaryLight_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryLight_deepForest
@@ -112,7 +112,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onTertiaryLight_monochrome
         else -> onTertiaryLight
     },
-    tertiaryContainer = when(customTheme) {
+    tertiaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> tertiaryContainerLight
         ThemeBrand.TEAL -> tertiaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> tertiaryContainerLight_deepForest
@@ -122,7 +122,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> tertiaryContainerLight_monochrome
         else -> tertiaryContainerLight
     },
-    onTertiaryContainer = when(customTheme) {
+    onTertiaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryContainerLight
         ThemeBrand.TEAL -> onTertiaryContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryContainerLight_deepForest
@@ -132,7 +132,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onTertiaryContainerLight_monochrome
         else -> onTertiaryContainerLight
     },
-    error = when(customTheme) {
+    error = when (customTheme) {
         ThemeBrand.DEFAULT -> errorLight
         ThemeBrand.TEAL -> errorLight_teal
         ThemeBrand.DEEP_FOREST -> errorLight_deepForest
@@ -142,7 +142,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> errorLight_monochrome
         else -> errorLight
     },
-    onError = when(customTheme) {
+    onError = when (customTheme) {
         ThemeBrand.DEFAULT -> onErrorLight
         ThemeBrand.TEAL -> onErrorLight_teal
         ThemeBrand.DEEP_FOREST -> onErrorLight_deepForest
@@ -152,7 +152,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onErrorLight_monochrome
         else -> onErrorLight
     },
-    errorContainer = when(customTheme) {
+    errorContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> errorContainerLight
         ThemeBrand.TEAL -> errorContainerLight_teal
         ThemeBrand.DEEP_FOREST -> errorContainerLight_deepForest
@@ -162,7 +162,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> errorContainerLight_monochrome
         else -> errorContainerLight
     },
-    onErrorContainer = when(customTheme) {
+    onErrorContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onErrorContainerLight
         ThemeBrand.TEAL -> onErrorContainerLight_teal
         ThemeBrand.DEEP_FOREST -> onErrorContainerLight_deepForest
@@ -172,7 +172,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onErrorContainerLight_monochrome
         else -> onErrorContainerLight
     },
-    background = when(customTheme) {
+    background = when (customTheme) {
         ThemeBrand.DEFAULT -> backgroundLight
         ThemeBrand.TEAL -> backgroundLight_teal
         ThemeBrand.DEEP_FOREST -> backgroundLight_deepForest
@@ -182,7 +182,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> backgroundLight_monochrome
         else -> backgroundLight
     },
-    onBackground = when(customTheme) {
+    onBackground = when (customTheme) {
         ThemeBrand.DEFAULT -> onBackgroundLight
         ThemeBrand.TEAL -> onBackgroundLight_teal
         ThemeBrand.DEEP_FOREST -> onBackgroundLight_deepForest
@@ -192,7 +192,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onBackgroundLight_monochrome
         else -> onBackgroundLight
     },
-    surface = when(customTheme) {
+    surface = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceLight
         ThemeBrand.TEAL -> surfaceLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceLight_deepForest
@@ -202,7 +202,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceLight_monochrome
         else -> surfaceLight
     },
-    onSurface = when(customTheme) {
+    onSurface = when (customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceLight
         ThemeBrand.TEAL -> onSurfaceLight_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceLight_deepForest
@@ -212,7 +212,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onSurfaceLight_monochrome
         else -> onSurfaceLight
     },
-    surfaceVariant = when(customTheme) {
+    surfaceVariant = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceVariantLight
         ThemeBrand.TEAL -> surfaceVariantLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceVariantLight_deepForest
@@ -222,7 +222,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceVariantLight_monochrome
         else -> surfaceVariantLight
     },
-    onSurfaceVariant = when(customTheme) {
+    onSurfaceVariant = when (customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceVariantLight
         ThemeBrand.TEAL -> onSurfaceVariantLight_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceVariantLight_deepForest
@@ -232,7 +232,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> onSurfaceVariantLight_monochrome
         else -> onSurfaceVariantLight
     },
-    outline = when(customTheme) {
+    outline = when (customTheme) {
         ThemeBrand.DEFAULT -> outlineLight
         ThemeBrand.TEAL -> outlineLight_teal
         ThemeBrand.DEEP_FOREST -> outlineLight_deepForest
@@ -242,7 +242,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> outlineLight_monochrome
         else -> outlineLight
     },
-    outlineVariant = when(customTheme) {
+    outlineVariant = when (customTheme) {
         ThemeBrand.DEFAULT -> outlineVariantLight
         ThemeBrand.TEAL -> outlineVariantLight_teal
         ThemeBrand.DEEP_FOREST -> outlineVariantLight_deepForest
@@ -252,7 +252,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> outlineVariantLight_monochrome
         else -> outlineVariantLight
     },
-    scrim = when(customTheme) {
+    scrim = when (customTheme) {
         ThemeBrand.DEFAULT -> scrimLight
         ThemeBrand.TEAL -> scrimLight_teal
         ThemeBrand.DEEP_FOREST -> scrimLight_deepForest
@@ -262,7 +262,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> scrimLight_monochrome
         else -> scrimLight
     },
-    inverseSurface = when(customTheme) {
+    inverseSurface = when (customTheme) {
         ThemeBrand.DEFAULT -> inverseSurfaceLight
         ThemeBrand.TEAL -> inverseSurfaceLight_teal
         ThemeBrand.DEEP_FOREST -> inverseSurfaceLight_deepForest
@@ -272,7 +272,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> inverseSurfaceLight_monochrome
         else -> inverseSurfaceLight
     },
-    inverseOnSurface = when(customTheme) {
+    inverseOnSurface = when (customTheme) {
         ThemeBrand.DEFAULT -> inverseOnSurfaceLight
         ThemeBrand.TEAL -> inverseOnSurfaceLight_teal
         ThemeBrand.DEEP_FOREST -> inverseOnSurfaceLight_deepForest
@@ -282,7 +282,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> inverseOnSurfaceLight_monochrome
         else -> inverseOnSurfaceLight
     },
-    inversePrimary = when(customTheme) {
+    inversePrimary = when (customTheme) {
         ThemeBrand.DEFAULT -> inversePrimaryLight
         ThemeBrand.TEAL -> inversePrimaryLight_teal
         ThemeBrand.DEEP_FOREST -> inversePrimaryLight_deepForest
@@ -292,7 +292,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> inversePrimaryLight_monochrome
         else -> inversePrimaryLight
     },
-    surfaceDim = when(customTheme) {
+    surfaceDim = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceDimLight
         ThemeBrand.TEAL -> surfaceDimLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceDimLight_deepForest
@@ -302,7 +302,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceDimLight_monochrome
         else -> surfaceDimLight
     },
-    surfaceBright = when(customTheme) {
+    surfaceBright = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceBrightLight
         ThemeBrand.TEAL -> surfaceBrightLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceBrightLight_deepForest
@@ -312,7 +312,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceBrightLight_monochrome
         else -> surfaceBrightLight
     },
-    surfaceContainerLowest = when(customTheme) {
+    surfaceContainerLowest = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowestLight
         ThemeBrand.TEAL -> surfaceContainerLowestLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowestLight_deepForest
@@ -322,7 +322,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerLowestLight_monochrome
         else -> surfaceContainerLowestLight
     },
-    surfaceContainerLow = when(customTheme) {
+    surfaceContainerLow = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowLight
         ThemeBrand.TEAL -> surfaceContainerLowLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowLight_deepForest
@@ -332,7 +332,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerLowLight_monochrome
         else -> surfaceContainerLowLight
     },
-    surfaceContainer = when(customTheme) {
+    surfaceContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLight
         ThemeBrand.TEAL -> surfaceContainerLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLight_deepForest
@@ -342,7 +342,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerLight_monochrome
         else -> surfaceContainerLight
     },
-    surfaceContainerHigh = when(customTheme) {
+    surfaceContainerHigh = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighLight
         ThemeBrand.TEAL -> surfaceContainerHighLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighLight_deepForest
@@ -352,7 +352,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerHighLight_monochrome
         else -> surfaceContainerHighLight
     },
-    surfaceContainerHighest = when(customTheme) {
+    surfaceContainerHighest = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighestLight
         ThemeBrand.TEAL -> surfaceContainerHighestLight_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighestLight_deepForest
@@ -365,7 +365,7 @@ fun getLightScheme(customTheme: ThemeBrand? = null) = lightColorScheme(
 )
 
 fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
-    primary = when(customTheme) {
+    primary = when (customTheme) {
         ThemeBrand.DEFAULT -> primaryDark
         ThemeBrand.TEAL -> primaryDark_teal
         ThemeBrand.DEEP_FOREST -> primaryDark_deepForest
@@ -375,7 +375,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> primaryDark_monochrome
         else -> primaryDark
     },
-    onPrimary = when(customTheme) {
+    onPrimary = when (customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryDark
         ThemeBrand.TEAL -> onPrimaryDark_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryDark_deepForest
@@ -385,7 +385,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onPrimaryDark_monochrome
         else -> onPrimaryDark
     },
-    primaryContainer = when(customTheme) {
+    primaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> primaryContainerDark
         ThemeBrand.TEAL -> primaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> primaryContainerDark_deepForest
@@ -395,7 +395,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> primaryContainerDark_monochrome
         else -> primaryContainerDark
     },
-    onPrimaryContainer = when(customTheme) {
+    onPrimaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onPrimaryContainerDark
         ThemeBrand.TEAL -> onPrimaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onPrimaryContainerDark_deepForest
@@ -405,7 +405,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onPrimaryContainerDark_monochrome
         else -> onPrimaryContainerDark
     },
-    secondary = when(customTheme) {
+    secondary = when (customTheme) {
         ThemeBrand.DEFAULT -> secondaryDark
         ThemeBrand.TEAL -> secondaryDark_teal
         ThemeBrand.DEEP_FOREST -> secondaryDark_deepForest
@@ -415,7 +415,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> secondaryDark_monochrome
         else -> secondaryDark
     },
-    onSecondary = when(customTheme) {
+    onSecondary = when (customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryDark
         ThemeBrand.TEAL -> onSecondaryDark_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryDark_deepForest
@@ -425,7 +425,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onSecondaryDark_monochrome
         else -> onSecondaryDark
     },
-    secondaryContainer = when(customTheme) {
+    secondaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> secondaryContainerDark
         ThemeBrand.TEAL -> secondaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> secondaryContainerDark_deepForest
@@ -435,7 +435,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> secondaryContainerDark_monochrome
         else -> secondaryContainerDark
     },
-    onSecondaryContainer = when(customTheme) {
+    onSecondaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onSecondaryContainerDark
         ThemeBrand.TEAL -> onSecondaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onSecondaryContainerDark_deepForest
@@ -445,7 +445,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onSecondaryContainerDark_monochrome
         else -> onSecondaryContainerDark
     },
-    tertiary = when(customTheme) {
+    tertiary = when (customTheme) {
         ThemeBrand.DEFAULT -> tertiaryDark
         ThemeBrand.TEAL -> tertiaryDark_teal
         ThemeBrand.DEEP_FOREST -> tertiaryDark_deepForest
@@ -455,7 +455,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> tertiaryDark_monochrome
         else -> tertiaryDark
     },
-    onTertiary = when(customTheme) {
+    onTertiary = when (customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryDark
         ThemeBrand.TEAL -> onTertiaryDark_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryDark_deepForest
@@ -465,7 +465,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onTertiaryDark_monochrome
         else -> onTertiaryDark
     },
-    tertiaryContainer = when(customTheme) {
+    tertiaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> tertiaryContainerDark
         ThemeBrand.TEAL -> tertiaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> tertiaryContainerDark_deepForest
@@ -475,7 +475,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> tertiaryContainerDark_monochrome
         else -> tertiaryContainerDark
     },
-    onTertiaryContainer = when(customTheme) {
+    onTertiaryContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onTertiaryContainerDark
         ThemeBrand.TEAL -> onTertiaryContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onTertiaryContainerDark_deepForest
@@ -485,7 +485,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onTertiaryContainerDark_monochrome
         else -> onTertiaryContainerDark
     },
-    error = when(customTheme) {
+    error = when (customTheme) {
         ThemeBrand.DEFAULT -> errorDark
         ThemeBrand.TEAL -> errorDark_teal
         ThemeBrand.DEEP_FOREST -> errorDark_deepForest
@@ -495,7 +495,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> errorDark_monochrome
         else -> errorDark
     },
-    onError = when(customTheme) {
+    onError = when (customTheme) {
         ThemeBrand.DEFAULT -> onErrorDark
         ThemeBrand.TEAL -> onErrorDark_teal
         ThemeBrand.DEEP_FOREST -> onErrorDark_deepForest
@@ -505,7 +505,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onErrorDark_monochrome
         else -> onErrorDark
     },
-    errorContainer = when(customTheme) {
+    errorContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> errorContainerDark
         ThemeBrand.TEAL -> errorContainerDark_teal
         ThemeBrand.DEEP_FOREST -> errorContainerDark_deepForest
@@ -515,7 +515,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> errorContainerDark_monochrome
         else -> errorContainerDark
     },
-    onErrorContainer = when(customTheme) {
+    onErrorContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> onErrorContainerDark
         ThemeBrand.TEAL -> onErrorContainerDark_teal
         ThemeBrand.DEEP_FOREST -> onErrorContainerDark_deepForest
@@ -525,7 +525,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onErrorContainerDark_monochrome
         else -> onErrorContainerDark
     },
-    background = when(customTheme) {
+    background = when (customTheme) {
         ThemeBrand.DEFAULT -> backgroundDark
         ThemeBrand.TEAL -> backgroundDark_teal
         ThemeBrand.DEEP_FOREST -> backgroundDark_deepForest
@@ -535,7 +535,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> backgroundDark_monochrome
         else -> backgroundDark
     },
-    onBackground = when(customTheme) {
+    onBackground = when (customTheme) {
         ThemeBrand.DEFAULT -> onBackgroundDark
         ThemeBrand.TEAL -> onBackgroundDark_teal
         ThemeBrand.DEEP_FOREST -> onBackgroundDark_deepForest
@@ -545,7 +545,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onBackgroundDark_monochrome
         else -> onBackgroundDark
     },
-    surface = when(customTheme) {
+    surface = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceDark
         ThemeBrand.TEAL -> surfaceDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceDark_deepForest
@@ -555,7 +555,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceDark_monochrome
         else -> surfaceDark
     },
-    onSurface = when(customTheme) {
+    onSurface = when (customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceDark
         ThemeBrand.TEAL -> onSurfaceDark_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceDark_deepForest
@@ -565,7 +565,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onSurfaceDark_monochrome
         else -> onSurfaceDark
     },
-    surfaceVariant = when(customTheme) {
+    surfaceVariant = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceVariantDark
         ThemeBrand.TEAL -> surfaceVariantDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceVariantDark_deepForest
@@ -575,7 +575,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceVariantDark_monochrome
         else -> surfaceVariantDark
     },
-    onSurfaceVariant = when(customTheme) {
+    onSurfaceVariant = when (customTheme) {
         ThemeBrand.DEFAULT -> onSurfaceVariantDark
         ThemeBrand.TEAL -> onSurfaceVariantDark_teal
         ThemeBrand.DEEP_FOREST -> onSurfaceVariantDark_deepForest
@@ -585,7 +585,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> onSurfaceVariantDark_monochrome
         else -> onSurfaceVariantDark
     },
-    outline = when(customTheme) {
+    outline = when (customTheme) {
         ThemeBrand.DEFAULT -> outlineDark
         ThemeBrand.TEAL -> outlineDark_teal
         ThemeBrand.DEEP_FOREST -> outlineDark_deepForest
@@ -595,7 +595,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> outlineDark_monochrome
         else -> outlineDark
     },
-    outlineVariant = when(customTheme) {
+    outlineVariant = when (customTheme) {
         ThemeBrand.DEFAULT -> outlineVariantDark
         ThemeBrand.TEAL -> outlineVariantDark_teal
         ThemeBrand.DEEP_FOREST -> outlineVariantDark_deepForest
@@ -605,7 +605,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> outlineVariantDark_monochrome
         else -> outlineVariantDark
     },
-    scrim = when(customTheme) {
+    scrim = when (customTheme) {
         ThemeBrand.DEFAULT -> scrimDark
         ThemeBrand.TEAL -> scrimDark_teal
         ThemeBrand.DEEP_FOREST -> scrimDark_deepForest
@@ -615,7 +615,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> scrimDark_monochrome
         else -> scrimDark
     },
-    inverseSurface = when(customTheme) {
+    inverseSurface = when (customTheme) {
         ThemeBrand.DEFAULT -> inverseSurfaceDark
         ThemeBrand.TEAL -> inverseSurfaceDark_teal
         ThemeBrand.DEEP_FOREST -> inverseSurfaceDark_deepForest
@@ -625,7 +625,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> inverseSurfaceDark_monochrome
         else -> inverseSurfaceDark
     },
-    inverseOnSurface = when(customTheme) {
+    inverseOnSurface = when (customTheme) {
         ThemeBrand.DEFAULT -> inverseOnSurfaceDark
         ThemeBrand.TEAL -> inverseOnSurfaceDark_teal
         ThemeBrand.DEEP_FOREST -> inverseOnSurfaceDark_deepForest
@@ -635,7 +635,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> inverseOnSurfaceDark_monochrome
         else -> inverseOnSurfaceDark
     },
-    inversePrimary = when(customTheme) {
+    inversePrimary = when (customTheme) {
         ThemeBrand.DEFAULT -> inversePrimaryDark
         ThemeBrand.TEAL -> inversePrimaryDark_teal
         ThemeBrand.DEEP_FOREST -> inversePrimaryDark_deepForest
@@ -645,7 +645,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> inversePrimaryDark_monochrome
         else -> inversePrimaryDark
     },
-    surfaceDim = when(customTheme) {
+    surfaceDim = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceDimDark
         ThemeBrand.TEAL -> surfaceDimDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceDimDark_deepForest
@@ -655,7 +655,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceDimDark_monochrome
         else -> surfaceDimDark
     },
-    surfaceBright = when(customTheme) {
+    surfaceBright = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceBrightDark
         ThemeBrand.TEAL -> surfaceBrightDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceBrightDark_deepForest
@@ -665,7 +665,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceBrightDark_monochrome
         else -> surfaceBrightDark
     },
-    surfaceContainerLowest = when(customTheme) {
+    surfaceContainerLowest = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowestDark
         ThemeBrand.TEAL -> surfaceContainerLowestDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowestDark_deepForest
@@ -675,7 +675,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerLowestDark_monochrome
         else -> surfaceContainerLowestDark
     },
-    surfaceContainerLow = when(customTheme) {
+    surfaceContainerLow = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerLowDark
         ThemeBrand.TEAL -> surfaceContainerLowDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerLowDark_deepForest
@@ -685,7 +685,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerLowDark_monochrome
         else -> surfaceContainerLowDark
     },
-    surfaceContainer = when(customTheme) {
+    surfaceContainer = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerDark
         ThemeBrand.TEAL -> surfaceContainerDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerDark_deepForest
@@ -695,7 +695,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerDark_monochrome
         else -> surfaceContainerDark
     },
-    surfaceContainerHigh = when(customTheme) {
+    surfaceContainerHigh = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighDark
         ThemeBrand.TEAL -> surfaceContainerHighDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighDark_deepForest
@@ -705,7 +705,7 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
         ThemeBrand.MONOCHROME -> surfaceContainerHighDark_monochrome
         else -> surfaceContainerHighDark
     },
-    surfaceContainerHighest = when(customTheme) {
+    surfaceContainerHighest = when (customTheme) {
         ThemeBrand.DEFAULT -> surfaceContainerHighestDark
         ThemeBrand.TEAL -> surfaceContainerHighestDark_teal
         ThemeBrand.DEEP_FOREST -> surfaceContainerHighestDark_deepForest
@@ -724,7 +724,7 @@ fun VaultDefaultTheme(
     dynamicColor: Boolean = true,
     customTheme: ThemeBrand? = ThemeBrand.DEFAULT, // todo add custom themes,
     deviceThemeConfig: DeviceThemeConfig?,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = deviceThemeConfig?.let {
         when {
@@ -745,4 +745,4 @@ fun VaultDefaultTheme(
 }
 
 @Composable
-fun getAppLogo() = Res.drawable.ic_vault_108_gradient
+fun getAppLogo() = ResDrawable.ic_vault_108_gradient

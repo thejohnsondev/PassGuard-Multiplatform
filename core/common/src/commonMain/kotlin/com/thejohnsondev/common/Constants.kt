@@ -17,6 +17,9 @@ const val PASSWORD_IDLE_ITEM_HEIGHT = 82
 const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
 const val ADDITIONAL_FIELD_HEIGHT = 84
 
+const val SECRET_KEY_SIZE = 256
+const val VAULT_GENERATION_FAKE_TIME_DURATION = 1000L
+
 const val VAULT_ITEM_CATEGORY_PERSONAL = "item_category_personal"
 const val VAULT_ITEM_CATEGORY_WORK = "item_category_work"
 const val VAULT_ITEM_CATEGORY_FINANCE = "item_category_finance"
@@ -25,6 +28,13 @@ const val VAULT_ITEM_CATEGORY_OTHERS = "item_category_others"
 const val VAULT_ITEM_TYPE_PASSWORDS = "item_type_passwords"
 const val VAULT_ITEM_TYPE_NOTES = "item_type_notes"
 const val VAULT_ITEM_TYPE_BANK_ACCOUNTS = "item_type_bank_accounts"
+
+const val SORT_TIME_NEW = "sort_time_new"
+const val SORT_TIME_OLD = "sort_time_old"
+const val SORT_TITLE_AZ = "sort_title_az"
+const val SORT_TITLE_ZA = "sort_title_za"
+
+const val SORT_SHOW_FAVORITES_AT_TOP = "sort_show_favorites_at_top"
 
 const val ERROR_INVALID_ID_TOKEN = "INVALID_ID_TOKEN"
 const val ERROR_CREDENTIAL_TOO_OLD_LOGIN_AGAIN = "CREDENTIAL_TOO_OLD_LOGIN_AGAIN"

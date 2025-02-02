@@ -4,8 +4,8 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 
 interface ValidatePasswordModelUseCase {
     suspend operator fun invoke(
-        organization: String,
         title: String,
+        userName: String,
         password: String,
         additionalFieldsList: List<AdditionalFieldDto>
     ): Boolean

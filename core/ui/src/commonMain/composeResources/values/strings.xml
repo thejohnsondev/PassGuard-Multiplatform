@@ -1,62 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <!--Auth-->
-    <string name="search">Search</string>
-    <string name="vault">Vault</string>
-    <string name="pass">Pass</string>
-    <string name="guard">Guard</string>
-    <string name="buttons">Buttons</string>
-    <string name="privacy_policy_link">https://andrewdobosh.notion.site/Privacy-Policy-3f95b4857e0e49a78b35f0ca837b4ec5</string>
-    <string name="terms_of_use_link">https://andrewdobosh.notion.site/Terms-of-use-bb7607b71dbc40d9a336c9ed38d5a7e8</string>
-    <string name="accept_and_agree">I accept and agree to the </string>
-    <string name="and"> and </string>
-    <string name="terms_of_use"> Terms of Use</string>
-    <string name="privacy_policy">Privacy Policy.</string>
-
-    <!--Settings-->
-    <string name="general_title">General</string>
-    <string name="general_description">General settings</string>
-    <string name="deep_search_title">Deep search</string>
-    <string name="deep_search_description">Search by all details, not only titles</string>
-    <string name="security_and_privacy_title">Security &amp; Privacy</string>
-    <string name="security_and_privacy_description">Manage your security and privacy</string>
-    <string name="block_screenshot">Block screenshot</string>
-    <string name="block_screenshot_description">Blocks screenshot/screen capture inside the app</string>
     <string name="biometric_authentication">Biometric authentication</string>
     <string name="biometric_authentication_description">Unlock the app with your fingerprint or face</string>
-    <string name="scan_to_unlock">Scan to unlock</string>
-    <string name="manage_account">Manage account</string>
-    <string name="dangerous_zone">Dangerous zone</string>
-    <string name="setting_title_style">Style and appearance</string>
-    <string name="setting_description_style">Customize the look and feel of the app</string>
-    <string name="account">Account</string>
-
-    <string name="password_error_bad_length">Password must contain at least 8 characters.</string>
-    <string name="password_error_no_numbers">Password must contain at least one number.</string>
-    <string name="password_error_no_capital">Password must contain at least one uppercase letter.</string>
-    <string name="password_error_no_small">Password must contain at least one lowercase letter.</string>
-    <string name="email_error_incorrect">Email is no valid</string>
-
-    <string name="tools">Tools</string>
-    <string name="settings">Settings</string>
-
-    <string name="passwords">Passwords</string>
-    <string name="notes">Notes</string>
-    <string name="bank_accounts">Bank Accounts</string>
-
-    <string name="personal">Personal</string>
-    <string name="work">Work</string>
-    <string name="finances">Finances</string>
-    <string name="other">Other</string>
-
-    <!--Messages-->
-    <string name="unknown_error">An unknown error occurred</string>
-    <string name="updated_success">Updated</string>
+    <string name="accept_and_agree">I accept and agree to the </string>
+    <string name="add">Add</string>
+    <string name="add_field">Add field</string>
     <string name="added_success">Saved</string>
-    <string name="check_internet_connection">Please, check your internet connection</string>
-
-    <!--Content Description-->
+    <string name="and"> and </string>
+    <string name="app_name">PassGuard</string>
+    <string name="block_screenshot">Block screenshot</string>
+    <string name="block_screenshot_description">Blocks screenshot/screen capture inside the app</string>
+    <string name="buttons">Buttons</string>
+    <string name="cancel">Cancel</string>
+    <string name="category">Category</string>
     <string name="cd_app_logo">App Logo</string>
-
+    <string name="check_internet_connection">Please, check your internet connection</string>
+    <string name="coming_soon">Coming soon...</string>
+    <string name="confirm">Confirm</string>
+    <string name="created">Created: </string>
+    <string name="dangerous_zone">Dangerous zone</string>
+    <string name="dark_mode_preference">Dark mode preference</string>
+    <string name="dark_mode_preference_dark">Dark</string>
+    <string name="dark_mode_preference_light">Light</string>
+    <string name="dark_mode_preference_system">Use system settings</string>
+    <string name="deep_search_description">Search by all details, not only titles</string>
+    <string name="deep_search_title">Deep search</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="email">Email</string>
+    <string name="filters">Filters</string>
+    <string name="finances">Finances</string>
+    <string name="general_description">General settings</string>
+    <string name="general_title">General</string>
+    <string name="guard">Guard</string>
+    <string name="log_in">Log in</string>
+    <string name="logout">Logout</string>
+    <string name="modified">Modified: </string>
+    <string name="more">More</string>
+    <string name="more_info">More info</string>
+    <string name="no">No</string>
+    <string name="notes">Notes</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="organization">Organization</string>
+    <string name="organization_empty">Organization is empty</string>
+    <string name="other">Other</string>
+    <string name="pass">Pass</string>
+    <string name="personal">Personal</string>
+    <string name="privacy_policy">Privacy Policy.</string>
+    <string name="privacy_policy_link">https://andrewdobosh.notion.site/Privacy-Policy-3f95b4857e0e49a78b35f0ca837b4ec5</string>
+    <string name="save">Save</string>
+    <string name="scan_to_unlock">Scan to unlock</string>
+    <string name="search">Search</string>
+    <string name="security_and_privacy_description">Manage your security and privacy</string>
+    <string name="security_and_privacy_title">Security &amp; Privacy</string>
+    <string name="show_favorites_at_top">Show favorites at top</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sort_by">Sort by</string>
+    <string name="sort_date_newest">Date Newest</string>
+    <string name="sort_date_oldest">Date Oldest</string>
+    <string name="sort_title_az">Title A-Z</string>
+    <string name="sort_title_za">Title Z-A</string>
     <string name="stub">Stub!</string>
+    <string name="terms_of_use"> Terms of Use</string>
+    <string name="terms_of_use_link">https://andrewdobosh.notion.site/Terms-of-use-bb7607b71dbc40d9a336c9ed38d5a7e8</string>
+    <string name="title">Title</string>
+    <string name="title_empty">Title is empty</string>
+    <string name="unlock_with_biometrics">Unlock with biometrics</string>
+    <string name="unlock_with_biometrics_description">Use fingerprint/face for verification when opening the app</string>
+    <string name="update">Update</string>
+    <string name="updated_success">Updated</string>
+    <string name="use_dynamic_color">Use Dynamic Colors</string>
+    <string name="username">Username</string>
+    <string name="value">Value</string>
+    <string name="visibility">Visibility</string>
+    <string name="work">Work</string>
+    <string name="yes">Yes</string>
+    <string name="your_fortress">Your digital fortress for password security</string>
+    <string name="email_error_incorrect">Email is no valid</string>
+    <string name="logout_confirm_message">Are you sure you want to log out?</string>
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="account">Account</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="bank_accounts">Bank Accounts</string>
+    <string name="confirm_delete_account_with_password">To confirm account deletion, please enter your password. Note: this action can not be undone.</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_confirm_message">Are you sure you want to delete the account? \nIt will remove all your data permanently.</string>
+    <string name="do_not_have_account">Don't have an account?</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="manage_account">Manage account</string>
+    <string name="password">Password</string>
+    <string name="password_empty">Password is empty</string>
+    <string name="password_error_bad_length">Password must contain at least 8 characters.</string>
+    <string name="password_error_no_capital">Password must contain at least one uppercase letter.</string>
+    <string name="password_error_no_numbers">Password must contain at least one number.</string>
+    <string name="password_error_no_small">Password must contain at least one lowercase letter.</string>
+    <string name="passwords">Passwords</string>
+    <string name="setting_description_style">Customize the look and feel of the app</string>
+    <string name="setting_title_style">Style and appearance</string>
+    <string name="settings">Settings</string>
+    <string name="theme">Theme</string>
+    <string name="theme_deep_forest">Deep Forest</string>
+    <string name="theme_default">Default</string>
+    <string name="theme_monochrome">Monochrome</string>
+    <string name="theme_red_algae">Red Algae</string>
+    <string name="theme_sunny">Sunny</string>
+    <string name="theme_teal">Teal</string>
+    <string name="theme_violet">Violet</string>
+    <string name="empty_vault">Your vault is empty</string>
+    <string name="empty_vault_get_started">Get started by creating you first record</string>
+    <string name="tools">Tools</string>
+    <string name="vault">Vault</string>
+    <string name="get_started">Get started</string>
+    <string name="create_local_vault">Create a local Vault</string>
+    <string name="choose_vault_type">Choose your vault type</string>
+    <string name="choose_vault_type_description">You can store your passwords securely in two ways:</string>
+    <string name="local_vault">Local Vault</string>
+    <string name="local_vault_description">Your data is stored only on this device. It will never be uploaded or synchronized. If you lose access to your device, your data cannot be recovered.</string>
+    <string name="cloud_vault">Cloud Vault</string>
+    <string name="cloud_vault_description">Sign in to sync your passwords securely across multiple devices.</string>
+    <string name="start_with_local_vault">You can start with a Local Vault and switch to Cloud Sync later.</string>
 </resources>

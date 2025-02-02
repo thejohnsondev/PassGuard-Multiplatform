@@ -6,8 +6,8 @@ import com.thejohnsondev.model.vault.PasswordDto
 interface GeneratePasswordModelUseCase {
     operator fun invoke(
         passwordId: String?,
-        organization: String,
         title: String,
+        userName: String,
         password: String,
         categoryId: String,
         additionalFields: List<AdditionalFieldDto>,

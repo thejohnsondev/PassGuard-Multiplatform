@@ -22,4 +22,8 @@ class PasswordsRepositoryImpl(
     override suspend fun deletePassword(passwordId: String) {
         localDataSource.deletePassword(passwordId)
     }
+
+    override suspend fun updateIsFavorite(passwordId: String, isFavorite: Boolean) {
+        localDataSource.updateIsFavorite(passwordId, isFavorite)
+    }
 }

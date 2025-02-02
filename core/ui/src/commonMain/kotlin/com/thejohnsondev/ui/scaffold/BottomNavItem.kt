@@ -4,9 +4,10 @@ import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.navigation.Routes.SettingsRoute
 import com.thejohnsondev.common.navigation.Routes.ToolsRoute
 import com.thejohnsondev.common.navigation.Routes.VaultRoute
+import com.thejohnsondev.ui.utils.ResDrawable
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.ic_settings
 import vaultmultiplatform.core.ui.generated.resources.ic_tools
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
@@ -18,26 +19,26 @@ sealed class BottomNavItem(
     val route: Routes,
     val titleRes: StringResource,
     val imgResId: DrawableResource,
-    val index: Int
+    val index: Int,
 ) {
     data object Vault : BottomNavItem(
         route = VaultRoute,
-        titleRes = Res.string.vault,
-        imgResId = Res.drawable.ic_vault_108_gradient,
+        titleRes = ResString.vault,
+        imgResId = ResDrawable.ic_vault_108_gradient,
         index = 0
     )
 
     data object Tools : BottomNavItem(
         route = ToolsRoute,
-        titleRes = Res.string.tools,
-        imgResId = Res.drawable.ic_tools,
+        titleRes = ResString.tools,
+        imgResId = ResDrawable.ic_tools,
         index = 1
     )
 
     data object Settings : BottomNavItem(
         route = SettingsRoute,
-        titleRes = Res.string.settings,
-        imgResId = Res.drawable.ic_settings,
+        titleRes = ResString.settings,
+        imgResId = ResDrawable.ic_settings,
         index = 2
     )
 }

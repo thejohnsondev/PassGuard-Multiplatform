@@ -25,9 +25,9 @@ class LocalDataSourceImpl(
 
     override suspend fun createOrUpdatePassword(passwordDto: PasswordDto) {
         vaultDatabase.passwordEntityQueries.insert(
-            organization = passwordDto.organization,
-            organizationLogo = passwordDto.organizationLogo,
             title = passwordDto.title,
+            organizationLogo = passwordDto.organizationLogo,
+            userName = passwordDto.userName,
             password = passwordDto.password,
             createdTimeStamp = passwordDto.createdTimeStamp,
             modifiedTimeStamp = passwordDto.modifiedTimeStamp,
@@ -55,6 +55,10 @@ class LocalDataSourceImpl(
     override suspend fun deletePassword(passwordId: String) {
         vaultDatabase.passwordEntityQueries.deleteById(passwordId)
         vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordId)
+    }
+
+    override suspend fun updateIsFavorite(passwordId: String, isFavorite: Boolean) {
+        vaultDatabase.passwordEntityQueries.updateIsFavorite(isFavorite = isFavorite, id = passwordId)
     }
 
     override suspend fun logout() {

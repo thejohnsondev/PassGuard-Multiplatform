@@ -11,6 +11,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
+import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.guard
@@ -33,7 +34,7 @@ fun VaultLogo(
                     fontSize = fontSize
                 ),
             ) {
-                append(stringResource(Res.string.pass))
+                append(stringResource(ResString.pass))
             }
             withStyle(
                 style = SpanStyle(
@@ -42,7 +43,7 @@ fun VaultLogo(
                     fontFamily = getGlobalFontFamily()
                 )
             ) {
-                append(stringResource(Res.string.guard))
+                append(stringResource(ResString.guard))
             }
         })
 

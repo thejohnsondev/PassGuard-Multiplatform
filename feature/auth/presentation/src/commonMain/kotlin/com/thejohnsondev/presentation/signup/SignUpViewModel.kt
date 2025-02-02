@@ -67,18 +67,17 @@ class SignUpViewModel(
 
     private fun signUp(email: String, password: String) = launchLoading {
         authService.signUp(email, password).onResult {
-            handleAuthResponse(it, email, password)
+            handleAuthResponse(it, email)
         }
     }
 
     private fun handleAuthResponse(
         authResponse: FBAuthSignUpResponse,
-        email: String,
-        password: String
+        email: String
     ) = launch {
         saveUserToken(authResponse)
         saveUserEmail(email)
-        generateAndSaveEncryptionKey(password)
+        generateAndSaveEncryptionKey()
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 
@@ -95,14 +94,8 @@ class SignUpViewModel(
         }
     }
 
-    private suspend fun generateAndSaveEncryptionKey(password: String) {
-        authService.generateKey(password).onResult {
-            handleGenerateKeySuccess(it)
-        }
-    }
-
-    private fun handleGenerateKeySuccess(generatedKey: ByteArray) = launch {
-        authService.saveKey(generatedKey)
+    private suspend fun generateAndSaveEncryptionKey() {
+        authService.generateSecretKey()
     }
 
     private fun isSignUpReady(

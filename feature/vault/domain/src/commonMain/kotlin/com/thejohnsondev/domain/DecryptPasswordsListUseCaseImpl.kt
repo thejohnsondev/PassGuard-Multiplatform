@@ -10,9 +10,9 @@ class DecryptPasswordsListUseCaseImpl(
     override suspend operator fun invoke(encryptedPasswords: List<PasswordDto>): List<PasswordDto> {
         return encryptedPasswords.map { passwordDto ->
             passwordDto.copy(
-                organization = encryptionRepository.decrypt(passwordDto.organization),
-                organizationLogo = passwordDto.organizationLogo?.let { encryptionRepository.decrypt(it) },
                 title = encryptionRepository.decrypt(passwordDto.title),
+                organizationLogo = passwordDto.organizationLogo?.let { encryptionRepository.decrypt(it) },
+                userName = encryptionRepository.decrypt(passwordDto.userName),
                 password = encryptionRepository.decrypt(passwordDto.password),
                 additionalFields = passwordDto.additionalFields.map { decryptAdditionalField(it) },
                 createdTimeStamp = passwordDto.createdTimeStamp?.let { encryptionRepository.decrypt(it) },

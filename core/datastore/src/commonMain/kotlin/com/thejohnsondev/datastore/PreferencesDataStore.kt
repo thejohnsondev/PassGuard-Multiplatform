@@ -14,10 +14,10 @@ interface PreferencesDataStore {
     suspend fun saveAuthToken(token: String)
     suspend fun getRefreshAuthToken(): String
     suspend fun saveRefreshAuthToken(token: String)
-    suspend fun isUserLoggedIn(): Boolean
+    suspend fun isVaultInitialized(): Boolean
     suspend fun clearUserData()
-    suspend fun saveKey(key: ByteArray)
-    suspend fun getKey(): ByteArray
+    suspend fun saveSecretKey(key: ByteArray)
+    suspend fun getSecretKey(): ByteArray
     suspend fun saveEmail(email: String)
     suspend fun getEmail(): String
     suspend fun setCustomTheme(theme: ThemeBrand)
@@ -25,5 +25,12 @@ interface PreferencesDataStore {
     suspend fun setDarkThemeConfig(config: DarkThemeConfig)
     suspend fun setGeneralSettings(generalSettings: GeneralSettings)
     suspend fun setPrivacySettings(privacySettings: PrivacySettings)
-
+    suspend fun updateAppliedItemTypeFilters(itemTypeFilters: List<String>)
+    suspend fun getAppliedItemTypeFilters(): List<String>
+    suspend fun updateAppliedCategoryFilters(categoryFilters: List<String>)
+    suspend fun getAppliedCategoryFilters(): List<String>
+    suspend fun updateAppliedSortOrder(sortOrder: String)
+    suspend fun getAppliedSortOrder(): String
+    suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
+    suspend fun getAppliedShowFavoritesAtTop(): Boolean
 }

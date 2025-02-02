@@ -3,6 +3,7 @@ package com.thejohnsondev.ui.designsystem
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+val SizeMinus = (-1).dp // allows to hide an element
 val SizeDefault = 0.dp
 val SizeBorder = 1.dp
 val Size2 = 2.dp

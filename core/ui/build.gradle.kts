@@ -90,6 +90,12 @@ kotlin {
     }
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "vaultmultiplatform.core.ui.generated.resources"
+    generateResClass = always
+}
+
 android {
     namespace = "org.thejohnsondev.ui"
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")

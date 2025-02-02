@@ -2,7 +2,7 @@ package com.thejohnsondev.domain
 
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.PasswordUIModel
-import com.thejohnsondev.ui.model.filterlists.passwordsFilterUIModel
+import com.thejohnsondev.ui.model.filterlists.FiltersProvider.ItemType.passwordsFilterUIModel
 
 // TODO cover with test cases
 class FilterItemsUseCaseImpl : FilterItemsUseCase {

@@ -5,11 +5,11 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 class ValidatePasswordModelUseCaseImpl : ValidatePasswordModelUseCase {
 
     override suspend fun invoke(
-        organization: String, title: String, password: String,
+        title: String, userName: String, password: String,
         additionalFieldsList: List<AdditionalFieldDto>
     ): Boolean {
-        return organization.isNotBlank()
-                && title.isNotBlank()
+        return title.isNotBlank()
+                && userName.isNotBlank()
                 && password.isNotBlank()
                 && additionalFieldsList.all {
             it.title.isNotBlank() && it.value.isNotBlank()

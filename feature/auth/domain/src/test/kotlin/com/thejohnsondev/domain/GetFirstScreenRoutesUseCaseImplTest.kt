@@ -15,7 +15,7 @@ class GetFirstScreenRoutesUseCaseImplTest {
 
     @Test
     fun `returns HomeScreen when user is logged in and biometrics are not used`() = runTest {
-        coEvery { authRepository.isUserLoggedIn() } returns true
+        coEvery { authRepository.isVaultInitialized() } returns true
 
         val result = useCase.invoke()
 
@@ -24,7 +24,7 @@ class GetFirstScreenRoutesUseCaseImplTest {
 
     @Test
     fun `returns BiometricScreen when user is logged in and biometrics are used`() = runTest {
-        coEvery { authRepository.isUserLoggedIn() } returns true
+        coEvery { authRepository.isVaultInitialized() } returns true
         useCase.isUseBiometrics = true
 
         val result = useCase.invoke()
@@ -34,7 +34,7 @@ class GetFirstScreenRoutesUseCaseImplTest {
 
     @Test
     fun `returns Welcome when user is not logged in`() = runTest {
-        coEvery { authRepository.isUserLoggedIn() } returns false
+        coEvery { authRepository.isVaultInitialized() } returns false
 
         val result = useCase.invoke()
 

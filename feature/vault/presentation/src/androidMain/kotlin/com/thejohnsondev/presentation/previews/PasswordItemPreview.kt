@@ -6,11 +6,8 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.PasswordItem
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import com.thejohnsondev.ui.model.PasswordUIModel
-import com.thejohnsondev.ui.model.filterlists.financeFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.othersFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.personalFilterUIModel
-import com.thejohnsondev.ui.model.filterlists.workFilterUIModel
-import com.thejohnsondev.ui.model.mappers.mapToCategory
+import com.thejohnsondev.ui.model.filterlists.FiltersProvider
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 
 @Composable
 @Preview
@@ -23,9 +20,9 @@ fun PasswordItemSimplePreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -38,7 +35,7 @@ fun PasswordItemSimplePreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = othersFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             isReordering = false,
             onClick = {},
@@ -61,9 +58,9 @@ fun PasswordItemSimpleLongNamesPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1 Long Name",
+                title = "Example Organization 1 Long Name",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1 Long name Long name",
+                userName = "Example Title 1 Long name Long name",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -76,7 +73,7 @@ fun PasswordItemSimpleLongNamesPreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = financeFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             isReordering = false,
             onClick = {},
@@ -99,9 +96,9 @@ fun PasswordItemFavoritePreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -114,7 +111,7 @@ fun PasswordItemFavoritePreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = workFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             isFavorite = true,
             isReordering = false,
@@ -138,9 +135,9 @@ fun PasswordItemExpandedPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -153,7 +150,7 @@ fun PasswordItemExpandedPreview() {
                 modifiedTime = "November 2 2024 20:01",
                 createdTime = "November 1 2024 10:22",
                 isFavorite = false,
-                category = personalFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             isExpanded = true,
             isFavorite = true,
@@ -178,9 +175,9 @@ fun PasswordItemReorderingPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -193,7 +190,7 @@ fun PasswordItemReorderingPreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = personalFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             isExpanded = false,
             isFavorite = false,
@@ -218,9 +215,9 @@ fun PasswordItemDraggingPreview() {
         PasswordItem(
             item = PasswordUIModel(
                 id = "12345",
-                organization = "Example Organization 1",
+                title = "Example Organization 1",
                 organizationLogo = "https://example.com/logo1.png",
-                title = "Example Title 1",
+                userName = "Example Title 1",
                 password = "examplePassword123",
                 additionalFields = listOf(
                     AdditionalFieldDto(
@@ -233,7 +230,7 @@ fun PasswordItemDraggingPreview() {
                 createdTime = "2023-10-01T12:00:00Z",
                 modifiedTime = "2023-10-02T12:00:00Z",
                 isFavorite = true,
-                category = personalFilterUIModel.mapToCategory()
+                category = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             isExpanded = false,
             isFavorite = false,

@@ -18,14 +18,15 @@ fun PasswordEntity.mapToDto(
     additionalFieldEntities: List<AdditionalFieldDto>
 ): PasswordDto {
     return PasswordDto(
-        organization = organization,
-        organizationLogo = organizationLogo,
         title = title,
+        organizationLogo = organizationLogo,
+        userName = userName,
         password = password,
         additionalFields = additionalFieldEntities,
         id = id,
         createdTimeStamp = createdTimeStamp,
         modifiedTimeStamp = modifiedTimeStamp,
-        categoryId = categoryId
+        categoryId = categoryId,
+        isFavorite = isFavorite ?: false
     )
 }

@@ -28,16 +28,16 @@ import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Percent98
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.search
 
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
     onQueryEntered: (String) -> Unit,
-    onQueryClear: () -> Unit
+    onQueryClear: () -> Unit,
 ) {
     var searchQuery by remember {
         mutableStateOf("")
@@ -72,7 +72,7 @@ fun SearchBar(
                 },
                 maxLines = 1,
                 value = searchQuery,
-                hint = if (searchQuery.isBlank()) stringResource(Res.string.search) else String.empty,
+                hint = if (searchQuery.isBlank()) stringResource(ResString.search) else String.empty,
                 textColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 focusRequester = focusRequester
             )
@@ -88,7 +88,7 @@ fun SearchBar(
                             focusManager.clearFocus()
                         },
                     imageVector = Icons.Default.Clear,
-                    contentDescription = stringResource(Res.string.search)
+                    contentDescription = stringResource(ResString.search)
                 )
             }
         }
