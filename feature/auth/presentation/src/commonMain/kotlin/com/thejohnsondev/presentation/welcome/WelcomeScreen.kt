@@ -38,7 +38,6 @@ import com.thejohnsondev.ui.designsystem.Size580
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
-import com.thejohnsondev.ui.model.button.ButtonStyle
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
@@ -49,9 +48,8 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.app_name
+import vaultmultiplatform.core.ui.generated.resources.get_started
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
-import vaultmultiplatform.core.ui.generated.resources.log_in
-import vaultmultiplatform.core.ui.generated.resources.sign_up
 import vaultmultiplatform.core.ui.generated.resources.your_fortress
 
 private const val BLUR_SCALE_ANIM_START = 0f
@@ -71,22 +69,18 @@ private const val CONTENT_ALPHA_ANIM_END = 1f
 @Composable
 fun WelcomeScreen(
     windowSize: WindowWidthSizeClass,
-    goToSignUp: () -> Unit,
-    goToLogin: () -> Unit,
+    goToSelectVaultType: () -> Unit
 ) {
-    // TODO apply system insets
     WelcomeContent(
         windowSize = windowSize,
-        goToSignUp = goToSignUp,
-        goToLogin = goToLogin
+        goToSelectVaultType = goToSelectVaultType
     )
 }
 
 @Composable
 fun WelcomeContent(
     windowSize: WindowWidthSizeClass,
-    goToSignUp: () -> Unit,
-    goToLogin: () -> Unit,
+    goToSelectVaultType: () -> Unit
 ) {
     val animatedBackgroundBlurScale = remember {
         Animatable(BLUR_SCALE_ANIM_START)
@@ -141,8 +135,7 @@ fun WelcomeContent(
                 paddingValues = paddingValues,
                 windowSize = windowSize,
                 animatedContentAlpha = animatedContentAlpha,
-                goToLogin = goToLogin,
-                goToSignUp = goToSignUp
+                goToSelectVaultType = goToSelectVaultType
             )
         }
     }
@@ -154,8 +147,7 @@ private fun ButtonsSection(
     paddingValues: PaddingValues,
     windowSize: WindowWidthSizeClass,
     animatedContentAlpha: Animatable<Float, AnimationVector1D>,
-    goToLogin: () -> Unit,
-    goToSignUp: () -> Unit,
+    goToSelectVaultType: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -171,26 +163,16 @@ private fun ButtonsSection(
     ) {
         RoundedButton(
             modifier = Modifier
-                .padding(bottom = Size8, start = Size16, end = Size16)
-                .alpha(animatedContentAlpha.value),
-            text = stringResource(ResString.log_in),
-            onClick = {
-                goToLogin()
-            }
-        )
-        RoundedButton(
-            modifier = Modifier
                 .padding(
                     top = Size8,
                     bottom = Size16,
                     start = Size16,
                     end = Size16
                 ).alpha(animatedContentAlpha.value),
-            text = stringResource(ResString.sign_up),
+            text = stringResource(ResString.get_started),
             onClick = {
-                goToSignUp()
-            },
-            buttonStyle = ButtonStyle.OUTLINE
+                goToSelectVaultType()
+            }
         )
     }
 }

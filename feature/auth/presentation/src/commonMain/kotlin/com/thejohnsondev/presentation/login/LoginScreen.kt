@@ -63,7 +63,6 @@ import com.thejohnsondev.ui.designsystem.Size600
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
-import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
 import com.thejohnsondev.ui.displaymessage.getAsComposeText
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.utils.KeyboardManager
@@ -168,11 +167,6 @@ fun LoginContent(
                 }
             )
         ) {
-            if (showNavigationBackArrow) {
-                BackArrowButton(
-                    modifier = Modifier.padding(Size16), onClick = onGoBack
-                )
-            }
             GlowPulsingBackground()
             FieldsSection(
                 largeScreenModifier = Modifier
@@ -210,6 +204,14 @@ fun LoginContent(
                     onAction = onAction
                 )
             }
+            BackArrowButton(
+                modifier = Modifier.padding(
+                    start = Size16, top = paddingValues.calculateTopPadding().plus(
+                        Size16
+                    )
+                ),
+                onClick = onGoBack
+            )
         }
     }
 }

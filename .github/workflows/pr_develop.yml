@@ -97,4 +97,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: internal-testers
           file: ${{steps.sign_app.outputs.signedReleaseFile}}
-          releaseNotes: UI improvements to Vault
+          releaseNotes: Add local vault feature

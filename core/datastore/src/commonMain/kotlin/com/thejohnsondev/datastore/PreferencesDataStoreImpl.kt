@@ -83,24 +83,24 @@ class PreferencesDataStoreImpl(
         dataStore.saveString(KEY_REFRESH_AUTH_TOKEN, token)
     }
 
-    override suspend fun isUserLoggedIn(): Boolean {
-        return getAuthToken().isNotEmpty()
+    override suspend fun isVaultInitialized(): Boolean {
+        return getSecretKey().isNotEmpty()
     }
 
     override suspend fun clearUserData() {
         dataStore.clearString(KEY_AUTH_TOKEN)
         dataStore.clearString(KEY_EMAIL)
-        dataStore.clearString(KEY_KEY)
+        dataStore.clearString(KEY_SECRET_KEY)
     }
 
     @OptIn(ExperimentalEncodingApi::class)
-    override suspend fun saveKey(key: ByteArray) {
-        dataStore.saveString(KEY_KEY, Base64.encode(key))
+    override suspend fun saveSecretKey(key: ByteArray) {
+        dataStore.saveString(KEY_SECRET_KEY, Base64.encode(key))
     }
 
     @OptIn(ExperimentalEncodingApi::class)
-    override suspend fun getKey(): ByteArray {
-        val keyString = dataStore.getString(KEY_KEY, String.Companion.empty)
+    override suspend fun getSecretKey(): ByteArray {
+        val keyString = dataStore.getString(KEY_SECRET_KEY, String.Companion.empty)
         return Base64.decode(keyString)
     }
 
@@ -182,7 +182,7 @@ class PreferencesDataStoreImpl(
         private const val KEY_AUTH_TOKEN = "auth_token"
         private const val KEY_REFRESH_AUTH_TOKEN = "refresh_auth_token"
         private const val KEY_EMAIL = "email"
-        private const val KEY_KEY = "key"
+        private const val KEY_SECRET_KEY = "secret-key"
         private const val THEME_BRAND = "theme-brand"
         private const val USE_DYNAMIC_COLOR = "use-dynamic-color"
         private const val DARK_THEME_CONFIG = "dark-theme-config"

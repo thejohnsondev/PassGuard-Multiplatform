@@ -9,6 +9,8 @@ import com.thejohnsondev.presentation.login.LoginScreen
 import com.thejohnsondev.presentation.login.LoginViewModel
 import com.thejohnsondev.presentation.signup.SignUpScreen
 import com.thejohnsondev.presentation.signup.SignUpViewModel
+import com.thejohnsondev.presentation.vaulttype.SelectVaultTypeScreen
+import com.thejohnsondev.presentation.vaulttype.SelectedVaultTypeViewModel
 import com.thejohnsondev.presentation.welcome.WelcomeScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -43,16 +45,39 @@ fun NavController.navigateToWelcome() {
     }
 }
 
+fun NavController.navigateToSelectVaultTypeRoute() {
+    navigate(Routes.SelectVaultTypeRoute)
+}
+
 fun NavGraphBuilder.welcomeScreen(
     windowSize: WindowWidthSizeClass,
-    goToSignUp: () -> Unit,
-    goToLogin: () -> Unit
+    goToSelectVaultType: () -> Unit
 ) {
     composable<Routes.WelcomeRoute> {
         WelcomeScreen(
             windowSize = windowSize,
-            goToSignUp = goToSignUp,
-            goToLogin = goToLogin
+            goToSelectVaultType = goToSelectVaultType
+        )
+    }
+}
+
+@OptIn(KoinExperimentalAPI::class)
+fun NavGraphBuilder.selectVaultTypeScreen(
+    windowSize: WindowWidthSizeClass,
+    goToSignUp: () -> Unit,
+    goToLogin: () -> Unit,
+    goToHome: () -> Unit,
+    goBack: () -> Unit
+) {
+    composable<Routes.SelectVaultTypeRoute> {
+        val viewModel = koinViewModel<SelectedVaultTypeViewModel>()
+        SelectVaultTypeScreen(
+            windowSize = windowSize,
+            viewModel = viewModel,
+            goBack = goBack,
+            goToHome = goToHome,
+            goToLogin = goToLogin,
+            goToSignUp = goToSignUp
         )
     }
 }

@@ -188,12 +188,6 @@ fun SignUpContent(
                     }
                 )
         ) {
-            if (showNavigationBackArrow) {
-                BackArrowButton(
-                    modifier = Modifier.padding(Size16),
-                    onClick = onGoBack
-                )
-            }
             GlowPulsingBackground()
             FieldsSection(
                 largeScreenModifier = Modifier
@@ -233,6 +227,14 @@ fun SignUpContent(
                 onAction = onAction,
                 openPrivacyPolicy = openPrivacyPolicy,
                 openTermsOfUse = openTermsOfUse
+            )
+            BackArrowButton(
+                modifier = Modifier.padding(
+                    start = Size16, top = paddingValues.calculateTopPadding().plus(
+                        Size16
+                    )
+                ),
+                onClick = onGoBack
             )
         }
     }

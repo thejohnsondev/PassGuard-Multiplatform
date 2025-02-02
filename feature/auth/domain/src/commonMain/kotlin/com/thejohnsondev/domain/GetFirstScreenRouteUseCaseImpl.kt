@@ -9,7 +9,7 @@ class GetFirstScreenRouteUseCaseImpl(
     var isUseBiometrics = false // TODO Add later
     override suspend operator fun invoke(): Routes {
 
-        return if (isUserLoggedIn()) {
+        return if (isVaultInitialized()) {
             if (isUseBiometrics) {
                 Routes.BiometricRoute
             } else {
@@ -20,5 +20,5 @@ class GetFirstScreenRouteUseCaseImpl(
         }
     }
 
-    private suspend fun isUserLoggedIn(): Boolean = authRepository.isUserLoggedIn()
+    private suspend fun isVaultInitialized(): Boolean = authRepository.isVaultInitialized()
 }
