@@ -117,7 +117,12 @@ fun VaultScreen(
         skipPartiallyExpanded = true
     )
 
-    vaultViewModel.perform(VaultViewModel.Action.UpdateIsScreenCompact(windowSizeClass.isCompact()))
+    val isCompact = windowSizeClass.isCompact()
+
+    LaunchedEffect(isCompact) {
+        vaultViewModel.perform(VaultViewModel.Action.UpdateIsScreenCompact(isCompact))
+    }
+
     LaunchedEffect(true) {
         vaultViewModel.perform(VaultViewModel.Action.FetchVault)
         setScaffoldConfig(
