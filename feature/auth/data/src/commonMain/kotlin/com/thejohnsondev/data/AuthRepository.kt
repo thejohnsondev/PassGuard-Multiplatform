@@ -18,7 +18,7 @@ interface AuthRepository {
         body: FBAuthRequestBody
     ): Flow<Either<Error, FBAuthSignInResponse>>
     suspend fun signOut()
-    suspend fun isUserLoggedIn(): Boolean
+    suspend fun isVaultInitialized(): Boolean
     suspend fun deleteAccount(): Flow<Either<Error, Unit>>
     suspend fun changePassword(oldPassword: String, newPassword: String): Flow<Either<Error, Boolean>>
     suspend fun saveAuthToken(token: String)

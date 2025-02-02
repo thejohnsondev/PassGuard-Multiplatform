@@ -50,7 +50,7 @@ class AuthServiceImpl(
 
     override suspend fun generateSecretKey() {
         val secretKey = generateKeyRepository.generateSecretKey()
-        encryptionRepository.saveKey(secretKey)
+        encryptionRepository.saveSecretKey(secretKey)
     }
 
     override suspend fun saveAuthToken(authToken: String) {

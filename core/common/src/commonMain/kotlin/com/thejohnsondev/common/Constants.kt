@@ -18,6 +18,7 @@ const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
 const val ADDITIONAL_FIELD_HEIGHT = 84
 
 const val SECRET_KEY_SIZE = 256
+const val VAULT_GENERATION_FAKE_TIME_DURATION = 1000L
 
 const val VAULT_ITEM_CATEGORY_PERSONAL = "item_category_personal"
 const val VAULT_ITEM_CATEGORY_WORK = "item_category_work"

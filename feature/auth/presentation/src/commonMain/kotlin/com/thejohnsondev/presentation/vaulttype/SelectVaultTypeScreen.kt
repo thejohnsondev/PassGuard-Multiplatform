@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -40,6 +41,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
+import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.VaultType
 import com.thejohnsondev.ui.components.BackArrowButton
 import com.thejohnsondev.ui.components.ExpandableContent
@@ -78,6 +80,15 @@ fun SelectVaultTypeScreen(
     goBack: () -> Unit,
 ) {
     val state = viewModel.viewState.collectAsState(SelectedVaultTypeViewModel.State())
+
+    LaunchedEffect(true) {
+        viewModel.getEventFlow().collect {
+            when (it) {
+                is SelectedVaultTypeViewModel.NavigateToHome -> goToHome()
+            }
+        }
+    }
+
     SelectVaultTypeContent(
         windowSize,
         state.value,
@@ -167,8 +178,9 @@ private fun SelectVaultTypeContent(
                             modifier = Modifier
                                 .padding(bottom = Size16, start = Size16, end = Size16),
                             text = stringResource(ResString.create_local_vault),
+                            loading = state.screenState is ScreenState.Loading,
                             onClick = {
-                                // TODO create a local vault
+                                onAction(SelectedVaultTypeViewModel.Action.CreateLocalVault)
                             }
                         )
                     }

@@ -6,18 +6,18 @@ import com.thejohnsondev.datastore.PreferencesDataStore
 class EncryptionRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
 ) : EncryptionRepository {
-    override suspend fun saveKey(key: ByteArray) {
-        preferencesDataStore.saveKey(key)
+    override suspend fun saveSecretKey(key: ByteArray) {
+        preferencesDataStore.saveSecretKey(key)
     }
 
-    override suspend fun getKey(): ByteArray {
-        return preferencesDataStore.getKey()
+    override suspend fun getSecretKey(): ByteArray {
+        return preferencesDataStore.getSecretKey()
     }
 
     override suspend fun encrypt(input: String): String {
         return EncryptionUtils.encrypt(
             input,
-            getKey()
+            getSecretKey()
         )
     }
 
@@ -32,7 +32,7 @@ class EncryptionRepositoryImpl(
     override suspend fun decrypt(input: String): String {
         return EncryptionUtils.decrypt(
             input,
-            getKey()
+            getSecretKey()
         )
     }
 

@@ -38,8 +38,8 @@ class AuthRepositoryImpl(
         preferencesDataStore.clearUserData()
     }
 
-    override suspend fun isUserLoggedIn(): Boolean {
-        return preferencesDataStore.isUserLoggedIn()
+    override suspend fun isVaultInitialized(): Boolean {
+        return preferencesDataStore.isVaultInitialized()
     }
 
     override suspend fun deleteAccount(): Flow<Either<Error, Unit>> {
