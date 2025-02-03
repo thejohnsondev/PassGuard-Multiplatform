@@ -185,7 +185,7 @@ private fun CategoryOption(filter: FilterUIModel) {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val icon = filter.filterIcon.getImageVector()
+        val icon = filter.iconContainer.getImageVector()
         icon?.let {
             Icon(
                 modifier = Modifier

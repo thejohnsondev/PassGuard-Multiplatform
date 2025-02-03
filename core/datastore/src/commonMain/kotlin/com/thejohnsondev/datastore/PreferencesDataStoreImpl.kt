@@ -87,6 +87,10 @@ class PreferencesDataStoreImpl(
         return getSecretKey().isNotEmpty()
     }
 
+    override suspend fun isVaultLocal(): Boolean {
+        return getEmail().isEmpty()
+    }
+
     override suspend fun clearUserData() {
         dataStore.clearString(KEY_AUTH_TOKEN)
         dataStore.clearString(KEY_EMAIL)

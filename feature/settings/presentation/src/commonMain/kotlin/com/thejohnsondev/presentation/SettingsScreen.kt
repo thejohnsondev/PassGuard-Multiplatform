@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,8 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -54,6 +57,7 @@ import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.button.ButtonShape
+import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.model.message.MessageType
 import com.thejohnsondev.ui.model.settings.SettingsSection
@@ -67,6 +71,8 @@ import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot_description
 import vaultmultiplatform.core.ui.generated.resources.cancel
+import vaultmultiplatform.core.ui.generated.resources.create_account
+import vaultmultiplatform.core.ui.generated.resources.create_account_description
 import vaultmultiplatform.core.ui.generated.resources.dangerous_zone
 import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference
 import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference_dark
@@ -76,6 +82,7 @@ import vaultmultiplatform.core.ui.generated.resources.deep_search_description
 import vaultmultiplatform.core.ui.generated.resources.deep_search_title
 import vaultmultiplatform.core.ui.generated.resources.delete_account
 import vaultmultiplatform.core.ui.generated.resources.delete_account_confirm_message
+import vaultmultiplatform.core.ui.generated.resources.delete_vault
 import vaultmultiplatform.core.ui.generated.resources.logout
 import vaultmultiplatform.core.ui.generated.resources.logout_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.manage_account
@@ -222,18 +229,24 @@ fun SettingsSubSections(
         if (subSection.sectionTitleRes == ResString.manage_account) {
             state.userEmail.orEmpty()
         } else {
-            subSection.sectionDescriptionRes?.let { stringResource(resource = it) } ?: ""
+            subSection.sectionDescriptionRes?.let { stringResource(resource = it) }
         }
     SettingsItem(
         title = stringResource(resource = subSection.sectionTitleRes),
         description = subsectionDescription,
-        icon = subSection.sectionIcon,
+        icon = subSection.sectionIcon.getImageVector(),
         isFirstItem = subSectionIndex == 0,
         isLastItem = subSectionIndex == subSectionsNumber - 1
     ) {
         when (subSection) {
             SettingsSubSection.ManageAccountSub -> {
                 ManageAccountSubSection(
+                    onAction = onAction,
+                )
+            }
+
+            SettingsSubSection.ManageLocalVaultSub -> {
+                ManageLocalVaultSubSection(
                     onAction = onAction,
                 )
             }
@@ -291,6 +304,70 @@ fun ManageAccountSubSection(
             text = stringResource(ResString.delete_account),
             onClick = {
                 onAction(SettingsViewModel.Action.OpenConfirmDeleteAccountDialog)
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onErrorContainer,
+                contentColor = MaterialTheme.colorScheme.errorContainer
+            )
+        )
+    }
+}
+
+@Composable
+fun ManageLocalVaultSubSection(
+    onAction: (SettingsViewModel.Action) -> Unit,
+) {
+    RoundedButton(
+        modifier = Modifier
+            .height(Size72)
+            .padding(start = Size16, end = Size16, bottom = Size8, top = Size2),
+        text = stringResource(resource = ResString.create_account),
+        onClick = {
+            // TODO call navigate to sign up
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        buttonShape = ButtonShape.ROUNDED
+    )
+    Row(
+        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = Icons.Default.Info,
+            tint = MaterialTheme.colorScheme.primaryContainer,
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier
+                .padding(start = Size4),
+            text = stringResource(ResString.create_account_description),
+            color = MaterialTheme.colorScheme.primaryContainer,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+    Column(
+        modifier = Modifier
+            .padding(start = Size16, end = Size16, top = Size8, bottom = Size16)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(RoundedCornerShape(Size16))
+            .background(MaterialTheme.colorScheme.errorContainer)
+    ) {
+        Text(
+            text = stringResource(ResString.dangerous_zone),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onErrorContainer,
+            modifier = Modifier.padding(start = Size16, top = Size16)
+        )
+        RoundedButton(
+            modifier = Modifier
+                .padding(Size16),
+            text = stringResource(ResString.delete_vault),
+            onClick = {
+                // TODO open confirm delete vault dialog
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.onErrorContainer,

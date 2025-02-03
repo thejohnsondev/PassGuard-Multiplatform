@@ -15,7 +15,7 @@ import vaultmultiplatform.core.ui.generated.resources.pass
 data class FilterUIModel(
     val id: String,
     val nameResId: StringResource,
-    val filterIcon: FilterIcon,
+    val iconContainer: IconContainer,
     val isSelected: Boolean = false,
     val colors: SelectableItemColors = DefaultSelectableItemColors,
 ) {
@@ -24,7 +24,7 @@ data class FilterUIModel(
         val testFilterUIModel = FilterUIModel(
             id = "test_filter",
             nameResId = ResString.pass,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.Default.FilterList
             ),
             isSelected = true,
@@ -34,7 +34,7 @@ data class FilterUIModel(
             return CategoryUIModel(
                 id = this.id,
                 categoryNameResId = this.nameResId,
-                categoryIcon = this.filterIcon,
+                categoryIcon = this.iconContainer,
                 colors = this.colors
             )
         }
@@ -45,12 +45,13 @@ data class FilterUIModel(
     }
 }
 
-data class FilterIcon(
+// TODO move it to UI module in a separate file
+data class IconContainer(
     val imageVector: ImageVector? = null,
     val imageVectorResId: DrawableResource? = null,
 )
 
 @Composable
-fun FilterIcon.getImageVector(): ImageVector? {
-    return imageVector ?: imageVectorResId?.let { vectorResource(it) }
+fun IconContainer.getImageVector(): ImageVector {
+    return imageVector ?: imageVectorResId?.let { vectorResource(it) } ?: throw IllegalStateException("No icon provided")
 }

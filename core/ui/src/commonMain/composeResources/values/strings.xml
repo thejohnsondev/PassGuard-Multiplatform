@@ -88,6 +88,7 @@
     <string name="do_not_have_account">Don't have an account?</string>
     <string name="enter_password">Enter your password</string>
     <string name="manage_account">Manage account</string>
+    <string name="manage_vault">Manage vault</string>
     <string name="password">Password</string>
     <string name="password_empty">Password is empty</string>
     <string name="password_error_bad_length">Password must contain at least 8 characters.</string>
@@ -119,4 +120,7 @@
     <string name="cloud_vault">Cloud Vault</string>
     <string name="cloud_vault_description">Sign in to sync your passwords securely across multiple devices.</string>
     <string name="start_with_local_vault">You can start with a Local Vault and switch to Cloud Sync later.</string>
+    <string name="create_account">Create account</string>
+    <string name="create_account_description">Create an account to sync your passwords across multiple devices.</string>
+    <string name="delete_vault">Delete Vault</string>
 </resources>

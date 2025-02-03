@@ -56,7 +56,7 @@ class SettingsViewModel(
     }
 
     private fun fetchSettingsSections() {
-        _state.update { it.copy(settingsSection = SettingsSection.getSettingsSections()) }
+        _state.update { it.copy(settingsSection = SettingsSection.getLocalVaultSettingsSections()) } // TODO change the settings list depending on the vault type
     }
 
     fun perform(action: Action) {

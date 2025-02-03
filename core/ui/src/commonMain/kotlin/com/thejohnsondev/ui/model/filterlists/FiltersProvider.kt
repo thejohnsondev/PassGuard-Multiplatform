@@ -25,7 +25,7 @@ import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.PersonalSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.filters.WorkSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
-import com.thejohnsondev.ui.model.FilterIcon
+import com.thejohnsondev.ui.model.IconContainer
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
@@ -54,7 +54,7 @@ object FiltersProvider {
         val passwordsFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_TYPE_PASSWORDS,
             nameResId = ResString.passwords,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVectorResId = ResDrawable.ic_password
             ),
             colors = MaterialSelectableItemColors,
@@ -64,7 +64,7 @@ object FiltersProvider {
         val notesFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_TYPE_NOTES,
             nameResId = ResString.notes,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.AutoMirrored.Filled.StickyNote2
             ),
             colors = MaterialSelectableItemColors,
@@ -74,7 +74,7 @@ object FiltersProvider {
         val bankAccountsFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_TYPE_BANK_ACCOUNTS,
             nameResId = ResString.bank_accounts,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.Default.CreditCard
             ),
             colors = MaterialSelectableItemColors,
@@ -100,7 +100,7 @@ object FiltersProvider {
         val personalFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_PERSONAL,
             nameResId = ResString.personal,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.Filled.Person
             ),
             colors = PersonalSelectableItemColors,
@@ -110,7 +110,7 @@ object FiltersProvider {
         val workFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_WORK,
             nameResId = ResString.work,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.Default.Work
             ),
             colors = WorkSelectableItemColors,
@@ -120,7 +120,7 @@ object FiltersProvider {
         val financeFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_FINANCE,
             nameResId = ResString.finances,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.Default.MonetizationOn
             ),
             colors = FinanceSelectableItemColors,
@@ -130,7 +130,7 @@ object FiltersProvider {
         val othersFilterUIModel = FilterUIModel(
             id = VAULT_ITEM_CATEGORY_OTHERS,
             nameResId = ResString.other,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.Default.MoreHoriz
             ),
             colors = OtherSelectableItemColors,
@@ -159,7 +159,7 @@ object FiltersProvider {
         val sortTitleAZFilterUIModel = FilterUIModel(
             id = SORT_TITLE_AZ,
             nameResId = ResString.sort_title_az,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVectorResId = ResDrawable.ic_sort_alph_az
             ),
             colors = MaterialSelectableItemColors,
@@ -169,7 +169,7 @@ object FiltersProvider {
         val sortTitleZAFilterUIModel = FilterUIModel(
             id = SORT_TITLE_ZA,
             nameResId = ResString.sort_title_za,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVectorResId = ResDrawable.ic_sort_alph_za
             ),
             colors = MaterialSelectableItemColors,
@@ -179,7 +179,7 @@ object FiltersProvider {
         val sortTimeNewFilterUIModel = FilterUIModel(
             id = SORT_TIME_NEW,
             nameResId = ResString.sort_date_newest,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVectorResId = ResDrawable.ic_sort_time_new
             ),
             colors = MaterialSelectableItemColors,
@@ -189,7 +189,7 @@ object FiltersProvider {
         val sortTimeOldFilterUIModel = FilterUIModel(
             id = SORT_TIME_OLD,
             nameResId = ResString.sort_date_oldest,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVectorResId = ResDrawable.ic_sort_time_old
             ),
             colors = MaterialSelectableItemColors,
@@ -199,7 +199,7 @@ object FiltersProvider {
         val sortShowFavoritesAtTopFilterUIModel = FilterUIModel(
             id = SORT_SHOW_FAVORITES_AT_TOP,
             nameResId = ResString.show_favorites_at_top,
-            filterIcon = FilterIcon(
+            iconContainer = IconContainer(
                 imageVector = Icons.Default.Star
             ),
             colors = MaterialSelectableItemColors,
