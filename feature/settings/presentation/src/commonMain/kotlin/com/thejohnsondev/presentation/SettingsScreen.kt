@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirm
 import com.thejohnsondev.ui.components.ConfirmAlertDialog
 import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.SelectableOptionItem
+import com.thejohnsondev.ui.components.SelectableThemeOptionItem
 import com.thejohnsondev.ui.components.SettingsItem
 import com.thejohnsondev.ui.components.ToggleOptionItem
 import com.thejohnsondev.ui.designsystem.Percent80
@@ -409,113 +411,121 @@ fun StyleSettingsSubSection(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
-    ) {
-        Text(
-            modifier = Modifier.padding(
-                bottom = Size8
-            ),
-            text = stringResource(ResString.dark_mode_preference),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSecondary
-        )
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(ResString.dark_mode_preference_system),
-            isFirstItem = true,
-            isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.SYSTEM
+    Column {
+        Column(
+            modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8)
         ) {
-            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.SYSTEM))
-        }
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(ResString.dark_mode_preference_dark),
-            isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.DARK
-        ) {
-            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.DARK))
-        }
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(ResString.dark_mode_preference_light),
-            isLastItem = true,
-            isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.LIGHT
-        ) {
-            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.LIGHT))
-        }
-        if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
             Text(
                 modifier = Modifier.padding(
-                    bottom = Size8,
-                    top = Size8
+                    bottom = Size8
                 ),
-                text = stringResource(ResString.use_dynamic_color),
+                text = stringResource(ResString.dark_mode_preference),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSecondary
             )
             SelectableOptionItem(
                 modifier = Modifier
                     .padding(top = Size4),
-                optionTitle = stringResource(ResString.yes),
+                optionTitle = stringResource(ResString.dark_mode_preference_system),
                 isFirstItem = true,
-                isSelected = state.settingsConfig.useDynamicColor
+                isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.SYSTEM
             ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
+                onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.SYSTEM))
             }
             SelectableOptionItem(
                 modifier = Modifier
                     .padding(top = Size4),
-                optionTitle = stringResource(ResString.no),
+                optionTitle = stringResource(ResString.dark_mode_preference_dark),
+                isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.DARK
+            ) {
+                onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.DARK))
+            }
+            SelectableOptionItem(
+                modifier = Modifier
+                    .padding(top = Size4),
+                optionTitle = stringResource(ResString.dark_mode_preference_light),
                 isLastItem = true,
-                isSelected = !state.settingsConfig.useDynamicColor
+                isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.LIGHT
             ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.LIGHT))
             }
-        }
-        Text(
-            modifier = Modifier.padding(vertical = Size8),
-            text = stringResource(ResString.theme),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSecondary
-        )
-        ThemeBrand.entries.forEachIndexed { index, theme ->
-            SelectableOptionItem(
-                modifier = Modifier
-                    .padding(top = Size4),
-                optionTitle = stringResource(
-                    when (theme) {
-                        ThemeBrand.DEFAULT -> ResString.theme_default
-                        ThemeBrand.TEAL -> ResString.theme_teal
-                        ThemeBrand.DEEP_FOREST -> ResString.theme_deep_forest
-                        ThemeBrand.RED_ALGAE -> ResString.theme_red_algae
-                        ThemeBrand.SUNNY -> ResString.theme_sunny
-                        ThemeBrand.VIOLET -> ResString.theme_violet
-                        ThemeBrand.MONOCHROME -> ResString.theme_monochrome
-                        else -> ResString.theme_default
-                    }
-                ),
-                isLastItem = index == ThemeBrand.entries.size - 1,
-                isFirstItem = index == 0,
-                isSelected = state.settingsConfig?.customTheme == theme,
-                colors = when (theme) {
-                    ThemeBrand.DEFAULT -> DefaultSelectableItemColors
-                    ThemeBrand.TEAL -> TealSelectableItemColors
-                    ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
-                    ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
-                    ThemeBrand.SUNNY -> SunnySelectableItemColors
-                    ThemeBrand.VIOLET -> VioletSelectableItemsColors
-                    ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
-                    else -> DefaultSelectableItemColors
+            if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
+                Text(
+                    modifier = Modifier.padding(
+                        bottom = Size8,
+                        top = Size8
+                    ),
+                    text = stringResource(ResString.use_dynamic_color),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+                SelectableOptionItem(
+                    modifier = Modifier
+                        .padding(top = Size4),
+                    optionTitle = stringResource(ResString.yes),
+                    isFirstItem = true,
+                    isSelected = state.settingsConfig.useDynamicColor
+                ) {
+                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
                 }
-            ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
-                onAction(SettingsViewModel.Action.UpdateUseCustomTheme(theme))
+                SelectableOptionItem(
+                    modifier = Modifier
+                        .padding(top = Size4),
+                    optionTitle = stringResource(ResString.no),
+                    isLastItem = true,
+                    isSelected = !state.settingsConfig.useDynamicColor
+                ) {
+                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                }
+            }
+            Text(
+                modifier = Modifier.padding(vertical = Size8),
+                text = stringResource(ResString.theme),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
+        }
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState())
+                .padding(bottom = Size16),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ThemeBrand.entries.forEachIndexed { index, theme ->
+                SelectableThemeOptionItem(
+                    modifier = Modifier
+                        .padding(
+                            start = if (index == 0) Size16 else Size4,
+                            end = if (index == ThemeBrand.entries.size - 1) Size16 else Size4,
+                        ),
+                    optionTitle = stringResource(
+                        when (theme) {
+                            ThemeBrand.DEFAULT -> ResString.theme_default
+                            ThemeBrand.TEAL -> ResString.theme_teal
+                            ThemeBrand.DEEP_FOREST -> ResString.theme_deep_forest
+                            ThemeBrand.RED_ALGAE -> ResString.theme_red_algae
+                            ThemeBrand.SUNNY -> ResString.theme_sunny
+                            ThemeBrand.VIOLET -> ResString.theme_violet
+                            ThemeBrand.MONOCHROME -> ResString.theme_monochrome
+                            else -> ResString.theme_default
+                        }
+                    ),
+                    isSelected = state.settingsConfig?.customTheme == theme,
+                    colors = when (theme) {
+                        ThemeBrand.DEFAULT -> DefaultSelectableItemColors
+                        ThemeBrand.TEAL -> TealSelectableItemColors
+                        ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
+                        ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
+                        ThemeBrand.SUNNY -> SunnySelectableItemColors
+                        ThemeBrand.VIOLET -> VioletSelectableItemsColors
+                        ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
+                        else -> DefaultSelectableItemColors
+                    }
+                ) {
+                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                    onAction(SettingsViewModel.Action.UpdateUseCustomTheme(theme))
+                }
             }
         }
-
     }
 }
 
