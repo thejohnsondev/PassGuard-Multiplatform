@@ -55,8 +55,14 @@ class SettingsViewModel(
         fetchSettingsSections()
     }
 
-    private fun fetchSettingsSections() {
-        _state.update { it.copy(settingsSection = SettingsSection.getCloudVaultSettingsSections()) } // TODO change the settings list depending on the vault type
+    private fun fetchSettingsSections() = launch {
+        val isLocalVault = authService.isVaultLocal()
+        val settingsSection = if (isLocalVault) {
+            SettingsSection.getLocalVaultSettingsSections()
+        } else {
+            SettingsSection.getCloudVaultSettingsSections()
+        }
+        _state.update { it.copy(settingsSection = settingsSection) }
     }
 
     fun perform(action: Action) {

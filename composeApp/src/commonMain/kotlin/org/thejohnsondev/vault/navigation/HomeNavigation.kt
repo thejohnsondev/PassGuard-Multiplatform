@@ -20,6 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.presentation.navigation.navigateToSignUp
 import com.thejohnsondev.presentation.navigation.navigateToWelcome
 import com.thejohnsondev.presentation.navigation.settingsScreen
 import com.thejohnsondev.presentation.navigation.toolsScreen
@@ -100,6 +101,9 @@ fun HomeNavigation(
                     },
                     onShowError = {
                         showMessageState.value = it
+                    },
+                    onGoToSignUp = {
+                        rootNavController.navigateToSignUp()
                     }
                 )
             }

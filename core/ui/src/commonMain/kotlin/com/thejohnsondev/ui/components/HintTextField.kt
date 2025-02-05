@@ -30,19 +30,17 @@ fun HintTextField(
     value: String = "",
     onValueChanged: (String) -> Unit,
     hint: String = "",
-    maxLines: Int? = null,
-    focusRequester: FocusRequester = FocusRequester(),
+    maxLines: Int = 1,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     fontSize: TextUnit = Text20,
     imeAction: ImeAction = ImeAction.Default,
     keyboardType: KeyboardType = KeyboardType.Text,
     passwordVisible: Boolean = true,
-    onKeyboardAction: () -> Unit = {}
+    onKeyboardAction: KeyboardActions = KeyboardActions.Default,
 ) {
     Box {
         BasicTextField(
             modifier = modifier
-                .focusRequester(focusRequester)
                 .semantics {
                     contentDescription = value
                 },
@@ -60,10 +58,8 @@ fun HintTextField(
                 keyboardType = keyboardType,
                 imeAction = imeAction
             ),
-            keyboardActions = KeyboardActions {
-                onKeyboardAction()
-            },
-            maxLines = maxLines ?: Int.MAX_VALUE,
+            keyboardActions = onKeyboardAction,
+            maxLines = maxLines, // For unlimited lines, use Int.MAX_VALUE
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         )
         if (value.isEmpty()) {

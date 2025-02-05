@@ -19,6 +19,7 @@ fun NavGraphBuilder.settingsScreen(
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
     onShowError: (MessageContent) -> Unit,
+    onGoToSignUp: () -> Unit,
 ) {
     composable<Routes.SettingsRoute> {
         val viewModel = koinViewModel<SettingsViewModel>()
@@ -29,6 +30,7 @@ fun NavGraphBuilder.settingsScreen(
             setScaffoldConfig = setScaffoldConfig,
             onLogoutClick = onLogoutClick,
             onShowError = onShowError,
+            onGoToSignUp = onGoToSignUp
         )
     }
 }

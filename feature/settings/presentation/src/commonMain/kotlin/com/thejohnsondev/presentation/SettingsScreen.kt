@@ -110,6 +110,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
+    onGoToSignUp: () -> Unit,
     onShowError: (MessageContent) -> Unit,
 ) {
     val state = viewModel.state.collectAsState(SettingsViewModel.State())
@@ -142,7 +143,8 @@ fun SettingsScreen(
         paddingValues = paddingValues,
         onAction = { action ->
             viewModel.perform(action)
-        }
+        },
+        goToSignUp = onGoToSignUp
     )
 
 }
@@ -153,6 +155,7 @@ fun SettingsContent(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -172,7 +175,7 @@ fun SettingsContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
-            SettingsList(state = state, onAction = onAction)
+            SettingsList(state = state, onAction = onAction, goToSignUp = goToSignUp)
             Dialogs(windowSizeClass = windowSizeClass, state = state, onAction = onAction)
         }
     }
@@ -182,6 +185,7 @@ fun SettingsContent(
 fun SettingsList(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit
 ) {
     Column {
         state.settingsSection.forEach { section ->
@@ -195,7 +199,8 @@ fun SettingsList(
                     subSection = subsection,
                     subSectionsNumber = subSectionsNumber,
                     subSectionIndex = index,
-                    onAction = onAction
+                    onAction = onAction,
+                    goToSignUp = goToSignUp
                 )
             }
         }
@@ -226,6 +231,7 @@ fun SettingsSubSections(
     subSectionIndex: Int,
     subSectionsNumber: Int,
     onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit
 ) {
     val subsectionDescription =
         if (subSection.sectionTitleRes == ResString.manage_account) {
@@ -250,6 +256,7 @@ fun SettingsSubSections(
             SettingsSubSection.ManageLocalVaultSub -> {
                 ManageLocalVaultSubSection(
                     onAction = onAction,
+                    goToSignUp = goToSignUp
                 )
             }
 
@@ -318,6 +325,7 @@ fun ManageAccountSubSection(
 @Composable
 fun ManageLocalVaultSubSection(
     onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit,
 ) {
     RoundedButton(
         modifier = Modifier
@@ -325,7 +333,7 @@ fun ManageLocalVaultSubSection(
             .padding(start = Size16, end = Size16, bottom = Size8, top = Size2),
         text = stringResource(resource = ResString.create_account),
         onClick = {
-            // TODO call navigate to sign up
+            goToSignUp()
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,

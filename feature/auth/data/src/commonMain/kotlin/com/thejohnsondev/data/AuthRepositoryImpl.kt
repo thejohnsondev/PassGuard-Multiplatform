@@ -42,6 +42,10 @@ class AuthRepositoryImpl(
         return preferencesDataStore.isVaultInitialized()
     }
 
+    override suspend fun isVaultLocal(): Boolean {
+        return preferencesDataStore.isVaultLocal()
+    }
+
     override suspend fun deleteAccount(): Flow<Either<Error, Unit>> {
         val token = preferencesDataStore.getAuthToken()
         val body = FBAuthDeleteAccountBody(token)
