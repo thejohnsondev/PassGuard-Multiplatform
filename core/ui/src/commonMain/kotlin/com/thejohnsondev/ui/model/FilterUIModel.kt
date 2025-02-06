@@ -44,14 +44,3 @@ data class FilterUIModel(
         return "FilterUIModel(id=$id, isSelected=$isSelected)"
     }
 }
-
-// TODO move it to UI module in a separate file
-data class IconContainer(
-    val imageVector: ImageVector? = null,
-    val imageVectorResId: DrawableResource? = null,
-)
-
-@Composable
-fun IconContainer.getImageVector(): ImageVector {
-    return imageVector ?: imageVectorResId?.let { vectorResource(it) } ?: throw IllegalStateException("No icon provided")
-}

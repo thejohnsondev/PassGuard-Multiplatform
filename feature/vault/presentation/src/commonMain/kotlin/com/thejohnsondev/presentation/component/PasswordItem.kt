@@ -325,7 +325,7 @@ fun ExpandedContent(
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit,
 ) {
-    var isHidden by remember {  // TODO add a UI setting to make it visible by default
+    var isHidden by remember {
         mutableStateOf(true)
     }
     val haptic = LocalHapticFeedback.current

@@ -85,6 +85,7 @@ import vaultmultiplatform.core.ui.generated.resources.deep_search_title
 import vaultmultiplatform.core.ui.generated.resources.delete_account
 import vaultmultiplatform.core.ui.generated.resources.delete_account_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.delete_vault
+import vaultmultiplatform.core.ui.generated.resources.delete_vault_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.logout
 import vaultmultiplatform.core.ui.generated.resources.logout_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.manage_account
@@ -377,7 +378,7 @@ fun ManageLocalVaultSubSection(
                 .padding(Size16),
             text = stringResource(ResString.delete_vault),
             onClick = {
-                // TODO open confirm delete vault dialog
+                onAction(SettingsViewModel.Action.OpenConfirmDeleteVaultDialog)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.onErrorContainer,
@@ -633,6 +634,22 @@ fun Dialogs(
             state = state,
             onAction = onAction,
             windowWidthSizeClass = windowSizeClass
+        )
+    }
+    if (state.isConfirmDeleteVaultDialogOpened) {
+        ConfirmAlertDialog(
+            windowWidthSizeClass = windowSizeClass,
+            title = stringResource(ResString.delete_vault),
+            message = stringResource(ResString.delete_vault_confirm_message),
+            confirmButtonText = stringResource(ResString.delete_vault),
+            cancelButtonText = stringResource(ResString.cancel),
+            onConfirm = {
+                onAction(SettingsViewModel.Action.CloseConfirmDeleteVaultDialog)
+                onAction(SettingsViewModel.Action.DeleteLocalVaultConfirm)
+            },
+            onCancel = {
+                onAction(SettingsViewModel.Action.CloseConfirmDeleteVaultDialog)
+            }
         )
     }
 }

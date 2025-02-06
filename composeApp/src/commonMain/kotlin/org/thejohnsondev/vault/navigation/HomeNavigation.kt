@@ -80,6 +80,9 @@ fun HomeNavigation(
                     updateIsEmptyVault = {
                         scaffoldState.value = scaffoldState.value.copy(isEmptyVaultScreen = it)
                     },
+                    updateIsFabExpanded = {
+                        scaffoldState.value = scaffoldState.value.copy(isFabExpanded = it)
+                    },
                     onShowMessage = {
                         showMessageState.value = it
                     }

@@ -320,7 +320,7 @@ private fun VaultBottomBar(
                 .fillMaxWidth()
                 .hazeChild(
                     state = hazeState,
-                    style = HazeMaterials.thick()
+                    style = HazeMaterials.regular()
                 )
         ) {
             NavigationBar(
@@ -366,7 +366,7 @@ private fun VaultTopBar(
             .applyIf(windowSize == WindowWidthSizeClass.Medium) { padding(start = RailWidth) }
             .hazeChild(
                 state = hazeState,
-                style = HazeMaterials.thick()
+                style = HazeMaterials.regular()
             )
     ) {
         TopAppBar(
