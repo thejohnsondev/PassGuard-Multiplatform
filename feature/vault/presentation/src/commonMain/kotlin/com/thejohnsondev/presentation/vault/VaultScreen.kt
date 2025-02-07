@@ -90,7 +90,7 @@ private const val SHIMMER_PASSWORDS_COUNT = 10
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VaultScreen(
+internal fun VaultScreen(
     windowSizeClass: WindowWidthSizeClass,
     vaultViewModel: VaultViewModel,
     paddingValues: PaddingValues,

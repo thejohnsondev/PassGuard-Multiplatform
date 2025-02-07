@@ -46,7 +46,7 @@ import vaultmultiplatform.core.ui.generated.resources.value
 import vaultmultiplatform.core.ui.generated.resources.visibility
 
 @Composable
-fun AdditionalFieldItem(
+internal fun AdditionalFieldItem(
     modifier: Modifier = Modifier,
     title: String,
     value: String,

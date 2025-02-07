@@ -86,7 +86,7 @@ import vaultmultiplatform.core.ui.generated.resources.more_info
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PasswordItem(
+internal fun PasswordItem(
     modifier: Modifier = Modifier,
     item: PasswordUIModel,
     isReordering: Boolean = false,

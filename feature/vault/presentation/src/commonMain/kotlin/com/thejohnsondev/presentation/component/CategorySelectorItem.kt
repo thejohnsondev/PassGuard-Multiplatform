@@ -48,7 +48,7 @@ import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.category
 
 @Composable
-fun CategorySelectorItem(
+internal fun CategorySelectorItem(
     modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit,

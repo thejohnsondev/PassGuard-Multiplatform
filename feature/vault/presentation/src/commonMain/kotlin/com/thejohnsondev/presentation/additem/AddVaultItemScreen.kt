@@ -93,7 +93,7 @@ private const val DELAY_BEFORE_FOCUS = 500L
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
-fun AddVaultItemScreen(
+internal fun AddVaultItemScreen(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     sheetState: SheetState,
