@@ -36,6 +36,7 @@ import org.thejohnsondev.vault.di.KoinInitializer
 import org.thejohnsondev.vault.root.Root
 import vaultmultiplatform.core.ui.generated.resources.app_name
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
+import vaultmultiplatform.core.ui.generated.resources.ic_vault_24_gradient
 import java.awt.Dimension
 
 fun main() = application {
@@ -102,8 +103,9 @@ fun AdaptiveWindow(
         JBWindow(
             onCloseRequest = exitApplication,
             title = stringResource(ResString.app_name),
-            icon = painterResource(ResDrawable.ic_vault_108_gradient),
-            theme = DarkTheme
+            icon = painterResource(ResDrawable.ic_vault_24_gradient),
+            theme = DarkTheme,
+            state = windowState
         ) {
             window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)
             content()
