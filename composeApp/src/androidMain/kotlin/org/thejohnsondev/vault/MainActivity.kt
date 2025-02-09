@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +21,7 @@ import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.thejohnsondev.vault.root.Root
+import org.thejohnsondev.vault.root.shouldUseDarkTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -48,8 +53,24 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
+                ApplyCorrectStatusNavBarColor(settings)
                 Root(deviceThemeConfig, route, settings)
             }
+        }
+    }
+
+    @Composable
+    private fun ApplyCorrectStatusNavBarColor(
+        settingsConfig: SettingsConfig
+    ) {
+        if (!window.decorView.isInEditMode) {
+            window.statusBarColor = colorScheme.primary.toArgb()
+            window.navigationBarColor = colorScheme.primary.toArgb()
+            val view = LocalView.current
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                !shouldUseDarkTheme(settingsConfig)
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                !shouldUseDarkTheme(settingsConfig)
         }
     }
 

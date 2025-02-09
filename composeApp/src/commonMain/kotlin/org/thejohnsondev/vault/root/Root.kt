@@ -50,7 +50,7 @@ private fun initializeLibs() {
 }
 
 @Composable
-private fun shouldUseDarkTheme(
+fun shouldUseDarkTheme(
     settingsConfig: SettingsConfig,
 ): Boolean = when (settingsConfig.darkThemeConfig) {
     DarkThemeConfig.LIGHT -> false
