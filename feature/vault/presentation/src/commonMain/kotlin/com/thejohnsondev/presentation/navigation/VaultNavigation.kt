@@ -18,6 +18,7 @@ fun NavGraphBuilder.vaultScreen(
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
+    updateIsFabExpanded: (Boolean) -> Unit,
     onShowMessage: (MessageContent) -> Unit
 ) {
     composable<Routes.VaultRoute> {
@@ -28,6 +29,7 @@ fun NavGraphBuilder.vaultScreen(
             paddingValues,
             setScaffoldConfig,
             updateIsEmptyVault,
+            updateIsFabExpanded,
             onShowMessage
         )
     }

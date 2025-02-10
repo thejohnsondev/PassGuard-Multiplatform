@@ -1,5 +1,6 @@
 package org.thejohnsondev.vault
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -9,6 +10,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
+import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_HEIGHT
@@ -33,6 +35,7 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
 import org.thejohnsondev.vault.root.Root
 import vaultmultiplatform.core.ui.generated.resources.app_name
+import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_24_gradient
 import java.awt.Dimension
 
@@ -67,18 +70,46 @@ fun main() = application {
         position = WindowPosition.Aligned(Alignment.Center),
         size = DpSize(DESKTOP_WINDOW_DEFAULT_WIDTH.dp, DESKTOP_WINDOW_DEFAULT_HEIGHT.dp),
     )
-    JBWindow(
-        onCloseRequest = ::exitApplication,
-        title = stringResource(ResString.app_name),
-        icon = painterResource(ResDrawable.ic_vault_24_gradient),
-        theme = DarkTheme,
-        state = windowState
+
+    AdaptiveWindow(
+        exitApplication = ::exitApplication,
+        windowState = windowState
     ) {
-        window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)
         safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
             Root(deviceThemeConfig, route, settings)
         } ?: kotlin.run {
             DesktopSplash()
         }
     }
+}
+
+@Composable
+fun AdaptiveWindow(
+    exitApplication: () -> Unit,
+    windowState: WindowState,
+    content: @Composable () -> Unit
+) {
+    if (System.getProperty("os.name").contains("Mac")) {
+        androidx.compose.ui.window.Window(
+            onCloseRequest = exitApplication,
+            title = stringResource(ResString.app_name),
+            icon = painterResource(ResDrawable.ic_vault_108_gradient),
+            state = windowState
+        ) {
+            window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)
+            content()
+        }
+    } else {
+        JBWindow(
+            onCloseRequest = exitApplication,
+            title = stringResource(ResString.app_name),
+            icon = painterResource(ResDrawable.ic_vault_24_gradient),
+            theme = DarkTheme,
+            state = windowState
+        ) {
+            window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)
+            content()
+        }
+    }
+
 }

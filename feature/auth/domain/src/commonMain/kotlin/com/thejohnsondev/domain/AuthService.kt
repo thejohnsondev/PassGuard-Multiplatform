@@ -36,4 +36,6 @@ interface AuthService {
     suspend fun saveEmail(email: String)
     suspend fun refreshToken(): Flow<Either<Error, FBRefreshTokenResponseBody>>
 
+    suspend fun isVaultLocal(): Boolean
+
 }

@@ -722,7 +722,7 @@ fun VaultDefaultTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
-    customTheme: ThemeBrand? = ThemeBrand.DEFAULT, // todo add custom themes,
+    customTheme: ThemeBrand? = ThemeBrand.DEFAULT,
     deviceThemeConfig: DeviceThemeConfig?,
     content: @Composable () -> Unit,
 ) {

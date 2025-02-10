@@ -113,7 +113,7 @@ fun Chip(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val icon = filter.filterIcon.getImageVector()
+        val icon = filter.iconContainer.getImageVector()
         icon?.let {
             Icon(
                 modifier = Modifier.padding(

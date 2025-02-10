@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -38,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -73,6 +75,7 @@ import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
+import com.thejohnsondev.ui.utils.onEnterClick
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -90,7 +93,7 @@ private const val DELAY_BEFORE_FOCUS = 500L
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
-fun AddVaultItemScreen(
+internal fun AddVaultItemScreen(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     sheetState: SheetState,
@@ -327,7 +330,10 @@ private fun AdditionalFieldsList(
                         start = Size16,
                         end = Size16,
                         bottom = Size8
-                    ),
+                    )
+                    .onEnterClick {
+                        onAction(AddVaultItemViewModel.Action.SavePassword)
+                    },
                 title = additionalField.title,
                 value = additionalField.value,
                 onTitleChanged = { title ->
@@ -377,18 +383,22 @@ private fun PasswordField(
             verticalAlignment = Alignment.CenterVertically
         ) {
             HintTextField(
-                modifier = Modifier.wrapContentHeight().fillMaxWidth(Percent90)
-                    .padding(horizontal = Size12, vertical = Size16),
+                modifier = Modifier
+                    .focusRequester(passwordFocusRequester)
+                    .wrapContentHeight()
+                    .fillMaxWidth(Percent90)
+                    .padding(horizontal = Size12, vertical = Size16)
+                    .onEnterClick {
+                        onAction(AddVaultItemViewModel.Action.SavePassword)
+                    },
                 onValueChanged = { password ->
                     onAction(AddVaultItemViewModel.Action.EnterPassword(password))
                 },
                 hint = stringResource(ResString.password),
                 value = state.password,
-                focusRequester = passwordFocusRequester,
                 textColor = MaterialTheme.colorScheme.onSurface,
                 fontSize = Text20,
-                maxLines = 2,
-                onKeyboardAction = {
+                onKeyboardAction = KeyboardActions {
                     keyboardController?.hide()
                 },
                 imeAction = ImeAction.Done,
@@ -422,18 +432,22 @@ private fun UserNameField(
         isTopRounded = true,
     ) {
         HintTextField(
-            modifier = Modifier.fillMaxWidth().wrapContentHeight()
-                .padding(horizontal = Size12, vertical = Size16),
+            modifier = Modifier
+                .focusRequester(userNameFocusRequester)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(horizontal = Size12, vertical = Size16)
+                .onEnterClick {
+                    onAction(AddVaultItemViewModel.Action.SavePassword)
+                },
             onValueChanged = { userName ->
                 onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
             },
             value = state.userName,
             hint = stringResource(ResString.username),
-            focusRequester = userNameFocusRequester,
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text20,
-            maxLines = 2,
-            onKeyboardAction = {
+            onKeyboardAction = KeyboardActions {
                 passwordFocusRequester.requestFocus()
             },
             imeAction = ImeAction.Next
@@ -472,19 +486,21 @@ private fun TitleField(
         }
         HintTextField(
             modifier = Modifier
+                .focusRequester(titleFocusRequester)
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(start = Size16),
+                .padding(start = Size16)
+                .onEnterClick {
+                    onAction(AddVaultItemViewModel.Action.SavePassword)
+                },
             onValueChanged = { title ->
                 onAction(AddVaultItemViewModel.Action.EnterTitle(title))
             },
             value = state.title,
-            focusRequester = titleFocusRequester,
             hint = stringResource(ResString.title),
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text22,
-            maxLines = 2,
-            onKeyboardAction = {
+            onKeyboardAction = KeyboardActions {
                 userNameFocusRequester.requestFocus()
             },
             imeAction = ImeAction.Next

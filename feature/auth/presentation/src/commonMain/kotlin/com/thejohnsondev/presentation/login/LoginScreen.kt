@@ -204,14 +204,16 @@ fun LoginContent(
                     onAction = onAction
                 )
             }
-            BackArrowButton(
-                modifier = Modifier.padding(
-                    start = Size16, top = paddingValues.calculateTopPadding().plus(
-                        Size16
-                    )
-                ),
-                onClick = onGoBack
-            )
+            AnimatedVisibility(!isKeyboardOpened) {
+                BackArrowButton(
+                    modifier = Modifier.padding(
+                        start = Size16, top = paddingValues.calculateTopPadding().plus(
+                            Size16
+                        )
+                    ),
+                    onClick = onGoBack
+                )
+            }
         }
     }
 }
@@ -243,9 +245,7 @@ fun FieldsSection(
         AnimatedVisibility(
             visible = !isKeyboardOpened
         ) {
-            Column {
-                com.thejohnsondev.presentation.signup.LogoSection()
-            }
+            LogoSection()
         }
         Column(
             modifier = Modifier
@@ -276,7 +276,6 @@ fun FieldsSection(
                 label = stringResource(ResString.email),
                 onKeyboardAction = KeyboardActions {
                     passwordFocusRequest.requestFocus()
-
                 },
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email,
@@ -380,5 +379,5 @@ fun LoginButtonSection(
 
 @Composable
 fun LogoSection() {
-    VaultLogo(modifier = Modifier.padding(Size24), MaterialTheme.typography.displaySmall.fontSize)
+    VaultLogo(modifier = Modifier.padding(Size16), MaterialTheme.typography.displaySmall.fontSize)
 }

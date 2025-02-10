@@ -48,7 +48,7 @@ import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.category
 
 @Composable
-fun CategorySelectorItem(
+internal fun CategorySelectorItem(
     modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
@@ -185,7 +185,7 @@ private fun CategoryOption(filter: FilterUIModel) {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val icon = filter.filterIcon.getImageVector()
+        val icon = filter.iconContainer.getImageVector()
         icon?.let {
             Icon(
                 modifier = Modifier

@@ -87,10 +87,18 @@ class PreferencesDataStoreImpl(
         return getSecretKey().isNotEmpty()
     }
 
+    override suspend fun isVaultLocal(): Boolean {
+        return getEmail().isEmpty()
+    }
+
     override suspend fun clearUserData() {
         dataStore.clearString(KEY_AUTH_TOKEN)
         dataStore.clearString(KEY_EMAIL)
         dataStore.clearString(KEY_SECRET_KEY)
+        dataStore.clearString(KEY_APPLIED_SORT_ORDER)
+        dataStore.clearString(KEY_APPLIED_CATEGORY_FILTERS)
+        dataStore.clearString(KEY_APPLIED_ITEM_TYPE_FILTERS)
+        dataStore.clearBoolean(KEY_APPLIED_FAVORITES_AT_TOP)
     }
 
     @OptIn(ExperimentalEncodingApi::class)

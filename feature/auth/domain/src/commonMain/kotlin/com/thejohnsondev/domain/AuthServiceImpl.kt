@@ -69,4 +69,8 @@ class AuthServiceImpl(
         return authRepository.refreshToken()
     }
 
+    override suspend fun isVaultLocal(): Boolean {
+        return authRepository.isVaultLocal()
+    }
+
 }
