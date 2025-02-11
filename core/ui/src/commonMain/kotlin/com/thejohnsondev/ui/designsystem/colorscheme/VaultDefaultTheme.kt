@@ -720,7 +720,6 @@ fun getDarkScheme(customTheme: ThemeBrand? = null) = darkColorScheme(
 @Composable
 fun VaultDefaultTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     customTheme: ThemeBrand? = ThemeBrand.DEFAULT,
     deviceThemeConfig: DeviceThemeConfig?,
