@@ -24,6 +24,7 @@ actual object EncryptionUtils {
     }
 
     actual fun generateSecretKey(): ByteArray {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
+        return byteArrayOf()
     }
 }

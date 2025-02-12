@@ -79,7 +79,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.material3.windowsizeclass.multiplatform)
             implementation(compose.components.resources)
+            implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.ui)
             implementation(libs.navigation.compose)
 
             // Koin

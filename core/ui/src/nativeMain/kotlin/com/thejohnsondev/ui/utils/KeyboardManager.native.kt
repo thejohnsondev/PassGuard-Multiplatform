@@ -10,7 +10,7 @@ actual object KeyboardManager {
     @Composable
     actual fun keyboardAsState(): State<Boolean> = rememberUpdatedState(false)
 
-    actual fun isKeyboardAvailable(): Boolean = false
+    actual fun isKeyboardAvailable(): Boolean = true
 
     @Composable
     actual fun getKeyboardController(): SoftwareKeyboardController? {
