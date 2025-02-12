@@ -10,13 +10,13 @@ import org.thejohnsondev.vault.di.KoinInitializer
 import org.thejohnsondev.vault.root.Root
 
 fun MainViewController() = ComposeUIViewController(
-//    configure = {
-//        KoinInitializer().init()
-//    }
+    configure = {
+        KoinInitializer().init()
+    }
 ) {
-//    val deviceThemeConfig: DeviceThemeConfig = remember {
-//        getKoin().get()
-//    }
+    val deviceThemeConfig: DeviceThemeConfig = remember {
+        getKoin().get()
+    }
 //    Root(deviceThemeConfig, TODO() /* add firstScreenRoute retrieving */)
     Surface {
         Text("test")
