@@ -62,7 +62,7 @@ abstract class BaseViewModel : ViewModel() {
 
             else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
         }
-        Logger.e("${this::class.simpleName} error: $error -- $errorDisplayMessage")
+        Logger.e("${this::class.simpleName} error: ${error.throwable?.stackTraceToString()} -- $errorDisplayMessage")
         sendEvent(OneTimeEvent.ErrorMessage(errorDisplayMessage))
     }
 
