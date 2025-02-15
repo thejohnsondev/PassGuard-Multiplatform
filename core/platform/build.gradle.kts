@@ -1,6 +1,4 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,7 +8,6 @@ plugins {
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -31,33 +28,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:model"))
-            api(project(":core:common"))
-            api(project(":core:datastore"))
-            api(project(":core:database"))
-            api(project(":core:network"))
-            api(project(":core:platform"))
-
             implementation(libs.ktor.serialization.kotlinx.json)
 
             // Koin
             api(libs.koin.core)
-
-            // Arrow Either
-            implementation(libs.arrow.core)
-
-            // Ktor
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.client.encoding)
         }
     }
 }
 
 android {
-    namespace = "org.thejohnsondev.data"
+    namespace = "org.thejohnsondev.platform"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

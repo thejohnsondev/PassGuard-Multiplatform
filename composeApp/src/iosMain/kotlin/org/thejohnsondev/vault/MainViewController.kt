@@ -21,6 +21,7 @@ import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.model.settings.SettingsConfig
+import com.thejohnsondev.platform.di.PlatformDependency
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.utils.ResDrawable
 import kotlinx.coroutines.launch
@@ -30,9 +31,11 @@ import org.thejohnsondev.vault.di.KoinInitializer
 import org.thejohnsondev.vault.root.Root
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
-fun MainViewController() = ComposeUIViewController(
+fun MainViewController(
+    platformDependency: PlatformDependency
+) = ComposeUIViewController(
     configure = {
-        KoinInitializer().init()
+        KoinInitializer(platformDependency).init()
     }
 ) {
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {

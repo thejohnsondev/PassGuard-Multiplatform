@@ -1,12 +1,12 @@
-package com.thejohnsondev.common.encryption
+package com.thejohnsondev.platform
 
 import java.security.GeneralSecurityException
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import kotlin.math.ceil
 
-actual object PBKDFUtils {
-    actual fun pbkdf2(
+object PBKDFUtils {
+    fun pbkdf2(
         alg: String?,
         P: ByteArray?,
         S: ByteArray,

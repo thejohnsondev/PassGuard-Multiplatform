@@ -1,29 +1,10 @@
 package com.thejohnsondev.common.encryption
 
-import com.thejohnsondev.common.SECRET_KEY_SIZE
-import java.security.SecureRandom
 import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 actual object EncryptionUtils {
-
-    actual fun generateSecretKey(): ByteArray {
-        val keyGen = KeyGenerator.getInstance("AES")
-        keyGen.init(SECRET_KEY_SIZE, SecureRandom())
-        return keyGen.generateKey().encoded
-    }
-
-    actual fun generateKeyWithPBKDF(password: String): ByteArray {
-        return PBKDFUtils.pbkdf2(
-            "HmacSHA256",
-            password.toByteArray(),
-            password.toByteArray(),
-            1000,
-            16
-        )
-    }
 
     actual fun encrypt(
         input: String,

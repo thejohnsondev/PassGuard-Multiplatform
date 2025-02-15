@@ -32,6 +32,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(project(":core:platform"))
         }
     }
     
@@ -61,6 +62,7 @@ kotlin {
             api(project(":core:datastore"))
             api(project(":core:model"))
             api(project(":core:network"))
+            api(project(":core:platform"))
             api(project(":core:ui"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
