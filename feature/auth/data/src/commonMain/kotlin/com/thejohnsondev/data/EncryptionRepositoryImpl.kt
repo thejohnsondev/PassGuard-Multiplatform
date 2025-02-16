@@ -1,10 +1,11 @@
 package com.thejohnsondev.data
 
-import com.thejohnsondev.common.encryption.EncryptionUtils
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.platform.encryption.EncryptionUtils
 
 class EncryptionRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
+    private val encryptionUtils: EncryptionUtils
 ) : EncryptionRepository {
     override suspend fun saveSecretKey(key: ByteArray) {
         preferencesDataStore.saveSecretKey(key)
@@ -15,14 +16,14 @@ class EncryptionRepositoryImpl(
     }
 
     override suspend fun encrypt(input: String): String {
-        return EncryptionUtils.encrypt(
+        return encryptionUtils.encrypt(
             input,
             getSecretKey()
         )
     }
 
     override suspend fun encrypt(input: String, customKey: ByteArray, iv: ByteArray): String {
-        return EncryptionUtils.encrypt(
+        return encryptionUtils.encrypt(
             input,
             customKey,
             iv
@@ -30,14 +31,14 @@ class EncryptionRepositoryImpl(
     }
 
     override suspend fun decrypt(input: String): String {
-        return EncryptionUtils.decrypt(
+        return encryptionUtils.decrypt(
             input,
             getSecretKey()
         )
     }
 
     override suspend fun decrypt(input: String, customKey: ByteArray, iv: ByteArray): String {
-        return EncryptionUtils.decrypt(
+        return encryptionUtils.decrypt(
             input,
             customKey,
             iv

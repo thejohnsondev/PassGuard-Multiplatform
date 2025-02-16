@@ -1,0 +1,9 @@
+android-pixel-4:
+  type: instrumentation
+  app: composeApp/build/outputs/apk/debug/PassGuard-debug.apk
+  test: core/platform/build/outputs/apk/androidTest/debug/platform-debug-androidTest.apk
+  device:
+    - model: redfin
+      version: 30
+      locale: 'en'
+      orientation: portrait

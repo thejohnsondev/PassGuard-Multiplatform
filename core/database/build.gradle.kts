@@ -58,7 +58,7 @@ kotlin {
         desktopMain.dependencies {
             implementation(libs.sqldelight.jvm)
         }
-        val iosMain by creating {
+        nativeMain {
             dependencies {
                 implementation(libs.sqldelight.native)
             }

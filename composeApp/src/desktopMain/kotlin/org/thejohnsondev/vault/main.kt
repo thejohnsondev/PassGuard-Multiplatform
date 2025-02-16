@@ -22,13 +22,14 @@ import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.model.settings.SettingsConfig
+import com.thejohnsondev.platform.di.DesktopPlatformDependency
+import com.thejohnsondev.platform.di.PlatformDependency
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import io.kanro.compose.jetbrains.expui.theme.DarkTheme
 import io.kanro.compose.jetbrains.expui.window.JBWindow
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
@@ -40,7 +41,10 @@ import vaultmultiplatform.core.ui.generated.resources.ic_vault_24_gradient
 import java.awt.Dimension
 
 fun main() = application {
-    KoinInitializer().init()
+    val platformDependency: PlatformDependency = remember {
+        DesktopPlatformDependency()
+    }
+    KoinInitializer(platformDependency = platformDependency).init()
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
         getKoin().get()
     }
