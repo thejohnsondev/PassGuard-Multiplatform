@@ -86,7 +86,7 @@ import vaultmultiplatform.core.ui.generated.resources.more_info
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PasswordItem(
+internal fun PasswordItem(
     modifier: Modifier = Modifier,
     item: PasswordUIModel,
     isReordering: Boolean = false,
@@ -325,7 +325,7 @@ fun ExpandedContent(
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit,
 ) {
-    var isHidden by remember {  // TODO add a UI setting to make it visible by default
+    var isHidden by remember {
         mutableStateOf(true)
     }
     val haptic = LocalHapticFeedback.current

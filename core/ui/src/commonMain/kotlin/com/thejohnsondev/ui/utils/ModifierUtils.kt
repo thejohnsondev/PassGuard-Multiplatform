@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Percent100
@@ -68,4 +71,15 @@ fun Modifier.bounceClick(
 
 fun Modifier.testBorder() = composed {
     this.border(SizeBorder, Color.Red)
+}
+
+fun Modifier.onEnterClick(onClick: () -> Unit) = composed {
+    onKeyEvent {
+        if (it.key == Key.Enter) {
+            onClick()
+            true
+        } else {
+            false
+        }
+    }
 }

@@ -30,8 +30,9 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = appName
+            baseName = "ComposeApp"
             isStatic = true
+            export(project(":core:platform"))
         }
     }
     
@@ -61,6 +62,7 @@ kotlin {
             api(project(":core:datastore"))
             api(project(":core:model"))
             api(project(":core:network"))
+            api(project(":core:platform"))
             api(project(":core:ui"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
@@ -79,7 +81,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.material3.windowsizeclass.multiplatform)
             implementation(compose.components.resources)
+            implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.ui)
             implementation(libs.navigation.compose)
 
             // Koin

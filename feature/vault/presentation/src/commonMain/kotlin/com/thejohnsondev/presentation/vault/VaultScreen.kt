@@ -90,12 +90,13 @@ private const val SHIMMER_PASSWORDS_COUNT = 10
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VaultScreen(
+internal fun VaultScreen(
     windowSizeClass: WindowWidthSizeClass,
     vaultViewModel: VaultViewModel,
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
+    updateIsFabExpanded: (Boolean) -> Unit,
     onShowMessage: (MessageContent) -> Unit,
 ) {
     val state = vaultViewModel.state.collectAsState(VaultViewModel.State())
@@ -107,10 +108,8 @@ fun VaultScreen(
     }
     val lazyListState = rememberLazyListState()
 
-    val expandedFab by remember {
-        derivedStateOf {
-            lazyListState.firstVisibleItemIndex == 0
-        }
+    LaunchedEffect(lazyListState.firstVisibleItemIndex == 0) {
+        updateIsFabExpanded(lazyListState.firstVisibleItemIndex == 0)
     }
     val appLogo = vectorResource(getAppLogo())
     val sheetState = rememberModalBottomSheetState(
@@ -135,7 +134,7 @@ fun VaultScreen(
                 onFabClick = {
                     vaultViewModel.perform(VaultViewModel.Action.OnAddClick)
                 },
-                isFabExpanded = expandedFab, // TODO hiding fab on scroll doesn't work
+                isFabExpanded = true,
                 successSnackBarHostState = successSnackBarHostState,
                 errorSnackBarHostState = errorSnackBarHostState,
                 bottomBarItemIndex = BottomNavItem.Vault.index

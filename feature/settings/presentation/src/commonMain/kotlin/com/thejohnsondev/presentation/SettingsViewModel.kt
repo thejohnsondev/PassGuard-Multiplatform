@@ -55,24 +55,29 @@ class SettingsViewModel(
         fetchSettingsSections()
     }
 
-    private fun fetchSettingsSections() {
-        _state.update { it.copy(settingsSection = SettingsSection.getSettingsSections()) }
+    private fun fetchSettingsSections() = launch {
+        val isLocalVault = authService.isVaultLocal()
+        val settingsSection = if (isLocalVault) {
+            SettingsSection.getLocalVaultSettingsSections()
+        } else {
+            SettingsSection.getCloudVaultSettingsSections()
+        }
+        _state.update { it.copy(settingsSection = settingsSection) }
     }
 
     fun perform(action: Action) {
         when (action) {
             is Action.FetchSettings -> fetchSettingsConfig()
             is Action.Logout -> logout()
-            is Action.OpenConfirmLogoutDialog -> openConfirmLogoutDialog(isOpen = true)
-            is Action.CloseConfirmLogoutDialog -> openConfirmLogoutDialog(isOpen = false)
-            is Action.OpenConfirmDeleteAccountDialog -> openConfirmDeleteAccountDialog(isOpen = true)
-            is Action.CloseConfirmDeleteAccountDialog -> openConfirmDeleteAccountDialog(isOpen = false)
+            is Action.OpenConfirmLogoutDialog -> openCloseConfirmLogoutDialog(isOpen = true)
+            is Action.CloseConfirmLogoutDialog -> openCloseConfirmLogoutDialog(isOpen = false)
+            is Action.OpenConfirmDeleteAccountDialog -> openCloseConfirmDeleteAccountDialog(isOpen = true)
+            is Action.CloseConfirmDeleteAccountDialog -> openCloseConfirmDeleteAccountDialog(isOpen = false)
             is Action.UpdateDarkThemeConfig -> updateDarkThemeConfig(action.darkThemeConfig)
             is Action.UpdateUseCustomTheme -> updateUseCustomTheme(action.customTheme)
             is Action.UpdateUseDynamicColor -> updateUseDynamicColor(action.useDynamicColor)
             is Action.UpdateGeneralSettings -> updateGeneralSettings(action.generalSettings)
             is Action.UpdatePrivacySettings -> updatePrivacySettings(action.privacySettings)
-            is Action.UpdateExpandedSubSection -> updateExpandedSection(action.section)
             is Action.OpenDeleteAccountPasswordConfirm -> openDeleteAccountPasswordConfirm(isOpen = true)
             is Action.CloseDeleteAccountPasswordConfirm -> openDeleteAccountPasswordConfirm(isOpen = false)
             is Action.DeleteAccountPasswordConfirmEntered -> onDeleteAccountPasswordConfirmEntered(
@@ -80,7 +85,14 @@ class SettingsViewModel(
             )
 
             is Action.DeleteAccountPasswordConfirm -> onDeleteAccountPasswordConfirm(action.password)
+            is Action.OpenConfirmDeleteVaultDialog -> openCloseConfirmDeleteVaultDialog(isOpen = true)
+            is Action.CloseConfirmDeleteVaultDialog -> openCloseConfirmDeleteVaultDialog(isOpen = false)
+            is Action.DeleteLocalVaultConfirm -> deleteLocalVault()
         }
+    }
+
+    private fun openCloseConfirmDeleteVaultDialog(isOpen: Boolean) {
+        _state.update { it.copy(isConfirmDeleteVaultDialogOpened = isOpen) }
     }
 
     private fun fetchSettingsConfig() = launch {
@@ -105,11 +117,11 @@ class SettingsViewModel(
         _state.update { it.copy(isDeleteAccountPasswordConfirmDialogOpened = isOpen) }
     }
 
-    private fun openConfirmDeleteAccountDialog(isOpen: Boolean) {
+    private fun openCloseConfirmDeleteAccountDialog(isOpen: Boolean) {
         _state.update { it.copy(isConfirmDeleteAccountDialogOpened = isOpen) }
     }
 
-    private fun openConfirmLogoutDialog(isOpen: Boolean) {
+    private fun openCloseConfirmLogoutDialog(isOpen: Boolean) {
         _state.update { it.copy(isConfirmLogoutDialogOpened = isOpen) }
     }
 
@@ -133,10 +145,6 @@ class SettingsViewModel(
         updateSettingsUseCase(privacySettings = privacySettings)
     }
 
-    private fun updateExpandedSection(section: SettingsSubSection) {
-        // TODO implement
-    }
-
     private fun onDeleteAccountPasswordConfirmEntered(password: String) = launch {
         val passwordValidationState = passwordValidationUseCase(password)
         _state.update { it.copy(deleteAccountPasswordConfirmValidationState = passwordValidationState) }
@@ -151,6 +159,10 @@ class SettingsViewModel(
             onSuccess = ::handlePasswordEnteredCorrect,
             onError = ::handleDeleteAccountError
         )
+    }
+
+    private fun deleteLocalVault() = launch {
+        logout()
     }
 
     private suspend fun handlePasswordEnteredCorrect(result: FBAuthSignInResponse) {
@@ -195,16 +207,18 @@ class SettingsViewModel(
         data object CloseConfirmDeleteAccountDialog : Action()
         data object OpenConfirmLogoutDialog : Action()
         data object CloseConfirmLogoutDialog : Action()
+        data object OpenConfirmDeleteVaultDialog : Action()
+        data object CloseConfirmDeleteVaultDialog : Action()
         data class UpdateUseCustomTheme(val customTheme: ThemeBrand) : Action()
         data class UpdateUseDynamicColor(val useDynamicColor: Boolean) : Action()
         data class UpdateDarkThemeConfig(val darkThemeConfig: DarkThemeConfig) : Action()
         data class UpdateGeneralSettings(val generalSettings: GeneralSettings) : Action()
         data class UpdatePrivacySettings(val privacySettings: PrivacySettings) : Action()
-        data class UpdateExpandedSubSection(val section: SettingsSubSection) : Action()
         data object CloseDeleteAccountPasswordConfirm : Action()
         data object OpenDeleteAccountPasswordConfirm : Action()
         data class DeleteAccountPasswordConfirmEntered(val password: String) : Action()
         data class DeleteAccountPasswordConfirm(val password: String) : Action()
+        data object DeleteLocalVaultConfirm : Action()
     }
 
     data class State(
@@ -212,6 +226,7 @@ class SettingsViewModel(
         val settingsSection: List<SettingsSection> = emptyList(),
         val userEmail: String? = null,
         val isConfirmDeleteAccountDialogOpened: Boolean = false,
+        val isConfirmDeleteVaultDialogOpened: Boolean = false,
         val isConfirmLogoutDialogOpened: Boolean = false,
         val settingsConfig: SettingsConfig? = null,
         val updatePasswordLoadingState: LoadingState = LoadingState.Loaded,

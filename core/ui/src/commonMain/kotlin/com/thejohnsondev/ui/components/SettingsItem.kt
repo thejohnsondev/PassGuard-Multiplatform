@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
@@ -35,6 +36,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
@@ -43,7 +45,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 fun SettingsItem(
     modifier: Modifier = Modifier,
     title: String,
-    description: String,
+    description: String?,
     icon: ImageVector,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
@@ -128,7 +130,8 @@ fun SettingsItem(
                 ) {
                     Icon(
                         modifier = Modifier
-                            .padding(iconPadding),
+                            .padding(iconPadding)
+                            .size(Size24),
                         imageVector = icon,
                         contentDescription = title,
                         tint = iconColor
@@ -144,12 +147,14 @@ fun SettingsItem(
                         color = contentColor
                     )
 
-                    Spacer(modifier = Modifier.height(Size4))
-                    Text(
-                        text = description,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = contentColor
-                    )
+                    if (description != null) {
+                        Spacer(modifier = Modifier.height(Size4))
+                        Text(
+                            text = description,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = contentColor
+                        )
+                    }
 
                 }
             }

@@ -58,6 +58,7 @@ import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size32
+import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeDefault
@@ -197,7 +198,7 @@ private fun MediumNavigationBar(
     ) {
         Column(
             modifier = Modifier
-                .padding(Size8)
+                .padding(Size4)
                 .align(Alignment.CenterHorizontally)
         ) {
             VaultLogo(
@@ -319,7 +320,7 @@ private fun VaultBottomBar(
                 .fillMaxWidth()
                 .hazeChild(
                     state = hazeState,
-                    style = HazeMaterials.thick()
+                    style = HazeMaterials.regular()
                 )
         ) {
             NavigationBar(
@@ -365,7 +366,7 @@ private fun VaultTopBar(
             .applyIf(windowSize == WindowWidthSizeClass.Medium) { padding(start = RailWidth) }
             .hazeChild(
                 state = hazeState,
-                style = HazeMaterials.thick()
+                style = HazeMaterials.regular()
             )
     ) {
         TopAppBar(

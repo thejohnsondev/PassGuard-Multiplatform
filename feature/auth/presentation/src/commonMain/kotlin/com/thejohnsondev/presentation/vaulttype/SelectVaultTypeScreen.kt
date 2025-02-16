@@ -94,7 +94,6 @@ fun SelectVaultTypeScreen(
         state.value,
         goToSignUp,
         goToLogin,
-        goToHome,
         goBack,
         viewModel::perform
     )
@@ -106,11 +105,9 @@ private fun SelectVaultTypeContent(
     state: SelectedVaultTypeViewModel.State,
     goToSignUp: () -> Unit,
     goToLogin: () -> Unit,
-    goToHome: () -> Unit,
     goBack: () -> Unit,
     onAction: (SelectedVaultTypeViewModel.Action) -> Unit,
 ) {
-    // TODO refactor this
     Scaffold { paddingValues ->
         Box(
             modifier = Modifier
@@ -170,20 +167,7 @@ private fun SelectVaultTypeContent(
                     },
                     isSelected = state.selectedVaultType == VaultType.LOCAL
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        RoundedButton(
-                            modifier = Modifier
-                                .padding(bottom = Size16, start = Size16, end = Size16),
-                            text = stringResource(ResString.create_local_vault),
-                            loading = state.screenState is ScreenState.Loading,
-                            onClick = {
-                                onAction(SelectedVaultTypeViewModel.Action.CreateLocalVault)
-                            }
-                        )
-                    }
+                    LocalVaultExpandedContent(state, onAction)
                 }
 
                 VaultOption(
@@ -200,38 +184,63 @@ private fun SelectVaultTypeContent(
                     },
                     isSelected = state.selectedVaultType == VaultType.CLOUD
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        RoundedButton(
-                            modifier = Modifier
-                                .padding(bottom = Size8, start = Size16, end = Size16),
-                            text = stringResource(ResString.log_in),
-                            onClick = {
-                                goToLogin()
-                            }
-                        )
-                        RoundedButton(
-                            modifier = Modifier
-                                .padding(
-                                    top = Size8,
-                                    bottom = Size16,
-                                    start = Size16,
-                                    end = Size16
-                                ),
-                            text = stringResource(ResString.sign_up),
-                            onClick = {
-                                goToSignUp()
-                            }
-                        )
-                    }
+                    CloudVaultExpandedContent(goToLogin, goToSignUp)
                 }
-
             }
         }
     }
 
+}
+
+@Composable
+private fun CloudVaultExpandedContent(goToLogin: () -> Unit, goToSignUp: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        RoundedButton(
+            modifier = Modifier
+                .padding(bottom = Size8, start = Size16, end = Size16),
+            text = stringResource(ResString.log_in),
+            onClick = {
+                goToLogin()
+            }
+        )
+        RoundedButton(
+            modifier = Modifier
+                .padding(
+                    top = Size8,
+                    bottom = Size16,
+                    start = Size16,
+                    end = Size16
+                ),
+            text = stringResource(ResString.sign_up),
+            onClick = {
+                goToSignUp()
+            }
+        )
+    }
+}
+
+@Composable
+private fun LocalVaultExpandedContent(
+    state: SelectedVaultTypeViewModel.State,
+    onAction: (SelectedVaultTypeViewModel.Action) -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        RoundedButton(
+            modifier = Modifier
+                .padding(bottom = Size16, start = Size16, end = Size16),
+            text = stringResource(ResString.create_local_vault),
+            loading = state.screenState is ScreenState.Loading,
+            onClick = {
+                onAction(SelectedVaultTypeViewModel.Action.CreateLocalVault)
+            }
+        )
+    }
 }
 
 @Composable
@@ -253,11 +262,6 @@ fun VaultOption(
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
         if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainerLow
-    }
-    val contentColor by itemTransition.animateColor({
-        tween(durationMillis = EXPAND_ANIM_DURATION)
-    }, label = "") {
-        if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
     }
     Column(
         modifier = Modifier
@@ -283,23 +287,28 @@ fun VaultOption(
                 tint = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.width(Size16))
-            Column {
-                Text(
-                    text = title,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    modifier = Modifier.padding(top = Size8),
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.darken(darkenBy = Percent70)
-                )
-            }
+            VaultTypeDescriptions(title, description)
         }
         ExpandableContent(isSelected) {
             content()
         }
+    }
+}
+
+@Composable
+private fun VaultTypeDescriptions(title: String, description: String) {
+    Column {
+        Text(
+            text = title,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            modifier = Modifier.padding(top = Size8),
+            text = description,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface.darken(darkenBy = Percent70)
+        )
     }
 }

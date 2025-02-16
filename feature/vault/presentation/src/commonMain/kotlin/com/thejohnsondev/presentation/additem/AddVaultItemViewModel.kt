@@ -80,6 +80,10 @@ class AddVaultItemViewModel(
     }
 
     private fun savePassword() = launchLoading {
+        if (!state.value.isValid) {
+            showContent()
+            return@launchLoading
+        }
         val selectedCategoryId = _state.value.selectedCategory.id
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,

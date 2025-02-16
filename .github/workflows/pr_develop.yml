@@ -43,7 +43,7 @@ jobs:
         run: ./gradlew generateBuildKonfig
 
       - name: Build app
-        run: ./gradlew assembleDebug :core:common:assembleAndroidTest
+        run: ./gradlew assembleDebug :core:common:assembleAndroidTest :core:platform:assembleAndroidTest
 
       - name: Run Unit Tests
         run: |
@@ -53,10 +53,17 @@ jobs:
           ./gradlew :feature:vault:domain:test
           ./gradlew :feature:settings:domain:test
 
-      - name: Run Android tests on Firebase Test Lab
+      - name: Run :core:common Android tests on Firebase Test Lab
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
         with:
-          arg-spec: android-device.yml:android-pixel-4
+          arg-spec: deviceconfig/common-android-device.yml:android-pixel-4
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+
+      - name: Run :core:platform Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
         env:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
@@ -97,4 +104,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: internal-testers
           file: ${{steps.sign_app.outputs.signedReleaseFile}}
-          releaseNotes: Add local vault feature
+          releaseNotesFile: whatsNew/whatsnew-en-US.txt

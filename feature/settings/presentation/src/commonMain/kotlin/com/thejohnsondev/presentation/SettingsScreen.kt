@@ -1,10 +1,12 @@
 package com.thejohnsondev.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,8 +18,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -36,6 +40,7 @@ import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirm
 import com.thejohnsondev.ui.components.ConfirmAlertDialog
 import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.SelectableOptionItem
+import com.thejohnsondev.ui.components.SelectableThemeOptionItem
 import com.thejohnsondev.ui.components.SettingsItem
 import com.thejohnsondev.ui.components.ToggleOptionItem
 import com.thejohnsondev.ui.designsystem.Percent80
@@ -54,6 +59,7 @@ import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.button.ButtonShape
+import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.model.message.MessageType
 import com.thejohnsondev.ui.model.settings.SettingsSection
@@ -67,6 +73,8 @@ import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot_description
 import vaultmultiplatform.core.ui.generated.resources.cancel
+import vaultmultiplatform.core.ui.generated.resources.create_account
+import vaultmultiplatform.core.ui.generated.resources.create_account_description
 import vaultmultiplatform.core.ui.generated.resources.dangerous_zone
 import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference
 import vaultmultiplatform.core.ui.generated.resources.dark_mode_preference_dark
@@ -76,6 +84,8 @@ import vaultmultiplatform.core.ui.generated.resources.deep_search_description
 import vaultmultiplatform.core.ui.generated.resources.deep_search_title
 import vaultmultiplatform.core.ui.generated.resources.delete_account
 import vaultmultiplatform.core.ui.generated.resources.delete_account_confirm_message
+import vaultmultiplatform.core.ui.generated.resources.delete_vault
+import vaultmultiplatform.core.ui.generated.resources.delete_vault_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.logout
 import vaultmultiplatform.core.ui.generated.resources.logout_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.manage_account
@@ -101,6 +111,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
+    onGoToSignUp: () -> Unit,
     onShowError: (MessageContent) -> Unit,
 ) {
     val state = viewModel.state.collectAsState(SettingsViewModel.State())
@@ -133,7 +144,8 @@ fun SettingsScreen(
         paddingValues = paddingValues,
         onAction = { action ->
             viewModel.perform(action)
-        }
+        },
+        goToSignUp = onGoToSignUp
     )
 
 }
@@ -144,6 +156,7 @@ fun SettingsContent(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -163,7 +176,7 @@ fun SettingsContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
-            SettingsList(state = state, onAction = onAction)
+            SettingsList(state = state, onAction = onAction, goToSignUp = goToSignUp)
             Dialogs(windowSizeClass = windowSizeClass, state = state, onAction = onAction)
         }
     }
@@ -173,6 +186,7 @@ fun SettingsContent(
 fun SettingsList(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit
 ) {
     Column {
         state.settingsSection.forEach { section ->
@@ -186,7 +200,8 @@ fun SettingsList(
                     subSection = subsection,
                     subSectionsNumber = subSectionsNumber,
                     subSectionIndex = index,
-                    onAction = onAction
+                    onAction = onAction,
+                    goToSignUp = goToSignUp
                 )
             }
         }
@@ -217,17 +232,18 @@ fun SettingsSubSections(
     subSectionIndex: Int,
     subSectionsNumber: Int,
     onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit
 ) {
     val subsectionDescription =
         if (subSection.sectionTitleRes == ResString.manage_account) {
             state.userEmail.orEmpty()
         } else {
-            subSection.sectionDescriptionRes?.let { stringResource(resource = it) } ?: ""
+            subSection.sectionDescriptionRes?.let { stringResource(resource = it) }
         }
     SettingsItem(
         title = stringResource(resource = subSection.sectionTitleRes),
         description = subsectionDescription,
-        icon = subSection.sectionIcon,
+        icon = subSection.sectionIcon.getImageVector(),
         isFirstItem = subSectionIndex == 0,
         isLastItem = subSectionIndex == subSectionsNumber - 1
     ) {
@@ -235,6 +251,13 @@ fun SettingsSubSections(
             SettingsSubSection.ManageAccountSub -> {
                 ManageAccountSubSection(
                     onAction = onAction,
+                )
+            }
+
+            SettingsSubSection.ManageLocalVaultSub -> {
+                ManageLocalVaultSubSection(
+                    onAction = onAction,
+                    goToSignUp = goToSignUp
                 )
             }
 
@@ -301,6 +324,71 @@ fun ManageAccountSubSection(
 }
 
 @Composable
+fun ManageLocalVaultSubSection(
+    onAction: (SettingsViewModel.Action) -> Unit,
+    goToSignUp: () -> Unit,
+) {
+    RoundedButton(
+        modifier = Modifier
+            .height(Size72)
+            .padding(start = Size16, end = Size16, bottom = Size8, top = Size2),
+        text = stringResource(resource = ResString.create_account),
+        onClick = {
+            goToSignUp()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        buttonShape = ButtonShape.ROUNDED
+    )
+    Row(
+        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = Icons.Default.Info,
+            tint = MaterialTheme.colorScheme.primaryContainer,
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier
+                .padding(start = Size4),
+            text = stringResource(ResString.create_account_description),
+            color = MaterialTheme.colorScheme.primaryContainer,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+    Column(
+        modifier = Modifier
+            .padding(start = Size16, end = Size16, top = Size8, bottom = Size16)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(RoundedCornerShape(Size16))
+            .background(MaterialTheme.colorScheme.errorContainer)
+    ) {
+        Text(
+            text = stringResource(ResString.dangerous_zone),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onErrorContainer,
+            modifier = Modifier.padding(start = Size16, top = Size16)
+        )
+        RoundedButton(
+            modifier = Modifier
+                .padding(Size16),
+            text = stringResource(ResString.delete_vault),
+            onClick = {
+                onAction(SettingsViewModel.Action.OpenConfirmDeleteVaultDialog)
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onErrorContainer,
+                contentColor = MaterialTheme.colorScheme.errorContainer
+            )
+        )
+    }
+}
+
+@Composable
 fun GeneralSettingsSubSection(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
@@ -332,113 +420,121 @@ fun StyleSettingsSubSection(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
-    ) {
-        Text(
-            modifier = Modifier.padding(
-                bottom = Size8
-            ),
-            text = stringResource(ResString.dark_mode_preference),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSecondary
-        )
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(ResString.dark_mode_preference_system),
-            isFirstItem = true,
-            isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.SYSTEM
+    Column {
+        Column(
+            modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8)
         ) {
-            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.SYSTEM))
-        }
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(ResString.dark_mode_preference_dark),
-            isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.DARK
-        ) {
-            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.DARK))
-        }
-        SelectableOptionItem(
-            modifier = Modifier
-                .padding(top = Size4),
-            optionTitle = stringResource(ResString.dark_mode_preference_light),
-            isLastItem = true,
-            isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.LIGHT
-        ) {
-            onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.LIGHT))
-        }
-        if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
             Text(
                 modifier = Modifier.padding(
-                    bottom = Size8,
-                    top = Size8
+                    bottom = Size8
                 ),
-                text = stringResource(ResString.use_dynamic_color),
+                text = stringResource(ResString.dark_mode_preference),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSecondary
             )
             SelectableOptionItem(
                 modifier = Modifier
                     .padding(top = Size4),
-                optionTitle = stringResource(ResString.yes),
+                optionTitle = stringResource(ResString.dark_mode_preference_system),
                 isFirstItem = true,
-                isSelected = state.settingsConfig.useDynamicColor
+                isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.SYSTEM
             ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
+                onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.SYSTEM))
             }
             SelectableOptionItem(
                 modifier = Modifier
                     .padding(top = Size4),
-                optionTitle = stringResource(ResString.no),
+                optionTitle = stringResource(ResString.dark_mode_preference_dark),
+                isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.DARK
+            ) {
+                onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.DARK))
+            }
+            SelectableOptionItem(
+                modifier = Modifier
+                    .padding(top = Size4),
+                optionTitle = stringResource(ResString.dark_mode_preference_light),
                 isLastItem = true,
-                isSelected = !state.settingsConfig.useDynamicColor
+                isSelected = state.settingsConfig?.darkThemeConfig == DarkThemeConfig.LIGHT
             ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.LIGHT))
             }
-        }
-        Text(
-            modifier = Modifier.padding(vertical = Size8),
-            text = stringResource(ResString.theme),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSecondary
-        )
-        ThemeBrand.entries.forEachIndexed { index, theme ->
-            SelectableOptionItem(
-                modifier = Modifier
-                    .padding(top = Size4),
-                optionTitle = stringResource(
-                    when (theme) {
-                        ThemeBrand.DEFAULT -> ResString.theme_default
-                        ThemeBrand.TEAL -> ResString.theme_teal
-                        ThemeBrand.DEEP_FOREST -> ResString.theme_deep_forest
-                        ThemeBrand.RED_ALGAE -> ResString.theme_red_algae
-                        ThemeBrand.SUNNY -> ResString.theme_sunny
-                        ThemeBrand.VIOLET -> ResString.theme_violet
-                        ThemeBrand.MONOCHROME -> ResString.theme_monochrome
-                        else -> ResString.theme_default
-                    }
-                ),
-                isLastItem = index == ThemeBrand.entries.size - 1,
-                isFirstItem = index == 0,
-                isSelected = state.settingsConfig?.customTheme == theme,
-                colors = when (theme) {
-                    ThemeBrand.DEFAULT -> DefaultSelectableItemColors
-                    ThemeBrand.TEAL -> TealSelectableItemColors
-                    ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
-                    ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
-                    ThemeBrand.SUNNY -> SunnySelectableItemColors
-                    ThemeBrand.VIOLET -> VioletSelectableItemsColors
-                    ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
-                    else -> DefaultSelectableItemColors
+            if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
+                Text(
+                    modifier = Modifier.padding(
+                        bottom = Size8,
+                        top = Size8
+                    ),
+                    text = stringResource(ResString.use_dynamic_color),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+                SelectableOptionItem(
+                    modifier = Modifier
+                        .padding(top = Size4),
+                    optionTitle = stringResource(ResString.yes),
+                    isFirstItem = true,
+                    isSelected = state.settingsConfig.useDynamicColor
+                ) {
+                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
                 }
-            ) {
-                onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
-                onAction(SettingsViewModel.Action.UpdateUseCustomTheme(theme))
+                SelectableOptionItem(
+                    modifier = Modifier
+                        .padding(top = Size4),
+                    optionTitle = stringResource(ResString.no),
+                    isLastItem = true,
+                    isSelected = !state.settingsConfig.useDynamicColor
+                ) {
+                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                }
+            }
+            Text(
+                modifier = Modifier.padding(vertical = Size8),
+                text = stringResource(ResString.theme),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
+        }
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState())
+                .padding(bottom = Size16),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ThemeBrand.entries.forEachIndexed { index, theme ->
+                SelectableThemeOptionItem(
+                    modifier = Modifier
+                        .padding(
+                            start = if (index == 0) Size16 else Size4,
+                            end = if (index == ThemeBrand.entries.size - 1) Size16 else Size4,
+                        ),
+                    optionTitle = stringResource(
+                        when (theme) {
+                            ThemeBrand.DEFAULT -> ResString.theme_default
+                            ThemeBrand.TEAL -> ResString.theme_teal
+                            ThemeBrand.DEEP_FOREST -> ResString.theme_deep_forest
+                            ThemeBrand.RED_ALGAE -> ResString.theme_red_algae
+                            ThemeBrand.SUNNY -> ResString.theme_sunny
+                            ThemeBrand.VIOLET -> ResString.theme_violet
+                            ThemeBrand.MONOCHROME -> ResString.theme_monochrome
+                            else -> ResString.theme_default
+                        }
+                    ),
+                    isSelected = state.settingsConfig?.customTheme == theme,
+                    colors = when (theme) {
+                        ThemeBrand.DEFAULT -> DefaultSelectableItemColors
+                        ThemeBrand.TEAL -> TealSelectableItemColors
+                        ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
+                        ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
+                        ThemeBrand.SUNNY -> SunnySelectableItemColors
+                        ThemeBrand.VIOLET -> VioletSelectableItemsColors
+                        ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
+                        else -> DefaultSelectableItemColors
+                    }
+                ) {
+                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                    onAction(SettingsViewModel.Action.UpdateUseCustomTheme(theme))
+                }
             }
         }
-
     }
 }
 
@@ -538,6 +634,22 @@ fun Dialogs(
             state = state,
             onAction = onAction,
             windowWidthSizeClass = windowSizeClass
+        )
+    }
+    if (state.isConfirmDeleteVaultDialogOpened) {
+        ConfirmAlertDialog(
+            windowWidthSizeClass = windowSizeClass,
+            title = stringResource(ResString.delete_vault),
+            message = stringResource(ResString.delete_vault_confirm_message),
+            confirmButtonText = stringResource(ResString.delete_vault),
+            cancelButtonText = stringResource(ResString.cancel),
+            onConfirm = {
+                onAction(SettingsViewModel.Action.CloseConfirmDeleteVaultDialog)
+                onAction(SettingsViewModel.Action.DeleteLocalVaultConfirm)
+            },
+            onCancel = {
+                onAction(SettingsViewModel.Action.CloseConfirmDeleteVaultDialog)
+            }
         )
     }
 }

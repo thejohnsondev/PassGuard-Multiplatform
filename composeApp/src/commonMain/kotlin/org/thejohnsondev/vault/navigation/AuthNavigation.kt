@@ -33,7 +33,11 @@ fun AuthNavigation(
         signUpScreen(
             windowSize = windowSizeClass,
             goToHome = {
-                navController.navigate(Routes.HomeRoute)
+                navController.navigate(Routes.HomeRoute) {
+                    popUpTo(Routes.WelcomeRoute) {
+                        inclusive = true
+                    }
+                }
             },
             goToLogin = {
                 navController.navigateToLogin()
@@ -45,7 +49,11 @@ fun AuthNavigation(
         loginScreen(
             windowSize = windowSizeClass,
             goToHome = {
-                navController.navigate(Routes.HomeRoute)
+                navController.navigate(Routes.HomeRoute) {
+                    popUpTo(Routes.WelcomeRoute) {
+                        inclusive = true
+                    }
+                }
             },
             goToSignUp = {
                 navController.navigateToSignUp()
@@ -57,7 +65,11 @@ fun AuthNavigation(
         selectVaultTypeScreen(
             windowSize = windowSizeClass,
             goToHome = {
-                navController.navigate(Routes.HomeRoute)
+                navController.navigate(Routes.HomeRoute) {
+                    popUpTo(Routes.WelcomeRoute) {
+                        inclusive = true
+                    }
+                }
             },
             goToLogin = {
                 navController.navigateToLogin()

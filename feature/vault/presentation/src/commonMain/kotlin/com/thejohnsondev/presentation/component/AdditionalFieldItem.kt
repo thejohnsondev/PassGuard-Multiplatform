@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Visibility
@@ -45,7 +46,7 @@ import vaultmultiplatform.core.ui.generated.resources.value
 import vaultmultiplatform.core.ui.generated.resources.visibility
 
 @Composable
-fun AdditionalFieldItem(
+internal fun AdditionalFieldItem(
     modifier: Modifier = Modifier,
     title: String,
     value: String,
@@ -93,7 +94,7 @@ fun AdditionalFieldItem(
                             onTitleChanged(it)
                         },
                         imeAction = androidx.compose.ui.text.input.ImeAction.Next,
-                        onKeyboardAction = {
+                        onKeyboardAction = KeyboardActions {
                             valueFocusRequester.requestFocus()
                         },
                         hint = stringResource(ResString.title)
@@ -124,7 +125,7 @@ fun AdditionalFieldItem(
                                 keyboardType = KeyboardType.Password,
                                 passwordVisible = !isHidden,
                                 hint = stringResource(ResString.value),
-                                onKeyboardAction = {
+                                onKeyboardAction = KeyboardActions {
                                     keyboardController?.hide()
                                 }
                             )

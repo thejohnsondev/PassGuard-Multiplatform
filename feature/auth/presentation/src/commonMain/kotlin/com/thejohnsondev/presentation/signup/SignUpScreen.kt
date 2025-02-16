@@ -70,7 +70,6 @@ import com.thejohnsondev.ui.designsystem.Size600
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
-import com.thejohnsondev.ui.designsystem.showNavigationBackArrow
 import com.thejohnsondev.ui.displaymessage.getAsComposeText
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.utils.KeyboardManager
@@ -228,14 +227,16 @@ fun SignUpContent(
                 openPrivacyPolicy = openPrivacyPolicy,
                 openTermsOfUse = openTermsOfUse
             )
-            BackArrowButton(
-                modifier = Modifier.padding(
-                    start = Size16, top = paddingValues.calculateTopPadding().plus(
-                        Size16
-                    )
-                ),
-                onClick = onGoBack
-            )
+            AnimatedVisibility(!isKeyboardOpened) {
+                BackArrowButton(
+                    modifier = Modifier.padding(
+                        start = Size16, top = paddingValues.calculateTopPadding().plus(
+                            Size16
+                        )
+                    ),
+                    onClick = onGoBack
+                )
+            }
         }
     }
 }
@@ -267,9 +268,7 @@ fun FieldsSection(
         AnimatedVisibility(
             visible = !isKeyboardOpened
         ) {
-            Column {
-                LogoSection()
-            }
+            LogoSection()
         }
         Column(
             modifier = Modifier
@@ -434,5 +433,5 @@ fun SignUpButtonSection(
 
 @Composable
 fun LogoSection() {
-    VaultLogo(modifier = Modifier.padding(Size24), MaterialTheme.typography.displaySmall.fontSize)
+    VaultLogo(modifier = Modifier.padding(Size16), MaterialTheme.typography.displaySmall.fontSize)
 }
