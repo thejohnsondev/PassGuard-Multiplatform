@@ -33,6 +33,10 @@ kotlin {
             // Koin
             api(libs.koin.core)
         }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+        }
     }
 }
 

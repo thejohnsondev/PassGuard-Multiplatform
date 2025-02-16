@@ -1,16 +1,11 @@
-package com.thejohnsondev.common.encryption
+package com.thejohnsondev.platform.encryption
 
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-actual object EncryptionUtils {
-
-    actual fun encrypt(
-        input: String,
-        key: ByteArray,
-        iv: ByteArray?,
-    ): String {
+class AndroidEncryptionUtils: EncryptionUtils {
+    override fun encrypt(input: String, key: ByteArray, iv: ByteArray?): String {
         val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         val secretKey = SecretKeySpec(key, "AES")
         val ivParameterSpec = IvParameterSpec(iv ?: key.sliceArray(0 until cipher.blockSize))
@@ -19,11 +14,7 @@ actual object EncryptionUtils {
         return java.util.Base64.getEncoder().encodeToString(encrypted)
     }
 
-    actual fun decrypt(
-        input: String,
-        key: ByteArray,
-        iv: ByteArray?,
-    ): String {
+    override fun decrypt(input: String, key: ByteArray, iv: ByteArray?): String {
         val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         val secretKey = SecretKeySpec(key, "AES")
         val ivParameterSpec = IvParameterSpec(iv ?: key.sliceArray(0 until cipher.blockSize))

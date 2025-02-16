@@ -1,4 +1,4 @@
-package com.thejohnsondev.platform
+package com.thejohnsondev.platform.encryption
 
 import java.security.GeneralSecurityException
 import javax.crypto.Mac

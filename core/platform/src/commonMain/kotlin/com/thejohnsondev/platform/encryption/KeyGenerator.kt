@@ -1,4 +1,4 @@
-package com.thejohnsondev.platform
+package com.thejohnsondev.platform.encryption
 
 interface KeyGenerator {
     fun generateKeyWithPBKDF(password: String): ByteArray

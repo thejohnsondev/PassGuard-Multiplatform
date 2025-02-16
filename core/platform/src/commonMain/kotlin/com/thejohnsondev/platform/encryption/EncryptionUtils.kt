@@ -1,6 +1,6 @@
-package com.thejohnsondev.common.encryption
+package com.thejohnsondev.platform.encryption
 
-expect object EncryptionUtils {
+interface EncryptionUtils {
     fun encrypt(input: String, key: ByteArray, iv: ByteArray? = null): String
     fun decrypt(input: String, key: ByteArray, iv: ByteArray? = null): String
 }

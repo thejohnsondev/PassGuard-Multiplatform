@@ -1,4 +1,4 @@
-package com.thejohnsondev.common.encryption
+package com.thejohnsondev.platform.encryption
 
 import io.ktor.utils.io.core.toByteArray
 import kotlin.io.encoding.Base64
@@ -7,6 +7,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class EncryptionUtilsTest {
+
+    private val encryptionUtils = AndroidEncryptionUtils()
+    private val keyGenerator = AndroidKeyGenerator()
 
     private val expectedKeySize = 16
     private val passwordSimple = "Pass123"
@@ -26,21 +29,21 @@ class EncryptionUtilsTest {
 
     @Test
     fun testPbkdfPasswordSimple() {
-        val key = EncryptionUtils.generateKeyWithPBKDF(passwordSimple)
+        val key = keyGenerator.generateKeyWithPBKDF(passwordSimple)
         assertEquals(expectedKeySize, key.toList().size)
         assertEquals(passwordSimpleDerivedKey.toList(), key.toList())
     }
 
     @Test
     fun testPbkdfPasswordComplex() {
-        val key = EncryptionUtils.generateKeyWithPBKDF(passwordComplex)
+        val key = keyGenerator.generateKeyWithPBKDF(passwordComplex)
         assertEquals(16, key.size)
         assertEquals(passwordComplexDerivedKey.toList(), key.toList())
     }
 
     @Test
     fun testPbkdfPasswordVeryComplex() {
-        val key = EncryptionUtils.generateKeyWithPBKDF(passwordVeryComplex)
+        val key = keyGenerator.generateKeyWithPBKDF(passwordVeryComplex)
         assertEquals(16, key.size)
         assertEquals(passwordVeryComplexDerivedKey.toList(), key.toList())
     }
@@ -48,7 +51,7 @@ class EncryptionUtilsTest {
     @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun testEncryptPasswordSimple() {
-        val encrypted = EncryptionUtils.encrypt(
+        val encrypted = encryptionUtils.encrypt(
             passwordSimple,
             passwordSimpleDerivedKey,
             Base64.decode(testIv.toByteArray())
@@ -59,7 +62,7 @@ class EncryptionUtilsTest {
     @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun testEncryptPasswordComplex() {
-        val encrypted = EncryptionUtils.encrypt(
+        val encrypted = encryptionUtils.encrypt(
             passwordComplex,
             passwordComplexDerivedKey,
             Base64.decode(testIv.toByteArray())
@@ -70,7 +73,7 @@ class EncryptionUtilsTest {
     @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun testEncryptPasswordVeryComplex() {
-        val encrypted = EncryptionUtils.encrypt(
+        val encrypted = encryptionUtils.encrypt(
             passwordVeryComplex,
             passwordVeryComplexDerivedKey,
             Base64.decode(testIv.toByteArray())
@@ -81,7 +84,7 @@ class EncryptionUtilsTest {
     @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun testDecryptPasswordSimple() {
-        val decrypted = EncryptionUtils.decrypt(
+        val decrypted = encryptionUtils.decrypt(
             passwordSimpleEncrypted,
             passwordSimpleDerivedKey,
             Base64.decode(testIv.toByteArray())
@@ -92,7 +95,7 @@ class EncryptionUtilsTest {
     @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun testDecryptPasswordComplex() {
-        val decrypted = EncryptionUtils.decrypt(
+        val decrypted = encryptionUtils.decrypt(
             passwordComplexEncrypted,
             passwordComplexDerivedKey,
             Base64.decode(testIv.toByteArray())
@@ -103,7 +106,7 @@ class EncryptionUtilsTest {
     @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun testDecryptPasswordVeryComplex() {
-        val decrypted = EncryptionUtils.decrypt(
+        val decrypted = encryptionUtils.decrypt(
             passwordVeryComplexEncrypted,
             passwordVeryComplexDerivedKey,
             Base64.decode(testIv.toByteArray())

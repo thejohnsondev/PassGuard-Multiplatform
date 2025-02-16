@@ -43,7 +43,7 @@ jobs:
         run: ./gradlew generateBuildKonfig
 
       - name: Build app
-        run: ./gradlew assembleDebug :core:common:assembleAndroidTest
+        run: ./gradlew assembleDebug :core:platform:assembleAndroidTest
 
       - name: Run Unit Tests
         run: |

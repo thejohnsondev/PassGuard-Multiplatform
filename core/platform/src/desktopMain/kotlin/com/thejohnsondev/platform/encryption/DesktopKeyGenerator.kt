@@ -1,8 +1,9 @@
-package com.thejohnsondev.platform
+package com.thejohnsondev.platform.encryption
 
+import com.thejohnsondev.platform.SECRET_KEY_SIZE
 import java.security.SecureRandom
 
-class AndroidKeyGenerator: KeyGenerator {
+class DesktopKeyGenerator: KeyGenerator {
     override fun generateKeyWithPBKDF(password: String): ByteArray {
         return PBKDFUtils.pbkdf2(
             "HmacSHA256",
