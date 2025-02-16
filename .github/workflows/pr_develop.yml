@@ -56,7 +56,16 @@ jobs:
       - name: Run Android tests on Firebase Test Lab
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
         with:
-          arg-spec: android-device.yml:android-pixel-4
+          arg-spec:
+            android-pixel-4:
+              type: instrumentation
+              app: composeApp/build/outputs/apk/debug/PassGuard-debug.apk
+              test: core/platform/build/outputs/apk/androidTest/debug/common-debug-androidTest.apk
+              device:
+                - model: redfin
+                  version: 30
+                  locale: 'en'
+                  orientation: portrait
         env:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
