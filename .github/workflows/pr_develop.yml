@@ -104,4 +104,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: internal-testers
           file: ${{steps.sign_app.outputs.signedReleaseFile}}
-          releaseNotes: Add local vault feature
+          releaseNotesFile: whatsNew/whatsnew-en-US.txt
