@@ -60,6 +60,7 @@ import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.RoundedContainer
 import com.thejohnsondev.ui.components.RoundedIconButton
 import com.thejohnsondev.ui.designsystem.EqualRounded
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
@@ -240,7 +241,7 @@ internal fun PasswordItem(
                         }
                     }
                 }
-                Column(modifier = Modifier.weight(1f)) {
+                Column(modifier = Modifier.weight(Percent100)) {
                     Text(
                         modifier = Modifier
                             .padding(start = Size16)
@@ -356,7 +357,7 @@ fun ExpandedContent(
                 Text(
                     modifier = Modifier
                         .padding(horizontal = Size12, vertical = Size16)
-                        .weight(1f),
+                        .weight(Percent100),
                     text = password,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
@@ -398,7 +399,7 @@ fun ExpandedContent(
         ) {
             MoreInfo(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(Percent100),
                 contentColor = contentColor,
                 passwordModel = passwordModel
             )
@@ -545,7 +546,7 @@ fun AdditionalFieldItem(
         ) {
             Column(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(Percent100),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {

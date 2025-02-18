@@ -53,6 +53,7 @@ import com.thejohnsondev.ui.components.SuccessSnackbar
 import com.thejohnsondev.ui.components.VaultLogo
 import com.thejohnsondev.ui.components.getDefaultAnimatedBorderColors
 import com.thejohnsondev.ui.designsystem.DrawerWidth
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.RailWidth
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
@@ -207,7 +208,7 @@ private fun MediumNavigationBar(
         }
         navigationItems.forEachIndexed { index, screen ->
             if (screen.index == BottomNavItem.Settings.index) {
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(Percent100))
             }
             NavigationRailItem(icon = {
                 Icon(
