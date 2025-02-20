@@ -5,4 +5,5 @@ Written using Kotlin Multiplatform along with Compose Multiplatform for shared U
 Currently in active development.
 
 
-![github branding](https://github.com/user-attachments/assets/0a29f8ae-5cfb-42b8-87e4-8c38165fbd22)
+![github branding (1)](https://github.com/user-attachments/assets/1f672214-ab79-4380-8523-74c4f9d63ffb)
+
