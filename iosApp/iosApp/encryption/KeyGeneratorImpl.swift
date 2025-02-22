@@ -21,7 +21,7 @@ class KeyGeneratorImpl: NSObject, KeyGenerator {
     }
     
     func generateKeyWithPBKDF(password: String) -> KotlinByteArray {
-        let keyLength = 16 // Same as Android
+        let keyLength = 32 // Same as Android
         let iterations = 1000
         let salt = password.data(using: .utf8)! // Using password as salt (like Android)
 
