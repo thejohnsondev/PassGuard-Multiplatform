@@ -48,6 +48,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.ui.components.BackArrowButton
@@ -119,6 +120,10 @@ internal fun AddVaultItemScreen(
     AddVaultItemContent(
         sheetState = sheetState,
         state = state.value,
+        enteredTitle = viewModel.enteredTitle,
+        enteredUserName = viewModel.enteredUserName,
+        enteredPassword = viewModel.enteredPassword,
+        additionalFields = viewModel.additionalFields,
         windowSizeClass = windowSizeClass,
         paddingValues = paddingValues,
         vaultItem = vaultItem,
@@ -132,6 +137,10 @@ internal fun AddVaultItemScreen(
 internal fun AddVaultItemContent(
     sheetState: SheetState,
     state: AddVaultItemViewModel.State,
+    enteredTitle: MutableState<String>,
+    enteredUserName: MutableState<String>,
+    enteredPassword: MutableState<String>,
+    additionalFields: MutableState<List<AdditionalFieldDto>>,
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     vaultItem: PasswordUIModel?,
@@ -160,6 +169,10 @@ internal fun AddVaultItemContent(
     ) {
         AddPasswordFields(
             state = state,
+            enteredTitle = enteredTitle,
+            enteredUserName = enteredUserName,
+            enteredPassword = enteredPassword,
+            additionalFields = additionalFields,
             vaultItemForEdit = vaultItem,
             onAction = onAction
         )
@@ -210,6 +223,10 @@ private fun ModalDragHandle(
 @Composable
 internal fun AddPasswordFields(
     state: AddVaultItemViewModel.State,
+    enteredTitle: MutableState<String>,
+    enteredUserName: MutableState<String>,
+    enteredPassword: MutableState<String>,
+    additionalFields: MutableState<List<AdditionalFieldDto>>,
     vaultItemForEdit: PasswordUIModel?,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
@@ -249,7 +266,7 @@ internal fun AddPasswordFields(
         ) {
             TitleField(
                 onAction = onAction,
-                state = state,
+                enteredTitle = enteredTitle,
                 titleFocusRequester = titleFocusRequester,
                 userNameFocusRequester = userNameFocusRequester
             )
@@ -267,7 +284,7 @@ internal fun AddPasswordFields(
                     .wrapContentHeight()
                     .padding(start = Size16, end = Size16, top = Size8),
                 onAction = onAction,
-                state = state,
+                enteredUserName = enteredUserName,
                 userNameFocusRequester = userNameFocusRequester,
                 passwordFocusRequester = passwordFocusRequester
             )
@@ -277,7 +294,7 @@ internal fun AddPasswordFields(
                     .wrapContentHeight()
                     .padding(start = Size16, end = Size16, top = Size8, bottom = Size8),
                 onAction = onAction,
-                state = state,
+                enteredPassword = enteredPassword,
                 passwordFocusRequester = passwordFocusRequester,
                 keyboardController = keyboardController,
                 isPasswordHidden = isPasswordHidden,
@@ -288,6 +305,7 @@ internal fun AddPasswordFields(
                     .wrapContentSize()
                     .padding(top = Size8, bottom = Size8),
                 state = state,
+                additionalFields = additionalFields,
                 onAction = onAction
             )
             RoundedButton(
@@ -318,12 +336,13 @@ internal fun AddPasswordFields(
 private fun AdditionalFieldsList(
     modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
+    additionalFields: MutableState<List<AdditionalFieldDto>>,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
     Column(
         modifier = modifier
     ) {
-        state.additionalFields.forEach { additionalField ->
+        additionalFields.value.forEach { additionalField ->
             AdditionalFieldItem(
                 modifier = Modifier
                     .padding(
@@ -367,7 +386,7 @@ private fun AdditionalFieldsList(
 private fun PasswordField(
     modifier: Modifier = Modifier,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
-    state: AddVaultItemViewModel.State,
+    enteredPassword: MutableState<String>,
     passwordFocusRequester: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
     isPasswordHidden: MutableState<Boolean>,
@@ -395,7 +414,7 @@ private fun PasswordField(
                     onAction(AddVaultItemViewModel.Action.EnterPassword(password))
                 },
                 hint = stringResource(ResString.password),
-                value = state.password,
+                value = enteredPassword.value,
                 textColor = MaterialTheme.colorScheme.onSurface,
                 fontSize = Text20,
                 onKeyboardAction = KeyboardActions {
@@ -422,7 +441,7 @@ private fun PasswordField(
 private fun UserNameField(
     modifier: Modifier = Modifier,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
-    state: AddVaultItemViewModel.State,
+    enteredUserName: MutableState<String>,
     userNameFocusRequester: FocusRequester,
     passwordFocusRequester: FocusRequester,
 ) {
@@ -443,7 +462,7 @@ private fun UserNameField(
             onValueChanged = { userName ->
                 onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
             },
-            value = state.userName,
+            value = enteredUserName.value,
             hint = stringResource(ResString.username),
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text20,
@@ -459,7 +478,7 @@ private fun UserNameField(
 @Composable
 private fun TitleField(
     onAction: (AddVaultItemViewModel.Action) -> Unit,
-    state: AddVaultItemViewModel.State,
+    enteredTitle: MutableState<String>,
     titleFocusRequester: FocusRequester,
     userNameFocusRequester: FocusRequester,
 ) {
@@ -496,7 +515,7 @@ private fun TitleField(
             onValueChanged = { title ->
                 onAction(AddVaultItemViewModel.Action.EnterTitle(title))
             },
-            value = state.title,
+            value = enteredTitle.value,
             hint = stringResource(ResString.title),
             textColor = MaterialTheme.colorScheme.onSurface,
             fontSize = Text22,

@@ -7,15 +7,17 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.additem.AddVaultItemContent
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
+import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +43,11 @@ private fun AddVaultItemEmptyPreview() {
             paddingValues = PaddingValues(0.dp),
             onDismissRequest = {},
             onAction = {},
-            vaultItem = null
+            enteredTitle = mutableStateOf(String.empty),
+            enteredUserName = mutableStateOf(String.empty),
+            enteredPassword = mutableStateOf(String.empty),
+            additionalFields = mutableStateOf(listOf()),
+            vaultItem = PasswordUIModel.testPasswordUIModel,
         )
         LaunchedEffect(true) {
             sheetState.show()
@@ -67,20 +73,7 @@ private fun AddVaultItemEditPreview() {
             state = AddVaultItemViewModel.State(
                 screenState = ScreenState.ShowContent,
                 isEdit = true,
-                password = "examplePassword123",
-                userName = "Example Title 1",
-                title = "Example Organization 1",
                 isValid = true,
-                additionalFields = listOf(
-                    AdditionalFieldDto(
-                        id = "1",
-                        title = "exampleField1",
-                        value = "exampleValue1"
-                    ),
-                    AdditionalFieldDto(
-                        id = "2", title = "exampleField2", value = "exampleValue2"
-                    )
-                ),
                 selectedCategory = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
             ),
             sheetState = sheetState,
@@ -88,6 +81,10 @@ private fun AddVaultItemEditPreview() {
             paddingValues = PaddingValues(0.dp),
             onDismissRequest = {},
             onAction = {},
+            enteredTitle = mutableStateOf("Title"),
+            enteredUserName = mutableStateOf("UserName"),
+            enteredPassword = mutableStateOf("Password"),
+            additionalFields = mutableStateOf(listOf()),
             vaultItem = null
         )
     }

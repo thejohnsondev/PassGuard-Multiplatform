@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.additem
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
@@ -40,6 +41,18 @@ class AddVaultItemViewModel(
 
     private val _passwordId = MutableStateFlow<String?>(null)
     private val _createdTime = MutableStateFlow<String?>(null)
+
+    private val _enteredTitle = mutableStateOf(String.empty)
+    val enteredTitle = _enteredTitle
+
+    private val _enteredUserName = mutableStateOf(String.empty)
+    val enteredUserName = _enteredUserName
+
+    private val _enteredPassword = mutableStateOf(String.empty)
+    val enteredPassword = _enteredPassword
+
+    private val _additionalFields = mutableStateOf<List<AdditionalFieldDto>>(emptyList())
+    val additionalFields = _additionalFields
 
     private val _state = MutableStateFlow(State())
     val state = combine(
@@ -87,11 +100,11 @@ class AddVaultItemViewModel(
         val selectedCategoryId = _state.value.selectedCategory.id
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
-            title = _state.value.title,
-            userName = _state.value.userName,
-            password = _state.value.password,
+            title = _enteredTitle.value,
+            userName = _enteredUserName.value,
+            password = _enteredPassword.value,
             categoryId = selectedCategoryId,
-            additionalFields = _state.value.additionalFields,
+            additionalFields = _additionalFields.value,
             createdTime = _createdTime.value,
             isFavorite = _state.value.isFavorite
         )
@@ -108,13 +121,13 @@ class AddVaultItemViewModel(
     private fun setPasswordForEdit(passwordUIModel: PasswordUIModel) = launch {
         _passwordId.emit(passwordUIModel.id)
         _createdTime.emit(passwordUIModel.createdTime)
+        _enteredTitle.value = passwordUIModel.title
+        _enteredUserName.value = passwordUIModel.userName
+        _enteredPassword.value = passwordUIModel.password
+        _additionalFields.value = passwordUIModel.additionalFields
         _state.update {
             it.copy(
                 isEdit = true,
-                title = passwordUIModel.title,
-                userName = passwordUIModel.userName,
-                password = passwordUIModel.password,
-                additionalFields = passwordUIModel.additionalFields,
                 selectedCategory = passwordUIModel.category,
                 isFavorite = passwordUIModel.isFavorite
             )
@@ -122,65 +135,51 @@ class AddVaultItemViewModel(
         validateFields()
     }
 
-    private fun enterTitle(title: String) = launch {
-        _state.update {
-            it.copy(title = title)
-        }
+    private fun enterTitle(title: String)  {
+        _enteredTitle.value = title
         validateFields()
     }
 
-    private fun enterUserName(userName: String) = launch {
-        _state.update {
-            it.copy(userName = userName)
-        }
+    private fun enterUserName(userName: String) {
+        _enteredUserName.value = userName
         validateFields()
     }
 
-    private fun enterPassword(password: String) = launch {
-        _state.update {
-            it.copy(password = password)
-        }
+    private fun enterPassword(password: String)  {
+        _enteredPassword.value = password
         validateFields()
     }
 
     private fun addAdditionalField() = launch {
-        val updatedList = addAdditionalFieldUseCase(_state.value.additionalFields)
-        _state.update {
-            it.copy(additionalFields = updatedList)
-        }
+        val updatedList = addAdditionalFieldUseCase(_additionalFields.value)
+        _additionalFields.value = updatedList
         validateFields()
     }
 
     private fun enterAdditionalFieldTitle(id: String, title: String) = launch {
-        val updatedList = enterAdditionalFieldTitleUseCase(id, title, _state.value.additionalFields)
-        _state.update {
-            it.copy(additionalFields = updatedList)
-        }
+        val updatedList = enterAdditionalFieldTitleUseCase(id, title, _additionalFields.value)
+        _additionalFields.value = updatedList
         validateFields()
     }
 
     private fun enterAdditionalFieldValue(id: String, value: String) = launch {
-        val updatedList = enterAdditionalFieldValueUseCase(id, value, _state.value.additionalFields)
-        _state.update {
-            it.copy(additionalFields = updatedList)
-        }
+        val updatedList = enterAdditionalFieldValueUseCase(id, value, _additionalFields.value)
+        _additionalFields.value = updatedList
         validateFields()
     }
 
     private fun removeAdditionalField(id: String) = launch {
-        val updatedList = removeAdditionalFieldUseCase(id, _state.value.additionalFields)
-        _state.update {
-            it.copy(additionalFields = updatedList)
-        }
+        val updatedList = removeAdditionalFieldUseCase(id, _additionalFields.value)
+        _additionalFields.value = updatedList
         validateFields()
     }
 
-    private suspend fun validateFields() {
+    private fun validateFields() = launch {
         val isValid = validatePasswordModelUseCase(
-            title = _state.value.title,
-            userName = _state.value.userName,
-            password = _state.value.password,
-            additionalFieldsList = _state.value.additionalFields
+            title = _enteredTitle.value,
+            userName = _enteredUserName.value,
+            password = _enteredPassword.value,
+            additionalFieldsList = _additionalFields.value
         )
         _state.update {
             it.copy(isValid = isValid)
@@ -188,9 +187,13 @@ class AddVaultItemViewModel(
     }
 
     fun clear() = launch {
-        _passwordId.emit(null)
         screenState.emit(ScreenState.None)
+        _passwordId.emit(null)
         _createdTime.emit(null)
+        _enteredTitle.value = String.empty
+        _enteredUserName.value = String.empty
+        _enteredPassword.value = String.empty
+        _additionalFields.value = emptyList()
         _state.update { State() }
     }
 
@@ -210,10 +213,6 @@ class AddVaultItemViewModel(
 
     data class State(
         val screenState: ScreenState = ScreenState.None,
-        val title: String = String.Companion.empty,
-        val userName: String = String.Companion.empty,
-        val password: String = String.Companion.empty,
-        val additionalFields: List<AdditionalFieldDto> = emptyList(),
         val isFavorite: Boolean = false,
         val selectedCategory: CategoryUIModel = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory(),
         val itemCategoryFilters: List<FilterUIModel> = FiltersProvider.Category.getVaultCategoryFilters(),
