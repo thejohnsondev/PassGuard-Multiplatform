@@ -160,13 +160,13 @@ class VaultViewModel(
         }
     }
 
-    private fun fetchVault() {
+    private fun fetchVault() = launchLoading {
         fetchFilters()
         fetchSettings()
         fetchPasswords()
     }
 
-    private fun fetchFilters() = launch {
+    private suspend fun fetchFilters() {
         val itemTypeFilters = FiltersProvider.ItemType.getVaultItemTypeFilters()
         val itemCategoryFilters = FiltersProvider.Category.getVaultCategoryFilters()
         val sortOrderFilters = FiltersProvider.Sorting.getSortOrderFilters()
@@ -232,7 +232,7 @@ class VaultViewModel(
         }
     }
 
-    private fun fetchPasswords() = launchLoading {
+    private suspend fun fetchPasswords()  {
         passwordsService.getUserPasswords().collect { items ->
             val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
             val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)
