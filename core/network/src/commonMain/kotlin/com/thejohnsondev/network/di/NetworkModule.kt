@@ -1,5 +1,7 @@
 package com.thejohnsondev.network.di
 
+import com.thejohnsondev.common.Platform
+import com.thejohnsondev.common.getPlatform
 import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.network.FirebaseRemoteApiImpl
 import com.thejohnsondev.network.HttpClientProvider
@@ -37,6 +39,9 @@ val networkModule = module {
             }
         }
         client.plugin(HttpSend).intercept { request ->
+            if (getPlatform() == Platform.IOS_SIMULATOR) {
+                return@intercept execute(request)
+            }
             val isInternetConnected = Konnection.instance.isConnected()
             if (!isInternetConnected) throw NoInternetConnectionException()
             execute(request)
