@@ -78,11 +78,11 @@ class PreferencesDataStoreImpl(
     }
 
     override suspend fun getRefreshAuthToken(): String {
-        return dataStore.getString(KEY_REFRESH_AUTH_TOKEN, String.Companion.empty)
+        return secureStorage.read(KEY_REFRESH_AUTH_TOKEN).orEmpty()
     }
 
     override suspend fun saveRefreshAuthToken(token: String) {
-        dataStore.saveString(KEY_REFRESH_AUTH_TOKEN, token)
+        secureStorage.save(KEY_REFRESH_AUTH_TOKEN, token)
     }
 
     override suspend fun isVaultInitialized(): Boolean {
@@ -96,7 +96,8 @@ class PreferencesDataStoreImpl(
     override suspend fun clearUserData() {
         secureStorage.remove(KEY_AUTH_TOKEN)
         secureStorage.remove(KEY_SECRET_KEY)
-        dataStore.clearString(KEY_EMAIL)
+        secureStorage.remove(KEY_REFRESH_AUTH_TOKEN)
+        secureStorage.remove(KEY_EMAIL)
         dataStore.clearString(KEY_APPLIED_SORT_ORDER)
         dataStore.clearString(KEY_APPLIED_CATEGORY_FILTERS)
         dataStore.clearString(KEY_APPLIED_ITEM_TYPE_FILTERS)
@@ -115,11 +116,11 @@ class PreferencesDataStoreImpl(
     }
 
     override suspend fun saveEmail(email: String) {
-        dataStore.saveString(KEY_EMAIL, email)
+        secureStorage.save(KEY_EMAIL, email)
     }
 
     override suspend fun getEmail(): String {
-        return dataStore.getString(KEY_EMAIL, String.Companion.empty)
+        return secureStorage.read(KEY_EMAIL).orEmpty()
     }
 
     override suspend fun setCustomTheme(theme: ThemeBrand) {
