@@ -477,11 +477,15 @@ private fun BindPasswordItem(
                 )
             )
         },
-        onCopyClick = {},
+        onCopyClick = { text ->
+            onAction(VaultViewModel.Action.OnCopyClick(text))
+        },
         onEditClick = {
             onAction(VaultViewModel.Action.OnEditClick(passwordModel))
         },
-        onCopySensitiveClick = {},
+        onCopySensitiveClick = { text ->
+            onAction(VaultViewModel.Action.OnCopySensitiveClick(text))
+        },
         onFavoriteClick = {
             onAction(
                 VaultViewModel.Action.OnMarkAsFavoriteClick(

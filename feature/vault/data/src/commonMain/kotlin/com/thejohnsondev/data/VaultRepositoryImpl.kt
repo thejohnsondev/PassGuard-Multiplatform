@@ -1,9 +1,11 @@
 package com.thejohnsondev.data
 
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.platform.utils.ClipboardUtils
 
 class VaultRepositoryImpl(
-    private val preferencesDataStore: PreferencesDataStore
+    private val preferencesDataStore: PreferencesDataStore,
+    private val clipboardUtils: ClipboardUtils
 ): VaultRepository {
     override suspend fun updateAppliedItemTypeFilters(typeFilters: List<String>) {
         preferencesDataStore.updateAppliedItemTypeFilters(typeFilters)
@@ -35,5 +37,13 @@ class VaultRepositoryImpl(
 
     override suspend fun getAppliedShowFavoritesAtTop(): Boolean {
         return preferencesDataStore.getAppliedShowFavoritesAtTop()
+    }
+
+    override fun copyText(text: String, isSensitive: Boolean) {
+        if (isSensitive) {
+            clipboardUtils.copyToClipboardSensitive(text)
+        } else {
+            clipboardUtils.copyToClipboard(text)
+        }
     }
 }

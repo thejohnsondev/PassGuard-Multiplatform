@@ -15,4 +15,8 @@ class IOSPlatformDependency: NSObject, PlatformDependency {
         return SecureStorageImpl()
     }
     
+    func getClipboardUtils() -> ClipboardUtils {
+        return ClipboardUtilsImpl()
+    }
+    
 }
