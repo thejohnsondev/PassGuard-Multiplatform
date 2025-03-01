@@ -238,48 +238,40 @@ internal fun PasswordItem(
                     }
                 }
                 Column(modifier = Modifier.weight(Percent100)) {
-                    Text(
+                    HighlightOnLongPressText(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth()
-                            .pointerInput(Unit) {
-                                detectTapGestures(
-                                    onLongPress = {
-                                        onCopy(item.title)
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    },
-                                    onTap = {
-                                        onClick(item)
-                                    }
-                                )
-                            },
+                            .fillMaxWidth(),
                         text = item.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = if (isReordering) draggingContentColor else contentColor,
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
+                        maxLines = 1,
+                        onClick = {
+                            onClick(item)
+                        },
+                        onLongClick = {
+                            onCopy(item.title)
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
                     )
-                    Text(
+                    HighlightOnLongPressText(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth()
-                            .pointerInput(Unit) {
-                                detectTapGestures(
-                                    onLongPress = {
-                                        onCopy(item.userName)
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    },
-                                    onTap = {
-                                        onClick(item)
-                                    }
-                                )
-                            },
+                            .fillMaxWidth(),
                         text = item.userName,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isReordering) draggingContentColor else contentColor,
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
+                        maxLines = 1,
+                        onClick = {
+                            onClick(item)
+                        },
+                        onLongClick = {
+                            onCopy(item.userName)
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
                     )
                 }
 
@@ -381,24 +373,20 @@ fun ExpandedContent(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                HighlightOnLongPressText(
                     modifier = Modifier
                         .padding(horizontal = Size12, vertical = Size16)
-                        .weight(Percent100)
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onLongPress = {
-                                    onCopy(passwordModel.password)
-                                },
-                                onTap = {
-                                    isHidden = !isHidden
-                                }
-                            )
-                        },
+                        .weight(Percent100),
                     text = password,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    onClick = {
+                        isHidden = !isHidden
+                    },
+                    onLongClick = {
+                        onCopy(passwordModel.password)
+                    }
                 )
                 Icon(
                     modifier = Modifier.padding(end = Size8)
@@ -590,40 +578,32 @@ fun AdditionalFieldItem(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-                Text(
+                HighlightOnLongPressText(
                     modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4)
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onLongPress = {
-                                    onCopy(additionalField.title)
-                                },
-                                onTap = {
-                                    isHidden = !isHidden
-                                }
-                            )
-                        },
+                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
                     text = additionalField.title,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    onClick = {
+                        isHidden = !isHidden
+                    },
+                    onLongClick = {
+                        onCopy(additionalField.title)
+                    }
                 )
-                Text(
+                HighlightOnLongPressText(
                     modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12)
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onLongPress = {
-                                    onCopySensitive(additionalField.value)
-                                },
-                                onTap = {
-                                    isHidden = !isHidden
-                                }
-                            )
-                        },
+                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
                     text = value,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    onClick = {
+                        isHidden = !isHidden
+                    },
+                    onLongClick = {
+                        onCopySensitive(additionalField.value)
+                    }
                 )
             }
             Icon(
