@@ -36,6 +36,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -45,6 +46,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import com.thejohnsondev.common.SCROLL_DOWN_DELAY
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -78,6 +80,7 @@ import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import com.thejohnsondev.ui.utils.onEnterClick
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -246,6 +249,9 @@ internal fun AddPasswordFields(
     val eyeImage =
         if (isPasswordHidden.value) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
 
+    val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+
     LaunchedEffect(true) {
         if (vaultItemForEdit != null) {
             onAction(AddVaultItemViewModel.Action.SetPasswordForEdit(vaultItemForEdit))
@@ -260,7 +266,7 @@ internal fun AddPasswordFields(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top,
         ) {
@@ -313,6 +319,10 @@ internal fun AddPasswordFields(
                 text = stringResource(ResString.add_field),
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.AddAdditionalField)
+                    coroutineScope.launch {
+                        delay(SCROLL_DOWN_DELAY)
+                        scrollState.animateScrollTo(scrollState.maxValue)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
