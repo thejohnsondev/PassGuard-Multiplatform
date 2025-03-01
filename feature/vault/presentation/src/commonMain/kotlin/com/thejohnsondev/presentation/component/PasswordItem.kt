@@ -16,11 +16,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
@@ -241,7 +243,7 @@ internal fun PasswordItem(
                     HighlightOnLongPressText(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(),
+                            .wrapContentWidth(),
                         text = item.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
@@ -259,7 +261,7 @@ internal fun PasswordItem(
                     HighlightOnLongPressText(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(),
+                            .wrapContentWidth(),
                         text = item.userName,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isReordering) draggingContentColor else contentColor,
@@ -376,7 +378,7 @@ fun ExpandedContent(
                 HighlightOnLongPressText(
                     modifier = Modifier
                         .padding(horizontal = Size12, vertical = Size16)
-                        .weight(Percent100),
+                        .wrapContentWidth(),
                     text = password,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
@@ -388,6 +390,7 @@ fun ExpandedContent(
                         onCopy(passwordModel.password)
                     }
                 )
+                Spacer(modifier = Modifier.weight(Percent100))
                 Icon(
                     modifier = Modifier.padding(end = Size8)
                         .clip(RoundedCornerShape(Size8))
