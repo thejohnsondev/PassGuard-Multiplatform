@@ -55,7 +55,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
-import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.common.utils.hidden
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.ui.components.ExpandableContent
@@ -88,7 +87,6 @@ import vaultmultiplatform.core.ui.generated.resources.ic_password
 import vaultmultiplatform.core.ui.generated.resources.modified
 import vaultmultiplatform.core.ui.generated.resources.more_info
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PasswordItem(
     modifier: Modifier = Modifier,
@@ -98,8 +96,8 @@ internal fun PasswordItem(
     isExpanded: Boolean = false,
     isFavorite: Boolean = false,
     onClick: (PasswordUIModel) -> Unit,
-    onCopySensitiveClick: (String) -> Unit,
-    onCopyClick: (String) -> Unit,
+    onCopySensitive: (String) -> Unit,
+    onCopy: (String) -> Unit,
     onFavoriteClick: (PasswordUIModel) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit,
@@ -247,7 +245,8 @@ internal fun PasswordItem(
                             .pointerInput(Unit) {
                                 detectTapGestures(
                                     onLongPress = {
-                                        // TODO add copying the value
+                                        onCopy(item.title)
+                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                     },
                                     onTap = {
                                         onClick(item)
@@ -268,7 +267,8 @@ internal fun PasswordItem(
                             .pointerInput(Unit) {
                                 detectTapGestures(
                                     onLongPress = {
-                                        // TODO add copying the value
+                                        onCopy(item.userName)
+                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                     },
                                     onTap = {
                                         onClick(item)
@@ -304,7 +304,7 @@ internal fun PasswordItem(
                         .bounceClick(),
                     onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onCopySensitiveClick(item.password)
+                        onCopySensitive(item.password)
                     }
                 ) {
                     Icon(
@@ -320,9 +320,13 @@ internal fun PasswordItem(
             ExpandedContent(
                 passwordModel = item,
                 contentColor = contentColor,
-                onCopyClick = {
+                onCopy = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onCopySensitiveClick(it)
+                    onCopy(it)
+                },
+                onCopySensitive = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onCopySensitive(it)
                 },
                 onDeleteClick = {
                     onDeleteClick(it)
@@ -340,7 +344,8 @@ internal fun PasswordItem(
 fun ExpandedContent(
     passwordModel: PasswordUIModel,
     contentColor: Color,
-    onCopyClick: (String) -> Unit,
+    onCopy: (String) -> Unit,
+    onCopySensitive: (String) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit,
 ) {
@@ -383,7 +388,7 @@ fun ExpandedContent(
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onLongPress = {
-                                    // TODO add copying the value
+                                    onCopy(passwordModel.password)
                                 },
                                 onTap = {
                                     isHidden = !isHidden
@@ -417,9 +422,11 @@ fun ExpandedContent(
                     isTopRounded = false,
                     isBottomRounded = index == passwordModel.additionalFields.size - 1
                 ) {
-                    AdditionalFieldItem(additionalField = it) {
-                        onCopyClick(it)
-                    }
+                    AdditionalFieldItem(
+                        additionalField = it,
+                        onCopy = onCopy,
+                        onCopySensitive = onCopySensitive
+                    )
                 }
             }
         }
@@ -550,7 +557,8 @@ private fun MoreInfo(
 @Composable
 fun AdditionalFieldItem(
     additionalField: AdditionalFieldDto,
-    onLongClick: (String) -> Unit,
+    onCopy: (String) -> Unit,
+    onCopySensitive: (String) -> Unit,
 ) {
     var isHidden by remember {
         mutableStateOf(true)
@@ -588,7 +596,7 @@ fun AdditionalFieldItem(
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onLongPress = {
-                                    // TODO add copying the value
+                                    onCopy(additionalField.title)
                                 },
                                 onTap = {
                                     isHidden = !isHidden
@@ -606,7 +614,7 @@ fun AdditionalFieldItem(
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onLongPress = {
-                                    // TODO add copying the value
+                                    onCopySensitive(additionalField.value)
                                 },
                                 onTap = {
                                     isHidden = !isHidden
