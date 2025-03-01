@@ -10,7 +10,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,10 +50,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.common.utils.hidden
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.ui.components.ExpandableContent
@@ -177,14 +180,9 @@ internal fun PasswordItem(
             } else {
                 Modifier
                     .fillMaxWidth()
-                    .combinedClickable(
-                        onClick = {
-                            onClick(item)
-                        },
-                        onLongClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            onCopyClick(item.userName)
-                        })
+                    .clickable {
+                        onClick(item)
+                    }
             },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
@@ -245,7 +243,17 @@ internal fun PasswordItem(
                     Text(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .pointerInput(Unit) {
+                                detectTapGestures(
+                                    onLongPress = {
+                                        // TODO add copying the value
+                                    },
+                                    onTap = {
+                                        onClick(item)
+                                    }
+                                )
+                            },
                         text = item.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
@@ -256,7 +264,17 @@ internal fun PasswordItem(
                     Text(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .pointerInput(Unit) {
+                                detectTapGestures(
+                                    onLongPress = {
+                                        // TODO add copying the value
+                                    },
+                                    onTap = {
+                                        onClick(item)
+                                    }
+                                )
+                            },
                         text = item.userName,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isReordering) draggingContentColor else contentColor,
@@ -332,6 +350,7 @@ fun ExpandedContent(
     val haptic = LocalHapticFeedback.current
     val password = if (isHidden) passwordModel.password.hidden() else passwordModel.password
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+    val interactionSource = remember { MutableInteractionSource() }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -348,7 +367,10 @@ fun ExpandedContent(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
+                    .clickable(
+                        indication = null,
+                        interactionSource = interactionSource
+                    ) {
                         isHidden = !isHidden
                     },
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -357,7 +379,17 @@ fun ExpandedContent(
                 Text(
                     modifier = Modifier
                         .padding(horizontal = Size12, vertical = Size16)
-                        .weight(Percent100),
+                        .weight(Percent100)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = {
+                                    // TODO add copying the value
+                                },
+                                onTap = {
+                                    isHidden = !isHidden
+                                }
+                            )
+                        },
                     text = password,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
@@ -525,17 +557,17 @@ fun AdditionalFieldItem(
     }
     val value = if (isHidden) additionalField.value.hidden() else additionalField.value
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+    val interactionSource = remember { MutableInteractionSource() }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .combinedClickable(
-                onClick = {
-                    isHidden = !isHidden
-                },
-                onLongClick = {
-                    onLongClick(additionalField.value)
-                }
-            ),
+            .clickable(
+                indication = null,
+                interactionSource = interactionSource
+            ) {
+                isHidden = !isHidden
+            },
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
@@ -552,7 +584,17 @@ fun AdditionalFieldItem(
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
+                        .padding(start = Size8, end = Size8, top = Size12, bottom = Size4)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = {
+                                    // TODO add copying the value
+                                },
+                                onTap = {
+                                    isHidden = !isHidden
+                                }
+                            )
+                        },
                     text = additionalField.title,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
@@ -560,7 +602,17 @@ fun AdditionalFieldItem(
                 )
                 Text(
                     modifier = Modifier
-                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
+                        .padding(start = Size8, end = Size8, top = Size4, bottom = Size12)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = {
+                                    // TODO add copying the value
+                                },
+                                onTap = {
+                                    isHidden = !isHidden
+                                }
+                            )
+                        },
                     text = value,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
