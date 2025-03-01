@@ -20,6 +20,8 @@ import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.StopModifiedItemAnimUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
+import com.thejohnsondev.model.DisplayableMessageValue
+import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.model.FilterUIModel
@@ -105,8 +107,9 @@ class VaultViewModel(
         }
     }
 
-    private fun onCopyClick(text: String, isSensitive: Boolean) {
+    private fun onCopyClick(text: String, isSensitive: Boolean) = launch {
         copyTextUseCase(text, isSensitive)
+        sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.Copied))
     }
 
     private fun onShowFavoritesAtTopClick(selected: Boolean) = launch {
