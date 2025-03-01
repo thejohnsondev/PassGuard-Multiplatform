@@ -11,4 +11,5 @@ sealed interface DisplayableMessageValue {
     data object NoSmall : DisplayableMessageValue
     data object EmailInvalid : DisplayableMessageValue
     data object CheckInternetConnection : DisplayableMessageValue
+    data object Copied : DisplayableMessageValue
 }

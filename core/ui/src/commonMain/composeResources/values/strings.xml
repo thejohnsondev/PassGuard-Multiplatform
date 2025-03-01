@@ -124,4 +124,5 @@
     <string name="start_with_local_vault">You can start with a Local Vault and switch to Cloud Sync later.</string>
     <string name="create_account">Create account</string>
     <string name="create_account_description">Create an account to sync your passwords across multiple devices.</string>
+    <string name="copied">Copied to clipboard</string>
 </resources>

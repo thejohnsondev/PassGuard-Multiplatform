@@ -10,16 +10,19 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
@@ -49,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,6 +64,7 @@ import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.RoundedContainer
 import com.thejohnsondev.ui.components.RoundedIconButton
 import com.thejohnsondev.ui.designsystem.EqualRounded
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
@@ -84,7 +89,6 @@ import vaultmultiplatform.core.ui.generated.resources.ic_password
 import vaultmultiplatform.core.ui.generated.resources.modified
 import vaultmultiplatform.core.ui.generated.resources.more_info
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PasswordItem(
     modifier: Modifier = Modifier,
@@ -94,8 +98,8 @@ internal fun PasswordItem(
     isExpanded: Boolean = false,
     isFavorite: Boolean = false,
     onClick: (PasswordUIModel) -> Unit,
-    onCopySensitiveClick: (String) -> Unit,
-    onCopyClick: (String) -> Unit,
+    onCopySensitive: (String) -> Unit,
+    onCopy: (String) -> Unit,
     onFavoriteClick: (PasswordUIModel) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit,
@@ -176,14 +180,9 @@ internal fun PasswordItem(
             } else {
                 Modifier
                     .fillMaxWidth()
-                    .combinedClickable(
-                        onClick = {
-                            onClick(item)
-                        },
-                        onLongClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            onCopyClick(item.userName)
-                        })
+                    .clickable {
+                        onClick(item)
+                    }
             },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
@@ -240,27 +239,41 @@ internal fun PasswordItem(
                         }
                     }
                 }
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
+                Column(modifier = Modifier.weight(Percent100)) {
+                    HighlightOnLongPressText(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(),
+                            .wrapContentWidth(),
                         text = item.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = if (isReordering) draggingContentColor else contentColor,
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
+                        maxLines = 1,
+                        onClick = {
+                            onClick(item)
+                        },
+                        onLongClick = {
+                            onCopy(item.title)
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
                     )
-                    Text(
+                    HighlightOnLongPressText(
                         modifier = Modifier
                             .padding(start = Size16)
-                            .fillMaxWidth(),
+                            .wrapContentWidth(),
                         text = item.userName,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isReordering) draggingContentColor else contentColor,
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
+                        maxLines = 1,
+                        onClick = {
+                            onClick(item)
+                        },
+                        onLongClick = {
+                            onCopy(item.userName)
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
                     )
                 }
 
@@ -285,7 +298,7 @@ internal fun PasswordItem(
                         .bounceClick(),
                     onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onCopySensitiveClick(item.password)
+                        onCopySensitive(item.password)
                     }
                 ) {
                     Icon(
@@ -301,9 +314,13 @@ internal fun PasswordItem(
             ExpandedContent(
                 passwordModel = item,
                 contentColor = contentColor,
-                onCopyClick = {
+                onCopy = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onCopySensitiveClick(it)
+                    onCopy(it)
+                },
+                onCopySensitive = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onCopySensitive(it)
                 },
                 onDeleteClick = {
                     onDeleteClick(it)
@@ -321,7 +338,8 @@ internal fun PasswordItem(
 fun ExpandedContent(
     passwordModel: PasswordUIModel,
     contentColor: Color,
-    onCopyClick: (String) -> Unit,
+    onCopy: (String) -> Unit,
+    onCopySensitive: (String) -> Unit,
     onDeleteClick: (PasswordUIModel) -> Unit,
     onEditClick: (PasswordUIModel) -> Unit,
 ) {
@@ -331,6 +349,7 @@ fun ExpandedContent(
     val haptic = LocalHapticFeedback.current
     val password = if (isHidden) passwordModel.password.hidden() else passwordModel.password
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+    val interactionSource = remember { MutableInteractionSource() }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -347,21 +366,31 @@ fun ExpandedContent(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
+                    .clickable(
+                        indication = null,
+                        interactionSource = interactionSource
+                    ) {
                         isHidden = !isHidden
                     },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                HighlightOnLongPressText(
                     modifier = Modifier
                         .padding(horizontal = Size12, vertical = Size16)
-                        .weight(1f),
+                        .wrapContentWidth(),
                     text = password,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    onClick = {
+                        isHidden = !isHidden
+                    },
+                    onLongClick = {
+                        onCopy(passwordModel.password)
+                    }
                 )
+                Spacer(modifier = Modifier.weight(Percent100))
                 Icon(
                     modifier = Modifier.padding(end = Size8)
                         .clip(RoundedCornerShape(Size8))
@@ -384,9 +413,11 @@ fun ExpandedContent(
                     isTopRounded = false,
                     isBottomRounded = index == passwordModel.additionalFields.size - 1
                 ) {
-                    AdditionalFieldItem(additionalField = it) {
-                        onCopyClick(it)
-                    }
+                    AdditionalFieldItem(
+                        additionalField = it,
+                        onCopy = onCopy,
+                        onCopySensitive = onCopySensitive
+                    )
                 }
             }
         }
@@ -398,7 +429,7 @@ fun ExpandedContent(
         ) {
             MoreInfo(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(Percent100),
                 contentColor = contentColor,
                 passwordModel = passwordModel
             )
@@ -517,24 +548,25 @@ private fun MoreInfo(
 @Composable
 fun AdditionalFieldItem(
     additionalField: AdditionalFieldDto,
-    onLongClick: (String) -> Unit,
+    onCopy: (String) -> Unit,
+    onCopySensitive: (String) -> Unit,
 ) {
     var isHidden by remember {
         mutableStateOf(true)
     }
     val value = if (isHidden) additionalField.value.hidden() else additionalField.value
     val eyeImage = if (isHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+    val interactionSource = remember { MutableInteractionSource() }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .combinedClickable(
-                onClick = {
-                    isHidden = !isHidden
-                },
-                onLongClick = {
-                    onLongClick(additionalField.value)
-                }
-            ),
+            .clickable(
+                indication = null,
+                interactionSource = interactionSource
+            ) {
+                isHidden = !isHidden
+            },
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
@@ -545,24 +577,36 @@ fun AdditionalFieldItem(
         ) {
             Column(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(Percent100),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-                Text(
+                HighlightOnLongPressText(
                     modifier = Modifier
                         .padding(start = Size8, end = Size8, top = Size12, bottom = Size4),
                     text = additionalField.title,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    onClick = {
+                        isHidden = !isHidden
+                    },
+                    onLongClick = {
+                        onCopy(additionalField.title)
+                    }
                 )
-                Text(
+                HighlightOnLongPressText(
                     modifier = Modifier
                         .padding(start = Size8, end = Size8, top = Size4, bottom = Size12),
                     text = value,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    onClick = {
+                        isHidden = !isHidden
+                    },
+                    onLongClick = {
+                        onCopySensitive(additionalField.value)
+                    }
                 )
             }
             Icon(

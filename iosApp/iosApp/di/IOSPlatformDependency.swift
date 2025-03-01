@@ -8,7 +8,15 @@ class IOSPlatformDependency: NSObject, PlatformDependency {
     }
     
     func getEncryptionUtils() -> EncryptionUtils {
-        EncryptionUtilsImpl()
+        return EncryptionUtilsImpl()
+    }
+    
+    func getSecureStorage() -> SecureStorage {
+        return SecureStorageImpl()
+    }
+    
+    func getClipboardUtils() -> ClipboardUtils {
+        return ClipboardUtilsImpl()
     }
     
 }

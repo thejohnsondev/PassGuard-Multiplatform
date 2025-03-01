@@ -8,6 +8,7 @@ import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.added_success
 import vaultmultiplatform.core.ui.generated.resources.check_internet_connection
+import vaultmultiplatform.core.ui.generated.resources.copied
 import vaultmultiplatform.core.ui.generated.resources.email_error_incorrect
 import vaultmultiplatform.core.ui.generated.resources.password_error_bad_length
 import vaultmultiplatform.core.ui.generated.resources.password_error_no_capital
@@ -46,5 +47,6 @@ internal fun getStringResource(value: DisplayableMessageValue): StringResource {
         is DisplayableMessageValue.EmailInvalid -> ResString.email_error_incorrect
         is DisplayableMessageValue.CheckInternetConnection -> ResString.check_internet_connection
         is DisplayableMessageValue.PasswordAddedSuccess -> ResString.added_success
+        is DisplayableMessageValue.Copied -> ResString.copied
     }
 }

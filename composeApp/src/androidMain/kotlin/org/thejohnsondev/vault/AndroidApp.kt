@@ -8,7 +8,7 @@ class AndroidApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val platformDependency = AndroidPlatformDependency()
+        val platformDependency = AndroidPlatformDependency(this)
         KoinInitializer(
             context = applicationContext,
             platformDependency = platformDependency

@@ -7,6 +7,7 @@ val String.Companion.empty: String get() = ""
 
 const val TOGGLE_ANIM_DURATION = 200
 const val EXPAND_ANIM_DURATION = 500
+const val SCROLL_DOWN_DELAY = 400L
 
 const val DESKTOP_WINDOW_MIN_WIDTH = 500
 const val DESKTOP_WINDOW_MIN_HEIGHT = 600

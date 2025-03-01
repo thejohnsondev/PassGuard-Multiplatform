@@ -5,6 +5,7 @@ import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.AppliedFiltersService
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
+import com.thejohnsondev.domain.CopyTextUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.FilterItemsUseCase
 import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
@@ -19,6 +20,8 @@ import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.StopModifiedItemAnimUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
+import com.thejohnsondev.model.DisplayableMessageValue
+import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.model.FilterUIModel
@@ -49,6 +52,7 @@ class VaultViewModel(
     private val sortVaultItemsUseCase: SortVaultItemsUseCase,
     private val sortOrderChangeUseCase: SortOrderChangeUseCase,
     private val stopModifiedItemAnimUseCase: StopModifiedItemAnimUseCase,
+    private val copyTextUseCase: CopyTextUseCase
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -97,7 +101,15 @@ class VaultViewModel(
                 action.passwordId,
                 action.isFavorite
             )
+
+            is Action.OnCopyClick -> onCopyClick(action.text, false)
+            is Action.OnCopySensitiveClick -> onCopyClick(action.text, true)
         }
+    }
+
+    private fun onCopyClick(text: String, isSensitive: Boolean) = launch {
+        copyTextUseCase(text, isSensitive)
+        sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.Copied))
     }
 
     private fun onShowFavoritesAtTopClick(selected: Boolean) = launch {
@@ -160,13 +172,13 @@ class VaultViewModel(
         }
     }
 
-    private fun fetchVault() {
+    private fun fetchVault() = launchLoading {
         fetchFilters()
         fetchSettings()
         fetchPasswords()
     }
 
-    private fun fetchFilters() = launch {
+    private suspend fun fetchFilters() {
         val itemTypeFilters = FiltersProvider.ItemType.getVaultItemTypeFilters()
         val itemCategoryFilters = FiltersProvider.Category.getVaultCategoryFilters()
         val sortOrderFilters = FiltersProvider.Sorting.getSortOrderFilters()
@@ -232,7 +244,7 @@ class VaultViewModel(
         }
     }
 
-    private fun fetchPasswords() = launchLoading {
+    private suspend fun fetchPasswords()  {
         passwordsService.getUserPasswords().collect { items ->
             val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
             val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)
@@ -394,6 +406,9 @@ class VaultViewModel(
 
         data class OnDeletePasswordClick(val passwordId: String) : Action()
         data class OnMarkAsFavoriteClick(val passwordId: String, val isFavorite: Boolean) : Action()
+
+        data class OnCopyClick(val text: String): Action()
+        data class OnCopySensitiveClick(val text: String): Action()
     }
 
     data class State(

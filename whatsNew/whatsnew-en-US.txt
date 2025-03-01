@@ -1,1 +1,3 @@
-Fix app running on iOS
+Changes:
+- use secure storage for sensitive data
+- add password fields copy
