@@ -10,12 +10,14 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
+import com.thejohnsondev.platform.storage.SecureStorage
 import kotlinx.coroutines.flow.Flow
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 class PreferencesDataStoreImpl(
     private val dataStore: DataStore<Preferences>,
+    private val secureStorage: SecureStorage
 ) : PreferencesDataStore {
 
     override suspend fun getSettingsConfigFlow(): Flow<SettingsConfig> = combine(
@@ -67,20 +69,20 @@ class PreferencesDataStoreImpl(
     }
 
     override suspend fun getAuthToken(): String {
-        val token = dataStore.getString(KEY_AUTH_TOKEN, String.Companion.empty)
+        val token = secureStorage.read(KEY_AUTH_TOKEN).orEmpty()
         return token
     }
 
     override suspend fun saveAuthToken(token: String) {
-        dataStore.saveString(KEY_AUTH_TOKEN, token)
+        secureStorage.save(KEY_AUTH_TOKEN, token)
     }
 
     override suspend fun getRefreshAuthToken(): String {
-        return dataStore.getString(KEY_REFRESH_AUTH_TOKEN, String.Companion.empty)
+        return secureStorage.read(KEY_REFRESH_AUTH_TOKEN).orEmpty()
     }
 
     override suspend fun saveRefreshAuthToken(token: String) {
-        dataStore.saveString(KEY_REFRESH_AUTH_TOKEN, token)
+        secureStorage.save(KEY_REFRESH_AUTH_TOKEN, token)
     }
 
     override suspend fun isVaultInitialized(): Boolean {
@@ -92,9 +94,10 @@ class PreferencesDataStoreImpl(
     }
 
     override suspend fun clearUserData() {
-        dataStore.clearString(KEY_AUTH_TOKEN)
-        dataStore.clearString(KEY_EMAIL)
-        dataStore.clearString(KEY_SECRET_KEY)
+        secureStorage.remove(KEY_AUTH_TOKEN)
+        secureStorage.remove(KEY_SECRET_KEY)
+        secureStorage.remove(KEY_REFRESH_AUTH_TOKEN)
+        secureStorage.remove(KEY_EMAIL)
         dataStore.clearString(KEY_APPLIED_SORT_ORDER)
         dataStore.clearString(KEY_APPLIED_CATEGORY_FILTERS)
         dataStore.clearString(KEY_APPLIED_ITEM_TYPE_FILTERS)
@@ -103,21 +106,21 @@ class PreferencesDataStoreImpl(
 
     @OptIn(ExperimentalEncodingApi::class)
     override suspend fun saveSecretKey(key: ByteArray) {
-        dataStore.saveString(KEY_SECRET_KEY, Base64.encode(key))
+        secureStorage.save(KEY_SECRET_KEY, Base64.encode(key))
     }
 
     @OptIn(ExperimentalEncodingApi::class)
     override suspend fun getSecretKey(): ByteArray {
-        val keyString = dataStore.getString(KEY_SECRET_KEY, String.Companion.empty)
+        val keyString = secureStorage.read(KEY_SECRET_KEY).orEmpty()
         return Base64.decode(keyString)
     }
 
     override suspend fun saveEmail(email: String) {
-        dataStore.saveString(KEY_EMAIL, email)
+        secureStorage.save(KEY_EMAIL, email)
     }
 
     override suspend fun getEmail(): String {
-        return dataStore.getString(KEY_EMAIL, String.Companion.empty)
+        return secureStorage.read(KEY_EMAIL).orEmpty()
     }
 
     override suspend fun setCustomTheme(theme: ThemeBrand) {

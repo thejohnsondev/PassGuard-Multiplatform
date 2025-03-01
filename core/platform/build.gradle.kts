@@ -27,6 +27,9 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.androidx.security.crypto.ktx)
+        }
         commonMain.dependencies {
             implementation(libs.ktor.serialization.kotlinx.json)
 

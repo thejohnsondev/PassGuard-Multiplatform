@@ -32,6 +32,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.ui.components.HintTextField
 import com.thejohnsondev.ui.designsystem.EqualRounded
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size2
@@ -80,7 +81,7 @@ internal fun AdditionalFieldItem(
         ) {
             Surface(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(Percent100),
                 color = MaterialTheme.colorScheme.surfaceContainerHigh
             ) {
                 Column {

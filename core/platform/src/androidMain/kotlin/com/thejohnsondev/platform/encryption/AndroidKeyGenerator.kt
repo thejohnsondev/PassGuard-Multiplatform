@@ -10,7 +10,7 @@ class AndroidKeyGenerator: KeyGenerator {
             password.toByteArray(),
             password.toByteArray(),
             1000,
-            16
+            32
         )
     }
 

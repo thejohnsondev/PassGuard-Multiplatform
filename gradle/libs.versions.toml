@@ -45,6 +45,7 @@ gms = "4.4.2"
 crashlytcs = "3.0.2"
 uiTestJunit4Android = "1.7.4"
 haze = "0.7.3"
+securityCryptoKtx = "1.0.0"
 
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
@@ -121,6 +122,7 @@ androidx-biometric = { module = "androidx.biometric:biometric-ktx", version.ref 
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose-plugin" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose-plugin" }
 androidx-ui-tooling-preview-desktop = { group = "androidx.compose.ui", name = "ui-tooling-preview-desktop", version.ref = "compose-plugin" }
+androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto", version.ref = "securityCryptoKtx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

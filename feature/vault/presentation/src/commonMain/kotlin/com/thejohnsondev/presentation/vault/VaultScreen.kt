@@ -26,6 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.PASSWORD_IDLE_ITEM_HEIGHT
+import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.additem.AddVaultItemScreen
 import com.thejohnsondev.presentation.component.PasswordItem
@@ -67,6 +69,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Size80
 import com.thejohnsondev.ui.designsystem.colorscheme.getAppLogo
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
+import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.message.MessageContent
@@ -120,6 +123,21 @@ internal fun VaultScreen(
 
     LaunchedEffect(isCompact) {
         vaultViewModel.perform(VaultViewModel.Action.UpdateIsScreenCompact(isCompact))
+    }
+
+    LaunchedEffect(true) {
+        vaultViewModel.getEventFlow().collect {
+            when (it) {
+                is OneTimeEvent.InfoMessage -> {
+                    val message = MessageContent(
+                        message = it.message.getAsText(),
+                        type = MessageType.INFO,
+                        imageVector = Icons.Filled.Info
+                    )
+                    onShowMessage(message)
+                }
+            }
+        }
     }
 
     LaunchedEffect(true) {
@@ -477,11 +495,15 @@ private fun BindPasswordItem(
                 )
             )
         },
-        onCopyClick = {},
+        onCopy = { text ->
+            onAction(VaultViewModel.Action.OnCopyClick(text))
+        },
         onEditClick = {
             onAction(VaultViewModel.Action.OnEditClick(passwordModel))
         },
-        onCopySensitiveClick = {},
+        onCopySensitive = { text ->
+            onAction(VaultViewModel.Action.OnCopySensitiveClick(text))
+        },
         onFavoriteClick = {
             onAction(
                 VaultViewModel.Action.OnMarkAsFavoriteClick(

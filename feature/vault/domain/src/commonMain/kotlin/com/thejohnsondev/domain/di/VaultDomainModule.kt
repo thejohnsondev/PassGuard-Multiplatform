@@ -8,6 +8,8 @@ import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CalculateListSizeUseCaseImpl
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCaseImpl
+import com.thejohnsondev.domain.CopyTextUseCase
+import com.thejohnsondev.domain.CopyTextUseCaseImpl
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCaseImpl
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
@@ -74,4 +76,5 @@ val vaultDomainModule = module {
     singleOf(::SortVaultItemsUseCaseImpl) { bind<SortVaultItemsUseCase>() }
     singleOf(::SortOrderChangeUseCaseImpl) { bind<SortOrderChangeUseCase>() }
     singleOf(::StopModifiedItemAnimUseCaseImpl) { bind<StopModifiedItemAnimUseCase>() }
+    singleOf(::CopyTextUseCaseImpl) { bind<CopyTextUseCase>() }
 }
