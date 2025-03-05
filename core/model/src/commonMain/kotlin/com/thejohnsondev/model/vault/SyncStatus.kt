@@ -3,7 +3,6 @@ package com.thejohnsondev.model.vault
 enum class SyncStatus {
     NEW,
     MODIFIED,
-    DELETED,
     SYNCED;
 
     companion object {
