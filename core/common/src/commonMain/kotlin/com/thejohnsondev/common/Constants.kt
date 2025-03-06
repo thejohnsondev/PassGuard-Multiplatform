@@ -3,6 +3,7 @@ package com.thejohnsondev.common
 const val PASS_MIN_SIZE = 8
 
 const val DATA_STORE_FILE_NAME = "settings.preferences_pb"
+
 val String.Companion.empty: String get() = ""
 
 const val TOGGLE_ANIM_DURATION = 200
@@ -18,7 +19,6 @@ const val PASSWORD_IDLE_ITEM_HEIGHT = 82
 const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
 const val ADDITIONAL_FIELD_HEIGHT = 84
 
-const val SECRET_KEY_SIZE = 256
 const val VAULT_GENERATION_FAKE_TIME_DURATION = 1000L
 
 const val VAULT_ITEM_CATEGORY_PERSONAL = "item_category_personal"
