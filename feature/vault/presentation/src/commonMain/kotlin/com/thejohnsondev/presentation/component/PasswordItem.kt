@@ -227,16 +227,14 @@ internal fun PasswordItem(
                             .background(item.category.colors.getUnselectedContainerColor()),
                     ) {
                         val icon = item.category.categoryIcon.getImageVector()
-                        icon?.let {
-                            Icon(
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .size(Size12),
-                                imageVector = icon,
-                                contentDescription = null,
-                                tint = item.category.colors.getUnselectedContentColor()
-                            )
-                        }
+                        Icon(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(Size12),
+                            imageVector = icon,
+                            contentDescription = null,
+                            tint = item.category.colors.getUnselectedContentColor()
+                        )
                     }
                 }
                 Column(modifier = Modifier.weight(Percent100)) {
