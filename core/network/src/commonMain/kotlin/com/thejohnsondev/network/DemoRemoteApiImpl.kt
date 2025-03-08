@@ -97,8 +97,8 @@ class DemoRemoteApiImpl: RemoteApi {
         }
     }
 
-    override suspend fun deletePassword(passwordDto: PasswordDto): Either<Error, Unit> {
-        val index = passwords.indexOfFirst { it.id == passwordDto.id }
+    override suspend fun deletePassword(passwordID: String): Either<Error, Unit> {
+        val index = passwords.indexOfFirst { it.id == passwordID }
         if (index != -1) {
             passwords.removeAt(index)
             return Either.Right(Unit)

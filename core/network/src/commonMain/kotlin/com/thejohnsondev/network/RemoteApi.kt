@@ -18,5 +18,5 @@ interface RemoteApi {
     suspend fun createPassword(passwordDto: PasswordDto): Either<Error, Unit>
     suspend fun getPasswords(): Either<Error, List<PasswordDto>>
     suspend fun updatePassword(passwordDto: PasswordDto): Either<Error, Unit>
-    suspend fun deletePassword(passwordDto: PasswordDto): Either<Error, Unit>
+    suspend fun deletePassword(passwordID: String): Either<Error, Unit>
 }

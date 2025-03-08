@@ -93,7 +93,7 @@ class FirebaseRemoteApiImpl(
         return Either.Right(Unit) // TODO NOT IMPLEMENTED
     }
 
-    override suspend fun deletePassword(passwordDto: PasswordDto): Either<Error, Unit> {
+    override suspend fun deletePassword(passwordID: String): Either<Error, Unit> {
         return Either.Right(Unit) // TODO NOT IMPLEMENTED
     }
 }
