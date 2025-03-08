@@ -2,6 +2,7 @@ package com.thejohnsondev.domain
 
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.PasswordDto
+import com.thejohnsondev.model.vault.SyncStatus
 
 interface GeneratePasswordModelUseCase {
     operator fun invoke(
@@ -12,6 +13,7 @@ interface GeneratePasswordModelUseCase {
         categoryId: String,
         additionalFields: List<AdditionalFieldDto>,
         createdTime: String?,
-        isFavorite: Boolean
+        isFavorite: Boolean,
+        syncStatus: SyncStatus
     ): PasswordDto
 }

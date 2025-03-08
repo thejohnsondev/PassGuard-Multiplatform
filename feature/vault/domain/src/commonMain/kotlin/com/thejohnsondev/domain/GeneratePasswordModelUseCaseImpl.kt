@@ -3,6 +3,7 @@ package com.thejohnsondev.domain
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.PasswordDto
+import com.thejohnsondev.model.vault.SyncStatus
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -16,7 +17,8 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
         categoryId: String,
         additionalFields: List<AdditionalFieldDto>,
         createdTime: String?,
-        isFavorite: Boolean
+        isFavorite: Boolean,
+        syncStatus: SyncStatus
     ): PasswordDto {
         val finalPasswordId = passwordId ?: Uuid.random().toString()
         val nowTime = getCurrentTimeStamp()
@@ -37,6 +39,7 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
             createdTimeStamp = finalCreatedTime,
             modifiedTimeStamp = modifiedTime,
             isFavorite = isFavorite,
+            syncStatus = syncStatus.name,
         )
     }
 }

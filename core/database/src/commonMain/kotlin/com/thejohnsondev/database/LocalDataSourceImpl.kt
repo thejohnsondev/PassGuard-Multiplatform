@@ -33,7 +33,9 @@ class LocalDataSourceImpl(
             modifiedTimeStamp = passwordDto.modifiedTimeStamp,
             categoryId = passwordDto.categoryId,
             isFavorite = passwordDto.isFavorite,
-            id = passwordDto.id
+            id = passwordDto.id,
+            syncStatus = passwordDto.syncStatus,
+            syncedTimeStamp = passwordDto.syncedTimeStamp
         )
         vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordDto.id)
         passwordDto.additionalFields.forEach {
