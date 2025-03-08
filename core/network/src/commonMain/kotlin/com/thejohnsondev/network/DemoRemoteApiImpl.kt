@@ -9,6 +9,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
+import com.thejohnsondev.model.vault.PasswordDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
@@ -17,6 +18,7 @@ import kotlinx.coroutines.withContext
 class DemoRemoteApiImpl: RemoteApi {
     private val accounts = mutableListOf<FBAuthRequestBody>()
     private val tokens = mutableMapOf<String, String>() // Stores email → token mapping
+    private val passwords = mutableListOf<PasswordDto>()
 
     override suspend fun signUp(body: FBAuthRequestBody): Either<Error, FBAuthSignUpResponse> {
         return withContext(Dispatchers.IO) {
@@ -73,6 +75,35 @@ class DemoRemoteApiImpl: RemoteApi {
             } else {
                 Either.Left(HttpError(400,"Invalid refresh token"))
             }
+        }
+    }
+
+    override suspend fun createPassword(passwordDto: PasswordDto): Either<Error, Unit> {
+        passwords.add(passwordDto)
+        return Either.Right(Unit)
+    }
+
+    override suspend fun getPasswords(): Either<Error, List<PasswordDto>> {
+        return Either.Right(passwords)
+    }
+
+    override suspend fun updatePassword(passwordDto: PasswordDto): Either<Error, Unit> {
+        val index = passwords.indexOfFirst { it.id == passwordDto.id }
+        if (index != -1) {
+            passwords[index] = passwordDto
+            return Either.Right(Unit)
+        } else {
+            return Either.Left(HttpError(404, "Password not found"))
+        }
+    }
+
+    override suspend fun deletePassword(passwordDto: PasswordDto): Either<Error, Unit> {
+        val index = passwords.indexOfFirst { it.id == passwordDto.id }
+        if (index != -1) {
+            passwords.removeAt(index)
+            return Either.Right(Unit)
+        } else {
+            return Either.Left(HttpError(404, "Password not found"))
         }
     }
 
