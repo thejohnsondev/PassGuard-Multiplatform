@@ -136,16 +136,14 @@ private fun SelectedCategoryChip(category: CategoryUIModel) {
             color = category.colors.getUnselectedContentColor()
         )
         val icon = category.categoryIcon.getImageVector()
-        icon?.let {
-            Icon(
-                modifier = Modifier
-                    .padding(end = Size8)
-                    .size(Size24),
-                imageVector = icon,
-                contentDescription = null,
-                tint = category.colors.getUnselectedContentColor()
-            )
-        }
+        Icon(
+            modifier = Modifier
+                .padding(end = Size8)
+                .size(Size24),
+            imageVector = icon,
+            contentDescription = null,
+            tint = category.colors.getUnselectedContentColor()
+        )
     }
 }
 
@@ -186,16 +184,14 @@ private fun CategoryOption(filter: FilterUIModel) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val icon = filter.iconContainer.getImageVector()
-        icon?.let {
-            Icon(
-                modifier = Modifier
-                    .padding(end = Size8)
-                    .size(Size24),
-                imageVector = icon,
-                contentDescription = null,
-                tint = filter.colors.getUnselectedContentColor()
-            )
-        }
+        Icon(
+            modifier = Modifier
+                .padding(end = Size8)
+                .size(Size24),
+            imageVector = icon,
+            contentDescription = null,
+            tint = filter.colors.getUnselectedContentColor()
+        )
         Text(
             text = stringResource(filter.nameResId),
             style = MaterialTheme.typography.titleMedium,
