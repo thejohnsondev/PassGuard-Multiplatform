@@ -542,7 +542,6 @@ private fun MoreInfo(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AdditionalFieldItem(
     additionalField: AdditionalFieldDto,
