@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.TextUnit
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.guard
 import vaultmultiplatform.core.ui.generated.resources.pass
 

@@ -11,7 +11,6 @@ import androidx.compose.ui.text.withStyle
 import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.core.ui.generated.resources.Res
 import vaultmultiplatform.core.ui.generated.resources.accept_and_agree
 import vaultmultiplatform.core.ui.generated.resources.and
 import vaultmultiplatform.core.ui.generated.resources.privacy_policy
