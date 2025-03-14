@@ -22,5 +22,3 @@ actual class DeviceThemeConfig(
 
     actual fun supportsBlockingScreenshots(): Boolean = true
 }
-
-actual val showNavigationBackArrow: Boolean = false
