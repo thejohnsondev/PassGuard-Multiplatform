@@ -24,6 +24,7 @@ import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
+import com.thejohnsondev.sync.SyncManager
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.SortOrder.Companion.toSortOrder
@@ -52,7 +53,8 @@ class VaultViewModel(
     private val sortVaultItemsUseCase: SortVaultItemsUseCase,
     private val sortOrderChangeUseCase: SortOrderChangeUseCase,
     private val stopModifiedItemAnimUseCase: StopModifiedItemAnimUseCase,
-    private val copyTextUseCase: CopyTextUseCase
+    private val copyTextUseCase: CopyTextUseCase,
+    private val syncManager: SyncManager
 ) : BaseViewModel() {
 
     private val _allPasswordsList = MutableStateFlow<List<PasswordUIModel>>(emptyList())
@@ -72,7 +74,7 @@ class VaultViewModel(
 
     fun perform(action: Action) {
         when (action) {
-            is Action.FetchVault -> fetchVault()
+            is Action.FetchVault -> fetchVault(action.isFromLogin)
             is Action.Search -> search(action.query, action.isDeepSearchEnabled)
             is Action.StopSearching -> stopSearching()
             is Action.ShowHideConfirmDelete -> showHideConfirmDelete(action.deletePasswordPair)
@@ -172,10 +174,17 @@ class VaultViewModel(
         }
     }
 
-    private fun fetchVault() = launchLoading {
+    private fun fetchVault(isFromLogin: Boolean) = launchLoading {
+        callSync(isFromLogin)
         fetchFilters()
         fetchSettings()
         fetchPasswords()
+    }
+
+    private fun callSync(isFromLogin: Boolean) {
+        if (isFromLogin) {
+            syncManager.syncOnLogin()
+        }
     }
 
     private suspend fun fetchFilters() {
@@ -366,7 +375,9 @@ class VaultViewModel(
 
     sealed class Action {
         data class UpdateIsScreenCompact(val isCompact: Boolean) : Action()
-        data object FetchVault : Action()
+        data class FetchVault(
+            val isFromLogin: Boolean = false
+        ) : Action()
         data class Search(
             val query: String,
             val isDeepSearchEnabled: Boolean,

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.vault.VaultScreen
 import com.thejohnsondev.presentation.vault.VaultViewModel
@@ -19,18 +20,20 @@ fun NavGraphBuilder.vaultScreen(
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
     updateIsFabExpanded: (Boolean) -> Unit,
-    onShowMessage: (MessageContent) -> Unit
+    onShowMessage: (MessageContent) -> Unit,
 ) {
     composable<Routes.VaultRoute> {
+        val route: Routes.VaultRoute = it.toRoute()
         val vaultViewModel = koinViewModel<VaultViewModel>()
         VaultScreen(
-            windowSize,
-            vaultViewModel,
-            paddingValues,
-            setScaffoldConfig,
-            updateIsEmptyVault,
-            updateIsFabExpanded,
-            onShowMessage
+            windowSizeClass = windowSize,
+            vaultViewModel = vaultViewModel,
+            paddingValues = paddingValues,
+            isFromLogin = route.isFromLogin,
+            setScaffoldConfig = setScaffoldConfig,
+            updateIsEmptyVault = updateIsEmptyVault,
+            updateIsFabExpanded = updateIsFabExpanded,
+            onShowMessage = onShowMessage
         )
     }
 }

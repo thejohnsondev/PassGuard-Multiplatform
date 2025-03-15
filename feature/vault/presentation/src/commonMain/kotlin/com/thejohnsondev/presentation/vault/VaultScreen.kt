@@ -97,6 +97,7 @@ internal fun VaultScreen(
     windowSizeClass: WindowWidthSizeClass,
     vaultViewModel: VaultViewModel,
     paddingValues: PaddingValues,
+    isFromLogin: Boolean,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
     updateIsFabExpanded: (Boolean) -> Unit,
@@ -141,7 +142,7 @@ internal fun VaultScreen(
     }
 
     LaunchedEffect(true) {
-        vaultViewModel.perform(VaultViewModel.Action.FetchVault)
+        vaultViewModel.perform(VaultViewModel.Action.FetchVault(isFromLogin = isFromLogin))
         setScaffoldConfig(
             ScaffoldConfig(
                 topAppBarTitle = getString(ResString.vault),

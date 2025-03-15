@@ -1,6 +1,5 @@
 package com.thejohnsondev.sync
 
-import arrow.core.Either
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.database.LocalDataSource
 import com.thejohnsondev.model.vault.PasswordDto
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 class SyncManager(
     private val localDataSource: LocalDataSource,
     private val remoteApi: RemoteApi,
-    private val appScope: CoroutineScope // Inject application-wide CoroutineScope for background sync
+    private val appScope: CoroutineScope,
 ) {
 
     /** Called when the user logs in */
@@ -62,7 +61,10 @@ class SyncManager(
     }
 
     /** Merges local and remote passwords based on timestamps */
-    private suspend fun mergePasswords(remotePasswords: List<PasswordDto>, localPasswords: Flow<List<PasswordDto>>) {
+    private suspend fun mergePasswords(
+        remotePasswords: List<PasswordDto>,
+        localPasswords: Flow<List<PasswordDto>>,
+    ) {
         val localPasswordsList = localPasswords.firstOrNull() ?: emptyList()
 
         for (remotePassword in remotePasswords) {
@@ -71,7 +73,11 @@ class SyncManager(
             if (localPassword == null) {
                 // New password from another device -> Add to local database
                 localDataSource.createOrUpdatePassword(remotePassword)
-            } else if (isRemoteNewer(remotePassword.modifiedTimeStamp, localPassword.modifiedTimeStamp)) {
+            } else if (isRemoteNewer(
+                    remotePassword.modifiedTimeStamp,
+                    localPassword.modifiedTimeStamp
+                )
+            ) {
                 // Remote version is newer -> Update local database
                 localDataSource.createOrUpdatePassword(remotePassword)
             }

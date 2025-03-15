@@ -1,6 +1,7 @@
 package com.thejohnsondev.network
 
 import arrow.core.Either
+import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
 import com.thejohnsondev.model.auth.firebase.FBAuthDeleteAccountBody
@@ -9,16 +10,42 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
+import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.PasswordDto
+import com.thejohnsondev.model.vault.SyncStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class DemoRemoteApiImpl: RemoteApi {
-    private val accounts = mutableListOf<FBAuthRequestBody>()
+    private val accounts = mutableListOf<FBAuthRequestBody>().apply {
+        add(FBAuthRequestBody("test@test.com", "Pass123$", true))
+    }
     private val tokens = mutableMapOf<String, String>() // Stores email → token mapping
-    private val passwords = mutableListOf<PasswordDto>()
+    private val passwords = mutableListOf<PasswordDto>().apply {
+        add(PasswordDto(
+            id = "1",
+            title = "Example Organization 1",
+            organizationLogo = "https://example.com/logo1.png",
+            userName = "Example Title 1",
+            password = "examplePassword123",
+            additionalFields = listOf(
+                AdditionalFieldDto.testAdditionalField,
+                AdditionalFieldDto.testAdditionalField.copy(
+                    id = "2",
+                    title = "exampleField2",
+                    value = "exampleValue2"
+                )
+            ),
+            modifiedTimeStamp = "November 2 2024 20:01",
+            createdTimeStamp = "November 1 2024 10:22",
+            syncedTimeStamp = null,
+            syncStatus = SyncStatus.SYNCED.name,
+            isFavorite = false,
+            categoryId = VAULT_ITEM_CATEGORY_PERSONAL
+        ))
+    }
 
     override suspend fun signUp(body: FBAuthRequestBody): Either<Error, FBAuthSignUpResponse> {
         return withContext(Dispatchers.IO) {

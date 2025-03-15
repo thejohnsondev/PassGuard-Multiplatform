@@ -13,7 +13,7 @@ class GetFirstScreenRouteUseCaseImpl(
             if (isUseBiometrics) {
                 Routes.BiometricRoute
             } else {
-                Routes.HomeRoute
+                Routes.HomeRoute()
             }
         } else {
             Routes.WelcomeRoute

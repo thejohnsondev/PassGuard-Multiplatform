@@ -22,7 +22,7 @@ sealed class BottomNavItem(
     val index: Int,
 ) {
     data object Vault : BottomNavItem(
-        route = VaultRoute,
+        route = VaultRoute(),
         titleRes = ResString.vault,
         imgResId = ResDrawable.ic_vault_108_gradient,
         index = 0
