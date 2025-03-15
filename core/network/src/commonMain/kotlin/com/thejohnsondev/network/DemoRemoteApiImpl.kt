@@ -2,6 +2,7 @@ package com.thejohnsondev.network
 
 import arrow.core.Either
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
+import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_WORK
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.HttpError
 import com.thejohnsondev.model.auth.firebase.FBAuthDeleteAccountBody
@@ -38,12 +39,31 @@ class DemoRemoteApiImpl: RemoteApi {
                     value = "exampleValue2"
                 )
             ),
-            modifiedTimeStamp = "November 2 2024 20:01",
-            createdTimeStamp = "November 1 2024 10:22",
+            createdTimeStamp = "1742047687",
             syncedTimeStamp = null,
             syncStatus = SyncStatus.SYNCED.name,
             isFavorite = false,
             categoryId = VAULT_ITEM_CATEGORY_PERSONAL
+        ))
+        add(PasswordDto(
+            id = "2",
+            title = "Example Organization 2",
+            organizationLogo = "https://example.com/logo1.png",
+            userName = "Example Title 2",
+            password = "examplePassword123",
+            additionalFields = listOf(
+                AdditionalFieldDto.testAdditionalField,
+                AdditionalFieldDto.testAdditionalField.copy(
+                    id = "3",
+                    title = "exampleField2",
+                    value = "exampleValue2"
+                )
+            ),
+            createdTimeStamp = "1742047687",
+            syncedTimeStamp = null,
+            syncStatus = SyncStatus.SYNCED.name,
+            isFavorite = false,
+            categoryId = VAULT_ITEM_CATEGORY_WORK
         ))
     }
 

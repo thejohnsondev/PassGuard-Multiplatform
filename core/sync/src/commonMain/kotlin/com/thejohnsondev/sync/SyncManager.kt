@@ -1,7 +1,9 @@
 package com.thejohnsondev.sync
 
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.database.LocalDataSource
+import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.vault.PasswordDto
 import com.thejohnsondev.network.RemoteApi
 import kotlinx.coroutines.CoroutineScope
@@ -13,31 +15,47 @@ import kotlinx.coroutines.launch
 
 class SyncManager(
     private val localDataSource: LocalDataSource,
+    private val preferencesDataStore: PreferencesDataStore,
     private val remoteApi: RemoteApi,
     private val appScope: CoroutineScope,
 ) {
 
     /** Called when the user logs in */
     fun syncOnLogin() {
+        Logger.d("Syncing on login")
         appScope.launch(Dispatchers.IO) {
+            if (inSkipSync()) {
+                return@launch
+            }
             syncRemoteToLocal(forceReplace = true)
         }
     }
 
     /** Called when the app launches */
     fun syncOnAppLaunch() {
+        Logger.d("Syncing on app launch")
         appScope.launch(Dispatchers.IO) {
+            if (inSkipSync()) {
+                return@launch
+            }
             syncRemoteToLocal(forceReplace = false)
             syncLocalToRemote()
         }
     }
 
     /** Called after creating/modifying/deleting a password */
-    fun syncLocalToRemote() {
+    private fun syncLocalToRemote() {
         appScope.launch(Dispatchers.IO) {
+            if (inSkipSync()) {
+                return@launch
+            }
             syncNewAndModifiedPasswords()
             syncDeletedPasswords()
         }
+    }
+
+    private suspend fun inSkipSync(): Boolean {
+        return preferencesDataStore.isVaultLocal()
     }
 
     /** Fetches all remote passwords and updates local storage */
@@ -88,15 +106,21 @@ class SyncManager(
     private suspend fun syncNewAndModifiedPasswords() {
         val unsynchronizedPasswords = localDataSource.getUnsynchronisedPasswords()
         for (password in unsynchronizedPasswords) {
-            val result = if (password.syncStatus == "NEW") {
-                remoteApi.createPassword(password)
-            } else {
-                remoteApi.updatePassword(password)
-            }
+            try {
+                val result = if (password.syncStatus == "NEW") {
+                    remoteApi.createPassword(password)
+                } else {
+                    remoteApi.updatePassword(password)
+                }
 
-            if (result.isRight()) {
-                val timestamp = getCurrentTimeStamp()
-                localDataSource.markAsSynchronised(password.id, timestamp)
+                if (result.isRight()) {
+                    val timestamp = getCurrentTimeStamp()
+                    localDataSource.markAsSynchronised(password.id, timestamp)
+                } else {
+                    Logger.e("Failed to sync password: ${password.id}")
+                }
+            } catch (e: Exception) {
+                Logger.e("Failed to sync password: ${password.id}")
             }
         }
     }

@@ -77,7 +77,10 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun markAsSynchronised(passwordId: String, syncedTimeStamp: String) {
-        vaultDatabase.passwordEntityQueries.markAsSynced(passwordId, syncedTimeStamp)
+        vaultDatabase.passwordEntityQueries.markAsSynced(
+            syncedTimeStamp = syncedTimeStamp,
+            id = passwordId
+        )
     }
 
     override suspend fun getDeletedPasswordsIDs(): List<String> {

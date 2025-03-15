@@ -1,12 +1,16 @@
 package com.thejohnsondev.data
 
-class DemoEncryptionRepository: EncryptionRepository {
+import com.thejohnsondev.datastore.PreferencesDataStore
+
+class DemoEncryptionRepository(
+    private val preferencesDataStore: PreferencesDataStore,
+): EncryptionRepository {
     override suspend fun saveSecretKey(key: ByteArray) {
-        // No implementation needed
+        preferencesDataStore.saveSecretKey(key)
     }
 
     override suspend fun getSecretKey(): ByteArray {
-        return ByteArray(0)
+        return preferencesDataStore.getSecretKey()
     }
 
     override suspend fun encrypt(input: String): String {

@@ -184,6 +184,8 @@ class VaultViewModel(
     private fun callSync(isFromLogin: Boolean) {
         if (isFromLogin) {
             syncManager.syncOnLogin()
+        } else {
+            syncManager.syncOnAppLaunch()
         }
     }
 
