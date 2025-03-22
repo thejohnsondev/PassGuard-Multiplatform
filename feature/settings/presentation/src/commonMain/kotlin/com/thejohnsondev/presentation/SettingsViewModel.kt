@@ -23,7 +23,6 @@ import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.model.validation.PasswordValidationState
 import com.thejohnsondev.ui.model.settings.SettingsSection
-import com.thejohnsondev.ui.model.settings.SettingsSubSection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

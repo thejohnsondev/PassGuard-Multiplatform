@@ -3,6 +3,7 @@ package com.thejohnsondev.ui.components
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.clickable
@@ -60,7 +61,7 @@ fun SettingsItem(
             targetState = !expanded
         }
     }
-    val transition = updateTransition(transitionState, label = "")
+    val transition = rememberTransition(transitionState, label = "")
     val cardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
