@@ -3,7 +3,7 @@ package com.thejohnsondev.platform.storage
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 
-class AndroidSecureStorage(private val context: Context): SecureStorage {
+class AndroidSecureStorage(context: Context): SecureStorage {
     private val sharedPreferences = EncryptedSharedPreferences.create(
         "vault_secrets",
         "vault_secrets_key",

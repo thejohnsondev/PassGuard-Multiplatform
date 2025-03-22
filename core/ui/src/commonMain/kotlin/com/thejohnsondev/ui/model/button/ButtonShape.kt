@@ -10,10 +10,5 @@ enum class ButtonShape(
     val bottomStart: Dp,
     val bottomEnd: Dp
 ) {
-    RECTANGLE(Size4, Size4, Size4, Size4),
     ROUNDED(Size16, Size16, Size16, Size16),
-    TOP_ROUNDED(Size16, Size16, Size4, Size4),
-    BOTTOM_ROUNDED(Size4, Size4, Size16, Size16),
-    START_ROUNDED(Size16, Size4, Size16, Size4),
-    END_ROUNDED(Size4, Size16, Size4, Size16)
 }

@@ -19,7 +19,7 @@ class UpdateSelectedFiltersUseCaseImplTest {
             updateSelectedFiltersUseCase.invoke(filters, appliedFiltersIDs)
         }
 
-        assertEquals(emptyList<FilterUIModel>(), result)
+        assertEquals(emptyList(), result)
     }
 
     @Test

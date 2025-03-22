@@ -18,7 +18,7 @@ class GetSelectedFiltersIDsUseCaseImplTest {
             getSelectedFiltersIDsUseCase.invoke(filters)
         }
 
-        assertEquals(emptyList<String>(), result)
+        assertEquals(emptyList(), result)
     }
 
     @Test
@@ -32,7 +32,7 @@ class GetSelectedFiltersIDsUseCaseImplTest {
             getSelectedFiltersIDsUseCase.invoke(filters)
         }
 
-        assertEquals(emptyList<String>(), result)
+        assertEquals(emptyList(), result)
     }
 
     @Test
@@ -77,7 +77,7 @@ class GetSelectedFiltersIDsUseCaseImplTest {
             getSelectedFiltersIDsUseCase.invoke(filters)
         }
 
-        assertEquals(emptyList<String>(), result)
+        assertEquals(emptyList(), result)
     }
 
 }

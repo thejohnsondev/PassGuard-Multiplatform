@@ -1,7 +1,5 @@
 package com.thejohnsondev.network
 
-const val DOT_NET_BASE_URL = "isafeapi2.azurewebsites.net"
-
 const val DOT_NET_SIGN_UP = "/Auth/Register"
 const val DOT_NET_LOGIN = "/Auth/Login"
 const val DOT_NET_DELETE_ACCOUNT = "Auth/DeleteAllData"

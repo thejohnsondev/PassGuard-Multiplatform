@@ -20,7 +20,7 @@ internal suspend fun DataStore<Preferences>.getInt(key: String, defaultValue: In
     return data.first()[intPreferencesKey(key)] ?: defaultValue
 }
 
-internal suspend fun DataStore<Preferences>.getIntFlow(key: String, defaultValue: Int): Flow<Int> =
+internal fun DataStore<Preferences>.getIntFlow(key: String, defaultValue: Int): Flow<Int> =
     flow {
         data.collect { preferences ->
             emit(preferences[intPreferencesKey(key)] ?: defaultValue)
@@ -37,7 +37,7 @@ internal suspend fun DataStore<Preferences>.getString(key: String, defaultValue:
     return data.first()[stringPreferencesKey(key)] ?: defaultValue
 }
 
-internal suspend fun DataStore<Preferences>.getStringsFlow(
+internal fun DataStore<Preferences>.getStringsFlow(
     key: String,
     defaultValue: String
 ): Flow<String> =
@@ -63,7 +63,7 @@ internal suspend fun DataStore<Preferences>.getBoolean(key: String, defaultValue
     return data.first()[booleanPreferencesKey(key)] ?: defaultValue
 }
 
-internal suspend fun DataStore<Preferences>.getBooleanFlow(
+internal fun DataStore<Preferences>.getBooleanFlow(
     key: String,
     defaultValue: Boolean
 ): Flow<Boolean> =
