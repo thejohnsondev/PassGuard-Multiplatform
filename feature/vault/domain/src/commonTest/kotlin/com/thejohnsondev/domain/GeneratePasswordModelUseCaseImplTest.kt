@@ -2,6 +2,7 @@ package com.thejohnsondev.domain
 
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.model.vault.AdditionalFieldDto
+import com.thejohnsondev.model.vault.SyncStatus
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -34,7 +35,8 @@ class GeneratePasswordModelUseCaseImplTest {
             categoryId = categoryId,
             additionalFields = additionalFields,
             createdTime = null,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            syncStatus = SyncStatus.NEW
         )
 
         assertEquals(title, result.title)
@@ -66,7 +68,8 @@ class GeneratePasswordModelUseCaseImplTest {
             categoryId = categoryId,
             additionalFields = additionalFields,
             createdTime = createdTime,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            syncStatus = SyncStatus.NEW
         )
 
         assertEquals(passwordId, result.id)
@@ -100,7 +103,8 @@ class GeneratePasswordModelUseCaseImplTest {
             categoryId = categoryId,
             additionalFields = additionalFields,
             createdTime = createdTime,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            syncStatus = SyncStatus.NEW
         )
 
         assertEquals(passwordId, result.id)
