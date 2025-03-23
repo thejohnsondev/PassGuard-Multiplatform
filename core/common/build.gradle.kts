@@ -121,7 +121,7 @@ buildkonfig {
         buildConfigField(
             FieldSpec.Type.STRING,
             "APP_TYPE",
-            AppType.DEMO.name
+            AppType.REAL.name
         )
     }
 

@@ -44,7 +44,7 @@ class SyncManager(
     }
 
     /** Called after creating/modifying/deleting a password */
-    private fun syncLocalToRemote() {
+    fun syncLocalToRemote() {
         appScope.launch(Dispatchers.IO) {
             if (inSkipSync()) {
                 return@launch
