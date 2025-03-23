@@ -1,28 +1,6 @@
 package com.thejohnsondev.common.utils
 
-import kotlinx.coroutines.channels.ClosedSendChannelException
-import kotlinx.coroutines.channels.ProducerScope
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlin.experimental.ExperimentalTypeInference
-
-
-suspend fun <E> ProducerScope<E>.sendOrNothing(e: E) {
-    try {
-        this.send(e)
-        close()
-    } catch (closedException: ClosedSendChannelException) {
-        // ignore
-    }
-}
-
-@OptIn(ExperimentalTypeInference::class)
-fun <T> awaitChannelFlow(@BuilderInference block: suspend ProducerScope<T>.() -> Unit): Flow<T> =
-    channelFlow {
-        block()
-        awaitClose()
-    }
 
 inline fun <T1, T2, T3, T4, T5, T6, R> combine(
     flow: Flow<T1>,

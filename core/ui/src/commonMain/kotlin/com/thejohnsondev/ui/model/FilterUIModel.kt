@@ -2,14 +2,10 @@ package com.thejohnsondev.ui.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 import com.thejohnsondev.ui.utils.ResString
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.pass
 
 data class FilterUIModel(

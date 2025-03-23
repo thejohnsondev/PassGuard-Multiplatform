@@ -114,17 +114,15 @@ fun Chip(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val icon = filter.iconContainer.getImageVector()
-        icon?.let {
-            Icon(
-                modifier = Modifier.padding(
-                    start = filterChipHorizontalPadding,
-                    end = Size4
-                ).size(Size20),
-                imageVector = it,
-                contentDescription = null,
-                tint = filterContentColor
-            )
-        }
+        Icon(
+            modifier = Modifier.padding(
+                start = filterChipHorizontalPadding,
+                end = Size4
+            ).size(Size20),
+            imageVector = icon,
+            contentDescription = null,
+            tint = filterContentColor
+        )
         Text(
             modifier = Modifier
                 .padding(
