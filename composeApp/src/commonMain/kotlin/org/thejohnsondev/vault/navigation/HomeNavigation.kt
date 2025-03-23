@@ -34,7 +34,8 @@ import com.thejohnsondev.ui.scaffold.HomeScaffold
 @Composable
 fun HomeNavigation(
     windowSizeClass: WindowWidthSizeClass,
-    rootNavController: NavHostController
+    rootNavController: NavHostController,
+    isFromLogin: Boolean
 ) {
     val navController = rememberNavController()
     val bottomBarState = rememberSaveable {
@@ -63,7 +64,7 @@ fun HomeNavigation(
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = Routes.VaultRoute,
+                startDestination = Routes.VaultRoute(isFromLogin = isFromLogin),
                 modifier = Modifier.padding(
                     top = SizeDefault,
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),

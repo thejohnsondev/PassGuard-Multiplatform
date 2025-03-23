@@ -1,8 +1,11 @@
 package com.thejohnsondev.network.di
 
+import com.thejohnsondev.common.AppType
 import com.thejohnsondev.common.Platform
 import com.thejohnsondev.common.getPlatform
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.model.NoInternetConnectionException
+import com.thejohnsondev.network.DemoRemoteApiImpl
 import com.thejohnsondev.network.FirebaseRemoteApiImpl
 import com.thejohnsondev.network.HttpClientProvider
 import com.thejohnsondev.network.RemoteApi
@@ -48,7 +51,15 @@ val networkModule = module {
         }
         client
     }
-    singleOf(::FirebaseRemoteApiImpl) { bind<RemoteApi>() }
+    when (AppType.from(BuildKonfigProvider.getAppType())) {
+        AppType.DEMO -> {
+            singleOf(::DemoRemoteApiImpl) { bind<RemoteApi>() }
+        }
+        AppType.REAL -> {
+            singleOf(::FirebaseRemoteApiImpl) { bind<RemoteApi>() }
+        }
+    }
+
     single {
         Konnection.instance
     }

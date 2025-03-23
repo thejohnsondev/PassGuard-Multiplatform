@@ -39,7 +39,7 @@ fun NavController.navigateToWelcome() {
     navigate(
         Routes.WelcomeRoute
     ) {
-        popUpTo(Routes.HomeRoute) {
+        popUpTo(Routes.HomeRoute()) {
             inclusive = true
         }
     }

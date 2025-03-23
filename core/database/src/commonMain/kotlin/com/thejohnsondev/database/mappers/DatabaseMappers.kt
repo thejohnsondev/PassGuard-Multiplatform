@@ -27,6 +27,8 @@ fun PasswordEntity.mapToDto(
         createdTimeStamp = createdTimeStamp,
         modifiedTimeStamp = modifiedTimeStamp,
         categoryId = categoryId,
-        isFavorite = isFavorite ?: false
+        isFavorite = isFavorite ?: false,
+        syncStatus = syncStatus,
+        syncedTimeStamp = syncedTimeStamp
     )
 }

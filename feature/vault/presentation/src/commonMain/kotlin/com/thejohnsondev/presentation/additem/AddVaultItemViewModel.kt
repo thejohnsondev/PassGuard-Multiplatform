@@ -16,6 +16,7 @@ import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.AdditionalFieldDto
+import com.thejohnsondev.model.vault.SyncStatus
 import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
@@ -98,6 +99,11 @@ class AddVaultItemViewModel(
             return@launchLoading
         }
         val selectedCategoryId = _state.value.selectedCategory.id
+        val syncStatus = if (_state.value.isEdit) {
+            SyncStatus.MODIFIED
+        } else {
+            SyncStatus.NEW
+        }
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
             title = _enteredTitle.value,
@@ -106,7 +112,8 @@ class AddVaultItemViewModel(
             categoryId = selectedCategoryId,
             additionalFields = _additionalFields.value,
             createdTime = _createdTime.value,
-            isFavorite = _state.value.isFavorite
+            isFavorite = _state.value.isFavorite,
+            syncStatus = syncStatus
         )
         val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)

@@ -63,6 +63,7 @@ kotlin {
             api(project(":core:model"))
             api(project(":core:network"))
             api(project(":core:platform"))
+            api(project(":core:sync"))
             api(project(":core:ui"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))

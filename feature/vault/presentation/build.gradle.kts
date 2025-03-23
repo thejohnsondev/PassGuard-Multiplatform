@@ -41,6 +41,7 @@ kotlin {
             api(project(":core:model"))
             api(project(":core:common"))
             api(project(":core:ui"))
+            api(project(":core:sync"))
             api(project(":feature:vault:domain"))
             api(project(":feature:settings:domain"))
 

@@ -8,7 +8,7 @@ class PasswordsRepositoryImpl(
     private val localDataSource: LocalDataSource
 ): PasswordsRepository {
     override suspend fun getUserPasswords(): Flow<List<PasswordDto>> {
-        return localDataSource.getUserPasswords()
+        return localDataSource.getAllPasswords()
     }
 
     override suspend fun createOrUpdatePassword(passwordDto: PasswordDto) {

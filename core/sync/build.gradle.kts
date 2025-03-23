@@ -4,9 +4,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -14,6 +11,7 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.add("-Xexpect-actual-classes")
         }
     }
 
@@ -31,45 +29,38 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            // Koin
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.kotlinx.coroutines.android)
+        }
         commonMain.dependencies {
-            api(project(":core:model"))
+            api(project(":core:network"))
+            api(project(":core:database"))
             api(project(":core:common"))
-            api(project(":core:ui"))
-            api(project(":core:sync"))
-            implementation(project(":feature:auth:data"))
-            implementation(project(":feature:vault:data"))
 
-            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.kotlinx.coroutines.core)
 
             // Koin
             api(libs.koin.core)
+            implementation(libs.koin.compose)
 
             // Arrow Either
             implementation(libs.arrow.core)
 
-            // Compose
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-
-            implementation(libs.kotlinx.datetime)
         }
-        commonTest.dependencies {
+        androidUnitTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.arrow.core)
-        }
-
-        val unitTest by creating {
-            dependsOn(commonTest.get())
-            androidUnitTest.dependencies {
-                implementation(libs.mockk)
-            }
+            implementation(libs.mockk)
         }
     }
 }
 
 android {
-    namespace = "org.thejohnsondev.domain"
+    namespace = "org.thejohnsondev.sync"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
