@@ -19,10 +19,14 @@ sealed class Routes {
     data object BiometricRoute : Routes()
 
     @Serializable
-    data object HomeRoute : Routes()
+    data class HomeRoute(
+        val isFromLogin: Boolean = false
+    ) : Routes()
 
     @Serializable
-    data object VaultRoute : Routes()
+    data class VaultRoute(
+        val isFromLogin: Boolean = false
+    ) : Routes()
 
     @Serializable
     data object ToolsRoute : Routes()

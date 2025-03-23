@@ -10,7 +10,8 @@ import org.thejohnsondev.vault.database.VaultDatabase
 class LocalDataSourceImpl(
     private val vaultDatabase: VaultDatabase
 ) : LocalDataSource {
-    override suspend fun getUserPasswords(): Flow<List<PasswordDto>> {
+
+    override suspend fun getAllPasswords(): Flow<List<PasswordDto>> {
         return vaultDatabase.passwordEntityQueries.getAll().asFlow().map {
             it.executeAsList().map { passwordEntity ->
                 passwordEntity.mapToDto(
@@ -33,7 +34,9 @@ class LocalDataSourceImpl(
             modifiedTimeStamp = passwordDto.modifiedTimeStamp,
             categoryId = passwordDto.categoryId,
             isFavorite = passwordDto.isFavorite,
-            id = passwordDto.id
+            id = passwordDto.id,
+            syncStatus = passwordDto.syncStatus,
+            syncedTimeStamp = passwordDto.syncedTimeStamp
         )
         vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordDto.id)
         passwordDto.additionalFields.forEach {
@@ -55,10 +58,37 @@ class LocalDataSourceImpl(
     override suspend fun deletePassword(passwordId: String) {
         vaultDatabase.passwordEntityQueries.deleteById(passwordId)
         vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordId)
+        vaultDatabase.deletedPasswordsQueries.insert(passwordId)
     }
 
     override suspend fun updateIsFavorite(passwordId: String, isFavorite: Boolean) {
         vaultDatabase.passwordEntityQueries.updateIsFavorite(isFavorite = isFavorite, id = passwordId)
+    }
+
+    override suspend fun getUnsynchronisedPasswords(): List<PasswordDto> {
+        return vaultDatabase.passwordEntityQueries.getUnsynchronised().executeAsList().map { passwordEntity ->
+            passwordEntity.mapToDto(
+                vaultDatabase.additionalFieldEntityQueries.getByPasswordId(passwordEntity.id)
+                    .executeAsList().map { additionalFieldEntity ->
+                        additionalFieldEntity.mapToDto()
+                    }
+            )
+        }
+    }
+
+    override suspend fun markAsSynchronised(passwordId: String, syncedTimeStamp: String) {
+        vaultDatabase.passwordEntityQueries.markAsSynced(
+            syncedTimeStamp = syncedTimeStamp,
+            id = passwordId
+        )
+    }
+
+    override suspend fun getDeletedPasswordsIDs(): List<String> {
+        return vaultDatabase.deletedPasswordsQueries.getAll().executeAsList()
+    }
+
+    override suspend fun deleteDeletedPasswordID(passwordId: String) {
+        vaultDatabase.deletedPasswordsQueries.delete(passwordId)
     }
 
     override suspend fun logout() {

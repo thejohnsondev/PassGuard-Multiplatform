@@ -10,6 +10,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
+import com.thejohnsondev.model.vault.PasswordDto
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -78,5 +79,21 @@ class FirebaseRemoteApiImpl(
                 setBody(body)
             }
         }
+    }
+
+    override suspend fun createPassword(passwordDto: PasswordDto): Either<Error, Unit> {
+        return Either.Right(Unit) // TODO NOT IMPLEMENTED
+    }
+
+    override suspend fun getPasswords(): Either<Error, List<PasswordDto>> {
+        return Either.Right(emptyList()) // TODO NOT IMPLEMENTED
+    }
+
+    override suspend fun updatePassword(passwordDto: PasswordDto): Either<Error, Unit> {
+        return Either.Right(Unit) // TODO NOT IMPLEMENTED
+    }
+
+    override suspend fun deletePassword(passwordID: String): Either<Error, Unit> {
+        return Either.Right(Unit) // TODO NOT IMPLEMENTED
     }
 }

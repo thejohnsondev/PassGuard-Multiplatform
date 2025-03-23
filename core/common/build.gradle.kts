@@ -85,6 +85,11 @@ dependencies {
     androidTestImplementation(libs.runner)
 }
 
+enum class AppType {
+    REAL,
+    DEMO
+}
+
 buildkonfig {
     packageName = "org.thejohnsondev.common"
 
@@ -112,6 +117,11 @@ buildkonfig {
             FieldSpec.Type.STRING,
             "FIREBASE_API_KEY",
             localProperties["firebase_api_key"]?.toString() ?: ""
+        )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "APP_TYPE",
+            AppType.REAL.name
         )
     }
 

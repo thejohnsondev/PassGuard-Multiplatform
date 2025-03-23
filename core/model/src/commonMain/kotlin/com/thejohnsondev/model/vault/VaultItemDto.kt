@@ -5,5 +5,7 @@ interface VaultItemDto {
     val isFavorite: Boolean
     val createdTimeStamp: String?
     val modifiedTimeStamp: String?
+    val syncedTimeStamp: String?
+    val syncStatus: String?
     val categoryId: String
 }

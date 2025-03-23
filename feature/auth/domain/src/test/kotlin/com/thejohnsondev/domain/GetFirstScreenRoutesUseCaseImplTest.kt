@@ -19,7 +19,7 @@ class GetFirstScreenRoutesUseCaseImplTest {
 
         val result = useCase.invoke()
 
-        assertEquals(Routes.HomeRoute, result)
+        assertEquals(Routes.HomeRoute(), result)
     }
 
     @Test

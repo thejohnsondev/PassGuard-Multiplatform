@@ -9,6 +9,8 @@ data class BankAccountDto(
     override val id: String,
     override val createdTimeStamp: String? = null,
     override val modifiedTimeStamp: String? = null,
+    override val syncedTimeStamp: String? = null,
+    override val syncStatus: String? = null,
     override val isFavorite: Boolean = false,
     override val categoryId: String,
 ): VaultItemDto
