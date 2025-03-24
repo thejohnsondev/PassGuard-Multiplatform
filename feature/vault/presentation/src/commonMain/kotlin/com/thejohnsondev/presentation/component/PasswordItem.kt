@@ -382,7 +382,7 @@ fun ExpandedContent(
                         isHidden = !isHidden
                     },
                     onLongClick = {
-                        onCopy(passwordModel.password)
+                        onCopySensitive(passwordModel.password)
                     }
                 )
                 Spacer(modifier = Modifier.weight(Percent100))
