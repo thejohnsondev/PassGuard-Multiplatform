@@ -1,5 +1,9 @@
 package com.thejohnsondev.data
 
+import arrow.core.Either
+import com.thejohnsondev.model.Error
+import com.thejohnsondev.model.auth.logo.FindLogoResponse
+
 interface VaultRepository {
     suspend fun updateAppliedItemTypeFilters(typeFilters: List<String>)
     suspend fun updateAppliedCategoryFilters(categoryFilters: List<String>)
@@ -10,4 +14,5 @@ interface VaultRepository {
     suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
     suspend fun getAppliedShowFavoritesAtTop(): Boolean
     fun copyText(text: String, isSensitive: Boolean)
+    suspend fun findLogo(query: String): Either<Error, List<FindLogoResponse>>
 }

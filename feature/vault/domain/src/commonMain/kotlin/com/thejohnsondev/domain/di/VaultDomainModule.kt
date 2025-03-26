@@ -20,6 +20,8 @@ import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCaseImpl
 import com.thejohnsondev.domain.FilterItemsUseCase
 import com.thejohnsondev.domain.FilterItemsUseCaseImpl
+import com.thejohnsondev.domain.FindLogoUseCase
+import com.thejohnsondev.domain.FindLogoUseCaseImpl
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCaseImpl
 import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
@@ -77,4 +79,5 @@ val vaultDomainModule = module {
     singleOf(::SortOrderChangeUseCaseImpl) { bind<SortOrderChangeUseCase>() }
     singleOf(::StopModifiedItemAnimUseCaseImpl) { bind<StopModifiedItemAnimUseCase>() }
     singleOf(::CopyTextUseCaseImpl) { bind<CopyTextUseCase>() }
+    singleOf(::FindLogoUseCaseImpl) { bind<FindLogoUseCase>() }
 }

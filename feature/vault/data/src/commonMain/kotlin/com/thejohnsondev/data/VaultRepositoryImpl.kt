@@ -1,11 +1,17 @@
 package com.thejohnsondev.data
 
+import arrow.core.Either
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.model.Error
+import com.thejohnsondev.model.auth.logo.FindLogoResponse
+import com.thejohnsondev.network.LogoApi
 import com.thejohnsondev.platform.utils.ClipboardUtils
+import kotlinx.coroutines.flow.Flow
 
 class VaultRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
-    private val clipboardUtils: ClipboardUtils
+    private val clipboardUtils: ClipboardUtils,
+    private val logoApi: LogoApi
 ): VaultRepository {
     override suspend fun updateAppliedItemTypeFilters(typeFilters: List<String>) {
         preferencesDataStore.updateAppliedItemTypeFilters(typeFilters)
@@ -45,5 +51,9 @@ class VaultRepositoryImpl(
         } else {
             clipboardUtils.copyToClipboard(text)
         }
+    }
+
+    override suspend fun findLogo(query: String): Either<Error, List<FindLogoResponse>> {
+        return logoApi.find(query)
     }
 }

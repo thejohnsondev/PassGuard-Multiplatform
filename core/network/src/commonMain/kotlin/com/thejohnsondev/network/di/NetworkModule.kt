@@ -8,6 +8,8 @@ import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.network.DemoRemoteApiImpl
 import com.thejohnsondev.network.FirebaseRemoteApiImpl
 import com.thejohnsondev.network.HttpClientProvider
+import com.thejohnsondev.network.LogoApi
+import com.thejohnsondev.network.LogoApiImpl
 import com.thejohnsondev.network.RemoteApi
 import dev.tmapps.konnection.Konnection
 import io.ktor.client.plugins.HttpSend
@@ -59,6 +61,8 @@ val networkModule = module {
             singleOf(::FirebaseRemoteApiImpl) { bind<RemoteApi>() }
         }
     }
+
+    singleOf(::LogoApiImpl) { bind<LogoApi>() }
 
     single {
         Konnection.instance

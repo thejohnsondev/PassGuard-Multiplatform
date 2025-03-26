@@ -120,6 +120,11 @@ buildkonfig {
         )
         buildConfigField(
             FieldSpec.Type.STRING,
+            "LOGO_API_KEY",
+            localProperties["logo_api_key"]?.toString() ?: ""
+        )
+        buildConfigField(
+            FieldSpec.Type.STRING,
             "APP_TYPE",
             AppType.REAL.name
         )
