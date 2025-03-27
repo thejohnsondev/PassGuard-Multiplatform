@@ -124,6 +124,7 @@ internal fun AddVaultItemScreen(
         sheetState = sheetState,
         state = state.value,
         enteredTitle = viewModel.enteredTitle,
+        organizationLogo = viewModel.organizationLogo,
         enteredUserName = viewModel.enteredUserName,
         enteredPassword = viewModel.enteredPassword,
         additionalFields = viewModel.additionalFields,
@@ -141,6 +142,7 @@ internal fun AddVaultItemContent(
     sheetState: SheetState,
     state: AddVaultItemViewModel.State,
     enteredTitle: MutableState<String>,
+    organizationLogo: MutableState<String?>,
     enteredUserName: MutableState<String>,
     enteredPassword: MutableState<String>,
     additionalFields: MutableState<List<AdditionalFieldDto>>,
@@ -173,6 +175,7 @@ internal fun AddVaultItemContent(
         AddPasswordFields(
             state = state,
             enteredTitle = enteredTitle,
+            organizationLogo = organizationLogo,
             enteredUserName = enteredUserName,
             enteredPassword = enteredPassword,
             additionalFields = additionalFields,
@@ -227,6 +230,7 @@ private fun ModalDragHandle(
 internal fun AddPasswordFields(
     state: AddVaultItemViewModel.State,
     enteredTitle: MutableState<String>,
+    organizationLogo: MutableState<String?>,
     enteredUserName: MutableState<String>,
     enteredPassword: MutableState<String>,
     additionalFields: MutableState<List<AdditionalFieldDto>>,
@@ -273,6 +277,7 @@ internal fun AddPasswordFields(
             TitleField(
                 onAction = onAction,
                 enteredTitle = enteredTitle,
+                organizationLogo = organizationLogo,
                 titleFocusRequester = titleFocusRequester,
                 userNameFocusRequester = userNameFocusRequester
             )
@@ -489,6 +494,7 @@ private fun UserNameField(
 private fun TitleField(
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     enteredTitle: MutableState<String>,
+    organizationLogo: MutableState<String?>,
     titleFocusRequester: FocusRequester,
     userNameFocusRequester: FocusRequester,
 ) {
@@ -506,7 +512,7 @@ private fun TitleField(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(Size4),
-                imageUrl = String.empty,
+                imageUrl = organizationLogo.value.orEmpty(),
                 placeholderDrawableResource = ResDrawable.ic_password,
                 errorDrawableResource = ResDrawable.ic_password,
                 placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,

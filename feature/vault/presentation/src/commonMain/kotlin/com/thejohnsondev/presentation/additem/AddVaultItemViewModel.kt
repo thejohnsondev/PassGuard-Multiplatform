@@ -4,10 +4,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
+import com.thejohnsondev.domain.FindLogoUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
@@ -22,12 +24,15 @@ import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 
 class AddVaultItemViewModel(
     private val passwordsService: PasswordsService,
@@ -38,6 +43,7 @@ class AddVaultItemViewModel(
     private val generatePasswordModelUseCase: GeneratePasswordModelUseCase,
     private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
     private val validatePasswordModelUseCase: ValidatePasswordModelUseCase,
+    private val findLogoUseCase: FindLogoUseCase
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
@@ -45,6 +51,9 @@ class AddVaultItemViewModel(
 
     private val _enteredTitle = mutableStateOf(String.empty)
     val enteredTitle = _enteredTitle
+
+    private val _organizationLogo = mutableStateOf<String?>(String.empty)
+    val organizationLogo = _organizationLogo
 
     private val _enteredUserName = mutableStateOf(String.empty)
     val enteredUserName = _enteredUserName
@@ -129,6 +138,7 @@ class AddVaultItemViewModel(
         _passwordId.emit(passwordUIModel.id)
         _createdTime.emit(passwordUIModel.createdTime)
         _enteredTitle.value = passwordUIModel.title
+        _organizationLogo.value = passwordUIModel.organizationLogo
         _enteredUserName.value = passwordUIModel.userName
         _enteredPassword.value = passwordUIModel.password
         _additionalFields.value = passwordUIModel.additionalFields
@@ -144,7 +154,18 @@ class AddVaultItemViewModel(
 
     private fun enterTitle(title: String)  {
         _enteredTitle.value = title
+        tryToFindLogo(title)
         validateFields()
+    }
+
+    private fun tryToFindLogo(title: String) = launch {
+        withContext(Dispatchers.IO) {
+            findLogoUseCase(title).onResult {
+                // TODO optimise calls, show loading
+                val foundLogo = it.firstOrNull()?.logoUrl
+                _organizationLogo.value = foundLogo
+            }
+        }
     }
 
     private fun enterUserName(userName: String) {
@@ -198,6 +219,7 @@ class AddVaultItemViewModel(
         _passwordId.emit(null)
         _createdTime.emit(null)
         _enteredTitle.value = String.empty
+        _organizationLogo.value = null
         _enteredUserName.value = String.empty
         _enteredPassword.value = String.empty
         _additionalFields.value = emptyList()
