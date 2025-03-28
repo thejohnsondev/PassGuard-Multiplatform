@@ -146,6 +146,11 @@ android {
         getByName("release") {
             isMinifyEnabled = false
         }
+        getByName("debug") {
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            isMinifyEnabled = false
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
