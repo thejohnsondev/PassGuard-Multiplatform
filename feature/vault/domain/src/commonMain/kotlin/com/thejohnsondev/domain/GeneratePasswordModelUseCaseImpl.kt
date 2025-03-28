@@ -12,6 +12,7 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
     override fun invoke(
         passwordId: String?,
         title: String,
+        organizationLogoUrl: String,
         userName: String,
         password: String,
         categoryId: String,
@@ -32,6 +33,7 @@ class GeneratePasswordModelUseCaseImpl : GeneratePasswordModelUseCase {
         return PasswordDto(
             id = finalPasswordId,
             title = title,
+            organizationLogo = organizationLogoUrl,
             userName = userName,
             password = password,
             categoryId = categoryId,

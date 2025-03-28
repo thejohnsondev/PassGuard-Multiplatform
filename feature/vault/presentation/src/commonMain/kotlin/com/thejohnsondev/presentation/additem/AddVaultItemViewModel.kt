@@ -9,6 +9,7 @@ import com.thejohnsondev.domain.AddAdditionalFieldUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
+import com.thejohnsondev.domain.ExtractCompanyNameUseCase
 import com.thejohnsondev.domain.FindLogoUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.PasswordsService
@@ -25,14 +26,22 @@ import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
+
+private const val LOGO_SEARCH_DEBOUNCE_TIME = 500L
 
 class AddVaultItemViewModel(
     private val passwordsService: PasswordsService,
@@ -43,12 +52,14 @@ class AddVaultItemViewModel(
     private val generatePasswordModelUseCase: GeneratePasswordModelUseCase,
     private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
     private val validatePasswordModelUseCase: ValidatePasswordModelUseCase,
-    private val findLogoUseCase: FindLogoUseCase
+    private val findLogoUseCase: FindLogoUseCase,
+    private val extractCompanyNameUseCase: ExtractCompanyNameUseCase
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
     private val _createdTime = MutableStateFlow<String?>(null)
 
+    private val _enteredTitleFlow = MutableStateFlow(String.empty)
     private val _enteredTitle = mutableStateOf(String.empty)
     val enteredTitle = _enteredTitle
 
@@ -63,6 +74,10 @@ class AddVaultItemViewModel(
 
     private val _additionalFields = mutableStateOf<List<AdditionalFieldDto>>(emptyList())
     val additionalFields = _additionalFields
+
+    init {
+        observeTitleChanges()
+    }
 
     private val _state = MutableStateFlow(State())
     val state = combine(
@@ -115,6 +130,7 @@ class AddVaultItemViewModel(
         }
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
+            organizationLogoUrl = _organizationLogo.value.orEmpty(),
             title = _enteredTitle.value,
             userName = _enteredUserName.value,
             password = _enteredPassword.value,
@@ -152,16 +168,28 @@ class AddVaultItemViewModel(
         validateFields()
     }
 
-    private fun enterTitle(title: String)  {
+    private fun enterTitle(title: String) {
         _enteredTitle.value = title
-        tryToFindLogo(title)
+        _enteredTitleFlow.tryEmit(title)
         validateFields()
     }
 
-    private fun tryToFindLogo(title: String) = launch {
+    @OptIn(FlowPreview::class)
+    private fun observeTitleChanges() {
+        _enteredTitleFlow
+            .filter { it.length >= 3 }
+            .debounce(LOGO_SEARCH_DEBOUNCE_TIME)
+            .distinctUntilChanged()
+            .onEach { title -> tryToFindLogo(title) }
+            .launchIn(viewModelScope)
+    }
+
+    private suspend fun tryToFindLogo(title: String) {
         withContext(Dispatchers.IO) {
-            findLogoUseCase(title).onResult {
-                // TODO optimise calls, show loading
+            val companyName = extractCompanyNameUseCase(title)
+            if (companyName.isNullOrBlank()) return@withContext
+
+            findLogoUseCase(companyName).onResult {
                 val foundLogo = it.firstOrNull()?.logoUrl
                 _organizationLogo.value = foundLogo
             }
@@ -173,7 +201,7 @@ class AddVaultItemViewModel(
         validateFields()
     }
 
-    private fun enterPassword(password: String)  {
+    private fun enterPassword(password: String) {
         _enteredPassword.value = password
         validateFields()
     }

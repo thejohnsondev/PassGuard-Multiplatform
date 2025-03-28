@@ -18,6 +18,8 @@ import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCaseImpl
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCaseImpl
+import com.thejohnsondev.domain.ExtractCompanyNameUseCase
+import com.thejohnsondev.domain.ExtractCompanyNameUseCaseImpl
 import com.thejohnsondev.domain.FilterItemsUseCase
 import com.thejohnsondev.domain.FilterItemsUseCaseImpl
 import com.thejohnsondev.domain.FindLogoUseCase
@@ -80,4 +82,5 @@ val vaultDomainModule = module {
     singleOf(::StopModifiedItemAnimUseCaseImpl) { bind<StopModifiedItemAnimUseCase>() }
     singleOf(::CopyTextUseCaseImpl) { bind<CopyTextUseCase>() }
     singleOf(::FindLogoUseCaseImpl) { bind<FindLogoUseCase>() }
+    singleOf(::ExtractCompanyNameUseCaseImpl) { bind<ExtractCompanyNameUseCase>() }
 }
