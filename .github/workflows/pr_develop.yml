@@ -38,7 +38,7 @@ jobs:
           auth_secret_key=$AUTH_SECRET_KEY
           auth_secret_iv=$AUTH_SECRET_IV
           firebase_api_key=$FIREBASE_API_KEY
-          logo_api_key=LOGO_API_KEY
+          logo_api_key=$LOGO_API_KEY
           EOF
 
       - name: Create BuildKonfig
