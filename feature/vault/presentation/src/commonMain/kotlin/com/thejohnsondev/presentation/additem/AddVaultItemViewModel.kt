@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
-import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
@@ -34,7 +33,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -62,9 +60,6 @@ class AddVaultItemViewModel(
     private val _enteredTitleFlow = MutableStateFlow(String.empty)
     private val _enteredTitle = mutableStateOf(String.empty)
     val enteredTitle = _enteredTitle
-
-    private val _organizationLogo = mutableStateOf<String?>(String.empty)
-    val organizationLogo = _organizationLogo
 
     private val _enteredUserName = mutableStateOf(String.empty)
     val enteredUserName = _enteredUserName
@@ -107,6 +102,7 @@ class AddVaultItemViewModel(
             )
 
             is Action.RemoveAdditionalField -> removeAdditionalField(action.id)
+            is Action.ClearLogo -> clearLogo()
             is Action.SavePassword -> savePassword()
             is Action.Clear -> clear()
             is Action.SelectCategory -> selectCategory(action.category)
@@ -130,7 +126,7 @@ class AddVaultItemViewModel(
         }
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
-            organizationLogoUrl = _organizationLogo.value.orEmpty(),
+            organizationLogoUrl = state.value.organizationLogo,
             title = _enteredTitle.value,
             userName = _enteredUserName.value,
             password = _enteredPassword.value,
@@ -154,7 +150,6 @@ class AddVaultItemViewModel(
         _passwordId.emit(passwordUIModel.id)
         _createdTime.emit(passwordUIModel.createdTime)
         _enteredTitle.value = passwordUIModel.title
-        _organizationLogo.value = passwordUIModel.organizationLogo
         _enteredUserName.value = passwordUIModel.userName
         _enteredPassword.value = passwordUIModel.password
         _additionalFields.value = passwordUIModel.additionalFields
@@ -162,7 +157,8 @@ class AddVaultItemViewModel(
             it.copy(
                 isEdit = true,
                 selectedCategory = passwordUIModel.category,
-                isFavorite = passwordUIModel.isFavorite
+                isFavorite = passwordUIModel.isFavorite,
+                organizationLogo = passwordUIModel.organizationLogo.orEmpty()
             )
         }
         validateFields()
@@ -194,7 +190,7 @@ class AddVaultItemViewModel(
 
             findLogoUseCase(companyName).onResult {
                 val foundLogo = it.firstOrNull()?.logoUrl
-                _organizationLogo.value = foundLogo
+                _state.update { it.copy(organizationLogo = foundLogo.orEmpty()) }
                 showLogoLoading(false)
             }
         }
@@ -250,12 +246,15 @@ class AddVaultItemViewModel(
         }
     }
 
+    private fun clearLogo() {
+        _state.update { it.copy(organizationLogo = String.empty) }
+    }
+
     fun clear() = launch {
         screenState.emit(ScreenState.None)
         _passwordId.emit(null)
         _createdTime.emit(null)
         _enteredTitle.value = String.empty
-        _organizationLogo.value = null
         _enteredUserName.value = String.empty
         _enteredPassword.value = String.empty
         _additionalFields.value = emptyList()
@@ -272,6 +271,7 @@ class AddVaultItemViewModel(
         data class EnterAdditionalFieldValue(val id: String, val value: String) : Action()
         data class RemoveAdditionalField(val id: String) : Action()
         data class SelectCategory(val category: CategoryUIModel) : Action()
+        data object ClearLogo: Action()
         data object SavePassword : Action()
         data object Clear : Action()
     }
@@ -283,8 +283,12 @@ class AddVaultItemViewModel(
         val itemCategoryFilters: List<FilterUIModel> = FiltersProvider.Category.getVaultCategoryFilters(),
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
-        val isLogoLoading: Boolean = false
-    )
+        val organizationLogo: String = String.empty,
+        val isLogoLoading: Boolean = false,
+    ) {
+        val showClearLogoButton: Boolean
+            get() = organizationLogo.isNotBlank()
+    }
 
     companion object {
         private const val SAVE_ANIMATE_TIME = 300L

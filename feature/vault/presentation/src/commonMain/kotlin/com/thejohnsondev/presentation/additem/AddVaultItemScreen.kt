@@ -1,7 +1,9 @@
 package com.thejohnsondev.presentation.additem
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,9 +15,11 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -39,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -63,9 +68,11 @@ import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
+import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
@@ -124,7 +131,6 @@ internal fun AddVaultItemScreen(
         sheetState = sheetState,
         state = state.value,
         enteredTitle = viewModel.enteredTitle,
-        organizationLogo = viewModel.organizationLogo,
         enteredUserName = viewModel.enteredUserName,
         enteredPassword = viewModel.enteredPassword,
         additionalFields = viewModel.additionalFields,
@@ -142,7 +148,6 @@ internal fun AddVaultItemContent(
     sheetState: SheetState,
     state: AddVaultItemViewModel.State,
     enteredTitle: MutableState<String>,
-    organizationLogo: MutableState<String?>,
     enteredUserName: MutableState<String>,
     enteredPassword: MutableState<String>,
     additionalFields: MutableState<List<AdditionalFieldDto>>,
@@ -175,7 +180,6 @@ internal fun AddVaultItemContent(
         AddPasswordFields(
             state = state,
             enteredTitle = enteredTitle,
-            organizationLogo = organizationLogo,
             enteredUserName = enteredUserName,
             enteredPassword = enteredPassword,
             additionalFields = additionalFields,
@@ -230,7 +234,6 @@ private fun ModalDragHandle(
 internal fun AddPasswordFields(
     state: AddVaultItemViewModel.State,
     enteredTitle: MutableState<String>,
-    organizationLogo: MutableState<String?>,
     enteredUserName: MutableState<String>,
     enteredPassword: MutableState<String>,
     additionalFields: MutableState<List<AdditionalFieldDto>>,
@@ -278,7 +281,6 @@ internal fun AddPasswordFields(
                 state = state,
                 onAction = onAction,
                 enteredTitle = enteredTitle,
-                organizationLogo = organizationLogo,
                 titleFocusRequester = titleFocusRequester,
                 userNameFocusRequester = userNameFocusRequester
             )
@@ -496,7 +498,6 @@ private fun TitleField(
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     enteredTitle: MutableState<String>,
-    organizationLogo: MutableState<String?>,
     titleFocusRequester: FocusRequester,
     userNameFocusRequester: FocusRequester,
 ) {
@@ -505,28 +506,55 @@ private fun TitleField(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Surface(
-            modifier = Modifier.size(Size48),
-            color = Color.Transparent,
-            shape = EqualRounded.small
+        Box(
+            modifier = Modifier
+                .size(Size56)
         ) {
-            LoadedImage(
-                modifier = Modifier
-                    .fillMaxSize(),
-                imageUrl = organizationLogo.value.orEmpty(),
-                placeholderDrawableResource = ResDrawable.ic_password,
-                errorDrawableResource = ResDrawable.ic_password,
-                placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                backgroundColor = Color.Transparent,
-                showLoading = state.isLogoLoading
-            )
+            Surface(
+                modifier = Modifier.size(Size48),
+                color = Color.Transparent,
+                shape = EqualRounded.small
+            ) {
+                LoadedImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    imageUrl = state.organizationLogo,
+                    placeholderDrawableResource = ResDrawable.ic_password,
+                    errorDrawableResource = ResDrawable.ic_password,
+                    placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    backgroundColor = Color.Transparent,
+                    showLoading = state.isLogoLoading
+                )
+            }
+            if (state.showClearLogoButton) {
+                Box(
+                    modifier = Modifier
+                        .size(Size22)
+                        .align(Alignment.BottomEnd)
+                        .padding(top = Size4, start = Size4)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .clickable {
+                            onAction(AddVaultItemViewModel.Action.ClearLogo)
+                        }
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(Size12),
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            }
         }
         HintTextField(
             modifier = Modifier
                 .focusRequester(titleFocusRequester)
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(start = Size16)
+                .padding(start = Size16, bottom = Size8)
                 .onEnterClick {
                     onAction(AddVaultItemViewModel.Action.SavePassword)
                 },
