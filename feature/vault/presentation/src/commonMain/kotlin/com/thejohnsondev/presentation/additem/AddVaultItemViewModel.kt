@@ -177,7 +177,6 @@ class AddVaultItemViewModel(
     @OptIn(FlowPreview::class)
     private fun observeTitleChanges() {
         _enteredTitleFlow
-            .filter { it.length >= 3 }
             .debounce(LOGO_SEARCH_DEBOUNCE_TIME)
             .distinctUntilChanged()
             .onEach { title -> tryToFindLogo(title) }
@@ -188,7 +187,10 @@ class AddVaultItemViewModel(
         withContext(Dispatchers.IO) {
             showLogoLoading(true)
             val companyName = extractCompanyNameUseCase(title)
-            if (companyName.isNullOrBlank()) return@withContext
+            if (companyName.isNullOrBlank()) {
+                showLogoLoading(false)
+                return@withContext
+            }
 
             findLogoUseCase(companyName).onResult {
                 val foundLogo = it.firstOrNull()?.logoUrl

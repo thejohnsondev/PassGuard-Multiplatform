@@ -507,18 +507,17 @@ private fun TitleField(
     ) {
         Surface(
             modifier = Modifier.size(Size48),
-            color = Color.White,
+            color = Color.Transparent,
             shape = EqualRounded.small
         ) {
             LoadedImage(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(Size4),
+                    .fillMaxSize(),
                 imageUrl = organizationLogo.value.orEmpty(),
                 placeholderDrawableResource = ResDrawable.ic_password,
                 errorDrawableResource = ResDrawable.ic_password,
-                placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
-                backgroundColor = Color.White,
+                placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                backgroundColor = Color.Transparent,
                 showLoading = state.isLogoLoading
             )
         }

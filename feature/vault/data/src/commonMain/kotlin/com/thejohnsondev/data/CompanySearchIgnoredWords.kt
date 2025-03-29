@@ -44,10 +44,10 @@ object CompanySearchIgnoredWords {
         "travel", "trip", "vacation", "holiday", "flight", "hotel", "booking",
         "reservation", "ticket", "tour", "car", "rental", "bus", "train", "subway",
         "transport", "commute", "ride", "bike", "scooter",
-        "parking", "toll", "passport", "visa", "border", "immigration",
+        "parking", "toll", "passport", "border", "immigration",
 
         // Government & Official Services
-        "government", "official", "public", "citizen", "id", "passport", "visa",
+        "government", "official", "public", "citizen", "id", "passport",
         "tax", "revenue", "license", "permit", "census", "registry", "vote",
         "elections", "court", "law", "attorney", "justice", "police", "military",
         "embassy", "consulate", "municipality", "council", "parliament", "senate",

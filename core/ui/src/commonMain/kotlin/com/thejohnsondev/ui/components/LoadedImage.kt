@@ -25,7 +25,7 @@ fun LoadedImage(
     imageUrl: String,
     errorDrawableResource: DrawableResource? = null,
     placeholderDrawableResource: DrawableResource? = null,
-    placeholderDrawableTintColor: Color = MaterialTheme.colorScheme.onSurface,
+    placeholderDrawableTintColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     contentScale: ContentScale = ContentScale.Crop,
     shape: Shape = RectangleShape,
@@ -33,7 +33,8 @@ fun LoadedImage(
 ) {
     Surface(
         modifier = modifier,
-        shape = shape, color = backgroundColor
+        shape = shape,
+        color = backgroundColor
     ) {
         if (showLoading) {
             Loader(
@@ -61,13 +62,20 @@ fun LoadedImage(
                         )
                     } else {
                         placeholderDrawableResource?.let {
-                            Icon(painter = painterResource(it), contentDescription = null)
+                            Icon(
+                                modifier = Modifier
+                                    .padding(Size4),
+                                painter = painterResource(it),
+                                contentDescription = null
+                            )
                         }
                     }
                 },
                 failure = {
                     errorDrawableResource?.let {
                         Icon(
+                            modifier = Modifier
+                                .padding(Size4),
                             painter = painterResource(errorDrawableResource),
                             tint = placeholderDrawableTintColor,
                             contentDescription = null
