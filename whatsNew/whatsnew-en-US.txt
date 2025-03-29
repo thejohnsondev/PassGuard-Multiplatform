@@ -1,2 +1,2 @@
 Changes:
-- Added showing logo for password items
+- Fixed logo api key setting
