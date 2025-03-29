@@ -212,7 +212,7 @@ internal fun PasswordItem(
                             placeholderDrawableResource = ResDrawable.ic_password,
                             placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
                             backgroundColor = Color.White,
-                            showLoading = true
+                            showLoading = false
                         )
                     }
                     Box(

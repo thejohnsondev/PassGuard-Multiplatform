@@ -275,6 +275,7 @@ internal fun AddPasswordFields(
             verticalArrangement = Arrangement.Top,
         ) {
             TitleField(
+                state = state,
                 onAction = onAction,
                 enteredTitle = enteredTitle,
                 organizationLogo = organizationLogo,
@@ -492,6 +493,7 @@ private fun UserNameField(
 
 @Composable
 private fun TitleField(
+    state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
     enteredTitle: MutableState<String>,
     organizationLogo: MutableState<String?>,
@@ -516,7 +518,8 @@ private fun TitleField(
                 placeholderDrawableResource = ResDrawable.ic_password,
                 errorDrawableResource = ResDrawable.ic_password,
                 placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
-                backgroundColor = Color.White
+                backgroundColor = Color.White,
+                showLoading = state.isLogoLoading
             )
         }
         HintTextField(

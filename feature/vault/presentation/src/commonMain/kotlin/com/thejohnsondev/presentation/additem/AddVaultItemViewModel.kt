@@ -186,14 +186,20 @@ class AddVaultItemViewModel(
 
     private suspend fun tryToFindLogo(title: String) {
         withContext(Dispatchers.IO) {
+            showLogoLoading(true)
             val companyName = extractCompanyNameUseCase(title)
             if (companyName.isNullOrBlank()) return@withContext
 
             findLogoUseCase(companyName).onResult {
                 val foundLogo = it.firstOrNull()?.logoUrl
                 _organizationLogo.value = foundLogo
+                showLogoLoading(false)
             }
         }
+    }
+
+    private fun showLogoLoading(isLoading: Boolean) {
+        _state.update { it.copy(isLogoLoading = isLoading) }
     }
 
     private fun enterUserName(userName: String) {
@@ -275,6 +281,7 @@ class AddVaultItemViewModel(
         val itemCategoryFilters: List<FilterUIModel> = FiltersProvider.Category.getVaultCategoryFilters(),
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
+        val isLogoLoading: Boolean = false
     )
 
     companion object {

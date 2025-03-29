@@ -10,7 +10,7 @@ import com.thejohnsondev.ui.designsystem.Size4
 @Composable
 fun Loader(
     modifier: Modifier = Modifier,
-    iconTintColor: Color = MaterialTheme.colorScheme.onSurface,
+    iconTintColor: Color = MaterialTheme.colorScheme.primary,
 ) {
     CircularProgressIndicator(
         modifier = modifier,
