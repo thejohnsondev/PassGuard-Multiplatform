@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <!--TODO refactor strings names-->
     <string name="biometric_authentication">Biometric authentication</string>
     <string name="biometric_authentication_description">Unlock the app with your fingerprint or face</string>
     <string name="accept_and_agree">I accept and agree to the </string>
@@ -120,6 +121,7 @@
     <string name="local_vault">Local Vault</string>
     <string name="local_vault_description">Your data is stored only on this device. It will never be uploaded or synchronized. If you lose access to your device, your data cannot be recovered.</string>
     <string name="cloud_vault">Cloud Vault</string>
+    <string name="cloud_vault_in_development">(In development)</string>
     <string name="cloud_vault_description">Sign in to sync your passwords securely across multiple devices.</string>
     <string name="start_with_local_vault">You can start with a Local Vault and switch to Cloud Sync later.</string>
     <string name="create_account">Create account</string>
