@@ -508,10 +508,12 @@ private fun TitleField(
     ) {
         Box(
             modifier = Modifier
+                .padding(start = Size8)
                 .size(Size56)
         ) {
             Surface(
-                modifier = Modifier.size(Size48),
+                modifier = Modifier
+                    .size(Size48),
                 color = Color.Transparent,
                 shape = EqualRounded.small
             ) {

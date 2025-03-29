@@ -74,7 +74,8 @@ private fun AddVaultItemEditPreview() {
                 screenState = ScreenState.ShowContent,
                 isEdit = true,
                 isValid = true,
-                selectedCategory = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory()
+                selectedCategory = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory(),
+                organizationLogo = "fdfdfd"
             ),
             sheetState = sheetState,
             windowSizeClass = WindowWidthSizeClass.Compact,
