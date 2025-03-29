@@ -50,6 +50,7 @@ import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size32
+import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size600
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
@@ -63,6 +64,7 @@ import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.choose_vault_type
 import vaultmultiplatform.core.ui.generated.resources.cloud_vault
 import vaultmultiplatform.core.ui.generated.resources.cloud_vault_description
+import vaultmultiplatform.core.ui.generated.resources.cloud_vault_in_development
 import vaultmultiplatform.core.ui.generated.resources.create_local_vault
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_img_512_blue_gradient
 import vaultmultiplatform.core.ui.generated.resources.local_vault
@@ -173,6 +175,7 @@ private fun SelectVaultTypeContent(
                 VaultOption(
                     icon = Icons.Filled.Cloud,
                     title = stringResource(ResString.cloud_vault),
+                    titleComment = stringResource(ResString.cloud_vault_in_development),
                     description = stringResource(ResString.cloud_vault_description),
                     onClick = { isSelected ->
                         onAction(
@@ -247,6 +250,7 @@ private fun LocalVaultExpandedContent(
 fun VaultOption(
     icon: ImageVector,
     title: String,
+    titleComment: String? = null,
     description: String,
     isSelected: Boolean,
     onClick: (Boolean) -> Unit,
@@ -287,7 +291,7 @@ fun VaultOption(
                 tint = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.width(Size16))
-            VaultTypeDescriptions(title, description)
+            VaultTypeDescriptions(title = title, titleComment = titleComment, description = description)
         }
         ExpandableContent(isSelected) {
             content()
@@ -296,14 +300,28 @@ fun VaultOption(
 }
 
 @Composable
-private fun VaultTypeDescriptions(title: String, description: String) {
+private fun VaultTypeDescriptions(
+    title: String,
+    titleComment: String?,
+    description: String
+) {
     Column {
-        Text(
-            text = title,
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        Row {
+            Text(
+                text = title,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            titleComment?.let {
+                Text(
+                    modifier = Modifier.padding(start = Size4),
+                    text = titleComment,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        }
         Text(
             modifier = Modifier.padding(top = Size8),
             text = description,

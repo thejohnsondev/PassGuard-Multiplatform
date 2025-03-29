@@ -8,6 +8,7 @@ interface GeneratePasswordModelUseCase {
     operator fun invoke(
         passwordId: String?,
         title: String,
+        organizationLogoUrl: String,
         userName: String,
         password: String,
         categoryId: String,

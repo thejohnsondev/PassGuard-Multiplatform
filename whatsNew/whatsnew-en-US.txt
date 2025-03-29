@@ -1,3 +1,2 @@
 Changes:
-- use secure storage for sensitive data
-- add password fields copy
+- Added showing logo for password items

@@ -5,6 +5,7 @@ const val DOT_NET_LOGIN = "/Auth/Login"
 const val DOT_NET_DELETE_ACCOUNT = "Auth/DeleteAllData"
 
 const val FIREBASE_BASE_URL = "identitytoolkit.googleapis.com"
+const val LOGO_API_BASE_URL = "https://api.logo.dev"
 
 const val FIREBASE_SIGN_UP = "/v1/accounts:signUp"
 const val FIREBASE_LOGIN = "/v1/accounts:signInWithPassword"

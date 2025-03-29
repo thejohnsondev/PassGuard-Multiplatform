@@ -200,19 +200,18 @@ internal fun PasswordItem(
                         modifier = Modifier
                             .size(imageSize)
                             .align(Alignment.Center),
-                        color = Color.White,
+                        color = Color.Transparent,
                         shape = EqualRounded.small
                     ) {
                         LoadedImage(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(Size4),
+                                .fillMaxSize(),
                             imageUrl = item.organizationLogo ?: "",
                             errorDrawableResource = ResDrawable.ic_password,
                             placeholderDrawableResource = ResDrawable.ic_password,
-                            placeholderDrawableTintColor = MaterialTheme.colorScheme.inversePrimary,
-                            backgroundColor = Color.White,
-                            showLoading = true
+                            placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            backgroundColor = Color.Transparent,
+                            showLoading = false
                         )
                     }
                     Box(
@@ -382,7 +381,7 @@ fun ExpandedContent(
                         isHidden = !isHidden
                     },
                     onLongClick = {
-                        onCopy(passwordModel.password)
+                        onCopySensitive(passwordModel.password)
                     }
                 )
                 Spacer(modifier = Modifier.weight(Percent100))

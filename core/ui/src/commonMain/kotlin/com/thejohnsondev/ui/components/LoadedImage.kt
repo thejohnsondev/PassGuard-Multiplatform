@@ -25,45 +25,64 @@ fun LoadedImage(
     imageUrl: String,
     errorDrawableResource: DrawableResource? = null,
     placeholderDrawableResource: DrawableResource? = null,
-    placeholderDrawableTintColor: Color = MaterialTheme.colorScheme.onSurface,
+    placeholderDrawableTintColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     contentScale: ContentScale = ContentScale.Crop,
     shape: Shape = RectangleShape,
     showLoading: Boolean = false
 ) {
-    Surface(modifier = modifier, shape = shape, color = backgroundColor) {
-        CoilImage(
-            imageModel = { imageUrl },
-            imageOptions = ImageOptions(
-                contentScale = contentScale,
-                alignment = Alignment.Center
-            ),
-            previewPlaceholder = placeholderDrawableResource?.let {
-                painterResource(it)
-            },
-            loading = {
-                if (showLoading) {
-                    Loader(
-                        modifier = Modifier
-                            .size(Size48)
-                            .padding(Size4)
-                            .align(Alignment.Center)
-                    )
-                } else {
-                    placeholderDrawableResource?.let {
-                        Icon(painter = painterResource(it), contentDescription = null)
+    Surface(
+        modifier = modifier,
+        shape = shape,
+        color = backgroundColor
+    ) {
+        if (showLoading) {
+            Loader(
+                modifier = Modifier
+                    .size(Size48)
+                    .padding(Size4)
+            )
+        } else {
+            CoilImage(
+                imageModel = { imageUrl },
+                imageOptions = ImageOptions(
+                    contentScale = contentScale,
+                    alignment = Alignment.Center
+                ),
+                previewPlaceholder = placeholderDrawableResource?.let {
+                    painterResource(it)
+                },
+                loading = {
+                    if (showLoading) {
+                        Loader(
+                            modifier = Modifier
+                                .size(Size48)
+                                .padding(Size4)
+                                .align(Alignment.Center)
+                        )
+                    } else {
+                        placeholderDrawableResource?.let {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(Size4),
+                                painter = painterResource(it),
+                                contentDescription = null
+                            )
+                        }
+                    }
+                },
+                failure = {
+                    errorDrawableResource?.let {
+                        Icon(
+                            modifier = Modifier
+                                .padding(Size4),
+                            painter = painterResource(errorDrawableResource),
+                            tint = placeholderDrawableTintColor,
+                            contentDescription = null
+                        )
                     }
                 }
-            },
-            failure = {
-                errorDrawableResource?.let {
-                    Icon(
-                        painter = painterResource(errorDrawableResource),
-                        tint = placeholderDrawableTintColor,
-                        contentDescription = null
-                    )
-                }
-            }
-        )
+            )
+        }
     }
 }
