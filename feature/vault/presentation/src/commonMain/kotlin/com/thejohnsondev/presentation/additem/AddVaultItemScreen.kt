@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -637,9 +638,13 @@ private fun SearchResultItem(
                 top = Size8,
                 bottom = if (index == state.logoSearchResults.size - 1) Size8 else SizeDefault
             )
+            .clip(
+                RoundedCornerShape(Size8)
+            )
             .clickable {
                 onAction(AddVaultItemViewModel.Action.SelectLogo(item))
-            },
+            }
+            .padding(Size4),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
