@@ -63,6 +63,7 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.ui.components.BackArrowButton
+import com.thejohnsondev.ui.components.ExpandableContent
 import com.thejohnsondev.ui.components.HintTextField
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.Loader
@@ -597,10 +598,8 @@ private fun LogoSearchResults(
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit
 ) {
-    AnimatedVisibility(
+    ExpandableContent(
         visible = state.isLogoSearchResultsVisible,
-        enter = fadeIn(),
-        exit = fadeOut(),
     ) {
         RoundedContainer(
             modifier = modifier,
