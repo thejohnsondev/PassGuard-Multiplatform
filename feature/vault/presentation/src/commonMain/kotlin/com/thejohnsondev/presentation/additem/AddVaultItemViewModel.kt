@@ -17,6 +17,7 @@ import com.thejohnsondev.domain.ValidatePasswordModelUseCase
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.SyncStatus
 import com.thejohnsondev.ui.model.CategoryUIModel
@@ -102,6 +103,8 @@ class AddVaultItemViewModel(
             )
 
             is Action.RemoveAdditionalField -> removeAdditionalField(action.id)
+            is Action.SelectLogo -> selectLogo(action.logoSearchResult)
+            is Action.ToggleShowHideLogoSearchResult -> toggleShowHideLogoSearchResult()
             is Action.ClearLogo -> clearLogo()
             is Action.SavePassword -> savePassword()
             is Action.Clear -> clear()
@@ -181,6 +184,9 @@ class AddVaultItemViewModel(
 
     private suspend fun tryToFindLogo(title: String) {
         withContext(Dispatchers.IO) {
+            if (title.isBlank()) {
+                clearLogo()
+            }
             showLogoLoading(true)
             val companyName = extractCompanyNameUseCase(title)
             if (companyName.isNullOrBlank()) {
@@ -188,16 +194,46 @@ class AddVaultItemViewModel(
                 return@withContext
             }
 
-            findLogoUseCase(companyName).onResult {
-                val foundLogo = it.firstOrNull()?.logoUrl
-                _state.update { it.copy(organizationLogo = foundLogo.orEmpty()) }
+            findLogoUseCase(companyName).onResult { result ->
+                onFindLogoResult(result)
                 showLogoLoading(false)
+            }
+        }
+    }
+
+    private fun onFindLogoResult(result: List<FindLogoResponse>) {
+        val firstLogo = result.firstOrNull()?.logoUrl
+        _state.update {
+            it.copy(
+                organizationLogo = firstLogo.orEmpty(),
+            )
+        }
+        if (result.size > 1 || result.isEmpty()) {
+            _state.update {
+                it.copy(
+                    logoSearchResults = result
+                )
             }
         }
     }
 
     private fun showLogoLoading(isLoading: Boolean) {
         _state.update { it.copy(isLogoLoading = isLoading) }
+    }
+
+    private fun selectLogo(logoSearchResult: FindLogoResponse) {
+        _state.update {
+            it.copy(
+                organizationLogo = logoSearchResult.logoUrl,
+                isLogoSearchResultsVisible = false
+            )
+        }
+    }
+
+    private fun toggleShowHideLogoSearchResult() {
+        _state.update {
+            it.copy(isLogoSearchResultsVisible = !it.isLogoSearchResultsVisible)
+        }
     }
 
     private fun enterUserName(userName: String) {
@@ -247,7 +283,13 @@ class AddVaultItemViewModel(
     }
 
     private fun clearLogo() {
-        _state.update { it.copy(organizationLogo = String.empty) }
+        _state.update {
+            it.copy(
+                organizationLogo = String.empty,
+                logoSearchResults = listOf(),
+                isLogoSearchResultsVisible = false
+            )
+        }
     }
 
     fun clear() = launch {
@@ -271,7 +313,9 @@ class AddVaultItemViewModel(
         data class EnterAdditionalFieldValue(val id: String, val value: String) : Action()
         data class RemoveAdditionalField(val id: String) : Action()
         data class SelectCategory(val category: CategoryUIModel) : Action()
-        data object ClearLogo: Action()
+        data class SelectLogo(val logoSearchResult: FindLogoResponse) : Action()
+        data object ToggleShowHideLogoSearchResult : Action()
+        data object ClearLogo : Action()
         data object SavePassword : Action()
         data object Clear : Action()
     }
@@ -279,12 +323,15 @@ class AddVaultItemViewModel(
     data class State(
         val screenState: ScreenState = ScreenState.None,
         val isFavorite: Boolean = false,
-        val selectedCategory: CategoryUIModel = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory(),
+        val selectedCategory: CategoryUIModel = FiltersProvider.Category.getDefaultCategoryFilter()
+            .mapToCategory(),
         val itemCategoryFilters: List<FilterUIModel> = FiltersProvider.Category.getVaultCategoryFilters(),
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
         val organizationLogo: String = String.empty,
         val isLogoLoading: Boolean = false,
+        val logoSearchResults: List<FindLogoResponse> = listOf(),
+        val isLogoSearchResultsVisible: Boolean = false
     ) {
         val showClearLogoButton: Boolean
             get() = organizationLogo.isNotBlank()

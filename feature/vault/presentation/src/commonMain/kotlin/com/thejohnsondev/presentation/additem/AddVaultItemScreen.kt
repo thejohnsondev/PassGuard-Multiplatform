@@ -1,5 +1,8 @@
 package com.thejohnsondev.presentation.additem
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -55,6 +58,7 @@ import com.thejohnsondev.common.SCROLL_DOWN_DELAY
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
@@ -74,6 +78,7 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.displaymessage.getAsText
@@ -283,6 +288,14 @@ internal fun AddPasswordFields(
                 enteredTitle = enteredTitle,
                 titleFocusRequester = titleFocusRequester,
                 userNameFocusRequester = userNameFocusRequester
+            )
+            LogoSearchResults(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = Size16),
+                state = state,
+                onAction = onAction
             )
             CategorySelectorItem(
                 modifier = Modifier
@@ -519,7 +532,10 @@ private fun TitleField(
             ) {
                 LoadedImage(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .clickable {
+                            onAction(AddVaultItemViewModel.Action.ToggleShowHideLogoSearchResult)
+                        },
                     imageUrl = state.organizationLogo,
                     placeholderDrawableResource = ResDrawable.ic_password,
                     errorDrawableResource = ResDrawable.ic_password,
@@ -571,6 +587,86 @@ private fun TitleField(
                 userNameFocusRequester.requestFocus()
             },
             imeAction = ImeAction.Next
+        )
+    }
+}
+
+@Composable
+private fun LogoSearchResults(
+    modifier: Modifier = Modifier,
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit
+) {
+    AnimatedVisibility(
+        visible = state.isLogoSearchResultsVisible,
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
+        RoundedContainer(
+            modifier = modifier,
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            isTopRounded = true,
+            isBottomRounded = true
+        ) {
+            Column {
+                state.logoSearchResults.forEachIndexed { index, item ->
+                    SearchResultItem(
+                        index = index,
+                        item = item,
+                        state = state,
+                        onAction = onAction,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchResultItem(
+    index: Int,
+    item: FindLogoResponse,
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = Size8,
+                end = Size8,
+                top = Size8,
+                bottom = if (index == state.logoSearchResults.size - 1) Size8 else SizeDefault
+            )
+            .clickable {
+                onAction(AddVaultItemViewModel.Action.SelectLogo(item))
+            },
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Surface(
+            modifier = Modifier
+                .size(Size48),
+            color = Color.Transparent,
+            shape = EqualRounded.small
+        ) {
+            LoadedImage(
+                modifier = Modifier
+                    .fillMaxSize(),
+                imageUrl = item.logoUrl,
+                placeholderDrawableResource = ResDrawable.ic_password,
+                errorDrawableResource = ResDrawable.ic_password,
+                placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                backgroundColor = Color.Transparent,
+                showLoading = state.isLogoLoading
+            )
+        }
+        Text(
+            modifier = Modifier
+                .padding(horizontal = Size8),
+            text = item.name,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }

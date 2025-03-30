@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.presentation.additem.AddVaultItemContent
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
@@ -75,7 +76,19 @@ private fun AddVaultItemEditPreview() {
                 isEdit = true,
                 isValid = true,
                 selectedCategory = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory(),
-                organizationLogo = "fdfdfd"
+                organizationLogo = "fdfdfd",
+                logoSearchResults = listOf(
+                    FindLogoResponse(
+                        name = "Amazon",
+                        domain = "amazon.com",
+                        logoUrl = "url"
+                    ),
+                    FindLogoResponse(
+                        name = "Amazon",
+                        domain = "amazon.com",
+                        logoUrl = "url"
+                    )
+                )
             ),
             sheetState = sheetState,
             windowSizeClass = WindowWidthSizeClass.Compact,
