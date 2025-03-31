@@ -71,6 +71,7 @@ import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size42
+import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeMinus
@@ -147,7 +148,7 @@ internal fun PasswordItem(
     val imageSize by itemTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isDragging) Size56 else Size42
+        if (isDragging) Size56 else Size48
     }
     val borderWidth by borderTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
