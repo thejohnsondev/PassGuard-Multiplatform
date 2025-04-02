@@ -58,19 +58,19 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
         val lengthScore = when {
             password.length >= 16 -> 10
             password.length >= 12 -> 8
-            password.length >= 10 -> 7
-            password.length >= 8 -> 5
+            password.length >= 10 -> 6
+            password.length >= 8 -> 4
             password.length >= 6 -> 3
             password.length >= 4 -> 2
             else -> 1
         }
 
-        val diversityScore = listOf(
+        val diversityScore = (listOf(
             password.any { it.isLowerCase() },
             password.any { it.isUpperCase() },
             password.any { it.isDigit() },
             password.any { !it.isLetterOrDigit() }
-        ).count { it } * 2
+        ).count { it } * 0.75).toInt()
 
         val score = (lengthScore + diversityScore).coerceAtMost(10)
 
