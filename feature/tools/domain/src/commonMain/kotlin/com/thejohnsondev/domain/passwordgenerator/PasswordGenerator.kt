@@ -20,7 +20,14 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
         includeSpecial: Boolean = true
     ): GeneratedPassword {
         val password = when (type) {
-            PasswordType.RANDOM -> generateRandomPassword(length, includeLower, includeUpper, includeDigits, includeSpecial)
+            PasswordType.RANDOM -> generateRandomPassword(
+                length,
+                includeLower,
+                includeUpper,
+                includeDigits,
+                includeSpecial
+            )
+
             PasswordType.HUMAN -> generateHumanReadablePassword(length)
             PasswordType.UUID -> generateUUID()
         }
@@ -28,7 +35,13 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
         return GeneratedPassword(password, strength.level, strength.suggestion)
     }
 
-    private fun generateRandomPassword(length: Int, includeLower: Boolean, includeUpper: Boolean, includeDigits: Boolean, includeSpecial: Boolean): String {
+    private fun generateRandomPassword(
+        length: Int,
+        includeLower: Boolean,
+        includeUpper: Boolean,
+        includeDigits: Boolean,
+        includeSpecial: Boolean
+    ): String {
         val charPool = buildString {
             if (includeLower) append(lowerCase)
             if (includeUpper) append(upperCase)
@@ -82,16 +95,23 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
             in 7..8 -> "Strong. Ensure it's not a common phrase."
             9 -> "Very strong! Nearly unbreakable but avoid using personal information."
             10 -> "Extremely strong! This password is highly secure."
-            else -> "Unknown strength."
+            else -> null
         }
 
         return PasswordStrength(score, suggestion)
     }
 }
 
-data class GeneratedPassword(val password: String, val strengthLevel: Int, val suggestion: String)
+data class GeneratedPassword(
+    val password: String,
+    val strengthLevel: Int,
+    val suggestion: String?
+)
 
-data class PasswordStrength(val level: Int, val suggestion: String)
+data class PasswordStrength(
+    val level: Int,
+    val suggestion: String?
+)
 
 enum class PasswordType {
     RANDOM, HUMAN, UUID
