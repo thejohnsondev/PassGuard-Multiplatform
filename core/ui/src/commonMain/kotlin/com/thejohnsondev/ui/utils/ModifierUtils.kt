@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +20,8 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent95
@@ -83,3 +87,21 @@ fun Modifier.onEnterClick(onClick: () -> Unit) = composed {
         }
     }
 }
+
+@Stable
+fun Modifier.padding(
+    allAround: Dp? = null,
+    horizontal: Dp? = null,
+    vertical: Dp? = null,
+    top: Dp = 0.dp,
+    bottom: Dp = 0.dp,
+    start: Dp = 0.dp,
+    end: Dp = 0.dp,
+) = allAround?.let {
+    this.padding(all = allAround)
+} ?: this.padding(
+    start = horizontal ?: start,
+    top = vertical ?: top,
+    end = horizontal ?: end,
+    bottom = vertical ?: bottom,
+)
