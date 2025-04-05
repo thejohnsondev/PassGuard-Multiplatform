@@ -1,8 +1,5 @@
 package com.thejohnsondev.presentation.additem
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,9 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,7 +38,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -51,27 +46,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.thejohnsondev.common.SCROLL_DOWN_DELAY
-import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
-import com.thejohnsondev.ui.components.BackArrowButton
-import com.thejohnsondev.ui.components.ExpandableContent
-import com.thejohnsondev.ui.components.HintTextField
+import com.thejohnsondev.ui.components.button.BackArrowButton
+import com.thejohnsondev.ui.components.container.ExpandableContent
+import com.thejohnsondev.ui.components.text.HintTextField
 import com.thejohnsondev.ui.components.LoadedImage
-import com.thejohnsondev.ui.components.Loader
-import com.thejohnsondev.ui.components.RoundedButton
-import com.thejohnsondev.ui.components.RoundedContainer
+import com.thejohnsondev.ui.components.loader.Loader
+import com.thejohnsondev.ui.components.text.PrimaryTextField
+import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
 import com.thejohnsondev.ui.designsystem.EqualRounded
-import com.thejohnsondev.ui.designsystem.Percent90
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
@@ -93,6 +88,7 @@ import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import com.thejohnsondev.ui.utils.onEnterClick
+import com.thejohnsondev.ui.utils.padding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -257,11 +253,6 @@ internal fun AddPasswordFields(
         FocusRequester()
     }
     val keyboardController = KeyboardManager.getKeyboardController()
-    val isPasswordHidden = remember {
-        mutableStateOf(false)
-    }
-    val eyeImage =
-        if (isPasswordHidden.value) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -326,8 +317,6 @@ internal fun AddPasswordFields(
                 enteredPassword = enteredPassword,
                 passwordFocusRequester = passwordFocusRequester,
                 keyboardController = keyboardController,
-                isPasswordHidden = isPasswordHidden,
-                eyeImage = eyeImage
             )
             AdditionalFieldsList(
                 modifier = Modifier
@@ -422,50 +411,69 @@ private fun PasswordField(
     enteredPassword: MutableState<String>,
     passwordFocusRequester: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
-    isPasswordHidden: MutableState<Boolean>,
-    eyeImage: ImageVector,
 ) {
-    RoundedContainer(
+    Row(
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        isBottomRounded = true,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            HintTextField(
-                modifier = Modifier
-                    .focusRequester(passwordFocusRequester)
-                    .wrapContentHeight()
-                    .fillMaxWidth(Percent90)
-                    .padding(horizontal = Size12, vertical = Size16)
-                    .onEnterClick {
-                        onAction(AddVaultItemViewModel.Action.SavePassword)
-                    },
-                onValueChanged = { password ->
-                    onAction(AddVaultItemViewModel.Action.EnterPassword(password))
-                },
-                hint = stringResource(ResString.password),
-                value = enteredPassword.value,
-                textColor = MaterialTheme.colorScheme.onSurface,
-                fontSize = Text20,
-                onKeyboardAction = KeyboardActions {
-                    keyboardController?.hide()
-                },
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password,
-                passwordVisible = !isPasswordHidden.value
+        RoundedContainer(
+            modifier = Modifier
+                .weight(Percent100),
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            shape = RoundedCornerShape(
+                topStart = Size4,
+                bottomStart = Size16,
+                topEnd = Size4,
+                bottomEnd = Size4
             )
-            IconButton(modifier = Modifier.padding(end = Size8), onClick = {
-                isPasswordHidden.value = !isPasswordHidden.value
-            }) {
-                Icon(
-                    imageVector = eyeImage,
-                    contentDescription = stringResource(ResString.visibility),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                PrimaryTextField(
+                    modifier = Modifier
+                        .focusRequester(passwordFocusRequester)
+                        .wrapContentHeight()
+                        .padding(start = Size12, vertical = Size4)
+                        .onEnterClick {
+                            onAction(AddVaultItemViewModel.Action.SavePassword)
+                        },
+                    onValueChanged = { password ->
+                        onAction(AddVaultItemViewModel.Action.EnterPassword(password))
+                    },
+                    hint = stringResource(ResString.password),
+                    value = enteredPassword.value,
+                    textColor = MaterialTheme.colorScheme.onSurface,
+                    onKeyboardAction = KeyboardActions {
+                        keyboardController?.hide()
+                    },
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password,
+                    textFieldIconBehavior = TextFieldIconBehavior.HideShow
                 )
             }
+        }
+        RoundedContainer(
+            modifier = Modifier
+                .padding(start = Size8)
+                .bounceClick()
+                .clickable {
+                    // TODO implement
+                },
+            shape = RoundedCornerShape(
+                topStart = Size4,
+                bottomStart = Size4,
+                topEnd = Size16,
+                bottomEnd = Size16
+            )
+        ) {
+            Icon(
+                modifier = Modifier.padding(Size16),
+                imageVector = Icons.Default.Casino,
+                contentDescription = stringResource(ResString.visibility),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
