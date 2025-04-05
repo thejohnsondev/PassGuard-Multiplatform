@@ -457,16 +457,16 @@ private fun PasswordField(
         RoundedContainer(
             modifier = Modifier
                 .padding(start = Size8)
-                .bounceClick()
-                .clickable {
-                    // TODO implement
-                },
+                .bounceClick(),
             shape = RoundedCornerShape(
                 topStart = Size4,
                 bottomStart = Size4,
-                topEnd = Size16,
+                topEnd = Size4,
                 bottomEnd = Size16
-            )
+            ),
+            onClick = {
+                // TODO implement
+            }
         ) {
             Icon(
                 modifier = Modifier.padding(Size16),

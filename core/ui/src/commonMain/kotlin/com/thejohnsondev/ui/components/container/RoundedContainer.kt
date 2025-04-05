@@ -19,20 +19,20 @@ fun RoundedContainer(
     isTopRounded: Boolean = false,
     isBottomRounded: Boolean = false,
     onClick: (() -> Unit)? = null,
-    shape: RoundedCornerShape = RoundedCornerShape(
-        topStart = if (isTopRounded) Size16 else Size4,
-        topEnd = if (isTopRounded) Size16 else Size4,
-        bottomStart = if (isBottomRounded) Size16 else Size4,
-        bottomEnd = if (isBottomRounded) Size16 else Size4
-    ),
+    shape: RoundedCornerShape? = null,
     content: @Composable () -> Unit
 ) {
     Surface(
-        modifier = Modifier
-            .clip(shape)
+        modifier = modifier
+            .clip(shape ?: RoundedCornerShape(
+                topStart = if (isTopRounded) Size16 else Size4,
+                topEnd = if (isTopRounded) Size16 else Size4,
+                bottomStart = if (isBottomRounded) Size16 else Size4,
+                bottomEnd = if (isBottomRounded) Size16 else Size4
+            ))
             .applyIf(onClick != null) {
                 clickable { onClick?.invoke() }
-            }.then(modifier),
+            },
         color = color
     ) {
         content()
