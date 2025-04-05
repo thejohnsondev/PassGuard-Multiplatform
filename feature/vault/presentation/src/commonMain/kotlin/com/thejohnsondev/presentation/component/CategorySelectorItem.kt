@@ -34,6 +34,7 @@ import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size24
@@ -58,8 +59,7 @@ internal fun CategorySelectorItem(
     RoundedContainer(
         modifier = modifier,
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        isTopRounded = true,
-        isBottomRounded = true
+        shape = EquallyRounded.medium
     ) {
         Column {
             SelectedCategoryContainer(
@@ -160,8 +160,7 @@ private fun AvailableCategoriesList(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(Size4),
-                isTopRounded = true,
-                isBottomRounded = true,
+                shape = EquallyRounded.medium,
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.SelectCategory(filter.mapToCategory()))
                     isExpanded.value = false

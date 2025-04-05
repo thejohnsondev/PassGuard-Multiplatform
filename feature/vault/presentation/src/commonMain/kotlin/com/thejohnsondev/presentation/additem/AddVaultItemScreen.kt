@@ -26,7 +26,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
@@ -65,7 +64,7 @@ import com.thejohnsondev.ui.components.text.PrimaryTextField
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
-import com.thejohnsondev.ui.designsystem.EqualRounded
+import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
@@ -78,6 +77,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
+import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.button.ButtonShape
@@ -489,7 +489,7 @@ private fun UserNameField(
     RoundedContainer(
         modifier = modifier,
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        isTopRounded = true,
+        shape = TopRounded,
     ) {
         HintTextField(
             modifier = Modifier
@@ -538,7 +538,7 @@ private fun TitleField(
                 modifier = Modifier
                     .size(Size48),
                 color = Color.Transparent,
-                shape = EqualRounded.small
+                shape = EquallyRounded.small
             ) {
                 LoadedImage(
                     modifier = Modifier
@@ -613,8 +613,7 @@ private fun LogoSearchResults(
         RoundedContainer(
             modifier = modifier,
             color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            isTopRounded = true,
-            isBottomRounded = true
+            shape = EquallyRounded.medium
         ) {
             Column {
                 state.logoSearchResults.forEachIndexed { index, item ->
@@ -660,7 +659,7 @@ private fun SearchResultItem(
             modifier = Modifier
                 .size(Size48),
             color = Color.Transparent,
-            shape = EqualRounded.small
+            shape = EquallyRounded.small
         ) {
             LoadedImage(
                 modifier = Modifier

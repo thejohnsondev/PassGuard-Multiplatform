@@ -60,7 +60,9 @@ import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.button.RoundedIconButton
-import com.thejohnsondev.ui.designsystem.EqualRounded
+import com.thejohnsondev.ui.designsystem.BottomRounded
+import com.thejohnsondev.ui.designsystem.EquallyRounded
+import com.thejohnsondev.ui.designsystem.NotRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
@@ -74,6 +76,7 @@ import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeMinus
+import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
@@ -164,9 +167,9 @@ internal fun PasswordItem(
             .border(
                 width = borderWidth,
                 color = modifiedItemBorderColor,
-                shape = EqualRounded.medium
+                shape = EquallyRounded.medium
             ),
-        shape = EqualRounded.medium,
+        shape = EquallyRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor
         )
@@ -201,7 +204,7 @@ internal fun PasswordItem(
                             .size(imageSize)
                             .align(Alignment.Center),
                         color = Color.Transparent,
-                        shape = EqualRounded.small
+                        shape = EquallyRounded.small
                     ) {
                         LoadedImage(
                             modifier = Modifier
@@ -354,8 +357,11 @@ fun ExpandedContent(
                 .wrapContentHeight()
                 .padding(start = Size16, end = Size16),
             color = MaterialTheme.colorScheme.surfaceContainerLow,
-            isTopRounded = true,
-            isBottomRounded = passwordModel.additionalFields.isEmpty()
+            shape = if (passwordModel.additionalFields.isEmpty()) {
+                EquallyRounded.medium
+            } else {
+                TopRounded
+            }
         ) {
             Row(
                 modifier = Modifier
@@ -404,8 +410,11 @@ fun ExpandedContent(
                         .wrapContentHeight()
                         .padding(start = Size16, end = Size16, top = Size4),
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    isTopRounded = false,
-                    isBottomRounded = index == passwordModel.additionalFields.size - 1
+                    shape = if (index == passwordModel.additionalFields.size - 1) {
+                        BottomRounded
+                    } else {
+                        NotRounded
+                    }
                 ) {
                     AdditionalFieldItem(
                         additionalField = it,

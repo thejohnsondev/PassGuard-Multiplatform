@@ -24,7 +24,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import com.thejohnsondev.common.empty
-import com.thejohnsondev.ui.designsystem.EqualRounded
+import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent90
 import com.thejohnsondev.ui.designsystem.Percent98
 import com.thejohnsondev.ui.designsystem.Size16
@@ -49,12 +49,12 @@ fun SearchBar(
     val focusManager = LocalFocusManager.current
     Surface(
         modifier = modifier
-            .clip(EqualRounded.large)
+            .clip(EquallyRounded.large)
             .bounceClick(
                 minScale = Percent98,
                 disableCursorEnterAnimation = true
             ),
-        shape = EqualRounded.large,
+        shape = EquallyRounded.large,
         color = MaterialTheme.colorScheme.surfaceContainerHigh
     ) {
         Row(
@@ -82,7 +82,7 @@ fun SearchBar(
                     modifier = Modifier
                         .size(Size22)
                         .bounceClick()
-                        .clip(EqualRounded.medium)
+                        .clip(EquallyRounded.medium)
                         .clickable {
                             searchQuery = String.empty
                             onQueryClear()
