@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.button
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2

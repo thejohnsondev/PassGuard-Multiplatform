@@ -49,9 +49,9 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.additem.AddVaultItemScreen
 import com.thejohnsondev.presentation.component.PasswordItem
-import com.thejohnsondev.ui.components.SearchBar
-import com.thejohnsondev.ui.components.ShimmerEffect
-import com.thejohnsondev.ui.components.ToggleButton
+import com.thejohnsondev.ui.components.text.SearchBar
+import com.thejohnsondev.ui.components.animation.ShimmerEffect
+import com.thejohnsondev.ui.components.button.ToggleButton
 import com.thejohnsondev.ui.components.filter.Chip
 import com.thejohnsondev.ui.components.filter.FilterGroup
 import com.thejohnsondev.ui.designsystem.EqualRounded

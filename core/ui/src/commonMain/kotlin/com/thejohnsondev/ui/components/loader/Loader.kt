@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.loader
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme

@@ -52,14 +52,14 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
-import com.thejohnsondev.ui.components.BackArrowButton
+import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.ErrorSnackbar
-import com.thejohnsondev.ui.components.GlowPulsingBackground
-import com.thejohnsondev.ui.components.PRIVACY_POLICY_TAG
-import com.thejohnsondev.ui.components.PrivacyPolicyAcceptText
-import com.thejohnsondev.ui.components.RoundedButton
-import com.thejohnsondev.ui.components.TERMS_OF_USE_TAG
-import com.thejohnsondev.ui.components.TextField
+import com.thejohnsondev.ui.components.animation.GlowPulsingBackground
+import com.thejohnsondev.ui.components.text.PRIVACY_POLICY_TAG
+import com.thejohnsondev.ui.components.text.PrivacyPolicyAcceptText
+import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.text.TERMS_OF_USE_TAG
+import com.thejohnsondev.ui.components.text.PrimaryOutlinedTextField
 import com.thejohnsondev.ui.components.VaultLogo
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
@@ -287,7 +287,7 @@ fun FieldsSection(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(Size8))
-            TextField(
+            PrimaryOutlinedTextField(
                 modifier = Modifier
                     .focusRequester(emailFocusRequest)
                     .padding(horizontal = Size16),
@@ -309,7 +309,7 @@ fun FieldsSection(
                 } else null
             )
             Spacer(modifier = Modifier.height(Size8))
-            TextField(
+            PrimaryOutlinedTextField(
                 modifier = Modifier
                     .focusRequester(passwordFocusRequest)
                     .padding(horizontal = Size16),

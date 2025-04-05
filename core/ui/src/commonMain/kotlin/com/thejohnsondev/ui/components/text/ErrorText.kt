@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.text
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme

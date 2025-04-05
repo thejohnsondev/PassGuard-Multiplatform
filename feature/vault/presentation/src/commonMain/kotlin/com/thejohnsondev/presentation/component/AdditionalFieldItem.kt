@@ -29,8 +29,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.thejohnsondev.ui.components.HintTextField
+import com.thejohnsondev.ui.components.text.HintTextField
 import com.thejohnsondev.ui.designsystem.EqualRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent90
@@ -94,7 +95,7 @@ internal fun AdditionalFieldItem(
                         onValueChanged = {
                             onTitleChanged(it)
                         },
-                        imeAction = androidx.compose.ui.text.input.ImeAction.Next,
+                        imeAction = ImeAction.Next,
                         onKeyboardAction = KeyboardActions {
                             valueFocusRequester.requestFocus()
                         },
@@ -122,7 +123,7 @@ internal fun AdditionalFieldItem(
                                 onValueChanged = {
                                     onValueChanged(it)
                                 },
-                                imeAction = androidx.compose.ui.text.input.ImeAction.Done,
+                                imeAction = ImeAction.Done,
                                 keyboardType = KeyboardType.Password,
                                 passwordVisible = !isHidden,
                                 hint = stringResource(ResString.value),

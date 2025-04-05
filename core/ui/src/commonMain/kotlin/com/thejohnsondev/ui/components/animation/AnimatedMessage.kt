@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.animation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

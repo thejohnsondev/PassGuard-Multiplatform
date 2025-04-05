@@ -37,12 +37,12 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
-import com.thejohnsondev.ui.components.ConfirmAlertDialog
-import com.thejohnsondev.ui.components.RoundedButton
+import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
+import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.SelectableOptionItem
 import com.thejohnsondev.ui.components.SelectableThemeOptionItem
 import com.thejohnsondev.ui.components.SettingsItem
-import com.thejohnsondev.ui.components.ToggleOptionItem
+import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2

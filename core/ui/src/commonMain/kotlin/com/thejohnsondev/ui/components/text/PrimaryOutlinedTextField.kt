@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.text
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +30,7 @@ import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size8
 
 @Composable
-fun TextField(
+fun PrimaryOutlinedTextField(
     modifier: Modifier = Modifier,
     textState: MutableState<String>,
     onTextChanged: (String) -> Unit,

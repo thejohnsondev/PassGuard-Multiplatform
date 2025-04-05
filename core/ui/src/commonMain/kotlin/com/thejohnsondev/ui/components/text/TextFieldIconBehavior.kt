@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.text
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

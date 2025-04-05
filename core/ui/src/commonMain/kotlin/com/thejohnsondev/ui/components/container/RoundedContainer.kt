@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.container
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

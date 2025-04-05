@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components
+package com.thejohnsondev.ui.components.button
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor

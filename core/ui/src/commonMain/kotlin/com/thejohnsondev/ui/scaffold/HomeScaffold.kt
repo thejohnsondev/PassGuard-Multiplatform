@@ -45,13 +45,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
-import com.thejohnsondev.ui.components.AnimatedMessage
-import com.thejohnsondev.ui.components.CardWithAnimatedBorder
+import com.thejohnsondev.ui.components.animation.AnimatedMessage
+import com.thejohnsondev.ui.components.animation.CardWithAnimatedBorder
 import com.thejohnsondev.ui.components.ErrorSnackbar
 import com.thejohnsondev.ui.components.InfoSnackbar
 import com.thejohnsondev.ui.components.SuccessSnackbar
 import com.thejohnsondev.ui.components.VaultLogo
-import com.thejohnsondev.ui.components.getDefaultAnimatedBorderColors
+import com.thejohnsondev.ui.components.animation.getDefaultAnimatedBorderColors
 import com.thejohnsondev.ui.designsystem.DrawerWidth
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.RailWidth
