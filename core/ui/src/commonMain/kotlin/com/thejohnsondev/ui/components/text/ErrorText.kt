@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 
 @Composable
 fun ErrorText(
@@ -24,7 +25,8 @@ fun ErrorText(
             style = TextStyle(
                 color = textColor,
                 fontSize = fontSize
-            )
+            ),
+            fontFamily = getGlobalFontFamily()
         )
     }
 }
