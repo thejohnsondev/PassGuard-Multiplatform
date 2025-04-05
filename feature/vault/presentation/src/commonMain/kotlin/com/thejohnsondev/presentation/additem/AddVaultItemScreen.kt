@@ -57,12 +57,12 @@ import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
-import com.thejohnsondev.ui.components.text.HintTextField
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.components.text.PrimaryTextField
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.text.PrimaryTextFieldWithBackground
 import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
@@ -88,7 +88,6 @@ import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import com.thejohnsondev.ui.utils.onEnterClick
-import com.thejohnsondev.ui.utils.padding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -355,168 +354,6 @@ internal fun AddPasswordFields(
 }
 
 @Composable
-private fun AdditionalFieldsList(
-    modifier: Modifier = Modifier,
-    state: AddVaultItemViewModel.State,
-    additionalFields: MutableState<List<AdditionalFieldDto>>,
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-) {
-    Column(
-        modifier = modifier
-    ) {
-        additionalFields.value.forEach { additionalField ->
-            AdditionalFieldItem(
-                modifier = Modifier
-                    .padding(
-                        start = Size16,
-                        end = Size16,
-                        bottom = Size8
-                    )
-                    .onEnterClick {
-                        onAction(AddVaultItemViewModel.Action.SavePassword)
-                    },
-                title = additionalField.title,
-                value = additionalField.value,
-                onTitleChanged = { title ->
-                    onAction(
-                        AddVaultItemViewModel.Action.EnterAdditionalFieldTitle(
-                            id = additionalField.id, title
-                        )
-                    )
-                },
-                onValueChanged = { value ->
-                    onAction(
-                        AddVaultItemViewModel.Action.EnterAdditionalFieldValue(
-                            additionalField.id, value
-                        )
-                    )
-                },
-                onDeleteClick = {
-                    onAction(
-                        AddVaultItemViewModel.Action.RemoveAdditionalField(
-                            additionalField.id
-                        )
-                    )
-                },
-                isEditMode = state.isEdit
-            )
-        }
-    }
-}
-
-@Composable
-private fun PasswordField(
-    modifier: Modifier = Modifier,
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-    enteredPassword: MutableState<String>,
-    passwordFocusRequester: FocusRequester,
-    keyboardController: SoftwareKeyboardController?,
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RoundedContainer(
-            modifier = Modifier
-                .weight(Percent100),
-            color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            shape = RoundedCornerShape(
-                topStart = Size4,
-                bottomStart = Size16,
-                topEnd = Size4,
-                bottomEnd = Size4
-            )
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                PrimaryTextField(
-                    modifier = Modifier
-                        .focusRequester(passwordFocusRequester)
-                        .wrapContentHeight()
-                        .padding(start = Size12, vertical = Size4)
-                        .onEnterClick {
-                            onAction(AddVaultItemViewModel.Action.SavePassword)
-                        },
-                    onValueChanged = { password ->
-                        onAction(AddVaultItemViewModel.Action.EnterPassword(password))
-                    },
-                    hint = stringResource(ResString.password),
-                    value = enteredPassword.value,
-                    textColor = MaterialTheme.colorScheme.onSurface,
-                    onKeyboardAction = KeyboardActions {
-                        keyboardController?.hide()
-                    },
-                    imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Password,
-                    textFieldIconBehavior = TextFieldIconBehavior.HideShow
-                )
-            }
-        }
-        RoundedContainer(
-            modifier = Modifier
-                .padding(start = Size8)
-                .bounceClick(),
-            shape = RoundedCornerShape(
-                topStart = Size4,
-                bottomStart = Size4,
-                topEnd = Size4,
-                bottomEnd = Size16
-            ),
-            onClick = {
-                // TODO implement
-            }
-        ) {
-            Icon(
-                modifier = Modifier.padding(Size16),
-                imageVector = Icons.Default.Casino,
-                contentDescription = stringResource(ResString.visibility),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}
-
-@Composable
-private fun UserNameField(
-    modifier: Modifier = Modifier,
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-    enteredUserName: MutableState<String>,
-    userNameFocusRequester: FocusRequester,
-    passwordFocusRequester: FocusRequester,
-) {
-    RoundedContainer(
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        shape = TopRounded,
-    ) {
-        HintTextField(
-            modifier = Modifier
-                .focusRequester(userNameFocusRequester)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = Size12, vertical = Size16)
-                .onEnterClick {
-                    onAction(AddVaultItemViewModel.Action.SavePassword)
-                },
-            onValueChanged = { userName ->
-                onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
-            },
-            value = enteredUserName.value,
-            hint = stringResource(ResString.username),
-            textColor = MaterialTheme.colorScheme.onSurface,
-            fontSize = Text20,
-            onKeyboardAction = KeyboardActions {
-                passwordFocusRequester.requestFocus()
-            },
-            imeAction = ImeAction.Next
-        )
-
-    }
-}
-
-@Composable
 private fun TitleField(
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
@@ -577,7 +414,7 @@ private fun TitleField(
                 }
             }
         }
-        HintTextField(
+        PrimaryTextField(
             modifier = Modifier
                 .focusRequester(titleFocusRequester)
                 .wrapContentHeight()
@@ -679,5 +516,146 @@ private fun SearchResultItem(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
+    }
+}
+
+@Composable
+private fun UserNameField(
+    modifier: Modifier = Modifier,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+    enteredUserName: MutableState<String>,
+    userNameFocusRequester: FocusRequester,
+    passwordFocusRequester: FocusRequester,
+) {
+    PrimaryTextFieldWithBackground(
+        modifier = modifier
+            .focusRequester(userNameFocusRequester)
+            .onEnterClick {
+                onAction(AddVaultItemViewModel.Action.SavePassword)
+            },
+        onValueChanged = { userName ->
+            onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
+        },
+        value = enteredUserName.value,
+        hint = stringResource(ResString.username),
+        textColor = MaterialTheme.colorScheme.onSurface,
+        fontSize = Text20,
+        onKeyboardAction = KeyboardActions {
+            passwordFocusRequester.requestFocus()
+        },
+        imeAction = ImeAction.Next,
+        backgroundShape = TopRounded
+    )
+}
+
+@Composable
+private fun PasswordField(
+    modifier: Modifier = Modifier,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+    enteredPassword: MutableState<String>,
+    passwordFocusRequester: FocusRequester,
+    keyboardController: SoftwareKeyboardController?,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        PrimaryTextFieldWithBackground(
+            modifier = Modifier
+                .weight(Percent100)
+                .focusRequester(passwordFocusRequester)
+                .onEnterClick {
+                    onAction(AddVaultItemViewModel.Action.SavePassword)
+                },
+            onValueChanged = { password ->
+                onAction(AddVaultItemViewModel.Action.EnterPassword(password))
+            },
+            hint = stringResource(ResString.password),
+            value = enteredPassword.value,
+            textColor = MaterialTheme.colorScheme.onSurface,
+            onKeyboardAction = KeyboardActions {
+                keyboardController?.hide()
+            },
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Password,
+            textFieldIconBehavior = TextFieldIconBehavior.HideShow,
+            backgroundShape  = RoundedCornerShape(
+                topStart = Size4,
+                bottomStart = Size16,
+                topEnd = Size4,
+                bottomEnd = Size4
+            )
+        )
+        RoundedContainer(
+            modifier = Modifier
+                .padding(start = Size8)
+                .bounceClick(),
+            shape = RoundedCornerShape(
+                topStart = Size4,
+                bottomStart = Size4,
+                topEnd = Size4,
+                bottomEnd = Size16
+            ),
+            onClick = {
+                // TODO implement password generation
+            }
+        ) {
+            Icon(
+                modifier = Modifier.padding(Size16),
+                imageVector = Icons.Default.Casino,
+                contentDescription = stringResource(ResString.visibility),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
+private fun AdditionalFieldsList(
+    modifier: Modifier = Modifier,
+    state: AddVaultItemViewModel.State,
+    additionalFields: MutableState<List<AdditionalFieldDto>>,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+) {
+    Column(
+        modifier = modifier
+    ) {
+        additionalFields.value.forEach { additionalField ->
+            AdditionalFieldItem(
+                modifier = Modifier
+                    .padding(
+                        start = Size16,
+                        end = Size16,
+                        bottom = Size8
+                    )
+                    .onEnterClick {
+                        onAction(AddVaultItemViewModel.Action.SavePassword)
+                    },
+                title = additionalField.title,
+                value = additionalField.value,
+                onTitleChanged = { title ->
+                    onAction(
+                        AddVaultItemViewModel.Action.EnterAdditionalFieldTitle(
+                            id = additionalField.id, title
+                        )
+                    )
+                },
+                onValueChanged = { value ->
+                    onAction(
+                        AddVaultItemViewModel.Action.EnterAdditionalFieldValue(
+                            additionalField.id, value
+                        )
+                    )
+                },
+                onDeleteClick = {
+                    onAction(
+                        AddVaultItemViewModel.Action.RemoveAdditionalField(
+                            additionalField.id
+                        )
+                    )
+                },
+                isEditMode = state.isEdit
+            )
+        }
     }
 }

@@ -63,7 +63,7 @@ fun SearchBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            HintTextField(
+            PrimaryTextField(
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .wrapContentHeight()

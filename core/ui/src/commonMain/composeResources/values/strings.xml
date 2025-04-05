@@ -77,7 +77,7 @@
     <string name="work">Work</string>
     <string name="yes">Yes</string>
     <string name="your_fortress">Your digital fortress for password security</string>
-    <string name="email_error_incorrect">Email is no valid</string>
+    <string name="email_error_incorrect">Email is not valid</string>
     <string name="logout_confirm_message">Are you sure you want to log out?</string>
     <string name="unknown_error">An unknown error occurred</string>
     <string name="account">Account</string>
