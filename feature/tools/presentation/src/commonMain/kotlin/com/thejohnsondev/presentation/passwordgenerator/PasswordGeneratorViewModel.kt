@@ -3,14 +3,18 @@ package com.thejohnsondev.presentation.passwordgenerator
 import kotlinx.coroutines.flow.stateIn
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
-import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.domain.GeneratePasswordUseCase
+import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
+import com.thejohnsondev.domain.UpdatePasswordGeneratorConfigUseCase
 import com.thejohnsondev.model.ScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 
 class PasswordGeneratorViewModel(
-    private val passwordGenerator: PasswordGenerator
+    private val updatePasswordGeneratorConfigUseCase: UpdatePasswordGeneratorConfigUseCase,
+    private val getPasswordGeneratorConfigUseCase: GetPasswordGeneratorConfigUseCase,
+    private val generatePasswordUseCase: GeneratePasswordUseCase
 ): BaseViewModel() {
 
     private val _state = MutableStateFlow(State())

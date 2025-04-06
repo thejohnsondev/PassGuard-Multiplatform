@@ -70,6 +70,8 @@ kotlin {
             api(project(":feature:vault:data"))
             api(project(":feature:vault:domain"))
             api(project(":feature:vault:presentation"))
+            api(project(":feature:tools:data"))
+            api(project(":feature:tools:domain"))
             api(project(":feature:tools:presentation"))
             api(project(":feature:settings:data"))
             api(project(":feature:settings:domain"))

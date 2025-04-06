@@ -1,10 +1,13 @@
-package com.thejohnsondev.domain.passwordgenerator
+package com.thejohnsondev.domain.utils
 
+import com.thejohnsondev.model.tools.PasswordGeneratedResult
+import com.thejohnsondev.model.tools.PasswordGenerationType
+import com.thejohnsondev.model.tools.PasswordStrength
 import kotlin.random.Random
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class PasswordGenerator(private val commonPasswords: Set<String>) {
+internal class PasswordGenerator(private val commonPasswords: Set<String>) {
 
     private val lowerCase = "abcdefghijklmnopqrstuvwxyz"
     private val upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -12,15 +15,15 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
     private val specialChars = "!@#\$%^&*()-_=+[]{}|;:'\",.<>?/"
 
     fun generatePassword(
-        type: PasswordType,
+        type: PasswordGenerationType,
         length: Int = 12,
         includeLower: Boolean = true,
         includeUpper: Boolean = true,
         includeDigits: Boolean = true,
-        includeSpecial: Boolean = true
-    ): GeneratedPassword {
+        includeSpecial: Boolean = true,
+    ): PasswordGeneratedResult {
         val password = when (type) {
-            PasswordType.RANDOM -> generateRandomPassword(
+            PasswordGenerationType.RANDOM -> generateRandomPassword(
                 length,
                 includeLower,
                 includeUpper,
@@ -28,11 +31,11 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
                 includeSpecial
             )
 
-            PasswordType.HUMAN -> generateHumanReadablePassword(length)
-            PasswordType.UUID -> generateUUID()
+            PasswordGenerationType.HUMAN -> generateHumanReadablePassword(length)
+            PasswordGenerationType.UUID -> generateUUID()
         }
         val strength = evaluateStrength(password)
-        return GeneratedPassword(password, strength.level, strength.suggestion)
+        return PasswordGeneratedResult(password, strength.level, strength.suggestion)
     }
 
     private fun generateRandomPassword(
@@ -40,7 +43,7 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
         includeLower: Boolean,
         includeUpper: Boolean,
         includeDigits: Boolean,
-        includeSpecial: Boolean
+        includeSpecial: Boolean,
     ): String {
         val charPool = buildString {
             if (includeLower) append(lowerCase)
@@ -102,17 +105,6 @@ class PasswordGenerator(private val commonPasswords: Set<String>) {
     }
 }
 
-data class GeneratedPassword(
-    val password: String,
-    val strengthLevel: Int,
-    val suggestion: String?
-)
 
-data class PasswordStrength(
-    val level: Int,
-    val suggestion: String?
-)
 
-enum class PasswordType {
-    RANDOM, HUMAN, UUID
-}
+

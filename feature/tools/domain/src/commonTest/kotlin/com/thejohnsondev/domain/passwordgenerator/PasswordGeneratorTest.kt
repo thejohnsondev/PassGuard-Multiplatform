@@ -1,5 +1,6 @@
-import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
-import com.thejohnsondev.domain.passwordgenerator.PasswordType
+import com.thejohnsondev.domain.utils.PasswordGenerator
+import com.thejohnsondev.model.tools.PasswordGenerationType
+
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -10,14 +11,14 @@ class PasswordGeneratorTest {
 
     @Test
     fun `generate random password with default settings`() {
-        val generated = passwordGenerator.generatePassword(PasswordType.RANDOM)
+        val generated = passwordGenerator.generatePassword(PasswordGenerationType.RANDOM)
         assertEquals(12, generated.password.length)
     }
 
     @Test
     fun `generate random password with only lowercase`() {
         val generated = passwordGenerator.generatePassword(
-            PasswordType.RANDOM,
+            PasswordGenerationType.RANDOM,
             length = 10,
             includeLower = true,
             includeUpper = false,
@@ -30,7 +31,7 @@ class PasswordGeneratorTest {
     @Test
     fun `generate random password with only uppercase`() {
         val generated = passwordGenerator.generatePassword(
-            PasswordType.RANDOM,
+            PasswordGenerationType.RANDOM,
             length = 10,
             includeLower = false,
             includeUpper = true,
@@ -43,7 +44,7 @@ class PasswordGeneratorTest {
     @Test
     fun `generate random password with only digits`() {
         val generated = passwordGenerator.generatePassword(
-            PasswordType.RANDOM,
+            PasswordGenerationType.RANDOM,
             length = 10,
             includeLower = false,
             includeUpper = false,
@@ -56,7 +57,7 @@ class PasswordGeneratorTest {
     @Test
     fun `generate random password with only special characters`() {
         val generated = passwordGenerator.generatePassword(
-            PasswordType.RANDOM,
+            PasswordGenerationType.RANDOM,
             length = 10,
             includeLower = false,
             includeUpper = false,
@@ -68,14 +69,14 @@ class PasswordGeneratorTest {
 
     @Test
     fun `generate human-readable password`() {
-        val generated = passwordGenerator.generatePassword(PasswordType.HUMAN, length = 16)
+        val generated = passwordGenerator.generatePassword(PasswordGenerationType.HUMAN, length = 16)
         assertTrue(generated.password.isNotBlank())
         assertTrue(generated.password.contains("-")) // Expecting words joined by dashes
     }
 
     @Test
     fun `generate UUID password`() {
-        val generated = passwordGenerator.generatePassword(PasswordType.UUID)
+        val generated = passwordGenerator.generatePassword(PasswordGenerationType.UUID)
         assertEquals(36, generated.password.length)
         assertTrue(generated.password.count { it == '-' } == 4) // UUID format check
     }
@@ -123,7 +124,7 @@ class PasswordGeneratorTest {
     @Test
     fun `empty character set returns empty password`() {
         val generated = passwordGenerator.generatePassword(
-            PasswordType.RANDOM,
+            PasswordGenerationType.RANDOM,
             length = 10,
             includeLower = false,
             includeUpper = false,

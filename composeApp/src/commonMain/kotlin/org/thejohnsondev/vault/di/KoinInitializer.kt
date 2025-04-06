@@ -3,6 +3,7 @@ package org.thejohnsondev.vault.di
 import com.thejohnsondev.common.di.commonModule
 import com.thejohnsondev.data.di.authDataModule
 import com.thejohnsondev.data.di.settingsDataModule
+import com.thejohnsondev.data.di.toolsDataModule
 import com.thejohnsondev.database.di.databaseModule
 import com.thejohnsondev.datastore.di.datastoreModule
 import com.thejohnsondev.data.di.vaultDataModule
@@ -36,6 +37,7 @@ val modules = listOf(
     settingsDataModule,
     settingsDomainModule,
     settingsPresentationModule,
+    toolsDataModule,
     toolsDomainModule,
     toolsPresentationModule,
     vaultDataModule,
