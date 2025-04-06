@@ -109,6 +109,9 @@ class AddVaultItemViewModel(
             is Action.SavePassword -> savePassword()
             is Action.Clear -> clear()
             is Action.SelectCategory -> selectCategory(action.category)
+            is Action.ShowHideGeneratePasswordBottomSheet -> showHideGeneratePasswordBottomSheet(
+                action.show
+            )
         }
     }
 
@@ -292,6 +295,12 @@ class AddVaultItemViewModel(
         }
     }
 
+    private fun showHideGeneratePasswordBottomSheet(show: Boolean) {
+        _state.update {
+            it.copy(showGeneratePasswordBottomSheet = show)
+        }
+    }
+
     fun clear() = launch {
         screenState.emit(ScreenState.None)
         _passwordId.emit(null)
@@ -316,6 +325,7 @@ class AddVaultItemViewModel(
         data class SelectCategory(val category: CategoryUIModel) : Action()
         data class SelectLogo(val logoSearchResult: FindLogoResponse) : Action()
         data object ToggleShowHideLogoSearchResult : Action()
+        data class ShowHideGeneratePasswordBottomSheet(val show: Boolean) : Action()
         data object ClearLogo : Action()
         data object SavePassword : Action()
         data object Clear : Action()
@@ -332,7 +342,8 @@ class AddVaultItemViewModel(
         val organizationLogo: String = String.empty,
         val isLogoLoading: Boolean = false,
         val logoSearchResults: List<FindLogoResponse> = listOf(),
-        val isLogoSearchResultsVisible: Boolean = false
+        val isLogoSearchResultsVisible: Boolean = false,
+        val showGeneratePasswordBottomSheet: Boolean = false,
     ) {
         val showClearLogoButton: Boolean
             get() = organizationLogo.isNotBlank()

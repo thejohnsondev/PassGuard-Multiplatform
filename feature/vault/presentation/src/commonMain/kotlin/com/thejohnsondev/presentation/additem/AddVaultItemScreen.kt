@@ -32,6 +32,7 @@ import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -232,6 +233,19 @@ private fun ModalDragHandle(
                 Text(text = stringResource(if (state.isEdit) ResString.update else ResString.save))
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun GeneratePasswordDialog(
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit
+) {
+    val customFormBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+
+    if (state.showGeneratePasswordBottomSheet) {
+        // TODO show generate password bottom sheet
     }
 }
 
