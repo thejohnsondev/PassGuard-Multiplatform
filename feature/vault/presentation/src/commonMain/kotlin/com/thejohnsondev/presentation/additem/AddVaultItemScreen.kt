@@ -70,7 +70,10 @@ import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
+import com.thejohnsondev.ui.designsystem.Size32
+import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
@@ -601,7 +604,9 @@ private fun PasswordField(
             }
         ) {
             Icon(
-                modifier = Modifier.padding(Size16),
+                modifier = Modifier
+                    .padding(Size12)
+                    .size(Size32),
                 imageVector = Icons.Default.Casino,
                 contentDescription = stringResource(ResString.visibility),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
