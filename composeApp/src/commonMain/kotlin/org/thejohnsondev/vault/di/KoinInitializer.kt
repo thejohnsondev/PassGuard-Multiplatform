@@ -8,10 +8,12 @@ import com.thejohnsondev.datastore.di.datastoreModule
 import com.thejohnsondev.data.di.vaultDataModule
 import com.thejohnsondev.domain.di.authDomainModule
 import com.thejohnsondev.domain.di.settingsDomainModule
+import com.thejohnsondev.domain.di.toolsDomainModule
 import com.thejohnsondev.domain.di.vaultDomainModule
 import com.thejohnsondev.network.di.networkModule
 import com.thejohnsondev.presentation.di.authPresentationModule
 import com.thejohnsondev.presentation.di.settingsPresentationModule
+import com.thejohnsondev.presentation.di.toolsPresentationModule
 import com.thejohnsondev.presentation.di.vaultPresentationModule
 import com.thejohnsondev.sync.di.syncModule
 import com.thejohnsondev.ui.di.uiModule
@@ -34,6 +36,8 @@ val modules = listOf(
     settingsDataModule,
     settingsDomainModule,
     settingsPresentationModule,
+    toolsDomainModule,
+    toolsPresentationModule,
     vaultDataModule,
     vaultDomainModule,
     vaultPresentationModule
