@@ -7,6 +7,7 @@ import com.thejohnsondev.domain.GeneratePasswordUseCase
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.UpdatePasswordGeneratorConfigUseCase
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.tools.PasswordGenerationType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -36,7 +37,15 @@ class PasswordGeneratorViewModel(
     }
 
     sealed class Action {
-
+        data object GeneratePassword : Action()
+        data class UpdateLength(val length: Int): Action()
+        data class UpdateIncludeLower(val includeLower: Boolean): Action()
+        data class UpdateIncludeUpper(val includeUpper: Boolean): Action()
+        data class UpdateIncludeDigits(val includeDigits: Boolean): Action()
+        data class UpdateIncludeSpecial(val includeSpecial: Boolean): Action()
+        data class UpdateType(val type: PasswordGenerationType): Action()
+        data object Reset : Action()
+        data object Copy : Action()
     }
 
     data class State(
