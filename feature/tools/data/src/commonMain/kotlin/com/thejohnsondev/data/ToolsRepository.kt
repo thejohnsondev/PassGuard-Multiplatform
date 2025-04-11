@@ -8,4 +8,5 @@ interface ToolsRepository {
     )
 
     suspend fun getPasswordGeneratorConfig(): PasswordGeneratorConfig
+    fun copyText(text: String, isSensitive: Boolean)
 }

@@ -2,6 +2,7 @@ package com.thejohnsondev.presentation.passwordgenerator
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.domain.CopyTextUseCase
 import com.thejohnsondev.domain.GeneratePasswordUseCase
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.UpdatePasswordGeneratorConfigUseCase
@@ -19,6 +20,7 @@ class PasswordGeneratorViewModel(
     private val updatePasswordGeneratorConfigUseCase: UpdatePasswordGeneratorConfigUseCase,
     private val getPasswordGeneratorConfigUseCase: GetPasswordGeneratorConfigUseCase,
     private val generatePasswordUseCase: GeneratePasswordUseCase,
+    private val copyTextUseCase: CopyTextUseCase,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -62,7 +64,10 @@ class PasswordGeneratorViewModel(
 
 
     private fun copy() {
-        // TODO implement
+        copyTextUseCase(
+            text = state.value.passwordGeneratedResult?.password.orEmpty(),
+            isSensitive = true
+        )
     }
 
     private suspend fun generatePassword() {

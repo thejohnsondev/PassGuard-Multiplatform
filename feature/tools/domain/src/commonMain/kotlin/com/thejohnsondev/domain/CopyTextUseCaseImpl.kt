@@ -1,11 +1,11 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.data.VaultRepository
+import com.thejohnsondev.data.ToolsRepository
 
 class CopyTextUseCaseImpl(
-    private val vaultRepository: VaultRepository
+    private val toolsRepository: ToolsRepository
 ): CopyTextUseCase {
     override fun invoke(text: String, isSensitive: Boolean) {
-        vaultRepository.copyText(text, isSensitive)
+        toolsRepository.copyText(text, isSensitive)
     }
 }
