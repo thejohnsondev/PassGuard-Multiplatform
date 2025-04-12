@@ -74,7 +74,7 @@ fun Modifier.bounceClick(
 }
 
 fun Modifier.testBorder() = composed {
-    this.border(SizeBorder, Color.Red)
+    this.border(SizeBorder, listOf(Color.Red, Color.Red, Color.Green, Color.Magenta).random())
 }
 
 fun Modifier.onEnterClick(onClick: () -> Unit) = composed {
