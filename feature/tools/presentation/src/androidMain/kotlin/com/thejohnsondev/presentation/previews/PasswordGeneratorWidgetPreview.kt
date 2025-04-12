@@ -12,26 +12,6 @@ import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorViewMod
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorWidgetContent
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 
-@Preview(showBackground = true)
-@Composable
-fun PasswordGeneratorWidgetPreview() {
-    VaultDefaultTheme(
-        dynamicColor = false,
-        darkTheme = true,
-        deviceThemeConfig = null
-    ) {
-        Surface(
-            color = MaterialTheme.colorScheme.surface
-        ) {
-            PasswordGeneratorWidgetContent(
-                modifier = Modifier.fillMaxWidth(),
-                state = PasswordGeneratorViewModel.State(),
-                onAction = {}
-            )
-        }
-    }
-}
-
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PasswordGeneratorWidgetGeneratedPreview() {
@@ -48,6 +28,32 @@ fun PasswordGeneratorWidgetGeneratedPreview() {
                 state = PasswordGeneratorViewModel.State(
                     passwordGeneratedResult = PasswordGeneratedResult(
                         password = "Qbegfdjl3lk49@#",
+                        strengthLevel = 6,
+                        suggestion = "Make a stronger password",
+                    )
+                ),
+                onAction = {}
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PasswordGeneratorWidgetGeneratedLongPreview() {
+    VaultDefaultTheme(
+        dynamicColor = false,
+        darkTheme = true,
+        deviceThemeConfig = null
+    ) {
+        Surface(
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            PasswordGeneratorWidgetContent(
+                modifier = Modifier.fillMaxWidth(),
+                state = PasswordGeneratorViewModel.State(
+                    passwordGeneratedResult = PasswordGeneratedResult(
+                        password = "Qbegfdjl3lk49@#fdsjjhfsdhfdsjfsd",
                         strengthLevel = 6,
                         suggestion = "Make a stronger password",
                     )

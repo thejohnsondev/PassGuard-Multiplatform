@@ -36,6 +36,7 @@ import com.thejohnsondev.ui.components.SettingsItem
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.message.MessageContent
@@ -159,6 +160,7 @@ private fun PasswordGeneratorContainer(
         ) {
             PasswordGeneratorWidget(
                 modifier = Modifier
+                    .padding(horizontal = Size8, bottom = Size8)
                     .fillMaxWidth(),
                 onCopyClick = {
                     onCopyClick()

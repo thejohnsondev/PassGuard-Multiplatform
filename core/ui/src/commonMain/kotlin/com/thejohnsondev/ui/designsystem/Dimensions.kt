@@ -30,6 +30,7 @@ val Size72 = 72.dp
 val Size80 = 80.dp
 val Size86 = 86.dp
 val Size98 = 98.dp
+val Size100 = 100.dp
 val Size128 = 128.dp
 val Size150 = 150.dp
 val Size256 = 256.dp

@@ -132,8 +132,9 @@
     <string name="password_generator">Password generator</string>
     <string name="password_generator_generate">Generate</string>
     <string name="password_generator_copy">Copy</string>
-    <string name="password_generator_length">Password length</string>
-    <string name="password_generator_length_characters">%s characters</string>
+    <string name="password_generator_configure">Configure</string>
+    <string name="password_generator_length">Password length:</string>
+    <string name="password_generator_length_characters"> characters</string>
     <string name="password_generator_type">Password type</string>
     <string name="password_generator_include">Include:</string>
     <string name="password_generator_lowercase">Lowercase</string>

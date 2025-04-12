@@ -11,10 +11,15 @@ import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_DEFAULT_LENGTH
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGenerationType
 import com.thejohnsondev.model.tools.PasswordGeneratorConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PasswordGeneratorViewModel(
     private val updatePasswordGeneratorConfigUseCase: UpdatePasswordGeneratorConfigUseCase,
@@ -33,6 +38,8 @@ class PasswordGeneratorViewModel(
         viewModelScope, SharingStarted.Eagerly,
         State()
     )
+
+    private var passwordGenerationJob: Job? = null
 
     fun perform(action: Action) {
         when (action) {
@@ -70,9 +77,30 @@ class PasswordGeneratorViewModel(
         )
     }
 
-    private suspend fun generatePassword() {
-        val result = generatePasswordUseCase(
-            PasswordGeneratorConfig(
+    private fun generatePassword() {
+        passwordGenerationJob?.cancel()
+        passwordGenerationJob = viewModelScope.launch {
+            withContext(Dispatchers.Default) {
+                val result = generatePasswordUseCase(
+                    PasswordGeneratorConfig(
+                        type = state.value.type,
+                        length = state.value.length,
+                        includeLower = state.value.includeLower,
+                        includeUpper = state.value.includeUpper,
+                        includeDigits = state.value.includeDigits,
+                        includeSpecial = state.value.includeSpecial
+                    )
+                )
+                withContext(Dispatchers.Main) {
+                    _state.value = state.value.copy(passwordGeneratedResult = result)
+                }
+            }
+        }
+    }
+
+    private suspend fun updateConfig() {
+        withContext(Dispatchers.IO) {
+            updatePasswordGeneratorConfigUseCase(
                 type = state.value.type,
                 length = state.value.length,
                 includeLower = state.value.includeLower,
@@ -80,19 +108,7 @@ class PasswordGeneratorViewModel(
                 includeDigits = state.value.includeDigits,
                 includeSpecial = state.value.includeSpecial
             )
-        )
-        _state.value = state.value.copy(passwordGeneratedResult = result)
-    }
-
-    private suspend fun updateConfig() {
-        updatePasswordGeneratorConfigUseCase(
-            type = state.value.type,
-            length = state.value.length,
-            includeLower = state.value.includeLower,
-            includeUpper = state.value.includeUpper,
-            includeDigits = state.value.includeDigits,
-            includeSpecial = state.value.includeSpecial
-        )
+        }
     }
 
     private fun reset() = launch {
@@ -105,42 +121,43 @@ class PasswordGeneratorViewModel(
             type = PasswordGenerationType.RANDOM
         )
         generatePassword()
+        updateConfig()
     }
 
     private fun updateIncludeDigits(include: Boolean) = launch {
         _state.value = state.value.copy(includeDigits = include)
-        updateConfig()
         generatePassword()
+        updateConfig()
     }
 
     private fun updateIncludeLower(include: Boolean) = launch {
         _state.value = state.value.copy(includeLower = include)
-        updateConfig()
         generatePassword()
+        updateConfig()
     }
 
     private fun updateIncludeSpecial(include: Boolean) = launch {
         _state.value = state.value.copy(includeSpecial = include)
-        updateConfig()
         generatePassword()
+        updateConfig()
     }
 
     private fun updateIncludeUpper(include: Boolean) = launch {
         _state.value = state.value.copy(includeUpper = include)
-        updateConfig()
         generatePassword()
+        updateConfig()
     }
 
     private fun updateLength(length: Int) = launch {
         _state.value = state.value.copy(length = length)
-        updateConfig()
         generatePassword()
+        updateConfig()
     }
 
     private fun updateType(type: PasswordGenerationType) = launch {
         _state.value = state.value.copy(type = type)
-        updateConfig()
         generatePassword()
+        updateConfig()
     }
 
 
