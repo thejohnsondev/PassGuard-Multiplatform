@@ -64,7 +64,8 @@ fun HomeNavigation(
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = Routes.VaultRoute(isFromLogin = isFromLogin),
+//                startDestination = Routes.VaultRoute(isFromLogin = isFromLogin), // TODO uncomment
+                startDestination = Routes.ToolsRoute,
                 modifier = Modifier.padding(
                     top = SizeDefault,
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
@@ -90,6 +91,7 @@ fun HomeNavigation(
                 )
                 toolsScreen(
                     windowSize = windowSizeClass,
+                    paddingValues = paddingValues,
                     setScaffoldConfig = {
                         scaffoldState.value = it
                     }

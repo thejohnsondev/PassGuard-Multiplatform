@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,7 +51,8 @@ fun SettingsItem(
     icon: ImageVector,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
-    content: @Composable () -> Unit = {}
+    onExpanded: ((Boolean) -> Unit)? = null,
+    content: @Composable () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
     var expanded by remember {
@@ -93,11 +95,12 @@ fun SettingsItem(
         if (expanded) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
     }
 
+    LaunchedEffect(expanded) {
+        onExpanded?.invoke(expanded)
+    }
+
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = Size16, end = Size16, bottom = Size4),
+        modifier = modifier,
         shape = RoundedCornerShape(
             topStart = if (isFirstItem) Size16 else Size4,
             topEnd = if (isFirstItem) Size16 else Size4,
@@ -138,13 +141,12 @@ fun SettingsItem(
                         tint = iconColor
                     )
                 }
-                Spacer(modifier = Modifier.width(Size8))
                 Column(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleLarge,
                         color = contentColor
                     )
 
