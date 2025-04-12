@@ -241,6 +241,10 @@ fun SettingsSubSections(
             subSection.sectionDescriptionRes?.let { stringResource(resource = it) }
         }
     SettingsItem(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(start = Size16, end = Size16, bottom = Size4),
         title = stringResource(resource = subSection.sectionTitleRes),
         description = subsectionDescription,
         icon = subSection.sectionIcon.getImageVector(),
@@ -291,8 +295,7 @@ fun ManageAccountSubSection(
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        buttonShape = ButtonShape.ROUNDED
+        )
     )
     Column(
         modifier = Modifier
@@ -339,8 +342,7 @@ fun ManageLocalVaultSubSection(
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        buttonShape = ButtonShape.ROUNDED
+        )
     )
     Row(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8),

@@ -20,8 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.thejohnsondev.ui.components.loader.Loader
+import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
@@ -49,7 +51,7 @@ fun RoundedButton(
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
     ),
-    buttonShape: ButtonShape = ButtonShape.ROUNDED,
+    buttonShape: Shape = EquallyRounded.medium,
     buttonStyle: ButtonStyle = ButtonStyle.REGULAR,
     disableBounceAnimation: Boolean = false,
 ) {
@@ -57,12 +59,6 @@ fun RoundedButton(
         if (enabled && !loading) colors.containerColor else colors.containerColor.copy(alpha = Percent70)
     val contentColor =
         if (enabled) colors.contentColor else colors.contentColor.copy(alpha = Percent70)
-    val appliedShape = RoundedCornerShape(
-        topStart = buttonShape.topStart,
-        topEnd = buttonShape.topEnd,
-        bottomStart = buttonShape.bottomStart,
-        bottomEnd = buttonShape.bottomEnd
-    )
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -70,7 +66,7 @@ fun RoundedButton(
             .applyIf(!disableBounceAnimation && enabled && !loading) {
                 bounceClick()
             }
-            .clip(appliedShape)
+            .clip(buttonShape)
             .clickable {
                 if (enabled && !loading) {
                     onClick()
@@ -80,7 +76,7 @@ fun RoundedButton(
                 border(
                     width = Size2,
                     color = buttonColor,
-                    shape = appliedShape
+                    shape = buttonShape
                 )
             },
         color = when (buttonStyle) {

@@ -355,8 +355,7 @@ internal fun AddPasswordFields(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                buttonShape = ButtonShape.ROUNDED
+                )
             )
         }
     }
