@@ -85,7 +85,7 @@ fun HomeNavigation(
                     updateIsFabExpanded = {
                         scaffoldState.value = scaffoldState.value.copy(isFabExpanded = it)
                     },
-                    onShowMessage = {
+                    onShowMessage = { // TODO rename
                         showMessageState.value = it
                     }
                 )
@@ -94,6 +94,9 @@ fun HomeNavigation(
                     paddingValues = paddingValues,
                     setScaffoldConfig = {
                         scaffoldState.value = it
+                    },
+                    showMessage = {
+                        showMessageState.value = it
                     }
                 )
                 settingsScreen(

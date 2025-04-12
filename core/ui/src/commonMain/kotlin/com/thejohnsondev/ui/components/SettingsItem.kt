@@ -67,7 +67,7 @@ fun SettingsItem(
     val cardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondaryContainer
+        if (expanded) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
     }
     val iconBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -82,7 +82,7 @@ fun SettingsItem(
     val iconColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondaryContainer
+        if (expanded) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
     }
     val iconPadding by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)

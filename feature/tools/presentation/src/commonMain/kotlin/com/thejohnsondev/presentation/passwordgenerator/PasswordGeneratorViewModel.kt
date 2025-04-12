@@ -37,7 +37,7 @@ class PasswordGeneratorViewModel(
     fun perform(action: Action) {
         when (action) {
             is Action.FetchConfig -> fetchConfig()
-            is Action.Copy -> copy()
+            is Action.Copy -> copy(action.password)
             is Action.GeneratePassword -> launch { generatePassword() }
             is Action.Reset -> reset()
             is Action.UpdateIncludeDigits -> updateIncludeDigits(action.includeDigits)
@@ -63,9 +63,9 @@ class PasswordGeneratorViewModel(
     }
 
 
-    private fun copy() {
+    private fun copy(password: String) {
         copyTextUseCase(
-            text = state.value.passwordGeneratedResult?.password.orEmpty(),
+            text = password,
             isSensitive = true
         )
     }
@@ -154,7 +154,7 @@ class PasswordGeneratorViewModel(
         data class UpdateIncludeSpecial(val includeSpecial: Boolean) : Action()
         data class UpdateType(val type: PasswordGenerationType) : Action()
         data object Reset : Action()
-        data object Copy : Action()
+        data class Copy(val password: String) : Action()
     }
 
     data class State(

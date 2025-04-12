@@ -41,6 +41,7 @@ import vaultmultiplatform.core.ui.generated.resources.password_generator_generat
 fun PasswordGeneratorWidget(
     modifier: Modifier = Modifier,
     viewModel: PasswordGeneratorViewModel = koinViewModel(),
+    onCopyClick: (String) -> Unit = {},
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
@@ -51,7 +52,17 @@ fun PasswordGeneratorWidget(
     PasswordGeneratorWidgetContent(
         modifier = modifier,
         state = state.value,
-        onAction = viewModel::perform
+        onAction = {
+            when (it) {
+                is PasswordGeneratorViewModel.Action.Copy -> {
+                    onCopyClick(it.password)
+                }
+                else -> {
+                    // no-op
+                }
+            }
+            viewModel.perform(it)
+        },
     )
 }
 
@@ -74,7 +85,11 @@ fun PasswordGeneratorWidgetContent(
         ) {
             Column {
                 MainPasswordView(state)
-                GenerateButtonsRow(hapticFeedback, onAction)
+                GenerateButtonsRow(
+                    hapticFeedback = hapticFeedback,
+                    state = state,
+                    onAction = onAction
+                )
             }
         }
     }
@@ -112,6 +127,7 @@ private fun MainPasswordView(state: PasswordGeneratorViewModel.State) {
 @Composable
 private fun GenerateButtonsRow(
     hapticFeedback: HapticFeedback,
+    state: PasswordGeneratorViewModel.State,
     onAction: (PasswordGeneratorViewModel.Action) -> Unit,
 ) {
     Row(
@@ -145,7 +161,9 @@ private fun GenerateButtonsRow(
                 hapticFeedback.performHapticFeedback(
                     HapticFeedbackType.LongPress
                 )
-                onAction(PasswordGeneratorViewModel.Action.Copy)
+                onAction(PasswordGeneratorViewModel.Action.Copy(
+                    password = state.passwordGeneratedResult?.password.orEmpty()
+                ))
             }
         )
     }
