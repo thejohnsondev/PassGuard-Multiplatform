@@ -60,6 +60,7 @@ class PasswordGeneratorViewModel(
         val config = getPasswordGeneratorConfigUseCase()
         _state.value = state.value.copy(
             length = config.length,
+            previousLengthValue = config.length,
             includeLower = config.includeLower,
             includeUpper = config.includeUpper,
             includeDigits = config.includeDigits,
@@ -120,44 +121,45 @@ class PasswordGeneratorViewModel(
             includeSpecial = true,
             type = PasswordGenerationType.RANDOM
         )
-        generatePassword()
         updateConfig()
+        generatePassword()
     }
 
     private fun updateIncludeDigits(include: Boolean) = launch {
         _state.value = state.value.copy(includeDigits = include)
-        generatePassword()
         updateConfig()
+        generatePassword()
     }
 
     private fun updateIncludeLower(include: Boolean) = launch {
         _state.value = state.value.copy(includeLower = include)
-        generatePassword()
         updateConfig()
+        generatePassword()
     }
 
     private fun updateIncludeSpecial(include: Boolean) = launch {
         _state.value = state.value.copy(includeSpecial = include)
-        generatePassword()
         updateConfig()
+        generatePassword()
     }
 
     private fun updateIncludeUpper(include: Boolean) = launch {
         _state.value = state.value.copy(includeUpper = include)
-        generatePassword()
         updateConfig()
+        generatePassword()
     }
 
     private fun updateLength(length: Int) = launch {
-        _state.value = state.value.copy(length = length)
+        val previousLength = state.value.length
+        _state.value = state.value.copy(length = length, previousLengthValue = previousLength)
         generatePassword()
         updateConfig()
     }
 
     private fun updateType(type: PasswordGenerationType) = launch {
         _state.value = state.value.copy(type = type)
-        generatePassword()
         updateConfig()
+        generatePassword()
     }
 
 
@@ -178,6 +180,7 @@ class PasswordGeneratorViewModel(
         val screenState: ScreenState = ScreenState.ShowContent,
         val passwordGeneratedResult: PasswordGeneratedResult? = null,
         val length: Int = PASSWORD_GENERATOR_DEFAULT_LENGTH,
+        val previousLengthValue: Int = PASSWORD_GENERATOR_DEFAULT_LENGTH,
         val includeLower: Boolean = true,
         val includeUpper: Boolean = true,
         val includeDigits: Boolean = true,

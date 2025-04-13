@@ -20,7 +20,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import com.thejohnsondev.ui.designsystem.Percent80
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
@@ -29,7 +29,7 @@ import com.thejohnsondev.ui.designsystem.Size8
 fun ToggleOptionItem(
     modifier: Modifier = Modifier,
     optionTitle: String,
-    optionDescription: String,
+    optionDescription: String?,
     isSelected: Boolean,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
@@ -62,23 +62,26 @@ fun ToggleOptionItem(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(Percent80)
+                    .weight(Percent100)
             ) {
                 Text(
                     text = optionTitle,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                     fontWeight = FontWeight.SemiBold,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     overflow = TextOverflow.Ellipsis
                 )
-                Text(
-                    modifier = Modifier.padding(top = Size8),
-                    text = optionDescription,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                optionDescription?.let {
+                    Text(
+                        modifier = Modifier.padding(top = Size8),
+                        text = optionDescription,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
             Switch(
+                modifier = Modifier,
                 checked = isSelected,
                 onCheckedChange = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

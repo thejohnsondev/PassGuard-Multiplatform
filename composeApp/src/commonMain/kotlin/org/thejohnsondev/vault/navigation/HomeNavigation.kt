@@ -64,8 +64,8 @@ fun HomeNavigation(
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-//                startDestination = Routes.VaultRoute(isFromLogin = isFromLogin), // TODO uncomment
-                startDestination = Routes.ToolsRoute,
+                startDestination = Routes.VaultRoute(isFromLogin = isFromLogin), // TODO uncomment
+//                startDestination = Routes.ToolsRoute,
                 modifier = Modifier.padding(
                     top = SizeDefault,
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),

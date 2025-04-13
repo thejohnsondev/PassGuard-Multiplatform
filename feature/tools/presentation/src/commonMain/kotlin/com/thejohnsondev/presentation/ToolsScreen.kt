@@ -147,7 +147,8 @@ private fun PasswordGeneratorContainer(
         SettingsItem(
             modifier = Modifier.padding(
                 horizontal = cardPaddingHorizontal,
-                top = paddingValues.calculateTopPadding()
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding()
             ).fillMaxWidth(),
             title = stringResource(ResString.password_generator),
             description = null,

@@ -44,6 +44,7 @@ import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_MAX_LENGTh
 import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_MIN_LENGTH
 import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.designsystem.EndRounded
@@ -56,14 +57,20 @@ import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.StartRounded
 import com.thejohnsondev.ui.utils.ResString
+import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import vaultmultiplatform.core.ui.generated.resources.password_generator_configure
 import vaultmultiplatform.core.ui.generated.resources.password_generator_copy
+import vaultmultiplatform.core.ui.generated.resources.password_generator_digits
 import vaultmultiplatform.core.ui.generated.resources.password_generator_generate
+import vaultmultiplatform.core.ui.generated.resources.password_generator_include
 import vaultmultiplatform.core.ui.generated.resources.password_generator_length
 import vaultmultiplatform.core.ui.generated.resources.password_generator_length_characters
+import vaultmultiplatform.core.ui.generated.resources.password_generator_lowercase
+import vaultmultiplatform.core.ui.generated.resources.password_generator_special
+import vaultmultiplatform.core.ui.generated.resources.password_generator_uppercase
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -127,6 +134,7 @@ fun PasswordGeneratorWidgetContent(
                 .fillMaxWidth(),
         ) {
             ConfigurationView(
+                hapticFeedback = hapticFeedback,
                 state = state,
                 onAction = onAction
             )
@@ -154,7 +162,7 @@ private fun MainPasswordView(state: PasswordGeneratorViewModel.State) {
     }
     HorizontalDivider(
         modifier = Modifier
-            .padding(Size4)
+            .padding(horizontal = Size4)
             .fillMaxWidth()
     )
     Box(
@@ -183,7 +191,7 @@ private fun GenerateButtonsRow(
 ) {
     Row(
         modifier = Modifier
-            .padding(Size12),
+            .padding(horizontal = Size12, bottom = Size12),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -224,10 +232,11 @@ private fun GenerateButtonsRow(
 
 @Composable
 fun ConfigurationView(
+    hapticFeedback: HapticFeedback,
     state: PasswordGeneratorViewModel.State,
     onAction: (PasswordGeneratorViewModel.Action) -> Unit,
 ) {
-    val isConfigurationExpanded = remember { mutableStateOf(true) }
+    val isConfigurationExpanded = remember { mutableStateOf(false) }
 
     val transitionState = remember {
         MutableTransitionState(isConfigurationExpanded.value).apply {
@@ -248,7 +257,8 @@ fun ConfigurationView(
                 .clip(RoundedCornerShape(Size16))
                 .clickable {
                     isConfigurationExpanded.value = !isConfigurationExpanded.value
-                },
+                }
+                .padding(vertical = Size8),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -298,15 +308,75 @@ fun ConfigurationView(
             }
             Slider(
                 modifier = Modifier
-                    .padding(Size12)
+                    .padding(horizontal = Size12, top = Size12)
                     .fillMaxWidth(),
                 value = state.length.toFloat(),
                 onValueChange = {
-                    onAction(PasswordGeneratorViewModel.Action.UpdateLength(it.toInt()))
+                    if (it.toInt() != state.previousLengthValue) {
+                        hapticFeedback.performHapticFeedback(
+                            HapticFeedbackType.LongPress
+                        )
+                        onAction(PasswordGeneratorViewModel.Action.UpdateLength(it.toInt()))
+                    }
                 },
                 valueRange = PASSWORD_GENERATOR_MIN_LENGTH..PASSWORD_GENERATOR_MAX_LENGTh,
                 steps = (PASSWORD_GENERATOR_MAX_LENGTh - 1).toInt(),
             )
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = Size12, top = Size12),
+                text = stringResource(ResString.password_generator_include),
+            )
+            ToggleOptionItem(
+                modifier = Modifier
+                    .padding(top = Size12, bottom = Size4, horizontal = Size8),
+                optionTitle = stringResource(ResString.password_generator_lowercase),
+                optionDescription = null,
+                isSelected = state.includeLower,
+                isFirstItem = true
+            ) {
+                hapticFeedback.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+                onAction(PasswordGeneratorViewModel.Action.UpdateIncludeLower(it))
+            }
+            ToggleOptionItem(
+                modifier = Modifier
+                    .padding(vertical = Size4, horizontal = Size8),
+                optionTitle = stringResource(ResString.password_generator_uppercase),
+                optionDescription = null,
+                isSelected = state.includeUpper,
+            ) {
+                hapticFeedback.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+                onAction(PasswordGeneratorViewModel.Action.UpdateIncludeUpper(it))
+            }
+            ToggleOptionItem(
+                modifier = Modifier
+                    .padding(vertical = Size4, horizontal = Size8),
+                optionTitle = stringResource(ResString.password_generator_digits),
+                optionDescription = null,
+                isSelected = state.includeDigits,
+            ) {
+                hapticFeedback.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+                onAction(PasswordGeneratorViewModel.Action.UpdateIncludeDigits(it))
+            }
+            ToggleOptionItem(
+                modifier = Modifier
+                    .padding(top = Size4, bottom = Size8, horizontal = Size8),
+                optionTitle = stringResource(ResString.password_generator_special),
+                optionDescription = null,
+                isSelected = state.includeSpecial,
+                isLastItem = true
+            ) {
+                hapticFeedback.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+                onAction(PasswordGeneratorViewModel.Action.UpdateIncludeSpecial(it))
+            }
         }
     }
 
