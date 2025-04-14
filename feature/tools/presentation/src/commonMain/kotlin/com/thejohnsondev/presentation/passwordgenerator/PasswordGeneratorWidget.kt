@@ -154,7 +154,27 @@ private fun MainPasswordView(state: PasswordGeneratorViewModel.State) {
                 .padding(Size8)
                 .fillMaxWidth(),
             text = buildAnnotatedString {
-                append(state.passwordGeneratedResult?.password.orEmpty())
+                state.passwordGeneratedResult?.password.orEmpty().forEach { char ->
+                    when {
+                        char.isDigit() -> {
+                            withStyle(
+                                style = SpanStyle(color = MaterialTheme.colorScheme.primary) // Green color
+                            ) {
+                                append(char)
+                            }
+                        }
+                        !char.isLetterOrDigit() -> {
+                            withStyle(
+                                style = SpanStyle(color = MaterialTheme.colorScheme.tertiary) // Violet color
+                            ) {
+                                append(char)
+                            }
+                        }
+                        else -> {
+                            append(char)
+                        }
+                    }
+                }
             },
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineLarge,

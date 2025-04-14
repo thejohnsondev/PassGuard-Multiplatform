@@ -114,7 +114,6 @@ fun SettingsItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-
         ) {
             Row(
                 modifier = Modifier
