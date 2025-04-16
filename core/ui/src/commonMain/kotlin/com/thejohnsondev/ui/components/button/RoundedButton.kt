@@ -3,6 +3,7 @@ package com.thejohnsondev.ui.components.button
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,6 +45,7 @@ fun RoundedButton(
     modifier: Modifier = Modifier,
     text: String = stringResource(ResString.buttons),
     imageVector: ImageVector? = null,
+    imageComposable: @Composable (() -> Unit)? = null,
     loading: Boolean = false,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
@@ -98,17 +100,24 @@ fun RoundedButton(
                     )
                 )
             } else {
-                imageVector?.let { safeImageVector ->
-                    Icon(
-                        modifier = Modifier
-                            .padding(end = Size4)
-                            .size(Size16),
-                        imageVector = safeImageVector,
-                        contentDescription = stringResource(ResString.cd_app_logo),
-                        tint = if (enabled) colors.contentColor else colors.contentColor.copy(
-                            alpha = Percent70
+                Box(
+                    modifier = Modifier
+                        .padding(end = Size4)
+                ) {
+                    imageComposable?.let {
+                        it()
+                    }
+                    imageVector?.let { safeImageVector ->
+                        Icon(
+                            modifier = Modifier
+                                .size(Size24),
+                            imageVector = safeImageVector,
+                            contentDescription = stringResource(ResString.cd_app_logo),
+                            tint = if (enabled) colors.contentColor else colors.contentColor.copy(
+                                alpha = Percent70
+                            )
                         )
-                    )
+                    }
                 }
                 Text(
                     text = text,

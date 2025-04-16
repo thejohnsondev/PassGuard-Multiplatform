@@ -2,6 +2,7 @@ package com.thejohnsondev.presentation.passwordgenerator
 
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Casino
@@ -25,6 +27,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +55,7 @@ import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
@@ -61,6 +65,7 @@ import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import vaultmultiplatform.core.ui.generated.resources.cd_app_logo
 import vaultmultiplatform.core.ui.generated.resources.password_generator_configure
 import vaultmultiplatform.core.ui.generated.resources.password_generator_copy
 import vaultmultiplatform.core.ui.generated.resources.password_generator_digits
@@ -71,6 +76,11 @@ import vaultmultiplatform.core.ui.generated.resources.password_generator_length_
 import vaultmultiplatform.core.ui.generated.resources.password_generator_lowercase
 import vaultmultiplatform.core.ui.generated.resources.password_generator_special
 import vaultmultiplatform.core.ui.generated.resources.password_generator_uppercase
+import kotlin.random.Random
+
+private const val PASSWORD_ANIM_DURATION = 300
+private const val POSITIVE_ROTATION_ANGLE = 90
+private const val NEGATIVE_ROTATION_ANGLE = -90
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -209,6 +219,12 @@ private fun GenerateButtonsRow(
     state: PasswordGeneratorViewModel.State,
     onAction: (PasswordGeneratorViewModel.Action) -> Unit,
 ) {
+    val rotationAngle = remember { mutableStateOf(0f) }
+    val animatedRotationAngle by animateFloatAsState(
+        targetValue = rotationAngle.value,
+        animationSpec = tween(durationMillis = PASSWORD_ANIM_DURATION),
+        label = "Icon Rotation"
+    )
     Row(
         modifier = Modifier
             .padding(horizontal = Size12, bottom = Size12),
@@ -220,9 +236,19 @@ private fun GenerateButtonsRow(
                 .padding(end = Size4)
                 .weight(Percent100),
             text = stringResource(ResString.password_generator_generate),
-            imageVector = Icons.Default.Casino,
+            imageComposable = {
+                Icon(
+                    modifier = Modifier
+                        .size(Size24)
+                        .rotate(animatedRotationAngle),
+                    imageVector =  Icons.Default.Casino,
+                    contentDescription = stringResource(ResString.cd_app_logo),
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            },
             buttonShape = StartRounded,
             onClick = {
+                randomAnimation(rotationAngle)
                 hapticFeedback.performHapticFeedback(
                     HapticFeedbackType.LongPress
                 )
@@ -248,6 +274,11 @@ private fun GenerateButtonsRow(
             }
         )
     }
+}
+
+private fun randomAnimation(rotationAngle: MutableState<Float>) {
+    val rotateRight = Random.nextBoolean()
+    rotationAngle.value += if (rotateRight) POSITIVE_ROTATION_ANGLE else NEGATIVE_ROTATION_ANGLE
 }
 
 @Composable
