@@ -1,5 +1,7 @@
 package com.thejohnsondev.presentation.additem
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,11 +40,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -56,6 +61,8 @@ import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
+import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
+import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
 import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
@@ -572,6 +579,12 @@ private fun PasswordField(
     passwordFocusRequester: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
 ) {
+    val rotationAngle = remember { mutableStateOf(0f) }
+    val animatedRotationAngle by animateFloatAsState(
+        targetValue = rotationAngle.value,
+        animationSpec = tween(durationMillis = PASSWORD_ANIM_DURATION),
+        label = "Icon Rotation"
+    )
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -614,12 +627,14 @@ private fun PasswordField(
             ),
             onClick = {
                 // TODO implement password generation
+                randomAnimation(rotationAngle)
             }
         ) {
             Icon(
                 modifier = Modifier
                     .padding(Size12)
-                    .size(Size32),
+                    .size(Size32)
+                    .rotate(animatedRotationAngle),
                 imageVector = Icons.Default.Casino,
                 contentDescription = stringResource(ResString.visibility),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant

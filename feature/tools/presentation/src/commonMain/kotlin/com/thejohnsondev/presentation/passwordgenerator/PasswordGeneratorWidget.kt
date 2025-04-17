@@ -78,9 +78,9 @@ import vaultmultiplatform.core.ui.generated.resources.password_generator_special
 import vaultmultiplatform.core.ui.generated.resources.password_generator_uppercase
 import kotlin.random.Random
 
-private const val PASSWORD_ANIM_DURATION = 300
-private const val POSITIVE_ROTATION_ANGLE = 90
-private const val NEGATIVE_ROTATION_ANGLE = -90
+const val PASSWORD_ANIM_DURATION = 300
+const val POSITIVE_ROTATION_ANGLE = 90
+const val NEGATIVE_ROTATION_ANGLE = -90
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -276,7 +276,7 @@ private fun GenerateButtonsRow(
     }
 }
 
-private fun randomAnimation(rotationAngle: MutableState<Float>) {
+fun randomAnimation(rotationAngle: MutableState<Float>) {
     val rotateRight = Random.nextBoolean()
     rotationAngle.value += if (rotateRight) POSITIVE_ROTATION_ANGLE else NEGATIVE_ROTATION_ANGLE
 }
