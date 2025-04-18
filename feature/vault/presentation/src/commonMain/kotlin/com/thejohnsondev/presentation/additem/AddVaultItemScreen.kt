@@ -626,7 +626,7 @@ private fun PasswordField(
                 bottomEnd = Size16
             ),
             onClick = {
-                // TODO implement password generation
+                onAction(AddVaultItemViewModel.Action.GeneratePassword)
                 randomAnimation(rotationAngle)
             }
         ) {

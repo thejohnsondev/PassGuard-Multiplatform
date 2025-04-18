@@ -11,6 +11,8 @@ import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
 import com.thejohnsondev.domain.ExtractCompanyNameUseCase
 import com.thejohnsondev.domain.FindLogoUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
+import com.thejohnsondev.domain.GeneratePasswordUseCase
+import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
 import com.thejohnsondev.domain.ValidatePasswordModelUseCase
@@ -52,7 +54,9 @@ class AddVaultItemViewModel(
     private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
     private val validatePasswordModelUseCase: ValidatePasswordModelUseCase,
     private val findLogoUseCase: FindLogoUseCase,
-    private val extractCompanyNameUseCase: ExtractCompanyNameUseCase
+    private val extractCompanyNameUseCase: ExtractCompanyNameUseCase,
+    private val generatePasswordUseCase: GeneratePasswordUseCase,
+    private val getPasswordGeneratorConfigUseCase: GetPasswordGeneratorConfigUseCase
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
@@ -112,6 +116,7 @@ class AddVaultItemViewModel(
             is Action.ShowHideGeneratePasswordBottomSheet -> showHideGeneratePasswordBottomSheet(
                 action.show
             )
+            is Action.GeneratePassword -> generatePassword()
         }
     }
 
@@ -301,6 +306,12 @@ class AddVaultItemViewModel(
         }
     }
 
+    private fun generatePassword() = launch {
+        val config = getPasswordGeneratorConfigUseCase()
+        val generatedPasswordResult = generatePasswordUseCase(config)
+        _enteredPassword.value = generatedPasswordResult.password
+    }
+
     fun clear() = launch {
         screenState.emit(ScreenState.None)
         _passwordId.emit(null)
@@ -329,6 +340,7 @@ class AddVaultItemViewModel(
         data object ClearLogo : Action()
         data object SavePassword : Action()
         data object Clear : Action()
+        data object GeneratePassword : Action()
     }
 
     data class State(
