@@ -5,6 +5,7 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
+import com.thejohnsondev.model.tools.PasswordGeneratorConfig
 import kotlinx.coroutines.flow.Flow
 
 interface PreferencesDataStore {
@@ -34,4 +35,6 @@ interface PreferencesDataStore {
     suspend fun getAppliedSortOrder(): String
     suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
     suspend fun getAppliedShowFavoritesAtTop(): Boolean
+    suspend fun updatePasswordGeneratorConfig(config: PasswordGeneratorConfig)
+    suspend fun getPasswordGeneratorConfig(): PasswordGeneratorConfig
 }

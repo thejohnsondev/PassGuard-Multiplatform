@@ -5,12 +5,9 @@ import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.network.LogoApi
-import com.thejohnsondev.platform.utils.ClipboardUtils
-import kotlinx.coroutines.flow.Flow
 
 class VaultRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
-    private val clipboardUtils: ClipboardUtils,
     private val logoApi: LogoApi
 ): VaultRepository {
     override suspend fun updateAppliedItemTypeFilters(typeFilters: List<String>) {
@@ -43,14 +40,6 @@ class VaultRepositoryImpl(
 
     override suspend fun getAppliedShowFavoritesAtTop(): Boolean {
         return preferencesDataStore.getAppliedShowFavoritesAtTop()
-    }
-
-    override fun copyText(text: String, isSensitive: Boolean) {
-        if (isSensitive) {
-            clipboardUtils.copyToClipboardSensitive(text)
-        } else {
-            clipboardUtils.copyToClipboard(text)
-        }
     }
 
     override suspend fun findLogo(query: String): Either<Error, List<FindLogoResponse>> {

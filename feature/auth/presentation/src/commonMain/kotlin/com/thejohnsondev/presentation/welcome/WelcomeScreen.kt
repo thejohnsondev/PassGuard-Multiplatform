@@ -30,8 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.thejohnsondev.ui.components.BlurContainer
-import com.thejohnsondev.ui.components.RoundedButton
+import com.thejohnsondev.ui.components.container.BlurContainer
+import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size580

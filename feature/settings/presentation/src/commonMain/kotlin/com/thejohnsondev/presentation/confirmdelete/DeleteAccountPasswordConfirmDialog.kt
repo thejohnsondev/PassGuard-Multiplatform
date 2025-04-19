@@ -23,8 +23,8 @@ import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.validation.PasswordValidationState
 import com.thejohnsondev.presentation.SettingsViewModel
-import com.thejohnsondev.ui.components.RoundedButton
-import com.thejohnsondev.ui.components.TextField
+import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.text.PrimaryOutlinedTextField
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.displaymessage.getAsComposeText
@@ -58,7 +58,7 @@ fun DeleteAccountPasswordConfirmDialog(
             verticalArrangement = Arrangement.Top
         ) {
             Text(text = stringResource(ResString.confirm_delete_account_with_password))
-            TextField(
+            PrimaryOutlinedTextField(
                 modifier = Modifier.padding(vertical = Size8),
                 textState = enteredPassword,
                 onTextChanged = {

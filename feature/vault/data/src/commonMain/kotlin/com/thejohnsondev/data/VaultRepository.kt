@@ -13,6 +13,5 @@ interface VaultRepository {
     suspend fun getAppliedSortOrder(): String
     suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
     suspend fun getAppliedShowFavoritesAtTop(): Boolean
-    fun copyText(text: String, isSensitive: Boolean)
     suspend fun findLogo(query: String): Either<Error, List<FindLogoResponse>>
 }

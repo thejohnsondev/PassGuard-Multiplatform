@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
+import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size36
@@ -49,7 +51,8 @@ fun SettingsItem(
     icon: ImageVector,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
-    content: @Composable () -> Unit = {}
+    onExpanded: ((Boolean) -> Unit)? = null,
+    content: @Composable () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
     var expanded by remember {
@@ -64,7 +67,7 @@ fun SettingsItem(
     val cardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondaryContainer
+        if (expanded) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
     }
     val iconBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -79,7 +82,7 @@ fun SettingsItem(
     val iconColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondaryContainer
+        if (expanded) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
     }
     val iconPadding by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -92,11 +95,12 @@ fun SettingsItem(
         if (expanded) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
     }
 
+    LaunchedEffect(expanded) {
+        onExpanded?.invoke(expanded)
+    }
+
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = Size16, end = Size16, bottom = Size4),
+        modifier = modifier,
         shape = RoundedCornerShape(
             topStart = if (isFirstItem) Size16 else Size4,
             topEnd = if (isFirstItem) Size16 else Size4,
@@ -110,7 +114,6 @@ fun SettingsItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-
         ) {
             Row(
                 modifier = Modifier
@@ -137,13 +140,12 @@ fun SettingsItem(
                         tint = iconColor
                     )
                 }
-                Spacer(modifier = Modifier.width(Size8))
                 Column(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleLarge,
                         color = contentColor
                     )
 

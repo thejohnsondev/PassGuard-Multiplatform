@@ -1,5 +1,7 @@
 package com.thejohnsondev.presentation.additem
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -16,66 +19,82 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.SCROLL_DOWN_DELAY
-import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
-import com.thejohnsondev.ui.components.BackArrowButton
-import com.thejohnsondev.ui.components.HintTextField
+import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
+import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
+import com.thejohnsondev.ui.components.button.BackArrowButton
+import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
-import com.thejohnsondev.ui.components.Loader
-import com.thejohnsondev.ui.components.RoundedButton
-import com.thejohnsondev.ui.components.RoundedContainer
-import com.thejohnsondev.ui.designsystem.EqualRounded
-import com.thejohnsondev.ui.designsystem.Percent90
+import com.thejohnsondev.ui.components.loader.Loader
+import com.thejohnsondev.ui.components.text.PrimaryTextField
+import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
+import com.thejohnsondev.ui.components.text.PrimaryTextFieldWithBackground
+import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
+import com.thejohnsondev.ui.designsystem.EquallyRounded
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
+import com.thejohnsondev.ui.designsystem.Size28
+import com.thejohnsondev.ui.designsystem.Size32
+import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
+import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.button.ButtonShape
@@ -230,6 +249,19 @@ private fun ModalDragHandle(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun GeneratePasswordDialog(
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit
+) {
+    val customFormBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+
+    if (state.showGeneratePasswordBottomSheet) {
+        // TODO show generate password bottom sheet
+    }
+}
+
 @Composable
 internal fun AddPasswordFields(
     state: AddVaultItemViewModel.State,
@@ -250,11 +282,6 @@ internal fun AddPasswordFields(
         FocusRequester()
     }
     val keyboardController = KeyboardManager.getKeyboardController()
-    val isPasswordHidden = remember {
-        mutableStateOf(false)
-    }
-    val eyeImage =
-        if (isPasswordHidden.value) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -284,6 +311,14 @@ internal fun AddPasswordFields(
                 titleFocusRequester = titleFocusRequester,
                 userNameFocusRequester = userNameFocusRequester
             )
+            LogoSearchResults(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = Size16),
+                state = state,
+                onAction = onAction
+            )
             CategorySelectorItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -308,11 +343,10 @@ internal fun AddPasswordFields(
                     .wrapContentHeight()
                     .padding(start = Size16, end = Size16, top = Size8, bottom = Size8),
                 onAction = onAction,
+                state = state,
                 enteredPassword = enteredPassword,
                 passwordFocusRequester = passwordFocusRequester,
                 keyboardController = keyboardController,
-                isPasswordHidden = isPasswordHidden,
-                eyeImage = eyeImage
             )
             AdditionalFieldsList(
                 modifier = Modifier
@@ -323,7 +357,7 @@ internal fun AddPasswordFields(
                 onAction = onAction
             )
             RoundedButton(
-                modifier = Modifier.fillMaxWidth().padding(Size16).bounceClick(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = Size16).bounceClick(),
                 text = stringResource(ResString.add_field),
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.AddAdditionalField)
@@ -335,8 +369,7 @@ internal fun AddPasswordFields(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                buttonShape = ButtonShape.ROUNDED
+                )
             )
         }
     }
@@ -348,6 +381,297 @@ internal fun AddPasswordFields(
         }
     }
 
+}
+
+@Composable
+private fun TitleField(
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+    enteredTitle: MutableState<String>,
+    titleFocusRequester: FocusRequester,
+    userNameFocusRequester: FocusRequester,
+) {
+    Row(
+        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(start = Size8)
+                .size(Size56)
+        ) {
+            Surface(
+                modifier = Modifier
+                    .size(Size48),
+                color = Color.Transparent,
+                shape = EquallyRounded.small
+            ) {
+                LoadedImage(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable {
+                            onAction(AddVaultItemViewModel.Action.ToggleShowHideLogoSearchResult)
+                        },
+                    imageUrl = state.organizationLogo,
+                    placeholderDrawableResource = ResDrawable.ic_password,
+                    errorDrawableResource = ResDrawable.ic_password,
+                    placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    backgroundColor = Color.Transparent,
+                    showLoading = state.isLogoLoading
+                )
+            }
+            if (state.showClearLogoButton) {
+                Box(
+                    modifier = Modifier
+                        .size(Size22)
+                        .align(Alignment.BottomEnd)
+                        .padding(top = Size4, start = Size4)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .clickable {
+                            onAction(AddVaultItemViewModel.Action.ClearLogo)
+                        }
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(Size12),
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            }
+        }
+        PrimaryTextField(
+            modifier = Modifier
+                .focusRequester(titleFocusRequester)
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(start = Size16, bottom = Size8)
+                .onEnterClick {
+                    onAction(AddVaultItemViewModel.Action.SavePassword)
+                },
+            onValueChanged = { title ->
+                onAction(AddVaultItemViewModel.Action.EnterTitle(title))
+            },
+            value = enteredTitle.value,
+            hint = stringResource(ResString.title),
+            textColor = MaterialTheme.colorScheme.onSurface,
+            fontSize = Text22,
+            onKeyboardAction = KeyboardActions {
+                userNameFocusRequester.requestFocus()
+            },
+            imeAction = ImeAction.Next
+        )
+    }
+}
+
+@Composable
+private fun LogoSearchResults(
+    modifier: Modifier = Modifier,
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit
+) {
+    ExpandableContent(
+        visible = state.isLogoSearchResultsVisible,
+    ) {
+        RoundedContainer(
+            modifier = modifier,
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            shape = EquallyRounded.medium
+        ) {
+            Column {
+                state.logoSearchResults.forEachIndexed { index, item ->
+                    SearchResultItem(
+                        index = index,
+                        item = item,
+                        state = state,
+                        onAction = onAction,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchResultItem(
+    index: Int,
+    item: FindLogoResponse,
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = Size8,
+                end = Size8,
+                top = Size8,
+                bottom = if (index == state.logoSearchResults.size - 1) Size8 else SizeDefault
+            )
+            .clip(
+                RoundedCornerShape(Size8)
+            )
+            .clickable {
+                onAction(AddVaultItemViewModel.Action.SelectLogo(item))
+            }
+            .padding(Size4),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Surface(
+            modifier = Modifier
+                .size(Size48),
+            color = Color.Transparent,
+            shape = EquallyRounded.small
+        ) {
+            LoadedImage(
+                modifier = Modifier
+                    .fillMaxSize(),
+                imageUrl = item.logoUrl,
+                placeholderDrawableResource = ResDrawable.ic_password,
+                errorDrawableResource = ResDrawable.ic_password,
+                placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                backgroundColor = Color.Transparent,
+                showLoading = state.isLogoLoading
+            )
+        }
+        Text(
+            modifier = Modifier
+                .padding(horizontal = Size8),
+            text = item.name,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@Composable
+private fun UserNameField(
+    modifier: Modifier = Modifier,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+    enteredUserName: MutableState<String>,
+    userNameFocusRequester: FocusRequester,
+    passwordFocusRequester: FocusRequester,
+) {
+    PrimaryTextFieldWithBackground(
+        modifier = modifier
+            .focusRequester(userNameFocusRequester)
+            .onEnterClick {
+                onAction(AddVaultItemViewModel.Action.SavePassword)
+            },
+        onValueChanged = { userName ->
+            onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
+        },
+        value = enteredUserName.value,
+        hint = stringResource(ResString.username),
+        textColor = MaterialTheme.colorScheme.onSurface,
+        fontSize = Text20,
+        onKeyboardAction = KeyboardActions {
+            passwordFocusRequester.requestFocus()
+        },
+        imeAction = ImeAction.Next,
+        backgroundShape = TopRounded
+    )
+}
+
+@Composable
+private fun PasswordField(
+    modifier: Modifier = Modifier,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+    state: AddVaultItemViewModel.State,
+    enteredPassword: MutableState<String>,
+    passwordFocusRequester: FocusRequester,
+    keyboardController: SoftwareKeyboardController?,
+) {
+    val rotationAngle = remember { mutableStateOf(0f) }
+    val animatedRotationAngle by animateFloatAsState(
+        targetValue = rotationAngle.value,
+        animationSpec = tween(durationMillis = PASSWORD_ANIM_DURATION),
+        label = "Icon Rotation"
+    )
+    Column {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            PrimaryTextFieldWithBackground(
+                modifier = Modifier
+                    .weight(Percent100)
+                    .focusRequester(passwordFocusRequester)
+                    .onEnterClick {
+                        onAction(AddVaultItemViewModel.Action.SavePassword)
+                    },
+                onValueChanged = { password ->
+                    onAction(AddVaultItemViewModel.Action.EnterPassword(password))
+                },
+                hint = stringResource(ResString.password),
+                value = enteredPassword.value,
+                textColor = MaterialTheme.colorScheme.onSurface,
+                onKeyboardAction = KeyboardActions {
+                    keyboardController?.hide()
+                },
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password,
+                textFieldIconBehavior = TextFieldIconBehavior.HideShow,
+                backgroundShape  = RoundedCornerShape(
+                    topStart = Size4,
+                    bottomStart = Size16,
+                    topEnd = Size4,
+                    bottomEnd = Size4
+                )
+            )
+            RoundedContainer(
+                modifier = Modifier
+                    .padding(start = Size8)
+                    .bounceClick(),
+                shape = RoundedCornerShape(
+                    topStart = Size4,
+                    bottomStart = Size4,
+                    topEnd = Size4,
+                    bottomEnd = Size16
+                ),
+                onClick = {
+                    onAction(AddVaultItemViewModel.Action.GeneratePassword)
+                    randomAnimation(rotationAngle)
+                }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .padding(Size12)
+                        .size(Size32)
+                        .rotate(animatedRotationAngle),
+                    imageVector = Icons.Default.Casino,
+                    contentDescription = stringResource(ResString.visibility),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .padding(horizontal = Size28)
+                .height(Size48),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(end = Size8)
+                    .weight(Percent100),
+                text = buildAnnotatedString {
+                    append(state.enteredPasswordStrength?.suggestion.orEmpty())
+                },
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.bodySmall,
+            )
+            StrengthLevelIndicator(
+                level = state.enteredPasswordStrength?.level ?: 0.0f
+            )
+        }
+    }
 }
 
 @Composable
@@ -397,180 +721,5 @@ private fun AdditionalFieldsList(
                 isEditMode = state.isEdit
             )
         }
-    }
-}
-
-@Composable
-private fun PasswordField(
-    modifier: Modifier = Modifier,
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-    enteredPassword: MutableState<String>,
-    passwordFocusRequester: FocusRequester,
-    keyboardController: SoftwareKeyboardController?,
-    isPasswordHidden: MutableState<Boolean>,
-    eyeImage: ImageVector,
-) {
-    RoundedContainer(
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        isBottomRounded = true,
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            HintTextField(
-                modifier = Modifier
-                    .focusRequester(passwordFocusRequester)
-                    .wrapContentHeight()
-                    .fillMaxWidth(Percent90)
-                    .padding(horizontal = Size12, vertical = Size16)
-                    .onEnterClick {
-                        onAction(AddVaultItemViewModel.Action.SavePassword)
-                    },
-                onValueChanged = { password ->
-                    onAction(AddVaultItemViewModel.Action.EnterPassword(password))
-                },
-                hint = stringResource(ResString.password),
-                value = enteredPassword.value,
-                textColor = MaterialTheme.colorScheme.onSurface,
-                fontSize = Text20,
-                onKeyboardAction = KeyboardActions {
-                    keyboardController?.hide()
-                },
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password,
-                passwordVisible = !isPasswordHidden.value
-            )
-            IconButton(modifier = Modifier.padding(end = Size8), onClick = {
-                isPasswordHidden.value = !isPasswordHidden.value
-            }) {
-                Icon(
-                    imageVector = eyeImage,
-                    contentDescription = stringResource(ResString.visibility),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun UserNameField(
-    modifier: Modifier = Modifier,
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-    enteredUserName: MutableState<String>,
-    userNameFocusRequester: FocusRequester,
-    passwordFocusRequester: FocusRequester,
-) {
-    RoundedContainer(
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        isTopRounded = true,
-    ) {
-        HintTextField(
-            modifier = Modifier
-                .focusRequester(userNameFocusRequester)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = Size12, vertical = Size16)
-                .onEnterClick {
-                    onAction(AddVaultItemViewModel.Action.SavePassword)
-                },
-            onValueChanged = { userName ->
-                onAction(AddVaultItemViewModel.Action.EnterUserName(userName))
-            },
-            value = enteredUserName.value,
-            hint = stringResource(ResString.username),
-            textColor = MaterialTheme.colorScheme.onSurface,
-            fontSize = Text20,
-            onKeyboardAction = KeyboardActions {
-                passwordFocusRequester.requestFocus()
-            },
-            imeAction = ImeAction.Next
-        )
-
-    }
-}
-
-@Composable
-private fun TitleField(
-    state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-    enteredTitle: MutableState<String>,
-    titleFocusRequester: FocusRequester,
-    userNameFocusRequester: FocusRequester,
-) {
-    Row(
-        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(start = Size8)
-                .size(Size56)
-        ) {
-            Surface(
-                modifier = Modifier
-                    .size(Size48),
-                color = Color.Transparent,
-                shape = EqualRounded.small
-            ) {
-                LoadedImage(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    imageUrl = state.organizationLogo,
-                    placeholderDrawableResource = ResDrawable.ic_password,
-                    errorDrawableResource = ResDrawable.ic_password,
-                    placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    backgroundColor = Color.Transparent,
-                    showLoading = state.isLogoLoading
-                )
-            }
-            if (state.showClearLogoButton) {
-                Box(
-                    modifier = Modifier
-                        .size(Size22)
-                        .align(Alignment.BottomEnd)
-                        .padding(top = Size4, start = Size4)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .clickable {
-                            onAction(AddVaultItemViewModel.Action.ClearLogo)
-                        }
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(Size12),
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-            }
-        }
-        HintTextField(
-            modifier = Modifier
-                .focusRequester(titleFocusRequester)
-                .wrapContentHeight()
-                .fillMaxWidth()
-                .padding(start = Size16, bottom = Size8)
-                .onEnterClick {
-                    onAction(AddVaultItemViewModel.Action.SavePassword)
-                },
-            onValueChanged = { title ->
-                onAction(AddVaultItemViewModel.Action.EnterTitle(title))
-            },
-            value = enteredTitle.value,
-            hint = stringResource(ResString.title),
-            textColor = MaterialTheme.colorScheme.onSurface,
-            fontSize = Text22,
-            onKeyboardAction = KeyboardActions {
-                userNameFocusRequester.requestFocus()
-            },
-            imeAction = ImeAction.Next
-        )
     }
 }

@@ -10,6 +10,9 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
+import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_DEFAULT_LENGTH
+import com.thejohnsondev.model.tools.PasswordGeneratorConfig
+import com.thejohnsondev.model.tools.PasswordGenerationType
 import com.thejohnsondev.platform.storage.SecureStorage
 import kotlinx.coroutines.flow.Flow
 import kotlin.io.encoding.Base64
@@ -188,6 +191,62 @@ class PreferencesDataStoreImpl(
         return dataStore.getBoolean(KEY_APPLIED_FAVORITES_AT_TOP, true)
     }
 
+    override suspend fun updatePasswordGeneratorConfig(config: PasswordGeneratorConfig) {
+        dataStore.saveInt(KEY_PASSWORD_GENERATOR_CONFIG_TYPE, config.type.ordinal)
+        dataStore.saveInt(KEY_PASSWORD_GENERATOR_CONFIG_LENGTH, config.length)
+        dataStore.saveBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_LOWER,
+            config.includeLower
+        )
+        dataStore.saveBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_UPPER,
+            config.includeUpper
+        )
+        dataStore.saveBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_DIGITS,
+            config.includeDigits
+        )
+        dataStore.saveBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_SPECIAL,
+            config.includeSpecial
+        )
+    }
+
+    override suspend fun getPasswordGeneratorConfig(): PasswordGeneratorConfig {
+        val type = dataStore.getInt(
+            KEY_PASSWORD_GENERATOR_CONFIG_TYPE,
+            PasswordGenerationType.RANDOM.ordinal
+        )
+        val length = dataStore.getInt(
+            KEY_PASSWORD_GENERATOR_CONFIG_LENGTH,
+            PASSWORD_GENERATOR_DEFAULT_LENGTH
+        )
+        val includeLower = dataStore.getBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_LOWER,
+            true
+        )
+        val includeUpper = dataStore.getBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_UPPER,
+            true
+        )
+        val includeDigits = dataStore.getBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_DIGITS,
+            true
+        )
+        val includeSpecial = dataStore.getBoolean(
+            KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_SPECIAL,
+            true
+        )
+        return PasswordGeneratorConfig(
+            type = PasswordGenerationType.entries[type],
+            length = length,
+            includeLower = includeLower,
+            includeUpper = includeUpper,
+            includeDigits = includeDigits,
+            includeSpecial = includeSpecial
+        )
+    }
+
     companion object {
         private const val IDS_SEPARATOR = ","
         private const val KEY_AUTH_TOKEN = "auth_token"
@@ -204,6 +263,12 @@ class PreferencesDataStoreImpl(
         private const val KEY_APPLIED_CATEGORY_FILTERS = "applied-category-filters"
         private const val KEY_APPLIED_SORT_ORDER = "applied-sort-order"
         private const val KEY_APPLIED_FAVORITES_AT_TOP = "applied-favorites-at-top"
+        private const val KEY_PASSWORD_GENERATOR_CONFIG_TYPE = "password-generator-config-type"
+        private const val KEY_PASSWORD_GENERATOR_CONFIG_LENGTH = "password-generator-config-length"
+        private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_LOWER = "password-generator-config-include-lower"
+        private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_UPPER = "password-generator-config-include-upper"
+        private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_DIGITS = "password-generator-config-include-digits"
+        private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_SPECIAL = "password-generator-config-include-special"
     }
 
 }

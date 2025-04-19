@@ -10,7 +10,7 @@ import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 fun PasswordItemSimplePreview() {
     VaultDefaultTheme(
         dynamicColor = false,

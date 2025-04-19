@@ -37,12 +37,12 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
-import com.thejohnsondev.ui.components.ConfirmAlertDialog
-import com.thejohnsondev.ui.components.RoundedButton
 import com.thejohnsondev.ui.components.SelectableOptionItem
 import com.thejohnsondev.ui.components.SelectableThemeOptionItem
 import com.thejohnsondev.ui.components.SettingsItem
-import com.thejohnsondev.ui.components.ToggleOptionItem
+import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.button.ToggleOptionItem
+import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
@@ -58,7 +58,6 @@ import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.VioletSelectableItemsColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
-import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.model.message.MessageType
@@ -156,14 +155,11 @@ fun SettingsContent(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     onAction: (SettingsViewModel.Action) -> Unit,
-    goToSignUp: () -> Unit
+    goToSignUp: () -> Unit,
 ) {
     Box(
         modifier = Modifier
-            .padding(
-                bottom = paddingValues.calculateBottomPadding(),
-                top = paddingValues.calculateTopPadding()
-            ).fillMaxSize()
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceContainerLowest),
     ) {
         Column(
@@ -176,7 +172,11 @@ fun SettingsContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
-            SettingsList(state = state, onAction = onAction, goToSignUp = goToSignUp)
+            SettingsList(
+                state = state,
+                paddingValues = paddingValues,
+                onAction = onAction, goToSignUp = goToSignUp
+            )
             Dialogs(windowSizeClass = windowSizeClass, state = state, onAction = onAction)
         }
     }
@@ -186,9 +186,16 @@ fun SettingsContent(
 fun SettingsList(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
-    goToSignUp: () -> Unit
+    goToSignUp: () -> Unit,
+    paddingValues: PaddingValues,
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .padding(
+                top = paddingValues.calculateTopPadding().plus(Size16),
+                bottom = paddingValues.calculateBottomPadding().plus(Size4)
+            )
+    ) {
         state.settingsSection.forEach { section ->
             val subSectionsNumber = section.subsections.size
             SettingsSectionTitle(
@@ -196,6 +203,15 @@ fun SettingsList(
             )
             section.subsections.forEachIndexed { index, subsection ->
                 SettingsSubSections(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(
+                            start = Size16,
+                            end = Size16,
+
+                            bottom = Size4
+                        ),
                     state = state,
                     subSection = subsection,
                     subSectionsNumber = subSectionsNumber,
@@ -227,12 +243,13 @@ fun SettingsSectionTitle(
 
 @Composable
 fun SettingsSubSections(
+    modifier: Modifier = Modifier,
     state: SettingsViewModel.State,
     subSection: SettingsSubSection,
     subSectionIndex: Int,
     subSectionsNumber: Int,
     onAction: (SettingsViewModel.Action) -> Unit,
-    goToSignUp: () -> Unit
+    goToSignUp: () -> Unit,
 ) {
     val subsectionDescription =
         if (subSection.sectionTitleRes == ResString.manage_account) {
@@ -241,6 +258,7 @@ fun SettingsSubSections(
             subSection.sectionDescriptionRes?.let { stringResource(resource = it) }
         }
     SettingsItem(
+        modifier = modifier,
         title = stringResource(resource = subSection.sectionTitleRes),
         description = subsectionDescription,
         icon = subSection.sectionIcon.getImageVector(),
@@ -291,8 +309,7 @@ fun ManageAccountSubSection(
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        buttonShape = ButtonShape.ROUNDED
+        )
     )
     Column(
         modifier = Modifier
@@ -339,8 +356,7 @@ fun ManageLocalVaultSubSection(
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        buttonShape = ButtonShape.ROUNDED
+        )
     )
     Row(
         modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8),

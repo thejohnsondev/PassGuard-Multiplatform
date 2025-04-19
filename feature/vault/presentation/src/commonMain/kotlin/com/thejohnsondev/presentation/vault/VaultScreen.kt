@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -49,12 +50,12 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.additem.AddVaultItemScreen
 import com.thejohnsondev.presentation.component.PasswordItem
-import com.thejohnsondev.ui.components.SearchBar
-import com.thejohnsondev.ui.components.ShimmerEffect
-import com.thejohnsondev.ui.components.ToggleButton
+import com.thejohnsondev.ui.components.text.SearchBar
+import com.thejohnsondev.ui.components.animation.ShimmerEffect
+import com.thejohnsondev.ui.components.button.ToggleButton
 import com.thejohnsondev.ui.components.filter.Chip
 import com.thejohnsondev.ui.components.filter.FilterGroup
-import com.thejohnsondev.ui.designsystem.EqualRounded
+import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Percent50i
 import com.thejohnsondev.ui.designsystem.Size10
@@ -115,7 +116,8 @@ internal fun VaultScreen(
     }
     val appLogo = vectorResource(getAppLogo())
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
+        skipPartiallyExpanded = true,
+        confirmValueChange = { it != SheetValue.Hidden }
     )
 
     val isCompact = windowSizeClass.isCompact()
@@ -253,7 +255,7 @@ private fun ShimmerSearchBar() {
             .fillMaxWidth()
             .height(Size80)
             .padding(start = Size10, end = Size10, top = Size8, bottom = Size16)
-            .clip(EqualRounded.large)
+            .clip(EquallyRounded.large)
     )
 }
 
@@ -273,7 +275,7 @@ private fun ShimmerPasswordItem(
                     .fillMaxWidth()
                     .height(PASSWORD_IDLE_ITEM_HEIGHT.dp)
                     .padding(start = Size8, bottom = Size8, end = Size8)
-                    .clip(EqualRounded.medium),
+                    .clip(EquallyRounded.medium),
             )
         } else {
             repeat(2) {
@@ -282,7 +284,7 @@ private fun ShimmerPasswordItem(
                         .weight(Percent50)
                         .height(PASSWORD_IDLE_ITEM_HEIGHT.dp)
                         .padding(start = Size10, bottom = Size8, end = Size10)
-                        .clip(EqualRounded.medium),
+                        .clip(EquallyRounded.medium),
                 )
             }
         }

@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.presentation.additem.AddVaultItemContent
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
@@ -45,48 +46,12 @@ private fun AddVaultItemEmptyPreview() {
             onAction = {},
             enteredTitle = mutableStateOf(String.empty),
             enteredUserName = mutableStateOf(String.empty),
-            enteredPassword = mutableStateOf(String.empty),
+            enteredPassword = mutableStateOf("Pass123$"),
             additionalFields = mutableStateOf(listOf()),
             vaultItem = PasswordUIModel.testPasswordUIModel,
         )
         LaunchedEffect(true) {
             sheetState.show()
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-private fun AddVaultItemEditPreview() {
-    VaultDefaultTheme(
-        dynamicColor = false,
-        darkTheme = true,
-        deviceThemeConfig = null
-    ) {
-        val sheetState = SheetState(
-            skipPartiallyExpanded = true,
-            density = Density(1f),
-            initialValue = SheetValue.Expanded
-        )
-        AddVaultItemContent(
-            state = AddVaultItemViewModel.State(
-                screenState = ScreenState.ShowContent,
-                isEdit = true,
-                isValid = true,
-                selectedCategory = FiltersProvider.Category.getDefaultCategoryFilter().mapToCategory(),
-                organizationLogo = "fdfdfd"
-            ),
-            sheetState = sheetState,
-            windowSizeClass = WindowWidthSizeClass.Compact,
-            paddingValues = PaddingValues(0.dp),
-            onDismissRequest = {},
-            onAction = {},
-            enteredTitle = mutableStateOf("Title"),
-            enteredUserName = mutableStateOf("UserName"),
-            enteredPassword = mutableStateOf("Password"),
-            additionalFields = mutableStateOf(listOf()),
-            vaultItem = null
-        )
     }
 }

@@ -77,7 +77,7 @@
     <string name="work">Work</string>
     <string name="yes">Yes</string>
     <string name="your_fortress">Your digital fortress for password security</string>
-    <string name="email_error_incorrect">Email is no valid</string>
+    <string name="email_error_incorrect">Email is not valid</string>
     <string name="logout_confirm_message">Are you sure you want to log out?</string>
     <string name="unknown_error">An unknown error occurred</string>
     <string name="account">Account</string>
@@ -127,4 +127,20 @@
     <string name="create_account">Create account</string>
     <string name="create_account_description">Create an account to sync your passwords across multiple devices.</string>
     <string name="copied">Copied to clipboard</string>
+
+    <!--Password generator-->
+    <string name="password_generator">Password generator</string>
+    <string name="password_generator_generate">Generate</string>
+    <string name="password_generator_copy">Copy</string>
+    <string name="password_generator_configure">Configure</string>
+    <string name="password_generator_length">Password length:</string>
+    <string name="password_generator_length_characters"> characters</string>
+    <string name="password_generator_type">Password type</string>
+    <string name="password_generator_include">Include:</string>
+    <string name="password_generator_lowercase">Lowercase</string>
+    <string name="password_generator_uppercase">Uppercase</string>
+    <string name="password_generator_digits">Digits</string>
+    <string name="password_generator_special">Special characters</string>
+    <string name="password_generator_strong">Strong</string>
+    <string name="password_generator_medium">Weak</string>
 </resources>
