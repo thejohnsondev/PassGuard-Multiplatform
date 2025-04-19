@@ -150,7 +150,7 @@ internal fun AdditionalFieldItem(
             }
         }
     }
-    if (!isEditMode) {
+    if (!isEditMode && title.isEmpty() && value.isEmpty()) {
         LaunchedEffect(titleFocusRequester) {
             titleFocusRequester.requestFocus()
         }
