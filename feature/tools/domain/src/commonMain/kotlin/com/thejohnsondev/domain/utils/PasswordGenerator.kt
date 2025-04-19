@@ -69,7 +69,7 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
 
     fun evaluateStrength(password: String): PasswordStrength {
         if (commonPasswords.contains(password))
-            return PasswordStrength(1, "This password is very common. Choose a more unique one.")
+            return PasswordStrength(0.1f, "This password is very common. Choose a more unique one.")
 
         val lengthScore = when {
             password.length >= 16 -> 10
@@ -78,7 +78,7 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
             password.length >= 8 -> 4
             password.length >= 6 -> 3
             password.length >= 4 -> 2
-            else -> 1
+            else -> 0
         }
 
         val diversityScore = (listOf(
@@ -88,17 +88,17 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
             password.any { !it.isLetterOrDigit() }
         ).count { it } * 0.75).toInt()
 
-        val score = (lengthScore + diversityScore).coerceAtMost(10)
+        val score = (lengthScore + diversityScore).coerceAtMost(10) * 0.1f
 
         val suggestion = when (score) {
-            in 0..1 -> "Extremely weak! Use at least 8 characters with mixed cases and symbols."
-            in 2..3 -> "Too weak, add more characters and mix uppercase, lowercase, and numbers."
-            in 4..5 -> "Weak. Consider adding special symbols and increasing length."
-            6 -> "Moderate. Try using a longer password with symbols."
-            in 7..8 -> "Strong. Ensure it's not a common phrase."
-            9 -> "Very strong! Nearly unbreakable but avoid using personal information."
-            10 -> "Extremely strong! This password is highly secure."
-            else -> null
+            in 0.0..0.1 -> "Extremely weak! Use at least 8 characters with mixed cases and symbols."
+            in 0.2..0.3 -> "Too weak, add more characters and mix uppercase, lowercase, and numbers."
+            in 0.4..0.5 -> "Weak. Consider adding special symbols and increasing length."
+            0.6f -> "Moderate. Try using a longer password with symbols."
+            in 0.7..0.8 -> "Strong. Ensure it's not a common phrase."
+            0.9f -> "Very strong! Nearly unbreakable but avoid using personal information."
+            1f -> "Extremely strong! This password is highly secure."
+            else -> "Moderate. Try using a longer password with symbols."
         }
 
         return PasswordStrength(score, suggestion)

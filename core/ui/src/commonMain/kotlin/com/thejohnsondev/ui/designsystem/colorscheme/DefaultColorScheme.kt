@@ -12,6 +12,12 @@ val themeColorSuccessBackground = Color(0xFFC0E1B8)
 val themeColorSuccessForeground = Color(0xFF1E720A)
 val themeColorFavorite = Color(0xFFEAC612)
 
+val themeColorStrengthLow = Color(0xFFf54242)
+val themeColorStrengthMediumLow = Color(0xFFf58a42)
+val themeColorStrengthMedium = Color(0xFFf5bf42)
+val themeColorStrengthMediumHigh = Color(0xFFadf542)
+val themeColorStrengthHigh = Color(0xFF6cf542)
+
 val themeColorCategoryPersonalContentLight = Color(0xFF67BE7F)
 val themeColorCategoryPersonalContentDark = Color(0xFF85F8A7)
 val themeColorCategoryPersonalBackgroundDark = Color(0xFF2A4930)

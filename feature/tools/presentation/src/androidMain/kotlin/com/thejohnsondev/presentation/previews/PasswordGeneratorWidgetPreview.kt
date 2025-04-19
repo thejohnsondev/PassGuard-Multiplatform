@@ -28,7 +28,7 @@ fun PasswordGeneratorWidgetGeneratedPreview() {
                 state = PasswordGeneratorViewModel.State(
                     passwordGeneratedResult = PasswordGeneratedResult(
                         password = "Qbegfdjl3lk49@#",
-                        strengthLevel = 6,
+                        strengthLevel = 0.6f,
                         suggestion = "Make a stronger password",
                     )
                 ),
@@ -54,8 +54,8 @@ fun PasswordGeneratorWidgetGeneratedLongPreview() {
                 state = PasswordGeneratorViewModel.State(
                     passwordGeneratedResult = PasswordGeneratedResult(
                         password = "Qbegfdjl3lk49@#fdsjjhfsdhfdsjfsd",
-                        strengthLevel = 6,
-                        suggestion = "Make a stronger password",
+                        strengthLevel = 0.3f,
+                        suggestion = "Make a stronger password, Make a stronger password, Make a stronger password",
                     )
                 ),
                 onAction = {}

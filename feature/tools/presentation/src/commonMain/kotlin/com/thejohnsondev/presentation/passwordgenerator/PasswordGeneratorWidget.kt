@@ -50,6 +50,7 @@ import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
 import com.thejohnsondev.ui.designsystem.EndRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size100
@@ -173,6 +174,7 @@ private fun MainPasswordView(state: PasswordGeneratorViewModel.State) {
                                 append(char)
                             }
                         }
+
                         !char.isLetterOrDigit() -> {
                             withStyle(
                                 style = SpanStyle(color = MaterialTheme.colorScheme.tertiary) // Violet color
@@ -180,6 +182,7 @@ private fun MainPasswordView(state: PasswordGeneratorViewModel.State) {
                                 append(char)
                             }
                         }
+
                         else -> {
                             append(char)
                         }
@@ -195,20 +198,25 @@ private fun MainPasswordView(state: PasswordGeneratorViewModel.State) {
             .padding(horizontal = Size4)
             .fillMaxWidth()
     )
-    Box(
+    Row(
         modifier = Modifier
+            .padding(horizontal = Size16, vertical = Size8)
             .height(Size48),
-        contentAlignment = Alignment.Center
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             modifier = Modifier
-                .padding(Size8)
-                .fillMaxWidth(),
+                .padding(end = Size8)
+                .weight(Percent100),
             text = buildAnnotatedString {
                 append(state.passwordGeneratedResult?.suggestion.orEmpty())
             },
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
             style = MaterialTheme.typography.bodySmall,
+        )
+        StrengthLevelIndicator(
+            level = state.passwordGeneratedResult?.strengthLevel ?: 0.0f
         )
     }
 }
@@ -241,7 +249,7 @@ private fun GenerateButtonsRow(
                     modifier = Modifier
                         .size(Size24)
                         .rotate(animatedRotationAngle),
-                    imageVector =  Icons.Default.Casino,
+                    imageVector = Icons.Default.Casino,
                     contentDescription = stringResource(ResString.cd_app_logo),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )

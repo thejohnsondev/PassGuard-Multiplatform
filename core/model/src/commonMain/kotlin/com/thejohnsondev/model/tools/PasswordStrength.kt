@@ -1,6 +1,6 @@
 package com.thejohnsondev.model.tools
 
 data class PasswordStrength(
-    val level: Int,
+    val level: Float,
     val suggestion: String?
 )
