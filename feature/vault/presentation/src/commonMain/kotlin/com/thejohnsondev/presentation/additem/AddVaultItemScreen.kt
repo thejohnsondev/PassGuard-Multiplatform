@@ -66,6 +66,7 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
+import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorBottomSheet
 import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
 import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
@@ -205,6 +206,12 @@ internal fun AddVaultItemContent(
             vaultItemForEdit = vaultItem,
             onAction = onAction
         )
+        GeneratePasswordDialog(
+            windowSizeClass = windowSizeClass,
+            paddingValues = paddingValues,
+            state = state,
+            onAction = onAction
+        )
     }
 }
 
@@ -252,13 +259,26 @@ private fun ModalDragHandle(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GeneratePasswordDialog(
+    windowSizeClass: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
     state: AddVaultItemViewModel.State,
     onAction: (AddVaultItemViewModel.Action) -> Unit
 ) {
-    val customFormBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    val generatePasswordBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     if (state.showGeneratePasswordBottomSheet) {
-        // TODO show generate password bottom sheet
+        PasswordGeneratorBottomSheet(
+            windowSizeClass,
+            paddingValues,
+            generatePasswordBottomSheetState,
+            onPasswordGenerated = {
+                onAction(AddVaultItemViewModel.Action.EnterPassword(it.password))
+                onAction(AddVaultItemViewModel.Action.ShowHideGeneratePasswordBottomSheet(false))
+            },
+            onDismissRequest = {
+                onAction(AddVaultItemViewModel.Action.ShowHideGeneratePasswordBottomSheet(false))
+            }
+        )
     }
 }
 
@@ -637,6 +657,10 @@ private fun PasswordField(
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.GeneratePassword)
                     randomAnimation(rotationAngle)
+                },
+                onLongClick = {
+                    keyboardController?.hide()
+                    onAction(AddVaultItemViewModel.Action.ShowHideGeneratePasswordBottomSheet(true))
                 }
             ) {
                 Icon(

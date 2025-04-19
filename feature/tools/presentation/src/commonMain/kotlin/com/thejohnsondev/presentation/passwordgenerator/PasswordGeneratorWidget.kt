@@ -46,6 +46,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_MAX_LENGTh
 import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_MIN_LENGTH
+import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.container.ExpandableContent
@@ -89,7 +90,9 @@ const val NEGATIVE_ROTATION_ANGLE = -90
 fun PasswordGeneratorWidget(
     modifier: Modifier = Modifier,
     viewModel: PasswordGeneratorViewModel = koinViewModel(),
+    showConfigureByDefault: Boolean = false,
     onCopyClick: (String) -> Unit = {},
+    onPasswordGenerated: ((PasswordGeneratedResult) -> Unit)? = null
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
@@ -97,9 +100,20 @@ fun PasswordGeneratorWidget(
         viewModel.perform(PasswordGeneratorViewModel.Action.FetchConfig)
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.getEventFlow().collect {
+            when (it) {
+                is PasswordGeneratorViewModel.OnPasswordGenerated -> {
+                    onPasswordGenerated?.invoke(it.passwordGeneratedResult)
+                }
+            }
+        }
+    }
+
     PasswordGeneratorWidgetContent(
         modifier = modifier,
         state = state.value,
+        showConfigureByDefault = showConfigureByDefault,
         onAction = {
             when (it) {
                 is PasswordGeneratorViewModel.Action.Copy -> {
@@ -120,6 +134,7 @@ fun PasswordGeneratorWidget(
 fun PasswordGeneratorWidgetContent(
     modifier: Modifier = Modifier,
     state: PasswordGeneratorViewModel.State,
+    showConfigureByDefault: Boolean,
     onAction: (PasswordGeneratorViewModel.Action) -> Unit,
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -148,6 +163,7 @@ fun PasswordGeneratorWidgetContent(
             ConfigurationView(
                 hapticFeedback = hapticFeedback,
                 state = state,
+                showConfigureByDefault = showConfigureByDefault,
                 onAction = onAction
             )
         }
@@ -270,9 +286,10 @@ fun randomAnimation(rotationAngle: MutableState<Float>) {
 fun ConfigurationView(
     hapticFeedback: HapticFeedback,
     state: PasswordGeneratorViewModel.State,
+    showConfigureByDefault: Boolean,
     onAction: (PasswordGeneratorViewModel.Action) -> Unit,
 ) {
-    val isConfigurationExpanded = remember { mutableStateOf(false) }
+    val isConfigurationExpanded = remember { mutableStateOf(showConfigureByDefault) }
 
     val transitionState = remember {
         MutableTransitionState(isConfigurationExpanded.value).apply {

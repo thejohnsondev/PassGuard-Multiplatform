@@ -32,7 +32,8 @@ fun PasswordGeneratorWidgetGeneratedPreview() {
                         suggestion = "Make a stronger password",
                     )
                 ),
-                onAction = {}
+                onAction = {},
+                showConfigureByDefault = false
             )
         }
     }
@@ -58,7 +59,8 @@ fun PasswordGeneratorWidgetGeneratedLongPreview() {
                         suggestion = "Make a stronger password, Make a stronger password, Make a stronger password",
                     )
                 ),
-                onAction = {}
+                onAction = {},
+                showConfigureByDefault = true
             )
         }
     }
