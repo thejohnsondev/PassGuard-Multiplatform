@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,6 +40,7 @@ import kotlinx.coroutines.delay
 fun HighlightOnLongPressText(
     modifier: Modifier = Modifier,
     text: String,
+    displayedAnnotatedText: AnnotatedString? = null,
     color: Color = MaterialTheme.colorScheme.onSurface,
     maxLines: Int = 1,
     overflow: TextOverflow = TextOverflow.Ellipsis,
@@ -100,14 +102,25 @@ fun HighlightOnLongPressText(
         ,
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = text,
-            style = style,
-            fontWeight = fontWeight,
-            color = color,
-            overflow = overflow,
-            maxLines = maxLines
-        )
+        displayedAnnotatedText?.let {
+            Text(
+                text = displayedAnnotatedText,
+                style = style,
+                fontWeight = fontWeight,
+                color = color,
+                overflow = overflow,
+                maxLines = maxLines
+            )
+        } ?: run {
+            Text(
+                text = text,
+                style = style,
+                fontWeight = fontWeight,
+                color = color,
+                overflow = overflow,
+                maxLines = maxLines
+            )
+        }
 
         if (showBorder) {
             Box(

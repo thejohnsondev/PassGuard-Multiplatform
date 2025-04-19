@@ -82,6 +82,7 @@ import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
+import com.thejohnsondev.ui.utils.asPasswordFormatted
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.created
@@ -380,6 +381,7 @@ fun ExpandedContent(
                         .padding(horizontal = Size12, vertical = Size16)
                         .wrapContentWidth(),
                     text = password,
+                    displayedAnnotatedText = password.asPasswordFormatted(),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
