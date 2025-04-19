@@ -328,6 +328,7 @@ class AddVaultItemViewModel(
         _passwordId.emit(null)
         _createdTime.emit(null)
         _enteredTitle.value = String.empty
+        _enteredTitleFlow.tryEmit(String.empty)
         _enteredUserName.value = String.empty
         _enteredPassword.value = String.empty
         _additionalFields.value = emptyList()
