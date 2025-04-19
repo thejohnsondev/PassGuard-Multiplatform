@@ -62,6 +62,7 @@ import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.StartRounded
 import com.thejohnsondev.ui.utils.ResString
+import com.thejohnsondev.ui.utils.asPasswordFormatted
 import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -164,31 +165,7 @@ private fun MainPasswordView(state: PasswordGeneratorViewModel.State) {
             modifier = Modifier
                 .padding(Size8)
                 .fillMaxWidth(),
-            text = buildAnnotatedString {
-                state.passwordGeneratedResult?.password.orEmpty().forEach { char ->
-                    when {
-                        char.isDigit() -> {
-                            withStyle(
-                                style = SpanStyle(color = MaterialTheme.colorScheme.primary) // Green color
-                            ) {
-                                append(char)
-                            }
-                        }
-
-                        !char.isLetterOrDigit() -> {
-                            withStyle(
-                                style = SpanStyle(color = MaterialTheme.colorScheme.tertiary) // Violet color
-                            ) {
-                                append(char)
-                            }
-                        }
-
-                        else -> {
-                            append(char)
-                        }
-                    }
-                }
-            },
+            text = state.passwordGeneratedResult?.password.orEmpty().asPasswordFormatted(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineLarge,
         )

@@ -46,7 +46,7 @@ private fun AddVaultItemEmptyPreview() {
             onAction = {},
             enteredTitle = mutableStateOf(String.empty),
             enteredUserName = mutableStateOf(String.empty),
-            enteredPassword = mutableStateOf(String.empty),
+            enteredPassword = mutableStateOf("Pass123$"),
             additionalFields = mutableStateOf(listOf()),
             vaultItem = PasswordUIModel.testPasswordUIModel,
         )
