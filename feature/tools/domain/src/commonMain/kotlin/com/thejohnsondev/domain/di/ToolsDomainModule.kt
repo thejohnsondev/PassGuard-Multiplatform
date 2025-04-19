@@ -2,6 +2,8 @@ package com.thejohnsondev.domain.di
 
 import com.thejohnsondev.domain.CopyTextUseCase
 import com.thejohnsondev.domain.CopyTextUseCaseImpl
+import com.thejohnsondev.domain.EvaluatePasswordStrengthUseCase
+import com.thejohnsondev.domain.EvaluatePasswordStrengthUseCaseImpl
 import com.thejohnsondev.domain.GeneratePasswordUseCase
 import com.thejohnsondev.domain.GeneratePasswordUseCaseImpl
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
@@ -19,4 +21,5 @@ val toolsDomainModule = module {
     singleOf(::GetPasswordGeneratorConfigUseCaseImpl) { bind<GetPasswordGeneratorConfigUseCase>() }
     singleOf(::GeneratePasswordUseCaseImpl) { bind<GeneratePasswordUseCase>() }
     singleOf(::CopyTextUseCaseImpl) { bind<CopyTextUseCase>() }
+    singleOf(::EvaluatePasswordStrengthUseCaseImpl) { bind<EvaluatePasswordStrengthUseCase>() }
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -52,8 +53,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.SCROLL_DOWN_DELAY
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -70,6 +74,7 @@ import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.components.text.PrimaryTextField
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
 import com.thejohnsondev.ui.components.text.PrimaryTextFieldWithBackground
 import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
 import com.thejohnsondev.ui.designsystem.EquallyRounded
@@ -78,6 +83,7 @@ import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
+import com.thejohnsondev.ui.designsystem.Size28
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
@@ -337,6 +343,7 @@ internal fun AddPasswordFields(
                     .wrapContentHeight()
                     .padding(start = Size16, end = Size16, top = Size8, bottom = Size8),
                 onAction = onAction,
+                state = state,
                 enteredPassword = enteredPassword,
                 passwordFocusRequester = passwordFocusRequester,
                 keyboardController = keyboardController,
@@ -350,7 +357,7 @@ internal fun AddPasswordFields(
                 onAction = onAction
             )
             RoundedButton(
-                modifier = Modifier.fillMaxWidth().padding(Size16).bounceClick(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = Size16).bounceClick(),
                 text = stringResource(ResString.add_field),
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.AddAdditionalField)
@@ -575,6 +582,7 @@ private fun UserNameField(
 private fun PasswordField(
     modifier: Modifier = Modifier,
     onAction: (AddVaultItemViewModel.Action) -> Unit,
+    state: AddVaultItemViewModel.State,
     enteredPassword: MutableState<String>,
     passwordFocusRequester: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
@@ -585,59 +593,82 @@ private fun PasswordField(
         animationSpec = tween(durationMillis = PASSWORD_ANIM_DURATION),
         label = "Icon Rotation"
     )
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        PrimaryTextFieldWithBackground(
-            modifier = Modifier
-                .weight(Percent100)
-                .focusRequester(passwordFocusRequester)
-                .onEnterClick {
-                    onAction(AddVaultItemViewModel.Action.SavePassword)
-                },
-            onValueChanged = { password ->
-                onAction(AddVaultItemViewModel.Action.EnterPassword(password))
-            },
-            hint = stringResource(ResString.password),
-            value = enteredPassword.value,
-            textColor = MaterialTheme.colorScheme.onSurface,
-            onKeyboardAction = KeyboardActions {
-                keyboardController?.hide()
-            },
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Password,
-            textFieldIconBehavior = TextFieldIconBehavior.HideShow,
-            backgroundShape  = RoundedCornerShape(
-                topStart = Size4,
-                bottomStart = Size16,
-                topEnd = Size4,
-                bottomEnd = Size4
-            )
-        )
-        RoundedContainer(
-            modifier = Modifier
-                .padding(start = Size8)
-                .bounceClick(),
-            shape = RoundedCornerShape(
-                topStart = Size4,
-                bottomStart = Size4,
-                topEnd = Size4,
-                bottomEnd = Size16
-            ),
-            onClick = {
-                onAction(AddVaultItemViewModel.Action.GeneratePassword)
-                randomAnimation(rotationAngle)
-            }
+    Column {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
+            PrimaryTextFieldWithBackground(
                 modifier = Modifier
-                    .padding(Size12)
-                    .size(Size32)
-                    .rotate(animatedRotationAngle),
-                imageVector = Icons.Default.Casino,
-                contentDescription = stringResource(ResString.visibility),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    .weight(Percent100)
+                    .focusRequester(passwordFocusRequester)
+                    .onEnterClick {
+                        onAction(AddVaultItemViewModel.Action.SavePassword)
+                    },
+                onValueChanged = { password ->
+                    onAction(AddVaultItemViewModel.Action.EnterPassword(password))
+                },
+                hint = stringResource(ResString.password),
+                value = enteredPassword.value,
+                textColor = MaterialTheme.colorScheme.onSurface,
+                onKeyboardAction = KeyboardActions {
+                    keyboardController?.hide()
+                },
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password,
+                textFieldIconBehavior = TextFieldIconBehavior.HideShow,
+                backgroundShape  = RoundedCornerShape(
+                    topStart = Size4,
+                    bottomStart = Size16,
+                    topEnd = Size4,
+                    bottomEnd = Size4
+                )
+            )
+            RoundedContainer(
+                modifier = Modifier
+                    .padding(start = Size8)
+                    .bounceClick(),
+                shape = RoundedCornerShape(
+                    topStart = Size4,
+                    bottomStart = Size4,
+                    topEnd = Size4,
+                    bottomEnd = Size16
+                ),
+                onClick = {
+                    onAction(AddVaultItemViewModel.Action.GeneratePassword)
+                    randomAnimation(rotationAngle)
+                }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .padding(Size12)
+                        .size(Size32)
+                        .rotate(animatedRotationAngle),
+                    imageVector = Icons.Default.Casino,
+                    contentDescription = stringResource(ResString.visibility),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .padding(horizontal = Size28)
+                .height(Size48),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(end = Size8)
+                    .weight(Percent100),
+                text = buildAnnotatedString {
+                    append(state.enteredPasswordStrength?.suggestion.orEmpty())
+                },
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.bodySmall,
+            )
+            StrengthLevelIndicator(
+                level = state.enteredPasswordStrength?.level ?: 0.0f
             )
         }
     }

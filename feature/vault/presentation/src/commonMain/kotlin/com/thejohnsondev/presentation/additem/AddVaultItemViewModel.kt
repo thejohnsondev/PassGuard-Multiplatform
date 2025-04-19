@@ -8,6 +8,7 @@ import com.thejohnsondev.domain.AddAdditionalFieldUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldValueUseCase
+import com.thejohnsondev.domain.EvaluatePasswordStrengthUseCase
 import com.thejohnsondev.domain.ExtractCompanyNameUseCase
 import com.thejohnsondev.domain.FindLogoUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
@@ -20,6 +21,7 @@ import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.auth.logo.FindLogoResponse
+import com.thejohnsondev.model.tools.PasswordStrength
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.SyncStatus
 import com.thejohnsondev.ui.model.CategoryUIModel
@@ -56,7 +58,8 @@ class AddVaultItemViewModel(
     private val findLogoUseCase: FindLogoUseCase,
     private val extractCompanyNameUseCase: ExtractCompanyNameUseCase,
     private val generatePasswordUseCase: GeneratePasswordUseCase,
-    private val getPasswordGeneratorConfigUseCase: GetPasswordGeneratorConfigUseCase
+    private val getPasswordGeneratorConfigUseCase: GetPasswordGeneratorConfigUseCase,
+    private val evaluatePasswordStrengthUseCase: EvaluatePasswordStrengthUseCase
 ) : BaseViewModel() {
 
     private val _passwordId = MutableStateFlow<String?>(null)
@@ -161,8 +164,8 @@ class AddVaultItemViewModel(
         _passwordId.emit(passwordUIModel.id)
         _createdTime.emit(passwordUIModel.createdTime)
         _enteredTitle.value = passwordUIModel.title
-        _enteredUserName.value = passwordUIModel.userName
-        _enteredPassword.value = passwordUIModel.password
+        enterUserName(passwordUIModel.userName)
+        enterPassword(passwordUIModel.password)
         _additionalFields.value = passwordUIModel.additionalFields
         _state.update {
             it.copy(
@@ -252,6 +255,14 @@ class AddVaultItemViewModel(
     private fun enterPassword(password: String) {
         _enteredPassword.value = password
         validateFields()
+        evaluateStrength(password)
+    }
+
+    private fun evaluateStrength(password: String) {
+        val passwordStrength = evaluatePasswordStrengthUseCase(password)
+        _state.update {
+            it.copy(enteredPasswordStrength = passwordStrength)
+        }
     }
 
     private fun addAdditionalField() = launch {
@@ -309,7 +320,7 @@ class AddVaultItemViewModel(
     private fun generatePassword() = launch {
         val config = getPasswordGeneratorConfigUseCase()
         val generatedPasswordResult = generatePasswordUseCase(config)
-        _enteredPassword.value = generatedPasswordResult.password
+        enterPassword(generatedPasswordResult.password)
     }
 
     fun clear() = launch {
@@ -356,6 +367,7 @@ class AddVaultItemViewModel(
         val logoSearchResults: List<FindLogoResponse> = listOf(),
         val isLogoSearchResultsVisible: Boolean = false,
         val showGeneratePasswordBottomSheet: Boolean = false,
+        val enteredPasswordStrength: PasswordStrength? = null
     ) {
         val showClearLogoButton: Boolean
             get() = organizationLogo.isNotBlank()
