@@ -52,6 +52,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
@@ -607,6 +609,7 @@ private fun PasswordField(
     passwordFocusRequester: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
     val rotationAngle = remember { mutableStateOf(0f) }
     val animatedRotationAngle by animateFloatAsState(
         targetValue = rotationAngle.value,
@@ -655,10 +658,16 @@ private fun PasswordField(
                     bottomEnd = Size16
                 ),
                 onClick = {
+                    hapticFeedback.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
                     onAction(AddVaultItemViewModel.Action.GeneratePassword)
                     randomAnimation(rotationAngle)
                 },
                 onLongClick = {
+                    hapticFeedback.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
                     keyboardController?.hide()
                     onAction(AddVaultItemViewModel.Action.ShowHideGeneratePasswordBottomSheet(true))
                 }
