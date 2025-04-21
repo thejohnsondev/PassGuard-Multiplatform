@@ -68,8 +68,17 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
     private fun generateUUID(): String = Uuid.random().toString()
 
     fun evaluateStrength(password: String): PasswordStrength {
-        if (commonPasswords.contains(password))
-            return PasswordStrength(0.1f, "This password is very common. Choose a more unique one.")
+        val rank = commonPasswords.indexOf(password.lowercase())
+
+        if (rank != -1) {
+            val suggestion = when {
+                rank < 10 -> "This password is in the TOP 10 most common. Avoid it at all costs."
+                rank < 100 -> "This password is in the top 100 most common. It's very unsafe."
+                rank < 1000 -> "This password is in the top 1000 most common. It's easy to guess."
+                else -> "This password is very common. Choose a more unique one."
+            }
+            return PasswordStrength(0.1f, suggestion)
+        }
 
         val lengthScore = when {
             password.length >= 16 -> 10
