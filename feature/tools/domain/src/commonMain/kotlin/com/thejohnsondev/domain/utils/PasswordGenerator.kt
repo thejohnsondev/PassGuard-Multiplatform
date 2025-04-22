@@ -14,6 +14,10 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
     private val digits = "0123456789"
     private val specialChars = "!@#\$%^&*()-_=+[]{}|;:'\",.<>?/"
 
+    private val passwordRankMap: Map<String, Int> = commonPasswords
+        .withIndex()
+        .associate { it.value to it.index }
+
     fun generatePassword(
         type: PasswordGenerationType,
         length: Int = 12,
@@ -68,9 +72,9 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
     private fun generateUUID(): String = Uuid.random().toString()
 
     fun evaluateStrength(password: String): PasswordStrength {
-        val rank = commonPasswords.indexOf(password.lowercase())
+        val rank = passwordRankMap[password.lowercase()]
 
-        if (rank != -1) {
+        if (rank != null) {
             val suggestion = when {
                 rank < 10 -> "This password is in the TOP 10 most common. Avoid it at all costs."
                 rank < 100 -> "This password is in the top 100 most common. It's very unsafe."
