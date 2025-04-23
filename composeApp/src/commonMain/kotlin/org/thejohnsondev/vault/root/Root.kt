@@ -16,6 +16,7 @@ import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import org.koin.compose.KoinContext
 import org.thejohnsondev.vault.navigation.AuthNavigation
+import androidx.compose.foundation.isSystemInDarkTheme
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -51,10 +52,11 @@ private fun initializeLibs() {
 
 @Composable
 fun shouldUseDarkTheme(
-    settingsConfig: SettingsConfig,
+    settingsConfig: SettingsConfig
 ): Boolean = when (settingsConfig.darkThemeConfig) {
     DarkThemeConfig.LIGHT -> false
     DarkThemeConfig.DARK -> true
+    DarkThemeConfig.SYSTEM -> isSystemInDarkTheme()
     else -> true
 }
 
