@@ -39,7 +39,7 @@ import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
 import com.thejohnsondev.ui.components.SelectableOptionItem
 import com.thejohnsondev.ui.components.SelectableThemeOptionItem
-import com.thejohnsondev.ui.components.SettingsItem
+import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
@@ -257,7 +257,7 @@ fun SettingsSubSections(
         } else {
             subSection.sectionDescriptionRes?.let { stringResource(resource = it) }
         }
-    SettingsItem(
+    ExpandableSectionItem(
         modifier = modifier,
         title = stringResource(resource = subSection.sectionTitleRes),
         description = subsectionDescription,

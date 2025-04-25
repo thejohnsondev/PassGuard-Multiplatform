@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -35,7 +34,7 @@ import androidx.compose.ui.Modifier
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorWidget
-import com.thejohnsondev.ui.components.SettingsItem
+import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
@@ -50,7 +49,6 @@ import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
 import com.thejohnsondev.ui.utils.padding
-import com.thejohnsondev.ui.utils.testBorder
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
@@ -154,7 +152,7 @@ private fun PasswordGeneratorContainer(
         if (isPasswordGeneratorExpanded) Size4 else Size16
     }
 
-        SettingsItem(
+        ExpandableSectionItem(
             modifier = Modifier.padding(
                 horizontal = cardPaddingHorizontal,
                 top = paddingValues.calculateTopPadding()
@@ -200,7 +198,7 @@ private fun PasswordHealthContainer(
         if (isPasswordHealthExpanded) Size4 else Size16
     }
 
-    SettingsItem( // TODO add setting to change the colors
+    ExpandableSectionItem( // TODO add setting to change the colors
         modifier = modifier.padding(
             horizontal = cardPaddingHorizontal,
             bottom = paddingValues.calculateBottomPadding()
