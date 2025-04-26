@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorWidget
+import com.thejohnsondev.presentation.vaulthealth.VaultHealthWidget
 import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
@@ -212,7 +213,7 @@ private fun PasswordHealthContainer(
             isPasswordHealthExpanded = it
         }
     ) {
-        // TODO add content
+        VaultHealthWidget()
     }
 
 }
