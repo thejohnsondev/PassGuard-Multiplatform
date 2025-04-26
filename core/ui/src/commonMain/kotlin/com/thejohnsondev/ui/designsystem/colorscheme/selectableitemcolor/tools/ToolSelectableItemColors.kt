@@ -9,12 +9,12 @@ object ToolSelectableItemColors: SelectableItemColors {
 
     @Composable
     override fun getSelectedContainerColor(): Color {
-        return MaterialTheme.colorScheme.surfaceContainerHighest
+        return MaterialTheme.colorScheme.surfaceContainerHigh
     }
 
     @Composable
     override fun getUnselectedContainerColor(): Color {
-        return MaterialTheme.colorScheme.surfaceContainerHigh
+        return MaterialTheme.colorScheme.surfaceContainer
     }
 
     @Composable

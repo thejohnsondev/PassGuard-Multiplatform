@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -37,9 +38,9 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
+import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.SelectableOptionItem
 import com.thejohnsondev.ui.components.SelectableThemeOptionItem
-import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
@@ -50,12 +51,14 @@ import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MonochromeSelectableItemsColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.TealSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.VioletSelectableItemsColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.tools.ToolSelectableItemColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.getImageVector
@@ -189,10 +192,11 @@ fun SettingsList(
     goToSignUp: () -> Unit,
     paddingValues: PaddingValues,
 ) {
+    val colors = ToolSelectableItemColors
     Column(
         modifier = Modifier
             .padding(
-                top = paddingValues.calculateTopPadding().plus(Size16),
+                top = paddingValues.calculateTopPadding(),
                 bottom = paddingValues.calculateBottomPadding().plus(Size4)
             )
     ) {
@@ -217,7 +221,8 @@ fun SettingsList(
                     subSectionsNumber = subSectionsNumber,
                     subSectionIndex = index,
                     onAction = onAction,
-                    goToSignUp = goToSignUp
+                    goToSignUp = goToSignUp,
+                    colors = colors
                 )
             }
         }
@@ -250,6 +255,7 @@ fun SettingsSubSections(
     subSectionsNumber: Int,
     onAction: (SettingsViewModel.Action) -> Unit,
     goToSignUp: () -> Unit,
+    colors: SelectableItemColors,
 ) {
     val subsectionDescription =
         if (subSection.sectionTitleRes == ResString.manage_account) {
@@ -263,7 +269,8 @@ fun SettingsSubSections(
         description = subsectionDescription,
         icon = subSection.sectionIcon.getImageVector(),
         isFirstItem = subSectionIndex == 0,
-        isLastItem = subSectionIndex == subSectionsNumber - 1
+        isLastItem = subSectionIndex == subSectionsNumber - 1,
+        colors = colors
     ) {
         when (subSection) {
             SettingsSubSection.ManageAccountSub -> {
@@ -275,7 +282,8 @@ fun SettingsSubSections(
             SettingsSubSection.ManageLocalVaultSub -> {
                 ManageLocalVaultSubSection(
                     onAction = onAction,
-                    goToSignUp = goToSignUp
+                    goToSignUp = goToSignUp,
+                    colors = colors
                 )
             }
 
@@ -284,7 +292,11 @@ fun SettingsSubSections(
             }
 
             SettingsSubSection.StyleSettingsSub -> {
-                StyleSettingsSubSection(state = state, onAction = onAction)
+                StyleSettingsSubSection(
+                    state = state,
+                    onAction = onAction,
+                    colors = colors
+                )
             }
 
             SettingsSubSection.PrivacySettingsSub -> {
@@ -344,6 +356,7 @@ fun ManageAccountSubSection(
 fun ManageLocalVaultSubSection(
     onAction: (SettingsViewModel.Action) -> Unit,
     goToSignUp: () -> Unit,
+    colors: SelectableItemColors,
 ) {
     RoundedButton(
         modifier = Modifier
@@ -364,14 +377,14 @@ fun ManageLocalVaultSubSection(
     ) {
         Icon(
             imageVector = Icons.Default.Info,
-            tint = MaterialTheme.colorScheme.primaryContainer,
+            tint = colors.getSelectedContentColor(),
             contentDescription = null
         )
         Text(
             modifier = Modifier
                 .padding(start = Size4),
             text = stringResource(ResString.create_account_description),
-            color = MaterialTheme.colorScheme.primaryContainer,
+            color = colors.getSelectedContentColor(),
             style = MaterialTheme.typography.bodySmall
         )
     }
@@ -435,6 +448,7 @@ fun GeneralSettingsSubSection(
 fun StyleSettingsSubSection(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
+    colors: SelectableItemColors,
 ) {
     Column {
         Column(
@@ -446,7 +460,7 @@ fun StyleSettingsSubSection(
                 ),
                 text = stringResource(ResString.dark_mode_preference),
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSecondary
+                color = colors.getSelectedContentColor()
             )
             SelectableOptionItem(
                 modifier = Modifier
@@ -474,40 +488,42 @@ fun StyleSettingsSubSection(
             ) {
                 onAction(SettingsViewModel.Action.UpdateDarkThemeConfig(DarkThemeConfig.LIGHT))
             }
-            if (state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
-                Text(
-                    modifier = Modifier.padding(
-                        bottom = Size8,
-                        top = Size8
-                    ),
-                    text = stringResource(ResString.use_dynamic_color),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSecondary
-                )
-                SelectableOptionItem(
-                    modifier = Modifier
-                        .padding(top = Size4),
-                    optionTitle = stringResource(ResString.yes),
-                    isFirstItem = true,
-                    isSelected = state.settingsConfig.useDynamicColor
-                ) {
-                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
-                }
-                SelectableOptionItem(
-                    modifier = Modifier
-                        .padding(top = Size4),
-                    optionTitle = stringResource(ResString.no),
-                    isLastItem = true,
-                    isSelected = !state.settingsConfig.useDynamicColor
-                ) {
-                    onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+            AnimatedVisibility(state.settingsConfig?.customTheme == ThemeBrand.DEFAULT && state.supportsDynamicTheming) {
+                Column {
+                    Text(
+                        modifier = Modifier.padding(
+                            bottom = Size8,
+                            top = Size8
+                        ),
+                        text = stringResource(ResString.use_dynamic_color),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = colors.getSelectedContentColor()
+                    )
+                    SelectableOptionItem(
+                        modifier = Modifier
+                            .padding(top = Size4),
+                        optionTitle = stringResource(ResString.yes),
+                        isFirstItem = true,
+                        isSelected = state.settingsConfig?.useDynamicColor == true
+                    ) {
+                        onAction(SettingsViewModel.Action.UpdateUseDynamicColor(true))
+                    }
+                    SelectableOptionItem(
+                        modifier = Modifier
+                            .padding(top = Size4),
+                        optionTitle = stringResource(ResString.no),
+                        isLastItem = true,
+                        isSelected = state.settingsConfig?.useDynamicColor != true
+                    ) {
+                        onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
+                    }
                 }
             }
             Text(
                 modifier = Modifier.padding(vertical = Size8),
                 text = stringResource(ResString.theme),
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSecondary
+                color = colors.getSelectedContentColor()
             )
         }
         Row(

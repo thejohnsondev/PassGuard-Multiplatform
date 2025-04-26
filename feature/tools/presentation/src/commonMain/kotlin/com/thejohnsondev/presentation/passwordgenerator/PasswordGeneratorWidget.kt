@@ -145,6 +145,7 @@ fun PasswordGeneratorWidgetContent(
         RoundedContainer(
             modifier = Modifier
                 .fillMaxWidth(),
+            color = MaterialTheme.colorScheme.surfaceContainerLow,
         ) {
             Column {
                 MainPasswordView(state)
@@ -159,6 +160,7 @@ fun PasswordGeneratorWidgetContent(
             modifier = Modifier
                 .padding(top = Size8)
                 .fillMaxWidth(),
+            color = MaterialTheme.colorScheme.surfaceContainerLow
         ) {
             ConfigurationView(
                 hapticFeedback = hapticFeedback,
