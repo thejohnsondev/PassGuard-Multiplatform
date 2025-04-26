@@ -2,13 +2,14 @@ package com.thejohnsondev.domain.vaulthealth
 
 import com.thejohnsondev.common.utils.getCurrentTimeMillis
 import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.model.vault.PasswordDto
 
 internal class VaultHealthUtils(
     private val passwordGenerator: PasswordGenerator,
 ) {
 
     fun generateReport(
-        passwords: List<PasswordVaultItem>,
+        passwords: List<PasswordDto>,
         passwordAgeThresholdDays: Int = 180,
     ): VaultHealthReport {
         val score = calculateVaultHealthScore(passwords)
@@ -28,7 +29,7 @@ internal class VaultHealthUtils(
         )
     }
 
-    fun calculateVaultHealthScore(passwords: List<PasswordVaultItem>): Int {
+    fun calculateVaultHealthScore(passwords: List<PasswordDto>): Int {
         if (passwords.isEmpty()) return 0
         val averageStrength = passwords.map {
             passwordGenerator.evaluateStrength(it.password).level
@@ -36,10 +37,10 @@ internal class VaultHealthUtils(
         return (averageStrength * 100).toInt()
     }
 
-    fun classifyPasswords(passwords: List<PasswordVaultItem>): PasswordClassificationResult {
-        val weak = mutableListOf<PasswordVaultItem>()
-        val medium = mutableListOf<PasswordVaultItem>()
-        val strong = mutableListOf<PasswordVaultItem>()
+    fun classifyPasswords(passwords: List<PasswordDto>): PasswordClassificationResult {
+        val weak = mutableListOf<PasswordDto>()
+        val medium = mutableListOf<PasswordDto>()
+        val strong = mutableListOf<PasswordDto>()
 
         passwords.forEach { item ->
             val strength = passwordGenerator.evaluateStrength(item.password)
@@ -52,13 +53,13 @@ internal class VaultHealthUtils(
         return PasswordClassificationResult(weak, medium, strong)
     }
 
-    fun findLeakedPasswords(passwords: List<PasswordVaultItem>): List<PasswordVaultItem> {
+    fun findLeakedPasswords(passwords: List<PasswordDto>): List<PasswordDto> {
         return passwords.filter {
             passwordGenerator.isCommonPassword(it.password)
         }
     }
 
-    fun findReusedPasswords(passwords: List<PasswordVaultItem>): PasswordReuseResult {
+    fun findReusedPasswords(passwords: List<PasswordDto>): PasswordReuseResult {
         val passwordCounts = passwords.groupingBy { it.password }.eachCount()
         val reusedPasswords = passwordCounts.filter { it.value > 1 }.keys
 
@@ -71,15 +72,15 @@ internal class VaultHealthUtils(
     }
 
     fun findOldPasswords(
-        passwords: List<PasswordVaultItem>,
+        passwords: List<PasswordDto>,
         thresholdDays: Int,
-    ): List<PasswordVaultItem> {
+    ): List<PasswordDto> {
         val nowMillis = getCurrentTimeMillis()
         return passwords.filter { item ->
             val lastModified = item.modifiedTimeStamp ?: item.createdTimeStamp
             lastModified?.let {
-                val ageDays = (nowMillis - it) / (1000L * 60L * 60L * 24L)
-                ageDays >= thresholdDays
+                val ageDays = (nowMillis.minus(it.toLong())) / (1000L * 60L * 60L * 24L)
+                return@let ageDays >= thresholdDays
             } ?: false
         }
     }
@@ -88,29 +89,21 @@ internal class VaultHealthUtils(
 
 data class VaultHealthReport(
     val overallScore: Int,
-    val weakPasswords: List<PasswordVaultItem>,
-    val mediumPasswords: List<PasswordVaultItem>,
-    val strongPasswords: List<PasswordVaultItem>,
-    val leakedPasswords: List<PasswordVaultItem>,
+    val weakPasswords: List<PasswordDto>,
+    val mediumPasswords: List<PasswordDto>,
+    val strongPasswords: List<PasswordDto>,
+    val leakedPasswords: List<PasswordDto>,
     val reusedPasswords: PasswordReuseResult,
-    val oldPasswords: List<PasswordVaultItem>,
-)
-
-data class PasswordVaultItem(
-    val id: String,
-    val title: String,
-    val password: String,
-    val createdTimeStamp: Long?,     // epoch millis
-    val modifiedTimeStamp: Long?,     // epoch millis
+    val oldPasswords: List<PasswordDto>,
 )
 
 data class PasswordReuseResult(
     val reusedPasswords: List<String>,
-    val reusedItems: List<PasswordVaultItem>,
+    val reusedItems: List<PasswordDto>,
 )
 
 data class PasswordClassificationResult(
-    val weak: List<PasswordVaultItem>,
-    val medium: List<PasswordVaultItem>,
-    val strong: List<PasswordVaultItem>,
+    val weak: List<PasswordDto>,
+    val medium: List<PasswordDto>,
+    val strong: List<PasswordDto>,
 )
