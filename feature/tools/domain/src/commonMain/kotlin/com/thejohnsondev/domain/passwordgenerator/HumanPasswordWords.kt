@@ -1,4 +1,4 @@
-package com.thejohnsondev.domain.utils
+package com.thejohnsondev.domain.passwordgenerator
 
 object HumanPasswordWords {
     val wordList = listOf(

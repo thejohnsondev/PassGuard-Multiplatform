@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.domain.utils.PasswordGenerator
+import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGeneratorConfig
 

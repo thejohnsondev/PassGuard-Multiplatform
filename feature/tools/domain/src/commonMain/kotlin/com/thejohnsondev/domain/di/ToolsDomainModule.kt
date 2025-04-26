@@ -11,7 +11,7 @@ import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCaseImpl
 import com.thejohnsondev.domain.UpdatePasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.UpdatePasswordGeneratorConfigUseCaseImpl
-import com.thejohnsondev.domain.utils.PasswordGenerator
+import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module

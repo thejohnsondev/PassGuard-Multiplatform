@@ -1,4 +1,4 @@
-package com.thejohnsondev.domain.utils
+package com.thejohnsondev.domain.passwordgenerator
 
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGenerationType
@@ -115,6 +115,10 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
         }
 
         return PasswordStrength(score, suggestion)
+    }
+
+    fun isCommonPassword(password: String): Boolean {
+        return commonPasswords.contains(password)
     }
 }
 
