@@ -14,4 +14,34 @@ data class PasswordDto(
     override val syncStatus: String? = null,
     override val isFavorite: Boolean = false, // Ignore on the server side
     override val categoryId: String,
-) : VaultItemDto
+) : VaultItemDto {
+
+    companion object {
+        val demo1 = PasswordDto(
+            title = "Demo Password",
+            organizationLogo = null,
+            userName = "Username",
+            password = "Password",
+            additionalFields = listOf(
+                AdditionalFieldDto(
+                    id = "1",
+                    title = "Field 1",
+                    value = "Value 1"
+                ),
+                AdditionalFieldDto(
+                    id = "2",
+                    title = "Field 2",
+                    value = "Value 2"
+                )
+            ),
+            id = "1",
+            createdTimeStamp = "2023-10-01T12:00:00Z",
+            modifiedTimeStamp = "2023-10-01T12:00:00Z",
+            syncedTimeStamp = "2023-10-01T12:00:00Z",
+            syncStatus = "synced",
+            isFavorite = false,
+            categoryId = "item_category_personal"
+        )
+    }
+
+}

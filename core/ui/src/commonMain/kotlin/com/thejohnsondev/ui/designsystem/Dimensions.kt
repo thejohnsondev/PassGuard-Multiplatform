@@ -33,7 +33,7 @@ val Size86 = 86.dp
 val Size98 = 98.dp
 val Size100 = 100.dp
 val Size128 = 128.dp
-val Size150 = 150.dp
+val Size156 = 156.dp
 val Size256 = 256.dp
 
 val Size580 = 580.dp
@@ -47,6 +47,7 @@ val Text14 = 14.sp
 val Text18 = 18.sp
 val Text20 = 20.sp
 val Text22 = 22.sp
+val Text64 = 64.sp
 
 const val Percent10 = 0.1f
 const val Percent30 = 0.3f

@@ -40,6 +40,7 @@ import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.tools.ToolSelectableItemColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.message.MessageContent
@@ -107,7 +108,8 @@ private fun ToolsScreenContent(
     onCopyClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
     ) {
         Column(
@@ -126,7 +128,7 @@ private fun ToolsScreenContent(
             )
             PasswordHealthContainer(
                 modifier = Modifier
-                    .padding(top = Size16),
+                    .padding(top = Size4),
                 paddingValues = paddingValues
             )
         }
@@ -152,30 +154,29 @@ private fun PasswordGeneratorContainer(
     }, label = "") {
         if (isPasswordGeneratorExpanded) Size4 else Size16
     }
-
-        ExpandableSectionItem(
-            modifier = Modifier.padding(
-                horizontal = cardPaddingHorizontal,
-                top = paddingValues.calculateTopPadding()
-            ).fillMaxWidth(),
-            title = stringResource(ResString.password_generator),
-            description = null,
-            icon = Icons.Default.Casino,
-            isFirstItem = true,
-            isLastItem = true,
-            onExpanded = {
-                isPasswordGeneratorExpanded = it
+    ExpandableSectionItem(
+        modifier = Modifier.padding(
+            horizontal = cardPaddingHorizontal,
+            top = paddingValues.calculateTopPadding()
+        ).fillMaxWidth(),
+        title = stringResource(ResString.password_generator),
+        description = null,
+        icon = Icons.Default.Casino,
+        isFirstItem = true,
+        onExpanded = {
+            isPasswordGeneratorExpanded = it
+        },
+        colors = ToolSelectableItemColors
+    ) {
+        PasswordGeneratorWidget(
+            modifier = Modifier
+                .padding(horizontal = Size8, bottom = Size8)
+                .fillMaxWidth(),
+            onCopyClick = {
+                onCopyClick()
             }
-        ) {
-            PasswordGeneratorWidget(
-                modifier = Modifier
-                    .padding(horizontal = Size8, bottom = Size8)
-                    .fillMaxWidth(),
-                onCopyClick = {
-                    onCopyClick()
-                }
-            )
-        }
+        )
+    }
 
 }
 
@@ -198,8 +199,7 @@ private fun PasswordHealthContainer(
     }, label = "") {
         if (isPasswordHealthExpanded) Size4 else Size16
     }
-
-    ExpandableSectionItem( // TODO add setting to change the colors
+    ExpandableSectionItem(
         modifier = modifier.padding(
             horizontal = cardPaddingHorizontal,
             bottom = paddingValues.calculateBottomPadding()
@@ -207,13 +207,18 @@ private fun PasswordHealthContainer(
         title = stringResource(ResString.password_health),
         description = null,
         icon = Icons.Filled.Favorite,
-        isFirstItem = true,
         isLastItem = true,
         onExpanded = {
             isPasswordHealthExpanded = it
-        }
+        },
+        colors = ToolSelectableItemColors
     ) {
-        VaultHealthWidget()
+        VaultHealthWidget(
+            modifier = Modifier
+                .padding(horizontal = Size8)
+                .fillMaxWidth()
+                .fillMaxHeight(Percent80)
+        )
     }
 
 }

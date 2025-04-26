@@ -29,12 +29,12 @@ internal class VaultHealthUtils(
         )
     }
 
-    fun calculateVaultHealthScore(passwords: List<PasswordDto>): Int {
-        if (passwords.isEmpty()) return 0
+    fun calculateVaultHealthScore(passwords: List<PasswordDto>): Float {
+        if (passwords.isEmpty()) return 0f
         val averageStrength = passwords.map {
             passwordGenerator.evaluateStrength(it.password).level
         }.average()
-        return (averageStrength * 100).toInt()
+        return averageStrength.toFloat()
     }
 
     fun classifyPasswords(passwords: List<PasswordDto>): PasswordClassificationResult {
@@ -59,16 +59,13 @@ internal class VaultHealthUtils(
         }
     }
 
-    fun findReusedPasswords(passwords: List<PasswordDto>): PasswordReuseResult {
+    fun findReusedPasswords(passwords: List<PasswordDto>): List<PasswordDto> {
         val passwordCounts = passwords.groupingBy { it.password }.eachCount()
         val reusedPasswords = passwordCounts.filter { it.value > 1 }.keys
 
         val reusedItems = passwords.filter { reusedPasswords.contains(it.password) }
 
-        return PasswordReuseResult(
-            reusedPasswords = reusedPasswords.toList(),
-            reusedItems = reusedItems
-        )
+        return reusedItems
     }
 
     fun findOldPasswords(
@@ -88,18 +85,13 @@ internal class VaultHealthUtils(
 
 
 data class VaultHealthReport(
-    val overallScore: Int,
+    val overallScore: Float,
     val weakPasswords: List<PasswordDto>,
     val mediumPasswords: List<PasswordDto>,
     val strongPasswords: List<PasswordDto>,
     val leakedPasswords: List<PasswordDto>,
-    val reusedPasswords: PasswordReuseResult,
+    val reusedPasswords: List<PasswordDto>,
     val oldPasswords: List<PasswordDto>,
-)
-
-data class PasswordReuseResult(
-    val reusedPasswords: List<String>,
-    val reusedItems: List<PasswordDto>,
 )
 
 data class PasswordClassificationResult(

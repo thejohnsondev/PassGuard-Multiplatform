@@ -147,5 +147,5 @@
     <string name="password_generator_medium">Weak</string>
 
     <!--Password health-->
-    <string name="password_health">Passwords health</string>
+    <string name="password_health">Vault health</string>
 </resources>
