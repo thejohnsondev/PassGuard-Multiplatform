@@ -27,6 +27,8 @@ interface PreferencesDataStore {
     suspend fun setDarkThemeConfig(config: DarkThemeConfig)
     suspend fun setGeneralSettings(generalSettings: GeneralSettings)
     suspend fun setPrivacySettings(privacySettings: PrivacySettings)
+    suspend fun updateOpenedFilters(opened: Boolean)
+    suspend fun getIsOpenedFilters(): Boolean
     suspend fun updateAppliedItemTypeFilters(itemTypeFilters: List<String>)
     suspend fun getAppliedItemTypeFilters(): List<String>
     suspend fun updateAppliedCategoryFilters(categoryFilters: List<String>)

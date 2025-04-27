@@ -14,4 +14,6 @@ interface VaultRepository {
     suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
     suspend fun getAppliedShowFavoritesAtTop(): Boolean
     suspend fun findLogo(query: String): Either<Error, List<FindLogoResponse>>
+    suspend fun updateOpenedFilters(opened: Boolean)
+    suspend fun getIsOpenedFilters(): Boolean
 }

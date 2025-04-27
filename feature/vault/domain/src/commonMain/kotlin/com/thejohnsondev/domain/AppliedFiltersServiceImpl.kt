@@ -38,4 +38,12 @@ class AppliedFiltersServiceImpl(
         return vaultRepository.getAppliedShowFavoritesAtTop()
     }
 
+    override suspend fun updateOpenedFilters(opened: Boolean) {
+        vaultRepository.updateOpenedFilters(opened)
+    }
+
+    override suspend fun getIsOpenedFilters(): Boolean {
+        return vaultRepository.getIsOpenedFilters()
+    }
+
 }
