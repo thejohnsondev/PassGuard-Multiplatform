@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation.vaulthealth
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.common.PASSWORD_AGE_THRESHOLD_DAYS
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.GenerateVaultHealthReportUseCases
@@ -42,7 +43,7 @@ class VaultHealthViewModel(
         val decryptedPasswords = decryptPasswordsListUseCase(allPasswords)
         val report = generateVaultHealthReportUseCases(
             passwords = decryptedPasswords,
-            passwordAgeThresholdDays = 180
+            passwordAgeThresholdDays = PASSWORD_AGE_THRESHOLD_DAYS
         )
         _state.update {
             it.copy(

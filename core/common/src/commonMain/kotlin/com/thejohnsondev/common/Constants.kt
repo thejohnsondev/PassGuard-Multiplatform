@@ -1,6 +1,7 @@
 package com.thejohnsondev.common
 
 const val PASS_MIN_SIZE = 8
+const val PASSWORD_AGE_THRESHOLD_DAYS = 180
 
 const val DATA_STORE_FILE_NAME = "settings.preferences_pb"
 
