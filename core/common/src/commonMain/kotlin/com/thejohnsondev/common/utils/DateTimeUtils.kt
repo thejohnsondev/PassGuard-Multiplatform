@@ -53,3 +53,10 @@ fun String.getTimeDifferenceInMillis(): Long {
     val timeStampValue = this.toLongOrNull()
     return currentTime - (timeStampValue ?: 0)
 }
+
+fun Long?.toAgeInDays(): Long {
+    val nowMillis = getCurrentTimeMillis()
+    return this?.let {
+        (nowMillis - it) / (1000L * 60L * 60L * 24L)
+    } ?: 0L
+}

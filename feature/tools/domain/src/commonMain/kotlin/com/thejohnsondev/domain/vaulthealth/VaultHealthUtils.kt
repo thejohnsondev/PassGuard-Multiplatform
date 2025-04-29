@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain.vaulthealth
 
-import com.thejohnsondev.common.utils.getCurrentTimeMillis
+import com.thejohnsondev.common.utils.toAgeInDays
 import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
 import com.thejohnsondev.model.vault.PasswordDto
 
@@ -72,11 +72,10 @@ internal class VaultHealthUtils(
         passwords: List<PasswordDto>,
         thresholdDays: Int,
     ): List<PasswordDto> {
-        val nowMillis = getCurrentTimeMillis()
         return passwords.filter { item ->
             val lastModified = item.modifiedTimeStamp ?: item.createdTimeStamp
             lastModified?.let {
-                val ageDays = (nowMillis.minus(it.toLong())) / (1000L * 60L * 60L * 24L)
+                val ageDays = it.toLong().toAgeInDays()
                 return@let ageDays >= thresholdDays
             } ?: false
         }
