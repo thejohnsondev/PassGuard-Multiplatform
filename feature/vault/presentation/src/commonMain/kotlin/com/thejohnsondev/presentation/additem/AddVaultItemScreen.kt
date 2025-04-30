@@ -59,13 +59,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.SCROLL_DOWN_DELAY
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.vault.AdditionalFieldDto
-import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorBottomSheet
@@ -80,6 +78,7 @@ import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
 import com.thejohnsondev.ui.components.text.PrimaryTextFieldWithBackground
 import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
+import com.thejohnsondev.ui.components.vault.AdditionalFieldItem
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
@@ -88,9 +87,7 @@ import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size28
 import com.thejohnsondev.ui.designsystem.Size32
-import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
-import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
@@ -100,7 +97,6 @@ import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.PasswordUIModel
-import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
@@ -718,7 +714,7 @@ private fun AdditionalFieldsList(
         modifier = modifier
     ) {
         additionalFields.value.forEach { additionalField ->
-            AdditionalFieldItem(
+           AdditionalFieldItem(
                 modifier = Modifier
                     .padding(
                         start = Size16,

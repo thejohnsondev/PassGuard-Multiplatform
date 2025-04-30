@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation.component
+package com.thejohnsondev.ui.components.vault
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
@@ -91,7 +91,7 @@ import vaultmultiplatform.core.ui.generated.resources.modified
 import vaultmultiplatform.core.ui.generated.resources.more_info
 
 @Composable
-internal fun PasswordItem(
+fun PasswordItem(
     modifier: Modifier = Modifier,
     item: PasswordUIModel,
     isReordering: Boolean = false,

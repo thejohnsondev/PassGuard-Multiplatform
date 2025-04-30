@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation.component
+package com.thejohnsondev.ui.components.vault
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +42,7 @@ import vaultmultiplatform.core.ui.generated.resources.value
 import vaultmultiplatform.core.ui.generated.resources.visibility
 
 @Composable
-internal fun AdditionalFieldItem(
+fun AdditionalFieldItem(
     modifier: Modifier = Modifier,
     title: String,
     value: String,

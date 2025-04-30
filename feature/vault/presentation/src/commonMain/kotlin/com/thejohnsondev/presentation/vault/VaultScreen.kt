@@ -49,7 +49,7 @@ import com.thejohnsondev.common.PASSWORD_IDLE_ITEM_HEIGHT
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.additem.AddVaultItemScreen
-import com.thejohnsondev.presentation.component.PasswordItem
+import com.thejohnsondev.ui.components.vault.PasswordItem
 import com.thejohnsondev.ui.components.text.SearchBar
 import com.thejohnsondev.ui.components.animation.ShimmerEffect
 import com.thejohnsondev.ui.components.button.ToggleButton
