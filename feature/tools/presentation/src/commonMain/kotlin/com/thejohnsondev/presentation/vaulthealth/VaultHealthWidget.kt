@@ -1,16 +1,33 @@
 package com.thejohnsondev.presentation.vaulthealth
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Password
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.ui.components.ArcProgressbar
+import com.thejohnsondev.ui.components.ExpandableSectionItem
+import com.thejohnsondev.ui.components.vault.PasswordItem
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.padding
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import vaultmultiplatform.core.ui.generated.resources.password_health_leaked_description
+import vaultmultiplatform.core.ui.generated.resources.password_health_leaked_title
+import vaultmultiplatform.core.ui.generated.resources.password_health_leaked_title_positive
+import vaultmultiplatform.core.ui.generated.resources.password_health_old_description
+import vaultmultiplatform.core.ui.generated.resources.password_health_old_title
+import vaultmultiplatform.core.ui.generated.resources.password_health_old_title_positive
+import vaultmultiplatform.core.ui.generated.resources.password_health_weak_description
+import vaultmultiplatform.core.ui.generated.resources.password_health_weak_title
+import vaultmultiplatform.core.ui.generated.resources.password_health_weak_title_positive
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -48,5 +65,98 @@ fun VaultHealthWidgetContent(
             progress = state.report?.overallScore ?: 0f,
             text = "Score"
         )
+        VaultHealthPasswordLists(
+            modifier = Modifier
+                .padding(vertical = Size16, horizontal = Size4)
+                .fillMaxWidth(),
+            state = state,
+            onAction = onAction
+        )
+    }
+}
+
+@Composable
+fun VaultHealthPasswordLists(
+    modifier: Modifier = Modifier,
+    state: VaultHealthViewModel.State,
+    onAction: (VaultHealthViewModel.Action) -> Unit,
+) {
+    val areOldPasswordsPresent = state.report?.oldPasswords?.isNotEmpty() ?: false
+    val areWeakPasswordsPresent = state.report?.weakPasswords?.isNotEmpty() ?: false
+    val areLeakedPasswordsPresent = state.report?.leakedPasswords?.isNotEmpty() ?: false
+    Column(modifier = modifier) {
+        ExpandableSectionItem(
+            modifier = Modifier
+                .padding(vertical = Size4, horizontal = Size4)
+                .fillMaxWidth(),
+            title = stringResource(if (areWeakPasswordsPresent) ResString.password_health_weak_title else ResString.password_health_weak_title_positive),
+            description = if (areWeakPasswordsPresent) {
+                stringResource(ResString.password_health_weak_description)
+            } else null,
+            isFirstItem = true,
+            icon = Icons.Default.Password, // TODO change depending on areOldPasswordsPresent
+        ) {
+            state.weakPasswords?.forEach { password ->
+                PasswordItem(
+                    modifier = Modifier.padding( horizontal = Size4),
+                    item = password,
+                    onClick = { /* Handle click */ },
+                    onDeleteClick = { /* Handle delete click */ },
+                    onEditClick = { /* Handle edit click */ },
+                    onCopySensitive = { /* Handle copy sensitive */ },
+                    onCopy = { /* Handle copy */ },
+                    onFavoriteClick = { /* Handle favorite click */ },
+                )
+            }
+        }
+
+        ExpandableSectionItem(
+            modifier = Modifier
+                .padding( horizontal = Size4)
+                .fillMaxWidth(),
+            title = stringResource(if (areLeakedPasswordsPresent) ResString.password_health_leaked_title else ResString.password_health_leaked_title_positive),
+            description = if (areLeakedPasswordsPresent) {
+                stringResource(ResString.password_health_leaked_description)
+            } else null,
+            icon = Icons.Default.Password, // TODO change depending on areOldPasswordsPresent
+        ) {
+            state.leakedPasswords?.forEach { password ->
+                PasswordItem(
+                    modifier = Modifier.padding(Size16),
+                    item = password,
+                    onClick = { /* Handle click */ },
+                    onDeleteClick = { /* Handle delete click */ },
+                    onEditClick = { /* Handle edit click */ },
+                    onCopySensitive = { /* Handle copy sensitive */ },
+                    onCopy = { /* Handle copy */ },
+                    onFavoriteClick = { /* Handle favorite click */ },
+                )
+            }
+        }
+
+        ExpandableSectionItem(
+            modifier = Modifier
+                .padding(vertical = Size4, horizontal = Size4)
+                .fillMaxWidth(),
+            title = stringResource(if (areOldPasswordsPresent) ResString.password_health_old_title else ResString.password_health_old_title_positive),
+            description = if (areOldPasswordsPresent) {
+                stringResource(ResString.password_health_old_description)
+            } else null,
+            isLastItem = true,
+            icon = Icons.Default.Password, // TODO change depending on areOldPasswordsPresent
+        ) {
+            state.oldPasswords?.forEach { password ->
+                PasswordItem(
+                    modifier = Modifier.padding(horizontal = Size4),
+                    item = password,
+                    onClick = { /* Handle click */ },
+                    onDeleteClick = { /* Handle delete click */ },
+                    onEditClick = { /* Handle edit click */ },
+                    onCopySensitive = { /* Handle copy sensitive */ },
+                    onCopy = { /* Handle copy */ },
+                    onFavoriteClick = { /* Handle favorite click */ },
+                )
+            }
+        }
     }
 }

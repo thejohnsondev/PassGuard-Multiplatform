@@ -5,9 +5,11 @@ import com.thejohnsondev.common.PASSWORD_AGE_THRESHOLD_DAYS
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.GenerateVaultHealthReportUseCases
+import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.vaulthealth.VaultHealthReport
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.ui.model.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -19,6 +21,7 @@ class VaultHealthViewModel(
     private val passwordsService: PasswordsService,
     private val generateVaultHealthReportUseCases: GenerateVaultHealthReportUseCases,
     private val decryptPasswordsListUseCase: DecryptPasswordsListUseCase,
+    private val mapToUiModelsUseCase: PasswordsMapToUiModelsUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -45,9 +48,17 @@ class VaultHealthViewModel(
             passwords = decryptedPasswords,
             passwordAgeThresholdDays = PASSWORD_AGE_THRESHOLD_DAYS
         )
+        val oldPasswords = mapToUiModelsUseCase(report.oldPasswords)
+        val weakPasswords = mapToUiModelsUseCase(report.weakPasswords)
+        val leakedPasswords = mapToUiModelsUseCase(report.leakedPasswords)
+
+
         _state.update {
             it.copy(
-                report = report
+                report = report,
+                oldPasswords = oldPasswords,
+                weakPasswords = weakPasswords,
+                leakedPasswords = leakedPasswords,
             )
         }
     }
@@ -59,5 +70,8 @@ class VaultHealthViewModel(
     data class State(
         val screenState: ScreenState = ScreenState.ShowContent,
         val report: VaultHealthReport? = null,
+        val oldPasswords: List<PasswordUIModel>? = null,
+        val weakPasswords: List<PasswordUIModel>? = null,
+        val leakedPasswords: List<PasswordUIModel>? = null,
     )
 }
