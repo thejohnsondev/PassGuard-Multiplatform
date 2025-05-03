@@ -57,6 +57,6 @@ fun String.getTimeDifferenceInMillis(): Long {
 fun Long?.toAgeInDays(): Long {
     val nowMillis = getCurrentTimeMillis()
     return this?.let {
-        (nowMillis - it) / (1000L * 60L * 60L * 24L)
+        (nowMillis - it * 1000) / (1000L * 60L * 60L * 24L)
     } ?: 0L
 }
