@@ -14,6 +14,7 @@ import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.vault.PasswordItem
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.stringResource
@@ -84,6 +85,9 @@ fun VaultHealthPasswordLists(
     val areOldPasswordsPresent = state.report?.oldPasswords?.isNotEmpty() ?: false
     val areWeakPasswordsPresent = state.report?.weakPasswords?.isNotEmpty() ?: false
     val areLeakedPasswordsPresent = state.report?.leakedPasswords?.isNotEmpty() ?: false
+
+    val colors = MaterialSelectableItemColors
+
     Column(modifier = modifier) {
         ExpandableSectionItem(
             modifier = Modifier
@@ -95,10 +99,11 @@ fun VaultHealthPasswordLists(
             } else null,
             isFirstItem = true,
             icon = Icons.Default.Password, // TODO change depending on areOldPasswordsPresent
+            colors = colors
         ) {
             state.weakPasswords?.forEach { password ->
                 PasswordItem(
-                    modifier = Modifier.padding( horizontal = Size4),
+                    modifier = Modifier.padding(horizontal = Size4),
                     item = password,
                     onClick = { /* Handle click */ },
                     onDeleteClick = { /* Handle delete click */ },
@@ -112,13 +117,14 @@ fun VaultHealthPasswordLists(
 
         ExpandableSectionItem(
             modifier = Modifier
-                .padding( horizontal = Size4)
+                .padding(horizontal = Size4)
                 .fillMaxWidth(),
             title = stringResource(if (areLeakedPasswordsPresent) ResString.password_health_leaked_title else ResString.password_health_leaked_title_positive),
             description = if (areLeakedPasswordsPresent) {
                 stringResource(ResString.password_health_leaked_description)
             } else null,
             icon = Icons.Default.Password, // TODO change depending on areOldPasswordsPresent
+            colors = colors
         ) {
             state.leakedPasswords?.forEach { password ->
                 PasswordItem(
@@ -144,6 +150,7 @@ fun VaultHealthPasswordLists(
             } else null,
             isLastItem = true,
             icon = Icons.Default.Password, // TODO change depending on areOldPasswordsPresent
+            colors = colors
         ) {
             state.oldPasswords?.forEach { password ->
                 PasswordItem(

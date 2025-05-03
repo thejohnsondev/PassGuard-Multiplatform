@@ -9,7 +9,7 @@ object MaterialSelectableItemColors: SelectableItemColors {
 
     @Composable
     override fun getSelectedContainerColor(): Color {
-        return MaterialTheme.colorScheme.onSecondaryContainer
+        return MaterialTheme.colorScheme.primaryContainer
     }
 
     @Composable
@@ -19,7 +19,7 @@ object MaterialSelectableItemColors: SelectableItemColors {
 
     @Composable
     override fun getSelectedContentColor(): Color {
-        return MaterialTheme.colorScheme.secondaryContainer
+        return MaterialTheme.colorScheme.onPrimaryContainer
     }
 
     @Composable

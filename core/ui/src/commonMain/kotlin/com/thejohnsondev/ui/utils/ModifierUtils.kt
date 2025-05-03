@@ -7,6 +7,7 @@ import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +32,8 @@ expect fun Modifier.cursorEnterAnimation(): Modifier
 
 enum class ButtonState { Pressed, Idle }
 
-fun Modifier.applyIf(condition: Boolean, modifier: Modifier.() -> Modifier): Modifier {
+@Composable
+fun Modifier.applyIf(condition: Boolean, modifier: @Composable Modifier.() -> Modifier): Modifier {
     return if (condition) this.then(
         modifier(Modifier)
     ) else this

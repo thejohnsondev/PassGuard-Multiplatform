@@ -100,14 +100,16 @@ fun ExpandableSectionItem(
         onExpanded?.invoke(expanded)
     }
 
+    val shape = RoundedCornerShape(
+        topStart = if (isFirstItem) Size16 else Size4,
+        topEnd = if (isFirstItem) Size16 else Size4,
+        bottomStart = if (isLastItem) Size16 else Size4,
+        bottomEnd = if (isLastItem) Size16 else Size4
+    )
+
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(
-            topStart = if (isFirstItem) Size16 else Size4,
-            topEnd = if (isFirstItem) Size16 else Size4,
-            bottomStart = if (isLastItem) Size16 else Size4,
-            bottomEnd = if (isLastItem) Size16 else Size4
-        ),
+        shape = shape,
         colors = CardDefaults.cardColors(
             containerColor = cardBgColor
         )
