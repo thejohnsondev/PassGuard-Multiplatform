@@ -150,10 +150,13 @@
     <string name="password_health">Vault health</string>
     <string name="password_health_old_title">Old passwords</string>
     <string name="password_health_old_title_positive">No old passwords</string>
-    <string name="password_health_old_description">These passwords were updated more that %d months ago</string>
+    <string name="password_health_old_description">These passwords were updated more that %1$s days ago</string>
     <string name="password_health_weak_title">Weak passwords</string>
     <string name="password_health_weak_title_positive">No weak passwords</string>
     <string name="password_health_weak_description">These passwords are not strong enough</string>
+    <string name="password_health_reused_title">Reused passwords</string>
+    <string name="password_health_reused_title_positive">No reused passwords</string>
+    <string name="password_health_reused_description">These passwords are used in many places</string>
     <string name="password_health_leaked_title">Leaked passwords</string>
     <string name="password_health_leaked_title_positive">No leaked passwords</string>
     <string name="password_health_leaked_description">These passwords were leaked over the internet</string>

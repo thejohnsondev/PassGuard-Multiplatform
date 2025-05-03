@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.designsystem.Size16
@@ -155,9 +156,13 @@ fun ExpandableSectionItem(
                     if (description != null) {
                         Spacer(modifier = Modifier.height(Size4))
                         Text(
+                            modifier = Modifier
+                                .padding(end = Size8),
                             text = description,
                             style = MaterialTheme.typography.bodySmall,
-                            color = contentColor
+                            color = contentColor,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
 
