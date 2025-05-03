@@ -9,7 +9,7 @@ import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
 import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.vaulthealth.VaultHealthReport
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

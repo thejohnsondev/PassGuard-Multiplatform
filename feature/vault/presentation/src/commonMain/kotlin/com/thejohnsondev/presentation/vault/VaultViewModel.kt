@@ -26,7 +26,7 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.sync.SyncManager
 import com.thejohnsondev.ui.model.FilterUIModel
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.SortOrder.Companion.toSortOrder
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.flow.MutableStateFlow

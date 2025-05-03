@@ -3,7 +3,7 @@ package com.thejohnsondev.domain
 import com.thejohnsondev.common.ADDITIONAL_FIELD_HEIGHT
 import com.thejohnsondev.common.PASSWORD_EXPANDED_ITEM_HEIGHT
 import com.thejohnsondev.common.PASSWORD_IDLE_ITEM_HEIGHT
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 
 class CalculateListSizeUseCaseImpl : CalculateListSizeUseCase {
 

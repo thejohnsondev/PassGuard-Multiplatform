@@ -16,7 +16,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.common.PASSWORD_AGE_THRESHOLD_DAYS
 import com.thejohnsondev.ui.components.ArcProgressbar
 import com.thejohnsondev.ui.components.ExpandableSectionItem
-import com.thejohnsondev.ui.components.vault.PasswordItem
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordItem
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordItemProperties
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
@@ -114,6 +115,10 @@ fun VaultHealthPasswordLists(
             state.weakPasswords?.forEach { password ->
                 PasswordItem(
                     modifier = Modifier.padding(horizontal = Size4),
+                    properties = PasswordItemProperties(
+                        showFavoriteButton = false,
+                        showCopyButton = false
+                    ),
                     item = password,
                     onClick = { /* Handle click */ },
                     onDeleteClick = { /* Handle delete click */ },
@@ -139,6 +144,10 @@ fun VaultHealthPasswordLists(
             state.leakedPasswords?.forEach { password ->
                 PasswordItem(
                     modifier = Modifier.padding(horizontal = Size4),
+                    properties = PasswordItemProperties(
+                        showFavoriteButton = false,
+                        showCopyButton = false
+                    ),
                     item = password,
                     onClick = { /* Handle click */ },
                     onDeleteClick = { /* Handle delete click */ },
@@ -164,6 +173,10 @@ fun VaultHealthPasswordLists(
             state.reusedPasswords?.forEach { password ->
                 PasswordItem(
                     modifier = Modifier.padding(horizontal = Size4),
+                    properties = PasswordItemProperties(
+                        showFavoriteButton = false,
+                        showCopyButton = false
+                    ),
                     item = password,
                     onClick = { /* Handle click */ },
                     onDeleteClick = { /* Handle delete click */ },
@@ -190,6 +203,10 @@ fun VaultHealthPasswordLists(
             state.oldPasswords?.forEach { password ->
                 PasswordItem(
                     modifier = Modifier.padding(horizontal = Size4),
+                    properties = PasswordItemProperties(
+                        showFavoriteButton = false,
+                        showCopyButton = false
+                    ),
                     item = password,
                     onClick = { /* Handle click */ },
                     onDeleteClick = { /* Handle delete click */ },

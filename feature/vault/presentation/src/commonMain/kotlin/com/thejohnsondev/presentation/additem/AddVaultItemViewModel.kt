@@ -27,7 +27,7 @@ import com.thejohnsondev.model.vault.SyncStatus
 import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview

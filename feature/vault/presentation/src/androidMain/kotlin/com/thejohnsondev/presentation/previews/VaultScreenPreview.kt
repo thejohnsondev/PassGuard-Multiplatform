@@ -10,7 +10,7 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.vault.VaultScreenContent
 import com.thejohnsondev.presentation.vault.VaultViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 
 

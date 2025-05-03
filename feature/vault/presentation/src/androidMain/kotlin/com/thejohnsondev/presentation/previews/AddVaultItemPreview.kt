@@ -18,7 +18,7 @@ import com.thejohnsondev.presentation.additem.AddVaultItemContent
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 
 @OptIn(ExperimentalMaterial3Api::class)

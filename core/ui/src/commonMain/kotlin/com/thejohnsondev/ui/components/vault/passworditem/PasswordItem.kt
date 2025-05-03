@@ -1,4 +1,4 @@
-package com.thejohnsondev.ui.components.vault
+package com.thejohnsondev.ui.components.vault.passworditem
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
@@ -60,6 +60,7 @@ import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.button.RoundedIconButton
+import com.thejohnsondev.ui.components.vault.HighlightOnLongPressText
 import com.thejohnsondev.ui.designsystem.BottomRounded
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.NotRounded
@@ -78,7 +79,6 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeMinus
 import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
-import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
@@ -94,6 +94,7 @@ import vaultmultiplatform.core.ui.generated.resources.more_info
 fun PasswordItem(
     modifier: Modifier = Modifier,
     item: PasswordUIModel,
+    properties: PasswordItemProperties = PasswordItemProperties.default(),
     isReordering: Boolean = false,
     isDragging: Boolean = false,
     isExpanded: Boolean = false,
@@ -275,35 +276,39 @@ fun PasswordItem(
                     )
                 }
 
-                IconButton(
-                    modifier = Modifier
-                        .size(Size32)
-                        .bounceClick(),
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onFavoriteClick(item)
+                if (properties.showFavoriteButton) {
+                    IconButton(
+                        modifier = Modifier
+                            .size(Size32)
+                            .bounceClick(),
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onFavoriteClick(item)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
+                            contentDescription = null,
+                            tint = favoriteColor
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
-                        contentDescription = null,
-                        tint = favoriteColor
-                    )
                 }
-                IconButton(
-                    modifier = Modifier
-                        .size(Size32)
-                        .bounceClick(),
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onCopySensitive(item.password)
+                if (properties.showCopyButton) {
+                    IconButton(
+                        modifier = Modifier
+                            .size(Size32)
+                            .bounceClick(),
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onCopySensitive(item.password)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
+                            contentDescription = null,
+                            tint = if (isReordering) draggingContentColor else contentColor
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
-                        contentDescription = null,
-                        tint = if (isReordering) draggingContentColor else contentColor
-                    )
                 }
             }
         }

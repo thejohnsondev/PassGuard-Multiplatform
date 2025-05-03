@@ -68,17 +68,18 @@ import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorBottomSheet
 import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
-import com.thejohnsondev.ui.components.button.BackArrowButton
-import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
-import com.thejohnsondev.ui.components.loader.Loader
-import com.thejohnsondev.ui.components.text.PrimaryTextField
+import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
+import com.thejohnsondev.ui.components.text.PrimaryTextField
 import com.thejohnsondev.ui.components.text.PrimaryTextFieldWithBackground
 import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
 import com.thejohnsondev.ui.components.vault.AdditionalFieldItem
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
@@ -96,7 +97,6 @@ import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.displaymessage.getAsText
-import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
@@ -260,9 +260,10 @@ private fun GeneratePasswordDialog(
     windowSizeClass: WindowWidthSizeClass,
     paddingValues: PaddingValues,
     state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
-    val generatePasswordBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    val generatePasswordBottomSheetState =
+        rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     if (state.showGeneratePasswordBottomSheet) {
         PasswordGeneratorBottomSheet(
@@ -490,7 +491,7 @@ private fun TitleField(
 private fun LogoSearchResults(
     modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
     ExpandableContent(
         visible = state.isLogoSearchResultsVisible,
@@ -636,7 +637,7 @@ private fun PasswordField(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
                 textFieldIconBehavior = TextFieldIconBehavior.HideShow,
-                backgroundShape  = RoundedCornerShape(
+                backgroundShape = RoundedCornerShape(
                     topStart = Size4,
                     bottomStart = Size16,
                     topEnd = Size4,
@@ -714,7 +715,7 @@ private fun AdditionalFieldsList(
         modifier = modifier
     ) {
         additionalFields.value.forEach { additionalField ->
-           AdditionalFieldItem(
+            AdditionalFieldItem(
                 modifier = Modifier
                     .padding(
                         start = Size16,
