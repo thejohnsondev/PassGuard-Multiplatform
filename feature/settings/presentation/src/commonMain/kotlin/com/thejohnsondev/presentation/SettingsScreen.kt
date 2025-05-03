@@ -192,7 +192,7 @@ fun SettingsList(
     goToSignUp: () -> Unit,
     paddingValues: PaddingValues,
 ) {
-    val colors = ToolSelectableItemColors
+    val colors = ToolSelectableItemColors()
     Column(
         modifier = Modifier
             .padding(
@@ -555,7 +555,7 @@ fun StyleSettingsSubSection(
                         ThemeBrand.DEFAULT -> DefaultSelectableItemColors
                         ThemeBrand.TEAL -> TealSelectableItemColors
                         ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
-                        ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors
+                        ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors()
                         ThemeBrand.SUNNY -> SunnySelectableItemColors
                         ThemeBrand.VIOLET -> VioletSelectableItemsColors
                         ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors

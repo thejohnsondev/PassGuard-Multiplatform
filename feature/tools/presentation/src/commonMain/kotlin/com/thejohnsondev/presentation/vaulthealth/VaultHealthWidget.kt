@@ -22,6 +22,8 @@ import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.tools.ToolSelectableItemColors
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.stringResource
@@ -97,7 +99,7 @@ fun VaultHealthPasswordLists(
     val areReusedPasswordsPresent = state.report?.reusedPasswords?.isNotEmpty() ?: false
     val areLeakedPasswordsPresent = state.report?.leakedPasswords?.isNotEmpty() ?: false
 
-    val defaultColors = MaterialSelectableItemColors
+    val warningColors = RedAlgaeSelectableItemColors(false)
 
     Column(modifier = modifier) {
         ExpandableSectionItem(
@@ -110,7 +112,7 @@ fun VaultHealthPasswordLists(
             } else null,
             isFirstItem = true,
             icon = if (areWeakPasswordsPresent) Icons.Default.SentimentDissatisfied else Icons.Default.CheckCircle, // TODO change depending on areOldPasswordsPresent
-            colors = if (areWeakPasswordsPresent) defaultColors else DeepForestSelectableItemColors
+            colors = if (areWeakPasswordsPresent) warningColors else DeepForestSelectableItemColors
         ) {
             state.weakPasswords?.forEach { password ->
                 PasswordItem(
@@ -119,10 +121,19 @@ fun VaultHealthPasswordLists(
                         showFavoriteButton = false,
                         showCopyButton = false,
                         showEditButton = false,
-                        showDeleteButton = false
+                        showDeleteButton = false,
+                        swapColorsWhenExpanding = false
                     ),
                     item = password,
-                    onClick = { /* Handle click */ },
+                    onClick = {
+                        onAction(
+                            VaultHealthViewModel.Action.ToggleOpenItem(
+                                itemId = password.id,
+                                passwordListType = VaultHealthViewModel.PasswordListType.Weak
+                            )
+                        )
+                    },
+                    isExpanded = password.isExpanded,
                     onDeleteClick = { /* Handle delete click */ },
                     onEditClick = { /* Handle edit click */ },
                     onCopySensitive = { /* Handle copy sensitive */ },
@@ -141,7 +152,7 @@ fun VaultHealthPasswordLists(
                 stringResource(ResString.password_health_leaked_description)
             } else null,
             icon = if (areLeakedPasswordsPresent) Icons.Default.GppMaybe else Icons.Default.CheckCircle, // TODO change depending on areOldPasswordsPresent
-            colors = if (areLeakedPasswordsPresent) defaultColors else DeepForestSelectableItemColors
+            colors = if (areLeakedPasswordsPresent) warningColors else DeepForestSelectableItemColors
         ) {
             state.leakedPasswords?.forEach { password ->
                 PasswordItem(
@@ -150,10 +161,19 @@ fun VaultHealthPasswordLists(
                         showFavoriteButton = false,
                         showCopyButton = false,
                         showEditButton = false,
-                        showDeleteButton = false
+                        showDeleteButton = false,
+                        swapColorsWhenExpanding = false
                     ),
                     item = password,
-                    onClick = { /* Handle click */ },
+                    onClick = {
+                        onAction(
+                            VaultHealthViewModel.Action.ToggleOpenItem(
+                                itemId = password.id,
+                                passwordListType = VaultHealthViewModel.PasswordListType.Leaked
+                            )
+                        )
+                    },
+                    isExpanded = password.isExpanded,
                     onDeleteClick = { /* Handle delete click */ },
                     onEditClick = { /* Handle edit click */ },
                     onCopySensitive = { /* Handle copy sensitive */ },
@@ -172,7 +192,7 @@ fun VaultHealthPasswordLists(
                 stringResource(ResString.password_health_reused_description)
             } else null,
             icon = if (areReusedPasswordsPresent) Icons.Default.SyncProblem else Icons.Default.CheckCircle, // TODO change depending on areOldPasswordsPresent
-            colors = if (areReusedPasswordsPresent) defaultColors else DeepForestSelectableItemColors
+            colors = if (areReusedPasswordsPresent) warningColors else DeepForestSelectableItemColors
         ) {
             state.reusedPasswords?.forEach { password ->
                 PasswordItem(
@@ -181,10 +201,19 @@ fun VaultHealthPasswordLists(
                         showFavoriteButton = false,
                         showCopyButton = false,
                         showEditButton = false,
-                        showDeleteButton = false
+                        showDeleteButton = false,
+                        swapColorsWhenExpanding = false
                     ),
                     item = password,
-                    onClick = { /* Handle click */ },
+                    onClick = {
+                        onAction(
+                            VaultHealthViewModel.Action.ToggleOpenItem(
+                                itemId = password.id,
+                                passwordListType = VaultHealthViewModel.PasswordListType.Reused
+                            )
+                        )
+                    },
+                    isExpanded = password.isExpanded,
                     onDeleteClick = { /* Handle delete click */ },
                     onEditClick = { /* Handle edit click */ },
                     onCopySensitive = { /* Handle copy sensitive */ },
@@ -204,7 +233,7 @@ fun VaultHealthPasswordLists(
             } else null,
             isLastItem = true,
             icon = if (areOldPasswordsPresent) Icons.Default.History else Icons.Default.CheckCircle, // TODO change depending on areOldPasswordsPresent
-            colors = if (areOldPasswordsPresent) defaultColors else DeepForestSelectableItemColors
+            colors = if (areOldPasswordsPresent) warningColors else DeepForestSelectableItemColors
         ) {
             state.oldPasswords?.forEach { password ->
                 PasswordItem(
@@ -213,10 +242,19 @@ fun VaultHealthPasswordLists(
                         showFavoriteButton = false,
                         showCopyButton = false,
                         showEditButton = false,
-                        showDeleteButton = false
+                        showDeleteButton = false,
+                        swapColorsWhenExpanding = false
                     ),
                     item = password,
-                    onClick = { /* Handle click */ },
+                    onClick = {
+                        onAction(
+                            VaultHealthViewModel.Action.ToggleOpenItem(
+                                itemId = password.id,
+                                passwordListType = VaultHealthViewModel.PasswordListType.Old
+                            )
+                        )
+                    },
+                    isExpanded = password.isExpanded,
                     onDeleteClick = { /* Handle delete click */ },
                     onEditClick = { /* Handle edit click */ },
                     onCopySensitive = { /* Handle copy sensitive */ },

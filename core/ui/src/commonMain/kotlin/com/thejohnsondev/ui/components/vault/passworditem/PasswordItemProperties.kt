@@ -5,6 +5,7 @@ data class PasswordItemProperties(
     val showFavoriteButton: Boolean = true,
     val showEditButton: Boolean = true,
     val showDeleteButton: Boolean = true,
+    val swapColorsWhenExpanding: Boolean = true,
 ) {
     companion object {
         fun default(): PasswordItemProperties = PasswordItemProperties()

@@ -14,13 +14,19 @@ import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerDark_redA
 import com.thejohnsondev.ui.designsystem.colorscheme.secondaryContainerLight_redAlgae
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 
-object RedAlgaeSelectableItemColors : SelectableItemColors {
+class RedAlgaeSelectableItemColors(
+    private val swapColors: Boolean = true
+) : SelectableItemColors {
     @Composable
     override fun getSelectedContainerColor(): Color {
-        return if (!MaterialTheme.colorScheme.isLight()) {
-            primaryContainerDark_redAlgae
+        return if (swapColors) {
+            if (!MaterialTheme.colorScheme.isLight()) {
+                primaryContainerDark_redAlgae
+            } else {
+                primaryContainerLight_redAlgae
+            }
         } else {
-            primaryContainerLight_redAlgae
+            getUnselectedContainerColor()
         }
     }
 
@@ -35,10 +41,14 @@ object RedAlgaeSelectableItemColors : SelectableItemColors {
 
     @Composable
     override fun getSelectedContentColor(): Color {
-        return if (!MaterialTheme.colorScheme.isLight()) {
-            onPrimaryContainerDark_redAlgae
+        return if (swapColors) {
+            if (!MaterialTheme.colorScheme.isLight()) {
+                onPrimaryContainerDark_redAlgae
+            } else {
+                onPrimaryContainerLight_redAlgae
+            }
         } else {
-            onPrimaryContainerLight_redAlgae
+            getUnselectedContentColor()
         }
     }
 

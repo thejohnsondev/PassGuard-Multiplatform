@@ -122,7 +122,7 @@ fun PasswordItem(
     val cardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
+        if (isExpanded && properties.swapColorsWhenExpanding) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
     }
     val draggingCardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -132,7 +132,7 @@ fun PasswordItem(
     val contentColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+        if (isExpanded && properties.swapColorsWhenExpanding) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
     val favoriteColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)

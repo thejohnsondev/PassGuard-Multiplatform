@@ -5,11 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 
-object ToolSelectableItemColors: SelectableItemColors {
+class ToolSelectableItemColors(
+    private val swapColors: Boolean = true,
+) : SelectableItemColors {
 
     @Composable
     override fun getSelectedContainerColor(): Color {
-        return MaterialTheme.colorScheme.surfaceContainerHigh
+        return if (swapColors) MaterialTheme.colorScheme.surfaceContainerHigh else MaterialTheme.colorScheme.surfaceContainer
     }
 
     @Composable
@@ -19,7 +21,7 @@ object ToolSelectableItemColors: SelectableItemColors {
 
     @Composable
     override fun getSelectedContentColor(): Color {
-        return MaterialTheme.colorScheme.onSurface
+        return if (swapColors) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface
     }
 
     @Composable

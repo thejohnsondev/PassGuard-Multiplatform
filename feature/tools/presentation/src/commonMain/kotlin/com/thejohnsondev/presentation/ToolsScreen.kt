@@ -166,7 +166,7 @@ private fun PasswordGeneratorContainer(
         onExpanded = {
             isPasswordGeneratorExpanded = it
         },
-        colors = ToolSelectableItemColors
+        colors = ToolSelectableItemColors()
     ) {
         PasswordGeneratorWidget(
             modifier = Modifier
@@ -211,7 +211,7 @@ private fun PasswordHealthContainer(
         onExpanded = {
             isPasswordHealthExpanded = it
         },
-        colors = ToolSelectableItemColors
+        colors = ToolSelectableItemColors()
     ) {
         VaultHealthWidget(
             modifier = Modifier
