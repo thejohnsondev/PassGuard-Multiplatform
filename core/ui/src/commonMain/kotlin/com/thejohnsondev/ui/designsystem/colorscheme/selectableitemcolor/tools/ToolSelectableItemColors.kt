@@ -21,7 +21,7 @@ class ToolSelectableItemColors(
 
     @Composable
     override fun getSelectedContentColor(): Color {
-        return if (swapColors) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface
+        return MaterialTheme.colorScheme.onSurface
     }
 
     @Composable
