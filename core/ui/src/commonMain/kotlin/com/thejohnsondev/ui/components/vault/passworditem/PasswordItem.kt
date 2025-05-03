@@ -316,6 +316,7 @@ fun PasswordItem(
         ExpandableContent(visible = isExpanded) {
             ExpandedContent(
                 passwordModel = item,
+                properties = properties,
                 contentColor = contentColor,
                 onCopy = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -340,6 +341,7 @@ fun PasswordItem(
 @Composable
 fun ExpandedContent(
     passwordModel: PasswordUIModel,
+    properties: PasswordItemProperties,
     contentColor: Color,
     onCopy: (String) -> Unit,
     onCopySensitive: (String) -> Unit,
@@ -443,30 +445,34 @@ fun ExpandedContent(
                 contentColor = contentColor,
                 passwordModel = passwordModel
             )
-            RoundedIconButton(
-                modifier = Modifier
-                    .padding(start = Size16, end = Size4, bottom = Size16, top = Size16)
-                    .size(Size40),
-                onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    onEditClick(passwordModel)
-                },
-                imageVector = Icons.Filled.Edit,
-                containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                iconColor = MaterialTheme.colorScheme.primaryContainer
-            )
-            RoundedIconButton(
-                modifier = Modifier
-                    .padding(start = Size4, end = Size16, bottom = Size16, top = Size16)
-                    .size(Size40),
-                onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    onDeleteClick(passwordModel)
-                },
-                imageVector = Icons.Filled.Delete,
-                containerColor = MaterialTheme.colorScheme.errorContainer,
-                iconColor = MaterialTheme.colorScheme.onErrorContainer
-            )
+            if (properties.showEditButton) {
+                RoundedIconButton(
+                    modifier = Modifier
+                        .padding(start = Size16, end = Size4, bottom = Size16, top = Size16)
+                        .size(Size40),
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onEditClick(passwordModel)
+                    },
+                    imageVector = Icons.Filled.Edit,
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    iconColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            }
+            if (properties.showDeleteButton) {
+                RoundedIconButton(
+                    modifier = Modifier
+                        .padding(start = Size4, end = Size16, bottom = Size16, top = Size16)
+                        .size(Size40),
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onDeleteClick(passwordModel)
+                    },
+                    imageVector = Icons.Filled.Delete,
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    iconColor = MaterialTheme.colorScheme.onErrorContainer
+                )
+            }
         }
     }
 }

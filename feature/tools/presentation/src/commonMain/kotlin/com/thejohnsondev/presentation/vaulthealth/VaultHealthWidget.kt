@@ -117,7 +117,9 @@ fun VaultHealthPasswordLists(
                     modifier = Modifier.padding(horizontal = Size4),
                     properties = PasswordItemProperties(
                         showFavoriteButton = false,
-                        showCopyButton = false
+                        showCopyButton = false,
+                        showEditButton = false,
+                        showDeleteButton = false
                     ),
                     item = password,
                     onClick = { /* Handle click */ },
@@ -146,7 +148,9 @@ fun VaultHealthPasswordLists(
                     modifier = Modifier.padding(horizontal = Size4),
                     properties = PasswordItemProperties(
                         showFavoriteButton = false,
-                        showCopyButton = false
+                        showCopyButton = false,
+                        showEditButton = false,
+                        showDeleteButton = false
                     ),
                     item = password,
                     onClick = { /* Handle click */ },
@@ -175,7 +179,9 @@ fun VaultHealthPasswordLists(
                     modifier = Modifier.padding(horizontal = Size4),
                     properties = PasswordItemProperties(
                         showFavoriteButton = false,
-                        showCopyButton = false
+                        showCopyButton = false,
+                        showEditButton = false,
+                        showDeleteButton = false
                     ),
                     item = password,
                     onClick = { /* Handle click */ },
@@ -205,7 +211,9 @@ fun VaultHealthPasswordLists(
                     modifier = Modifier.padding(horizontal = Size4),
                     properties = PasswordItemProperties(
                         showFavoriteButton = false,
-                        showCopyButton = false
+                        showCopyButton = false,
+                        showEditButton = false,
+                        showDeleteButton = false
                     ),
                     item = password,
                     onClick = { /* Handle click */ },
