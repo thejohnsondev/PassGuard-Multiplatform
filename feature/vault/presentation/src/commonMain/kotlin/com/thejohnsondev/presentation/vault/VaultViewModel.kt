@@ -26,7 +26,7 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.sync.SyncManager
 import com.thejohnsondev.ui.model.FilterUIModel
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.SortOrder.Companion.toSortOrder
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -194,6 +194,8 @@ class VaultViewModel(
         val itemCategoryFilters = FiltersProvider.Category.getVaultCategoryFilters()
         val sortOrderFilters = FiltersProvider.Sorting.getSortOrderFilters()
 
+        val isFiltersOpened = appliedFiltersService.getIsOpenedFilters()
+
         val appliedItemTypeFiltersIDs = appliedFiltersService.getAppliedItemTypeFilters()
         val appliedCategoryFiltersIDs = appliedFiltersService.getAppliedItemCategoryFilters()
         val appliedSortOrderID = appliedFiltersService.getAppliedSortOrder()
@@ -215,6 +217,7 @@ class VaultViewModel(
                 itemCategoryFilters = updatedCategoryFilters,
                 isAnyFiltersApplied = isAnyFiltersApplied,
                 sortOrderFilters = updatedSortOrderFilters,
+                isFiltersOpened = isFiltersOpened,
             )
         }
         updateShowFavoritesAtTop(showFavoritesAtTop)
@@ -323,10 +326,12 @@ class VaultViewModel(
         appliedFiltersService.updateAppliedShowFavoritesAtTop(showFavoritesAtTop)
     }
 
-    private fun toggleFiltersOpened() {
+    private fun toggleFiltersOpened() = launch {
+        val newIsFiltersOpenedValue = !_state.value.isFiltersOpened
         _state.update {
-            it.copy(isFiltersOpened = !it.isFiltersOpened)
+            it.copy(isFiltersOpened = newIsFiltersOpenedValue)
         }
+        appliedFiltersService.updateOpenedFilters(newIsFiltersOpenedValue)
     }
 
     private fun toggleSortingOpened() {

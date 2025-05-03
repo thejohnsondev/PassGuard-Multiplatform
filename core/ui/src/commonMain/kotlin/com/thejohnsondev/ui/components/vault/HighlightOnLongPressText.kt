@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation.component
+package com.thejohnsondev.ui.components.vault
 
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateDp

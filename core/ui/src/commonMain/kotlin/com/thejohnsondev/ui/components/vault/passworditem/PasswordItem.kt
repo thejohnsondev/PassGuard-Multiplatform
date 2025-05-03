@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation.component
+package com.thejohnsondev.ui.components.vault.passworditem
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
@@ -60,6 +60,7 @@ import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.button.RoundedIconButton
+import com.thejohnsondev.ui.components.vault.HighlightOnLongPressText
 import com.thejohnsondev.ui.designsystem.BottomRounded
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.NotRounded
@@ -78,7 +79,6 @@ import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeMinus
 import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
-import com.thejohnsondev.ui.model.PasswordUIModel
 import com.thejohnsondev.ui.model.getImageVector
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
@@ -91,9 +91,10 @@ import vaultmultiplatform.core.ui.generated.resources.modified
 import vaultmultiplatform.core.ui.generated.resources.more_info
 
 @Composable
-internal fun PasswordItem(
+fun PasswordItem(
     modifier: Modifier = Modifier,
     item: PasswordUIModel,
+    properties: PasswordItemProperties = PasswordItemProperties.default(),
     isReordering: Boolean = false,
     isDragging: Boolean = false,
     isExpanded: Boolean = false,
@@ -121,7 +122,7 @@ internal fun PasswordItem(
     val cardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
+        if (isExpanded && properties.swapColorsWhenExpanding) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
     }
     val draggingCardBgColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -131,7 +132,7 @@ internal fun PasswordItem(
     val contentColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+        if (isExpanded && properties.swapColorsWhenExpanding) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
     }
     val favoriteColor by itemTransition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -275,35 +276,39 @@ internal fun PasswordItem(
                     )
                 }
 
-                IconButton(
-                    modifier = Modifier
-                        .size(Size32)
-                        .bounceClick(),
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onFavoriteClick(item)
+                if (properties.showFavoriteButton) {
+                    IconButton(
+                        modifier = Modifier
+                            .size(Size32)
+                            .bounceClick(),
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onFavoriteClick(item)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
+                            contentDescription = null,
+                            tint = favoriteColor
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarOutline,
-                        contentDescription = null,
-                        tint = favoriteColor
-                    )
                 }
-                IconButton(
-                    modifier = Modifier
-                        .size(Size32)
-                        .bounceClick(),
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onCopySensitive(item.password)
+                if (properties.showCopyButton) {
+                    IconButton(
+                        modifier = Modifier
+                            .size(Size32)
+                            .bounceClick(),
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onCopySensitive(item.password)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
+                            contentDescription = null,
+                            tint = if (isReordering) draggingContentColor else contentColor
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = if (isReordering) Icons.Default.DragHandle else Icons.Default.ContentCopy,
-                        contentDescription = null,
-                        tint = if (isReordering) draggingContentColor else contentColor
-                    )
                 }
             }
         }
@@ -311,6 +316,7 @@ internal fun PasswordItem(
         ExpandableContent(visible = isExpanded) {
             ExpandedContent(
                 passwordModel = item,
+                properties = properties,
                 contentColor = contentColor,
                 onCopy = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -335,6 +341,7 @@ internal fun PasswordItem(
 @Composable
 fun ExpandedContent(
     passwordModel: PasswordUIModel,
+    properties: PasswordItemProperties,
     contentColor: Color,
     onCopy: (String) -> Unit,
     onCopySensitive: (String) -> Unit,
@@ -438,30 +445,34 @@ fun ExpandedContent(
                 contentColor = contentColor,
                 passwordModel = passwordModel
             )
-            RoundedIconButton(
-                modifier = Modifier
-                    .padding(start = Size16, end = Size4, bottom = Size16, top = Size16)
-                    .size(Size40),
-                onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    onEditClick(passwordModel)
-                },
-                imageVector = Icons.Filled.Edit,
-                containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                iconColor = MaterialTheme.colorScheme.primaryContainer
-            )
-            RoundedIconButton(
-                modifier = Modifier
-                    .padding(start = Size4, end = Size16, bottom = Size16, top = Size16)
-                    .size(Size40),
-                onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    onDeleteClick(passwordModel)
-                },
-                imageVector = Icons.Filled.Delete,
-                containerColor = MaterialTheme.colorScheme.errorContainer,
-                iconColor = MaterialTheme.colorScheme.onErrorContainer
-            )
+            if (properties.showEditButton) {
+                RoundedIconButton(
+                    modifier = Modifier
+                        .padding(start = Size16, end = Size4, bottom = Size16, top = Size16)
+                        .size(Size40),
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onEditClick(passwordModel)
+                    },
+                    imageVector = Icons.Filled.Edit,
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    iconColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            }
+            if (properties.showDeleteButton) {
+                RoundedIconButton(
+                    modifier = Modifier
+                        .padding(start = Size4, end = Size16, bottom = Size16, top = Size16)
+                        .size(Size40),
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onDeleteClick(passwordModel)
+                    },
+                    imageVector = Icons.Filled.Delete,
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    iconColor = MaterialTheme.colorScheme.onErrorContainer
+                )
+            }
         }
     }
 }

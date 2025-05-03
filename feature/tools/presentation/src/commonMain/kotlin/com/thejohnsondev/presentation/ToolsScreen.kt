@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Casino
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -32,11 +34,13 @@ import androidx.compose.ui.Modifier
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorWidget
-import com.thejohnsondev.ui.components.SettingsItem
+import com.thejohnsondev.presentation.vaulthealth.VaultHealthWidget
+import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.tools.ToolSelectableItemColors
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.message.MessageContent
@@ -53,6 +57,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.ic_tools
 import vaultmultiplatform.core.ui.generated.resources.password_generator
+import vaultmultiplatform.core.ui.generated.resources.password_health
 import vaultmultiplatform.core.ui.generated.resources.tools
 
 @Composable
@@ -103,7 +108,8 @@ private fun ToolsScreenContent(
     onCopyClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
     ) {
         Column(
@@ -119,6 +125,11 @@ private fun ToolsScreenContent(
             PasswordGeneratorContainer(
                 paddingValues = paddingValues,
                 onCopyClick = onCopyClick
+            )
+            PasswordHealthContainer(
+                modifier = Modifier
+                    .padding(top = Size4),
+                paddingValues = paddingValues
             )
         }
     }
@@ -143,30 +154,71 @@ private fun PasswordGeneratorContainer(
     }, label = "") {
         if (isPasswordGeneratorExpanded) Size4 else Size16
     }
-    Column {
-        SettingsItem(
-            modifier = Modifier.padding(
-                horizontal = cardPaddingHorizontal,
-                top = paddingValues.calculateTopPadding(),
-                bottom = paddingValues.calculateBottomPadding()
-            ).fillMaxWidth(),
-            title = stringResource(ResString.password_generator),
-            description = null,
-            icon = Icons.Default.Casino,
-            isFirstItem = true,
-            isLastItem = true,
-            onExpanded = {
-                isPasswordGeneratorExpanded = it
+    ExpandableSectionItem(
+        modifier = Modifier.padding(
+            horizontal = cardPaddingHorizontal,
+            top = paddingValues.calculateTopPadding()
+        ).fillMaxWidth(),
+        title = stringResource(ResString.password_generator),
+        description = null,
+        icon = Icons.Default.Casino,
+        isFirstItem = true,
+        onExpanded = {
+            isPasswordGeneratorExpanded = it
+        },
+        colors = ToolSelectableItemColors()
+    ) {
+        PasswordGeneratorWidget(
+            modifier = Modifier
+                .padding(horizontal = Size8, bottom = Size8)
+                .fillMaxWidth(),
+            onCopyClick = {
+                onCopyClick()
             }
-        ) {
-            PasswordGeneratorWidget(
-                modifier = Modifier
-                    .padding(horizontal = Size8, bottom = Size8)
-                    .fillMaxWidth(),
-                onCopyClick = {
-                    onCopyClick()
-                }
-            )
+        )
+    }
+
+}
+
+@Composable
+private fun PasswordHealthContainer(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+) {
+    var isPasswordHealthExpanded by remember {
+        mutableStateOf(false)
+    }
+    val transitionState = remember {
+        MutableTransitionState(isPasswordHealthExpanded).apply {
+            targetState = !isPasswordHealthExpanded
         }
     }
+    val transition = rememberTransition(transitionState, label = "")
+    val cardPaddingHorizontal by transition.animateDp({
+        tween(durationMillis = EXPAND_ANIM_DURATION)
+    }, label = "") {
+        if (isPasswordHealthExpanded) Size4 else Size16
+    }
+    ExpandableSectionItem(
+        modifier = modifier.padding(
+            horizontal = cardPaddingHorizontal,
+            bottom = paddingValues.calculateBottomPadding()
+        ).fillMaxWidth(),
+        title = stringResource(ResString.password_health),
+        description = null,
+        icon = Icons.Filled.Favorite,
+        isLastItem = true,
+        onExpanded = {
+            isPasswordHealthExpanded = it
+        },
+        colors = ToolSelectableItemColors()
+    ) {
+        VaultHealthWidget(
+            modifier = Modifier
+                .padding(horizontal = Size8)
+                .fillMaxWidth()
+                .fillMaxHeight(Percent80)
+        )
+    }
+
 }

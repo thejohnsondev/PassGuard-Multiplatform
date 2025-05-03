@@ -1,2 +1,2 @@
 Changes:
-- Fixed logo api key setting
+- Added vault health feature

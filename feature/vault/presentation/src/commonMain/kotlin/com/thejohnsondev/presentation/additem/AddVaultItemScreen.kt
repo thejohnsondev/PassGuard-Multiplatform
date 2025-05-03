@@ -52,31 +52,34 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.SCROLL_DOWN_DELAY
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.vault.AdditionalFieldDto
-import com.thejohnsondev.presentation.component.AdditionalFieldItem
 import com.thejohnsondev.presentation.component.CategorySelectorItem
 import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
+import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorBottomSheet
 import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
-import com.thejohnsondev.ui.components.button.BackArrowButton
-import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.LoadedImage
-import com.thejohnsondev.ui.components.loader.Loader
-import com.thejohnsondev.ui.components.text.PrimaryTextField
+import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
+import com.thejohnsondev.ui.components.text.PrimaryTextField
 import com.thejohnsondev.ui.components.text.PrimaryTextFieldWithBackground
 import com.thejohnsondev.ui.components.text.TextFieldIconBehavior
+import com.thejohnsondev.ui.components.vault.AdditionalFieldItem
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
@@ -85,9 +88,7 @@ import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size28
 import com.thejohnsondev.ui.designsystem.Size32
-import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
-import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
@@ -96,8 +97,6 @@ import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.displaymessage.getAsText
-import com.thejohnsondev.ui.model.PasswordUIModel
-import com.thejohnsondev.ui.model.button.ButtonShape
 import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
@@ -205,6 +204,12 @@ internal fun AddVaultItemContent(
             vaultItemForEdit = vaultItem,
             onAction = onAction
         )
+        GeneratePasswordDialog(
+            windowSizeClass = windowSizeClass,
+            paddingValues = paddingValues,
+            state = state,
+            onAction = onAction
+        )
     }
 }
 
@@ -252,13 +257,27 @@ private fun ModalDragHandle(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GeneratePasswordDialog(
+    windowSizeClass: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
     state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
-    val customFormBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    val generatePasswordBottomSheetState =
+        rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     if (state.showGeneratePasswordBottomSheet) {
-        // TODO show generate password bottom sheet
+        PasswordGeneratorBottomSheet(
+            windowSizeClass,
+            paddingValues,
+            generatePasswordBottomSheetState,
+            onPasswordGenerated = {
+                onAction(AddVaultItemViewModel.Action.EnterPassword(it.password))
+                onAction(AddVaultItemViewModel.Action.ShowHideGeneratePasswordBottomSheet(false))
+            },
+            onDismissRequest = {
+                onAction(AddVaultItemViewModel.Action.ShowHideGeneratePasswordBottomSheet(false))
+            }
+        )
     }
 }
 
@@ -472,7 +491,7 @@ private fun TitleField(
 private fun LogoSearchResults(
     modifier: Modifier = Modifier,
     state: AddVaultItemViewModel.State,
-    onAction: (AddVaultItemViewModel.Action) -> Unit
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
     ExpandableContent(
         visible = state.isLogoSearchResultsVisible,
@@ -587,6 +606,7 @@ private fun PasswordField(
     passwordFocusRequester: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
     val rotationAngle = remember { mutableStateOf(0f) }
     val animatedRotationAngle by animateFloatAsState(
         targetValue = rotationAngle.value,
@@ -617,7 +637,7 @@ private fun PasswordField(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
                 textFieldIconBehavior = TextFieldIconBehavior.HideShow,
-                backgroundShape  = RoundedCornerShape(
+                backgroundShape = RoundedCornerShape(
                     topStart = Size4,
                     bottomStart = Size16,
                     topEnd = Size4,
@@ -635,8 +655,18 @@ private fun PasswordField(
                     bottomEnd = Size16
                 ),
                 onClick = {
+                    hapticFeedback.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
                     onAction(AddVaultItemViewModel.Action.GeneratePassword)
                     randomAnimation(rotationAngle)
+                },
+                onLongClick = {
+                    hapticFeedback.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                    keyboardController?.hide()
+                    onAction(AddVaultItemViewModel.Action.ShowHideGeneratePasswordBottomSheet(true))
                 }
             ) {
                 Icon(

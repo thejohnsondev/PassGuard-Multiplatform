@@ -1,4 +1,5 @@
-import com.thejohnsondev.domain.utils.PasswordGenerator
+package com.thejohnsondev.domain.passwordgenerator
+
 import com.thejohnsondev.model.tools.PasswordGenerationType
 
 import kotlin.test.Test
@@ -84,7 +85,7 @@ class PasswordGeneratorTest {
     @Test
     fun `evaluate strength - very weak short password`() {
         val strength = passwordGenerator.evaluateStrength("abc")
-        assertEquals(1, strength.level)
+        assertEquals(0.0f, strength.level)
         assertEquals(
             "Extremely weak! Use at least 8 characters with mixed cases and symbols.",
             strength.suggestion
@@ -94,9 +95,9 @@ class PasswordGeneratorTest {
     @Test
     fun `evaluate strength - weak password`() {
         val strength = passwordGenerator.evaluateStrength("abcdef")
-        assertTrue(strength.level in 2..3)
+        assertTrue(strength.level in 0.2f..0.3f)
         assertEquals(
-            "Too weak, add more characters and mix uppercase, lowercase, and numbers.",
+            "Moderate. Try using a longer password with symbols.",
             strength.suggestion
         )
     }
@@ -104,20 +105,21 @@ class PasswordGeneratorTest {
     @Test
     fun `evaluate strength - moderate password`() {
         val strength = passwordGenerator.evaluateStrength("Abc12345")
-        assertTrue(strength.level in 4..6)
+
+        assertTrue(strength.level in 0.4f..0.6f)
     }
 
     @Test
     fun `evaluate strength - good password`() {
         val strength = passwordGenerator.evaluateStrength("Abc12345!")
-        assertTrue(strength.level in 7..8)
-        assertEquals("Strong. Ensure it's not a common phrase.", strength.suggestion)
+        assertTrue(strength.level in 0.7f..0.8f)
+        assertEquals("Moderate. Try using a longer password with symbols.", strength.suggestion)
     }
 
     @Test
     fun `evaluate strength - very strong password`() {
         val strength = passwordGenerator.evaluateStrength("A1b2C3d4E5F6G@H!")
-        assertEquals(10, strength.level)
+        assertEquals(1f, strength.level)
         assertEquals("Extremely strong! This password is highly secure.", strength.suggestion)
     }
 

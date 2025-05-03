@@ -1,6 +1,7 @@
-package com.thejohnsondev.ui.model
+package com.thejohnsondev.ui.components.vault.passworditem
 
 import com.thejohnsondev.model.vault.AdditionalFieldDto
+import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 

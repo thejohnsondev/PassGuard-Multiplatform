@@ -147,6 +147,14 @@ class PreferencesDataStoreImpl(
         dataStore.saveBoolean(BLOCK_SCREENSHOTS, privacySettings.isBlockScreenshotsEnabled)
     }
 
+    override suspend fun updateOpenedFilters(opened: Boolean) {
+        dataStore.saveBoolean(KEY_OPENED_FILTERS, opened)
+    }
+
+    override suspend fun getIsOpenedFilters(): Boolean {
+        return dataStore.getBoolean(KEY_OPENED_FILTERS, true)
+    }
+
     override suspend fun updateAppliedItemTypeFilters(itemTypeFilters: List<String>) {
         dataStore.saveString(
             KEY_APPLIED_ITEM_TYPE_FILTERS, itemTypeFilters.joinToString(
@@ -259,6 +267,7 @@ class PreferencesDataStoreImpl(
         private const val USE_DEEP_SEARCH = "use-deep-search"
         private const val UNLOCK_WITH_BIOMETRICS = "unlock-with-biometrics"
         private const val BLOCK_SCREENSHOTS = "block-screenshots"
+        private const val KEY_OPENED_FILTERS = "opened-filters"
         private const val KEY_APPLIED_ITEM_TYPE_FILTERS = "applied-item-type-filters"
         private const val KEY_APPLIED_CATEGORY_FILTERS = "applied-category-filters"
         private const val KEY_APPLIED_SORT_ORDER = "applied-sort-order"

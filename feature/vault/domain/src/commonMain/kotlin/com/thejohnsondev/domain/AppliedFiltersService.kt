@@ -9,4 +9,6 @@ interface AppliedFiltersService {
     suspend fun getAppliedSortOrder(): String
     suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
     suspend fun getAppliedShowFavoritesAtTop(): Boolean
+    suspend fun updateOpenedFilters(opened: Boolean)
+    suspend fun getIsOpenedFilters(): Boolean
 }

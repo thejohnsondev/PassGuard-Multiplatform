@@ -44,8 +44,19 @@ fun getCurrentTimeStamp(): String {
     return Clock.System.now().epochSeconds.toString()
 }
 
+fun getCurrentTimeMillis(): Long {
+    return Clock.System.now().toEpochMilliseconds()
+}
+
 fun String.getTimeDifferenceInMillis(): Long {
     val currentTime = Clock.System.now().epochSeconds
     val timeStampValue = this.toLongOrNull()
     return currentTime - (timeStampValue ?: 0)
+}
+
+fun Long?.toAgeInDays(): Long {
+    val nowMillis = getCurrentTimeMillis()
+    return this?.let {
+        (nowMillis - it * 1000) / (1000L * 60L * 60L * 24L)
+    } ?: 0L
 }

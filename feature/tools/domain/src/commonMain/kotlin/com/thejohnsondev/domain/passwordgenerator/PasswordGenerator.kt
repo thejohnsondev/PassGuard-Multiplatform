@@ -1,4 +1,4 @@
-package com.thejohnsondev.domain.utils
+package com.thejohnsondev.domain.passwordgenerator
 
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGenerationType
@@ -13,6 +13,10 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
     private val upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     private val digits = "0123456789"
     private val specialChars = "!@#\$%^&*()-_=+[]{}|;:'\",.<>?/"
+
+    private val passwordRankMap: Map<String, Int> = commonPasswords
+        .withIndex()
+        .associate { it.value to it.index }
 
     fun generatePassword(
         type: PasswordGenerationType,
@@ -68,8 +72,17 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
     private fun generateUUID(): String = Uuid.random().toString()
 
     fun evaluateStrength(password: String): PasswordStrength {
-        if (commonPasswords.contains(password))
-            return PasswordStrength(0.1f, "This password is very common. Choose a more unique one.")
+        val rank = passwordRankMap[password.lowercase()]
+
+        if (rank != null) {
+            val suggestion = when {
+                rank < 10 -> "This password is in the TOP 10 most common. Avoid it at all costs."
+                rank < 100 -> "This password is in the top 100 most common. It's very unsafe."
+                rank < 1000 -> "This password is in the top 1000 most common. It's easy to guess."
+                else -> "This password is very common. Choose a more unique one."
+            }
+            return PasswordStrength(0.1f, suggestion)
+        }
 
         val lengthScore = when {
             password.length >= 16 -> 10
@@ -102,6 +115,10 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
         }
 
         return PasswordStrength(score, suggestion)
+    }
+
+    fun isCommonPassword(password: String): Boolean {
+        return commonPasswords.contains(password)
     }
 }
 

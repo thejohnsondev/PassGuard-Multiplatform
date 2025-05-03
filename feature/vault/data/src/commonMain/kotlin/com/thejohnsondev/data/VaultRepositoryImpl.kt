@@ -45,4 +45,12 @@ class VaultRepositoryImpl(
     override suspend fun findLogo(query: String): Either<Error, List<FindLogoResponse>> {
         return logoApi.find(query)
     }
+
+    override suspend fun updateOpenedFilters(opened: Boolean) {
+        preferencesDataStore.updateOpenedFilters(opened)
+    }
+
+    override suspend fun getIsOpenedFilters(): Boolean {
+        return preferencesDataStore.getIsOpenedFilters()
+    }
 }

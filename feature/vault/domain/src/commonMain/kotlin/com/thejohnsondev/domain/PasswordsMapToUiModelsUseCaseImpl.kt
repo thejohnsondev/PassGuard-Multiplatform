@@ -4,7 +4,7 @@ import com.thejohnsondev.common.utils.getTimeDifferenceInMillis
 import com.thejohnsondev.common.utils.parseTime
 import com.thejohnsondev.model.vault.PasswordDto
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
-import com.thejohnsondev.ui.model.PasswordUIModel
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 
 class PasswordsMapToUiModelsUseCaseImpl : PasswordsMapToUiModelsUseCase {

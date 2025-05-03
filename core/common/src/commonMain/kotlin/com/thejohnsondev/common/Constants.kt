@@ -1,6 +1,7 @@
 package com.thejohnsondev.common
 
 const val PASS_MIN_SIZE = 8
+const val PASSWORD_AGE_THRESHOLD_DAYS = 180
 
 const val DATA_STORE_FILE_NAME = "settings.preferences_pb"
 
@@ -16,7 +17,7 @@ const val DESKTOP_WINDOW_MIN_HEIGHT = 600
 const val DESKTOP_WINDOW_DEFAULT_WIDTH = 1080
 const val DESKTOP_WINDOW_DEFAULT_HEIGHT = 720
 
-const val PASSWORD_IDLE_ITEM_HEIGHT = 82
+const val PASSWORD_IDLE_ITEM_HEIGHT = 88
 const val PASSWORD_EXPANDED_ITEM_HEIGHT = 184
 const val ADDITIONAL_FIELD_HEIGHT = 84
 

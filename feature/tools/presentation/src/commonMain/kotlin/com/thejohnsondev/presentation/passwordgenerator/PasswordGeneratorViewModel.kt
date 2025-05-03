@@ -6,6 +6,7 @@ import com.thejohnsondev.domain.CopyTextUseCase
 import com.thejohnsondev.domain.GeneratePasswordUseCase
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.UpdatePasswordGeneratorConfigUseCase
+import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_DEFAULT_LENGTH
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
@@ -95,6 +96,7 @@ class PasswordGeneratorViewModel(
                 withContext(Dispatchers.Main) {
                     _state.value = state.value.copy(passwordGeneratedResult = result)
                 }
+                sendEvent(OnPasswordGenerated(result))
             }
         }
     }
@@ -162,6 +164,9 @@ class PasswordGeneratorViewModel(
         generatePassword()
     }
 
+    data class OnPasswordGenerated(
+        val passwordGeneratedResult: PasswordGeneratedResult
+    ): OneTimeEvent()
 
     sealed class Action {
         data object FetchConfig : Action()

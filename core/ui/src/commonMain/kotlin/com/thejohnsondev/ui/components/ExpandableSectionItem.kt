@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -35,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.designsystem.Size16
@@ -42,15 +41,18 @@ import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 
 @Composable
-fun SettingsItem(
+fun ExpandableSectionItem(
     modifier: Modifier = Modifier,
     title: String,
     description: String?,
     icon: ImageVector,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
+    colors: SelectableItemColors = MaterialSelectableItemColors,
     onExpanded: ((Boolean) -> Unit)? = null,
     content: @Composable () -> Unit = {},
 ) {
@@ -67,12 +69,12 @@ fun SettingsItem(
     val cardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
+        if (expanded) colors.getSelectedContainerColor() else colors.getUnselectedContainerColor()
     }
     val iconBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
+        if (expanded) colors.getSelectedContentColor() else colors.getUnselectedContentColor()
     }
     val iconBgCornerSize by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -82,7 +84,7 @@ fun SettingsItem(
     val iconColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
+        if (expanded) colors.getSelectedContainerColor() else colors.getUnselectedContainerColor()
     }
     val iconPadding by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -92,21 +94,23 @@ fun SettingsItem(
     val contentColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
+        if (expanded) colors.getSelectedContentColor() else colors.getUnselectedContentColor()
     }
 
     LaunchedEffect(expanded) {
         onExpanded?.invoke(expanded)
     }
 
+    val shape = RoundedCornerShape(
+        topStart = if (isFirstItem) Size16 else Size4,
+        topEnd = if (isFirstItem) Size16 else Size4,
+        bottomStart = if (isLastItem) Size16 else Size4,
+        bottomEnd = if (isLastItem) Size16 else Size4
+    )
+
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(
-            topStart = if (isFirstItem) Size16 else Size4,
-            topEnd = if (isFirstItem) Size16 else Size4,
-            bottomStart = if (isLastItem) Size16 else Size4,
-            bottomEnd = if (isLastItem) Size16 else Size4
-        ),
+        shape = shape,
         colors = CardDefaults.cardColors(
             containerColor = cardBgColor
         )
@@ -152,9 +156,13 @@ fun SettingsItem(
                     if (description != null) {
                         Spacer(modifier = Modifier.height(Size4))
                         Text(
+                            modifier = Modifier
+                                .padding(end = Size8),
                             text = description,
                             style = MaterialTheme.typography.bodySmall,
-                            color = contentColor
+                            color = contentColor,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
 

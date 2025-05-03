@@ -23,11 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.thejohnsondev.common.DEFAULT_ANIM_DURATION
 import com.thejohnsondev.ui.designsystem.Size32
-import com.thejohnsondev.ui.designsystem.colorscheme.themeColorStrengthHigh
-import com.thejohnsondev.ui.designsystem.colorscheme.themeColorStrengthLow
-import com.thejohnsondev.ui.designsystem.colorscheme.themeColorStrengthMedium
-import com.thejohnsondev.ui.designsystem.colorscheme.themeColorStrengthMediumHigh
-import com.thejohnsondev.ui.designsystem.colorscheme.themeColorStrengthMediumLow
+import com.thejohnsondev.ui.utils.mapToStrengthLevelColor
 
 @Composable
 fun StrengthLevelIndicator(
@@ -47,16 +43,7 @@ fun StrengthLevelIndicator(
     )
 
     val animatedColor by animateColorAsState(
-        targetValue = when (level) {
-            in 0.0..0.2 -> themeColorStrengthLow
-            in 0.3..0.4 -> themeColorStrengthMediumLow
-            0.5f -> themeColorStrengthMedium
-            in 0.6..0.7 -> themeColorStrengthMediumHigh
-            in 0.8..1.0 -> themeColorStrengthHigh
-            else -> {
-                themeColorStrengthMedium
-            }
-        },
+        targetValue = level.mapToStrengthLevelColor(),
         animationSpec = tween(durationMillis = DEFAULT_ANIM_DURATION),
         label = "Strength Level Color Animation"
     )
