@@ -51,6 +51,7 @@ class VaultHealthViewModel(
         val oldPasswords = mapToUiModelsUseCase(report.oldPasswords)
         val weakPasswords = mapToUiModelsUseCase(report.weakPasswords)
         val leakedPasswords = mapToUiModelsUseCase(report.leakedPasswords)
+        val reusedPasswords = mapToUiModelsUseCase(report.reusedPasswords)
 
 
         _state.update {
@@ -58,7 +59,8 @@ class VaultHealthViewModel(
                 report = report,
                 oldPasswords = oldPasswords,
                 weakPasswords = weakPasswords,
-                leakedPasswords = leakedPasswords,
+                reusedPasswords = reusedPasswords,
+                leakedPasswords = leakedPasswords
             )
         }
     }
@@ -72,6 +74,7 @@ class VaultHealthViewModel(
         val report: VaultHealthReport? = null,
         val oldPasswords: List<PasswordUIModel>? = null,
         val weakPasswords: List<PasswordUIModel>? = null,
+        val reusedPasswords: List<PasswordUIModel>? = null,
         val leakedPasswords: List<PasswordUIModel>? = null,
     )
 }

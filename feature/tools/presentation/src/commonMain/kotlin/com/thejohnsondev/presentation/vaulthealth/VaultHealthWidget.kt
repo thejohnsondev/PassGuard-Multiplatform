@@ -154,6 +154,31 @@ fun VaultHealthPasswordLists(
             modifier = Modifier
                 .padding(top = Size4, horizontal = Size4)
                 .fillMaxWidth(),
+            title = stringResource(if (areReusedPasswordsPresent) ResString.password_health_reused_title else ResString.password_health_reused_title_positive),
+            description = if (areReusedPasswordsPresent) {
+                stringResource(ResString.password_health_reused_description)
+            } else null,
+            icon = if (areReusedPasswordsPresent) Icons.Default.SyncProblem else Icons.Default.CheckCircle, // TODO change depending on areOldPasswordsPresent
+            colors = if (areReusedPasswordsPresent) defaultColors else DeepForestSelectableItemColors
+        ) {
+            state.reusedPasswords?.forEach { password ->
+                PasswordItem(
+                    modifier = Modifier.padding(horizontal = Size4),
+                    item = password,
+                    onClick = { /* Handle click */ },
+                    onDeleteClick = { /* Handle delete click */ },
+                    onEditClick = { /* Handle edit click */ },
+                    onCopySensitive = { /* Handle copy sensitive */ },
+                    onCopy = { /* Handle copy */ },
+                    onFavoriteClick = { /* Handle favorite click */ },
+                )
+            }
+        }
+
+        ExpandableSectionItem(
+            modifier = Modifier
+                .padding(top = Size4, horizontal = Size4)
+                .fillMaxWidth(),
             title = stringResource(if (areOldPasswordsPresent) ResString.password_health_old_title else ResString.password_health_old_title_positive),
             description = if (areOldPasswordsPresent) {
                 stringResource(ResString.password_health_old_description, PASSWORD_AGE_THRESHOLD_DAYS.toString())
