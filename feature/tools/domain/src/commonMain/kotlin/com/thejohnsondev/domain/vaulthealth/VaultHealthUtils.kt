@@ -20,6 +20,7 @@ internal class VaultHealthUtils(
 
         return VaultHealthReport(
             overallScore = score,
+            totalPasswords = passwords.size,
             weakPasswords = classification.weak,
             mediumPasswords = classification.medium,
             strongPasswords = classification.strong,
@@ -85,6 +86,7 @@ internal class VaultHealthUtils(
 
 data class VaultHealthReport(
     val overallScore: Float,
+    val totalPasswords: Int = 0,
     val weakPasswords: List<PasswordDto>,
     val mediumPasswords: List<PasswordDto>,
     val strongPasswords: List<PasswordDto>,

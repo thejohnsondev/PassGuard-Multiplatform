@@ -30,7 +30,8 @@ fun VaultHealthWidgetGeneratedPreview() {
                     .fillMaxWidth(),
                 state = com.thejohnsondev.presentation.vaulthealth.VaultHealthViewModel.State(
                     report = VaultHealthReport(
-                        overallScore = 0.75f,
+                        overallScore = 0.95f,
+                        totalPasswords = 128,
                         weakPasswords = listOf(
                             PasswordDto.demo1,
                             PasswordDto.demo1.copy(

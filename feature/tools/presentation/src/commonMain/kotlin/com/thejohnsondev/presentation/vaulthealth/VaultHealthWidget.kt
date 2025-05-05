@@ -1,29 +1,42 @@
 package com.thejohnsondev.presentation.vaulthealth
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.GppMaybe
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.SentimentDissatisfied
 import androidx.compose.material.icons.filled.SyncProblem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.common.PASSWORD_AGE_THRESHOLD_DAYS
 import com.thejohnsondev.ui.components.ArcProgressbar
 import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordItem
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordItemProperties
+import com.thejohnsondev.ui.designsystem.EquallyRounded
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.Text12
+import com.thejohnsondev.ui.designsystem.Text18
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.MaterialSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.tools.ToolSelectableItemColors
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.stringResource
@@ -72,18 +85,115 @@ fun VaultHealthWidgetContent(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ArcProgressbar(
+        Row(
             modifier = Modifier
-                .padding(horizontal = Size16),
-            progress = state.report?.overallScore ?: 0f,
-            text = "Score"
-        )
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            ArcProgressbar(
+                modifier = Modifier
+                    .padding(start = Size8),
+                progress = state.report?.overallScore ?: 0f,
+                text = "Score"
+            )
+            StatsWidget(
+                modifier = Modifier
+                    .padding(start = Size8)
+                    .fillMaxWidth(),
+                state = state,
+            )
+        }
         VaultHealthPasswordLists(
             modifier = Modifier
                 .padding(vertical = Size16, horizontal = Size4)
                 .fillMaxWidth(),
             state = state,
             onAction = onAction
+        )
+    }
+}
+
+@Composable
+private fun StatsWidget(
+    modifier: Modifier = Modifier,
+    state: VaultHealthViewModel.State,
+) {
+    Column {
+        Row {
+            StatBox(
+                modifier = Modifier
+                    .padding(Size4)
+                    .wrapContentHeight()
+                    .weight(Percent100),
+                number = state.report?.totalPasswords,
+                title = "Total passwords",
+                backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
+                textColor = MaterialTheme.colorScheme.onSurface,
+            )
+            StatBox(
+                modifier = Modifier
+                    .padding(Size4)
+                    .wrapContentHeight()
+                    .weight(Percent100),
+                number = state.report?.weakPasswords?.size,
+                title = "Weak",
+                backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
+                textColor = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+        Row {
+            StatBox(
+                modifier = Modifier
+                    .padding(Size4)
+                    .wrapContentHeight()
+                    .weight(Percent100),
+                number = state.report?.leakedPasswords?.size,
+                title = "Leaked",
+                backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
+                textColor = MaterialTheme.colorScheme.onSurface,
+            )
+            StatBox(
+                modifier = Modifier
+                    .padding(Size4)
+                    .wrapContentHeight()
+                    .weight(Percent100),
+                number = state.report?.reusedPasswords?.size,
+                title = "Reused",
+                backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
+                textColor = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+    }
+}
+
+@Composable
+private fun StatBox(
+    modifier: Modifier = Modifier,
+    number: Int?,
+    title: String,
+    backgroundColor: Color,
+    textColor: Color,
+) {
+    Column(
+        modifier = modifier
+            .clip(EquallyRounded.medium)
+            .background(backgroundColor)
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(vertical = Size8, horizontal = Size8),
+            text = (number ?: 0).toString(),
+            fontSize = Text18,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            modifier = Modifier
+                .padding(bottom = Size8, horizontal = Size8),
+            text = title,
+            style = TextStyle(
+                fontSize = Text12,
+                color = textColor
+            )
         )
     }
 }
@@ -229,7 +339,10 @@ fun VaultHealthPasswordLists(
                 .fillMaxWidth(),
             title = stringResource(if (areOldPasswordsPresent) ResString.password_health_old_title else ResString.password_health_old_title_positive),
             description = if (areOldPasswordsPresent) {
-                stringResource(ResString.password_health_old_description, PASSWORD_AGE_THRESHOLD_DAYS.toString())
+                stringResource(
+                    ResString.password_health_old_description,
+                    PASSWORD_AGE_THRESHOLD_DAYS.toString()
+                )
             } else null,
             isLastItem = true,
             icon = if (areOldPasswordsPresent) Icons.Default.History else Icons.Default.CheckCircle, // TODO change depending on areOldPasswordsPresent
