@@ -51,6 +51,10 @@ import vaultmultiplatform.core.ui.generated.resources.password_health_old_title_
 import vaultmultiplatform.core.ui.generated.resources.password_health_reused_description
 import vaultmultiplatform.core.ui.generated.resources.password_health_reused_title
 import vaultmultiplatform.core.ui.generated.resources.password_health_reused_title_positive
+import vaultmultiplatform.core.ui.generated.resources.password_health_stats_leaked
+import vaultmultiplatform.core.ui.generated.resources.password_health_stats_reused
+import vaultmultiplatform.core.ui.generated.resources.password_health_stats_total
+import vaultmultiplatform.core.ui.generated.resources.password_health_stats_weak
 import vaultmultiplatform.core.ui.generated.resources.password_health_weak_description
 import vaultmultiplatform.core.ui.generated.resources.password_health_weak_title
 import vaultmultiplatform.core.ui.generated.resources.password_health_weak_title_positive
@@ -126,7 +130,7 @@ private fun StatsWidget(
                     .wrapContentHeight()
                     .weight(Percent100),
                 number = state.report?.totalPasswords,
-                title = "Total passwords",
+                title = stringResource(ResString.password_health_stats_total),
                 backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
                 textColor = MaterialTheme.colorScheme.onSurface,
             )
@@ -136,7 +140,7 @@ private fun StatsWidget(
                     .wrapContentHeight()
                     .weight(Percent100),
                 number = state.report?.weakPasswords?.size,
-                title = "Weak",
+                title = stringResource(ResString.password_health_stats_weak),
                 backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
                 textColor = MaterialTheme.colorScheme.onSurface,
             )
@@ -148,7 +152,7 @@ private fun StatsWidget(
                     .wrapContentHeight()
                     .weight(Percent100),
                 number = state.report?.leakedPasswords?.size,
-                title = "Leaked",
+                title = stringResource(ResString.password_health_stats_leaked),
                 backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
                 textColor = MaterialTheme.colorScheme.onSurface,
             )
@@ -158,7 +162,7 @@ private fun StatsWidget(
                     .wrapContentHeight()
                     .weight(Percent100),
                 number = state.report?.reusedPasswords?.size,
-                title = "Reused",
+                title = stringResource(ResString.password_health_stats_reused),
                 backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
                 textColor = MaterialTheme.colorScheme.onSurface,
             )
