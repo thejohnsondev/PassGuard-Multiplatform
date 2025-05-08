@@ -92,7 +92,7 @@ fun PasswordGeneratorWidget(
     viewModel: PasswordGeneratorViewModel = koinViewModel(),
     showConfigureByDefault: Boolean = false,
     onCopyClick: (String) -> Unit = {},
-    onPasswordGenerated: ((PasswordGeneratedResult) -> Unit)? = null
+    onPasswordGenerated: ((PasswordGeneratedResult) -> Unit)? = null,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
@@ -434,5 +434,4 @@ fun ConfigurationView(
             }
         }
     }
-
 }
