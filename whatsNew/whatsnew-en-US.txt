@@ -1,2 +1,2 @@
 Changes:
-- Added vault health feature
+- Added showing vault stats
