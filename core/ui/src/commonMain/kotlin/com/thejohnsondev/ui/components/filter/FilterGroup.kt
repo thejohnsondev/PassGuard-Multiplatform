@@ -55,8 +55,8 @@ fun FilterGroup(
             Chip(
                 modifier = Modifier
                     .padding(
-                        start = if (filters.first() == filter) SizeDefault else Size4,
-                        end = if (filters.last() == filter) SizeDefault else Size4,
+                        start = if (filters.first() == filter) Size16 else Size4,
+                        end = if (filters.last() == filter) Size16 else Size4,
                         bottom = Size4,
                         top = Size4
                     ),
