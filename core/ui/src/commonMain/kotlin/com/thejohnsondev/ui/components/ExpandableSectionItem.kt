@@ -36,8 +36,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.ui.components.container.ExpandableContent
+import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size24
+import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
@@ -89,7 +91,12 @@ fun ExpandableSectionItem(
     val iconPadding by transition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (expanded) Size16 else Size8
+        if (expanded) Size12 else Size8
+    }
+    val iconSize by transition.animateDp({
+        tween(durationMillis = EXPAND_ANIM_DURATION)
+    }, label = "") {
+        if (expanded) Size32 else Size24
     }
     val contentColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIM_DURATION)
@@ -138,7 +145,7 @@ fun ExpandableSectionItem(
                     Icon(
                         modifier = Modifier
                             .padding(iconPadding)
-                            .size(Size24),
+                            .size(iconSize),
                         imageVector = icon,
                         contentDescription = title,
                         tint = iconColor
