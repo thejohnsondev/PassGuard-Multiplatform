@@ -51,7 +51,6 @@ fun SearchBar(
         modifier = modifier
             .clip(EquallyRounded.large)
             .bounceClick(
-                minScale = Percent98,
                 disableCursorEnterAnimation = true
             ),
         shape = EquallyRounded.large,

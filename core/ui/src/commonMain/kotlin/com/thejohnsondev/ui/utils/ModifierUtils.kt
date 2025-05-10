@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent95
+import com.thejohnsondev.ui.designsystem.Percent98
 import com.thejohnsondev.ui.designsystem.SizeBorder
 
 expect fun Modifier.cursorEnterAnimation(): Modifier
@@ -40,7 +41,7 @@ fun Modifier.applyIf(condition: Boolean, modifier: @Composable Modifier.() -> Mo
 }
 
 fun Modifier.bounceClick(
-    minScale: Float = Percent95,
+    minScale: Float = Percent98,
     disableCursorEnterAnimation: Boolean = false
 ) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
