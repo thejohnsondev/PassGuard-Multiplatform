@@ -87,6 +87,7 @@ class SettingsViewModel(
             is Action.OpenConfirmDeleteVaultDialog -> openCloseConfirmDeleteVaultDialog(isOpen = true)
             is Action.CloseConfirmDeleteVaultDialog -> openCloseConfirmDeleteVaultDialog(isOpen = false)
             is Action.DeleteLocalVaultConfirm -> deleteLocalVault()
+            is Action.OpenCloseExportPasswords -> openCloseExportPasswords(action.isOpen)
         }
     }
 
@@ -199,6 +200,10 @@ class SettingsViewModel(
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 
+    private fun openCloseExportPasswords(isOpen: Boolean) {
+        _state.update { it.copy(isExportPasswordsDialogOpened = isOpen) }
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -218,6 +223,7 @@ class SettingsViewModel(
         data class DeleteAccountPasswordConfirmEntered(val password: String) : Action()
         data class DeleteAccountPasswordConfirm(val password: String) : Action()
         data object DeleteLocalVaultConfirm : Action()
+        data class OpenCloseExportPasswords(val isOpen: Boolean) : Action()
     }
 
     data class State(
@@ -236,7 +242,8 @@ class SettingsViewModel(
         val supportsDynamicTheming: Boolean = false,
         val isBlockingScreenshotsAvailable: Boolean = false,
         val isDeleteAccountPasswordConfirmDialogOpened: Boolean = false,
-        val deleteAccountPasswordConfirmValidationState: PasswordValidationState? = null
+        val deleteAccountPasswordConfirmValidationState: PasswordValidationState? = null,
+        val isExportPasswordsDialogOpened: Boolean = false
     )
 
 }

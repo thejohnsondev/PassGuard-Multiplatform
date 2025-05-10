@@ -24,9 +24,11 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Publish
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +42,7 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
+import com.thejohnsondev.presentation.export.ExportPasswordsScreen
 import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.SelectableOptionItem
 import com.thejohnsondev.ui.components.SelectableThemeOptionItem
@@ -151,10 +154,14 @@ fun SettingsScreen(
         state = state.value,
         windowSizeClass = windowSizeClass,
         paddingValues = paddingValues,
-        onAction = { action ->
-            viewModel.perform(action)
-        },
+        onAction = viewModel::perform,
         goToSignUp = onGoToSignUp
+    )
+    Dialogs(
+        windowSizeClass = windowSizeClass,
+        paddingValues = paddingValues,
+        state = state.value,
+        onAction = viewModel::perform
     )
 
 }
@@ -187,7 +194,6 @@ fun SettingsContent(
                 paddingValues = paddingValues,
                 onAction = onAction, goToSignUp = goToSignUp
             )
-            Dialogs(windowSizeClass = windowSizeClass, state = state, onAction = onAction)
         }
     }
 }
@@ -603,7 +609,7 @@ fun ExportSettingsSubSection(
                 )
             },
             onClick = {
-                // TODO show export passwords dialog
+                onAction(SettingsViewModel.Action.OpenCloseExportPasswords(true))
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -687,12 +693,16 @@ fun PrivacySettingsSubSection(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Dialogs(
     windowSizeClass: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
+    val exportPasswordsSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+
     if (state.isConfirmDeleteAccountDialogOpened) {
         ConfirmAlertDialog(
             windowWidthSizeClass = windowSizeClass,
@@ -745,6 +755,16 @@ fun Dialogs(
             },
             onCancel = {
                 onAction(SettingsViewModel.Action.CloseConfirmDeleteVaultDialog)
+            }
+        )
+    }
+    if (state.isExportPasswordsDialogOpened) {
+        ExportPasswordsScreen(
+            windowSizeClass = windowSizeClass,
+            paddingValues = paddingValues,
+            sheetState = exportPasswordsSheetState,
+            onDismiss = {
+                onAction(SettingsViewModel.Action.OpenCloseExportPasswords(false))
             }
         )
     }
