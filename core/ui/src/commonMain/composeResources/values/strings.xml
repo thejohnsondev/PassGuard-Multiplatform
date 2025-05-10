@@ -164,4 +164,8 @@
     <string name="password_health_leaked_title">Leaked passwords</string>
     <string name="password_health_leaked_title_positive">No leaked passwords</string>
     <string name="password_health_leaked_description">These passwords were leaked over the internet</string>
+    <string name="password_health_stats_total">Total passwords</string>
+    <string name="password_health_stats_weak">Weak</string>
+    <string name="password_health_stats_leaked">Leaked</string>
+    <string name="password_health_stats_reused">Reused</string>
 </resources>

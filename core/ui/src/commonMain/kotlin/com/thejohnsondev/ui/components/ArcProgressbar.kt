@@ -22,9 +22,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.thejohnsondev.ui.designsystem.Size156
+import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size8
-import com.thejohnsondev.ui.designsystem.Text14
+import com.thejohnsondev.ui.designsystem.Text12
 import com.thejohnsondev.ui.designsystem.Text64
 import com.thejohnsondev.ui.utils.mapToStrengthLevelColor
 import com.thejohnsondev.ui.utils.padding
@@ -51,7 +51,7 @@ fun ArcProgressbar(
     )
 
     Box(
-        modifier = modifier.size(Size156),
+        modifier = modifier.size(Size128),
         contentAlignment = Alignment.Center,
     ) {
         PointsProgress(
@@ -90,7 +90,7 @@ fun ScoreText(
                 .align(Alignment.BottomCenter),
             text = text,
             color = MaterialTheme.colorScheme.onSurface,
-            fontSize = Text14
+            fontSize = Text12
         )
     }
 }
