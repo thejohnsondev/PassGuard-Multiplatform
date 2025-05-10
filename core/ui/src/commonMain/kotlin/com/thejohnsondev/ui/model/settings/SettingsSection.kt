@@ -14,6 +14,7 @@ data class SettingsSection(
             subsections = listOf(
                 SettingsSubSection.GeneralSettingsSub,
                 SettingsSubSection.StyleSettingsSub,
+                SettingsSubSection.ExportSettingsSub,
                 SettingsSubSection.PrivacySettingsSub
             )
         )

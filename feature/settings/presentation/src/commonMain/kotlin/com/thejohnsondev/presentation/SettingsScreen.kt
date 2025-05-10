@@ -18,8 +18,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Publish
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -44,12 +46,15 @@ import com.thejohnsondev.ui.components.SelectableThemeOptionItem
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
+import com.thejohnsondev.ui.designsystem.BottomRounded
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size72
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.DefaultSelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.SelectableItemColors
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
@@ -92,6 +97,8 @@ import vaultmultiplatform.core.ui.generated.resources.logout
 import vaultmultiplatform.core.ui.generated.resources.logout_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.manage_account
 import vaultmultiplatform.core.ui.generated.resources.no
+import vaultmultiplatform.core.ui.generated.resources.setting_export_passwords
+import vaultmultiplatform.core.ui.generated.resources.setting_import_passwords
 import vaultmultiplatform.core.ui.generated.resources.settings
 import vaultmultiplatform.core.ui.generated.resources.theme
 import vaultmultiplatform.core.ui.generated.resources.theme_deep_forest
@@ -296,6 +303,13 @@ fun SettingsSubSections(
                     state = state,
                     onAction = onAction,
                     colors = colors
+                )
+            }
+
+            SettingsSubSection.ExportSettingsSub -> {
+                ExportSettingsSubSection(
+                    state = state,
+                    onAction = onAction
                 )
             }
 
@@ -567,6 +581,56 @@ fun StyleSettingsSubSection(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ExportSettingsSubSection(
+    state: SettingsViewModel.State,
+    onAction: (SettingsViewModel.Action) -> Unit,
+) {
+    Column(
+        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16)
+    ) {
+        RoundedButton(
+            modifier = Modifier
+                .height(Size56),
+            text = stringResource(ResString.setting_export_passwords),
+            imageComposable = {
+                Icon(
+                    imageVector = Icons.Default.Publish,
+                    contentDescription = "Export"
+                )
+            },
+            onClick = {
+                // TODO show export passwords dialog
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ),
+            buttonShape = TopRounded
+        )
+        RoundedButton(
+            modifier = Modifier
+                .padding(top = Size4)
+                .height(Size56),
+            text = stringResource(ResString.setting_import_passwords),
+            onClick = {
+                // TODO show import passwords dialog
+            },
+            imageComposable = {
+                Icon(
+                    imageVector = Icons.Default.Download,
+                    contentDescription = "Import"
+                )
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ),
+            buttonShape = BottomRounded
+        )
     }
 }
 
