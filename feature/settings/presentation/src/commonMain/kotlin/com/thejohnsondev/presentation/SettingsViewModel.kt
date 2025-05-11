@@ -11,6 +11,7 @@ import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
@@ -88,6 +89,7 @@ class SettingsViewModel(
             is Action.CloseConfirmDeleteVaultDialog -> openCloseConfirmDeleteVaultDialog(isOpen = false)
             is Action.DeleteLocalVaultConfirm -> deleteLocalVault()
             is Action.OpenCloseExportPasswords -> openCloseExportPasswords(action.isOpen)
+            is Action.OnExportSuccessful -> onExportSuccessful()
         }
     }
 
@@ -204,6 +206,10 @@ class SettingsViewModel(
         _state.update { it.copy(isExportPasswordsDialogOpened = isOpen) }
     }
 
+    private fun onExportSuccessful() = launch {
+        sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.ExportSuccessful))
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -223,6 +229,7 @@ class SettingsViewModel(
         data class DeleteAccountPasswordConfirmEntered(val password: String) : Action()
         data class DeleteAccountPasswordConfirm(val password: String) : Action()
         data object DeleteLocalVaultConfirm : Action()
+        data object OnExportSuccessful : Action()
         data class OpenCloseExportPasswords(val isOpen: Boolean) : Action()
     }
 

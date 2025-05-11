@@ -108,7 +108,7 @@ fun HomeNavigation(
                     onLogoutClick = {
                         rootNavController.navigateToWelcome()
                     },
-                    onShowError = {
+                    onShowMessage = {
                         showMessageState.value = it
                     },
                     onGoToSignUp = {

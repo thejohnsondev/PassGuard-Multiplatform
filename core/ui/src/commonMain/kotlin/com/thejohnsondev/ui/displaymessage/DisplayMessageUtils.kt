@@ -10,6 +10,7 @@ import vaultmultiplatform.core.ui.generated.resources.added_success
 import vaultmultiplatform.core.ui.generated.resources.check_internet_connection
 import vaultmultiplatform.core.ui.generated.resources.copied
 import vaultmultiplatform.core.ui.generated.resources.email_error_incorrect
+import vaultmultiplatform.core.ui.generated.resources.export_message_successful
 import vaultmultiplatform.core.ui.generated.resources.password_error_bad_length
 import vaultmultiplatform.core.ui.generated.resources.password_error_no_capital
 import vaultmultiplatform.core.ui.generated.resources.password_error_no_numbers
@@ -48,5 +49,6 @@ internal fun getStringResource(value: DisplayableMessageValue): StringResource {
         is DisplayableMessageValue.CheckInternetConnection -> ResString.check_internet_connection
         is DisplayableMessageValue.PasswordAddedSuccess -> ResString.added_success
         is DisplayableMessageValue.Copied -> ResString.copied
+        is DisplayableMessageValue.ExportSuccessful -> ResString.export_message_successful
     }
 }

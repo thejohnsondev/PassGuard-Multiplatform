@@ -13,15 +13,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Publish
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,6 +52,7 @@ import com.thejohnsondev.ui.designsystem.BottomRounded
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
+import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size72
@@ -75,11 +75,13 @@ import com.thejohnsondev.ui.model.message.MessageType
 import com.thejohnsondev.ui.model.settings.SettingsSection
 import com.thejohnsondev.ui.model.settings.SettingsSubSection
 import com.thejohnsondev.ui.scaffold.BottomNavItem
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot_description
 import vaultmultiplatform.core.ui.generated.resources.cancel
@@ -96,6 +98,8 @@ import vaultmultiplatform.core.ui.generated.resources.delete_account
 import vaultmultiplatform.core.ui.generated.resources.delete_account_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.delete_vault
 import vaultmultiplatform.core.ui.generated.resources.delete_vault_confirm_message
+import vaultmultiplatform.core.ui.generated.resources.ic_export_monochrome
+import vaultmultiplatform.core.ui.generated.resources.ic_import_monochrome
 import vaultmultiplatform.core.ui.generated.resources.logout
 import vaultmultiplatform.core.ui.generated.resources.logout_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.manage_account
@@ -124,7 +128,7 @@ fun SettingsScreen(
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
     onGoToSignUp: () -> Unit,
-    onShowError: (MessageContent) -> Unit,
+    onShowMessage: (MessageContent) -> Unit,
 ) {
     val state = viewModel.state.collectAsState(SettingsViewModel.State())
     LaunchedEffect(true) {
@@ -139,11 +143,18 @@ fun SettingsScreen(
         viewModel.getEventFlow().collect {
             when (it) {
                 is OneTimeEvent.SuccessNavigation -> onLogoutClick()
-                is OneTimeEvent.ErrorMessage -> onShowError(
+                is OneTimeEvent.ErrorMessage -> onShowMessage(
                     MessageContent(
                         message = it.message.getAsText(),
                         type = MessageType.ERROR,
                         imageVector = Icons.Default.Error
+                    )
+                )
+                is OneTimeEvent.InfoMessage -> onShowMessage(
+                    MessageContent(
+                        message = it.message.getAsText(),
+                        type = MessageType.INFO,
+                        imageVector = Icons.Default.Info
                     )
                 )
             }
@@ -604,7 +615,10 @@ fun ExportSettingsSubSection(
             text = stringResource(ResString.setting_export_passwords),
             imageComposable = {
                 Icon(
-                    imageVector = Icons.Default.Publish,
+                    modifier = Modifier
+                        .padding(end = Size8)
+                        .size(Size24),
+                    imageVector = vectorResource(ResDrawable.ic_export_monochrome),
                     contentDescription = "Export"
                 )
             },
@@ -627,7 +641,10 @@ fun ExportSettingsSubSection(
             },
             imageComposable = {
                 Icon(
-                    imageVector = Icons.Default.Download,
+                    modifier = Modifier
+                        .padding(end = Size8)
+                        .size(Size24),
+                    imageVector = vectorResource(ResDrawable.ic_import_monochrome),
                     contentDescription = "Import"
                 )
             },
@@ -701,7 +718,7 @@ fun Dialogs(
     state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
-    val exportPasswordsSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    val exportPasswordsSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     if (state.isConfirmDeleteAccountDialogOpened) {
         ConfirmAlertDialog(
@@ -763,7 +780,11 @@ fun Dialogs(
             windowSizeClass = windowSizeClass,
             paddingValues = paddingValues,
             sheetState = exportPasswordsSheetState,
-            onDismiss = {
+            onDismissRequest = {
+                onAction(SettingsViewModel.Action.OpenCloseExportPasswords(false))
+            },
+            onExportSuccessful = {
+                onAction(SettingsViewModel.Action.OnExportSuccessful)
                 onAction(SettingsViewModel.Action.OpenCloseExportPasswords(false))
             }
         )
