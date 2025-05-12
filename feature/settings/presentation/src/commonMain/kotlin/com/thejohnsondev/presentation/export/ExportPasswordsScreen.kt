@@ -37,6 +37,7 @@ import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size20
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
@@ -167,7 +168,7 @@ fun ExportPasswordsScreenContent(
         Spacer(modifier = Modifier.weight(Percent100))
         Row(
             modifier = Modifier
-                .padding(Size16),
+                .padding(vertical = Size16, horizontal = Size20),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
