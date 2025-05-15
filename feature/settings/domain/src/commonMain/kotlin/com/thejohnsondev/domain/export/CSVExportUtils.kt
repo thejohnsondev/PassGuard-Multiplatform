@@ -8,13 +8,7 @@ fun generateCsvContent(passwords: List<PasswordDto>): String {
         val sanitizedTitle = it.title.replace(",", " ")
         val sanitizedUser = it.userName.replace(",", " ")
         val sanitizedPass = it.password.replace(",", " ")
-        val domain = extractDomainFromTitle(it.title)
-        "$sanitizedTitle,$domain,$sanitizedUser,$sanitizedPass"
+        "$sanitizedTitle,,$sanitizedUser,$sanitizedPass"
     }
     return (listOf(header) + rows).joinToString("\n")
-}
-
-fun extractDomainFromTitle(title: String): String {
-    val knownDomains = listOf("google.com", "facebook.com", "amazon.com", "twitter.com")
-    return knownDomains.firstOrNull { title.contains(it, ignoreCase = true) } ?: ""
 }
