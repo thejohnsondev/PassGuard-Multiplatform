@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
@@ -65,6 +66,7 @@ fun ExportPasswordsScreen(
     sheetState: SheetState,
     viewModel: ExportPasswordsViewModel = koinViewModel<ExportPasswordsViewModel>(),
     onExportSuccessful: () -> Unit,
+    onExportError: (DisplayableMessageValue) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -74,6 +76,10 @@ fun ExportPasswordsScreen(
             when (it) {
                 is ExportPasswordsViewModel.ExportSuccessfulEvent -> {
                     onExportSuccessful()
+                }
+
+                is ExportPasswordsViewModel.ExportErrorEvent -> {
+                    onExportError(it.message)
                 }
             }
         }

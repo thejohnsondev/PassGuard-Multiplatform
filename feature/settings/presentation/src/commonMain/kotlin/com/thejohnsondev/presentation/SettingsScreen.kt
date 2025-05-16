@@ -786,6 +786,10 @@ fun Dialogs(
             onExportSuccessful = {
                 onAction(SettingsViewModel.Action.OnExportSuccessful)
                 onAction(SettingsViewModel.Action.OpenCloseExportPasswords(false))
+            },
+            onExportError = {
+                onAction(SettingsViewModel.Action.OnExportError(it))
+                onAction(SettingsViewModel.Action.OpenCloseExportPasswords(false))
             }
         )
     }

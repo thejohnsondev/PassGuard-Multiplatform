@@ -90,6 +90,7 @@ class SettingsViewModel(
             is Action.DeleteLocalVaultConfirm -> deleteLocalVault()
             is Action.OpenCloseExportPasswords -> openCloseExportPasswords(action.isOpen)
             is Action.OnExportSuccessful -> onExportSuccessful()
+            is Action.OnExportError -> onExportError(action.message)
         }
     }
 
@@ -210,6 +211,10 @@ class SettingsViewModel(
         sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.ExportSuccessful))
     }
 
+    private fun onExportError(message: DisplayableMessageValue) = launch {
+        sendEvent(OneTimeEvent.ErrorMessage(message))
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -230,6 +235,7 @@ class SettingsViewModel(
         data class DeleteAccountPasswordConfirm(val password: String) : Action()
         data object DeleteLocalVaultConfirm : Action()
         data object OnExportSuccessful : Action()
+        data class OnExportError(val message: DisplayableMessageValue) : Action()
         data class OpenCloseExportPasswords(val isOpen: Boolean) : Action()
     }
 
