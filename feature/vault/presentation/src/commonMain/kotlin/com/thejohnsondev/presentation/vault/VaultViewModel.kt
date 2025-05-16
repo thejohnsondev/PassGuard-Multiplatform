@@ -29,11 +29,13 @@ import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.SortOrder.Companion.toSortOrder
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 
 class VaultViewModel(
     private val passwordsService: PasswordsService,
@@ -238,32 +240,36 @@ class VaultViewModel(
     }
 
     private suspend fun prepareToUpdateItemsList(items: List<PasswordUIModel>) {
-        val filteredItems = filterItemsUseCase(
-            items = items,
-            typeFilters = _state.value.itemTypeFilters,
-            categoryFilters = _state.value.itemCategoryFilters,
-        )
-        val sortedList = sortVaultItemsUseCase(
-            filteredItems,
-            sortOrder = _state.value.sortOrderFilters.toSortOrder(),
-            showFavoritesAtTop = _state.value.showFavoritesAtTopFilter.isSelected
-        )
-        val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, sortedList)
-        val itemsHeight = calculateListSizeUseCase(dividedItems)
-        _state.update {
-            it.copy(
-                listHeight = itemsHeight,
-                passwordsList = dividedItems
+        withContext(Dispatchers.Default) {
+            val filteredItems = filterItemsUseCase(
+                items = items,
+                typeFilters = _state.value.itemTypeFilters,
+                categoryFilters = _state.value.itemCategoryFilters,
             )
+            val sortedList = sortVaultItemsUseCase(
+                filteredItems,
+                sortOrder = _state.value.sortOrderFilters.toSortOrder(),
+                showFavoritesAtTop = _state.value.showFavoritesAtTopFilter.isSelected
+            )
+            val dividedItems = splitItemsListUseCase(_state.value.isScreenCompact, sortedList)
+            val itemsHeight = calculateListSizeUseCase(dividedItems)
+            _state.update {
+                it.copy(
+                    listHeight = itemsHeight,
+                    passwordsList = dividedItems
+                )
+            }
         }
     }
 
     private suspend fun fetchPasswords()  {
         passwordsService.getUserPasswords().collect { items ->
-            val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
-            val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)
-            prepareToUpdateItemsList(passwordsUiModels)
-            _allPasswordsList.emit(passwordsUiModels)
+            withContext(Dispatchers.Default) {
+                val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
+                val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)
+                prepareToUpdateItemsList(passwordsUiModels)
+                _allPasswordsList.emit(passwordsUiModels)
+            }
             _state.update {
                 it.copy(
                     isVaultEmpty = items.isEmpty()
