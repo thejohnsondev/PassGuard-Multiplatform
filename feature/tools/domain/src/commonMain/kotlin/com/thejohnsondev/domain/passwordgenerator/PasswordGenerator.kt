@@ -12,7 +12,7 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
     private val lowerCase = "abcdefghijklmnopqrstuvwxyz"
     private val upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     private val digits = "0123456789"
-    private val specialChars = "!@#\$%^&*()-_=+[]{}|;:'\",.<>?/"
+    private val specialChars = "!@#\$%^&*()-_=+[]{}|;:'\".<>?/"
 
     private val passwordRankMap: Map<String, Int> = commonPasswords
         .withIndex()
