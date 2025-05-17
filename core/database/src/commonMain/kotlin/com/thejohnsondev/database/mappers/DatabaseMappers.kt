@@ -20,6 +20,7 @@ fun PasswordEntity.mapToDto(
     return PasswordDto(
         title = title,
         organizationLogo = organizationLogo,
+        domain = domain,
         userName = userName,
         password = password,
         additionalFields = additionalFieldEntities,

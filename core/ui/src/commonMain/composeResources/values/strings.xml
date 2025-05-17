@@ -176,4 +176,6 @@
     <string name="btn_export">Export</string>
     <string name="export_message_successful">Exported successfully</string>
     <string name="export_message_unsuccessful">An error occurred when trying to export your vault</string>
+
+    <string name="password_domain_url_title">Web address:</string>
 </resources>

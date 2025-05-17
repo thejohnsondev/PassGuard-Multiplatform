@@ -11,6 +11,7 @@ fun ColorScheme.isLight() = this.background.luminance() > 0.5
 val themeColorSuccessBackground = Color(0xFFC0E1B8)
 val themeColorSuccessForeground = Color(0xFF1E720A)
 val themeColorFavorite = Color(0xFFEAC612)
+val themeColorUrl = Color(0xFF0b78b8)
 
 val themeColorStrengthLow = Color(0xFFf54242)
 val themeColorStrengthMediumLow = Color(0xFFf58a42)

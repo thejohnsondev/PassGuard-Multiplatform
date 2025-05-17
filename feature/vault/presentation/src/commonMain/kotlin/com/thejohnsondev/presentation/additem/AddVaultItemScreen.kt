@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.additem
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -7,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -93,9 +95,11 @@ import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeDefault
+import com.thejohnsondev.ui.designsystem.Text18
 import com.thejohnsondev.ui.designsystem.Text20
 import com.thejohnsondev.ui.designsystem.Text22
 import com.thejohnsondev.ui.designsystem.TopRounded
+import com.thejohnsondev.ui.designsystem.colorscheme.themeColorUrl
 import com.thejohnsondev.ui.displaymessage.getAsText
 import com.thejohnsondev.ui.utils.KeyboardManager
 import com.thejohnsondev.ui.utils.ResDrawable
@@ -104,6 +108,7 @@ import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import com.thejohnsondev.ui.utils.onEnterClick
+import com.thejohnsondev.ui.utils.padding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -330,6 +335,11 @@ internal fun AddPasswordFields(
                 titleFocusRequester = titleFocusRequester,
                 userNameFocusRequester = userNameFocusRequester
             )
+            DomainField(
+                modifier = Modifier
+                    .padding(top = Size8, horizontal = Size16),
+                state = state
+            )
             LogoSearchResults(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -342,7 +352,11 @@ internal fun AddPasswordFields(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(horizontal = Size16, vertical = Size8),
+                    .padding(
+                        horizontal = Size16,
+                        bottom = Size8,
+                        top = if (state.domain.isNotBlank()) Size8 else SizeDefault
+                    ),
                 state = state,
                 onAction = onAction
             )
@@ -411,7 +425,11 @@ private fun TitleField(
     userNameFocusRequester: FocusRequester,
 ) {
     Row(
-        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size16),
+        modifier = Modifier.padding(
+            start = Size16,
+            end = Size16,
+            bottom = if (state.domain.isNotBlank()) SizeDefault else Size16
+        ),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -483,6 +501,36 @@ private fun TitleField(
                 userNameFocusRequester.requestFocus()
             },
             imeAction = ImeAction.Next
+        )
+    }
+
+}
+
+@Composable
+private fun ColumnScope.DomainField(
+    modifier: Modifier = Modifier,
+    state: AddVaultItemViewModel.State,
+) {
+    AnimatedVisibility(
+        visible = state.domain.isNotBlank()
+    ) {
+        PrimaryTextFieldWithBackground(
+            modifier = modifier
+                .weight(Percent100),
+            onValueChanged = {
+                // no-op
+            },
+            hint = stringResource(ResString.password),
+            value = state.domain,
+            textColor = themeColorUrl,
+            fontSize = Text18,
+            backgroundShape = RoundedCornerShape(
+                topStart = Size16,
+                bottomStart = Size4,
+                topEnd = Size16,
+                bottomEnd = Size4
+            ),
+            readOnly = true
         )
     }
 }

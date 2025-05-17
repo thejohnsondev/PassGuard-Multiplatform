@@ -12,6 +12,7 @@ class DecryptPasswordsListUseCaseImpl(
             passwordDto.copy(
                 title = encryptionRepository.decrypt(passwordDto.title),
                 organizationLogo = passwordDto.organizationLogo?.let { encryptionRepository.decrypt(it) },
+                domain = passwordDto.domain?.let { encryptionRepository.decrypt(it) },
                 userName = encryptionRepository.decrypt(passwordDto.userName),
                 password = encryptionRepository.decrypt(passwordDto.password),
                 additionalFields = passwordDto.additionalFields.map { decryptAdditionalField(it) },

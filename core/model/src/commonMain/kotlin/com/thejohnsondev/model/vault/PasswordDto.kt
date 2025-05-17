@@ -4,6 +4,7 @@ package com.thejohnsondev.model.vault
 data class PasswordDto(
     val title: String,
     val organizationLogo: String? = null,
+    val domain: String? = null,
     val userName: String,
     val password: String,
     val additionalFields: List<AdditionalFieldDto> = emptyList(),

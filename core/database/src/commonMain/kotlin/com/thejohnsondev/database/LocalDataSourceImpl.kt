@@ -28,6 +28,7 @@ class LocalDataSourceImpl(
         vaultDatabase.passwordEntityQueries.insert(
             title = passwordDto.title,
             organizationLogo = passwordDto.organizationLogo,
+            domain = passwordDto.domain,
             userName = passwordDto.userName,
             password = passwordDto.password,
             createdTimeStamp = passwordDto.createdTimeStamp,
