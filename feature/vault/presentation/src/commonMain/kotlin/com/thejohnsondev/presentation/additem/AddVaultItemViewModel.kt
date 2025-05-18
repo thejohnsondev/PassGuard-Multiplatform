@@ -141,6 +141,7 @@ class AddVaultItemViewModel(
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
             organizationLogoUrl = state.value.organizationLogo,
+            domain = state.value.domain,
             title = _enteredTitle.value,
             userName = _enteredUserName.value,
             password = _enteredPassword.value,
@@ -172,7 +173,8 @@ class AddVaultItemViewModel(
                 isEdit = true,
                 selectedCategory = passwordUIModel.category,
                 isFavorite = passwordUIModel.isFavorite,
-                organizationLogo = passwordUIModel.organizationLogo.orEmpty()
+                organizationLogo = passwordUIModel.organizationLogo.orEmpty(),
+                domain = passwordUIModel.domain.orEmpty()
             )
         }
         validateFields()
@@ -213,11 +215,14 @@ class AddVaultItemViewModel(
     }
 
     private fun onFindLogoResult(result: List<FindLogoResponse>) {
-        val firstLogo = result.firstOrNull()?.logoUrl
-        _state.update {
-            it.copy(
-                organizationLogo = firstLogo.orEmpty(),
-            )
+        val searchResult = result.firstOrNull()
+        searchResult?.let { safeSearchResult ->
+            _state.update {
+                it.copy(
+                    organizationLogo = safeSearchResult.logoUrl,
+                    domain = safeSearchResult.domain
+                )
+            }
         }
         if (result.size > 1 || result.isEmpty()) {
             _state.update {
@@ -236,6 +241,7 @@ class AddVaultItemViewModel(
         _state.update {
             it.copy(
                 organizationLogo = logoSearchResult.logoUrl,
+                domain = logoSearchResult.domain,
                 isLogoSearchResultsVisible = false
             )
         }
@@ -305,6 +311,7 @@ class AddVaultItemViewModel(
         _state.update {
             it.copy(
                 organizationLogo = String.empty,
+                domain = String.empty,
                 logoSearchResults = listOf(),
                 isLogoSearchResultsVisible = false
             )
@@ -364,6 +371,7 @@ class AddVaultItemViewModel(
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
         val organizationLogo: String = String.empty,
+        val domain: String = String.empty,
         val isLogoLoading: Boolean = false,
         val logoSearchResults: List<FindLogoResponse> = listOf(),
         val isLogoSearchResultsVisible: Boolean = false,

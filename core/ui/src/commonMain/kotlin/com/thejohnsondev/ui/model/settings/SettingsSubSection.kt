@@ -2,6 +2,7 @@ package com.thejohnsondev.ui.model.settings
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FormatPaint
+import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Settings
@@ -17,6 +18,8 @@ import vaultmultiplatform.core.ui.generated.resources.manage_vault
 import vaultmultiplatform.core.ui.generated.resources.security_and_privacy_description
 import vaultmultiplatform.core.ui.generated.resources.security_and_privacy_title
 import vaultmultiplatform.core.ui.generated.resources.setting_description_style
+import vaultmultiplatform.core.ui.generated.resources.setting_export_description
+import vaultmultiplatform.core.ui.generated.resources.setting_export_title
 import vaultmultiplatform.core.ui.generated.resources.setting_title_style
 
 sealed class SettingsSubSection(
@@ -48,6 +51,13 @@ sealed class SettingsSubSection(
         sectionTitleRes = ResString.setting_title_style,
         sectionDescriptionRes = ResString.setting_description_style,
         sectionIcon = IconContainer(Icons.Default.FormatPaint),
+        expanded = false
+    )
+
+    data object ExportSettingsSub : SettingsSubSection(
+        sectionTitleRes = ResString.setting_export_title,
+        sectionDescriptionRes = ResString.setting_export_description,
+        sectionIcon = IconContainer(Icons.Default.ImportExport),
         expanded = false
     )
 

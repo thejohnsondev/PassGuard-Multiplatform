@@ -11,6 +11,7 @@ import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
+import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.LoadingState
 import com.thejohnsondev.model.OneTimeEvent
@@ -87,6 +88,9 @@ class SettingsViewModel(
             is Action.OpenConfirmDeleteVaultDialog -> openCloseConfirmDeleteVaultDialog(isOpen = true)
             is Action.CloseConfirmDeleteVaultDialog -> openCloseConfirmDeleteVaultDialog(isOpen = false)
             is Action.DeleteLocalVaultConfirm -> deleteLocalVault()
+            is Action.OpenCloseExportPasswords -> openCloseExportPasswords(action.isOpen)
+            is Action.OnExportSuccessful -> onExportSuccessful()
+            is Action.OnExportError -> onExportError(action.message)
         }
     }
 
@@ -199,6 +203,18 @@ class SettingsViewModel(
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 
+    private fun openCloseExportPasswords(isOpen: Boolean) {
+        _state.update { it.copy(isExportPasswordsDialogOpened = isOpen) }
+    }
+
+    private fun onExportSuccessful() = launch {
+        sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.ExportSuccessful))
+    }
+
+    private fun onExportError(message: DisplayableMessageValue) = launch {
+        sendEvent(OneTimeEvent.ErrorMessage(message))
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -218,6 +234,9 @@ class SettingsViewModel(
         data class DeleteAccountPasswordConfirmEntered(val password: String) : Action()
         data class DeleteAccountPasswordConfirm(val password: String) : Action()
         data object DeleteLocalVaultConfirm : Action()
+        data object OnExportSuccessful : Action()
+        data class OnExportError(val message: DisplayableMessageValue) : Action()
+        data class OpenCloseExportPasswords(val isOpen: Boolean) : Action()
     }
 
     data class State(
@@ -236,7 +255,8 @@ class SettingsViewModel(
         val supportsDynamicTheming: Boolean = false,
         val isBlockingScreenshotsAvailable: Boolean = false,
         val isDeleteAccountPasswordConfirmDialogOpened: Boolean = false,
-        val deleteAccountPasswordConfirmValidationState: PasswordValidationState? = null
+        val deleteAccountPasswordConfirmValidationState: PasswordValidationState? = null,
+        val isExportPasswordsDialogOpened: Boolean = false
     )
 
 }

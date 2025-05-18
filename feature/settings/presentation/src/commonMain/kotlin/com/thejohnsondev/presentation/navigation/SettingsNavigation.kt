@@ -18,7 +18,7 @@ fun NavGraphBuilder.settingsScreen(
     paddingValues: PaddingValues,
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     onLogoutClick: () -> Unit,
-    onShowError: (MessageContent) -> Unit,
+    onShowMessage: (MessageContent) -> Unit,
     onGoToSignUp: () -> Unit,
 ) {
     composable<Routes.SettingsRoute> {
@@ -29,7 +29,7 @@ fun NavGraphBuilder.settingsScreen(
             viewModel = viewModel,
             setScaffoldConfig = setScaffoldConfig,
             onLogoutClick = onLogoutClick,
-            onShowError = onShowError,
+            onShowMessage = onShowMessage,
             onGoToSignUp = onGoToSignUp
         )
     }

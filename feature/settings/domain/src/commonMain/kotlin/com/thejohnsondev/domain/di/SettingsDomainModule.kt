@@ -1,5 +1,7 @@
 package com.thejohnsondev.domain.di
 
+import com.thejohnsondev.domain.ExportVaultUseCase
+import com.thejohnsondev.domain.ExportVaultUseCaseImpl
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCaseImpl
 import com.thejohnsondev.domain.GetUserEmailUseCase
@@ -23,4 +25,5 @@ val settingsDomainModule = module {
     singleOf(::GetSettingsFlowUseCaseImpl) { bind<GetSettingsFlowUseCase>() }
     singleOf(::IsDynamicThemeAvailableUseCaseImpl) { bind<IsDynamicThemeAvailableUseCase>() }
     singleOf(::IsBlockingScreenshotAvailableUseCaseImpl) { bind<IsBlockingScreenshotAvailableUseCase>() }
+    singleOf(::ExportVaultUseCaseImpl) { bind<ExportVaultUseCase>() }
 }

@@ -11,6 +11,7 @@ class EncryptPasswordModelUseCaseImpl(
         return passwordDto.copy(
             title = encryptionRepository.encrypt(passwordDto.title),
             organizationLogo = passwordDto.organizationLogo?.let { encryptionRepository.encrypt(it) },
+            domain = passwordDto.domain?.let { encryptionRepository.encrypt(it) },
             userName = encryptionRepository.encrypt(passwordDto.userName),
             password = encryptionRepository.encrypt(passwordDto.password),
             additionalFields = passwordDto.additionalFields.map { encryptAdditionalField(it) },

@@ -20,6 +20,7 @@ class PasswordsMapToUiModelsUseCaseImpl : PasswordsMapToUiModelsUseCase {
                 id = dto.id,
                 title = dto.title,
                 organizationLogo = dto.organizationLogo,
+                domain = dto.domain,
                 userName = dto.userName,
                 password = dto.password,
                 additionalFields = dto.additionalFields,

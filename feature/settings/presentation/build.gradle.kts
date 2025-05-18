@@ -43,6 +43,7 @@ kotlin {
             api(project(":core:common"))
             api(project(":core:ui"))
             api(project(":feature:auth:domain"))
+            api(project(":feature:vault:domain"))
             api(project(":feature:settings:domain"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -86,4 +87,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
+
+dependencies {
+    // Preview
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
 }

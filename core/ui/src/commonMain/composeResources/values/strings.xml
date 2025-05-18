@@ -164,4 +164,18 @@
     <string name="password_health_stats_weak">Weak</string>
     <string name="password_health_stats_leaked">Leaked</string>
     <string name="password_health_stats_reused">Reused</string>
+
+    <!--Export/Import-->
+    <string name="setting_export_title">Export or Import</string>
+    <string name="setting_export_description">Export or import your vault data</string>
+    <string name="setting_export_passwords">Export passwords</string>
+    <string name="setting_import_passwords">Import passwords</string>
+    <string name="export_title">Export passwords</string>
+    <string name="export_description">We'll generate a CSV file with your passwords and download it to your Downloads folder.\nThis file is compatible with Google Password Manager and can be imported into or from other services.\nYou can also import it back into PassGuard at any time.</string>
+    <string name="export_warning">Note: this file is not encrypted. Keep it secure and delete it when you're done.</string>
+    <string name="btn_export">Export</string>
+    <string name="export_message_successful">Exported successfully</string>
+    <string name="export_message_unsuccessful">An error occurred when trying to export your vault</string>
+
+    <string name="password_domain_url_title">Web address:</string>
 </resources>

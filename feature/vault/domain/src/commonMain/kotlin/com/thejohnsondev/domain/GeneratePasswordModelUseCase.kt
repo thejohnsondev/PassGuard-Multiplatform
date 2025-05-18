@@ -9,6 +9,7 @@ interface GeneratePasswordModelUseCase {
         passwordId: String?,
         title: String,
         organizationLogoUrl: String,
+        domain: String,
         userName: String,
         password: String,
         categoryId: String,

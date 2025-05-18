@@ -12,4 +12,6 @@ sealed interface DisplayableMessageValue {
     data object EmailInvalid : DisplayableMessageValue
     data object CheckInternetConnection : DisplayableMessageValue
     data object Copied : DisplayableMessageValue
+    data object ExportSuccessful : DisplayableMessageValue
+    data object ExportUnsuccessful : DisplayableMessageValue
 }

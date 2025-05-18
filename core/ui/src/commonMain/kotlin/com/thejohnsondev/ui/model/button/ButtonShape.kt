@@ -8,7 +8,8 @@ enum class ButtonShape(
     val topStart: Dp,
     val topEnd: Dp,
     val bottomStart: Dp,
-    val bottomEnd: Dp
+    val bottomEnd: Dp,
 ) {
-    ROUNDED(Size16, Size16, Size16, Size16),
+    ROUNDED(topStart = Size16, topEnd = Size16, bottomStart = Size16, bottomEnd = Size16),
+    TopRounded(topStart = Size16, topEnd = Size16, bottomStart = Size4, bottomEnd = Size4),
 }

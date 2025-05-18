@@ -5,6 +5,8 @@ import com.thejohnsondev.platform.encryption.AndroidEncryptionUtils
 import com.thejohnsondev.platform.encryption.AndroidKeyGenerator
 import com.thejohnsondev.platform.encryption.EncryptionUtils
 import com.thejohnsondev.platform.encryption.KeyGenerator
+import com.thejohnsondev.platform.filemanager.AndroidFileManager
+import com.thejohnsondev.platform.filemanager.FileManager
 import com.thejohnsondev.platform.storage.AndroidSecureStorage
 import com.thejohnsondev.platform.storage.SecureStorage
 import com.thejohnsondev.platform.utils.AndroidClipboardUtils
@@ -15,4 +17,5 @@ class AndroidPlatformDependency(private val context: Context): PlatformDependenc
     override fun getEncryptionUtils(): EncryptionUtils = AndroidEncryptionUtils()
     override fun getSecureStorage(): SecureStorage = AndroidSecureStorage(context)
     override fun getClipboardUtils(): ClipboardUtils = AndroidClipboardUtils(context)
+    override fun getFileManager(): FileManager = AndroidFileManager(context)
 }

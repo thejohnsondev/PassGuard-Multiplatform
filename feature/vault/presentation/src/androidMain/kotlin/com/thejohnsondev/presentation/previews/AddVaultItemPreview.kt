@@ -55,3 +55,39 @@ private fun AddVaultItemEmptyPreview() {
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun AddVaultItemNotEmptyPreview() {
+    VaultDefaultTheme(
+        dynamicColor = false,
+        darkTheme = true,
+        deviceThemeConfig = null
+    ) {
+        val sheetState = SheetState(
+            skipPartiallyExpanded = true,
+            density = Density(1f),
+            initialValue = SheetValue.Expanded
+        )
+        AddVaultItemContent(
+            state = AddVaultItemViewModel.State(
+                screenState = ScreenState.ShowContent,
+                domain = "google.com"
+            ),
+            sheetState = sheetState,
+            windowSizeClass = WindowWidthSizeClass.Compact,
+            paddingValues = PaddingValues(0.dp),
+            onDismissRequest = {},
+            onAction = {},
+            enteredTitle = mutableStateOf(String.empty),
+            enteredUserName = mutableStateOf(String.empty),
+            enteredPassword = mutableStateOf("Pass123$"),
+            additionalFields = mutableStateOf(listOf()),
+            vaultItem = PasswordUIModel.testPasswordUIModel,
+        )
+        LaunchedEffect(true) {
+            sheetState.show()
+        }
+    }
+}

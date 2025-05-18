@@ -22,6 +22,7 @@ class GeneratePasswordModelUseCaseImplTest {
     fun invoke_generatesPasswordModelWithNewId() {
         val title = "TestOrg"
         val organizationLogoUrl = "URL"
+        val domain = "domain.com"
         val userName = "TestTitle"
         val password = "TestPassword"
         val categoryId = "TestCategory"
@@ -32,6 +33,7 @@ class GeneratePasswordModelUseCaseImplTest {
             passwordId = null,
             title = title,
             organizationLogoUrl = organizationLogoUrl,
+            domain = domain,
             userName = userName,
             password = password,
             categoryId = categoryId,
@@ -57,6 +59,7 @@ class GeneratePasswordModelUseCaseImplTest {
         val passwordId = Uuid.random().toString()
         val title = "TestOrg"
         val organizationLogoUrl = "URL"
+        val domain = "domain.com"
         val userName = "TestTitle"
         val password = "TestPassword"
         val categoryId = "TestCategory"
@@ -68,6 +71,7 @@ class GeneratePasswordModelUseCaseImplTest {
             passwordId = passwordId,
             title = title,
             organizationLogoUrl = organizationLogoUrl,
+            domain = domain,
             userName = userName,
             password = password,
             categoryId = categoryId,
@@ -95,6 +99,7 @@ class GeneratePasswordModelUseCaseImplTest {
         val passwordId = Uuid.random().toString()
         val title = "TestOrg"
         val organizationLogoUrl = "URL"
+        val domain = "domain.com"
         val userName = "TestTitle"
         val password = "TestPassword"
         val categoryId = "TestCategory"
@@ -106,6 +111,7 @@ class GeneratePasswordModelUseCaseImplTest {
             passwordId = passwordId,
             title = title,
             organizationLogoUrl = organizationLogoUrl,
+            domain = domain,
             userName = userName,
             password = password,
             categoryId = categoryId,
