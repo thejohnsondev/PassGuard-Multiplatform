@@ -1,2 +1,2 @@
 Changes:
-- Added showing vault stats
+- Added export passwords feature
