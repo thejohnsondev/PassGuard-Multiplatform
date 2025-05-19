@@ -8,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -337,7 +336,8 @@ internal fun AddPasswordFields(
             )
             DomainField(
                 modifier = Modifier
-                    .padding(top = Size8, horizontal = Size16),
+                    .padding(top = Size8, horizontal = Size16)
+                    .weight(Percent100),
                 state = state
             )
             LogoSearchResults(
@@ -507,16 +507,15 @@ private fun TitleField(
 }
 
 @Composable
-private fun ColumnScope.DomainField(
+private fun DomainField(
     modifier: Modifier = Modifier,
-    state: AddVaultItemViewModel.State,
+    state: AddVaultItemViewModel.State
 ) {
     AnimatedVisibility(
         visible = state.domain.isNotBlank()
     ) {
         PrimaryTextFieldWithBackground(
-            modifier = modifier
-                .weight(Percent100),
+            modifier = modifier,
             onValueChanged = {
                 // no-op
             },
