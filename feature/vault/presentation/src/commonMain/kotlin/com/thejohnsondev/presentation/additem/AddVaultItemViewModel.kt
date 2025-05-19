@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -65,7 +66,7 @@ class AddVaultItemViewModel(
     private val _passwordId = MutableStateFlow<String?>(null)
     private val _createdTime = MutableStateFlow<String?>(null)
 
-    private val _enteredTitleFlow = MutableStateFlow(String.empty)
+    private val _enteredTitleFlow = MutableStateFlow<String?>(null)
     private val _enteredTitle = mutableStateOf(String.empty)
     val enteredTitle = _enteredTitle
 
@@ -189,6 +190,7 @@ class AddVaultItemViewModel(
     @OptIn(FlowPreview::class)
     private fun observeTitleChanges() {
         _enteredTitleFlow
+            .filterNotNull()
             .debounce(LOGO_SEARCH_DEBOUNCE_TIME)
             .distinctUntilChanged()
             .onEach { title -> tryToFindLogo(title) }
@@ -335,7 +337,7 @@ class AddVaultItemViewModel(
         _passwordId.emit(null)
         _createdTime.emit(null)
         _enteredTitle.value = String.empty
-        _enteredTitleFlow.tryEmit(String.empty)
+        _enteredTitleFlow.tryEmit(null)
         _enteredUserName.value = String.empty
         _enteredPassword.value = String.empty
         _additionalFields.value = emptyList()
