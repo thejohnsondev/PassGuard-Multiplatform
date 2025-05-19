@@ -53,6 +53,7 @@ class ExportPasswordsViewModel(
             sendEvent(ExportSuccessfulEvent)
         } else {
             Logger.e("Export failed: ${exportResult.message}")
+            // TODO show error message
             showContent()
             sendEvent(ExportErrorEvent(message = DisplayableMessageValue.ExportUnsuccessful))
         }

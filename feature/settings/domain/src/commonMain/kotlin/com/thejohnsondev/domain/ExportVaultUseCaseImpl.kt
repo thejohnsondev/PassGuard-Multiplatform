@@ -11,7 +11,14 @@ class ExportVaultUseCaseImpl(
     override suspend fun exportVault(
         decryptedPasswords: List<PasswordDto>,
     ): ExportResult {
-        val csvContent = CSVExportUtils.generateCsvContentForPasswords(decryptedPasswords)
-        return exportImportRepository.exportPasswordsToCSV(csvContent)
+        val csvGenerationResult = CSVExportUtils.generateCsvContentForPasswords(decryptedPasswords)
+        // TODO add showing not exported passwords
+        if (!csvGenerationResult.isSuccessful) {
+            return ExportResult(
+                success = false,
+                message = "Export failed: ${decryptedPasswords.size} passwords not exported: ${csvGenerationResult.message}",
+            )
+        }
+        return exportImportRepository.exportPasswordsToCSV(csvGenerationResult.csvContent)
     }
 }
