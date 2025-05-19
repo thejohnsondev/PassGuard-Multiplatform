@@ -526,9 +526,9 @@ private fun ColumnScope.DomainField(
             fontSize = Text18,
             backgroundShape = RoundedCornerShape(
                 topStart = Size16,
-                bottomStart = Size4,
+                bottomStart = if (state.isLogoSearchResultsVisible) SizeDefault else Size4,
                 topEnd = Size16,
-                bottomEnd = Size4
+                bottomEnd = if (state.isLogoSearchResultsVisible) SizeDefault else Size4
             ),
             readOnly = true
         )
@@ -547,7 +547,12 @@ private fun LogoSearchResults(
         RoundedContainer(
             modifier = modifier,
             color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            shape = EquallyRounded.medium
+            shape = RoundedCornerShape(
+                topStart = SizeDefault,
+                topEnd = SizeDefault,
+                bottomStart = Size16,
+                bottomEnd = Size16
+            )
         ) {
             Column {
                 state.logoSearchResults.forEachIndexed { index, item ->
