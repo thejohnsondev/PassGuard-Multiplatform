@@ -7,7 +7,7 @@ object CSVExportUtils {
         val header = "name,url,username,password"
         val rows = passwords.map {
             val sanitizedTitle = it.title.replace(",", " ")
-            val sanitizedDomain = it.domain?.replace(",", " ")
+            val sanitizedDomain = "https://".plus(it.domain?.replace(",", " "))
             val sanitizedUser = it.userName.replace(",", " ")
             val sanitizedPass = it.password.replace(",", " ")
             "$sanitizedTitle,$sanitizedDomain,$sanitizedUser,$sanitizedPass"
