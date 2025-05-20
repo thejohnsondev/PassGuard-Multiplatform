@@ -115,6 +115,22 @@ fun ExportPasswordsScreen(
             onAction = viewModel::perform,
         )
     }
+
+    if (state.value.showNotExportedPasswordsBottomSheet) {
+        state.value.notExportedPasswords?.let {
+            NotExportedPasswordsDialog(
+                windowWidthSizeClass = windowSizeClass,
+                notExportedPasswordsList = it,
+                onConfirm = {
+                    viewModel.perform(ExportPasswordsViewModel.Action.ExportProceedAnyway)
+                },
+                onDismissRequest = {
+                    viewModel.perform(ExportPasswordsViewModel.Action.Clear)
+                    onDismissRequest()
+                }
+            )
+        }
+    }
 }
 
 // TODO extract ModalDragHandle to a separate file
