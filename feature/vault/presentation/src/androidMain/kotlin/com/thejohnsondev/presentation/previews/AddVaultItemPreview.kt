@@ -45,6 +45,7 @@ private fun AddVaultItemEmptyPreview() {
             onDismissRequest = {},
             onAction = {},
             enteredTitle = mutableStateOf(String.empty),
+            enteredDomain = mutableStateOf(String.empty),
             enteredUserName = mutableStateOf(String.empty),
             enteredPassword = mutableStateOf("Pass123$"),
             additionalFields = mutableStateOf(listOf()),
@@ -73,7 +74,6 @@ private fun AddVaultItemNotEmptyPreview() {
         AddVaultItemContent(
             state = AddVaultItemViewModel.State(
                 screenState = ScreenState.ShowContent,
-                domain = "google.com"
             ),
             sheetState = sheetState,
             windowSizeClass = WindowWidthSizeClass.Compact,
@@ -84,6 +84,7 @@ private fun AddVaultItemNotEmptyPreview() {
             enteredUserName = mutableStateOf(String.empty),
             enteredPassword = mutableStateOf("Pass123$"),
             additionalFields = mutableStateOf(listOf()),
+            enteredDomain = mutableStateOf(String.empty),
             vaultItem = PasswordUIModel.testPasswordUIModel,
         )
         LaunchedEffect(true) {
