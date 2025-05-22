@@ -15,13 +15,13 @@ object CSVExportUtils {
             }
 
             val rows = passwords.map {
-                if (it.domain.isNullOrBlank()) {
+                if (it.domain.isNullOrBlank() || !isValidUrl(it.domain)) {
                     notExportedPasswords.add(it)
                     return@map null
                 }
                 val sanitizedTitle = it.title.getSanitized()
                 val sanitizedDomain =
-                    it.domain?.let { domain -> "https://".plus(domain.getSanitized()) }
+                    it.domain?.let { domain -> "https://".plus(domain.getSanitized()) } // TODO validate url
                 val sanitizedUser = it.userName.getSanitized()
                 val sanitizedPass = it.password.getSanitized()
                 val notes = it.additionalFields.map { field ->
@@ -47,6 +47,11 @@ object CSVExportUtils {
             )
         }
 
+    }
+
+    private fun isValidUrl(url: String?): Boolean {
+        val regex = "^([\\w-]+\\.)+[\\w]{2,}$"
+        return url?.matches(regex.toRegex()) == true
     }
 
     private fun String.getSanitized(): String {
