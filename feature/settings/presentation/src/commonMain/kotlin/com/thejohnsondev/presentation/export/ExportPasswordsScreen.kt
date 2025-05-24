@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -23,6 +22,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +33,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.designsystem.Percent100
@@ -43,7 +42,6 @@ import com.thejohnsondev.ui.designsystem.Size20
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
-import com.thejohnsondev.ui.designsystem.Size86
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
@@ -117,10 +115,13 @@ fun ExportPasswordsScreen(
         )
     }
 
+    val notExportedPasswordsSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     if (state.value.showNotExportedPasswordsBottomSheet) {
         state.value.notExportedPasswords?.let {
-            NotExportedPasswordsDialog(
-                windowWidthSizeClass = windowSizeClass,
+            NotExportedPasswordsScreen(
+                paddingValues = paddingValues,
+                sheetState = notExportedPasswordsSheetState,
+                windowSizeClass = windowSizeClass,
                 notExportedPasswordsList = it,
                 onConfirm = {
                     viewModel.perform(ExportPasswordsViewModel.Action.ExportProceedAnyway)
