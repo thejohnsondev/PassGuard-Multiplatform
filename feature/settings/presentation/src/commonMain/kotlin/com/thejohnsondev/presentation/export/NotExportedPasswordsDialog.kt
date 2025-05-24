@@ -50,6 +50,8 @@ fun NotExportedPasswordsDialog(
         viewModel.perform(NotExportedPasswordsViewModel.Action.SetPasswordList(notExportedPasswordsList))
     }
 
+    // TODO make a bottom sheet
+    // TODO plan all tasks for a week
     AlertDialog(
         modifier = Modifier
             .applyIf(!windowWidthSizeClass.isCompact()) {

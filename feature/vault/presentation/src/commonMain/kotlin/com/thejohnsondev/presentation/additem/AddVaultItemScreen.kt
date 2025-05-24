@@ -73,6 +73,7 @@ import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
 import com.thejohnsondev.ui.components.text.PrimaryTextField
@@ -197,7 +198,32 @@ internal fun AddVaultItemContent(
             shouldDismissOnBackPress = false
         ),
         dragHandle = {
-            ModalDragHandle(onAction, onDismissRequest, state)
+            ModalDragHandle(
+                onDismissRequest = {
+                    onAction(AddVaultItemViewModel.Action.Clear)
+                    onDismissRequest()
+                },
+                endContent = {
+                    Button(
+                        modifier = Modifier
+                            .padding(end = Size16)
+                            .bounceClick(),
+                        onClick = {
+                            onAction(AddVaultItemViewModel.Action.SavePassword)
+                        },
+                        enabled = state.isValid,
+                    ) {
+                        if (state.screenState is ScreenState.Loading) {
+                            Loader(
+                                modifier = Modifier.size(Size24),
+                                iconTintColor = MaterialTheme.colorScheme.onPrimary
+                            )
+                        } else {
+                            Text(text = stringResource(if (state.isEdit) ResString.update else ResString.save))
+                        }
+                    }
+                }
+            )
         },
         containerColor = MaterialTheme.colorScheme.surface,
     ) {
@@ -220,46 +246,6 @@ internal fun AddVaultItemContent(
     }
 }
 
-@Composable
-private fun ModalDragHandle(
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-    onDismissRequest: () -> Unit,
-    state: AddVaultItemViewModel.State,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = Size16),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        BackArrowButton(
-            modifier = Modifier.padding(start = Size16),
-            onClick = {
-                onAction(AddVaultItemViewModel.Action.Clear)
-                onDismissRequest()
-            }
-        )
-        Button(
-            modifier = Modifier
-                .padding(end = Size16)
-                .bounceClick(),
-            onClick = {
-                onAction(AddVaultItemViewModel.Action.SavePassword)
-            },
-            enabled = state.isValid,
-        ) {
-            if (state.screenState is ScreenState.Loading) {
-                Loader(
-                    modifier = Modifier.size(Size24),
-                    iconTintColor = MaterialTheme.colorScheme.onPrimary
-                )
-            } else {
-                Text(text = stringResource(if (state.isEdit) ResString.update else ResString.save))
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

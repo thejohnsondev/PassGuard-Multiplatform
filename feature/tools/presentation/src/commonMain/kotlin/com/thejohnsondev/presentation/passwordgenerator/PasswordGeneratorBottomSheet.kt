@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.ui.components.button.BackArrowButton
+import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
@@ -59,9 +60,18 @@ fun PasswordGeneratorBottomSheet(
         dragHandle = {
             ModalDragHandle(
                 onDismissRequest = onDismissRequest,
-                onSelectClick = {
-                    generatedPasswordState.value?.let { password ->
-                        onPasswordGenerated(password)
+                endContent = {
+                    Button(
+                        modifier = Modifier
+                            .padding(end = Size16)
+                            .bounceClick(),
+                        onClick = {
+                            generatedPasswordState.value?.let { password ->
+                                onPasswordGenerated(password)
+                            }
+                        },
+                    ) {
+                        Text(text = stringResource(ResString.select))
                     }
                 })
         },
@@ -79,37 +89,6 @@ fun PasswordGeneratorBottomSheet(
                     generatedPasswordState.value = it
                 }
             )
-        }
-    }
-}
-
-@Composable
-private fun ModalDragHandle(
-    onDismissRequest: () -> Unit,
-    onSelectClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = Size16),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        BackArrowButton(
-            modifier = Modifier.padding(start = Size16),
-            onClick = {
-                onDismissRequest()
-            }
-        )
-        Button(
-            modifier = Modifier
-                .padding(end = Size16)
-                .bounceClick(),
-            onClick = {
-                onSelectClick()
-            },
-        ) {
-            Text(text = stringResource(ResString.select))
         }
     }
 }

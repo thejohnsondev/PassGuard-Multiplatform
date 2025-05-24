@@ -35,6 +35,7 @@ import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
@@ -130,27 +131,6 @@ fun ExportPasswordsScreen(
                 }
             )
         }
-    }
-}
-
-// TODO extract ModalDragHandle to a separate file
-@Composable
-private fun ModalDragHandle(
-    onDismissRequest: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = Size16),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        BackArrowButton(
-            modifier = Modifier.padding(start = Size16),
-            onClick = {
-                onDismissRequest()
-            }
-        )
     }
 }
 
