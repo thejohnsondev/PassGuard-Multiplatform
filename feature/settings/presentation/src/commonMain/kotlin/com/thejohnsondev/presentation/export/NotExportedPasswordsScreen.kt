@@ -30,8 +30,10 @@ import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordItem
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordItemProperties
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
+import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.isCompact
@@ -117,6 +119,7 @@ private fun NotExportedPasswordsScreenContent(
         LazyColumn(
             modifier = Modifier
                 .padding(top = Size16)
+                .weight(Percent100)
         ) {
             items(state.passwordList) { password ->
                 PasswordItem(
@@ -145,21 +148,28 @@ private fun NotExportedPasswordsScreenContent(
                 )
             }
         }
-        RoundedButton(
-            text = stringResource(ResString.export_passwords_not_exported_confirm),
-            onClick = onConfirm,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError
+        Column(
+            modifier = Modifier
+                .padding(Size16)
+        ) {
+            RoundedButton(
+                text = stringResource(ResString.export_passwords_not_exported_confirm),
+                onClick = onConfirm,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError
+                )
             )
-        )
-        RoundedButton(
-            text = stringResource(ResString.cancel),
-            onClick = onDismissRequest,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            RoundedButton(
+                modifier = Modifier
+                    .padding(top = Size8),
+                text = stringResource(ResString.cancel),
+                onClick = onDismissRequest,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
-        )
+        }
     }
 }
