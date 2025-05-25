@@ -1,5 +1,6 @@
 package com.thejohnsondev.ui.components.text
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +17,7 @@ import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Text20
+import com.thejohnsondev.ui.utils.applyIf
 
 @Composable
 fun PrimaryTextFieldWithBackground(

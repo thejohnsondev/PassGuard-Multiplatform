@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -65,9 +66,12 @@ class AddVaultItemViewModel(
     private val _passwordId = MutableStateFlow<String?>(null)
     private val _createdTime = MutableStateFlow<String?>(null)
 
-    private val _enteredTitleFlow = MutableStateFlow(String.empty)
+    private val _enteredTitleFlow = MutableStateFlow<String?>(null)
     private val _enteredTitle = mutableStateOf(String.empty)
     val enteredTitle = _enteredTitle
+
+    private val _enteredDomain = mutableStateOf(String.empty)
+    val enteredDomain = _enteredDomain
 
     private val _enteredUserName = mutableStateOf(String.empty)
     val enteredUserName = _enteredUserName
@@ -96,6 +100,7 @@ class AddVaultItemViewModel(
         when (action) {
             is Action.SetPasswordForEdit -> setPasswordForEdit(action.passwordUIModel)
             is Action.EnterTitle -> enterTitle(action.title)
+            is Action.EnterDomain -> enterDomain(action.domain)
             is Action.EnterPassword -> enterPassword(action.password)
             is Action.EnterUserName -> enterUserName(action.userName)
             is Action.AddAdditionalField -> addAdditionalField()
@@ -141,7 +146,7 @@ class AddVaultItemViewModel(
         val passwordDto = generatePasswordModelUseCase(
             passwordId = _passwordId.value,
             organizationLogoUrl = state.value.organizationLogo,
-            domain = state.value.domain,
+            domain = _enteredDomain.value,
             title = _enteredTitle.value,
             userName = _enteredUserName.value,
             password = _enteredPassword.value,
@@ -165,6 +170,7 @@ class AddVaultItemViewModel(
         _passwordId.emit(passwordUIModel.id)
         _createdTime.emit(passwordUIModel.createdTime)
         _enteredTitle.value = passwordUIModel.title
+        _enteredDomain.value = passwordUIModel.domain.orEmpty()
         enterUserName(passwordUIModel.userName)
         enterPassword(passwordUIModel.password)
         _additionalFields.value = passwordUIModel.additionalFields
@@ -173,8 +179,7 @@ class AddVaultItemViewModel(
                 isEdit = true,
                 selectedCategory = passwordUIModel.category,
                 isFavorite = passwordUIModel.isFavorite,
-                organizationLogo = passwordUIModel.organizationLogo.orEmpty(),
-                domain = passwordUIModel.domain.orEmpty()
+                organizationLogo = passwordUIModel.organizationLogo.orEmpty()
             )
         }
         validateFields()
@@ -186,9 +191,14 @@ class AddVaultItemViewModel(
         validateFields()
     }
 
+    private fun enterDomain(domain: String) {
+        _enteredDomain.value = domain
+    }
+
     @OptIn(FlowPreview::class)
     private fun observeTitleChanges() {
         _enteredTitleFlow
+            .filterNotNull()
             .debounce(LOGO_SEARCH_DEBOUNCE_TIME)
             .distinctUntilChanged()
             .onEach { title -> tryToFindLogo(title) }
@@ -220,9 +230,9 @@ class AddVaultItemViewModel(
             _state.update {
                 it.copy(
                     organizationLogo = safeSearchResult.logoUrl,
-                    domain = safeSearchResult.domain
                 )
             }
+            _enteredDomain.value = safeSearchResult.domain
         }
         if (result.size > 1 || result.isEmpty()) {
             _state.update {
@@ -241,10 +251,10 @@ class AddVaultItemViewModel(
         _state.update {
             it.copy(
                 organizationLogo = logoSearchResult.logoUrl,
-                domain = logoSearchResult.domain,
                 isLogoSearchResultsVisible = false
             )
         }
+        _enteredDomain.value = logoSearchResult.domain
     }
 
     private fun toggleShowHideLogoSearchResult() {
@@ -311,11 +321,11 @@ class AddVaultItemViewModel(
         _state.update {
             it.copy(
                 organizationLogo = String.empty,
-                domain = String.empty,
                 logoSearchResults = listOf(),
                 isLogoSearchResultsVisible = false
             )
         }
+        _enteredDomain.value = String.empty
     }
 
     private fun showHideGeneratePasswordBottomSheet(show: Boolean) {
@@ -335,7 +345,8 @@ class AddVaultItemViewModel(
         _passwordId.emit(null)
         _createdTime.emit(null)
         _enteredTitle.value = String.empty
-        _enteredTitleFlow.tryEmit(String.empty)
+        _enteredDomain.value = String.empty
+        _enteredTitleFlow.tryEmit(null)
         _enteredUserName.value = String.empty
         _enteredPassword.value = String.empty
         _additionalFields.value = emptyList()
@@ -346,6 +357,7 @@ class AddVaultItemViewModel(
     sealed class Action {
         data class SetPasswordForEdit(val passwordUIModel: PasswordUIModel) : Action()
         data class EnterTitle(val title: String) : Action()
+        data class EnterDomain(val domain: String) : Action()
         data class EnterUserName(val userName: String) : Action()
         data class EnterPassword(val password: String) : Action()
         data object AddAdditionalField : Action()
@@ -371,7 +383,6 @@ class AddVaultItemViewModel(
         val isValid: Boolean = false,
         val isEdit: Boolean = false,
         val organizationLogo: String = String.empty,
-        val domain: String = String.empty,
         val isLogoLoading: Boolean = false,
         val logoSearchResults: List<FindLogoResponse> = listOf(),
         val isLogoSearchResultsVisible: Boolean = false,

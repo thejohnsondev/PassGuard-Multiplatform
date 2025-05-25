@@ -95,6 +95,7 @@
     <string name="manage_account">Manage account</string>
     <string name="manage_vault">Manage vault</string>
     <string name="password">Password</string>
+    <string name="domain">Web address</string>
     <string name="password_empty">Password is empty</string>
     <string name="password_error_bad_length">Password must contain at least 8 characters.</string>
     <string name="password_error_no_capital">Password must contain at least one uppercase letter.</string>
@@ -176,6 +177,9 @@
     <string name="btn_export">Export</string>
     <string name="export_message_successful">Exported successfully</string>
     <string name="export_message_unsuccessful">An error occurred when trying to export your vault</string>
+    <string name="export_passwords_not_exported_title">Attention</string>
+    <string name="export_passwords_not_exported_description">The following passwords could not be exported. Ensure that each password has a valid URL specified.</string>
+    <string name="export_passwords_not_exported_confirm">Export anyway</string>
 
     <string name="password_domain_url_title">Web address:</string>
 </resources>

@@ -1,2 +1,2 @@
 Changes:
-- Added export passwords feature
+- Improved export passwords feature

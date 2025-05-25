@@ -1,6 +1,5 @@
 package com.thejohnsondev.presentation.additem
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -8,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -75,6 +73,7 @@ import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
+import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.components.loader.StrengthLevelIndicator
 import com.thejohnsondev.ui.components.text.PrimaryTextField
@@ -115,6 +114,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import vaultmultiplatform.core.ui.generated.resources.add_field
+import vaultmultiplatform.core.ui.generated.resources.domain
 import vaultmultiplatform.core.ui.generated.resources.ic_password
 import vaultmultiplatform.core.ui.generated.resources.password
 import vaultmultiplatform.core.ui.generated.resources.save
@@ -154,6 +154,7 @@ internal fun AddVaultItemScreen(
         sheetState = sheetState,
         state = state.value,
         enteredTitle = viewModel.enteredTitle,
+        enteredDomain = viewModel.enteredDomain,
         enteredUserName = viewModel.enteredUserName,
         enteredPassword = viewModel.enteredPassword,
         additionalFields = viewModel.additionalFields,
@@ -171,6 +172,7 @@ internal fun AddVaultItemContent(
     sheetState: SheetState,
     state: AddVaultItemViewModel.State,
     enteredTitle: MutableState<String>,
+    enteredDomain: MutableState<String>,
     enteredUserName: MutableState<String>,
     enteredPassword: MutableState<String>,
     additionalFields: MutableState<List<AdditionalFieldDto>>,
@@ -196,13 +198,39 @@ internal fun AddVaultItemContent(
             shouldDismissOnBackPress = false
         ),
         dragHandle = {
-            ModalDragHandle(onAction, onDismissRequest, state)
+            ModalDragHandle(
+                onDismissRequest = {
+                    onAction(AddVaultItemViewModel.Action.Clear)
+                    onDismissRequest()
+                },
+                endContent = {
+                    Button(
+                        modifier = Modifier
+                            .padding(end = Size16)
+                            .bounceClick(),
+                        onClick = {
+                            onAction(AddVaultItemViewModel.Action.SavePassword)
+                        },
+                        enabled = state.isValid,
+                    ) {
+                        if (state.screenState is ScreenState.Loading) {
+                            Loader(
+                                modifier = Modifier.size(Size24),
+                                iconTintColor = MaterialTheme.colorScheme.onPrimary
+                            )
+                        } else {
+                            Text(text = stringResource(if (state.isEdit) ResString.update else ResString.save))
+                        }
+                    }
+                }
+            )
         },
         containerColor = MaterialTheme.colorScheme.surface,
     ) {
         AddPasswordFields(
             state = state,
             enteredTitle = enteredTitle,
+            enteredDomain = enteredDomain,
             enteredUserName = enteredUserName,
             enteredPassword = enteredPassword,
             additionalFields = additionalFields,
@@ -218,46 +246,6 @@ internal fun AddVaultItemContent(
     }
 }
 
-@Composable
-private fun ModalDragHandle(
-    onAction: (AddVaultItemViewModel.Action) -> Unit,
-    onDismissRequest: () -> Unit,
-    state: AddVaultItemViewModel.State,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = Size16),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        BackArrowButton(
-            modifier = Modifier.padding(start = Size16),
-            onClick = {
-                onAction(AddVaultItemViewModel.Action.Clear)
-                onDismissRequest()
-            }
-        )
-        Button(
-            modifier = Modifier
-                .padding(end = Size16)
-                .bounceClick(),
-            onClick = {
-                onAction(AddVaultItemViewModel.Action.SavePassword)
-            },
-            enabled = state.isValid,
-        ) {
-            if (state.screenState is ScreenState.Loading) {
-                Loader(
-                    modifier = Modifier.size(Size24),
-                    iconTintColor = MaterialTheme.colorScheme.onPrimary
-                )
-            } else {
-                Text(text = stringResource(if (state.isEdit) ResString.update else ResString.save))
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -290,6 +278,7 @@ private fun GeneratePasswordDialog(
 internal fun AddPasswordFields(
     state: AddVaultItemViewModel.State,
     enteredTitle: MutableState<String>,
+    enteredDomain: MutableState<String>,
     enteredUserName: MutableState<String>,
     enteredPassword: MutableState<String>,
     additionalFields: MutableState<List<AdditionalFieldDto>>,
@@ -337,8 +326,12 @@ internal fun AddPasswordFields(
             )
             DomainField(
                 modifier = Modifier
-                    .padding(top = Size8, horizontal = Size16),
-                state = state
+                    .padding(top = Size8, horizontal = Size16)
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                state = state,
+                enteredDomain = enteredDomain,
+                onAction = onAction
             )
             LogoSearchResults(
                 modifier = Modifier
@@ -355,7 +348,7 @@ internal fun AddPasswordFields(
                     .padding(
                         horizontal = Size16,
                         bottom = Size8,
-                        top = if (state.domain.isNotBlank()) Size8 else SizeDefault
+                        top = Size8
                     ),
                 state = state,
                 onAction = onAction
@@ -428,7 +421,7 @@ private fun TitleField(
         modifier = Modifier.padding(
             start = Size16,
             end = Size16,
-            bottom = if (state.domain.isNotBlank()) SizeDefault else Size16
+            bottom = SizeDefault
         ),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
@@ -507,32 +500,28 @@ private fun TitleField(
 }
 
 @Composable
-private fun ColumnScope.DomainField(
+private fun DomainField(
     modifier: Modifier = Modifier,
+    enteredDomain: MutableState<String>,
     state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
 ) {
-    AnimatedVisibility(
-        visible = state.domain.isNotBlank()
-    ) {
-        PrimaryTextFieldWithBackground(
-            modifier = modifier
-                .weight(Percent100),
-            onValueChanged = {
-                // no-op
-            },
-            hint = stringResource(ResString.password),
-            value = state.domain,
-            textColor = themeColorUrl,
-            fontSize = Text18,
-            backgroundShape = RoundedCornerShape(
-                topStart = Size16,
-                bottomStart = Size4,
-                topEnd = Size16,
-                bottomEnd = Size4
-            ),
-            readOnly = true
+    PrimaryTextFieldWithBackground(
+        modifier = modifier,
+        onValueChanged = {
+            onAction(AddVaultItemViewModel.Action.EnterDomain(it))
+        },
+        hint = stringResource(ResString.domain),
+        value = enteredDomain.value,
+        textColor = themeColorUrl,
+        fontSize = Text18,
+        backgroundShape = RoundedCornerShape(
+            topStart = Size16,
+            bottomStart = if (state.isLogoSearchResultsVisible) SizeDefault else Size4,
+            topEnd = Size16,
+            bottomEnd = if (state.isLogoSearchResultsVisible) SizeDefault else Size4
         )
-    }
+    )
 }
 
 @Composable
@@ -547,7 +536,12 @@ private fun LogoSearchResults(
         RoundedContainer(
             modifier = modifier,
             color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            shape = EquallyRounded.medium
+            shape = RoundedCornerShape(
+                topStart = SizeDefault,
+                topEnd = SizeDefault,
+                bottomStart = Size16,
+                bottomEnd = Size16
+            )
         ) {
             Column {
                 state.logoSearchResults.forEachIndexed { index, item ->

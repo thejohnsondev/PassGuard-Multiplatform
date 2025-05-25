@@ -76,6 +76,7 @@ import com.thejohnsondev.ui.designsystem.Size40
 import com.thejohnsondev.ui.designsystem.Size48
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.designsystem.SizeMinus
 import com.thejohnsondev.ui.designsystem.TopRounded
 import com.thejohnsondev.ui.designsystem.colorscheme.themeColorFavorite
@@ -147,7 +148,11 @@ fun PasswordItem(
     val cardPaddingHorizontal by itemTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
     }, label = "") {
-        if (isExpanded) Size4 else Size8
+        if (properties.resizeCardWhenExpanded) {
+            if (isExpanded) Size4 else Size8
+        } else {
+            SizeDefault
+        }
     }
     val imageSize by itemTransition.animateDp({
         tween(durationMillis = EXPAND_ANIM_DURATION)
