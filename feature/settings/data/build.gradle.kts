@@ -45,6 +45,9 @@ kotlin {
             // Arrow Either
             implementation(libs.arrow.core)
 
+            // DateTime
+            implementation(libs.kotlinx.datetime)
+
             // Ktor
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
