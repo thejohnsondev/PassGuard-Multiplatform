@@ -1,11 +1,15 @@
 package com.thejohnsondev.platform.filemanager
 
+import android.content.Context
+import android.os.Environment
 import java.io.File
 
-class DesktopFileManager: FileManager {
+class AndroidPlatformFileManager(
+    private val context: Context
+): PlatformFileManager {
     override fun downloadCSVWithContent(content: String, fileName: String): ExportResult {
         return try {
-            val downloadsDir = File(System.getProperty("user.home"), "Downloads")
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val file = File(downloadsDir, fileName)
             file.writeText(content)
             ExportResult(true, "File saved to Downloads: ${file.absolutePath}")

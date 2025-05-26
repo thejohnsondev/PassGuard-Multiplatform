@@ -1,5 +1,5 @@
 package com.thejohnsondev.platform.filemanager
 
-interface FileManager {
+interface PlatformFileManager {
     fun downloadCSVWithContent(content: String, fileName: String): ExportResult
 }

@@ -19,4 +19,8 @@ class IOSPlatformDependency: NSObject, PlatformDependency {
         return ClipboardUtilsImpl()
     }
     
+    func getFileManager() -> PlatformFileManager {
+        return FileManagerImpl()
+    }
+    
 }
