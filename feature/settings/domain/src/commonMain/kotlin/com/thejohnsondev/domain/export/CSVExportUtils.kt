@@ -21,7 +21,7 @@ object CSVExportUtils {
                 }
                 val sanitizedTitle = it.title.getSanitized()
                 val sanitizedDomain =
-                    it.domain?.let { domain -> "https://".plus(domain.getSanitized()) } // TODO validate url
+                    it.domain?.let { domain -> "https://".plus(domain.getSanitized()) }
                 val sanitizedUser = it.userName.getSanitized()
                 val sanitizedPass = it.password.getSanitized()
                 val notes = it.additionalFields.map { field ->
