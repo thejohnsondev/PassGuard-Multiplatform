@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation.export
+package com.thejohnsondev.presentation.exportv
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -63,7 +63,7 @@ fun ExportPasswordsScreen(
     paddingValues: PaddingValues,
     windowSizeClass: WindowWidthSizeClass,
     sheetState: SheetState,
-    viewModel: ExportPasswordsViewModel = koinViewModel<ExportPasswordsViewModel>(),
+    viewModel: ExportPasswordsViewModel = koinViewModel(),
     onExportSuccessful: () -> Unit,
     onExportError: (DisplayableMessageValue) -> Unit,
     onDismissRequest: () -> Unit,

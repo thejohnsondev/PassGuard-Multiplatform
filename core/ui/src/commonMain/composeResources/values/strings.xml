@@ -180,6 +180,10 @@
     <string name="export_passwords_not_exported_title">Attention</string>
     <string name="export_passwords_not_exported_description">The following passwords could not be exported. Ensure that each password has a valid URL specified.</string>
     <string name="export_passwords_not_exported_confirm">Export anyway</string>
+    <string name="import_title">Import passwords</string>
+    <string name="import_description">Select a CSV file with your passwords to import them into PassGuard.\nThis file should be compatible with Google Password Manager and can be exported from or imported into other services.</string>
+    <string name="btn_select_csv">Select the CSV file</string>
+
 
     <string name="password_domain_url_title">Web address:</string>
 </resources>

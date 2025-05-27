@@ -5,8 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.thejohnsondev.presentation.export.ExportPasswordsScreenContent
-import com.thejohnsondev.presentation.export.ExportPasswordsViewModel
+import com.thejohnsondev.presentation.exportv.ExportPasswordsScreenContent
+import com.thejohnsondev.presentation.exportv.ExportPasswordsViewModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 
 
