@@ -44,7 +44,6 @@ import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import vaultmultiplatform.core.ui.generated.resources.btn_select_csv
-import vaultmultiplatform.core.ui.generated.resources.ic_export_colored
 import vaultmultiplatform.core.ui.generated.resources.ic_import_colored
 import vaultmultiplatform.core.ui.generated.resources.import_description
 import vaultmultiplatform.core.ui.generated.resources.import_title
