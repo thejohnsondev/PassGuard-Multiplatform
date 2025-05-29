@@ -74,6 +74,8 @@ class VaultViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.Eagerly, State())
 
+    private var isVaultFetched = false
+
     fun perform(action: Action) {
         when (action) {
             is Action.FetchVault -> fetchVault(action.isFromLogin)
@@ -177,6 +179,10 @@ class VaultViewModel(
     }
 
     private fun fetchVault(isFromLogin: Boolean) = launchLoading {
+        if (isVaultFetched) {
+            showContent()
+            return@launchLoading
+        }
         callSync(isFromLogin)
         fetchFilters()
         fetchSettings()
@@ -275,6 +281,7 @@ class VaultViewModel(
                     isVaultEmpty = items.isEmpty()
                 )
             }
+            isVaultFetched = true
             showContent()
             stopModifiedItemAnim()
         }
