@@ -13,4 +13,8 @@ class DesktopPlatformFileManager: PlatformFileManager {
             ExportResult(false, "Export failed: ${e.message}")
         }
     }
+
+    override fun selectFile(): String? {
+        TODO("Not yet implemented")
+    }
 }
