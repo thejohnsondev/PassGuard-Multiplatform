@@ -13,7 +13,7 @@ import com.thejohnsondev.domain.export.CSVGenerationResult
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
-import com.thejohnsondev.platform.filemanager.ExportStatus
+import com.thejohnsondev.platform.filemanager.FileActionStatus
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -99,16 +99,16 @@ class ExportPasswordsViewModel(
         exportVaultUseCase.exportVault(csvContent, onCompletion = { exportResult ->
             launch {
                 when (exportResult.status) {
-                    ExportStatus.SUCCESS -> {
+                    FileActionStatus.SUCCESS -> {
                         showContent()
                         sendEvent(ExportSuccessfulEvent)
                     }
-                    ExportStatus.FAILURE -> {
+                    FileActionStatus.FAILURE -> {
                         Logger.e("Export failed: ${exportResult.message}")
                         showContent()
                         sendEvent(ExportErrorEvent(message = DisplayableMessageValue.ExportUnsuccessful))
                     }
-                    ExportStatus.CANCELED -> {
+                    FileActionStatus.CANCELED -> {
                         showContent()
                     }
                 }
