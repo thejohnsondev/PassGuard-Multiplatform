@@ -1,6 +1,12 @@
 package com.thejohnsondev.platform.filemanager
 
+enum class ExportStatus {
+    SUCCESS,
+    FAILURE,
+    CANCELED
+}
+
 data class ExportResult(
-    val success: Boolean,
+    val status: ExportStatus,
     val message: String
 )

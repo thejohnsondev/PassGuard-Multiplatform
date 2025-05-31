@@ -18,10 +18,10 @@ class AndroidPlatformFileManager: PlatformFileManager {
                 }
                 val file = File(downloadsDir, fileName)
                 file.writeText(content)
-                ExportResult(true, "File saved to Downloads: ${file.absolutePath}")
+                ExportResult(ExportStatus.SUCCESS, "File saved to Downloads: ${file.absolutePath}")
             } catch (e: Exception) {
                 e.printStackTrace()
-                ExportResult(false, "Export failed: ${e.message}")
+                ExportResult(ExportStatus.FAILURE, "Export failed: ${e.message}")
             }
             withContext(Dispatchers.Main) {
                 onCompletion(result)

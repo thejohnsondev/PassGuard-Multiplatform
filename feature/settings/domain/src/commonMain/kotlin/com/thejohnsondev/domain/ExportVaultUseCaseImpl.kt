@@ -1,9 +1,8 @@
 package com.thejohnsondev.domain
 
 import com.thejohnsondev.data.ExportImportRepository
-import com.thejohnsondev.domain.export.CSVExportUtils
-import com.thejohnsondev.model.vault.PasswordDto
 import com.thejohnsondev.platform.filemanager.ExportResult
+import com.thejohnsondev.platform.filemanager.ExportStatus
 
 class ExportVaultUseCaseImpl(
     private val exportImportRepository: ExportImportRepository,
@@ -16,7 +15,7 @@ class ExportVaultUseCaseImpl(
             exportImportRepository.exportPasswordsToCSV(csvContent, onCompletion)
         } catch (e: Exception) {
             ExportResult(
-                success = false,
+                status = ExportStatus.FAILURE,
                 message = e.message ?: "Unknown error",
             )
         }
