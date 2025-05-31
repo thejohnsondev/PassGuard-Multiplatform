@@ -3,18 +3,27 @@ import SwiftUI
 import ComposeApp
 
 struct ComposeView: UIViewControllerRepresentable {
+    @State private var iosPlatformDependency: IOSPlatformDependency = IOSPlatformDependency()
+    
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController(platformDependency: IOSPlatformDependency())
+        let mainComposeVC = MainViewControllerKt.MainViewController(
+            platformDependency: iosPlatformDependency
+        )
+        
+        iosPlatformDependency.setPresentingViewController(viewController: mainComposeVC)
+        return mainComposeVC
     }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        iosPlatformDependency.setPresentingViewController(viewController: uiViewController)
+    }
 }
 
 struct ContentView: View {
     var body: some View {
         ComposeView()
-                .ignoresSafeArea(edges: .all)
-                .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
+            .ignoresSafeArea(edges: .all)
+            .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
     }
 }
 
