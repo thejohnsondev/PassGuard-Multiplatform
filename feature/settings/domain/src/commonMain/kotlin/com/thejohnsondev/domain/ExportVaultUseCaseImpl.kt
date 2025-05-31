@@ -10,9 +10,10 @@ class ExportVaultUseCaseImpl(
 ) : ExportVaultUseCase {
     override suspend fun exportVault(
         csvContent: String,
-    ): ExportResult {
-        return try {
-            exportImportRepository.exportPasswordsToCSV(csvContent)
+        onCompletion: (ExportResult) -> Unit
+    ) {
+        try {
+            exportImportRepository.exportPasswordsToCSV(csvContent, onCompletion)
         } catch (e: Exception) {
             ExportResult(
                 success = false,

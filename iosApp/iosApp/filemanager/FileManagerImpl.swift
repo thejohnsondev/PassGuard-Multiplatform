@@ -1,19 +1,25 @@
 import Foundation
 import ComposeApp
 import UniformTypeIdentifiers
-import SwiftUI
+import UIKit
 
 @objcMembers
 class FileManagerImpl: NSObject, PlatformFileManager, UIDocumentPickerDelegate {
     
     weak var presentingViewController: UIViewController?
+    
     private var pickerDelegateStrongRef: FileManagerImpl?
     private var temporaryFileURL: URL?
     
-    func downloadCSVWithContent(content: String, fileName: String) -> ExportResult {
+    private var kotlinCompletionCallback: ((ExportResult) -> Void)?
+    
+    func downloadCSVWithContent(content: String, fileName: String, onCompletion: @escaping (ExportResult) -> Void) {
+        self.kotlinCompletionCallback = onCompletion
+        
         guard let presenter = presentingViewController else {
-            print("FileManagerImpl: Error: Presenting UIViewController is not set. Cannot present document picker.")
-            return ExportResult(success: false, message: "Export failed: UI context not available. (UIViewController not set)")
+            let errorResult = ExportResult(success: false, message: "Export failed: UI context not available (UIViewController not set).")
+            onCompletion(errorResult)
+            return
         }
         
         let tempFileName = "temp_\(fileName)"
@@ -23,13 +29,14 @@ class FileManagerImpl: NSObject, PlatformFileManager, UIDocumentPickerDelegate {
         
         do {
             try content.write(to: fileURL, atomically: true, encoding: .utf8)
+            
             DispatchQueue.main.async {
                 self.presentPicker(for: fileURL, fileName: fileName, presenter: presenter)
             }
-            
-            return ExportResult(success: true, message: "File export initiated. Please choose a location to save.")
         } catch {
-            return ExportResult(success: false, message: "Export failed: Failed to create temporary file: \(error.localizedDescription)")
+            let errorResult = ExportResult(success: false, message: "Export failed: Failed to create temporary file: \(error.localizedDescription)")
+            onCompletion(errorResult)
+            cleanup()
         }
     }
     
@@ -39,35 +46,34 @@ class FileManagerImpl: NSObject, PlatformFileManager, UIDocumentPickerDelegate {
         return nil
     }
     
-    
     private func presentPicker(for fileURL: URL, fileName: String, presenter: UIViewController) {
         let documentPicker = UIDocumentPickerViewController(forExporting: [fileURL], asCopy: true)
-        
         documentPicker.delegate = self
         self.pickerDelegateStrongRef = self
-        
         documentPicker.shouldShowFileExtensions = true
         
         presenter.present(documentPicker, animated: true)
     }
     
-    
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         if let savedURL = urls.first {
-            print("FileManagerImpl: File successfully saved to: \(savedURL.lastPathComponent)")
+            let result = ExportResult(success: true, message: "File successfully saved to: \(savedURL.lastPathComponent)")
+            kotlinCompletionCallback?(result)
         } else {
-            print("FileManagerImpl: Document picker completed, but no URL was returned.")
+            let result = ExportResult(success: false, message: "File picker completed, but no URL returned.")
+            kotlinCompletionCallback?(result)
         }
-        cleanupExportProcess()
+        cleanup()
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("FileManagerImpl: Document picker was cancelled.")
-        cleanupExportProcess()
+        let result = ExportResult(success: false, message: "File export cancelled by user.")
+        kotlinCompletionCallback?(result)
+        cleanup()
     }
     
     
-    private func cleanupExportProcess() {
+    private func cleanup() {
         if let url = temporaryFileURL {
             do {
                 try FileManager.default.removeItem(at: url)
@@ -78,5 +84,6 @@ class FileManagerImpl: NSObject, PlatformFileManager, UIDocumentPickerDelegate {
         }
         self.temporaryFileURL = nil
         self.pickerDelegateStrongRef = nil
+        self.kotlinCompletionCallback = nil
     }
 }

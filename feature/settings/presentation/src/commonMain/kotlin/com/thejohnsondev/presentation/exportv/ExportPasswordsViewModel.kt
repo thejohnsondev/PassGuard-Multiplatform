@@ -95,16 +95,19 @@ class ExportPasswordsViewModel(
     }
 
     private suspend fun exportCSVContent(csvContent: String) {
-        val exportResult = exportVaultUseCase.exportVault(csvContent)
-        if (exportResult.success) {
-            showContent()
-            sendEvent(ExportSuccessfulEvent)
-        } else {
-            Logger.e("Export failed: ${exportResult.message}")
-            // TODO show error message
-            showContent()
-            sendEvent(ExportErrorEvent(message = DisplayableMessageValue.ExportUnsuccessful))
-        }
+        // TODO handle cancelation
+        exportVaultUseCase.exportVault(csvContent, onCompletion = { exportResult ->
+            launch {
+                if (exportResult.success) {
+                    showContent()
+                    sendEvent(ExportSuccessfulEvent)
+                } else {
+                    Logger.e("Export failed: ${exportResult.message}")
+                    showContent()
+                    sendEvent(ExportErrorEvent(message = DisplayableMessageValue.ExportUnsuccessful))
+                }
+            }
+        })
     }
 
     data object ExportSuccessfulEvent: OneTimeEvent()

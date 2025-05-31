@@ -16,7 +16,7 @@ private fun generateExportFileName(): String {
 class ExportImportRepositoryImpl(
     private val platformFileManager: PlatformFileManager
 ) : ExportImportRepository {
-    override fun exportPasswordsToCSV(content: String): ExportResult {
-        return platformFileManager.downloadCSVWithContent(content, generateExportFileName())
+    override fun exportPasswordsToCSV(content: String, onCompletion: (ExportResult) -> Unit) {
+        return platformFileManager.downloadCSVWithContent(content, generateExportFileName(), onCompletion)
     }
 }
