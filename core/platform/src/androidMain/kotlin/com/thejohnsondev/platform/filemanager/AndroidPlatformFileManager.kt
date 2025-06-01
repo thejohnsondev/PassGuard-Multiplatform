@@ -29,8 +29,8 @@ class AndroidPlatformFileManager: PlatformFileManager {
         }
     }
 
-
-    override fun selectFile(): String? {
-        TODO("Not yet implemented")
+    override fun importCSV(onCompletion: (ImportResult) -> Unit) {
+        AndroidActivityProvider.launchFilePicker(onCompletion)
     }
+
 }

@@ -4,6 +4,7 @@ import com.thejohnsondev.common.utils.EXPORT_FILE_TIME_FORMAT
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.common.utils.parseTime
 import com.thejohnsondev.platform.filemanager.ExportResult
+import com.thejohnsondev.platform.filemanager.ImportResult
 import com.thejohnsondev.platform.filemanager.PlatformFileManager
 
 const val EXPORT_FILE_NAME = "passguard_passwords"
@@ -18,5 +19,9 @@ class ExportImportRepositoryImpl(
 ) : ExportImportRepository {
     override fun exportPasswordsToCSV(content: String, onCompletion: (ExportResult) -> Unit) {
         return platformFileManager.downloadCSVWithContent(content, generateExportFileName(), onCompletion)
+    }
+
+    override fun importCSV(onCompletion: (ImportResult) -> Unit) {
+        platformFileManager.importCSV(onCompletion)
     }
 }

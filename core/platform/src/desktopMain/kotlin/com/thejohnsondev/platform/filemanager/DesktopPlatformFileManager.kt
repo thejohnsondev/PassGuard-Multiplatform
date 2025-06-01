@@ -5,6 +5,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import javax.swing.JFileChooser
+import javax.swing.filechooser.FileNameExtensionFilter
 
 class DesktopPlatformFileManager : PlatformFileManager {
 
@@ -21,7 +23,10 @@ class DesktopPlatformFileManager : PlatformFileManager {
                 }
                 val file = File(downloadsDir, fileName)
                 file.writeText(content)
-                ExportResult(FileActionStatus.SUCCESS, "File saved to Downloads: ${file.absolutePath}")
+                ExportResult(
+                    FileActionStatus.SUCCESS,
+                    "File saved to Downloads: ${file.absolutePath}"
+                )
             } catch (e: Exception) {
                 ExportResult(FileActionStatus.FAILURE, "Export failed: ${e.message}")
             }
@@ -31,7 +36,66 @@ class DesktopPlatformFileManager : PlatformFileManager {
         }
     }
 
-    override fun selectFile(): String? {
-        TODO("Not yet implemented")
+    override fun importCSV(onCompletion: (ImportResult) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val fileChooser = JFileChooser().apply {
+                dialogTitle = "Select File to Import"
+                fileFilter = FileNameExtensionFilter("CSV Files (*.csv)", "csv")
+                currentDirectory = File(System.getProperty("user.home"))
+            }
+
+            val result = withContext(Dispatchers.Main) {
+                fileChooser.showOpenDialog(null)
+            }
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                val selectedFile = fileChooser.selectedFile
+                if (selectedFile != null) {
+                    try {
+                        val content = selectedFile.readText()
+                        withContext(Dispatchers.Main) {
+                            onCompletion(
+                                ImportResult(
+                                    FileActionStatus.SUCCESS,
+                                    "File selected: ${selectedFile.name}",
+                                    content
+                                )
+                            )
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            onCompletion(
+                                ImportResult(
+                                    FileActionStatus.FAILURE,
+                                    "Failed to read file: ${e.message}"
+                                )
+                            )
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        onCompletion(ImportResult(FileActionStatus.FAILURE, "No file selected."))
+                    }
+                }
+            } else if (result == JFileChooser.CANCEL_OPTION) {
+                withContext(Dispatchers.Main) {
+                    onCompletion(
+                        ImportResult(
+                            FileActionStatus.CANCELED,
+                            "File selection cancelled."
+                        )
+                    )
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    onCompletion(
+                        ImportResult(
+                            FileActionStatus.FAILURE,
+                            "File selection failed with unknown error."
+                        )
+                    )
+                }
+            }
+        }
     }
 }
