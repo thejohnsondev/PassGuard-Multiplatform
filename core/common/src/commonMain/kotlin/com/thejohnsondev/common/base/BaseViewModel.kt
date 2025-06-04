@@ -48,6 +48,10 @@ abstract class BaseViewModel : ViewModel() {
         screenState.emit(ScreenState.ShowContent)
     }
 
+    protected suspend fun showError(message: String) {
+        screenState.emit(ScreenState.Error(message))
+    }
+
     protected suspend fun handleError(error: Error) {
         showContent()
         val errorDisplayMessage = when (error) {

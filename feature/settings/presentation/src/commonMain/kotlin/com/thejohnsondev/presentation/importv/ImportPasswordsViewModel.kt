@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 class ImportPasswordsViewModel(
     private val selectCSVUseCase: SelectCSVUseCase,
     private val parsePasswordsCSVUseCase: ParsePasswordsCSVUseCase
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
     val state = combine(
@@ -40,9 +40,7 @@ class ImportPasswordsViewModel(
         _state.update { State() }
     }
 
-    private fun selectFile() {
-        // TODO implement
-    private fun selectFile() = launch {
+    private fun selectFile() = launchLoading {
         selectCSVUseCase(
             onCompletion = { importResult ->
                 when (importResult.status) {
@@ -56,41 +54,37 @@ class ImportPasswordsViewModel(
     }
 
     private fun onFileSelectionCanceled() = launch {
-        // TODO implement
+        showContent()
     }
 
     private fun onFileSelectionError(errorMessage: String) = launch {
-        // TODO implement
+        showError(errorMessage)
     }
 
     private fun onCSVFileSelected(
         csvContent: String?,
     ) = launch {
         csvContent ?: run {
-            // TODO show error
+            showError("CSV file content is empty.") // TODO extract to resources
             return@launch
         }
         val parsedPasswordsResult = parsePasswordsCSVUseCase(csvContent)
-        when (parsedPasswordsResult) {
-            is CsvParsingResult.EmptyContent -> {
-                // TODO show empty content state
-            }
-            is CsvParsingResult.Success -> {
-                // TODO show success with parsed and unparsed passwords and other data
-            }
-            is CsvParsingResult.ValidationError -> {
-                // TODO show validation error with details
-            }
+        _state.update {
+            it.copy(
+                csvParsingResult = parsedPasswordsResult
+            )
         }
+        showContent()
     }
 
     sealed class Action {
-        data object Clear: Action()
-        data object SelectFile: Action()
+        data object Clear : Action()
+        data object SelectFile : Action()
     }
 
     data class State(
         val screenState: ScreenState = ScreenState.ShowContent,
+        val csvParsingResult: CsvParsingResult? = null
     )
 
 }

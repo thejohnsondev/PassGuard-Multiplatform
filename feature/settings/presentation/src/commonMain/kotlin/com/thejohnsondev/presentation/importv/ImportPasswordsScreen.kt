@@ -2,6 +2,7 @@ package com.thejohnsondev.presentation.importv
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.dialog.ModalDragHandle
+import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
@@ -63,10 +65,10 @@ fun ImportPasswordsScreen(
 
     ModalBottomSheet(
         modifier = Modifier.applyIf(windowSizeClass.isCompact()) {
-                systemBarsPadding()
-            }.applyIf(!windowSizeClass.isCompact()) {
-                padding(top = paddingValues.calculateTopPadding())
-            },
+            systemBarsPadding()
+        }.applyIf(!windowSizeClass.isCompact()) {
+            padding(top = paddingValues.calculateTopPadding())
+        },
         onDismissRequest = {
             viewModel.perform(ImportPasswordsViewModel.Action.Clear)
             onDismissRequest()
@@ -96,39 +98,54 @@ fun ImportPasswordsScreenContent(
     state: ImportPasswordsViewModel.State,
     onAction: (ImportPasswordsViewModel.Action) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        Image(
-            modifier = Modifier.padding(Size16).size(Size128),
-            imageVector = vectorResource(ResDrawable.ic_import_colored),
-            contentDescription = "Export Icon",
-        )
-        Text(
-            modifier = Modifier.padding(Size16),
-            text = stringResource(ResString.import_title),
-            style = MaterialTheme.typography.displaySmall,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Text(
-            modifier = Modifier.padding(top = Size4, horizontal = Size16),
-            text = stringResource(ResString.import_description),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.weight(Percent100))
-        RoundedButton(
-            modifier = Modifier.padding(horizontal = Size16, bottom = Size32).fillMaxWidth(),
-            text = stringResource(ResString.btn_select_csv),
-            onClick = {
-                onAction(ImportPasswordsViewModel.Action.SelectFile)
-            },
-            loading = state.screenState == ScreenState.Loading,
-        )
 
+    when (state.screenState) {
+        ScreenState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Loader(
+                    modifier = Modifier.size(Size32)
+                        .align(Alignment.Center)
+                )
+            }
+        }
+        else -> {
+            Column(
+                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                Image(
+                    modifier = Modifier.padding(Size16).size(Size128),
+                    imageVector = vectorResource(ResDrawable.ic_import_colored),
+                    contentDescription = "Export Icon",
+                )
+                Text(
+                    modifier = Modifier.padding(Size16),
+                    text = stringResource(ResString.import_title),
+                    style = MaterialTheme.typography.displaySmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    modifier = Modifier.padding(top = Size4, horizontal = Size16),
+                    text = stringResource(ResString.import_description),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.weight(Percent100))
+                RoundedButton(
+                    modifier = Modifier.padding(horizontal = Size16, bottom = Size32)
+                        .fillMaxWidth(),
+                    text = stringResource(ResString.btn_select_csv),
+                    onClick = {
+                        onAction(ImportPasswordsViewModel.Action.SelectFile)
+                    },
+                    loading = state.screenState == ScreenState.Loading,
+                )
+            }
+        }
     }
 }
