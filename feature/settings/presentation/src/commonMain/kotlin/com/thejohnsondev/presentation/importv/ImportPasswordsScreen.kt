@@ -111,41 +111,73 @@ fun ImportPasswordsScreenContent(
             }
         }
         else -> {
-            Column(
-                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                Image(
-                    modifier = Modifier.padding(Size16).size(Size128),
-                    imageVector = vectorResource(ResDrawable.ic_import_colored),
-                    contentDescription = "Export Icon",
+            state.csvParsingResult?.let {
+                ImportResultContent(
+                    state = state,
+                    onAction = onAction
                 )
-                Text(
-                    modifier = Modifier.padding(Size16),
-                    text = stringResource(ResString.import_title),
-                    style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    modifier = Modifier.padding(top = Size4, horizontal = Size16),
-                    text = stringResource(ResString.import_description),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.weight(Percent100))
-                RoundedButton(
-                    modifier = Modifier.padding(horizontal = Size16, bottom = Size32)
-                        .fillMaxWidth(),
-                    text = stringResource(ResString.btn_select_csv),
-                    onClick = {
-                        onAction(ImportPasswordsViewModel.Action.SelectFile)
-                    },
-                    loading = state.screenState == ScreenState.Loading,
+            } ?: run {
+                SelectCSVContent(
+                    state = state,
+                    onAction = onAction
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun SelectCSVContent(
+    state: ImportPasswordsViewModel.State,
+    onAction: (ImportPasswordsViewModel.Action) -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Image(
+            modifier = Modifier.padding(Size16).size(Size128),
+            imageVector = vectorResource(ResDrawable.ic_import_colored),
+            contentDescription = "Export Icon",
+        )
+        Text(
+            modifier = Modifier.padding(Size16),
+            text = stringResource(ResString.import_title),
+            style = MaterialTheme.typography.displaySmall,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            modifier = Modifier.padding(top = Size4, horizontal = Size16),
+            text = stringResource(ResString.import_description),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.weight(Percent100))
+        RoundedButton(
+            modifier = Modifier.padding(horizontal = Size16, bottom = Size32)
+                .fillMaxWidth(),
+            text = stringResource(ResString.btn_select_csv),
+            onClick = {
+                onAction(ImportPasswordsViewModel.Action.SelectFile)
+            },
+            loading = state.screenState == ScreenState.Loading,
+        )
+    }
+}
+
+@Composable
+private fun ImportResultContent(
+    state: ImportPasswordsViewModel.State,
+    onAction: (ImportPasswordsViewModel.Action) -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        // TODO implement
     }
 }
