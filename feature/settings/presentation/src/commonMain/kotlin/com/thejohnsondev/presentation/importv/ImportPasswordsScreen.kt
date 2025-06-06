@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -29,13 +33,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.components.loader.Loader
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordItem
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordItemProperties
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
+import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
@@ -45,9 +53,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import vaultmultiplatform.core.ui.generated.resources.btn_import
 import vaultmultiplatform.core.ui.generated.resources.btn_select_csv
+import vaultmultiplatform.core.ui.generated.resources.cancel
 import vaultmultiplatform.core.ui.generated.resources.ic_import_colored
 import vaultmultiplatform.core.ui.generated.resources.import_description
+import vaultmultiplatform.core.ui.generated.resources.import_successful_description
+import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entries
+import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entry_line_number
 import vaultmultiplatform.core.ui.generated.resources.import_title
 
 @OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3Api::class)
@@ -111,7 +124,7 @@ fun ImportPasswordsScreenContent(
             }
         }
         else -> {
-            state.csvParsingResult?.let {
+            state.importResult?.let {
                 ImportResultContent(
                     state = state,
                     onAction = onAction
@@ -178,6 +191,142 @@ private fun ImportResultContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        // TODO implement
+        when (state.importResult) {
+            is ImportPasswordsViewModel.ImportUIResult.ImportSuccess -> {
+                ImportSuccessContent(
+                    successImportResult = state.importResult,
+                    onAction = onAction
+                )
+            }
+            is ImportPasswordsViewModel.ImportUIResult.EmptyContent -> {
+                ImportEmptyContent()
+            }
+            is ImportPasswordsViewModel.ImportUIResult.ValidationError -> {
+                ImportErrorContent()
+            }
+            null -> {}
+        }
     }
+}
+
+@Composable
+private fun ColumnScope.ImportSuccessContent(
+    successImportResult: ImportPasswordsViewModel.ImportUIResult.ImportSuccess,
+    onAction: (ImportPasswordsViewModel.Action) -> Unit
+) {
+    Text(
+        text = stringResource(ResString.import_successful_description),
+        style = MaterialTheme.typography.titleMedium
+    )
+    LazyColumn(
+        modifier = Modifier
+            .padding(top = Size16, horizontal = Size8)
+            .weight(Percent100),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        items(successImportResult.passwords) { password ->
+            PasswordItem(
+                properties = PasswordItemProperties(
+                    showFavoriteButton = false,
+                    showCopyButton = false,
+                    showEditButton = false,
+                    showDeleteButton = false,
+                    swapColorsWhenExpanding = true,
+                    resizeCardWhenExpanded = true
+                ),
+                item = password,
+                onClick = {
+                    onAction(
+                        ImportPasswordsViewModel.Action.ToggleOpenItem(
+                            password.id
+                        )
+                    )
+                },
+                isExpanded = password.isExpanded,
+                onDeleteClick = { /* no-op */ },
+                onEditClick = { /* no-op */ },
+                onCopySensitive = { /* no-op */ },
+                onCopy = { /* no-op */ },
+                onFavoriteClick = { /* no-op */ },
+            )
+        }
+        if (successImportResult.failedParsingEntries.isNotEmpty()) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .padding(Size16),
+                    text = stringResource(ResString.import_successful_failed_entries)
+                )
+            }
+            items(successImportResult.failedParsingEntries) { failedEntry ->
+                RoundedContainer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Size16, vertical = Size4)
+                ) {
+                    Column {
+                        Text(
+                            modifier = Modifier.padding(horizontal = Size16, top = Size16),
+                            text = stringResource(ResString.import_successful_failed_entry_line_number, failedEntry.lineNumber.toString()),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                        Text(
+                            modifier = Modifier.padding(vertical = Size8, horizontal = Size16),
+                            text = failedEntry.rawLineContent,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        failedEntry.reason?.let { reason ->
+                            Text(
+                                modifier = Modifier.padding(bottom = Size16, horizontal = Size16),
+                                text = reason,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Column(
+        modifier = Modifier
+            .padding(Size16)
+    ) {
+        // TODO change buttons design, make cancel tas text or outlined
+        RoundedButton(
+            text = stringResource(ResString.btn_import),
+            onClick = {
+                // TODO implement
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        )
+        RoundedButton(
+            modifier = Modifier
+                .padding(top = Size8),
+            text = stringResource(ResString.cancel),
+            onClick = {
+                // TODO implement
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.error,
+                contentColor = MaterialTheme.colorScheme.onError
+            ) // TODO add button style for text button
+        )
+    }
+}
+
+@Composable
+private fun ImportEmptyContent() {
+    // TODO implement
+}
+
+@Composable
+private fun ImportErrorContent() {
+    // TODO implement
 }

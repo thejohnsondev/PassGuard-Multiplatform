@@ -5,7 +5,9 @@ import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.ParsePasswordsCSVUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
 import com.thejohnsondev.domain.SelectCSVUseCase
+import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.export.CsvParsingResult
+import com.thejohnsondev.domain.export.FailedPasswordParsingEntry
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.platform.filemanager.FileActionStatus
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
@@ -18,7 +20,8 @@ import kotlinx.coroutines.flow.update
 class ImportPasswordsViewModel(
     private val selectCSVUseCase: SelectCSVUseCase,
     private val parsePasswordsCSVUseCase: ParsePasswordsCSVUseCase,
-    private val mapToUiModelsUseCase: PasswordsMapToUiModelsUseCase
+    private val mapToUiModelsUseCase: PasswordsMapToUiModelsUseCase,
+    private val toggleOpenedItemUseCase: ToggleOpenedItemUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -34,8 +37,9 @@ class ImportPasswordsViewModel(
 
     fun perform(action: Action) {
         when (action) {
-            Action.Clear -> clear()
-            Action.SelectFile -> selectFile()
+            is Action.Clear -> clear()
+            is Action.SelectFile -> selectFile()
+            is Action.ToggleOpenItem -> toggleOpenItem(action.itemId)
         }
     }
 
@@ -75,24 +79,69 @@ class ImportPasswordsViewModel(
         val successfullyParsedPasswords = mapToUiModelsUseCase(
             (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
         )
+        val importResult = when (parsedPasswordsResult) {
+            is CsvParsingResult.EmptyContent -> ImportUIResult.EmptyContent
+            is CsvParsingResult.Success -> ImportUIResult.ImportSuccess(
+                passwords = successfullyParsedPasswords,
+                failedParsingEntries = parsedPasswordsResult.failedEntries,
+                dataLinesProcessed = parsedPasswordsResult.summary.dataLinesProcessed
+            )
+
+            is CsvParsingResult.ValidationError -> ImportUIResult.ValidationError(
+                message = parsedPasswordsResult.message,
+                rawContent = parsedPasswordsResult.rawContent,
+                details = parsedPasswordsResult.details
+            )
+        }
         _state.update {
             it.copy(
-                successfullyParsedPasswords = successfullyParsedPasswords,
-                csvParsingResult = parsedPasswordsResult
+                importResult = importResult
             )
         }
         showContent()
     }
 
+    private fun toggleOpenItem(itemId: String?) = launch {
+        val currentList = (_state.value.importResult as? ImportUIResult.ImportSuccess)?.passwords
+        currentList?.let {
+            val updatedList = toggleOpenedItemUseCase(itemId, listOf(currentList))
+            _state.update { state ->
+                state.copy(
+                    importResult = (_state.value.importResult as ImportUIResult.ImportSuccess).copy(
+                        passwords = updatedList.first()
+                    )
+                )
+            }
+        }
+    }
+
+    sealed class ImportUIResult {
+        data class ImportSuccess(
+            val passwords: List<PasswordUIModel>,
+            val failedParsingEntries: List<FailedPasswordParsingEntry>,
+            val dataLinesProcessed: Int,
+        ) : ImportUIResult()
+
+        data class ValidationError(
+            val message: String,
+            val rawContent: String,
+            val details: String? = null,
+        ) : ImportUIResult()
+
+        data object EmptyContent : ImportUIResult()
+    }
+
     sealed class Action {
         data object Clear : Action()
         data object SelectFile : Action()
+        data class ToggleOpenItem(
+            val itemId: String?,
+        ) : Action()
     }
 
     data class State(
         val screenState: ScreenState = ScreenState.ShowContent,
-        val successfullyParsedPasswords: List<PasswordUIModel>? = null,
-        val csvParsingResult: CsvParsingResult? = null
+        val importResult: ImportUIResult? = null,
     )
 
 }
