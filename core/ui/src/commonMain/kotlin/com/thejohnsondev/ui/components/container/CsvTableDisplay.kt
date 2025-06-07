@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.ui.designsystem.Percent10
 import com.thejohnsondev.ui.designsystem.Percent100
-import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
@@ -49,7 +48,7 @@ fun CsvTableDisplay(
     val dataRows = lines.drop(1).map { it.split(",") }
 
     RoundedContainer(
-        modifier = modifier.fillMaxWidth().padding(Size16).border(
+        modifier = modifier.fillMaxWidth().border(
             width = SizeBorder,
             color = MaterialTheme.colorScheme.primary,
             shape = RoundedCornerShape(

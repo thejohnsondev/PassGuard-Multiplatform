@@ -7,12 +7,21 @@ import com.thejohnsondev.model.vault.PasswordDto
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
+const val DEFAULT_HEADER = "name,url,username,password,note"
+const val SAMPLE_ROW = "PassGuard,https://example.com,username,password,"
+
 object CSVImportExportUtils {
+    fun getSampleCsvContent(): String {
+        return """
+        $DEFAULT_HEADER
+        $SAMPLE_ROW
+    """.trimIndent()
+    }
     fun generateCsvContentForPasswords(passwords: List<PasswordDto>): CSVGenerationResult {
         return try {
             val notExportedPasswords = mutableListOf<PasswordDto>()
 
-            var header = "name,url,username,password,note"
+            var header = DEFAULT_HEADER
             val maxNumberOfAdditionalFields =
                 passwords.maxOfOrNull { it.additionalFields.size } ?: 0
             if (maxNumberOfAdditionalFields > 0) {

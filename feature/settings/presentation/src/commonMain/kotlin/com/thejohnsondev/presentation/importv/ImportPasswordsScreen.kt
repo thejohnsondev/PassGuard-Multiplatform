@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.thejohnsondev.domain.export.CSVImportExportUtils
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.importv.ImportPasswordsViewModel.ImportSuccessfulEvent
@@ -71,6 +72,7 @@ import vaultmultiplatform.core.ui.generated.resources.import_description
 import vaultmultiplatform.core.ui.generated.resources.import_empty_csv_description
 import vaultmultiplatform.core.ui.generated.resources.import_empty_csv_title
 import vaultmultiplatform.core.ui.generated.resources.import_invalid_csv_description
+import vaultmultiplatform.core.ui.generated.resources.import_invalid_csv_sample_description
 import vaultmultiplatform.core.ui.generated.resources.import_invalid_csv_title
 import vaultmultiplatform.core.ui.generated.resources.import_successful_description
 import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entries_description
@@ -241,7 +243,8 @@ private fun ImportResultContent(
 
             is ImportPasswordsViewModel.ImportUIResult.ValidationError -> {
                 ImportErrorContent(
-                    onAction = onAction
+                    onAction = onAction,
+                    onCancelClick = onCancelClick
                 )
             }
 
@@ -331,7 +334,7 @@ private fun ColumnScope.ImportSuccessContent(
                             color = MaterialTheme.colorScheme.onErrorContainer
                         )
                         CsvTableDisplay(
-                            modifier = Modifier.padding(vertical = Size8),
+                            modifier = Modifier.padding(vertical = Size8, horizontal = Size16),
                             csvContent = failedEntry.rawLineContent,
                             errorValue = failedEntry.errorField
                         )
@@ -413,7 +416,8 @@ private fun ColumnScope.ImportEmptyContent(
 
 @Composable
 private fun ColumnScope.ImportErrorContent(
-    onAction: (ImportPasswordsViewModel.Action) -> Unit
+    onAction: (ImportPasswordsViewModel.Action) -> Unit,
+    onCancelClick: () -> Unit
 ) {
     Image(
         modifier = Modifier.padding(Size16).size(Size128),
@@ -428,19 +432,42 @@ private fun ColumnScope.ImportErrorContent(
         color = MaterialTheme.colorScheme.onSurface
     )
     Text(
-        modifier = Modifier.padding(top = Size4, horizontal = Size16),
+        modifier = Modifier.padding(horizontal = Size16),
         text = stringResource(ResString.import_invalid_csv_description),
         style = MaterialTheme.typography.titleSmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = TextAlign.Center
     )
+    Text(
+        modifier = Modifier.padding(top = Size32, horizontal = Size16),
+        text = stringResource(ResString.import_invalid_csv_sample_description),
+        style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        textAlign = TextAlign.Center
+    )
+    CsvTableDisplay(
+        modifier = Modifier.padding(horizontal = Size16, top = Size16),
+        csvContent = CSVImportExportUtils.getSampleCsvContent()
+    )
     Spacer(modifier = Modifier.weight(Percent100))
     RoundedButton(
-        modifier = Modifier.padding(horizontal = Size16, bottom = Size32)
+        modifier = Modifier.padding(horizontal = Size16)
             .fillMaxWidth(),
         text = stringResource(ResString.btn_select_another_csv),
         onClick = {
             onAction(ImportPasswordsViewModel.Action.SelectFile)
+        }
+    )
+    RoundedButton(
+        modifier = Modifier
+            .padding(top = Size8, bottom = Size32, horizontal = Size16),
+        text = stringResource(ResString.cancel),
+        onClick = {
+            onCancelClick()
         },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
     )
 }
