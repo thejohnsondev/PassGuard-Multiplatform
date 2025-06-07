@@ -12,10 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.dialog.ModalDragHandle
@@ -44,6 +46,8 @@ import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
@@ -59,8 +63,10 @@ import vaultmultiplatform.core.ui.generated.resources.cancel
 import vaultmultiplatform.core.ui.generated.resources.ic_import_colored
 import vaultmultiplatform.core.ui.generated.resources.import_description
 import vaultmultiplatform.core.ui.generated.resources.import_successful_description
-import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entries
+import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entries_description
+import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entries_title
 import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entry_line_number
+import vaultmultiplatform.core.ui.generated.resources.import_successful_title
 import vaultmultiplatform.core.ui.generated.resources.import_title
 
 @OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3Api::class)
@@ -198,12 +204,15 @@ private fun ImportResultContent(
                     onAction = onAction
                 )
             }
+
             is ImportPasswordsViewModel.ImportUIResult.EmptyContent -> {
                 ImportEmptyContent()
             }
+
             is ImportPasswordsViewModel.ImportUIResult.ValidationError -> {
                 ImportErrorContent()
             }
+
             null -> {}
         }
     }
@@ -214,24 +223,28 @@ private fun ColumnScope.ImportSuccessContent(
     successImportResult: ImportPasswordsViewModel.ImportUIResult.ImportSuccess,
     onAction: (ImportPasswordsViewModel.Action) -> Unit
 ) {
-    Text(
-        text = stringResource(ResString.import_successful_description),
-        style = MaterialTheme.typography.titleMedium
-    )
-    LazyColumn(
+    ExpandableSectionItem(
         modifier = Modifier
-            .padding(top = Size16, horizontal = Size8)
-            .weight(Percent100),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = Size16, top = Size8)
+            .fillMaxWidth(),
+        title = stringResource(ResString.import_successful_title),
+        description = stringResource(ResString.import_successful_description),
+        isFirstItem = true,
+        isLastItem = successImportResult.failedParsingEntries.isEmpty(),
+        isOpenedByDefault = true,
+        icon = Icons.Default.CheckCircle,
+        colors = DeepForestSelectableItemColors
     ) {
-        items(successImportResult.passwords) { password ->
+        successImportResult.passwords.forEach { password ->
             PasswordItem(
+                modifier = Modifier
+                    .padding(horizontal = Size8),
                 properties = PasswordItemProperties(
                     showFavoriteButton = false,
                     showCopyButton = false,
                     showEditButton = false,
                     showDeleteButton = false,
-                    swapColorsWhenExpanding = true,
+                    swapColorsWhenExpanding = false,
                     resizeCardWhenExpanded = true
                 ),
                 item = password,
@@ -250,19 +263,24 @@ private fun ColumnScope.ImportSuccessContent(
                 onFavoriteClick = { /* no-op */ },
             )
         }
-        if (successImportResult.failedParsingEntries.isNotEmpty()) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .padding(Size16),
-                    text = stringResource(ResString.import_successful_failed_entries)
-                )
-            }
-            items(successImportResult.failedParsingEntries) { failedEntry ->
+    }
+    if (successImportResult.failedParsingEntries.isNotEmpty()) {
+        ExpandableSectionItem(
+            modifier = Modifier
+                .padding(horizontal = Size16, top = Size4)
+                .fillMaxWidth(),
+            title = stringResource(ResString.import_successful_failed_entries_title),
+            description = stringResource(ResString.import_successful_failed_entries_description),
+            isFirstItem = false,
+            isLastItem = true,
+            icon = Icons.Default.Cancel,
+            colors = RedAlgaeSelectableItemColors()
+        ) {
+            successImportResult.failedParsingEntries.forEach { failedEntry ->
                 RoundedContainer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = Size16, vertical = Size4)
+                        .padding(horizontal = Size16, bottom = Size8)
                 ) {
                     Column {
                         Text(
@@ -291,6 +309,10 @@ private fun ColumnScope.ImportSuccessContent(
             }
         }
     }
+    Spacer(
+        modifier = Modifier
+            .weight(Percent100)
+    )
     Column(
         modifier = Modifier
             .padding(Size16)
