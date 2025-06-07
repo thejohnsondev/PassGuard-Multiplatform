@@ -2,6 +2,7 @@ package com.thejohnsondev.domain.export
 
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL
 import com.thejohnsondev.common.utils.getCurrentTimeMillis
+import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.PasswordDto
 import kotlin.uuid.ExperimentalUuidApi
@@ -17,6 +18,7 @@ object CSVImportExportUtils {
         $SAMPLE_ROW
     """.trimIndent()
     }
+
     fun generateCsvContentForPasswords(passwords: List<PasswordDto>): CSVGenerationResult {
         return try {
             val notExportedPasswords = mutableListOf<PasswordDto>()
@@ -234,7 +236,8 @@ object CSVImportExportUtils {
                         userName = userName,
                         password = password,
                         categoryId = VAULT_ITEM_CATEGORY_PERSONAL,
-                        additionalFields = additionalFields
+                        additionalFields = additionalFields,
+                        createdTimeStamp = getCurrentTimeStamp()
                     )
                 )
             } catch (e: Exception) {

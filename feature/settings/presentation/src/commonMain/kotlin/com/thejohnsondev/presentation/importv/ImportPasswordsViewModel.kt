@@ -87,7 +87,9 @@ class ImportPasswordsViewModel(
         val parsedPasswordsResult = parsePasswordsCSVUseCase(csvContent)
         val successfullyParsedPasswords = mapToUiModelsUseCase(
             (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
-        )
+        ).map {
+            it.copy(showUpdateAnimation = false)
+        }
         val importResult = when (parsedPasswordsResult) {
             is CsvParsingResult.EmptyContent -> ImportUIResult.EmptyContent
             is CsvParsingResult.Success -> ImportUIResult.ImportSuccess(
