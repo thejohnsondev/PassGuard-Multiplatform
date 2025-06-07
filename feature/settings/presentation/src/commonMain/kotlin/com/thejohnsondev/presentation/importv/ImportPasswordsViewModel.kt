@@ -2,6 +2,7 @@ package com.thejohnsondev.presentation.importv
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.ParsePasswordsCSVUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
@@ -81,10 +82,11 @@ class ImportPasswordsViewModel(
         csvContent: String?,
     ) = launch {
         csvContent ?: run {
-            showError("CSV file content is empty.") // TODO extract to resources
+            showError("CSV file content is empty.")
             return@launch
         }
         val parsedPasswordsResult = parsePasswordsCSVUseCase(csvContent)
+        Logger.d("Parsed passwords result: $parsedPasswordsResult")
         val successfullyParsedPasswords = mapToUiModelsUseCase(
             (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
         ).map {

@@ -8,8 +8,8 @@ import com.thejohnsondev.model.vault.PasswordDto
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-const val DEFAULT_HEADER = "name,url,username,password,note"
-const val SAMPLE_ROW = "PassGuard,https://example.com,username,password,"
+const val DEFAULT_HEADER = "name,url,username,password,note,logoUrl"
+const val SAMPLE_ROW = "PassGuard,https://example.com,username,password,,https://logo.example.com/passguard.png"
 
 object CSVImportExportUtils {
     fun getSampleCsvContent(): String {
@@ -44,9 +44,7 @@ object CSVImportExportUtils {
                 val notes = it.additionalFields.map { field ->
                     field.title.getSanitized() + "|" + field.value.getSanitized()
                 }
-                val result = "$sanitizedTitle,$sanitizedDomain,$sanitizedUser,$sanitizedPass,${
-                    notes.joinToString(",")
-                }"
+                val result = "$sanitizedTitle,$sanitizedDomain,$sanitizedUser,$sanitizedPass,${notes.firstOrNull().orEmpty()},${it.organizationLogo.orEmpty()},${notes.drop(1).joinToString(",")}"
                 result
             }.filterNotNull()
             val csvContent = (listOf(header) + rows).joinToString("\n")
@@ -151,17 +149,18 @@ object CSVImportExportUtils {
             dataLinesProcessed++
             val lineNumber = index + 2
 
+            val baseFieldsCount = requiredHeadersForParsing.size
             val parts = line.split(
                 ",",
-                limit = 5 + (headerParts.size - requiredHeadersForParsing.size)
+                limit = baseFieldsCount + (headerParts.size - baseFieldsCount) + 1
             )
 
-            if (parts.size < requiredHeadersForParsing.size) {
+            if (parts.size < baseFieldsCount) {
                 failedEntries.add(
                     FailedPasswordParsingEntry(
                         lineNumber = lineNumber,
                         rawLineContent = getHeaderAndLineAligned(headerLine, line),
-                        reason = "Incorrect number of columns (expected at least ${requiredHeadersForParsing.size}, got ${parts.size})."
+                        reason = "Incorrect number of columns (expected at least $baseFieldsCount, got ${parts.size})."
                     )
                 )
                 return@forEachIndexed
@@ -172,13 +171,36 @@ object CSVImportExportUtils {
                 val url = parts[1].trim().takeIf { it.isNotEmpty() }
                 val userName = parts[2].trim()
                 val password = parts[3].trim()
+                val note = parts[4].trim().takeIf { it.isNotEmpty() }
+                val logoUrl = if (parts.size >= 6) parts[5].trim() else null
 
                 val additionalFields = mutableListOf<AdditionalFieldDto>()
-                val potentialAdditionalFieldParts = parts.drop(4)
+                val potentialAdditionalFieldParts = parts.drop(6)
 
-                potentialAdditionalFieldParts.forEach { notePart ->
-                    if (notePart.isNotBlank()) {
-                        val noteSubParts = notePart.split("|", limit = 2)
+                if (!note.isNullOrBlank()) {
+                    val noteSubParts = note.split("|", limit = 2)
+                    if (noteSubParts.size == 2) {
+                        additionalFields.add(
+                            AdditionalFieldDto(
+                                id = Uuid.random().toString(),
+                                title = noteSubParts[0].trim().getSanitizedForParsing(),
+                                value = noteSubParts[1].trim().getSanitizedForParsing()
+                            )
+                        )
+                    } else {
+                        additionalFields.add(
+                            AdditionalFieldDto(
+                                id = Uuid.random().toString(),
+                                title = "Note",
+                                value = note.trim().getSanitizedForParsing()
+                            )
+                        )
+                    }
+                }
+
+                potentialAdditionalFieldParts.forEach { extraNotePart ->
+                    if (extraNotePart.isNotBlank()) {
+                        val noteSubParts = extraNotePart.split("|", limit = 2)
                         if (noteSubParts.size == 2) {
                             additionalFields.add(
                                 AdditionalFieldDto(
@@ -192,7 +214,7 @@ object CSVImportExportUtils {
                                 AdditionalFieldDto(
                                     id = Uuid.random().toString(),
                                     title = "Note",
-                                    value = notePart.trim().getSanitizedForParsing()
+                                    value = extraNotePart.trim().getSanitizedForParsing()
                                 )
                             )
                         }
@@ -237,7 +259,8 @@ object CSVImportExportUtils {
                         password = password,
                         categoryId = VAULT_ITEM_CATEGORY_PERSONAL,
                         additionalFields = additionalFields,
-                        createdTimeStamp = getCurrentTimeStamp()
+                        createdTimeStamp = getCurrentTimeStamp(),
+                        organizationLogo = logoUrl
                     )
                 )
             } catch (e: Exception) {
@@ -272,7 +295,6 @@ object CSVImportExportUtils {
     }
 
 }
-
 
 data class CSVGenerationResult(
     val isSuccessful: Boolean,
