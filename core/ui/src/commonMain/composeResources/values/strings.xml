@@ -184,10 +184,10 @@
     <string name="import_description">Select a CSV file with your passwords to import them into PassGuard.\nThis file should be compatible with Google Password Manager and can be exported from or imported into other services.</string>
     <string name="btn_select_csv">Select a CSV file</string>
     <string name="import_message_successful">Imported successfully</string>
-    <string name="import_successful_title">Imported</string>
+    <string name="import_successful_title">Can be Imported</string>
     <string name="import_successful_description">You can import these passwords:</string>
     <string name="btn_import">Import</string>
-    <string name="import_successful_failed_entries_title">Not imported</string>
+    <string name="import_successful_failed_entries_title">Can not be imported</string>
     <string name="import_successful_failed_entries_description">These passwords can not be imported:</string>
     <string name="import_successful_failed_entry_line_number">Line number: %1$s</string>
     <string name="import_empty_file">The selected file is empty</string>

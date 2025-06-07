@@ -332,7 +332,8 @@ private fun ColumnScope.ImportSuccessContent(
                         )
                         CsvTableDisplay(
                             modifier = Modifier.padding(vertical = Size8),
-                            csvContent = failedEntry.rawLineContent
+                            csvContent = failedEntry.rawLineContent,
+                            errorValue = failedEntry.errorField
                         )
                         failedEntry.reason?.let { reason ->
                             Text(

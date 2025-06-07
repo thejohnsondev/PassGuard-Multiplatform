@@ -137,7 +137,7 @@ object CSVImportExportUtils {
                 failedEntries.add(
                     FailedPasswordParsingEntry(
                         lineNumber = lineNumber,
-                        rawLineContent = line,
+                        rawLineContent = "${headerLine}\n$line",
                         reason = "Incorrect number of columns (expected at least ${requiredHeadersForParsing.size}, got ${parts.size})."
                     )
                 )
@@ -177,11 +177,18 @@ object CSVImportExportUtils {
                 }
 
                 if (name.isEmpty() || userName.isEmpty() || password.isEmpty() || url.isNullOrBlank()) {
+                    val missingField = when {
+                        name.isEmpty() -> "name"
+                        url.isNullOrBlank() -> "url"
+                        userName.isEmpty() -> "username"
+                        else -> "password"
+                    }
                     failedEntries.add(
                         FailedPasswordParsingEntry(
                             lineNumber = lineNumber,
-                            rawLineContent = line,
-                            reason = "Missing required field (name, Username, or Password cannot be empty)."
+                            rawLineContent = "${headerLine}\n$line",
+                            errorField = missingField,
+                            reason = "Missing required field ($missingField cannot be empty)."
                         )
                     )
                     return@forEachIndexed
@@ -190,7 +197,8 @@ object CSVImportExportUtils {
                     failedEntries.add(
                         FailedPasswordParsingEntry(
                             lineNumber = lineNumber,
-                            rawLineContent = line,
+                            rawLineContent = "${headerLine}\n$line",
+                            errorField = url,
                             reason = "Invalid URL format for domain: '$url'."
                         )
                     )
@@ -212,7 +220,7 @@ object CSVImportExportUtils {
                 failedEntries.add(
                     FailedPasswordParsingEntry(
                         lineNumber = lineNumber,
-                        rawLineContent = line,
+                        rawLineContent = "${headerLine}\n$line",
                         reason = "Error parsing line: ${e.message ?: "Unknown error"}"
                     )
                 )
@@ -252,6 +260,7 @@ data class CSVGenerationResult(
 data class FailedPasswordParsingEntry(
     val lineNumber: Int,
     val rawLineContent: String,
+    val errorField: String? = null,
     val reason: String?
 )
 
