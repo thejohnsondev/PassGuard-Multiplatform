@@ -41,7 +41,9 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
-import com.thejohnsondev.presentation.export.ExportPasswordsScreen
+import com.thejohnsondev.presentation.exportv.ExportPasswordsScreen
+import com.thejohnsondev.presentation.importv.ImportPasswordsScreen
+import com.thejohnsondev.presentation.importv.ImportPasswordsScreenContent
 import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.SelectableOptionItem
 import com.thejohnsondev.ui.components.SelectableThemeOptionItem
@@ -174,7 +176,6 @@ fun SettingsScreen(
         state = state.value,
         onAction = viewModel::perform
     )
-
 }
 
 @Composable
@@ -637,7 +638,7 @@ fun ExportSettingsSubSection(
                 .height(Size56),
             text = stringResource(ResString.setting_import_passwords),
             onClick = {
-                // TODO show import passwords dialog
+                onAction(SettingsViewModel.Action.OpenCloseImportPasswords(true))
             },
             imageComposable = {
                 Icon(
@@ -719,6 +720,7 @@ fun Dialogs(
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     val exportPasswordsSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val importPasswordsSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     if (state.isConfirmDeleteAccountDialogOpened) {
         ConfirmAlertDialog(
@@ -790,6 +792,24 @@ fun Dialogs(
             onExportError = {
                 onAction(SettingsViewModel.Action.OnExportError(it))
                 onAction(SettingsViewModel.Action.OpenCloseExportPasswords(false))
+            }
+        )
+    }
+    if (state.isImportPasswordsDialogOpened) {
+        ImportPasswordsScreen(
+            windowSizeClass = windowSizeClass,
+            paddingValues = paddingValues,
+            sheetState = importPasswordsSheetState,
+            onDismissRequest = {
+                onAction(SettingsViewModel.Action.OpenCloseImportPasswords(false))
+            },
+            onImportSuccessful = {
+                onAction(SettingsViewModel.Action.OnImportSuccessful)
+                onAction(SettingsViewModel.Action.OpenCloseImportPasswords(false))
+            },
+            onImportError = {
+                onAction(SettingsViewModel.Action.OnImportError(it))
+                onAction(SettingsViewModel.Action.OpenCloseImportPasswords(false))
             }
         )
     }

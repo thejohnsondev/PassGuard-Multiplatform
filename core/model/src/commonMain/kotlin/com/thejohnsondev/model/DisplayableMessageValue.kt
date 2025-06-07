@@ -14,4 +14,6 @@ sealed interface DisplayableMessageValue {
     data object Copied : DisplayableMessageValue
     data object ExportSuccessful : DisplayableMessageValue
     data object ExportUnsuccessful : DisplayableMessageValue
+    data object ImportSuccessful : DisplayableMessageValue
+    data object ImportUnsuccessful : DisplayableMessageValue
 }

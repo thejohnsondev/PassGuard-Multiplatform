@@ -45,12 +45,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
-import com.thejohnsondev.ui.components.animation.AnimatedMessage
-import com.thejohnsondev.ui.components.animation.CardWithAnimatedBorder
 import com.thejohnsondev.ui.components.ErrorSnackbar
 import com.thejohnsondev.ui.components.InfoSnackbar
 import com.thejohnsondev.ui.components.SuccessSnackbar
 import com.thejohnsondev.ui.components.VaultLogo
+import com.thejohnsondev.ui.components.animation.AnimatedMessage
+import com.thejohnsondev.ui.components.animation.CardWithAnimatedBorder
 import com.thejohnsondev.ui.components.animation.getDefaultAnimatedBorderColors
 import com.thejohnsondev.ui.designsystem.DrawerWidth
 import com.thejohnsondev.ui.designsystem.Percent100
@@ -93,7 +93,8 @@ fun HomeScaffold(
     val navigationItems = listOf(
         BottomNavItem.Vault, BottomNavItem.Tools, BottomNavItem.Settings
     )
-    Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
         VaultTopBar(
             windowSize = windowSize,
             hazeState = hazeState,
@@ -115,10 +116,16 @@ fun HomeScaffold(
         }
     }, floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
-        if (windowSize.isCompact()) {
-            VaultBottomBar(bottomBarState, hazeState, navigationItems, scaffoldState, navController)
-        }
-    }, snackbarHost = {
+            if (windowSize.isCompact()) {
+                VaultBottomBar(
+                    bottomBarState,
+                    hazeState,
+                    navigationItems,
+                    scaffoldState,
+                    navController
+                )
+            }
+        }, snackbarHost = {
             val modifier = Modifier.padding(
                 vertical = scaffoldState.value.snackBarPaddingVertical ?: Size16,
                 horizontal = scaffoldState.value.snackBarPaddingHorizontal ?: Size16
@@ -147,7 +154,7 @@ fun HomeScaffold(
                     )
                 }
             }
-    }) {
+        }) {
         when (windowSize) {
             WindowWidthSizeClass.Expanded -> {
                 ExpandedNavigationBar(
@@ -210,13 +217,14 @@ private fun MediumNavigationBar(
             if (screen.index == BottomNavItem.Settings.index) {
                 Spacer(modifier = Modifier.weight(Percent100))
             }
-            NavigationRailItem(icon = {
-                Icon(
-                    modifier = Modifier.size(Size24),
-                    painter = painterResource(screen.imgResId),
-                    contentDescription = stringResource(screen.titleRes)
-                )
-            },
+            NavigationRailItem(
+                icon = {
+                    Icon(
+                        modifier = Modifier.size(Size24),
+                        painter = painterResource(screen.imgResId),
+                        contentDescription = stringResource(screen.titleRes)
+                    )
+                },
                 label = { Text(stringResource(screen.titleRes)) },
                 selected = scaffoldState.value.bottomBarItemIndex == index,
                 onClick = {
@@ -270,7 +278,10 @@ private fun ExpandedNavigationBar(
                 }
                 NavigationDrawerItem(
                     modifier = Modifier
-                        .padding(horizontal = Size12, vertical = if (isSettingsItem) Size16 else Size8)
+                        .padding(
+                            horizontal = Size12,
+                            vertical = if (isSettingsItem) Size16 else Size8
+                        )
                         .bounceClick(),
                     label = { Text(text = stringResource(screen.titleRes)) },
                     selected = scaffoldState.value.bottomBarItemIndex == index,
@@ -336,7 +347,13 @@ private fun VaultBottomBar(
                                 contentDescription = stringResource(screen.titleRes)
                             )
                         },
-                        label = { Text(stringResource(screen.titleRes)) },
+                        label = {
+                            Text(
+                                text = stringResource(screen.titleRes),
+                                style = MaterialTheme.typography.titleSmall,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        },
                         selected = scaffoldState.value.bottomBarItemIndex == index,
                         onClick = {
                             navController.navigate(screen.route) {

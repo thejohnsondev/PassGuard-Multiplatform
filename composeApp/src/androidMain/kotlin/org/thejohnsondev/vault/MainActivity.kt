@@ -17,6 +17,7 @@ import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.model.settings.SettingsConfig
+import com.thejohnsondev.platform.filemanager.AndroidActivityProvider
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        AndroidActivityProvider.registerFilePicker(this)
         val getFirstScreenRoute = getKoin().get<GetFirstScreenRouteUseCase>()
         val getSettingsUseCase = getKoin().get<GetSettingsFlowUseCase>()
         val deviceThemeConfig: DeviceThemeConfig = getKoin().get()
@@ -83,6 +85,11 @@ class MainActivity : ComponentActivity() {
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AndroidActivityProvider.unregisterFilePicker()
     }
 
 }

@@ -42,6 +42,7 @@ val Size600 = 600.dp
 val DrawerWidth = 280.dp
 val RailWidth = 72.dp
 
+val Text10 = 10.sp
 val Text12 = 12.sp
 val Text14 = 14.sp
 val Text18 = 18.sp

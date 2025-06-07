@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation.export
+package com.thejohnsondev.presentation.exportv
 
 import kotlinx.coroutines.flow.stateIn
 import androidx.lifecycle.viewModelScope
@@ -13,6 +13,7 @@ import com.thejohnsondev.domain.export.CSVGenerationResult
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.platform.filemanager.FileActionStatus
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -95,16 +96,24 @@ class ExportPasswordsViewModel(
     }
 
     private suspend fun exportCSVContent(csvContent: String) {
-        val exportResult = exportVaultUseCase.exportVault(csvContent)
-        if (exportResult.success) {
-            showContent()
-            sendEvent(ExportSuccessfulEvent)
-        } else {
-            Logger.e("Export failed: ${exportResult.message}")
-            // TODO show error message
-            showContent()
-            sendEvent(ExportErrorEvent(message = DisplayableMessageValue.ExportUnsuccessful))
-        }
+        exportVaultUseCase.exportVault(csvContent, onCompletion = { exportResult ->
+            launch {
+                when (exportResult.status) {
+                    FileActionStatus.SUCCESS -> {
+                        showContent()
+                        sendEvent(ExportSuccessfulEvent)
+                    }
+                    FileActionStatus.FAILURE -> {
+                        Logger.e("Export failed: ${exportResult.message}")
+                        showContent()
+                        sendEvent(ExportErrorEvent(message = DisplayableMessageValue.ExportUnsuccessful))
+                    }
+                    FileActionStatus.CANCELED -> {
+                        showContent()
+                    }
+                }
+            }
+        })
     }
 
     data object ExportSuccessfulEvent: OneTimeEvent()

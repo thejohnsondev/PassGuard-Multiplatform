@@ -84,6 +84,7 @@ fun RoundedButton(
         color = when (buttonStyle) {
             ButtonStyle.REGULAR -> buttonColor
             ButtonStyle.OUTLINE -> Color.Transparent
+            ButtonStyle.TEXT -> Color.Transparent
         },
     ) {
         Row(
@@ -124,6 +125,7 @@ fun RoundedButton(
                     color = when (buttonStyle) {
                         ButtonStyle.REGULAR -> contentColor
                         ButtonStyle.OUTLINE -> buttonColor
+                        ButtonStyle.TEXT -> contentColor
                     },
                     style = MaterialTheme.typography.titleMedium
                 )

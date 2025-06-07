@@ -1,4 +1,4 @@
-package com.thejohnsondev.presentation.export
+package com.thejohnsondev.presentation.exportv
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,12 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
@@ -31,7 +27,6 @@ import com.thejohnsondev.ui.components.vault.passworditem.PasswordItem
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordItemProperties
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.designsystem.Percent100
-import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.utils.ResString
@@ -43,7 +38,6 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import vaultmultiplatform.core.ui.generated.resources.cancel
 import vaultmultiplatform.core.ui.generated.resources.export_passwords_not_exported_confirm
 import vaultmultiplatform.core.ui.generated.resources.export_passwords_not_exported_description
-import vaultmultiplatform.core.ui.generated.resources.export_passwords_not_exported_title
 
 @OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -150,15 +144,11 @@ private fun NotExportedPasswordsScreenContent(
         }
         Column(
             modifier = Modifier
-                .padding(Size16)
+                .padding(top = Size16)
         ) {
             RoundedButton(
                 text = stringResource(ResString.export_passwords_not_exported_confirm),
-                onClick = onConfirm,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError
-                )
+                onClick = onConfirm
             )
             RoundedButton(
                 modifier = Modifier
