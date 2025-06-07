@@ -80,6 +80,18 @@ object CSVImportExportUtils {
             .replace("|", " ")
     }
 
+    private fun getHeaderAndLineAligned(
+        header: String,
+        line: String,
+    ): String {
+        val headerParts = header.split(",").map { it.trim() }
+        val lineParts = line.split(",").map { it.trim() }
+        val maxColumns = maxOf(headerParts.size, lineParts.size)
+        val paddedHeader = headerParts + List(maxColumns - headerParts.size) { "" }
+        val paddedLine = lineParts + List(maxColumns - lineParts.size) { "" }
+        return paddedHeader.joinToString(",") + "\n" + paddedLine.joinToString(",")
+    }
+
     @OptIn(ExperimentalUuidApi::class)
     fun parseCsvContentToPasswords(
         csvContent: String,
@@ -146,7 +158,7 @@ object CSVImportExportUtils {
                 failedEntries.add(
                     FailedPasswordParsingEntry(
                         lineNumber = lineNumber,
-                        rawLineContent = "${headerLine}\n$line",
+                        rawLineContent = getHeaderAndLineAligned(headerLine, line),
                         reason = "Incorrect number of columns (expected at least ${requiredHeadersForParsing.size}, got ${parts.size})."
                     )
                 )
@@ -195,7 +207,7 @@ object CSVImportExportUtils {
                     failedEntries.add(
                         FailedPasswordParsingEntry(
                             lineNumber = lineNumber,
-                            rawLineContent = "${headerLine}\n$line",
+                            rawLineContent = getHeaderAndLineAligned(headerLine, line),
                             errorField = missingField,
                             reason = "Missing required field ($missingField cannot be empty)."
                         )
@@ -206,7 +218,7 @@ object CSVImportExportUtils {
                     failedEntries.add(
                         FailedPasswordParsingEntry(
                             lineNumber = lineNumber,
-                            rawLineContent = "${headerLine}\n$line",
+                            rawLineContent = getHeaderAndLineAligned(headerLine, line),
                             errorField = url,
                             reason = "Invalid URL format for domain: '$url'."
                         )
@@ -229,7 +241,7 @@ object CSVImportExportUtils {
                 failedEntries.add(
                     FailedPasswordParsingEntry(
                         lineNumber = lineNumber,
-                        rawLineContent = "${headerLine}\n$line",
+                        rawLineContent = getHeaderAndLineAligned(headerLine, line),
                         reason = "Error parsing line: ${e.message ?: "Unknown error"}"
                     )
                 )
