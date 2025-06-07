@@ -29,11 +29,14 @@ import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
+import com.thejohnsondev.ui.designsystem.Text10
 import com.thejohnsondev.ui.designsystem.SizeBorder
 
 @Composable
 fun CsvTableDisplay(
-    modifier: Modifier = Modifier, csvContent: String, errorValue: String? = null
+    modifier: Modifier = Modifier,
+    csvContent: String,
+    errorValue: String? = null
 ) {
     val lines = csvContent.lines().filter { it.isNotBlank() }
     if (lines.isEmpty()) {
@@ -77,7 +80,9 @@ fun CsvTableDisplay(
 
 @Composable
 private fun CsvTableRow(
-    cells: List<String>, isHeader: Boolean, errorValue: String? = null
+    cells: List<String>,
+    isHeader: Boolean,
+    errorValue: String? = null
 ) {
 
     val fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal
@@ -86,23 +91,30 @@ private fun CsvTableRow(
         if (isHeader) MaterialTheme.colorScheme.primary.copy(alpha = Percent10) else Color.Transparent
 
     Row(
-        modifier = Modifier.fillMaxWidth().background(backgroundColor),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(backgroundColor),
         verticalAlignment = Alignment.CenterVertically
     ) {
         cells.forEachIndexed { index, cellContent ->
-
             Box(
-                modifier = Modifier.weight(Percent100).wrapContentHeight().background(
-                    if (errorValue == cellContent) MaterialTheme.colorScheme.errorContainer.copy(
-                        alpha = Percent10
-                    ) else Color.Transparent
-                ).then(cellPadding)
+                modifier = Modifier
+                    .weight(Percent100)
+                    .wrapContentHeight()
+                    .background(
+                        if (errorValue == cellContent) MaterialTheme.colorScheme.errorContainer.copy(
+                            alpha = Percent10
+                        ) else Color.Transparent
+                    ).then(cellPadding)
             ) {
                 Text(
+                    modifier = Modifier
+                        .align(Alignment.Center),
                     text = cellContent.trim(),
                     fontWeight = if (errorValue == cellContent) FontWeight.SemiBold else fontWeight,
-                    textAlign = TextAlign.Start,
+                    textAlign = TextAlign.Center,
                     maxLines = 1,
+                    fontSize = Text10,
                     overflow = TextOverflow.Ellipsis,
                     color = if (errorValue == cellContent) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
                 )

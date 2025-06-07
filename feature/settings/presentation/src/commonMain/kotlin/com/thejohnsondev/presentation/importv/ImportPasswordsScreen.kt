@@ -37,6 +37,7 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.presentation.importv.ImportPasswordsViewModel.ImportSuccessfulEvent
 import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.container.CsvTableDisplay
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.components.loader.Loader
@@ -49,7 +50,7 @@ import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.DeepForestSelectableItemColors
-import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.RedAlgaeSelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.tools.ToolSelectableItemColors
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
@@ -311,13 +312,13 @@ private fun ColumnScope.ImportSuccessContent(
             isFirstItem = false,
             isLastItem = true,
             icon = Icons.Default.Cancel,
-            colors = RedAlgaeSelectableItemColors()
+            colors = ToolSelectableItemColors()
         ) {
             successImportResult.failedParsingEntries.forEach { failedEntry ->
                 RoundedContainer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = Size16, bottom = Size8)
+                        .padding(bottom = Size8)
                 ) {
                     Column {
                         Text(
@@ -329,12 +330,9 @@ private fun ColumnScope.ImportSuccessContent(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onErrorContainer
                         )
-                        Text(
-                            modifier = Modifier.padding(vertical = Size8, horizontal = Size16),
-                            text = failedEntry.rawLineContent,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onErrorContainer,
-                            fontWeight = FontWeight.SemiBold
+                        CsvTableDisplay(
+                            modifier = Modifier.padding(vertical = Size8),
+                            csvContent = failedEntry.rawLineContent
                         )
                         failedEntry.reason?.let { reason ->
                             Text(
