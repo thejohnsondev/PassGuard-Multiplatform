@@ -65,6 +65,8 @@ class ImportPasswordsViewModel(
             }
         )
 
+        // desktop and ios work, android doesnt
+        // TODO show a visual presentation how the valid csv file looks like
     }
 
     private fun onFileSelectionCanceled() = launch {

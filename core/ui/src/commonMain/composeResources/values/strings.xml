@@ -193,6 +193,11 @@
     <string name="import_empty_file">The selected file is empty</string>
     <string name="import_invalid_file">The selected file is not a valid CSV file</string>
     <string name="import_message_unsuccessful">An error occurred when trying to import to your vault</string>
+    <string name="import_empty_csv_title">Empty CSV file</string>
+    <string name="import_empty_csv_description">The selected CSV file is empty. Please select a valid CSV file with your passwords.</string>
+    <string name="btn_select_another_csv">Select another CSV file</string>
+    <string name="import_invalid_csv_title">Invalid CSV file</string>
+    <string name="import_invalid_csv_description">The selected CSV file is not valid. Please select a valid CSV file with your passwords.</string>
 
 
     <string name="password_domain_url_title">Web address:</string>
