@@ -360,11 +360,7 @@ private fun ColumnScope.ImportSuccessContent(
             text = stringResource(ResString.btn_import),
             onClick = {
                 onAction(ImportPasswordsViewModel.Action.Import)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            }
         )
         RoundedButton(
             modifier = Modifier
@@ -374,9 +370,9 @@ private fun ColumnScope.ImportSuccessContent(
                 onCancelClick()
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError
-            ) // TODO add button style for text button
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
     }
 }

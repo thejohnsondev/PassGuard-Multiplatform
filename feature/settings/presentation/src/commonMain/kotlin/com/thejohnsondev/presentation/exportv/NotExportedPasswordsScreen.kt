@@ -148,12 +148,7 @@ private fun NotExportedPasswordsScreenContent(
         ) {
             RoundedButton(
                 text = stringResource(ResString.export_passwords_not_exported_confirm),
-                onClick = onConfirm,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-
-                )
+                onClick = onConfirm
             )
             RoundedButton(
                 modifier = Modifier
@@ -161,9 +156,9 @@ private fun NotExportedPasswordsScreenContent(
                 text = stringResource(ResString.cancel),
                 onClick = onDismissRequest,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError
-                ) // TODO make this as a text button
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
         }
     }
