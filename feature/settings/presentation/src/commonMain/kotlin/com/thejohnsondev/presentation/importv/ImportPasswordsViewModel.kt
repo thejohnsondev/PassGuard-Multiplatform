@@ -2,12 +2,16 @@ package com.thejohnsondev.presentation.importv
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.ParsePasswordsCSVUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
+import com.thejohnsondev.domain.PasswordsService
 import com.thejohnsondev.domain.SelectCSVUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.export.CsvParsingResult
 import com.thejohnsondev.domain.export.FailedPasswordParsingEntry
+import com.thejohnsondev.model.DisplayableMessageValue
+import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.platform.filemanager.FileActionStatus
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
@@ -21,7 +25,9 @@ class ImportPasswordsViewModel(
     private val selectCSVUseCase: SelectCSVUseCase,
     private val parsePasswordsCSVUseCase: ParsePasswordsCSVUseCase,
     private val mapToUiModelsUseCase: PasswordsMapToUiModelsUseCase,
-    private val toggleOpenedItemUseCase: ToggleOpenedItemUseCase
+    private val toggleOpenedItemUseCase: ToggleOpenedItemUseCase,
+    private val passwordsService: PasswordsService,
+    private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -40,6 +46,7 @@ class ImportPasswordsViewModel(
             is Action.Clear -> clear()
             is Action.SelectFile -> selectFile()
             is Action.ToggleOpenItem -> toggleOpenItem(action.itemId)
+            is Action.Import -> import()
         }
     }
 
@@ -95,7 +102,8 @@ class ImportPasswordsViewModel(
         }
         _state.update {
             it.copy(
-                importResult = importResult
+                importResult = importResult,
+                csvParsingResult = parsedPasswordsResult
             )
         }
         showContent()
@@ -114,6 +122,23 @@ class ImportPasswordsViewModel(
             }
         }
     }
+
+    private fun import() = launchLoading {
+        try {
+            val passwords = (_state.value.csvParsingResult as? CsvParsingResult.Success)?.passwords ?: return@launchLoading
+            passwords.forEach { password ->
+                val encrypted = encryptPasswordModelUseCase(password)
+                passwordsService.createOrUpdatePassword(encrypted)
+            }
+            showContent()
+            sendEvent(ImportSuccessfulEvent)
+        } catch (e: Exception) {
+            sendEvent(ImportErrorEvent(DisplayableMessageValue.StringValue(e.message.orEmpty())))
+        }
+    }
+
+    data object ImportSuccessfulEvent: OneTimeEvent()
+    data class ImportErrorEvent(val message: DisplayableMessageValue): OneTimeEvent()
 
     sealed class ImportUIResult {
         data class ImportSuccess(
@@ -137,11 +162,13 @@ class ImportPasswordsViewModel(
         data class ToggleOpenItem(
             val itemId: String?,
         ) : Action()
+        data object Import: Action()
     }
 
     data class State(
         val screenState: ScreenState = ScreenState.ShowContent,
         val importResult: ImportUIResult? = null,
+        val csvParsingResult: CsvParsingResult? = null
     )
 
 }

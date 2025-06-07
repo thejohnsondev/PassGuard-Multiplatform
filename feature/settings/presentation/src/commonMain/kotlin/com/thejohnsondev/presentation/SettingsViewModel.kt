@@ -92,6 +92,8 @@ class SettingsViewModel(
             is Action.OnExportSuccessful -> onExportSuccessful()
             is Action.OnExportError -> onExportError(action.message)
             is Action.OpenCloseImportPasswords -> openCloseImportPasswords(action.isOpen)
+            is Action.OnImportSuccessful -> onImportSuccessful()
+            is Action.OnImportError -> onImportError(action.message)
         }
     }
 
@@ -220,6 +222,14 @@ class SettingsViewModel(
         _state.update { it.copy(isImportPasswordsDialogOpened = isOpen) }
     }
 
+    private fun onImportSuccessful() = launch {
+        sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.ImportSuccessful))
+    }
+
+    private fun onImportError(message: DisplayableMessageValue) = launch {
+        sendEvent(OneTimeEvent.ErrorMessage(message))
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -243,6 +253,8 @@ class SettingsViewModel(
         data class OnExportError(val message: DisplayableMessageValue) : Action()
         data class OpenCloseExportPasswords(val isOpen: Boolean) : Action()
         data class OpenCloseImportPasswords(val isOpen: Boolean) : Action()
+        data object OnImportSuccessful : Action()
+        data class OnImportError(val message: DisplayableMessageValue) : Action()
     }
 
     data class State(

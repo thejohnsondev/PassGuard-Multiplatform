@@ -11,5 +11,5 @@ actual val settingsPresentationModule = module {
     viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { ExportPasswordsViewModel(get(), get(), get(), get(), get()) }
     viewModel { NotExportedPasswordsViewModel(get()) }
-    viewModel { ImportPasswordsViewModel(get(), get(), get(), get()) }
+    viewModel { ImportPasswordsViewModel(get(), get(), get(), get(), get(), get()) }
 }

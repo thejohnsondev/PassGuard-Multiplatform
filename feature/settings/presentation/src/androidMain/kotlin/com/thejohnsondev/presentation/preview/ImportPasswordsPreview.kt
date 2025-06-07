@@ -27,7 +27,8 @@ fun ImportPasswordsDefaultPreview() {
                 state = ImportPasswordsViewModel.State(
 
                 ),
-                onAction = {}
+                onAction = {},
+                onCancelClick = {}
             )
         }
     }
@@ -48,7 +49,8 @@ fun ImportPasswordsLoadingPreview() {
                 state = ImportPasswordsViewModel.State(
                     screenState = ScreenState.Loading
                 ),
-                onAction = {}
+                onAction = {},
+                onCancelClick = {}
             )
         }
     }
@@ -84,7 +86,8 @@ fun ImportPasswordsResultSuccessPreview() {
                         dataLinesProcessed = 5
                     )
                 ),
-                onAction = {}
+                onAction = {},
+                onCancelClick = {}
             )
         }
     }
@@ -105,7 +108,8 @@ fun ImportPasswordsResultEmptyPreview() {
                 state = ImportPasswordsViewModel.State(
                     importResult = ImportPasswordsViewModel.ImportUIResult.EmptyContent
                 ),
-                onAction = {}
+                onAction = {},
+                onCancelClick = {}
             )
         }
     }
@@ -130,7 +134,8 @@ fun ImportPasswordsResultValidationErrorPreview() {
                         details = "Line 2: Invalid password format. Password must be at least 8 characters long."
                     )
                 ),
-                onAction = {}
+                onAction = {},
+                onCancelClick = {}
             )
         }
     }

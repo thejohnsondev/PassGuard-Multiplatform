@@ -26,6 +26,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.ScreenState
+import com.thejohnsondev.presentation.importv.ImportPasswordsViewModel.ImportSuccessfulEvent
 import com.thejohnsondev.ui.components.ExpandableSectionItem
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.RoundedContainer
@@ -82,6 +84,15 @@ fun ImportPasswordsScreen(
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.getEventFlow().collect {
+            when (it) {
+                ImportSuccessfulEvent -> onImportSuccessful()
+                is ImportPasswordsViewModel.ImportErrorEvent -> onImportError(it.message)
+            }
+        }
+    }
+
     ModalBottomSheet(
         modifier = Modifier.applyIf(windowSizeClass.isCompact()) {
             systemBarsPadding()
@@ -108,6 +119,10 @@ fun ImportPasswordsScreen(
         ImportPasswordsScreenContent(
             state = state.value,
             onAction = viewModel::perform,
+            onCancelClick = {
+                viewModel.perform(ImportPasswordsViewModel.Action.Clear)
+                onDismissRequest()
+            }
         )
     }
 }
@@ -116,6 +131,7 @@ fun ImportPasswordsScreen(
 fun ImportPasswordsScreenContent(
     state: ImportPasswordsViewModel.State,
     onAction: (ImportPasswordsViewModel.Action) -> Unit,
+    onCancelClick: () -> Unit
 ) {
 
     when (state.screenState) {
@@ -133,7 +149,8 @@ fun ImportPasswordsScreenContent(
             state.importResult?.let {
                 ImportResultContent(
                     state = state,
-                    onAction = onAction
+                    onAction = onAction,
+                    onCancelClick = onCancelClick
                 )
             } ?: run {
                 SelectCSVContent(
@@ -191,6 +208,7 @@ private fun SelectCSVContent(
 private fun ImportResultContent(
     state: ImportPasswordsViewModel.State,
     onAction: (ImportPasswordsViewModel.Action) -> Unit,
+    onCancelClick: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -201,7 +219,8 @@ private fun ImportResultContent(
             is ImportPasswordsViewModel.ImportUIResult.ImportSuccess -> {
                 ImportSuccessContent(
                     successImportResult = state.importResult,
-                    onAction = onAction
+                    onAction = onAction,
+                    onCancelClick = onCancelClick
                 )
             }
 
@@ -221,7 +240,8 @@ private fun ImportResultContent(
 @Composable
 private fun ColumnScope.ImportSuccessContent(
     successImportResult: ImportPasswordsViewModel.ImportUIResult.ImportSuccess,
-    onAction: (ImportPasswordsViewModel.Action) -> Unit
+    onAction: (ImportPasswordsViewModel.Action) -> Unit,
+    onCancelClick: () -> Unit
 ) {
     ExpandableSectionItem(
         modifier = Modifier
@@ -235,33 +255,38 @@ private fun ColumnScope.ImportSuccessContent(
         icon = Icons.Default.CheckCircle,
         colors = DeepForestSelectableItemColors
     ) {
-        successImportResult.passwords.forEach { password ->
-            PasswordItem(
-                modifier = Modifier
-                    .padding(horizontal = Size8),
-                properties = PasswordItemProperties(
-                    showFavoriteButton = false,
-                    showCopyButton = false,
-                    showEditButton = false,
-                    showDeleteButton = false,
-                    swapColorsWhenExpanding = false,
-                    resizeCardWhenExpanded = true
-                ),
-                item = password,
-                onClick = {
-                    onAction(
-                        ImportPasswordsViewModel.Action.ToggleOpenItem(
-                            password.id
+        Column(
+            modifier = Modifier
+                .padding(bottom = Size8)
+        ) {
+            successImportResult.passwords.forEach { password ->
+                PasswordItem(
+                    modifier = Modifier
+                        .padding(horizontal = Size8),
+                    properties = PasswordItemProperties(
+                        showFavoriteButton = false,
+                        showCopyButton = false,
+                        showEditButton = false,
+                        showDeleteButton = false,
+                        swapColorsWhenExpanding = false,
+                        resizeCardWhenExpanded = true
+                    ),
+                    item = password,
+                    onClick = {
+                        onAction(
+                            ImportPasswordsViewModel.Action.ToggleOpenItem(
+                                password.id
+                            )
                         )
-                    )
-                },
-                isExpanded = password.isExpanded,
-                onDeleteClick = { /* no-op */ },
-                onEditClick = { /* no-op */ },
-                onCopySensitive = { /* no-op */ },
-                onCopy = { /* no-op */ },
-                onFavoriteClick = { /* no-op */ },
-            )
+                    },
+                    isExpanded = password.isExpanded,
+                    onDeleteClick = { /* no-op */ },
+                    onEditClick = { /* no-op */ },
+                    onCopySensitive = { /* no-op */ },
+                    onCopy = { /* no-op */ },
+                    onFavoriteClick = { /* no-op */ },
+                )
+            }
         }
     }
     if (successImportResult.failedParsingEntries.isNotEmpty()) {
@@ -317,11 +342,10 @@ private fun ColumnScope.ImportSuccessContent(
         modifier = Modifier
             .padding(Size16)
     ) {
-        // TODO change buttons design, make cancel tas text or outlined
         RoundedButton(
             text = stringResource(ResString.btn_import),
             onClick = {
-                // TODO implement
+                onAction(ImportPasswordsViewModel.Action.Import)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -333,7 +357,7 @@ private fun ColumnScope.ImportSuccessContent(
                 .padding(top = Size8),
             text = stringResource(ResString.cancel),
             onClick = {
-                // TODO implement
+                onCancelClick()
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error,

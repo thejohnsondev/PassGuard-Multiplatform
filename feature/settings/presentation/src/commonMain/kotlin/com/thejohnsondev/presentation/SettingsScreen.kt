@@ -804,11 +804,11 @@ fun Dialogs(
                 onAction(SettingsViewModel.Action.OpenCloseImportPasswords(false))
             },
             onImportSuccessful = {
-//                onAction(SettingsViewModel.Action.OnImportSuccessful) // TODO implement
+                onAction(SettingsViewModel.Action.OnImportSuccessful)
                 onAction(SettingsViewModel.Action.OpenCloseImportPasswords(false))
             },
             onImportError = {
-//                onAction(SettingsViewModel.Action.OnImportError(it)) // TODO implement
+                onAction(SettingsViewModel.Action.OnImportError(it))
                 onAction(SettingsViewModel.Action.OpenCloseImportPasswords(false))
             }
         )

@@ -182,7 +182,7 @@
     <string name="export_passwords_not_exported_confirm">Export anyway</string>
     <string name="import_title">Import passwords</string>
     <string name="import_description">Select a CSV file with your passwords to import them into PassGuard.\nThis file should be compatible with Google Password Manager and can be exported from or imported into other services.</string>
-    <string name="btn_select_csv">Select the CSV file</string>
+    <string name="btn_select_csv">Select a CSV file</string>
     <string name="import_message_successful">Imported successfully</string>
     <string name="import_successful_title">Imported</string>
     <string name="import_successful_description">You can import these passwords:</string>
@@ -192,6 +192,7 @@
     <string name="import_successful_failed_entry_line_number">Line number: %1$s</string>
     <string name="import_empty_file">The selected file is empty</string>
     <string name="import_invalid_file">The selected file is not a valid CSV file</string>
+    <string name="import_message_unsuccessful">An error occurred when trying to import to your vault</string>
 
 
     <string name="password_domain_url_title">Web address:</string>
