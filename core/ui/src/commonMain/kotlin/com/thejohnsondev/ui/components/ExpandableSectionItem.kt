@@ -54,13 +54,14 @@ fun ExpandableSectionItem(
     icon: ImageVector,
     isFirstItem: Boolean = false,
     isLastItem: Boolean = false,
+    isOpenedByDefault: Boolean = false,
     colors: SelectableItemColors = MaterialSelectableItemColors,
     onExpanded: ((Boolean) -> Unit)? = null,
     content: @Composable () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
     var expanded by remember {
-        mutableStateOf(false)
+        mutableStateOf(isOpenedByDefault)
     }
     val transitionState = remember {
         MutableTransitionState(expanded).apply {
