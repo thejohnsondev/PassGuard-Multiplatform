@@ -325,7 +325,6 @@ class AddVaultItemViewModel(
                 isLogoSearchResultsVisible = false
             )
         }
-        _enteredDomain.value = String.empty
     }
 
     private fun showHideGeneratePasswordBottomSheet(show: Boolean) {
