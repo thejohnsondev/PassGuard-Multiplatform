@@ -601,14 +601,14 @@ fun Filters(
                 fontFamily = getGlobalFontFamily(),
                 color = MaterialTheme.colorScheme.onSurface,
             )
-            FilterGroup(
+            /*FilterGroup(  // TODO commented before implementation of other filters
                 modifier = Modifier
                     .wrapContentWidth(),
                 filters = state.itemTypeFilters,
                 onFilterClick = { filter, isSelected ->
                     onAction(VaultViewModel.Action.OnFilterTypeClick(filter, isSelected))
                 }
-            )
+            )*/
             FilterGroup(
                 modifier = Modifier
                     .wrapContentWidth()
