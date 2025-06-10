@@ -114,6 +114,7 @@ fun PrimaryTextField(
                     ),
                     keyboardActions = onKeyboardAction,
                     maxLines = maxLines,
+                    singleLine = maxLines == 1,
                     visualTransformation = if (passwordHiddenState.value && textFieldIconBehavior is TextFieldIconBehavior.HideShow) {
                         PasswordVisualTransformation()
                     } else {
