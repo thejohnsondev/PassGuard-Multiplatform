@@ -16,11 +16,13 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.platform.filemanager.FileActionStatus
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 
 class ImportPasswordsViewModel(
     private val selectCSVUseCase: SelectCSVUseCase,
@@ -85,34 +87,36 @@ class ImportPasswordsViewModel(
             showError("CSV file content is empty.")
             return@launch
         }
-        val parsedPasswordsResult = parsePasswordsCSVUseCase(csvContent)
-        Logger.d("Parsed passwords result: $parsedPasswordsResult")
-        val successfullyParsedPasswords = mapToUiModelsUseCase(
-            (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
-        ).map {
-            it.copy(showUpdateAnimation = false)
-        }
-        val importResult = when (parsedPasswordsResult) {
-            is CsvParsingResult.EmptyContent -> ImportUIResult.EmptyContent
-            is CsvParsingResult.Success -> ImportUIResult.ImportSuccess(
-                passwords = successfullyParsedPasswords,
-                failedParsingEntries = parsedPasswordsResult.failedEntries,
-                dataLinesProcessed = parsedPasswordsResult.summary.dataLinesProcessed
-            )
+        withContext(Dispatchers.Default) {
+            val parsedPasswordsResult = parsePasswordsCSVUseCase(csvContent)
+            Logger.d("Parsed passwords result: $parsedPasswordsResult")
+            val successfullyParsedPasswords = mapToUiModelsUseCase(
+                (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
+            ).map {
+                it.copy(showUpdateAnimation = false)
+            }
+            val importResult = when (parsedPasswordsResult) {
+                is CsvParsingResult.EmptyContent -> ImportUIResult.EmptyContent
+                is CsvParsingResult.Success -> ImportUIResult.ImportSuccess(
+                    passwords = successfullyParsedPasswords,
+                    failedParsingEntries = parsedPasswordsResult.failedEntries,
+                    dataLinesProcessed = parsedPasswordsResult.summary.dataLinesProcessed
+                )
 
-            is CsvParsingResult.ValidationError -> ImportUIResult.ValidationError(
-                message = parsedPasswordsResult.message,
-                rawContent = parsedPasswordsResult.rawContent,
-                details = parsedPasswordsResult.details
-            )
+                is CsvParsingResult.ValidationError -> ImportUIResult.ValidationError(
+                    message = parsedPasswordsResult.message,
+                    rawContent = parsedPasswordsResult.rawContent,
+                    details = parsedPasswordsResult.details
+                )
+            }
+            _state.update {
+                it.copy(
+                    importResult = importResult,
+                    csvParsingResult = parsedPasswordsResult
+                )
+            }
+            showContent()
         }
-        _state.update {
-            it.copy(
-                importResult = importResult,
-                csvParsingResult = parsedPasswordsResult
-            )
-        }
-        showContent()
     }
 
     private fun toggleOpenItem(itemId: String?) = launch {
@@ -130,16 +134,18 @@ class ImportPasswordsViewModel(
     }
 
     private fun import() = launchLoading {
-        try {
-            val passwords = (_state.value.csvParsingResult as? CsvParsingResult.Success)?.passwords ?: return@launchLoading
-            passwords.forEach { password ->
-                val encrypted = encryptPasswordModelUseCase(password)
-                passwordsService.createOrUpdatePassword(encrypted)
+        withContext(Dispatchers.Default) {
+            try {
+                val passwords = (_state.value.csvParsingResult as? CsvParsingResult.Success)?.passwords ?: return@withContext
+                passwords.forEach { password ->
+                    val encrypted = encryptPasswordModelUseCase(password)
+                    passwordsService.createOrUpdatePassword(encrypted)
+                }
+                showContent()
+                sendEvent(ImportSuccessfulEvent)
+            } catch (e: Exception) {
+                sendEvent(ImportErrorEvent(DisplayableMessageValue.StringValue(e.message.orEmpty())))
             }
-            showContent()
-            sendEvent(ImportSuccessfulEvent)
-        } catch (e: Exception) {
-            sendEvent(ImportErrorEvent(DisplayableMessageValue.StringValue(e.message.orEmpty())))
         }
     }
 

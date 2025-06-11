@@ -15,6 +15,7 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.UnknownError
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -37,37 +39,47 @@ abstract class BaseViewModel : ViewModel() {
     fun getEventFlow() = eventFlow.receiveAsFlow()
 
     protected suspend fun BaseViewModel.sendEvent(event: OneTimeEvent) {
-        eventFlow.send(event)
+        withContext(Dispatchers.Main) {
+            eventFlow.send(event)
+        }
     }
 
     protected suspend fun BaseViewModel.loading() {
-        screenState.emit(ScreenState.Loading)
+        withContext(Dispatchers.Main) {
+            screenState.emit(ScreenState.Loading)
+        }
     }
 
     protected suspend fun BaseViewModel.showContent() {
-        screenState.emit(ScreenState.ShowContent)
+        withContext(Dispatchers.Main) {
+            screenState.emit(ScreenState.ShowContent)
+        }
     }
 
     protected suspend fun showError(message: String) {
-        screenState.emit(ScreenState.Error(message))
+        withContext(Dispatchers.Main) {
+            screenState.emit(ScreenState.Error(message))
+        }
     }
 
     protected suspend fun handleError(error: Error) {
-        showContent()
-        val errorDisplayMessage = when (error) {
-            is HttpError -> DisplayableMessageValue.StringValue(
-                getFirebaseErrorMessage(error.message)
-            )
+        withContext(Dispatchers.Main) {
+            showContent()
+            val errorDisplayMessage = when (error) {
+                is HttpError -> DisplayableMessageValue.StringValue(
+                    getFirebaseErrorMessage(error.message)
+                )
 
-            is NetworkError -> DisplayableMessageValue.CheckInternetConnection
-            is UnknownError -> DisplayableMessageValue.StringValue(
-                error.throwable?.message ?: "Unknown error"
-            )
+                is NetworkError -> DisplayableMessageValue.CheckInternetConnection
+                is UnknownError -> DisplayableMessageValue.StringValue(
+                    error.throwable?.message ?: "Unknown error"
+                )
 
-            else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
+                else -> DisplayableMessageValue.StringValue(error.throwable?.message ?: "Unknown error")
+            }
+            Logger.e("${this::class.simpleName} error: ${error.throwable?.stackTraceToString()} -- $errorDisplayMessage")
+            sendEvent(OneTimeEvent.ErrorMessage(errorDisplayMessage))
         }
-        Logger.e("${this::class.simpleName} error: ${error.throwable?.stackTraceToString()} -- $errorDisplayMessage")
-        sendEvent(OneTimeEvent.ErrorMessage(errorDisplayMessage))
     }
 
     protected fun BaseViewModel.launch(block: suspend CoroutineScope.() -> Unit): Job {
