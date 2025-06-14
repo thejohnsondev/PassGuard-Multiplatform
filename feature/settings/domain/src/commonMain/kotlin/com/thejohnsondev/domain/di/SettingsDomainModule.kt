@@ -1,5 +1,7 @@
 package com.thejohnsondev.domain.di
 
+import com.thejohnsondev.domain.CheckPassDuplicatesUseCase
+import com.thejohnsondev.domain.CheckPassDuplicatesUseCaseImpl
 import com.thejohnsondev.domain.ExportVaultUseCase
 import com.thejohnsondev.domain.ExportVaultUseCaseImpl
 import com.thejohnsondev.domain.GenerateExportCSVUseCase
@@ -35,4 +37,5 @@ val settingsDomainModule = module {
     singleOf(::GenerateExportCSVUseCaseImpl) { bind<GenerateExportCSVUseCase>() }
     singleOf(::SelectCSVUseCaseImpl) { bind<SelectCSVUseCase>() }
     singleOf(::ParsePasswordsCSVUseCaseImpl) { bind<ParsePasswordsCSVUseCase>() }
+    singleOf(::CheckPassDuplicatesUseCaseImpl) { bind<CheckPassDuplicatesUseCase>() }
 }

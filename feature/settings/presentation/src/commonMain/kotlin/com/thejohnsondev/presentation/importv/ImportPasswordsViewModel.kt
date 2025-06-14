@@ -3,6 +3,8 @@ package com.thejohnsondev.presentation.importv
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.Logger
+import com.thejohnsondev.domain.CheckPassDuplicatesUseCase
+import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.ParsePasswordsCSVUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
@@ -20,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
@@ -31,6 +34,8 @@ class ImportPasswordsViewModel(
     private val toggleOpenedItemUseCase: ToggleOpenedItemUseCase,
     private val passwordsService: PasswordsService,
     private val encryptPasswordModelUseCase: EncryptPasswordModelUseCase,
+    private val decryptPasswordsListUseCase: DecryptPasswordsListUseCase,
+    private val checkPassDuplicatesUseCase: CheckPassDuplicatesUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -136,8 +141,17 @@ class ImportPasswordsViewModel(
     private fun import() = launchLoading {
         withContext(Dispatchers.Default) {
             try {
-                val passwords = (_state.value.csvParsingResult as? CsvParsingResult.Success)?.passwords ?: return@withContext
-                passwords.forEach { password ->
+                val csvParsingResult = (_state.value.csvParsingResult as? CsvParsingResult.Success) ?: return@withContext
+                var passwordsToImport = csvParsingResult.passwords
+                if (_state.value.isSkipDuplicates) {
+                    val savedDecryptedPasswords = decryptPasswordsListUseCase(passwordsService.getUserPasswords().first())
+                    val checkPassDuplicatesResult = checkPassDuplicatesUseCase(
+                        savedDecryptedPasswords,
+                        passwordsToImport
+                    )
+                    passwordsToImport = checkPassDuplicatesResult.listWithoutDuplicates
+                }
+                passwordsToImport.forEach { password ->
                     val encrypted = encryptPasswordModelUseCase(password)
                     passwordsService.createOrUpdatePassword(encrypted)
                 }
@@ -180,7 +194,9 @@ class ImportPasswordsViewModel(
     data class State(
         val screenState: ScreenState = ScreenState.ShowContent,
         val importResult: ImportUIResult? = null,
-        val csvParsingResult: CsvParsingResult? = null
+        val csvParsingResult: CsvParsingResult? = null,
+        val showSkipDuplicatesCheckBox: Boolean = false,
+        val isSkipDuplicates: Boolean = false,
     )
 
 }
