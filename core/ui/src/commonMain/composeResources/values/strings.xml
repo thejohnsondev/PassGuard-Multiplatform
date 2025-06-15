@@ -199,6 +199,7 @@
     <string name="import_invalid_csv_title">Invalid CSV file</string>
     <string name="import_invalid_csv_description">The selected CSV file is not valid. Please select a valid CSV file with your passwords.</string>
     <string name="import_invalid_csv_sample_description">Make sure that the CSV is formatted like in the example below</string>
+    <string name="import_skip_duplicates">Don't import duplicates</string>
 
 
     <string name="password_domain_url_title">Web address:</string>

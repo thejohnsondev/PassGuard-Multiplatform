@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -74,6 +76,7 @@ import vaultmultiplatform.core.ui.generated.resources.import_empty_csv_title
 import vaultmultiplatform.core.ui.generated.resources.import_invalid_csv_description
 import vaultmultiplatform.core.ui.generated.resources.import_invalid_csv_sample_description
 import vaultmultiplatform.core.ui.generated.resources.import_invalid_csv_title
+import vaultmultiplatform.core.ui.generated.resources.import_skip_duplicates
 import vaultmultiplatform.core.ui.generated.resources.import_successful_description
 import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entries_description
 import vaultmultiplatform.core.ui.generated.resources.import_successful_failed_entries_title
@@ -230,6 +233,7 @@ private fun ImportResultContent(
             is ImportPasswordsViewModel.ImportUIResult.ImportSuccess -> {
                 ImportSuccessContent(
                     successImportResult = state.importResult,
+                    state = state,
                     onAction = onAction,
                     onCancelClick = onCancelClick
                 )
@@ -255,6 +259,7 @@ private fun ImportResultContent(
 
 @Composable
 private fun ColumnScope.ImportSuccessContent(
+    state: ImportPasswordsViewModel.State,
     successImportResult: ImportPasswordsViewModel.ImportUIResult.ImportSuccess,
     onAction: (ImportPasswordsViewModel.Action) -> Unit,
     onCancelClick: () -> Unit
@@ -359,6 +364,24 @@ private fun ColumnScope.ImportSuccessContent(
         modifier = Modifier
             .padding(Size16)
     ) {
+        if (state.showSkipDuplicatesCheckBox) {
+            Row(
+                modifier = Modifier
+                    .padding(vertical = Size8),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Checkbox(checked = state.isSkipDuplicates,
+                    onCheckedChange = {
+                        onAction(ImportPasswordsViewModel.Action.ToggleSkipDuplicates(it))
+                    })
+                Text(
+                    modifier = Modifier.padding(start = Size8),
+                    text = stringResource(ResString.import_skip_duplicates),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
         RoundedButton(
             text = stringResource(ResString.btn_import),
             onClick = {

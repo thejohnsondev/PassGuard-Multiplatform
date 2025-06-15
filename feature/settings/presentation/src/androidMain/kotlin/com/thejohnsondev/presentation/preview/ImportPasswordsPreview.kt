@@ -84,7 +84,8 @@ fun ImportPasswordsResultSuccessPreview() {
                             )
                         ),
                         dataLinesProcessed = 5
-                    )
+                    ),
+                    showSkipDuplicatesCheckBox = true
                 ),
                 onAction = {},
                 onCancelClick = {}

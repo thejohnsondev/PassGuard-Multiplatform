@@ -55,6 +55,15 @@ class ImportPasswordsViewModel(
             is Action.SelectFile -> selectFile()
             is Action.ToggleOpenItem -> toggleOpenItem(action.itemId)
             is Action.Import -> import()
+            is Action.ToggleSkipDuplicates -> toggleSkipDuplicates(action.isChecked)
+        }
+    }
+
+    private fun toggleSkipDuplicates(isChecked: Boolean) = launch {
+        _state.update { state ->
+            state.copy(
+                isSkipDuplicates = isChecked
+            )
         }
     }
 
@@ -72,9 +81,6 @@ class ImportPasswordsViewModel(
                 }
             }
         )
-
-        // desktop and ios work, android doesnt
-        // TODO show a visual presentation how the valid csv file looks like
     }
 
     private fun onFileSelectionCanceled() = launch {
@@ -95,6 +101,16 @@ class ImportPasswordsViewModel(
         withContext(Dispatchers.Default) {
             val parsedPasswordsResult = parsePasswordsCSVUseCase(csvContent)
             Logger.d("Parsed passwords result: $parsedPasswordsResult")
+            val containsDuplicates = checkPassDuplicatesUseCase(
+                savedPasswordsList = decryptPasswordsListUseCase(passwordsService.getUserPasswords().first()),
+                newPasswordsList = (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
+            )
+            _state.update { state ->
+                state.copy(
+                    showSkipDuplicatesCheckBox = containsDuplicates.duplicates.isNotEmpty(),
+                    isSkipDuplicates = true
+                )
+            }
             val successfullyParsedPasswords = mapToUiModelsUseCase(
                 (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
             ).map {
@@ -189,6 +205,9 @@ class ImportPasswordsViewModel(
             val itemId: String?,
         ) : Action()
         data object Import: Action()
+        data class ToggleSkipDuplicates(
+            val isChecked: Boolean
+        ) : Action()
     }
 
     data class State(
