@@ -46,7 +46,7 @@ coroutines = "1.9.0"
 gms = "4.4.2"
 crashlytcs = "3.0.4"
 uiTestJunit4Android = "1.8.2"
-haze = "0.7.3"
+haze = "1.6.0"
 securityCryptoKtx = "1.0.0"
 
 [libraries]
