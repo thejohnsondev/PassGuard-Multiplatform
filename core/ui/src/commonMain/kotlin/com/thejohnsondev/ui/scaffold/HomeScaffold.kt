@@ -68,12 +68,12 @@ import com.thejohnsondev.ui.model.message.MessageContent
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
-import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import dev.chrisbanes.haze.rememberHazeState
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -87,7 +87,7 @@ fun HomeScaffold(
     bottomBarState: MutableState<Boolean>,
     scrollBehavior: TopAppBarScrollBehavior,
     showMessageState: MutableState<MessageContent?>,
-    hazeState: HazeState = remember { HazeState() },
+    hazeState: HazeState = rememberHazeState(),
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val navigationItems = listOf(
@@ -182,7 +182,7 @@ fun HomeScaffold(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
+                        .hazeSource(state = hazeState)
                 ) {
                     content(it)
                 }
@@ -240,7 +240,7 @@ private fun MediumNavigationBar(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = RailWidth)
-            .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
+            .hazeSource(state = hazeState)
     ) {
         content(it)
     }
@@ -306,7 +306,7 @@ private fun ExpandedNavigationBar(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .haze(state = hazeState, style = HazeDefaults.style(noiseFactor = 0f))
+                .hazeSource(state = hazeState)
         ) {
             content(it)
         }
@@ -330,9 +330,9 @@ private fun VaultBottomBar(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .hazeChild(
+                .hazeEffect(
                     state = hazeState,
-                    style = HazeMaterials.regular()
+                    style = HazeMaterials.thin()
                 )
         ) {
             NavigationBar(
@@ -382,9 +382,9 @@ private fun VaultTopBar(
         modifier = Modifier
             .applyIf(windowSize == WindowWidthSizeClass.Expanded) { padding(start = DrawerWidth) }
             .applyIf(windowSize == WindowWidthSizeClass.Medium) { padding(start = RailWidth) }
-            .hazeChild(
+            .hazeEffect(
                 state = hazeState,
-                style = HazeMaterials.regular()
+                style = HazeMaterials.thin()
             )
     ) {
         TopAppBar(
