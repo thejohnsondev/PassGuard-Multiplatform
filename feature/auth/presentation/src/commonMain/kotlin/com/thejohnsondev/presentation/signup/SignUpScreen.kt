@@ -38,12 +38,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -312,7 +315,10 @@ fun FieldsSection(
             PrimaryOutlinedTextField(
                 modifier = Modifier
                     .focusRequester(passwordFocusRequest)
-                    .padding(horizontal = Size16),
+                    .padding(horizontal = Size16)
+                    .semantics {
+                        contentType = ContentType.NewPassword
+                    },
                 textState = passwordState,
                 onTextChanged = {
                     passwordState.value = it
