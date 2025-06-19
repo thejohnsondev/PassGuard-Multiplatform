@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PassGuard</string>
+    <string name="autofill_service_label">PassGuard Autofill Service</string>
 </resources>
