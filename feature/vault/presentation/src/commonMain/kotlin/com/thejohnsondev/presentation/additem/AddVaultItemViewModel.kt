@@ -272,6 +272,15 @@ class AddVaultItemViewModel(
         _enteredPassword.value = password
         validateFields()
         evaluateStrength(password)
+        showHideEnteredPasswordStrength(password)
+    }
+
+    private fun showHideEnteredPasswordStrength(password: String) {
+        _state.update {
+            it.copy(
+                showEnteredPasswordStrength = password.isNotBlank()
+            )
+        }
     }
 
     private fun evaluateStrength(password: String) {
@@ -386,7 +395,8 @@ class AddVaultItemViewModel(
         val logoSearchResults: List<FindLogoResponse> = listOf(),
         val isLogoSearchResultsVisible: Boolean = false,
         val showGeneratePasswordBottomSheet: Boolean = false,
-        val enteredPasswordStrength: PasswordStrength? = null
+        val enteredPasswordStrength: PasswordStrength? = null,
+        val showEnteredPasswordStrength: Boolean = false
     ) {
         val showClearLogoButton: Boolean
             get() = organizationLogo.isNotBlank()
