@@ -70,7 +70,6 @@ import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorBottomSheet
 import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
 import com.thejohnsondev.ui.components.LoadedImage
-import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
