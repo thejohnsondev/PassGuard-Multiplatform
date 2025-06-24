@@ -103,7 +103,7 @@ class SettingsViewModel(
 
     private fun fetchSettingsConfig() = launch {
         val userEmail = getUserEmailUseCase()
-//        val isBiometricsAvailable = isBiometricsAvailableUseCase() // todo uncomment after implementation
+        val isBiometricsAvailable = isBiometricsAvailableUseCase() // todo uncomment after implementation
         val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
         val supportsBlockingScreenshots = isBlockingScreenshotAvailableUseCase()
         getSettingsFlowUseCase.invoke().collect { config ->
@@ -111,7 +111,7 @@ class SettingsViewModel(
                 it.copy(
                     settingsConfig = config,
                     userEmail = userEmail,
-//                    isBiometricsAvailable = isBiometricsAvailable, // todo uncomment after implementation
+                    isBiometricsAvailable = isBiometricsAvailable, // todo uncomment after implementation
                     supportsDynamicTheming = supportsDynamicTheming,
                     isBlockingScreenshotsAvailable = supportsBlockingScreenshots
                 )
