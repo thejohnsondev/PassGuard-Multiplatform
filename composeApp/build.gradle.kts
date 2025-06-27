@@ -65,6 +65,7 @@ kotlin {
             api(project(":core:platform"))
             api(project(":core:sync"))
             api(project(":core:ui"))
+            api(project(":core:biometric"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
             api(project(":feature:vault:data"))

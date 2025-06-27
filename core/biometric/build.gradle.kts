@@ -29,38 +29,23 @@ kotlin {
     }
 
     sourceSets {
+        val desktopMain by getting
+        androidMain.dependencies {
+            // Koin
+            implementation(libs.koin.android)
+        }
         commonMain.dependencies {
-            api(project(":core:model"))
             api(project(":core:common"))
-            api(project(":core:ui")) // for DeviceThemeConfig class
-            api(project(":core:datastore"))
-            api(project(":core:database"))
-            api(project(":core:network"))
-            api(project(":core:biometric"))
-
-            implementation(libs.ktor.serialization.kotlinx.json)
+            api(project(":core:model"))
 
             // Koin
             api(libs.koin.core)
-
-            // Arrow Either
-            implementation(libs.arrow.core)
-
-            // DateTime
-            implementation(libs.kotlinx.datetime)
-
-            // Ktor
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.client.encoding)
         }
     }
 }
 
 android {
-    namespace = "org.thejohnsondev.data"
+    namespace = "org.thejohnsondev.biometric"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

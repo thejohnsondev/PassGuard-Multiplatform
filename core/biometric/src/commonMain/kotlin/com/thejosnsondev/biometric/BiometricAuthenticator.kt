@@ -1,17 +1,4 @@
-package com.thejohnsondev.common.utils
-
-// Legacy, TBR
-expect class BiometricsProvider {
-    fun isBiometricsAvailable(): Boolean
-    fun showBiometricsPrompt(
-        context: Any?,
-        title: String,
-        subtitle: String,
-        description: String,
-        onBiometricSuccess: () -> Unit,
-        onBiometricError: (String) -> Unit
-    )
-}
+package com.thejosnsondev.biometric
 
 enum class BiometricType {
     NONE,

@@ -6,7 +6,7 @@ import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.AuthService
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
-import com.thejohnsondev.domain.IsBiometricsAvailableUseCase
+import com.thejohnsondev.domain.GetBiometricAvailabilityUseCase
 import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
@@ -24,6 +24,7 @@ import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.model.validation.PasswordValidationState
 import com.thejohnsondev.ui.model.settings.SettingsSection
+import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -35,7 +36,7 @@ class SettingsViewModel(
     private val getSettingsFlowUseCase: GetSettingsFlowUseCase,
     private val getUserEmailUseCase: GetUserEmailUseCase,
     private val updateSettingsUseCase: UpdateSettingsUseCase,
-    private val isBiometricsAvailableUseCase: IsBiometricsAvailableUseCase,
+    private val getBiometricAvailabilityUseCase: GetBiometricAvailabilityUseCase,
     private val isDynamicThemeAvailableUseCase: IsDynamicThemeAvailableUseCase,
     private val isBlockingScreenshotAvailableUseCase: IsBlockingScreenshotAvailableUseCase,
     private val passwordValidationUseCase: PasswordValidationUseCase
@@ -103,7 +104,7 @@ class SettingsViewModel(
 
     private fun fetchSettingsConfig() = launch {
         val userEmail = getUserEmailUseCase()
-        val isBiometricsAvailable = isBiometricsAvailableUseCase() // todo uncomment after implementation
+        val biometricAvailability = getBiometricAvailabilityUseCase()
         val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
         val supportsBlockingScreenshots = isBlockingScreenshotAvailableUseCase()
         getSettingsFlowUseCase.invoke().collect { config ->
@@ -111,7 +112,7 @@ class SettingsViewModel(
                 it.copy(
                     settingsConfig = config,
                     userEmail = userEmail,
-                    isBiometricsAvailable = isBiometricsAvailable, // todo uncomment after implementation
+                    isBiometricsAvailable = biometricAvailability is BiometricAvailability.Available,
                     supportsDynamicTheming = supportsDynamicTheming,
                     isBlockingScreenshotsAvailable = supportsBlockingScreenshots
                 )

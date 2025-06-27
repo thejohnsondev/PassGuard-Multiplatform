@@ -1,6 +1,5 @@
 package com.thejohnsondev.data
 
-import com.thejohnsondev.common.utils.BiometricsProvider
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
@@ -8,11 +7,13 @@ import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
+import com.thejosnsondev.biometric.BiometricAuthenticator
+import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.Flow
 
 class SettingsRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
-    private val biometricsProvider: BiometricsProvider,
+    private val biometricAuthenticator: BiometricAuthenticator,
     private val deviceThemeConfig: DeviceThemeConfig
 ): SettingsRepository {
     override suspend fun getSettingsConfigFlow(): Flow<SettingsConfig> {
@@ -43,8 +44,8 @@ class SettingsRepositoryImpl(
         return preferencesDataStore.getEmail()
     }
 
-    override suspend fun getIsBiometricsAvailable(): Boolean {
-        return biometricsProvider.isBiometricsAvailable()
+    override suspend fun getIsBiometricsAvailability(): BiometricAvailability {
+        return biometricAuthenticator.getBiometricAvailability()
     }
 
     override suspend fun getIsDynamicThemeAvailable(): Boolean {
