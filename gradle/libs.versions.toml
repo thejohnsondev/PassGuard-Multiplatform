@@ -48,24 +48,17 @@ crashlytcs = "3.0.4"
 uiTestJunit4Android = "1.8.2"
 haze = "1.6.0"
 securityCryptoKtx = "1.0.0"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-appcompat = "1.7.1"
 material = "1.12.0"
 
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
 compose-jetbrains-expui-theme = { module = "com.bybutter.compose:compose-jetbrains-expui-theme", version.ref = "composeJetbrainsExpuiTheme" }
-decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
-decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 konnection = { module = "dev.tmapps:konnection", version.ref = "konnection" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
@@ -123,9 +116,6 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", vers
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "ui-tooling" }
 androidx-ui-tooling-preview-desktop = { group = "androidx.compose.ui", name = "ui-tooling-preview-desktop", version.ref = "ui-tooling-desktop" }
 androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto", version.ref = "securityCryptoKtx" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
