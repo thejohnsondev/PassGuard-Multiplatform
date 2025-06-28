@@ -7,6 +7,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.added_success
+import vaultmultiplatform.core.ui.generated.resources.cancel
 import vaultmultiplatform.core.ui.generated.resources.check_internet_connection
 import vaultmultiplatform.core.ui.generated.resources.copied
 import vaultmultiplatform.core.ui.generated.resources.email_error_incorrect
@@ -56,5 +57,6 @@ internal fun getStringResource(value: DisplayableMessageValue): StringResource {
         is DisplayableMessageValue.ExportUnsuccessful -> ResString.export_message_unsuccessful
         is DisplayableMessageValue.ImportSuccessful -> ResString.import_message_successful
         is DisplayableMessageValue.ImportUnsuccessful -> ResString.import_message_unsuccessful
+        is DisplayableMessageValue.Cancel -> ResString.cancel
     }
 }

@@ -33,10 +33,12 @@ kotlin {
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
+            implementation(libs.androidx.biometric.ktx)
         }
         commonMain.dependencies {
             api(project(":core:common"))
             api(project(":core:model"))
+            api(project(":core:ui"))
 
             // Koin
             api(libs.koin.core)

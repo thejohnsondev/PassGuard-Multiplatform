@@ -58,5 +58,6 @@ android {
 }
 
 dependencies {
+    implementation(libs.fragment.ktx)
     androidTestImplementation(libs.runner)
 }
