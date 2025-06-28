@@ -30,6 +30,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.security.crypto.ktx)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.fragment.ktx)
         }
         commonMain.dependencies {
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -58,6 +59,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.fragment.ktx)
     androidTestImplementation(libs.runner)
 }
