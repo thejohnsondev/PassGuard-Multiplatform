@@ -1,22 +1,23 @@
 package com.thejosnsondev.biometric
 
-import android.content.Context
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
-import androidx.fragment.app.FragmentActivity
-import com.thejohnsondev.model.DisplayableMessageValue
-import com.thejohnsondev.ui.displaymessage.getAsText
+import com.thejohnsondev.platform.filemanager.AndroidActivityProvider
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 
-actual class BiometricAuthenticator(
-    private val context: Context
-) {
-    private val biometricManager = BiometricManager.from(context)
+actual class BiometricAuthenticator {
+
+    private val activityContext by lazy {
+        AndroidActivityProvider.currentActivity?.get()
+    }
+    private val biometricManager by lazy {
+        BiometricManager.from(activityContext!!)
+    }
 
     actual fun getBiometricAvailability(): BiometricAvailability {
         val authenticators = BIOMETRIC_STRONG or BIOMETRIC_WEAK or DEVICE_CREDENTIAL
@@ -43,7 +44,7 @@ actual class BiometricAuthenticator(
         promptSubtitle: String?,
         promptDescription: String?
     ): BiometricAuthResult {
-        val activity = context as? FragmentActivity
+        val activity = activityContext
             ?: return BiometricAuthResult.Error(
                 -1,
                 "Authentication requires a FragmentActivity context."
@@ -56,7 +57,6 @@ actual class BiometricAuthenticator(
                 promptDescription?.let { setDescription(it) }
             }
             .setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
-            .setNegativeButtonText(DisplayableMessageValue.Cancel.getAsText())
             .build()
 
         return suspendCancellableCoroutine { continuation ->

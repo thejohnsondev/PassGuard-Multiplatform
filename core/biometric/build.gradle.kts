@@ -39,6 +39,7 @@ kotlin {
             api(project(":core:common"))
             api(project(":core:model"))
             api(project(":core:ui"))
+            api(project(":core:platform"))
 
             // Koin
             api(libs.koin.core)

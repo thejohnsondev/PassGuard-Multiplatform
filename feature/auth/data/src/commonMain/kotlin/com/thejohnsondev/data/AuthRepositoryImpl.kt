@@ -12,13 +12,17 @@ import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
 import com.thejohnsondev.model.auth.firebase.GRAND_TYPE_REFRESH
 import com.thejohnsondev.network.RemoteApi
+import com.thejosnsondev.biometric.BiometricAuthResult
+import com.thejosnsondev.biometric.BiometricAuthenticator
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 
 class AuthRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val preferencesDataStore: PreferencesDataStore,
-    private val remoteApi: RemoteApi
+    private val remoteApi: RemoteApi,
+    private val biometricAuthenticator: BiometricAuthenticator
 ) : AuthRepository {
 
     override suspend fun signUp(
@@ -79,6 +83,23 @@ class AuthRepositoryImpl(
                     refreshToken = preferencesDataStore.getRefreshAuthToken()
                 )
             )
+        )
+    }
+
+    override suspend fun isUseBiometrics(): Boolean {
+        return preferencesDataStore.getSettingsConfigFlow()
+            .first().privacySettings.isUnlockWithBiometricEnabled
+    }
+
+    override suspend fun showBiometricPrompt(
+        promptTitle: String,
+        promptSubtitle: String?,
+        promptDescription: String?
+    ): BiometricAuthResult {
+        return biometricAuthenticator.authenticate(
+            promptTitle = promptTitle,
+            promptSubtitle = promptSubtitle,
+            promptDescription = promptDescription
         )
     }
 

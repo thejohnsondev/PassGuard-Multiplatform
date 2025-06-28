@@ -4,5 +4,5 @@ import com.thejosnsondev.biometric.BiometricAuthenticator
 import org.koin.dsl.module
 
 actual val biometricModule = module {
-    single { BiometricAuthenticator(get()) }
+    single { BiometricAuthenticator() }
 }
