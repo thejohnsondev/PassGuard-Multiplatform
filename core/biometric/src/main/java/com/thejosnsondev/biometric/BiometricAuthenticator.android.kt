@@ -32,10 +32,11 @@ actual class BiometricAuthenticator {
                 }
             }
 
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> BiometricAvailability.HardwareUnavailable
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> BiometricAvailability.HardwareUnavailable
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> BiometricAvailability.NotEnrolled
-            else -> BiometricAvailability.Unknown
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE,
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE,
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> BiometricAvailability.Unavailable
+
+            else -> BiometricAvailability.Unavailable
         }
     }
 
@@ -67,12 +68,7 @@ actual class BiometricAuthenticator {
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                         super.onAuthenticationError(errorCode, errString)
                         if (continuation.isActive) {
-                            val result = when (errorCode) {
-                                BiometricPrompt.ERROR_USER_CANCELED -> BiometricAuthResult.UserCancelled
-                                BiometricPrompt.ERROR_LOCKOUT, BiometricPrompt.ERROR_LOCKOUT_PERMANENT -> BiometricAuthResult.LockedOut
-                                BiometricPrompt.ERROR_NO_BIOMETRICS, BiometricPrompt.ERROR_HW_UNAVAILABLE, BiometricPrompt.ERROR_HW_NOT_PRESENT -> BiometricAuthResult.NotAvailable
-                                else -> BiometricAuthResult.Error(errorCode, errString.toString())
-                            }
+                            val result = BiometricAuthResult.Error(errorCode, errString.toString())
                             continuation.resume(result)
                         }
                     }
