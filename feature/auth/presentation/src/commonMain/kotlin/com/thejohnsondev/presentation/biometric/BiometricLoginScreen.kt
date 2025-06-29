@@ -21,14 +21,22 @@ import androidx.compose.ui.text.font.FontWeight
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.padding
+import org.jetbrains.compose.resources.stringResource
+import vaultmultiplatform.core.ui.generated.resources.biometric_login_description
+import vaultmultiplatform.core.ui.generated.resources.biometric_login_title
 
 @Composable
 fun BiometricLoginScreen(
     viewModel: BiometricLoginViewModel,
     goToHome: () -> Unit
 ) {
+    // TODO move biometric login strings to resources
+    // TODO use string resources in the BiometricAuthenticator
+    // TODO Update screen UI
+    // TODO handle error states
     val biometricPromptDescriptionProvider = remember {
         BiometricPromptDescriptionProvider()
     }
@@ -79,13 +87,13 @@ private fun BiometricScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Biometric Authentication",
+                text = stringResource(ResString.biometric_login_title),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 modifier = Modifier.padding(top = Size16),
-                text = "Unlock the app using your fingerprint or face recognition."
+                text = stringResource(ResString.biometric_login_description)
             )
         }
         Column(
