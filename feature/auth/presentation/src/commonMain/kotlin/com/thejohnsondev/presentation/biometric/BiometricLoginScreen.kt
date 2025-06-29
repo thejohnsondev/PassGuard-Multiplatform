@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,8 +18,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.utils.bounceClick
+import com.thejohnsondev.ui.utils.padding
 
 @Composable
 fun BiometricLoginScreen(
@@ -51,11 +53,13 @@ fun BiometricLoginScreen(
     }
     BiometricScreenContent(
         showPrompt = {
-            viewModel.perform(BiometricLoginViewModel.Action.ShowLoginPrompt(
-                title = promptTitle,
-                subtitle = promptSubtitle,
-                description = promptDescription
-            ))
+            viewModel.perform(
+                BiometricLoginViewModel.Action.ShowLoginPrompt(
+                    title = promptTitle,
+                    subtitle = promptSubtitle,
+                    description = promptDescription
+                )
+            )
         }
     )
 }
@@ -70,11 +74,11 @@ private fun BiometricScreenContent(
             .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(
+            Modifier.padding(horizontal = Size16, top = Size128),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.padding(start = Size16, end = Size16, top = Size128),
                 text = "Biometric Authentication",
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.SemiBold
@@ -88,13 +92,18 @@ private fun BiometricScreenContent(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(
-                modifier = Modifier.size(Size128),
+            RoundedContainer(
+                modifier = Modifier
+                    .bounceClick(),
                 onClick = {
                     showPrompt()
-                }) {
+                },
+                color = MaterialTheme.colorScheme.background
+            ) {
                 Icon(
-                    modifier = Modifier.size(Size128),
+                    modifier = Modifier
+                        .padding(Size16)
+                        .size(Size128),
                     imageVector = Icons.Default.Fingerprint,
                     contentDescription = "Fingerprint",
                     tint = MaterialTheme.colorScheme.primary
