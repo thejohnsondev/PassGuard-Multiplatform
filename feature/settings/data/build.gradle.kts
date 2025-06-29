@@ -36,6 +36,7 @@ kotlin {
             api(project(":core:datastore"))
             api(project(":core:database"))
             api(project(":core:network"))
+            api(project(":core:biometric"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 

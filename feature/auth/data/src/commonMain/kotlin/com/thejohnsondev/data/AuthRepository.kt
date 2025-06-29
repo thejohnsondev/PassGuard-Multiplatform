@@ -6,6 +6,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthRequestBody
 import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
+import com.thejosnsondev.biometric.BiometricAuthResult
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
@@ -26,5 +27,11 @@ interface AuthRepository {
     suspend fun saveEmail(email: String)
     suspend fun saveRefreshAuthToken(refreshAuthToken: String)
     suspend fun refreshToken(): Flow<Either<Error, FBRefreshTokenResponseBody>>
+    suspend fun isUseBiometrics(): Boolean
+    suspend fun showBiometricPrompt(
+        promptTitle: String,
+        promptSubtitle: String?,
+        promptDescription: String?
+    ): BiometricAuthResult
 
 }

@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.additem
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -69,7 +70,6 @@ import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorBottomSheet
 import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
 import com.thejohnsondev.ui.components.LoadedImage
-import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
@@ -722,26 +722,30 @@ private fun PasswordField(
                 )
             }
         }
-        Row(
-            modifier = Modifier
-                .padding(horizontal = Size28)
-                .height(Size48),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+        AnimatedVisibility(
+            visible = state.showEnteredPasswordStrength
         ) {
-            Text(
+            Row(
                 modifier = Modifier
-                    .padding(end = Size8)
-                    .weight(Percent100),
-                text = buildAnnotatedString {
-                    append(state.enteredPasswordStrength?.suggestion.orEmpty())
-                },
-                textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.bodySmall,
-            )
-            StrengthLevelIndicator(
-                level = state.enteredPasswordStrength?.level ?: 0.0f
-            )
+                    .padding(horizontal = Size28)
+                    .height(Size48),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(end = Size8)
+                        .weight(Percent100),
+                    text = buildAnnotatedString {
+                        append(state.enteredPasswordStrength?.suggestion.orEmpty())
+                    },
+                    textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                StrengthLevelIndicator(
+                    level = state.enteredPasswordStrength?.level ?: 0.0f
+                )
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.model.settings.ThemeBrand
+import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
@@ -16,7 +17,7 @@ interface SettingsRepository {
     suspend fun updateGeneralSettings(generalSettings: GeneralSettings)
     suspend fun updatePrivacySettings(privacySettings: PrivacySettings)
     suspend fun getUserEmail(): String
-    suspend fun getIsBiometricsAvailable(): Boolean
+    suspend fun getIsBiometricsAvailability(): BiometricAvailability
     suspend fun getIsDynamicThemeAvailable(): Boolean
     suspend fun getIsBlockScreenshotAvailable(): Boolean
 

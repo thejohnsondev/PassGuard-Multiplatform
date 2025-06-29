@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.di
 
+import com.thejohnsondev.presentation.biometric.BiometricLoginViewModel
 import com.thejohnsondev.presentation.login.LoginViewModel
 import com.thejohnsondev.presentation.signup.SignUpViewModel
 import com.thejohnsondev.presentation.vaulttype.SelectedVaultTypeViewModel
@@ -10,4 +11,5 @@ actual val authPresentationModule = module {
     viewModelOf(::SignUpViewModel)
     viewModelOf(::LoginViewModel)
     viewModelOf(::SelectedVaultTypeViewModel)
+    viewModelOf(::BiometricLoginViewModel)
 }

@@ -1,2 +1,2 @@
 Changes:
-- Added import password feature
+- Added biometric login support for android

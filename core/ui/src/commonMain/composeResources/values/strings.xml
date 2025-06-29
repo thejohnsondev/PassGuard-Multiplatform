@@ -203,4 +203,10 @@
 
 
     <string name="password_domain_url_title">Web address:</string>
+
+    <!--Biometric authentication-->
+    <string name="biometric_login_title">Biometric Authentication</string>
+    <string name="biometric_login_description">Unlock the app using your biometrics or device password</string>
+    <string name="biometric_prompt_title_android">Unlock with your biometrics</string>
+    <string name="biometric_prompt_description_android">Use your fingerprint or face recognition to unlock the app.</string>
 </resources>

@@ -32,6 +32,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:model"))
             api(project(":core:common"))
+            api(project(":core:biometric"))
             implementation(project(":feature:auth:data"))
 
             implementation(libs.ktor.serialization.kotlinx.json)

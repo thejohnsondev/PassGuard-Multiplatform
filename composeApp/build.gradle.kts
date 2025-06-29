@@ -65,6 +65,7 @@ kotlin {
             api(project(":core:platform"))
             api(project(":core:sync"))
             api(project(":core:ui"))
+            api(project(":core:biometric"))
             api(project(":feature:auth:presentation"))
             api(project(":feature:auth:data"))
             api(project(":feature:vault:data"))
@@ -76,6 +77,7 @@ kotlin {
             api(project(":feature:settings:data"))
             api(project(":feature:settings:domain"))
             api(project(":feature:settings:presentation"))
+            api(project(":feature:autofill"))
 
             // Compose
             implementation(compose.runtime)
@@ -160,6 +162,9 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    lint {
+        disable.add("NullSafeMutableLiveData")
     }
     dependencies {
         debugImplementation(compose.uiTooling)

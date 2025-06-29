@@ -5,6 +5,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.presentation.biometric.BiometricLoginScreen
+import com.thejohnsondev.presentation.biometric.BiometricLoginViewModel
 import com.thejohnsondev.presentation.login.LoginScreen
 import com.thejohnsondev.presentation.login.LoginViewModel
 import com.thejohnsondev.presentation.signup.SignUpScreen
@@ -116,6 +118,19 @@ fun NavGraphBuilder.signUpScreen(
             goToHome = goToHome,
             goToLogin = goToLogin,
             goBack = goBack
+        )
+    }
+}
+
+@OptIn(KoinExperimentalAPI::class)
+fun NavGraphBuilder.biometricLoginScreen(
+    goToHome: () -> Unit
+) {
+    composable<Routes.BiometricRoute> {
+        val viewModel = koinViewModel<BiometricLoginViewModel>()
+        BiometricLoginScreen(
+            goToHome = goToHome,
+            viewModel = viewModel,
         )
     }
 }

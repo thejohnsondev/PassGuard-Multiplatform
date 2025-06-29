@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
@@ -24,7 +25,7 @@ import org.koin.android.ext.android.getKoin
 import org.thejohnsondev.vault.root.Root
 import org.thejohnsondev.vault.root.shouldUseDarkTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()

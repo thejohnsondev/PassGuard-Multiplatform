@@ -8,6 +8,8 @@ import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCaseImpl
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCaseImpl
+import com.thejohnsondev.domain.ShowBiometricPromptUseCase
+import com.thejohnsondev.domain.ShowBiometricPromptUseCaseImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -17,4 +19,5 @@ val authDomainModule = module {
     singleOf(::PasswordValidationUseCaseImpl) { bind<PasswordValidationUseCase>() }
     singleOf(::AuthServiceImpl) { bind<AuthService>() }
     singleOf(::GetFirstScreenRouteUseCaseImpl) { bind<GetFirstScreenRouteUseCase>() }
+    singleOf(::ShowBiometricPromptUseCaseImpl) { bind<ShowBiometricPromptUseCase>() }
 }
