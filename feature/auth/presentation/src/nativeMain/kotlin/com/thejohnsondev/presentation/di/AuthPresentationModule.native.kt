@@ -11,5 +11,5 @@ actual val authPresentationModule = module {
     viewModel { SignUpViewModel(get(), get(), get()) }
     viewModel { LoginViewModel(get(), get(), get()) }
     viewModel { SelectedVaultTypeViewModel(get()) }
-    viewModel { BiometricLoginViewModel() }
+    viewModel { BiometricLoginViewModel(get()) }
 }

@@ -15,6 +15,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -26,8 +27,20 @@ fun BiometricLoginScreen(
     viewModel: BiometricLoginViewModel,
     goToHome: () -> Unit
 ) {
+    val biometricPromptDescriptionProvider = remember {
+        BiometricPromptDescriptionProvider()
+    }
+    val promptTitle = biometricPromptDescriptionProvider.getTitle()
+    val promptSubtitle = biometricPromptDescriptionProvider.getSubtitle()
+    val promptDescription = biometricPromptDescriptionProvider.getDescription()
     LaunchedEffect(Unit) {
-        viewModel.perform(BiometricLoginViewModel.Action.ShowLoginPrompt)
+        viewModel.perform(
+            BiometricLoginViewModel.Action.ShowLoginPrompt(
+                title = promptTitle,
+                subtitle = promptSubtitle,
+                description = promptDescription
+            )
+        )
     }
     LaunchedEffect(Unit) {
         viewModel.getEventFlow().collect {
@@ -38,7 +51,11 @@ fun BiometricLoginScreen(
     }
     BiometricScreenContent(
         showPrompt = {
-            viewModel.perform(BiometricLoginViewModel.Action.ShowLoginPrompt)
+            viewModel.perform(BiometricLoginViewModel.Action.ShowLoginPrompt(
+                title = promptTitle,
+                subtitle = promptSubtitle,
+                description = promptDescription
+            ))
         }
     )
 }
