@@ -44,6 +44,9 @@ kotlin {
             // Koin
             api(libs.koin.core)
         }
+        appleMain.dependencies {
+
+        }
     }
 }
 
