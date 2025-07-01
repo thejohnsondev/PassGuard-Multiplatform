@@ -1,5 +1,7 @@
 package com.thejohnsondev.presentation.biometric
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,15 +20,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.padding
+import com.thejosnsondev.biometric.BiometricType
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.biometric_login_description
 import vaultmultiplatform.core.ui.generated.resources.biometric_login_title
+import vaultmultiplatform.core.ui.generated.resources.ic_face_id
+import vaultmultiplatform.core.ui.generated.resources.ic_password
 
 @Composable
 fun BiometricLoginScreen(
@@ -37,6 +45,7 @@ fun BiometricLoginScreen(
     // TODO use string resources in the BiometricAuthenticator
     // TODO Update screen UI
     // TODO handle error states
+    val state = viewModel.state.collectAsStateWithLifecycle()
     val biometricPromptDescriptionProvider = remember {
         BiometricPromptDescriptionProvider()
     }
@@ -59,7 +68,11 @@ fun BiometricLoginScreen(
             }
         }
     }
+    LaunchedEffect(Unit) {
+        viewModel.perform(BiometricLoginViewModel.Action.GetBiometricAvailability)
+    }
     BiometricScreenContent(
+        state = state.value,
         showPrompt = {
             viewModel.perform(
                 BiometricLoginViewModel.Action.ShowLoginPrompt(
@@ -74,6 +87,7 @@ fun BiometricLoginScreen(
 
 @Composable
 private fun BiometricScreenContent(
+    state: BiometricLoginViewModel.State,
     showPrompt: () -> Unit
 ) {
     Surface(
@@ -108,14 +122,24 @@ private fun BiometricScreenContent(
                 },
                 color = MaterialTheme.colorScheme.background
             ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(Size16)
-                        .size(Size128),
-                    imageVector = Icons.Default.Fingerprint,
-                    contentDescription = "Fingerprint",
-                    tint = MaterialTheme.colorScheme.primary
-                )
+                AnimatedVisibility(
+                    state.biometricType != null,
+                    enter = fadeIn()
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(Size16)
+                            .size(Size128),
+                        imageVector = when (state.biometricType) {
+                            BiometricType.FINGERPRINT -> Icons.Default.Fingerprint
+                            BiometricType.FACE -> vectorResource(ResDrawable.ic_face_id)
+                            BiometricType.DEVICE_PASSWORD_FALLBACK -> vectorResource(ResDrawable.ic_password)
+                            else -> vectorResource(ResDrawable.ic_password)
+                        },
+                        contentDescription = "Biometric type",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
