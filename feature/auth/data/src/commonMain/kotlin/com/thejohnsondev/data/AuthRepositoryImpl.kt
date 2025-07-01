@@ -14,6 +14,7 @@ import com.thejohnsondev.model.auth.firebase.GRAND_TYPE_REFRESH
 import com.thejohnsondev.network.RemoteApi
 import com.thejosnsondev.biometric.BiometricAuthResult
 import com.thejosnsondev.biometric.BiometricAuthenticator
+import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -101,6 +102,10 @@ class AuthRepositoryImpl(
             promptSubtitle = promptSubtitle,
             promptDescription = promptDescription
         )
+    }
+
+    override suspend fun getBiometricAvailability(): BiometricAvailability {
+        return biometricAuthenticator.getBiometricAvailability()
     }
 
 }

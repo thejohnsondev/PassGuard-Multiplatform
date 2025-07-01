@@ -2,10 +2,14 @@ package com.thejohnsondev.presentation.biometric
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.common.utils.Logger
+import com.thejohnsondev.domain.GetBiometricAvailabilityUseCase
 import com.thejohnsondev.domain.ShowBiometricPromptUseCase
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejosnsondev.biometric.BiometricAuthResult
+import com.thejosnsondev.biometric.BiometricAvailability
+import com.thejosnsondev.biometric.BiometricType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -13,7 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class BiometricLoginViewModel(
-    private val showBiometricPrompt: ShowBiometricPromptUseCase
+    private val showBiometricPrompt: ShowBiometricPromptUseCase,
+    private val getBiometricAvailabilityUseCase: GetBiometricAvailabilityUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -29,11 +34,27 @@ class BiometricLoginViewModel(
 
     fun perform(action: Action) {
         when (action) {
+            is Action.GetBiometricAvailability -> getBiometricAvailability()
             is Action.ShowLoginPrompt -> showLoginPrompt(
                 title = action.title,
                 subtitle = action.subtitle,
                 description = action.description
             )
+        }
+    }
+
+    private fun getBiometricAvailability() = launch {
+        _state.update { it.copy(screenState = ScreenState.Loading) }
+        val availability = getBiometricAvailabilityUseCase()
+        if (availability is BiometricAvailability.Available) {
+            val biometricType = availability.type
+            Logger.e("Biometric type available: $biometricType")
+            _state.update {
+                it.copy(
+                    screenState = ScreenState.ShowContent,
+                    biometricType = biometricType
+                )
+            }
         }
     }
 
@@ -79,6 +100,7 @@ class BiometricLoginViewModel(
     data object OnLoginSuccess : OneTimeEvent()
 
     sealed class Action {
+        data object GetBiometricAvailability : Action()
         data class ShowLoginPrompt(
             val title: String,
             val subtitle: String? = null,
@@ -88,7 +110,8 @@ class BiometricLoginViewModel(
 
     data class State(
         val screenState: ScreenState = ScreenState.ShowContent,
-        val biometricLoginResult: LoginResult = LoginResult.NotStarted
+        val biometricLoginResult: LoginResult = LoginResult.NotStarted,
+        val biometricType: BiometricType? = null
     )
 }
 

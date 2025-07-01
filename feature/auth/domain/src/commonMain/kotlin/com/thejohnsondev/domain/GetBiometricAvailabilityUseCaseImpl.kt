@@ -1,12 +1,12 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.data.SettingsRepository
+import com.thejohnsondev.data.AuthRepository
 import com.thejosnsondev.biometric.BiometricAvailability
 
 class GetBiometricAvailabilityUseCaseImpl(
-    private val settingsRepository: SettingsRepository
+    private val authRepository: AuthRepository
 ) : GetBiometricAvailabilityUseCase {
     override suspend fun invoke(): BiometricAvailability {
-        return settingsRepository.getIsBiometricsAvailability()
+        return authRepository.getBiometricAvailability()
     }
 }
