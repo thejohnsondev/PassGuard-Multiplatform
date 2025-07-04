@@ -1,43 +1,44 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
 }
 
-android {
-    namespace = "com.thejognsondev.machelper"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+kotlin {
+    macosX64 {
+        binaries {
+            executable {
+                baseName = "macOSBiometricHelper"
+                linkerOpts("-framework", "LocalAuthentication")
+                debuggable = false
+                optimized = true
+            }
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    macosArm64 {
+        binaries {
+            executable {
+                baseName = "macOSBiometricHelper"
+                linkerOpts("-framework", "LocalAuthentication")
+                debuggable = false
+                optimized = true
+            }
+        }
     }
-    kotlinOptions {
-        jvmTarget = "11"
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+
+            }
+        }
+        val macosMain by creating {
+            dependsOn(commonMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(macosMain)
+        }
+        val macosArm64Main by getting {
+            dependsOn(macosMain)
+        }
     }
-}
-
-dependencies {
-
-    implementation(libs.androidx.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
