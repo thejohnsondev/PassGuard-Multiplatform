@@ -4,10 +4,22 @@ plugins {
 }
 
 kotlin {
+    val binaryName = "PassGuard MacOS Biometric Check"
+    macosX64 {
+        binaries {
+            executable {
+                baseName = binaryName
+                linkerOpts("-framework", "LocalAuthentication")
+                debuggable = false
+                optimized = true
+                entryPoint("com.thejohnsondev.machelper.main")
+            }
+        }
+    }
     macosArm64 {
         binaries {
             executable {
-                baseName = "PassGuard MacOS Biometric Check"
+                baseName = binaryName
                 linkerOpts("-framework", "LocalAuthentication")
                 debuggable = false
                 optimized = true
@@ -17,7 +29,7 @@ kotlin {
     }
 
     sourceSets {
-        val macosArm64Main by getting {
+        val appleMain by creating {
             dependencies {
                 implementation(project(":core:biometric"))
 
@@ -25,8 +37,11 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
             }
         }
+        val macosArm64Main by getting {
+            dependsOn(appleMain)
+        }
         val macosX64Main by getting {
-            dependsOn(macosMain)
+            dependsOn(appleMain)
         }
         val macosArm64Main by getting {
             dependsOn(macosMain)
