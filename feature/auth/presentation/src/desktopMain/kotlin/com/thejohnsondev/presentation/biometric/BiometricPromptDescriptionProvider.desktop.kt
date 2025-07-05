@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 
 actual class BiometricPromptDescriptionProvider {
     @Composable
-    actual fun getTitle(): String = "Biometric Authentication"
+    actual fun getTitle(): String = "log in with biometrics"
     @Composable
     actual fun getSubtitle(): String? = null
     @Composable

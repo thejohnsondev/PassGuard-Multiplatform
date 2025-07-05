@@ -20,7 +20,7 @@ data class AuthResultResponse(
 
 actual class BiometricAuthenticator {
 
-    private val helperExecutableName = "macOSBiometricHelper.kexe"
+    private val helperExecutableName = "PassGuard MacOS Biometric Check.kexe"
     private val json = Json { ignoreUnknownKeys = true }
 
 

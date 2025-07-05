@@ -8,7 +8,7 @@ enum class BiometricType {
 }
 
 sealed class BiometricAvailability {
-    data class Available(val type: BiometricType) : BiometricAvailability()
+    data class Available(var type: BiometricType = BiometricType.NONE) : BiometricAvailability()
     data object Unavailable : BiometricAvailability()
 }
 

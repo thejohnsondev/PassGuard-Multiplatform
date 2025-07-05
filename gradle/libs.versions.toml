@@ -25,7 +25,6 @@ kotlin = "2.1.21"
 kotlinx-coroutines = "1.9.0"
 koin = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
-kotlinxSerializationJson = "1.8.0"
 landscapistCoil3 = "2.4.1"
 material3WindowSizeClassMultiplatform = "0.5.0"
 mockk = "1.12.0"
@@ -55,6 +54,7 @@ junitVersion = "4.13.2"
 androidxJunit = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.1"
+kotlinx-serialization = "1.7.3"
 
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
@@ -123,12 +123,12 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-tooling-preview-desktop = { group = "androidx.compose.ui", name = "ui-tooling-preview-desktop", version.ref = "ui-tooling-desktop" }
 androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto", version.ref = "securityCryptoKtx" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometricKtx" }
 fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtxVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
