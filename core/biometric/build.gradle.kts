@@ -33,16 +33,16 @@ kotlin {
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
-            implementation(libs.androidx.biometric.ktx)
+            implementation(libs.androidx.biometric)
         }
         commonMain.dependencies {
-            api(project(":core:common"))
-            api(project(":core:model"))
-            api(project(":core:ui"))
             api(project(":core:platform"))
 
             // Koin
             api(libs.koin.core)
+
+            implementation(libs.kotlinx.serialization)
+            implementation(libs.kotlinx.coroutines.core)
         }
         appleMain.dependencies {
 

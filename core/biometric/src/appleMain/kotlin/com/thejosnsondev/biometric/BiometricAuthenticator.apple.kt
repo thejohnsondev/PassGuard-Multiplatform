@@ -1,6 +1,5 @@
 package com.thejosnsondev.biometric
 
-import com.thejohnsondev.common.utils.Logger
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.LocalAuthentication.LABiometryTypeFaceID
 import platform.LocalAuthentication.LABiometryTypeTouchID
@@ -30,7 +29,6 @@ actual class BiometricAuthenticator {
         } else {
             BiometricAvailability.Unavailable
         }
-        Logger.d("BiometricAuthenticator", "Biometric availability: $availablility")
         return availablility
     }
 
@@ -52,7 +50,6 @@ actual class BiometricAuthenticator {
             policy,
             promptDescription ?: promptTitle // Use description if available, otherwise title
         ) { success, error ->
-            Logger.d("BiometricAuthenticator", "Authentication result: success=$success, error=$error")
             if (success) {
                 continuation.resume(BiometricAuthResult.Success)
             } else {
