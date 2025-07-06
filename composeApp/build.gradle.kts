@@ -177,12 +177,17 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.thejohnsondev.vault"
+            packageName = "PassGuard"
             packageVersion = "1.0.0"
             jvmArgs(
                 "-Dapple.awt.application.appearance=system"
             )
             modules("jdk.unsupported")
+            modules("java.sql")
+            javaHome = "/Users/f0000242/Library/Java/JavaVirtualMachines/ms-21.0.7/Contents/Home"
+            macOS {
+                iconFile.set(project.file("icon/ic_vault_extra_large_1024.icns"))
+            }
         }
     }
 }

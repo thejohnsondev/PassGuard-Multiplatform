@@ -43,8 +43,5 @@ kotlin {
         val macosX64Main by getting {
             dependsOn(appleMain)
         }
-        val macosArm64Main by getting {
-            dependsOn(macosMain)
-        }
     }
 }
