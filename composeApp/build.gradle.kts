@@ -102,9 +102,7 @@ kotlin {
             implementation(libs.haze.materials)
         }
         desktopMain.dependencies {
-            implementation(compose.desktop.currentOs) {
-                exclude("org.jetbrains.compose.material")
-            }
+            implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.compose.jetbrains.expui.theme)
         }
@@ -184,7 +182,6 @@ compose.desktop {
             )
             modules("jdk.unsupported")
             modules("java.sql")
-            javaHome = "/Users/f0000242/Library/Java/JavaVirtualMachines/ms-21.0.7/Contents/Home"
             macOS {
                 iconFile.set(project.file("icon/ic_vault_extra_large_1024.icns"))
             }
