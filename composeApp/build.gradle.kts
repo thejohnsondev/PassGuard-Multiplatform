@@ -102,9 +102,7 @@ kotlin {
             implementation(libs.haze.materials)
         }
         desktopMain.dependencies {
-            implementation(compose.desktop.currentOs) {
-                exclude("org.jetbrains.compose.material")
-            }
+            implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.compose.jetbrains.expui.theme)
         }
@@ -177,12 +175,16 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.thejohnsondev.vault"
+            packageName = "PassGuard"
             packageVersion = "1.0.0"
             jvmArgs(
                 "-Dapple.awt.application.appearance=system"
             )
             modules("jdk.unsupported")
+            modules("java.sql")
+            macOS {
+                iconFile.set(project.file("icon/ic_vault_extra_large_1024.icns"))
+            }
         }
     }
 }

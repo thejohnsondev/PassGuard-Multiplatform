@@ -13,6 +13,9 @@ kotlin {
         }
     }
 
+    macosX64()
+    macosArm64()
+
     jvm("desktop")
 
     listOf(

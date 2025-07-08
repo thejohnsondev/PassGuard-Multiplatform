@@ -7,6 +7,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
 import com.thejosnsondev.biometric.BiometricAuthResult
+import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
@@ -33,5 +34,6 @@ interface AuthRepository {
         promptSubtitle: String?,
         promptDescription: String?
     ): BiometricAuthResult
+    suspend fun getBiometricAvailability(): BiometricAvailability
 
 }
