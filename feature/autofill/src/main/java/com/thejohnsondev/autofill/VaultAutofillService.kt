@@ -1,5 +1,6 @@
 package com.thejohnsondev.autofill
 
+import android.content.Context
 import android.os.CancellationSignal
 import android.service.autofill.AutofillService
 import android.service.autofill.FillCallback
@@ -8,7 +9,9 @@ import android.service.autofill.SaveCallback
 import android.service.autofill.SaveRequest
 import com.thejohnsondev.common.utils.Logger
 
-class VaultAutofillService: AutofillService() {
+class VaultAutofillService(
+    private val context: Context
+): AutofillService() {
 
     override fun onConnected() {
         super.onConnected()
@@ -25,11 +28,20 @@ class VaultAutofillService: AutofillService() {
         cancellationSignal: CancellationSignal,
         callback: FillCallback
     ) {
-        // TODO implement
+        AutoFillHandler.handleAutoFillRequest(
+            context = context,
+            request = request,
+            callback = callback,
+            cancellationSignal = cancellationSignal
+        )
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
-        // TODO implement
+        AutoSaveHandler.handleAutoSaveRequest(
+            context = context,
+            request = request,
+            callback = callback
+        )
     }
 
     companion object {
