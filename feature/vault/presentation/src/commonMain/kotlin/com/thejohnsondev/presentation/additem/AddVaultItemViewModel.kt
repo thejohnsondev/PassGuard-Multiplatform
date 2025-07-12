@@ -156,7 +156,9 @@ class AddVaultItemViewModel(
             isFavorite = _state.value.isFavorite,
             syncStatus = syncStatus
         )
-        val encryptedPasswordDto = encryptPasswordModelUseCase(passwordDto)
+        val encryptedPasswordDto = withContext(Dispatchers.Default) {
+            encryptPasswordModelUseCase(passwordDto)
+        }
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
         delay(SAVE_ANIMATE_TIME)
         sendEvent(

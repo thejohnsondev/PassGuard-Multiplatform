@@ -11,12 +11,14 @@ import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.vaulthealth.VaultHealthReport
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 
 class VaultHealthViewModel(
     private val passwordsService: PasswordsService,
@@ -46,7 +48,9 @@ class VaultHealthViewModel(
 
     private fun generateReport() = launch {
         val allPasswords = passwordsService.getUserPasswords().first()
-        val decryptedPasswords = decryptPasswordsListUseCase(allPasswords)
+        val decryptedPasswords = withContext(Dispatchers.Default) {
+            decryptPasswordsListUseCase(allPasswords)
+        }
         val report = generateVaultHealthReportUseCases(
             passwords = decryptedPasswords,
             passwordAgeThresholdDays = PASSWORD_AGE_THRESHOLD_DAYS
