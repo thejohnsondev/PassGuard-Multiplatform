@@ -1,6 +1,5 @@
 package com.thejohnsondev.autofill
 
-import android.content.Context
 import android.os.CancellationSignal
 import android.service.autofill.AutofillService
 import android.service.autofill.FillCallback
@@ -8,20 +7,17 @@ import android.service.autofill.FillRequest
 import android.service.autofill.SaveCallback
 import android.service.autofill.SaveRequest
 import com.thejohnsondev.common.utils.Logger
-import org.koin.mp.KoinPlatform.getKoin
 
-class PassGuardAutofillService: AutofillService() {
-
-    private val context: Context = getKoin().get()
+class PassGuardAutofillService : AutofillService() {
 
     override fun onConnected() {
         super.onConnected()
-        Logger.i(TAG_AUTOFILL, "Autofill service connected")
+        Logger.i("Autofill service connected")
     }
 
     override fun onDisconnected() {
         super.onDisconnected()
-        Logger.i(TAG_AUTOFILL, "Autofill service disconnected")
+        Logger.i("Autofill service disconnected")
     }
 
     override fun onFillRequest(
@@ -30,7 +26,7 @@ class PassGuardAutofillService: AutofillService() {
         callback: FillCallback
     ) {
         AutoFillHandler.handleAutoFillRequest(
-            context = context,
+            context = this,
             request = request,
             callback = callback,
             cancellationSignal = cancellationSignal
@@ -39,13 +35,10 @@ class PassGuardAutofillService: AutofillService() {
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
         AutoSaveHandler.handleAutoSaveRequest(
-            context = context,
+            context = this,
             request = request,
             callback = callback
         )
     }
 
-    companion object {
-        const val TAG_AUTOFILL = "VaultAutofillService"
-    }
 }
