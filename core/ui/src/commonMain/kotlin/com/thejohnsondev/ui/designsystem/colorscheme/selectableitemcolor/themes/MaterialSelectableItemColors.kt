@@ -9,22 +9,22 @@ object MaterialSelectableItemColors: SelectableItemColors {
 
     @Composable
     override fun getSelectedContainerColor(): Color {
-        return MaterialTheme.colorScheme.surfaceContainer
-    }
-
-    @Composable
-    override fun getUnselectedContainerColor(): Color {
         return MaterialTheme.colorScheme.secondaryContainer
     }
 
     @Composable
+    override fun getUnselectedContainerColor(): Color {
+        return MaterialTheme.colorScheme.surfaceContainer
+    }
+
+    @Composable
     override fun getSelectedContentColor(): Color {
-        return MaterialTheme.colorScheme.onSurface
+        return MaterialTheme.colorScheme.onSecondaryContainer
     }
 
     @Composable
     override fun getUnselectedContentColor(): Color {
-        return MaterialTheme.colorScheme.onSecondaryContainer
+        return MaterialTheme.colorScheme.onSurface
     }
 
 }
