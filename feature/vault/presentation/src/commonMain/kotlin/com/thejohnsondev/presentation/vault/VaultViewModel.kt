@@ -25,8 +25,8 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.sync.SyncManager
-import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
+import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.SortOrder.Companion.toSortOrder
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.Dispatchers
@@ -268,11 +268,14 @@ class VaultViewModel(
         }
     }
 
-    private suspend fun fetchPasswords()  {
+    private suspend fun fetchPasswords() {
         passwordsService.getUserPasswords().collect { items ->
             withContext(Dispatchers.Default) {
                 val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
-                val passwordsUiModels = passwordsMapToUiModelsUseCase(decryptedPasswordDtoList)
+                val passwordsUiModels = passwordsMapToUiModelsUseCase(
+                    decryptedPasswordDtoList,
+                    currentOpenedItemId = _state.value.currentOpenedItemId
+                )
                 prepareToUpdateItemsList(passwordsUiModels)
                 _allPasswordsList.emit(passwordsUiModels)
             }
@@ -389,7 +392,8 @@ class VaultViewModel(
         _state.update {
             it.copy(
                 passwordsList = updatedList,
-                listHeight = itemsHeight
+                listHeight = itemsHeight,
+                currentOpenedItemId = newOpenedItemId
             )
         }
     }
@@ -400,6 +404,7 @@ class VaultViewModel(
         data class FetchVault(
             val isFromLogin: Boolean = false
         ) : Action()
+
         data class Search(
             val query: String,
             val isDeepSearchEnabled: Boolean,
@@ -440,14 +445,15 @@ class VaultViewModel(
         data class OnDeletePasswordClick(val passwordId: String) : Action()
         data class OnMarkAsFavoriteClick(val passwordId: String, val isFavorite: Boolean) : Action()
 
-        data class OnCopyClick(val text: String): Action()
-        data class OnCopySensitiveClick(val text: String): Action()
+        data class OnCopyClick(val text: String) : Action()
+        data class OnCopySensitiveClick(val text: String) : Action()
     }
 
     data class State(
         val isScreenCompact: Boolean = false,
         val screenState: ScreenState = ScreenState.None,
         val passwordsList: List<List<PasswordUIModel>> = listOf(emptyList()),
+        val currentOpenedItemId: String? = null,
         val isSearching: Boolean = false,
         val isFiltersOpened: Boolean = false,
         val isSortingOpened: Boolean = false,

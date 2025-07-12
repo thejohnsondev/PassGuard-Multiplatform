@@ -3,8 +3,8 @@ package com.thejohnsondev.domain
 import com.thejohnsondev.common.utils.getTimeDifferenceInMillis
 import com.thejohnsondev.common.utils.parseTime
 import com.thejohnsondev.model.vault.PasswordDto
-import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
+import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 
 class PasswordsMapToUiModelsUseCaseImpl : PasswordsMapToUiModelsUseCase {
@@ -13,7 +13,10 @@ class PasswordsMapToUiModelsUseCaseImpl : PasswordsMapToUiModelsUseCase {
         const val PASSWORD_UPDATED_TIME_THRESHOLD = 2
     }
 
-    override fun invoke(passwordsDto: List<PasswordDto>): List<PasswordUIModel> {
+    override fun invoke(
+        passwordsDto: List<PasswordDto>,
+        currentOpenedItemId: String?
+    ): List<PasswordUIModel> {
         return passwordsDto.map { dto ->
             val wasJustModified = getWasJustModified(dto)
             PasswordUIModel(
@@ -29,7 +32,8 @@ class PasswordsMapToUiModelsUseCaseImpl : PasswordsMapToUiModelsUseCase {
                 isFavorite = dto.isFavorite,
                 category = FiltersProvider.Category.getCategoryFilterUiModelById(dto.categoryId)
                     .mapToCategory(),
-                showUpdateAnimation = wasJustModified
+                showUpdateAnimation = wasJustModified,
+                isExpanded = currentOpenedItemId == dto.id
             )
         }
     }
