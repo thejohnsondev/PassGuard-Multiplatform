@@ -53,6 +53,7 @@ import com.thejohnsondev.ui.components.vault.passworditem.PasswordItem
 import com.thejohnsondev.ui.components.text.SearchBar
 import com.thejohnsondev.ui.components.animation.ShimmerEffect
 import com.thejohnsondev.ui.components.button.ToggleButton
+import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
 import com.thejohnsondev.ui.components.filter.Chip
 import com.thejohnsondev.ui.components.filter.FilterGroup
 import com.thejohnsondev.ui.designsystem.EquallyRounded
@@ -81,6 +82,10 @@ import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.add
+import vaultmultiplatform.core.ui.generated.resources.cancel
+import vaultmultiplatform.core.ui.generated.resources.delete
+import vaultmultiplatform.core.ui.generated.resources.delete_password
+import vaultmultiplatform.core.ui.generated.resources.delete_password_message
 import vaultmultiplatform.core.ui.generated.resources.empty_vault
 import vaultmultiplatform.core.ui.generated.resources.empty_vault_get_started
 import vaultmultiplatform.core.ui.generated.resources.filters
@@ -115,10 +120,6 @@ internal fun VaultScreen(
         updateIsFabExpanded(lazyListState.firstVisibleItemIndex == 0)
     }
     val appLogo = vectorResource(getAppLogo())
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-        confirmValueChange = { it != SheetValue.Hidden }
-    )
 
     val isCompact = windowSizeClass.isCompact()
 
@@ -165,26 +166,6 @@ internal fun VaultScreen(
         updateIsEmptyVault(state.value.isVaultEmpty)
     }
 
-    if (state.value.editVaultItemContainer.first) {
-        AddVaultItemScreen(
-            windowSizeClass = windowSizeClass,
-            paddingValues = paddingValues,
-            sheetState = sheetState,
-            vaultItem = state.value.editVaultItemContainer.second,
-            onDismissRequest = {
-                vaultViewModel.perform(VaultViewModel.Action.OnAddClose)
-            },
-            showSuccessMessage = {
-                val message = MessageContent(
-                    message = it,
-                    type = MessageType.SUCCESS,
-                    imageVector = Icons.Filled.Done
-                )
-                onShowMessage(message)
-            }
-        )
-    }
-
     VaultScreenContent(
         state = state.value,
         windowSizeClass = windowSizeClass,
@@ -192,6 +173,70 @@ internal fun VaultScreen(
         lazyListState = lazyListState,
         onAction = vaultViewModel::perform
     )
+
+    Dialogs(
+        state = state.value,
+        onAction = vaultViewModel::perform,
+        windowSizeClass = windowSizeClass,
+        paddingValues = paddingValues,
+        showMessage = onShowMessage
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun Dialogs(
+    state: VaultViewModel.State,
+    onAction: (VaultViewModel.Action) -> Unit,
+    windowSizeClass: WindowWidthSizeClass,
+    paddingValues: PaddingValues,
+    showMessage: (MessageContent) -> Unit,
+) {
+    val addVaultItemSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
+        confirmValueChange = { it != SheetValue.Hidden }
+    )
+
+    if (state.editVaultItemContainer.first) {
+        AddVaultItemScreen(
+            windowSizeClass = windowSizeClass,
+            paddingValues = paddingValues,
+            sheetState = addVaultItemSheetState,
+            vaultItem = state.editVaultItemContainer.second,
+            onDismissRequest = {
+                onAction(VaultViewModel.Action.OnAddClose)
+            },
+            showSuccessMessage = {
+                val message = MessageContent(
+                    message = it,
+                    type = MessageType.SUCCESS,
+                    imageVector = Icons.Filled.Done
+                )
+                showMessage(message)
+            }
+        )
+    }
+
+    if (state.deletePasswordPair.first) {
+        ConfirmAlertDialog(
+            windowWidthSizeClass = windowSizeClass,
+            title = stringResource(ResString.delete_password),
+            message = stringResource(ResString.delete_password_message),
+            confirmButtonText = stringResource(ResString.delete),
+            cancelButtonText = stringResource(ResString.cancel),
+            onConfirm = {
+                state.deletePasswordPair.second?.let {
+                    onAction(VaultViewModel.Action.ShowHideConfirmDelete(Pair(false, null)))
+                    onAction(VaultViewModel.Action.OnDeletePasswordClick(
+                        passwordId = it
+                    ))
+                }
+            },
+            onCancel = {
+                onAction(VaultViewModel.Action.ShowHideConfirmDelete(Pair(false, null)))
+            }
+        )
+    }
 }
 
 @Composable
@@ -490,11 +535,7 @@ private fun BindPasswordItem(
         },
         isExpanded = passwordModel.isExpanded,
         onDeleteClick = {
-            onAction(
-                VaultViewModel.Action.OnDeletePasswordClick(
-                    passwordModel.id
-                )
-            )
+            onAction(VaultViewModel.Action.ShowHideConfirmDelete(Pair(true, passwordModel.id)))
         },
         onCopy = { text ->
             onAction(VaultViewModel.Action.OnCopyClick(text))

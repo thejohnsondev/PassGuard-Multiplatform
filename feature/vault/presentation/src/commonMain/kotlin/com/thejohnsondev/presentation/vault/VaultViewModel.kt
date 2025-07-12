@@ -374,8 +374,10 @@ class VaultViewModel(
         }
     }
 
-    private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, PasswordUIModel?>) {
-        // TODO implement
+    private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, String?>) { // TODO rename to action container, create a class wrapper
+        _state.update {
+            it.copy(deletePasswordPair = deletePasswordPair)
+        }
     }
 
     private fun toggleOpenItem(newOpenedItemId: String?) = launch {
@@ -405,7 +407,7 @@ class VaultViewModel(
 
         data object StopSearching : Action()
         data class ShowHideConfirmDelete(
-            val deletePasswordPair: Pair<Boolean, PasswordUIModel?>,
+            val deletePasswordPair: Pair<Boolean, String?>,
         ) : Action()
 
         data class ToggleOpenItem(val itemId: String?) : Action()
@@ -451,7 +453,7 @@ class VaultViewModel(
         val isSortingOpened: Boolean = false,
         val isAnyFiltersApplied: Boolean = false,
         val isDeepSearchEnabled: Boolean = false,
-        val deletePasswordPair: Pair<Boolean, PasswordUIModel?> = Pair(false, null),
+        val deletePasswordPair: Pair<Boolean, String?> = Pair(false, null),
         val listHeight: Int = 0,
         val itemTypeFilters: List<FilterUIModel> = listOf(),
         val itemCategoryFilters: List<FilterUIModel> = listOf(),
