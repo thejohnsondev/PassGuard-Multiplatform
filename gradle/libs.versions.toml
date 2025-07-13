@@ -55,6 +55,9 @@ espressoCore = "3.6.1"
 appcompat = "1.7.1"
 kotlinx-serialization = "1.7.3"
 
+versionName = "1.0.0"
+versionCode = "1"
+
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
