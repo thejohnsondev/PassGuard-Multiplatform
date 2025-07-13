@@ -2,7 +2,6 @@ package org.thejohnsondev.vault
 
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
@@ -30,7 +29,7 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        AndroidActivityProvider.registerFilePicker(this)
+        AndroidActivityProvider.registerActivity(this)
         val getFirstScreenRoute = getKoin().get<GetFirstScreenRouteUseCase>()
         val getSettingsUseCase = getKoin().get<GetSettingsFlowUseCase>()
         val deviceThemeConfig: DeviceThemeConfig = getKoin().get()
@@ -67,8 +66,6 @@ class MainActivity : FragmentActivity() {
         settingsConfig: SettingsConfig
     ) {
         if (!window.decorView.isInEditMode) {
-            window.statusBarColor = colorScheme.primary.toArgb()
-            window.navigationBarColor = colorScheme.primary.toArgb()
             val view = LocalView.current
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
                 !shouldUseDarkTheme(settingsConfig)

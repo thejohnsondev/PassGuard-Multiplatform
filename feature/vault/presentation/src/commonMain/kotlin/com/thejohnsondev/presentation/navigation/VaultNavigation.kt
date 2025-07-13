@@ -20,7 +20,7 @@ fun NavGraphBuilder.vaultScreen(
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
     updateIsFabExpanded: (Boolean) -> Unit,
-    onShowMessage: (MessageContent) -> Unit,
+    showMessage: (MessageContent) -> Unit,
 ) {
     composable<Routes.VaultRoute> {
         val route: Routes.VaultRoute = it.toRoute()
@@ -33,7 +33,7 @@ fun NavGraphBuilder.vaultScreen(
             setScaffoldConfig = setScaffoldConfig,
             updateIsEmptyVault = updateIsEmptyVault,
             updateIsFabExpanded = updateIsFabExpanded,
-            onShowMessage = onShowMessage
+            showMessage = showMessage
         )
     }
 }

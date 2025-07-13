@@ -105,7 +105,7 @@ internal fun VaultScreen(
     setScaffoldConfig: (ScaffoldConfig) -> Unit,
     updateIsEmptyVault: (Boolean) -> Unit,
     updateIsFabExpanded: (Boolean) -> Unit,
-    onShowMessage: (MessageContent) -> Unit,
+    showMessage: (MessageContent) -> Unit,
 ) {
     val state = vaultViewModel.state.collectAsState(VaultViewModel.State())
     val successSnackBarHostState = remember {
@@ -136,7 +136,7 @@ internal fun VaultScreen(
                         type = MessageType.INFO,
                         imageVector = Icons.Filled.Info
                     )
-                    onShowMessage(message)
+                    showMessage(message)
                 }
             }
         }
@@ -179,7 +179,7 @@ internal fun VaultScreen(
         onAction = vaultViewModel::perform,
         windowSizeClass = windowSizeClass,
         paddingValues = paddingValues,
-        showMessage = onShowMessage
+        showMessage = showMessage
     )
 }
 
