@@ -117,9 +117,7 @@ actual class BiometricAuthenticator {
         promptDescription: String?
     ): BiometricAuthResult = withContext(Dispatchers.IO) {
         val helperPath = getHelperPath()
-        if (helperPath == null) {
-            return@withContext BiometricAuthResult.Error(-1, "macOS biometric helper not found.")
-        }
+            ?: return@withContext BiometricAuthResult.Error(-1, "macOS biometric helper not found.")
 
         val commandArgs = mutableListOf(helperPath, "authenticate", promptTitle)
         promptSubtitle?.let { commandArgs.add(it) }
