@@ -104,7 +104,7 @@ class SyncManager(
 
     /** Pushes new or modified passwords to the backend */
     private suspend fun syncNewAndModifiedPasswords() {
-        val unsynchronizedPasswords = localDataSource.getUnsynchronisedPasswords()
+        val unsynchronizedPasswords = localDataSource.getUnsynchronizedPasswords()
         for (password in unsynchronizedPasswords) {
             try {
                 val result = if (password.syncStatus == "NEW") {
