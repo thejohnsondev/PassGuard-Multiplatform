@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <!--TODO refactor strings names-->
     <string name="biometric_authentication">Biometric authentication</string>
     <string name="biometric_authentication_description">Unlock the app with your fingerprint or face</string>
     <string name="accept_and_agree">I accept and agree to the </string>
