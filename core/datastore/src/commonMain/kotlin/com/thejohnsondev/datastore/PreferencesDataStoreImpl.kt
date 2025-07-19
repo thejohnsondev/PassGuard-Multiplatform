@@ -101,10 +101,7 @@ class PreferencesDataStoreImpl(
         secureStorage.remove(KEY_SECRET_KEY)
         secureStorage.remove(KEY_REFRESH_AUTH_TOKEN)
         secureStorage.remove(KEY_EMAIL)
-        dataStore.clearString(KEY_APPLIED_SORT_ORDER)
-        dataStore.clearString(KEY_APPLIED_CATEGORY_FILTERS)
-        dataStore.clearString(KEY_APPLIED_ITEM_TYPE_FILTERS)
-        dataStore.clearBoolean(KEY_APPLIED_FAVORITES_AT_TOP)
+        dataStore.clearAll()
     }
 
     @OptIn(ExperimentalEncodingApi::class)

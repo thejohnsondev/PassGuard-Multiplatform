@@ -41,10 +41,6 @@ fun BiometricLoginScreen(
     viewModel: BiometricLoginViewModel,
     goToHome: () -> Unit
 ) {
-    // TODO move biometric login strings to resources
-    // TODO use string resources in the BiometricAuthenticator
-    // TODO Update screen UI
-    // TODO handle error states
     val state = viewModel.state.collectAsStateWithLifecycle()
     val biometricPromptDescriptionProvider = remember {
         BiometricPromptDescriptionProvider()
@@ -136,7 +132,7 @@ private fun BiometricScreenContent(
                             BiometricType.DEVICE_PASSWORD_FALLBACK -> vectorResource(ResDrawable.ic_password)
                             else -> vectorResource(ResDrawable.ic_password)
                         },
-                        contentDescription = "Biometric type",
+                        contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }

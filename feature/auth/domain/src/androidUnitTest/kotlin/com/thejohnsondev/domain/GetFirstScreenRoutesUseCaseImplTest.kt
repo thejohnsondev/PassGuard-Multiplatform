@@ -9,15 +9,15 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 
-class GetFirstScreenRouteUseCaseImplTest {
+class GetFirstScreenRouteUseCaseTest {
 
     private lateinit var authRepository: AuthRepository
-    private lateinit var useCase: GetFirstScreenRouteUseCaseImpl
+    private lateinit var useCase: GetFirstScreenRouteUseCase
 
     @BeforeTest
     fun setUp() {
         authRepository = mockk()
-        useCase = GetFirstScreenRouteUseCaseImpl(authRepository)
+        useCase = GetFirstScreenRouteUseCase(authRepository)
     }
 
     @Test

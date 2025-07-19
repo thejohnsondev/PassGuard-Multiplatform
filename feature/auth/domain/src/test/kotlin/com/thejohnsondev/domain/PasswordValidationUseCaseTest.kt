@@ -5,9 +5,9 @@ import com.thejohnsondev.model.validation.PasswordValidationState
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class PasswordValidationUseCaseImplTest {
+class PasswordValidationUseCaseTest {
 
-    private val passwordValidationUseCase = PasswordValidationUseCaseImpl()
+    private val passwordValidationUseCase = PasswordValidationUseCase()
 
     @Test
     fun testIsPasswordValid_correctPassword() {
