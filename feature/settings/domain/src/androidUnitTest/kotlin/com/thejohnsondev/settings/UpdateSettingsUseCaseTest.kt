@@ -1,7 +1,7 @@
 package com.thejohnsondev.settings
 
 import com.thejohnsondev.data.SettingsRepository
-import com.thejohnsondev.domain.UpdateSettingsUseCaseImpl
+import com.thejohnsondev.domain.UpdateSettingsUseCase
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings
@@ -11,10 +11,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
-class UpdateSettingsUseCaseImplTest {
+class UpdateSettingsUseCaseTest {
 
     private val settingsRepository: SettingsRepository = mockk(relaxed = true)
-    private val updateSettingsUseCase = UpdateSettingsUseCaseImpl(settingsRepository)
+    private val updateSettingsUseCase = UpdateSettingsUseCase(settingsRepository)
 
     @Test
     fun invokeUpdatesThemeBrandWhenProvided() = runBlocking {

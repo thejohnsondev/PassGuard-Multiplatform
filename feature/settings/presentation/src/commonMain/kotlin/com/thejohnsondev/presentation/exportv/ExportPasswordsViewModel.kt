@@ -99,7 +99,7 @@ class ExportPasswordsViewModel(
         }
     }
 
-    private suspend fun exportCSVContent(csvContent: String) {
+    private fun exportCSVContent(csvContent: String) {
         exportVaultUseCase.exportVault(csvContent, onCompletion = { exportResult ->
             launch {
                 when (exportResult.status) {

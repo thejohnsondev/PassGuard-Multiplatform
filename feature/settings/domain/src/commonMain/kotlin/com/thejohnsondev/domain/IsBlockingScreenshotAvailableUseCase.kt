@@ -1,5 +1,11 @@
 package com.thejohnsondev.domain
 
-interface IsBlockingScreenshotAvailableUseCase {
-    suspend operator fun invoke(): Boolean
+import com.thejohnsondev.data.SettingsRepository
+
+class IsBlockingScreenshotAvailableUseCase(
+    private val settingsRepository: SettingsRepository
+) {
+    suspend operator fun invoke(): Boolean {
+        return settingsRepository.getIsBlockScreenshotAvailable()
+    }
 }
