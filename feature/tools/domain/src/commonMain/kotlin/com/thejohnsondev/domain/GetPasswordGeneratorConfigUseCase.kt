@@ -1,7 +1,12 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.data.ToolsRepository
 import com.thejohnsondev.model.tools.PasswordGeneratorConfig
 
-interface GetPasswordGeneratorConfigUseCase {
-    suspend operator fun invoke(): PasswordGeneratorConfig
+class GetPasswordGeneratorConfigUseCase(
+    private val toolsRepository: ToolsRepository,
+) {
+    suspend operator fun invoke(): PasswordGeneratorConfig {
+        return toolsRepository.getPasswordGeneratorConfig()
+    }
 }
