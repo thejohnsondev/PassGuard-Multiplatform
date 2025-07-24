@@ -7,7 +7,8 @@ import kotlin.random.Random
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-internal class PasswordGenerator(private val commonPasswords: Set<String>) {
+// TODO add an interface
+open class PasswordGenerator(private val commonPasswords: Set<String>) {
 
     private val lowerCase = "abcdefghijklmnopqrstuvwxyz"
     private val upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -18,7 +19,7 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
         .withIndex()
         .associate { it.value to it.index }
 
-    fun generatePassword(
+    open fun generatePassword(
         type: PasswordGenerationType,
         length: Int = 12,
         includeLower: Boolean = true,
@@ -71,7 +72,7 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
     @OptIn(ExperimentalUuidApi::class)
     private fun generateUUID(): String = Uuid.random().toString()
 
-    fun evaluateStrength(password: String): PasswordStrength {
+    open fun evaluateStrength(password: String): PasswordStrength {
         val rank = passwordRankMap[password.lowercase()]
 
         if (rank != null) {
@@ -117,7 +118,7 @@ internal class PasswordGenerator(private val commonPasswords: Set<String>) {
         return PasswordStrength(score, suggestion)
     }
 
-    fun isCommonPassword(password: String): Boolean {
+    open fun isCommonPassword(password: String): Boolean {
         return commonPasswords.contains(password)
     }
 }
