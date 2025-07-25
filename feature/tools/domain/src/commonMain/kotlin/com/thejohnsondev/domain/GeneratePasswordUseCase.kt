@@ -4,7 +4,7 @@ import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGeneratorConfig
 
-internal class GeneratePasswordUseCase(
+class GeneratePasswordUseCase(
     private val passwordGenerator: PasswordGenerator
 ) {
     operator fun invoke(config: PasswordGeneratorConfig): PasswordGeneratedResult {

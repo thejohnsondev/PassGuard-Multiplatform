@@ -6,9 +6,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class PasswordGeneratorTest {
+class PasswordGeneratorImplTest {
 
-    private val passwordGenerator = PasswordGenerator(HumanPasswordWords.wordList.toSet()) // No common passwords provided
+    private val passwordGenerator = PasswordGeneratorImpl(HumanPasswordWords.wordList.toSet()) // No common passwords provided
 
     @Test
     fun `generate random password with default settings`() {

@@ -8,11 +8,15 @@ import com.thejohnsondev.domain.GenerateVaultHealthReportUseCases
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.UpdatePasswordGeneratorConfigUseCase
 import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.domain.passwordgenerator.PasswordGeneratorImpl
 import com.thejohnsondev.domain.vaulthealth.VaultHealthUtils
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val toolsDomainModule = module {
-    single { PasswordGenerator(CommonPasswords.list) }
+    single { CommonPasswords.list }
+    singleOf(::PasswordGeneratorImpl) { bind<PasswordGenerator>() }
     single { VaultHealthUtils(get()) }
     single { CopyTextUseCase(get()) }
     single { EvaluatePasswordStrengthUseCase(get()) }

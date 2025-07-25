@@ -2,12 +2,28 @@ package com.thejohnsondev.domain.vaulthealth
 
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import kotlin.test.*
-import com.thejohnsondev.domain.vaulthealth.*
 import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.model.tools.PasswordGeneratedResult
+import com.thejohnsondev.model.tools.PasswordGenerationType
 import com.thejohnsondev.model.tools.PasswordStrength
 import com.thejohnsondev.model.vault.PasswordDto
 
-class FakePasswordGenerator : PasswordGenerator(setOf()) {
+class FakePasswordGenerator : PasswordGenerator {
+    override fun generatePassword(
+        type: PasswordGenerationType,
+        length: Int,
+        includeLower: Boolean,
+        includeUpper: Boolean,
+        includeDigits: Boolean,
+        includeSpecial: Boolean
+    ): PasswordGeneratedResult {
+        return PasswordGeneratedResult(
+            password = "password",
+            strengthLevel = 1f,
+            suggestion = null
+        )
+    }
+
     override fun evaluateStrength(password: String) = when (password) {
         "weak" -> PasswordStrength(0.2f, suggestion = null)
         "medium" -> PasswordStrength(0.5f, suggestion = null)

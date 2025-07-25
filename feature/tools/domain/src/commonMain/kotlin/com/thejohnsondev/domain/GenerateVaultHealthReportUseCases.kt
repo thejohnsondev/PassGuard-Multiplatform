@@ -4,7 +4,7 @@ import com.thejohnsondev.domain.vaulthealth.VaultHealthReport
 import com.thejohnsondev.domain.vaulthealth.VaultHealthUtils
 import com.thejohnsondev.model.vault.PasswordDto
 
-internal class GenerateVaultHealthReportUseCases(
+class GenerateVaultHealthReportUseCases(
     private val vaultHealthUtils: VaultHealthUtils
 ) {
     operator fun invoke(
