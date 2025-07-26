@@ -10,16 +10,16 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DecryptPasswordsListUseCaseImplTest {
+class DecryptPasswordsListUseCaseTest {
 
 
     private lateinit var encryptionRepository: EncryptionRepository
-    private lateinit var useCase: DecryptPasswordsListUseCaseImpl
+    private lateinit var useCase: DecryptPasswordsListUseCase
 
     @BeforeTest
     fun setUp() {
         encryptionRepository = mockk()
-        useCase = DecryptPasswordsListUseCaseImpl(encryptionRepository)
+        useCase = DecryptPasswordsListUseCase(encryptionRepository)
     }
 
     @Test

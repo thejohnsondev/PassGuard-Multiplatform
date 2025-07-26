@@ -4,9 +4,9 @@ import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SplitItemsListUseCaseImplTest {
+class SplitItemsListUseCaseTest {
 
-    private val useCase = SplitItemsListUseCaseImpl()
+    private val useCase = SplitItemsListUseCase()
 
     @Test
     fun testReturnsSingleListWhenScreenIsCompact() {

@@ -4,9 +4,9 @@ import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SortOrderChangeUseCaseImplTest {
+class SortOrderChangeUseCaseTest {
 
-    private val sortOrderChangeUseCase = SortOrderChangeUseCaseImpl()
+    private val sortOrderChangeUseCase = SortOrderChangeUseCase()
 
     private val filter1 =
         FiltersProvider.Sorting.sortTitleAZFilterUIModel.copy(id = "1", isSelected = false)

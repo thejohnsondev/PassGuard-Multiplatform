@@ -8,9 +8,9 @@ import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CalculateListSizeUseCaseImplTest {
+class CalculateListSizeUseCaseTest {
 
-    private val useCase = CalculateListSizeUseCaseImpl()
+    private val useCase = CalculateListSizeUseCase()
 
     @Test
     fun testReturnsCorrectSizeWhenListContainsOnlyOneSublist() {

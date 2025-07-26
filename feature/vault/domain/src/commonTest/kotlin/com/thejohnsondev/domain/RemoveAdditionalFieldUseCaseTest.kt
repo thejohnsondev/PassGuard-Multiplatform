@@ -4,9 +4,9 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RemoveAdditionalFieldUseCaseImplTest {
+class RemoveAdditionalFieldUseCaseTest {
 
-    private val useCase = RemoveAdditionalFieldUseCaseImpl()
+    private val useCase = RemoveAdditionalFieldUseCase()
 
     @Test
     fun invoke_removesFieldWithMatchingId() {

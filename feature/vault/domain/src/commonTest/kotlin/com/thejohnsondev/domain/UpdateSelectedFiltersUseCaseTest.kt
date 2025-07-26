@@ -6,9 +6,9 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UpdateSelectedFiltersUseCaseImplTest {
+class UpdateSelectedFiltersUseCaseTest {
 
-    private val updateSelectedFiltersUseCase = UpdateSelectedFiltersUseCaseImpl()
+    private val updateSelectedFiltersUseCase = UpdateSelectedFiltersUseCase()
 
     @Test
     fun invoke_noFilters_returnsEmptyList() {

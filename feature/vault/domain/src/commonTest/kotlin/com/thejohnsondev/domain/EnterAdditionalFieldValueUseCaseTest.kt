@@ -4,9 +4,9 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class EnterAdditionalFieldValueUseCaseImplTest {
+class EnterAdditionalFieldValueUseCaseTest {
 
-    private val useCase = EnterAdditionalFieldValueUseCaseImpl()
+    private val useCase = EnterAdditionalFieldValueUseCase()
 
     @Test
     fun invoke_updatesValueForMatchingId() {

@@ -79,7 +79,8 @@ kotlin {
             // Compose
             implementation(compose.runtime)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.material3.windowsizeclass.multiplatform)
             implementation(compose.components.resources)

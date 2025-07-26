@@ -6,9 +6,9 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SortVaultItemsUseCaseImplTest {
+class SortVaultItemsUseCaseTest {
 
-    private val sortVaultItemsUseCase = SortVaultItemsUseCaseImpl()
+    private val sortVaultItemsUseCase = SortVaultItemsUseCase()
 
     private val item1 = PasswordUIModel.testPasswordUIModel.copy(
         id = "1",

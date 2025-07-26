@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class ItemTypeFilterChangeUseCaseImplTest {
 
-    private val useCase = ItemFilterChangeUseCaseImpl()
+    private val useCase = ItemFilterChangeUseCase()
 
     @Test
     fun whenFilterIsSelectedItShouldBeUnselected() {

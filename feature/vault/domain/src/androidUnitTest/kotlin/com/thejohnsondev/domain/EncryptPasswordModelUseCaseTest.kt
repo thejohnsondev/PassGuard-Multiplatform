@@ -10,15 +10,15 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class EncryptPasswordModelUseCaseImplTest {
+class EncryptPasswordModelUseCaseTest {
 
     private lateinit var encryptionRepository: EncryptionRepository
-    private lateinit var useCase: EncryptPasswordModelUseCaseImpl
+    private lateinit var useCase: EncryptPasswordModelUseCase
 
     @BeforeTest
     fun setUp() {
         encryptionRepository = mockk()
-        useCase = EncryptPasswordModelUseCaseImpl(encryptionRepository)
+        useCase = EncryptPasswordModelUseCase(encryptionRepository)
     }
 
     @Test

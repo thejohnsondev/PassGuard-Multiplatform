@@ -5,9 +5,9 @@ import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SearchItemsUseCaseImplTest {
+class SearchItemsUseCaseTest {
 
-    private val useCase = SearchItemsUseCaseImpl()
+    private val useCase = SearchItemsUseCase()
 
     @Test
     fun testReturnsOriginalListWhenQueryIsEmpty() {

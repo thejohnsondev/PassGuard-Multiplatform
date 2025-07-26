@@ -4,9 +4,9 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AddAdditionalFieldUseCaseImplTest {
+class AddAdditionalFieldUseCaseTest {
 
-    private val useCase = AddAdditionalFieldUseCaseImpl()
+    private val useCase = AddAdditionalFieldUseCase()
 
     @Test
     fun invoke_addsNewFieldToEmptyList() {

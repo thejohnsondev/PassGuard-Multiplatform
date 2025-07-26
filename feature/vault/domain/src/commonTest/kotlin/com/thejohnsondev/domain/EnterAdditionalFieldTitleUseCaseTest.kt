@@ -4,9 +4,9 @@ import com.thejohnsondev.model.vault.AdditionalFieldDto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class EnterAdditionalFieldTitleUseCaseImplTest {
+class EnterAdditionalFieldTitleUseCaseTest {
 
-    private val useCase = EnterAdditionalFieldTitleUseCaseImpl()
+    private val useCase = EnterAdditionalFieldTitleUseCase()
 
     @Test
     fun invoke_updatesTitleForMatchingId() {

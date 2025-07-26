@@ -8,13 +8,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class PasswordsMapToUiModelsUseCaseImplTest {
+class PasswordsMapToUiModelsUseCaseTest {
 
-    private lateinit var useCase: PasswordsMapToUiModelsUseCaseImpl
+    private lateinit var useCase: PasswordsMapToUiModelsUseCase
 
     @BeforeTest
     fun setUp() {
-        useCase = PasswordsMapToUiModelsUseCaseImpl()
+        useCase = PasswordsMapToUiModelsUseCase()
     }
 
     @Test

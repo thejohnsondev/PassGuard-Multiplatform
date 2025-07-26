@@ -9,13 +9,13 @@ import kotlin.test.assertEquals
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class GeneratePasswordModelUseCaseImplTest {
+class GeneratePasswordModelUseCaseTest {
 
-    private lateinit var useCase: GeneratePasswordModelUseCaseImpl
+    private lateinit var useCase: GeneratePasswordModelUseCase
 
     @BeforeTest
     fun setUp() {
-        useCase = GeneratePasswordModelUseCaseImpl()
+        useCase = GeneratePasswordModelUseCase()
     }
 
     @Test

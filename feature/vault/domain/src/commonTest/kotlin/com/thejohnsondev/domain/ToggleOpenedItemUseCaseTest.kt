@@ -6,9 +6,9 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ToggleOpenedItemUseCaseImplTest {
+class ToggleOpenedItemUseCaseTest {
 
-    private val useCase = ToggleOpenedItemUseCaseImpl()
+    private val useCase = ToggleOpenedItemUseCase()
 
     @Test
     fun itemWithMatchingIdIsExpanded() = runTest {

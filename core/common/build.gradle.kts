@@ -34,7 +34,7 @@ kotlin {
             implementation(project(":core:model"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
 
             // Arrow Either
             implementation(libs.arrow.core)
@@ -50,7 +50,7 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.androidx.ktx)
-            implementation(libs.androidx.fragment.ktx)
+            implementation(libs.fragment.ktx)
 
             // Biometric
             implementation(libs.androidx.biometric)
