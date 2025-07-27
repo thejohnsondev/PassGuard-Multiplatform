@@ -72,6 +72,7 @@ uiTestJunit4Android = "1.8.2"
 junitVersion = "4.13.2"
 androidxJunit = "1.2.1"
 espressoCore = "3.6.1"
+androidxUiTestJunit4 = "1.8.3"
 
 
 [libraries]
@@ -159,6 +160,7 @@ runner = { module = "com.android.support.test:runner", version.ref = "runner" }
 junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidxUiTestJunit4" }
 
 
 [plugins]

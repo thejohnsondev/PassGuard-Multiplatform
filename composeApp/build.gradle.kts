@@ -106,6 +106,12 @@ kotlin {
                 implementation(libs.compose.jetbrains.expui.theme)
             }
         }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.androidx.junit)
+            implementation(libs.androidx.ui.test.junit4)
+            implementation(libs.espresso.core)
+            implementation(libs.androidx.ui.test.junit4)
+        }
     }
 }
 
@@ -124,6 +130,7 @@ android {
         versionCode = versionCodeValue
         versionName = versionNameValue
         setProperty("archivesBaseName", appName)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
@@ -152,6 +159,8 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+        androidTestImplementation(libs.runner)
+        androidTestImplementation(libs.androidx.ui.test.junit4)
     }
 }
 

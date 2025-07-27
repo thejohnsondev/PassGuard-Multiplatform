@@ -23,6 +23,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentDescription as contentDescriptionSemantics
+import androidx.compose.ui.semantics.semantics
 import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent70
@@ -55,6 +57,7 @@ fun RoundedButton(
     buttonShape: Shape = EquallyRounded.medium,
     buttonStyle: ButtonStyle = ButtonStyle.REGULAR,
     disableBounceAnimation: Boolean = false,
+    contentDescription: String? = null
 ) {
     val buttonColor =
         if (enabled && !loading) colors.containerColor else colors.containerColor.copy(alpha = Percent70)
@@ -79,6 +82,9 @@ fun RoundedButton(
                     color = buttonColor,
                     shape = buttonShape
                 )
+            }
+            .semantics {
+                contentDescriptionSemantics = contentDescription ?: text
             },
         color = when (buttonStyle) {
             ButtonStyle.REGULAR -> buttonColor
