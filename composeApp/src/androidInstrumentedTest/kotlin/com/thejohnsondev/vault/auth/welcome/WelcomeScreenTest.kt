@@ -21,5 +21,6 @@ class WelcomeScreenTest {
     fun testGetStartedButtonNavigatesToLoginScreen() {
         robot.assertGetStartedButtonIsDisplayed()
         robot.clickGetStartedButton()
+        robot.assertChooseVaultTypeIsDisplayed()
     }
 }
