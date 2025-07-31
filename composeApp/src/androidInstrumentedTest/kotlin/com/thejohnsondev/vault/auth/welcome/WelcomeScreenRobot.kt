@@ -1,49 +1,23 @@
 package com.thejohnsondev.vault.auth.welcome
 
-import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.performClick
+import com.thejohnsondev.vault.utils.Robot
 
-class WelcomeScreenRobot(private val composeTestRule: ComposeTestRule) {
+class WelcomeScreenRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
 
-    private val getStartedButtonMatcher =
-        hasContentDescription("Get Started")
-    private val chooseVaultTypeTextMatcher =
-        hasText("Choose your vault type")
-
-    @OptIn(ExperimentalTestApi::class)
     fun clickGetStartedButton() {
-        composeTestRule.waitUntilAtLeastOneExists(
-            getStartedButtonMatcher,
-            timeoutMillis = 5000
-        )
-        composeTestRule
-            .onNode(getStartedButtonMatcher)
-            .performClick()
+        waitForContent("Get Started")
+        clickButton("Get Started")
     }
 
-    @OptIn(ExperimentalTestApi::class)
     fun assertGetStartedButtonIsDisplayed() {
-        composeTestRule.waitUntilAtLeastOneExists(
-            getStartedButtonMatcher,
-            timeoutMillis = 5000
-        )
-        composeTestRule
-            .onNode(getStartedButtonMatcher)
-            .assertIsDisplayed()
+        waitForContent("Get Started")
+        assertButton("Get Started")
     }
 
-    @OptIn(ExperimentalTestApi::class)
     fun assertChooseVaultTypeIsDisplayed() {
-        composeTestRule.waitUntilAtLeastOneExists(
-            chooseVaultTypeTextMatcher,
-            timeoutMillis = 5000
-        )
-        composeTestRule
-            .onNode(chooseVaultTypeTextMatcher)
-            .assertIsDisplayed()
+        waitForText("Choose your vault type")
+        assertText("Choose your vault type")
     }
+
 }
