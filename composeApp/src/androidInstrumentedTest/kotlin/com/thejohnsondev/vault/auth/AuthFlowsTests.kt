@@ -20,7 +20,8 @@ class AuthFlowsTests {
             assertChooseVaultTypeIsDisplayed()
         }
         with(SelectVaultTypeRobot(composeTestRule)) {
-            assertOptionVisible()
+            assertOptionsVisible()
+            clickCloudVaultOption()
             clickLocalVaultOption()
         }
     }

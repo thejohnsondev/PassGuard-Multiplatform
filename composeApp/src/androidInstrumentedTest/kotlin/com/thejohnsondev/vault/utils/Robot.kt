@@ -13,7 +13,7 @@ abstract class Robot(val composeRule: ComposeTestRule) {
     fun clickButton(
         description: String
     ) = composeRule
-        .onNode(hasContentDescription(description))
+        .onNode(hasContentDescription(description).or(hasText(description)))
         .performClick()
 
     fun goBack() = clickButton("Back Button")
@@ -39,11 +39,9 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         .assertIsDisplayed()
 
     fun assertDoesNotExist(
-        description: String,
-        ignoreCase: Boolean = false,
-        substring: Boolean = false
+        description: String
     ) = composeRule
-        .onNode(hasContentDescription(description, ignoreCase = ignoreCase, substring = substring))
+        .onNode(hasContentDescription(description).or(hasText(description)))
         .assertDoesNotExist()
 
     @OptIn(ExperimentalTestApi::class)
