@@ -16,9 +16,4 @@ class WelcomeScreenRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRu
         clickButton("Get Started")
     }
 
-    fun assertChooseVaultTypeIsDisplayed() {
-        waitForText("Choose your vault type")
-        assertText("Choose your vault type")
-    }
-
 }

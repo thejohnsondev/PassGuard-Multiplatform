@@ -16,12 +16,26 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         .onNode(hasContentDescription(description).or(hasText(description)))
         .performClick()
 
+    fun clickButton(
+        description: String,
+        index: Int
+    ) = composeRule
+        .onAllNodes(hasContentDescription(description).or(hasText(description)))[index]
+        .performClick()
+
     fun goBack() = clickButton("Back Button")
 
     fun assertButton(
         description: String
     ) = composeRule
         .onNode(hasContentDescription(description).and(hasClickAction()))
+        .assertIsDisplayed()
+
+    fun assertButton(
+        description: String,
+        index: Int
+    ) = composeRule
+        .onAllNodes(hasContentDescription(description).and(hasClickAction()))[index]
         .assertIsDisplayed()
 
     fun assertImage(
@@ -31,11 +45,16 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         .assertIsDisplayed()
 
     fun assertText(
-        text: String,
-        ignoreCase: Boolean = false,
-        substring: Boolean = false
+        text: String
     ) = composeRule
-        .onNode(hasText(text, ignoreCase = ignoreCase, substring = substring))
+        .onNode(hasText(text))
+        .assertIsDisplayed()
+
+    fun assertText(
+        text: String,
+        index: Int
+    ) = composeRule
+        .onAllNodes(hasText(text))[index]
         .assertIsDisplayed()
 
     fun assertDoesNotExist(
