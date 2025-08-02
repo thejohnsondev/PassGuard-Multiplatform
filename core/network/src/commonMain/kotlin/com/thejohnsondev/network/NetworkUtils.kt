@@ -11,6 +11,7 @@ import com.thejohnsondev.model.NetworkError
 import com.thejohnsondev.model.NoInternetConnectionException
 import com.thejohnsondev.model.UnknownError
 import com.thejohnsondev.model.auth.firebase.FBErrorBody
+import com.thejohnsondev.network.vault.FIREBASE_BASE_URL
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType

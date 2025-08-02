@@ -10,7 +10,7 @@ actual class KoinInitializer(
     actual fun init() {
         startKoin {
             modules(
-                modules + PlatformModuleProvider(platformDependency).generatePlatformModule()
+                allModules + PlatformModuleProvider(platformDependency).generatePlatformModule()
             )
         }
     }

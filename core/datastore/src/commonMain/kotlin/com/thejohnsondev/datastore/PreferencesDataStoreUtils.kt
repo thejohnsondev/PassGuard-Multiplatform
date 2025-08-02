@@ -78,3 +78,9 @@ internal suspend fun DataStore<Preferences>.clearBoolean(key: String) {
         preferences.remove(booleanPreferencesKey(key))
     }
 }
+
+internal suspend fun DataStore<Preferences>.clearAll() {
+    edit { preferences ->
+        preferences.clear()
+    }
+}

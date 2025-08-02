@@ -20,7 +20,7 @@ actual class BiometricAuthenticator {
             null
         )
 
-        val availablility =  if (canEvaluateBiometrics) {
+        val availability =  if (canEvaluateBiometrics) {
             when (laContext.biometryType) {
                 LABiometryTypeFaceID -> BiometricAvailability.Available(BiometricType.FACE)
                 LABiometryTypeTouchID -> BiometricAvailability.Available(BiometricType.FINGERPRINT)
@@ -29,27 +29,20 @@ actual class BiometricAuthenticator {
         } else {
             BiometricAvailability.Unavailable
         }
-        return availablility
+        return availability
     }
 
-    /**
-     * Authenticates the user using available biometrics.
-     * @param promptTitle The title displayed on the biometric prompt.
-     * @param promptSubtitle The subtitle displayed on the biometric prompt (optional).
-     * @param promptDescription The description displayed on the biometric prompt (optional).
-     * @return A [BiometricAuthResult] indicating the outcome.
-     */
     actual suspend fun authenticate(
         promptTitle: String,
         promptSubtitle: String?,
         promptDescription: String?
     ): BiometricAuthResult = suspendCoroutine { continuation ->
-        val policy = LAPolicyDeviceOwnerAuthentication // Use this for automatic passcode fallback
+        val policy = LAPolicyDeviceOwnerAuthentication
 
         laContext.evaluatePolicy(
             policy,
-            promptDescription ?: promptTitle // Use description if available, otherwise title
-        ) { success, error ->
+            promptDescription ?: promptTitle
+        ) { success, _ ->
             if (success) {
                 continuation.resume(BiometricAuthResult.Success)
             } else {

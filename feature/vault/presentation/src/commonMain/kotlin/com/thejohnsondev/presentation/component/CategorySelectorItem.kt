@@ -57,12 +57,11 @@ internal fun CategorySelectorItem(
     val isExpanded = remember { mutableStateOf(false) }
     val category = state.selectedCategory
     val shape = RoundedCornerShape(
-            topStart = Size4,
-            topEnd = Size4,
-            bottomStart = Size16,
-            bottomEnd = Size16
-        )
-
+        topStart = Size4,
+        topEnd = Size4,
+        bottomStart = Size16,
+        bottomEnd = Size16
+    )
 
     RoundedContainer(
         modifier = modifier,

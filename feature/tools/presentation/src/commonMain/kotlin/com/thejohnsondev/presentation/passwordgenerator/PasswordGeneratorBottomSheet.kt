@@ -1,10 +1,7 @@
 package com.thejohnsondev.presentation.passwordgenerator
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -20,10 +17,8 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
-import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.dialog.ModalDragHandle
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.utils.ResString

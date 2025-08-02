@@ -8,7 +8,6 @@ val SizeDefault = 0.dp
 val SizeBorder = 1.dp
 val Size2 = 2.dp
 val Size4 = 4.dp
-val Size6 = 6.dp
 val Size8 = 8.dp
 val Size10 = 10.dp
 val Size12 = 12.dp
@@ -21,7 +20,6 @@ val Size28 = 28.dp
 val Size32 = 32.dp
 val Size36 = 36.dp
 val Size40 = 40.dp
-val Size42 = 42.dp
 val Size48 = 48.dp
 val Size52 = 52.dp
 val Size56 = 56.dp
@@ -33,9 +31,6 @@ val Size86 = 86.dp
 val Size98 = 98.dp
 val Size100 = 100.dp
 val Size128 = 128.dp
-val Size156 = 156.dp
-val Size256 = 256.dp
-
 val Size580 = 580.dp
 val Size600 = 600.dp
 

@@ -535,7 +535,7 @@ private fun MoreInfo(
                         Text(
                             modifier = Modifier
                                 .padding(start = Size8),
-                            text = "${stringResource(ResString.modified)}${passwordModel.modifiedTime.orEmpty()}",
+                            text = "${stringResource(ResString.modified)}${passwordModel.modifiedTime}",
                             color = contentColor,
                             style = MaterialTheme.typography.bodySmall
                         )

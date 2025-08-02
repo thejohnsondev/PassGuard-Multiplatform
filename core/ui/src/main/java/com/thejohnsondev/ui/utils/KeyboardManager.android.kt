@@ -16,8 +16,6 @@ actual object KeyboardManager {
         return rememberUpdatedState(isImeVisible)
     }
 
-    actual fun isKeyboardAvailable(): Boolean = true
-
     @Composable
     actual fun getKeyboardController(): SoftwareKeyboardController? {
         return LocalSoftwareKeyboardController.current

@@ -1,7 +1,12 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.data.AuthRepository
 import com.thejosnsondev.biometric.BiometricAvailability
 
-interface GetBiometricAvailabilityUseCase {
-    suspend operator fun invoke(): BiometricAvailability
+class GetBiometricAvailabilityUseCase(
+    private val authRepository: AuthRepository
+) {
+    suspend operator fun invoke(): BiometricAvailability {
+        return authRepository.getBiometricAvailability()
+    }
 }

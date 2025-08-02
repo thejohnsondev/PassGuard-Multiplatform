@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.AuthService
+import com.thejohnsondev.domain.GetBiometricAvailabilityUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
-import com.thejohnsondev.domain.GetBiometricAvailabilityUseCase
 import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase

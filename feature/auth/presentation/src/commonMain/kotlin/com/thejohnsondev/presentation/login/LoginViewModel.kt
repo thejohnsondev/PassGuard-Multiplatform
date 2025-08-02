@@ -100,6 +100,7 @@ class LoginViewModel(
             val email: String,
             val password: String
         ) : Action()
+
         class ValidateEmail(val email: String) : Action()
         class ValidatePassword(val password: String) : Action()
     }

@@ -173,7 +173,6 @@ fun ExpandableSectionItem(
                             overflow = TextOverflow.Ellipsis
                         )
                     }
-
                 }
             }
             ExpandableContent(
@@ -183,7 +182,5 @@ fun ExpandableSectionItem(
                 }
             )
         }
-
     }
-
 }

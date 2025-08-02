@@ -406,7 +406,7 @@ class CSVImportExportUtilsTest {
 
         val p1 = result.passwords[0]
         assertEquals("My Item 1", p1.title)
-        assertEquals("https://example.com", p1.domain)
+        assertEquals("example.com", p1.domain)
         assertEquals("user A", p1.userName)
         assertEquals("pass B", p1.password)
         assertEquals("Notes C", p1.additionalFields[0].value)

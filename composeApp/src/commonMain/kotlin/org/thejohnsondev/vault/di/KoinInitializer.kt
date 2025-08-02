@@ -11,6 +11,8 @@ import com.thejohnsondev.domain.di.authDomainModule
 import com.thejohnsondev.domain.di.settingsDomainModule
 import com.thejohnsondev.domain.di.toolsDomainModule
 import com.thejohnsondev.domain.di.vaultDomainModule
+import com.thejohnsondev.network.di.apiModule
+import com.thejohnsondev.network.di.demoApiModule
 import com.thejohnsondev.network.di.networkModule
 import com.thejohnsondev.presentation.di.authPresentationModule
 import com.thejohnsondev.presentation.di.settingsPresentationModule
@@ -24,7 +26,7 @@ expect class KoinInitializer {
     fun init()
 }
 
-val modules = listOf(
+private val commonModulesList = listOf(
     appModule,
     commonModule,
     datastoreModule,
@@ -45,4 +47,14 @@ val modules = listOf(
     vaultDataModule,
     vaultDomainModule,
     vaultPresentationModule
+)
+
+val allModules = listOf(
+    *commonModulesList.toTypedArray(),
+    apiModule
+)
+
+val demoModules = listOf(
+    *commonModulesList.toTypedArray(),
+    demoApiModule
 )

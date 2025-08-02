@@ -1,2 +1,2 @@
 Changes:
-- Added biometric login support iOS and macOS
+- UI improvements

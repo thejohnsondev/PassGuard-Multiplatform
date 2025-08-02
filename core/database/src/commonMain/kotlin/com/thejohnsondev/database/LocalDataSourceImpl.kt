@@ -66,7 +66,7 @@ class LocalDataSourceImpl(
         vaultDatabase.passwordEntityQueries.updateIsFavorite(isFavorite = isFavorite, id = passwordId)
     }
 
-    override suspend fun getUnsynchronisedPasswords(): List<PasswordDto> {
+    override suspend fun getUnsynchronizedPasswords(): List<PasswordDto> {
         return vaultDatabase.passwordEntityQueries.getUnsynchronised().executeAsList().map { passwordEntity ->
             passwordEntity.mapToDto(
                 vaultDatabase.additionalFieldEntityQueries.getByPasswordId(passwordEntity.id)

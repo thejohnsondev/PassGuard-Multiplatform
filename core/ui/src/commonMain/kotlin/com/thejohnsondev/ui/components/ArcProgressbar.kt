@@ -76,7 +76,6 @@ fun ScoreText(
     Box(
         modifier = modifier,
     ) {
-
         Text(
             modifier = Modifier
                 .align(Alignment.Center),
@@ -134,7 +133,6 @@ fun BoxScope.PointsProgress(
                 style = Stroke(thickness.toPx(), cap = StrokeCap.Round),
                 size = Size(size.width, size.height)
             )
-
         }
     )
 }

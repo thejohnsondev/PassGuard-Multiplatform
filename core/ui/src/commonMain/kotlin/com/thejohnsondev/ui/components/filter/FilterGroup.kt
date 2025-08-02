@@ -66,7 +66,6 @@ fun FilterGroup(
             }
         }
     }
-
 }
 
 @Composable
@@ -127,11 +126,7 @@ fun Chip(
             modifier = Modifier
                 .padding(
                     top = filterChipVerticalPadding, bottom = filterChipVerticalPadding,
-                    start = if (icon != null) {
-                        Size4
-                    } else {
-                        filterChipHorizontalPadding
-                    },
+                    start = Size4,
                     end = filterChipHorizontalPadding
                 ),
             text = stringResource(filter.nameResId),

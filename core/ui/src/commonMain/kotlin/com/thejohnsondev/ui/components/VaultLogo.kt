@@ -45,6 +45,5 @@ fun VaultLogo(
                 append(stringResource(ResString.guard))
             }
         })
-
     }
 }

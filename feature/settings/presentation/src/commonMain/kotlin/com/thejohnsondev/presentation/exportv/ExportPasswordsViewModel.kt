@@ -15,11 +15,13 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.platform.filemanager.FileActionStatus
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 
 class ExportPasswordsViewModel(
     private val passwordsService: PasswordsService,
@@ -57,7 +59,9 @@ class ExportPasswordsViewModel(
 
     private fun export() = launchLoading {
         val allPasswords = passwordsService.getUserPasswords().first()
-        val decryptedPasswords = decryptPasswordsListUseCase(allPasswords)
+        val decryptedPasswords = withContext(Dispatchers.Default) {
+            decryptPasswordsListUseCase(allPasswords)
+        }
         val csvGenerationResult = generateExportCSVUseCase(decryptedPasswords)
         lastGeneratedCSVResult = csvGenerationResult
 
@@ -95,7 +99,7 @@ class ExportPasswordsViewModel(
         }
     }
 
-    private suspend fun exportCSVContent(csvContent: String) {
+    private fun exportCSVContent(csvContent: String) {
         exportVaultUseCase.exportVault(csvContent, onCompletion = { exportResult ->
             launch {
                 when (exportResult.status) {

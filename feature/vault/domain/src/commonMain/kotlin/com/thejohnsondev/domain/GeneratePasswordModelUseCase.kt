@@ -1,10 +1,15 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.PasswordDto
 import com.thejohnsondev.model.vault.SyncStatus
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-interface GeneratePasswordModelUseCase {
+class GeneratePasswordModelUseCase {
+
+    @OptIn(ExperimentalUuidApi::class)
     operator fun invoke(
         passwordId: String?,
         title: String,
@@ -17,5 +22,30 @@ interface GeneratePasswordModelUseCase {
         createdTime: String?,
         isFavorite: Boolean,
         syncStatus: SyncStatus
-    ): PasswordDto
+    ): PasswordDto {
+        val finalPasswordId = passwordId ?: Uuid.random().toString()
+        val nowTime = getCurrentTimeStamp()
+        val finalCreatedTime = createdTime ?: nowTime
+        val modifiedTime = if (createdTime == null) {
+            null
+        } else {
+            nowTime
+        }
+        val filteredAdditionalFields =
+            additionalFields.filter { it.title.isNotBlank() && it.value.isNotBlank() }
+        return PasswordDto(
+            id = finalPasswordId,
+            title = title,
+            organizationLogo = organizationLogoUrl,
+            domain = domain,
+            userName = userName,
+            password = password,
+            categoryId = categoryId,
+            additionalFields = filteredAdditionalFields,
+            createdTimeStamp = finalCreatedTime,
+            modifiedTimeStamp = modifiedTime,
+            isFavorite = isFavorite,
+            syncStatus = syncStatus.name,
+        )
+    }
 }

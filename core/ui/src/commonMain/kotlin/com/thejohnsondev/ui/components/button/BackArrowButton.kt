@@ -43,7 +43,7 @@ fun BackArrowButton(
             modifier = Modifier
                 .padding(Size8),
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = null // TODO add content description
+            contentDescription = "Back Button" // TODO add content description
         )
     }
 }

@@ -1,5 +1,11 @@
 package com.thejohnsondev.domain
 
-interface GetUserEmailUseCase {
-    suspend operator fun invoke(): String
+import com.thejohnsondev.data.SettingsRepository
+
+class GetUserEmailUseCase(
+    private val settingsRepository: SettingsRepository
+) {
+    suspend operator fun invoke(): String {
+        return settingsRepository.getUserEmail()
+    }
 }

@@ -5,5 +5,4 @@ open class ScreenState {
     data class Error(val message: String) : ScreenState()
     data object Loading : ScreenState()
     data object ShowContent : ScreenState()
-
 }

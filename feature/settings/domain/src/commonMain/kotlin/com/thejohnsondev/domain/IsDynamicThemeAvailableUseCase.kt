@@ -1,5 +1,11 @@
 package com.thejohnsondev.domain
 
-interface IsDynamicThemeAvailableUseCase {
-    suspend operator fun invoke(): Boolean
+import com.thejohnsondev.data.SettingsRepository
+
+class IsDynamicThemeAvailableUseCase(
+    private val settingsRepository: SettingsRepository
+) {
+    suspend operator fun invoke(): Boolean {
+        return settingsRepository.getIsDynamicThemeAvailable()
+    }
 }

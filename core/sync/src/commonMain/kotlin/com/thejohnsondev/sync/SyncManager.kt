@@ -5,7 +5,7 @@ import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.database.LocalDataSource
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.vault.PasswordDto
-import com.thejohnsondev.network.RemoteApi
+import com.thejohnsondev.network.vault.RemoteApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -104,7 +104,7 @@ class SyncManager(
 
     /** Pushes new or modified passwords to the backend */
     private suspend fun syncNewAndModifiedPasswords() {
-        val unsynchronizedPasswords = localDataSource.getUnsynchronisedPasswords()
+        val unsynchronizedPasswords = localDataSource.getUnsynchronizedPasswords()
         for (password in unsynchronizedPasswords) {
             try {
                 val result = if (password.syncStatus == "NEW") {

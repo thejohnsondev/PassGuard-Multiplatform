@@ -101,8 +101,11 @@ class ImportPasswordsViewModel(
         withContext(Dispatchers.Default) {
             val parsedPasswordsResult = parsePasswordsCSVUseCase(csvContent)
             Logger.d("Parsed passwords result: $parsedPasswordsResult")
+            val decryptedPasswords = withContext(Dispatchers.Default) {
+                decryptPasswordsListUseCase(passwordsService.getUserPasswords().first())
+            }
             val containsDuplicates = checkPassDuplicatesUseCase(
-                savedPasswordsList = decryptPasswordsListUseCase(passwordsService.getUserPasswords().first()),
+                savedPasswordsList = decryptedPasswords,
                 newPasswordsList = (parsedPasswordsResult as? CsvParsingResult.Success)?.passwords ?: emptyList()
             )
             _state.update { state ->
@@ -160,7 +163,9 @@ class ImportPasswordsViewModel(
                 val csvParsingResult = (_state.value.csvParsingResult as? CsvParsingResult.Success) ?: return@withContext
                 var passwordsToImport = csvParsingResult.passwords
                 if (_state.value.isSkipDuplicates) {
-                    val savedDecryptedPasswords = decryptPasswordsListUseCase(passwordsService.getUserPasswords().first())
+                    val savedDecryptedPasswords = withContext(Dispatchers.Default) {
+                        decryptPasswordsListUseCase(passwordsService.getUserPasswords().first())
+                    }
                     val checkPassDuplicatesResult = checkPassDuplicatesUseCase(
                         savedDecryptedPasswords,
                         passwordsToImport
@@ -168,7 +173,9 @@ class ImportPasswordsViewModel(
                     passwordsToImport = checkPassDuplicatesResult.listWithoutDuplicates
                 }
                 passwordsToImport.forEach { password ->
-                    val encrypted = encryptPasswordModelUseCase(password)
+                    val encrypted = withContext(Dispatchers.Default) {
+                        encryptPasswordModelUseCase(password)
+                    }
                     passwordsService.createOrUpdatePassword(encrypted)
                 }
                 showContent()

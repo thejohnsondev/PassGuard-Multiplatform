@@ -11,7 +11,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
 import com.thejohnsondev.model.auth.firebase.GRAND_TYPE_REFRESH
-import com.thejohnsondev.network.RemoteApi
+import com.thejohnsondev.network.vault.RemoteApi
 import com.thejosnsondev.biometric.BiometricAuthResult
 import com.thejosnsondev.biometric.BiometricAuthenticator
 import com.thejosnsondev.biometric.BiometricAvailability

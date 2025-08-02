@@ -5,7 +5,6 @@ import com.thejohnsondev.model.vault.PasswordDto
 import org.thejohnsondev.vault.database.PasswordAdditionalField
 import org.thejohnsondev.vault.database.PasswordEntity
 
-// TODO think of a better way to store mappers
 fun PasswordAdditionalField.mapToDto(): AdditionalFieldDto {
     return AdditionalFieldDto(
         id = id,

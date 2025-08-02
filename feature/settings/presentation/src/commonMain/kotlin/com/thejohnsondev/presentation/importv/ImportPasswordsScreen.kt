@@ -189,7 +189,7 @@ private fun SelectCSVContent(
         Image(
             modifier = Modifier.padding(Size16).size(Size128),
             imageVector = vectorResource(ResDrawable.ic_import_colored),
-            contentDescription = "Export Icon",
+            contentDescription = null,
         )
         Text(
             modifier = Modifier.padding(Size16),
@@ -410,7 +410,7 @@ private fun ColumnScope.ImportEmptyContent(
     Image(
         modifier = Modifier.padding(Size16).size(Size128),
         imageVector = vectorResource(ResDrawable.ic_empty_colored),
-        contentDescription = "Empty Icon",
+        contentDescription = null,
     )
     Text(
         modifier = Modifier.padding(Size16),
@@ -445,7 +445,7 @@ private fun ColumnScope.ImportErrorContent(
     Image(
         modifier = Modifier.padding(Size16).size(Size128),
         imageVector = vectorResource(ResDrawable.ic_invalid_colored),
-        contentDescription = "Invalid Icon",
+        contentDescription = null,
     )
     Text(
         modifier = Modifier.padding(Size16),

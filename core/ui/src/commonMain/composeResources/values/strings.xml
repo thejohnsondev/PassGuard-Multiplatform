@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <!--TODO refactor strings names-->
     <string name="biometric_authentication">Biometric authentication</string>
     <string name="biometric_authentication_description">Unlock the app with your fingerprint or face</string>
     <string name="accept_and_agree">I accept and agree to the </string>
@@ -200,6 +199,9 @@
     <string name="import_invalid_csv_description">The selected CSV file is not valid. Please select a valid CSV file with your passwords.</string>
     <string name="import_invalid_csv_sample_description">Make sure that the CSV is formatted like in the example below</string>
     <string name="import_skip_duplicates">Don't import duplicates</string>
+
+    <string name="delete_password">Delete password</string>
+    <string name="delete_password_message">Are you sure you want to delete this password?</string>
 
 
     <string name="password_domain_url_title">Web address:</string>
