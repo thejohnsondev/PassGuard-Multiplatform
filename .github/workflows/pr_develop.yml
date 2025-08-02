@@ -73,7 +73,7 @@ jobs:
       - name: Run End-to-end Android tests on Firebase Test Lab
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
         with:
-          arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
+          arg-spec: deviceconfig/endtoend-android-device.yml:android-pixel-4
         env:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
