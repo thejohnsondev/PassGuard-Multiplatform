@@ -1,4 +1,4 @@
-package com.thejohnsondev.network
+package com.thejohnsondev.network.vault
 
 import arrow.core.Either
 import com.thejohnsondev.common.VAULT_ITEM_CATEGORY_PERSONAL

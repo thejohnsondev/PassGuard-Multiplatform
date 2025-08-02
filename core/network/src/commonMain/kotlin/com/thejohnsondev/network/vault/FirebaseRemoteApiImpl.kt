@@ -1,4 +1,4 @@
-package com.thejohnsondev.network
+package com.thejohnsondev.network.vault
 
 import arrow.core.Either
 import com.thejohnsondev.datastore.PreferencesDataStore
@@ -11,6 +11,9 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
 import com.thejohnsondev.model.vault.PasswordDto
+import com.thejohnsondev.network.callWithMapping
+import com.thejohnsondev.network.defaultRequestConfig
+import com.thejohnsondev.network.defaultUrlConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody

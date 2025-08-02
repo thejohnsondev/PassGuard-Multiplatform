@@ -4,7 +4,7 @@ import arrow.core.Either
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.auth.logo.FindLogoResponse
-import com.thejohnsondev.network.LogoApi
+import com.thejohnsondev.network.logo.LogoApi
 
 class VaultRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,

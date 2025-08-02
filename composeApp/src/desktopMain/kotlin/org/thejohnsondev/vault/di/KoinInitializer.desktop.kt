@@ -12,7 +12,7 @@ actual class KoinInitializer(
         if (GlobalContext.getOrNull() == null) {
             startKoin {
                 modules(
-                    modules + PlatformModuleProvider(platformDependency).generatePlatformModule()
+                    allModules + PlatformModuleProvider(platformDependency).generatePlatformModule()
                 )
             }
         }

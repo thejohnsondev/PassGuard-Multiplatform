@@ -1,4 +1,4 @@
-package com.thejohnsondev.network
+package com.thejohnsondev.network.vault
 
 const val DOT_NET_SIGN_UP = "/Auth/Register"
 const val DOT_NET_LOGIN = "/Auth/Login"

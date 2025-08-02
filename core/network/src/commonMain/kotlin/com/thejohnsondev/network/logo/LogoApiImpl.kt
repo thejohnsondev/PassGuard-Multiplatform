@@ -1,9 +1,11 @@
-package com.thejohnsondev.network
+package com.thejohnsondev.network.logo
 
 import arrow.core.Either
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.auth.logo.FindLogoResponse
 import com.thejohnsondev.model.auth.logo.LogoApiKey
+import com.thejohnsondev.network.callWithMapping
+import com.thejohnsondev.network.vault.LOGO_API_BASE_URL
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 

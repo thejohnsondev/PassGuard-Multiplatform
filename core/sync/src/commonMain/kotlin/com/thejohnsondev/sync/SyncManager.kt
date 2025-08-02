@@ -5,7 +5,7 @@ import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.database.LocalDataSource
 import com.thejohnsondev.datastore.PreferencesDataStore
 import com.thejohnsondev.model.vault.PasswordDto
-import com.thejohnsondev.network.RemoteApi
+import com.thejohnsondev.network.vault.RemoteApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
