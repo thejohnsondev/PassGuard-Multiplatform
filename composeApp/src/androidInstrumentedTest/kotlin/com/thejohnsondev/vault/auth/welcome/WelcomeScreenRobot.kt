@@ -5,14 +5,15 @@ import com.thejohnsondev.vault.utils.Robot
 
 class WelcomeScreenRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
 
+    fun assertWelcomeScreenContent() {
+        waitForContent("Get Started")
+        assertButton("Get Started")
+        assertText("PassGuard")
+    }
+
     fun clickGetStartedButton() {
         waitForContent("Get Started")
         clickButton("Get Started")
-    }
-
-    fun assertGetStartedButtonIsDisplayed() {
-        waitForContent("Get Started")
-        assertButton("Get Started")
     }
 
     fun assertChooseVaultTypeIsDisplayed() {

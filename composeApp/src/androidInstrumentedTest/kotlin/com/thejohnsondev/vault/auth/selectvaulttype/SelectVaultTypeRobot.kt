@@ -5,7 +5,9 @@ import com.thejohnsondev.vault.utils.Robot
 
 class SelectVaultTypeRobot(composeTestRule: ComposeTestRule): Robot(composeTestRule) {
 
-    fun assertOptionsVisible() {
+    fun assertSelectVaultScreen() {
+        waitForText("Choose your vault type")
+        assertText("Choose your vault type")
         waitForText("Local Vault")
         assertText("Local Vault")
         waitForText("Cloud Vault")
@@ -15,6 +17,9 @@ class SelectVaultTypeRobot(composeTestRule: ComposeTestRule): Robot(composeTestR
     fun clickCloudVaultOption() {
         waitForText("Cloud Vault")
         clickButton("Cloud Vault")
+    }
+
+    fun assertCloudVaultOption() {
         waitForContent("Log in")
         assertButton("Log in")
         waitForContent("Sign up")
@@ -25,9 +30,27 @@ class SelectVaultTypeRobot(composeTestRule: ComposeTestRule): Robot(composeTestR
     fun clickLocalVaultOption() {
         waitForText("Local Vault")
         clickButton("Local Vault")
+    }
+
+    fun assertLocalVaultOption() {
         waitForContent("Create a local Vault")
         assertButton("Create a local Vault")
         assertDoesNotExist("Log in")
         assertDoesNotExist("Sign up")
+    }
+
+    fun clickCreateLocalVaultButton() {
+        waitForContent("Create a local Vault")
+        clickButton("Create a local Vault")
+    }
+
+    fun clickLogInButton() {
+        waitForContent("Log in")
+        clickButton("Log in")
+    }
+
+    fun clickSignUpButton() {
+        waitForContent("Sign up")
+        clickButton("Sign up")
     }
 }

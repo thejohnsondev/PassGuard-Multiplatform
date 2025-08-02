@@ -15,14 +15,16 @@ class AuthFlowsTests {
     @Test
     fun testLocalVaultCreation() {
         with(WelcomeScreenRobot(composeTestRule)) {
-            assertGetStartedButtonIsDisplayed()
+            assertWelcomeScreenContent()
             clickGetStartedButton()
             assertChooseVaultTypeIsDisplayed()
         }
         with(SelectVaultTypeRobot(composeTestRule)) {
-            assertOptionsVisible()
+            assertSelectVaultScreen()
             clickCloudVaultOption()
+            assertCloudVaultOption()
             clickLocalVaultOption()
+            assertLocalVaultOption()
         }
     }
 }
