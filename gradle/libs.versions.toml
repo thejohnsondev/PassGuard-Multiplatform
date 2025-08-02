@@ -1,6 +1,6 @@
 # Project-specific versions
 [versions]
-versionName = "0.0.2"
+versionName = "1.0.2"
 versionCode = "2"
 
 # Android Gradle Plugin (AGP)
