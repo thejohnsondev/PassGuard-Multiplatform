@@ -45,7 +45,7 @@ jobs:
         run: ./gradlew generateBuildKonfig
 
       - name: Build app
-        run: ./gradlew assembleDebug :core:common:assembleAndroidTest :core:platform:assembleAndroidTest
+        run: ./gradlew assembleDebug :core:common:assembleAndroidTest :core:platform:assembleAndroidTest :composeApp:assembleAndroidTest
 
       - name: Run Unit Tests
         run: |
@@ -64,6 +64,13 @@ jobs:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
       - name: Run :core:platform Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+
+      - name: Run End-to-end Android tests on Firebase Test Lab
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
         with:
           arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
