@@ -64,8 +64,7 @@ fun HomeNavigation(
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = Routes.VaultRoute(isFromLogin = isFromLogin), // TODO uncomment
-//                startDestination = Routes.ToolsRoute,
+                startDestination = Routes.VaultRoute(isFromLogin = isFromLogin),
                 modifier = Modifier.padding(
                     top = SizeDefault,
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
@@ -85,7 +84,7 @@ fun HomeNavigation(
                     updateIsFabExpanded = {
                         scaffoldState.value = scaffoldState.value.copy(isFabExpanded = it)
                     },
-                    onShowMessage = { // TODO rename
+                    showMessage = {
                         showMessageState.value = it
                     }
                 )

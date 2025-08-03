@@ -326,7 +326,6 @@ fun SettingsSubSections(
 
             SettingsSubSection.ExportSettingsSub -> {
                 ExportSettingsSubSection(
-                    state = state,
                     onAction = onAction
                 )
             }
@@ -604,7 +603,6 @@ fun StyleSettingsSubSection(
 
 @Composable
 fun ExportSettingsSubSection(
-    state: SettingsViewModel.State,
     onAction: (SettingsViewModel.Action) -> Unit,
 ) {
     Column(
@@ -620,7 +618,7 @@ fun ExportSettingsSubSection(
                         .padding(end = Size8)
                         .size(Size24),
                     imageVector = vectorResource(ResDrawable.ic_export_monochrome),
-                    contentDescription = "Export"
+                    contentDescription = null
                 )
             },
             onClick = {
@@ -646,7 +644,7 @@ fun ExportSettingsSubSection(
                         .padding(end = Size8)
                         .size(Size24),
                     imageVector = vectorResource(ResDrawable.ic_import_monochrome),
-                    contentDescription = "Import"
+                    contentDescription = null
                 )
             },
             colors = ButtonDefaults.buttonColors(

@@ -172,7 +172,8 @@ private fun ButtonsSection(
             text = stringResource(ResString.get_started),
             onClick = {
                 goToSelectVaultType()
-            }
+            },
+            contentDescription = "Get Started",
         )
     }
 }
@@ -192,7 +193,7 @@ private fun Titles(
                 .alpha(animatedContentAlpha.value),
             text = stringResource(ResString.app_name),
             style = MaterialTheme.typography.displaySmall,
-            fontFamily = getGlobalFontFamily()
+            fontFamily = getGlobalFontFamily(),
         )
         Text(
             modifier = Modifier

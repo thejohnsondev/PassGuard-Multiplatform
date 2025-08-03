@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 
 class CheckFiltersAppliedUseCaseTest {
 
-    private val useCase = CheckFiltersAppliedUseCaseImpl()
+    private val useCase = CheckFiltersAppliedUseCase()
 
     @Test
     fun testNoFiltersApplied() {

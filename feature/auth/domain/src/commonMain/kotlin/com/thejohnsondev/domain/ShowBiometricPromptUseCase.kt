@@ -1,11 +1,20 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.data.AuthRepository
 import com.thejosnsondev.biometric.BiometricAuthResult
 
-interface ShowBiometricPromptUseCase {
+class ShowBiometricPromptUseCase(
+    private val authRepository: AuthRepository
+) {
     suspend operator fun invoke(
         promptTitle: String,
-        promptSubtitle: String? = null,
-        promptDescription: String? = null
-    ): BiometricAuthResult
+        promptSubtitle: String?,
+        promptDescription: String?
+    ): BiometricAuthResult {
+        return authRepository.showBiometricPrompt(
+            promptTitle = promptTitle,
+            promptSubtitle = promptSubtitle,
+            promptDescription = promptDescription
+        )
+    }
 }

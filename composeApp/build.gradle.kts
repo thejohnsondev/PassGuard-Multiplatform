@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -12,11 +11,11 @@ plugins {
 }
 
 val appName = "PassGuard"
-val versionNameValue = "1.0.0"
+val versionNameValue = libs.versions.versionName.get()
+val versionCodeValue = libs.versions.versionCode.get().toInt()
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -37,8 +36,6 @@ kotlin {
     }
     
     sourceSets {
-        val desktopMain by getting
-        
         androidMain.dependencies {
             // Compose
             implementation(compose.preview)
@@ -82,7 +79,8 @@ kotlin {
             // Compose
             implementation(compose.runtime)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.material3.windowsizeclass.multiplatform)
             implementation(compose.components.resources)
@@ -101,25 +99,19 @@ kotlin {
             implementation(libs.haze.haze)
             implementation(libs.haze.materials)
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.compose.jetbrains.expui.theme)
-        }
-        val iosMain by creating {
+        val desktopMain by getting {
             dependencies {
-
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutines.swing)
+                implementation(libs.compose.jetbrains.expui.theme)
             }
         }
-
-        /* Example of how to create a source set that depends on multiple source sets
-        val jvmAndMacos by creating {
-            dependsOn(commonMain.get())
+        androidInstrumentedTest.dependencies {
+            implementation(libs.androidx.junit)
+            implementation(libs.androidx.ui.test.junit4)
+            implementation(libs.espresso.core)
+            implementation(libs.androidx.ui.test.junit4)
         }
-
-        macosArm64Main.get().dependsOn(jvmAndMacos)
-        jvmMain.get().dependsOn(jvmAndMacos)
-         */
     }
 }
 
@@ -135,9 +127,10 @@ android {
         applicationId = "org.thejohnsondev.vault"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
+        versionCode = versionCodeValue
         versionName = versionNameValue
         setProperty("archivesBaseName", appName)
+        testInstrumentationRunner = "com.thejohnsondev.vault.utils.TestRunner"
     }
     packaging {
         resources {
@@ -166,6 +159,8 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+        androidTestImplementation(libs.runner)
+        androidTestImplementation(libs.androidx.ui.test.junit4)
     }
 }
 
@@ -176,7 +171,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "PassGuard"
-            packageVersion = "1.0.0"
+            packageVersion = versionNameValue
             jvmArgs(
                 "-Dapple.awt.application.appearance=system"
             )

@@ -4,7 +4,7 @@ import com.thejohnsondev.common.utils.toAgeInDays
 import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
 import com.thejohnsondev.model.vault.PasswordDto
 
-internal class VaultHealthUtils(
+class VaultHealthUtils(
     private val passwordGenerator: PasswordGenerator,
 ) {
 
