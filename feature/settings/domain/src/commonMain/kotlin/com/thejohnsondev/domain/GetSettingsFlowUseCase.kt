@@ -1,8 +1,13 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.data.SettingsRepository
 import com.thejohnsondev.model.settings.SettingsConfig
 import kotlinx.coroutines.flow.Flow
 
-interface GetSettingsFlowUseCase {
-    suspend operator fun invoke(): Flow<SettingsConfig>
+class GetSettingsFlowUseCase(
+    private val settingsRepository: SettingsRepository
+) {
+    suspend operator fun invoke(): Flow<SettingsConfig> {
+        return settingsRepository.getSettingsConfigFlow()
+    }
 }

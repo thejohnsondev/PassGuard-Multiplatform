@@ -89,7 +89,5 @@ fun ToggleOptionItem(
                 }
             )
         }
-
     }
-
 }

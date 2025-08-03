@@ -26,5 +26,4 @@ val authDataModule = module {
             singleOf(::EncryptionRepositoryImpl) { bind<EncryptionRepository>() }
         }
     }
-
 }

@@ -75,6 +75,13 @@ object CSVImportExportUtils {
         return url?.matches(regex.toRegex()) == true
     }
 
+    private fun String.getSanitizedUrlForImport(): String {
+        return this.replace("https://", "")
+            .replace("http://", "")
+            .replace("www.", "")
+            .getSanitized()
+    }
+
     private fun String.getSanitized(): String {
         return this.replace(",", " ")
             .replace("|", " ")
@@ -254,7 +261,7 @@ object CSVImportExportUtils {
                     PasswordDto(
                         id = Uuid.random().toString(),
                         title = name,
-                        domain = url,
+                        domain = url.getSanitizedUrlForImport(),
                         userName = userName,
                         password = password,
                         categoryId = VAULT_ITEM_CATEGORY_PERSONAL,

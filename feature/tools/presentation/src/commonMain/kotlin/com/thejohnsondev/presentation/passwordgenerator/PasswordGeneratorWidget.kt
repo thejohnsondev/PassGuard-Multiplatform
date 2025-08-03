@@ -44,7 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
-import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_MAX_LENGTh
+import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_MAX_LENGTH
 import com.thejohnsondev.model.tools.PASSWORD_GENERATOR_MIN_LENGTH
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.ui.components.button.RoundedButton
@@ -374,8 +374,8 @@ fun ConfigurationView(
                         onAction(PasswordGeneratorViewModel.Action.UpdateLength(it.toInt()))
                     }
                 },
-                valueRange = PASSWORD_GENERATOR_MIN_LENGTH..PASSWORD_GENERATOR_MAX_LENGTh,
-                steps = (PASSWORD_GENERATOR_MAX_LENGTh - 1).toInt(),
+                valueRange = PASSWORD_GENERATOR_MIN_LENGTH..PASSWORD_GENERATOR_MAX_LENGTH,
+                steps = (PASSWORD_GENERATOR_MAX_LENGTH - 1).toInt(),
             )
             Text(
                 modifier = Modifier

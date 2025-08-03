@@ -14,7 +14,7 @@ object AndroidActivityProvider {
     private var filePickerLauncher: ActivityResultLauncher<Array<String>>? = null
     private var pendingFilePickerCallback: ((ImportResult) -> Unit)? = null
 
-    fun registerFilePicker(activity: Activity) {
+    fun registerActivity(activity: Activity) {
         if (activity !is FragmentActivity) {
             throw IllegalArgumentException("Activity must be a ComponentActivity to register for file picking.")
         }

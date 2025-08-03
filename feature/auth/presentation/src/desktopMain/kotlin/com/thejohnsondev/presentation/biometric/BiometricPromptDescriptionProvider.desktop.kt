@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 
 actual class BiometricPromptDescriptionProvider {
     @Composable
-    actual fun getTitle(): String = "log in with biometrics"
+    actual fun getTitle(): String = "log in with biometrics" // TODO translate
     @Composable
     actual fun getSubtitle(): String? = null
     @Composable

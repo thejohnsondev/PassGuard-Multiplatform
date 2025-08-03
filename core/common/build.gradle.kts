@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 import com.codingfeline.buildkonfig.compiler.FieldSpec
@@ -12,7 +11,6 @@ plugins {
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -36,7 +34,7 @@ kotlin {
             implementation(project(":core:model"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
 
             // Arrow Either
             implementation(libs.arrow.core)
@@ -52,7 +50,7 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.androidx.ktx)
-            implementation(libs.androidx.fragment.ktx)
+            implementation(libs.fragment.ktx)
 
             // Biometric
             implementation(libs.androidx.biometric)
@@ -78,6 +76,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    lint {
+        disable.add("NullSafeMutableLiveData")
     }
 }
 

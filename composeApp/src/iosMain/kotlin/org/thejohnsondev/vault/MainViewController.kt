@@ -64,7 +64,7 @@ fun MainViewController(
 
     safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
         Root(deviceThemeConfig, route, settings)
-    } ?: kotlin.run {
+    } ?: run {
         Scaffold { paddingValues ->
             Surface(
                 modifier = Modifier.fillMaxSize()

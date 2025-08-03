@@ -15,7 +15,6 @@ class ToolsRepositoryImpl(
         preferencesDataStore.updatePasswordGeneratorConfig(config)
     }
 
-
     override suspend fun getPasswordGeneratorConfig(): PasswordGeneratorConfig {
         return preferencesDataStore.getPasswordGeneratorConfig()
     }

@@ -16,7 +16,7 @@ actual class KoinInitializer(
             androidContext(context)
             androidLogger()
             modules(
-                modules + PlatformModuleProvider(platformDependency).generatePlatformModule()
+                allModules + PlatformModuleProvider(platformDependency).generatePlatformModule()
             )
         }
     }

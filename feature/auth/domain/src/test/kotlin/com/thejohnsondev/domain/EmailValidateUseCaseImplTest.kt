@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 
 class EmailValidateUseCaseImplTest {
 
-    private val useCase = EmailValidateUseCaseImpl()
+    private val useCase = EmailValidateUseCase()
 
     @Test
     fun testIsEmailValid_correctEmail() {

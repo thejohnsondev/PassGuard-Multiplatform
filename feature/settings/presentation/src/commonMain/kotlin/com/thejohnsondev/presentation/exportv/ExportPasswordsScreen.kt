@@ -152,7 +152,7 @@ fun ExportPasswordsScreenContent(
                 .padding(Size16)
                 .size(Size128),
             imageVector = vectorResource(ResDrawable.ic_export_colored),
-            contentDescription = "Export Icon",
+            contentDescription = null,
         )
         Text(
             modifier = Modifier.padding(Size16),
@@ -179,7 +179,7 @@ fun ExportPasswordsScreenContent(
                 modifier = Modifier
                     .size(Size24),
                 imageVector = Icons.Default.Warning,
-                contentDescription = "Warning Icon",
+                contentDescription = null,
                 tint = MaterialTheme.colorScheme.onErrorContainer
             )
             Text(
