@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.thejohnsondev.autofill.VaultAutofillService"
+        <service android:name="com.thejohnsondev.autofill.PassGuardAutofillService"
             android:label="@string/autofill_service_label"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE"
             android:exported="true">
