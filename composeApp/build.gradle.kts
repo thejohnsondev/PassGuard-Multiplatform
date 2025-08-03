@@ -130,7 +130,7 @@ android {
         versionCode = versionCodeValue
         versionName = versionNameValue
         setProperty("archivesBaseName", appName)
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.thejohnsondev.vault.utils.TestRunner"
     }
     packaging {
         resources {
