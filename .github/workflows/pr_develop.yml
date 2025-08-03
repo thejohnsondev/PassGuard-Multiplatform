@@ -56,19 +56,19 @@ jobs:
           ./gradlew :feature:tools:domain:test
           ./gradlew :feature:settings:domain:test
 
-#      - name: Run :core:common Android tests on Firebase Test Lab
-#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-#        with:
-#          arg-spec: deviceconfig/common-android-device.yml:android-pixel-4
-#        env:
-#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
-#
-#      - name: Run :core:platform Android tests on Firebase Test Lab
-#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-#        with:
-#          arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
-#        env:
-#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+      - name: Run :core:common Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: deviceconfig/common-android-device.yml:android-pixel-4
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+
+      - name: Run :core:platform Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
       - name: Run End-to-end Android tests on Firebase Test Lab
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
