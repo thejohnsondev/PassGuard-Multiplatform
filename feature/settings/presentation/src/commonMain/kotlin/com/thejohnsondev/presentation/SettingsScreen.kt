@@ -87,6 +87,7 @@ import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot_description
 import vaultmultiplatform.core.ui.generated.resources.cancel
+import vaultmultiplatform.core.ui.generated.resources.confirm
 import vaultmultiplatform.core.ui.generated.resources.create_account
 import vaultmultiplatform.core.ui.generated.resources.create_account_description
 import vaultmultiplatform.core.ui.generated.resources.dangerous_zone
@@ -725,7 +726,7 @@ fun Dialogs(
             windowWidthSizeClass = windowSizeClass,
             title = stringResource(ResString.delete_account),
             message = stringResource(ResString.delete_account_confirm_message),
-            confirmButtonText = stringResource(ResString.delete_account),
+            confirmButtonText = stringResource(ResString.confirm),
             cancelButtonText = stringResource(ResString.cancel),
             onConfirm = {
                 onAction(SettingsViewModel.Action.CloseConfirmDeleteAccountDialog)
@@ -764,7 +765,7 @@ fun Dialogs(
             windowWidthSizeClass = windowSizeClass,
             title = stringResource(ResString.delete_vault),
             message = stringResource(ResString.delete_vault_confirm_message),
-            confirmButtonText = stringResource(ResString.delete_vault),
+            confirmButtonText = stringResource(ResString.confirm),
             cancelButtonText = stringResource(ResString.cancel),
             onConfirm = {
                 onAction(SettingsViewModel.Action.CloseConfirmDeleteVaultDialog)
