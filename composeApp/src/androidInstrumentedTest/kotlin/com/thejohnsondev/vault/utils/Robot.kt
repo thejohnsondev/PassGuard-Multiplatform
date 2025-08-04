@@ -69,7 +69,7 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         timeout: Long = 5000L
     ) = composeRule
         .waitUntilAtLeastOneExists(
-            hasContentDescription(contentDescription),
+            hasContentDescription(contentDescription).or(hasText(contentDescription)),
             timeout
         )
 
