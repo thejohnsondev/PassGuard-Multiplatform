@@ -6,16 +6,16 @@ import com.thejohnsondev.vault.utils.Robot
 class SelectVaultTypeRobot(composeTestRule: ComposeTestRule): Robot(composeTestRule) {
 
     fun assertSelectVaultScreen() {
-        waitForText("Choose your vault type")
+        waitForContent("Choose your vault type")
         assertText("Choose your vault type")
-        waitForText("Local Vault")
+        waitForContent("Local Vault")
         assertText("Local Vault")
-        waitForText("Cloud Vault")
+        waitForContent("Cloud Vault")
         assertText("Cloud Vault")
     }
 
     fun clickCloudVaultOption() {
-        waitForText("Cloud Vault")
+        waitForContent("Cloud Vault")
         clickButton("Cloud Vault")
     }
 
@@ -28,7 +28,7 @@ class SelectVaultTypeRobot(composeTestRule: ComposeTestRule): Robot(composeTestR
     }
 
     fun clickLocalVaultOption() {
-        waitForText("Local Vault")
+        waitForContent("Local Vault")
         clickButton("Local Vault")
     }
 

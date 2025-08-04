@@ -3,6 +3,8 @@ package com.thejohnsondev.vault.auth
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.thejohnsondev.vault.auth.selectvaulttype.SelectVaultTypeRobot
 import com.thejohnsondev.vault.auth.welcome.WelcomeScreenRobot
+import com.thejohnsondev.vault.navigation.NavigationRobot
+import com.thejohnsondev.vault.settings.SettingsRobot
 import com.thejohnsondev.vault.vault.VaultRobot
 import org.junit.Rule
 import org.junit.Test
@@ -30,5 +32,19 @@ class AuthFlowsTests {
         with(VaultRobot(composeTestRule)) {
             assertVaultScreen()
         }
+        with(NavigationRobot(composeTestRule)) {
+            goToSettings()
+        }
+        with(SettingsRobot(composeTestRule)) {
+            clickManageVault()
+            clickDeleteVault()
+            clickConfirmDeleteVault()
+        }
     }
+
+    @Test
+    fun testLogin() {
+       // TODO implement
+    }
+
 }
