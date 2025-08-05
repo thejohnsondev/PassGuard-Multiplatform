@@ -35,6 +35,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
@@ -198,6 +200,9 @@ fun SettingsContent(
                 .fillMaxHeight()
                 .applyIf(!windowSizeClass.isCompact()) {
                     fillMaxWidth(Percent80)
+                }
+                .semantics {
+                    contentDescription = "Vertical Scroll"
                 },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
@@ -742,7 +747,7 @@ fun Dialogs(
             windowWidthSizeClass = windowSizeClass,
             title = stringResource(ResString.logout),
             message = stringResource(ResString.logout_confirm_message),
-            confirmButtonText = stringResource(ResString.logout),
+            confirmButtonText = stringResource(ResString.confirm),
             cancelButtonText = stringResource(ResString.cancel),
             onConfirm = {
                 onAction(SettingsViewModel.Action.CloseConfirmLogoutDialog)

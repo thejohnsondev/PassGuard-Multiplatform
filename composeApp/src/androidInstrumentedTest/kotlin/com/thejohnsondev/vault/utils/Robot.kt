@@ -7,6 +7,10 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
+import com.thejohnsondev.common.CONTENT_DESCRIPTION_VERTICAL_SCROLL
 
 abstract class Robot(val composeRule: ComposeTestRule) {
 
@@ -73,13 +77,20 @@ abstract class Robot(val composeRule: ComposeTestRule) {
             timeout
         )
 
-    @OptIn(ExperimentalTestApi::class)
-    fun waitForText(
-        text: String,
-        timeout: Long = 5000L
+    fun enterText(
+        fieldContent: String,
+        text: String
     ) = composeRule
-        .waitUntilAtLeastOneExists(
-            hasText(text),
-            timeout
-        )
+        .onNode(hasText(fieldContent).or(hasText(fieldContent)))
+        .performTextInput(text)
+
+    fun scrollToBottom() = composeRule
+        .onNode(hasContentDescription(CONTENT_DESCRIPTION_VERTICAL_SCROLL), useUnmergedTree = true)
+        .performTouchInput {
+            swipeUp(
+                startY = center.y,
+                endY = top
+            )
+        }
+
 }
