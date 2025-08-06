@@ -1,9 +1,10 @@
 package com.thejohnsondev.vault
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.thejohnsondev.vault.auth.login.LoginRobot
-import com.thejohnsondev.vault.auth.selectvaulttype.SelectVaultTypeRobot
-import com.thejohnsondev.vault.auth.welcome.WelcomeScreenRobot
+import com.thejohnsondev.vault.auth.LoginRobot
+import com.thejohnsondev.vault.auth.SelectVaultTypeRobot
+import com.thejohnsondev.vault.auth.SignUpRobot
+import com.thejohnsondev.vault.auth.WelcomeScreenRobot
 import com.thejohnsondev.vault.navigation.NavigationRobot
 import com.thejohnsondev.vault.settings.SettingsRobot
 import com.thejohnsondev.vault.vault.VaultRobot
@@ -73,6 +74,52 @@ class AuthFlowsTests {
             assertLoginScreen()
             enterCorrectCredentials()
             clickLoginButton()
+        }
+        with(VaultRobot(composeTestRule)) {
+            assertVaultScreen()
+        }
+        with(NavigationRobot(composeTestRule)) {
+            goToSettings()
+        }
+        with(SettingsRobot(composeTestRule)) {
+            clickManageAccount()
+            clickLogout()
+            clickConfirmLogout()
+        }
+    }
+
+    @Test
+    fun testSignUpWithExistingAccount() {
+        with(WelcomeScreenRobot(composeTestRule)) {
+            clickGetStartedButton()
+        }
+        with(SelectVaultTypeRobot(composeTestRule)) {
+            clickCloudVaultOption()
+            clickSignUpButton()
+        }
+        with(SignUpRobot(composeTestRule)) {
+            assertSignUpScreen()
+            enterExistingAccountCredentials()
+            clickAcceptTermsAndConditions()
+            clickSignUpButton()
+            assertSignUpError()
+        }
+    }
+
+    @Test
+    fun testSignUpWithNewAccount() {
+        with(WelcomeScreenRobot(composeTestRule)) {
+            clickGetStartedButton()
+        }
+        with(SelectVaultTypeRobot(composeTestRule)) {
+            clickCloudVaultOption()
+            clickSignUpButton()
+        }
+        with(SignUpRobot(composeTestRule)) {
+            assertSignUpScreen()
+            enterCorrectCredentials()
+            clickAcceptTermsAndConditions()
+            clickSignUpButton()
         }
         with(VaultRobot(composeTestRule)) {
             assertVaultScreen()
