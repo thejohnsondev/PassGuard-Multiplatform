@@ -5,10 +5,17 @@ import com.thejohnsondev.vault.utils.Robot
 
 class VaultRobot(composeTestRule: ComposeTestRule): Robot(composeTestRule) {
 
-    fun assertVaultScreen() {
+    fun assertEmptyVaultScreen() {
         waitForContent("Vault")
         assertText("Vault", 0)
         assertText("Vault", 1)
+        assertText("Your vault is empty")
+        assertButton("Add")
+    }
+
+    fun clickAddButton() {
+        waitForContent("Add")
+        clickButton("Add")
     }
 
 }

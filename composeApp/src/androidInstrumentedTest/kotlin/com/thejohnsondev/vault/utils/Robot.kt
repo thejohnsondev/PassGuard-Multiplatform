@@ -27,7 +27,7 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         .onAllNodes(hasContentDescription(description).or(hasText(description)))[index]
         .performClick()
 
-    fun goBack() = clickButton("Back Button")
+    fun clickBack() = clickButton("Back Button")
 
     fun assertButton(
         description: String

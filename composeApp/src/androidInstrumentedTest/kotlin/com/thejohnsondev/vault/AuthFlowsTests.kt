@@ -32,7 +32,7 @@ class AuthFlowsTests {
             clickCreateLocalVaultButton()
         }
         with(VaultRobot(composeTestRule)) {
-            assertVaultScreen()
+            assertEmptyVaultScreen()
         }
         with(NavigationRobot(composeTestRule)) {
             goToSettings()
@@ -76,7 +76,7 @@ class AuthFlowsTests {
             clickLoginButton()
         }
         with(VaultRobot(composeTestRule)) {
-            assertVaultScreen()
+            assertEmptyVaultScreen()
         }
         with(NavigationRobot(composeTestRule)) {
             goToSettings()
@@ -122,7 +122,7 @@ class AuthFlowsTests {
             clickSignUpButton()
         }
         with(VaultRobot(composeTestRule)) {
-            assertVaultScreen()
+            assertEmptyVaultScreen()
         }
         with(NavigationRobot(composeTestRule)) {
             goToSettings()
