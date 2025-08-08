@@ -81,7 +81,7 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         fieldContent: String,
         text: String
     ) = composeRule
-        .onNode(hasText(fieldContent).or(hasText(fieldContent)))
+        .onAllNodes(hasText(fieldContent).or(hasContentDescription(fieldContent)))[0]
         .performTextInput(text)
 
     fun scrollToBottom() = composeRule

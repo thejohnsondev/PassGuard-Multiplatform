@@ -18,4 +18,12 @@ class VaultRobot(composeTestRule: ComposeTestRule): Robot(composeTestRule) {
         clickButton("Add")
     }
 
+    fun assertVaultItem(
+        title: String,
+        username: String,
+    ) {
+        assertText(title)
+        assertText(username)
+    }
+
 }
