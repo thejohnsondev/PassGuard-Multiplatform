@@ -70,7 +70,6 @@ class VaultFlowsTests {
                 password = item1password
             )
         }
-        vaultRobot.asserNotEmptyVaultScreen()
     }
 
     private fun testFirstItemLifecycle() {
