@@ -61,6 +61,19 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         .onAllNodes(hasText(text))[index]
         .assertIsDisplayed()
 
+    fun assertContent(
+        contentDescription: String
+    ) = composeRule
+        .onNode(hasContentDescription(contentDescription))
+        .assertIsDisplayed(
+    )
+
+    fun assertTextNotDisplayed(
+        text: String
+    ) = composeRule
+        .onNode(hasText(text))
+        .assertDoesNotExist()
+
     fun assertDoesNotExist(
         description: String
     ) = composeRule
@@ -92,5 +105,15 @@ abstract class Robot(val composeRule: ComposeTestRule) {
                 endY = top
             )
         }
+
+    @OptIn(ExperimentalTestApi::class)
+    fun waitUntilNotDisplayed(
+        description: String,
+        timeout: Long = 5000L
+    ) = composeRule
+        .waitUntilDoesNotExist(
+            hasContentDescription(description).or(hasText(description)),
+            timeout
+        )
 
 }
