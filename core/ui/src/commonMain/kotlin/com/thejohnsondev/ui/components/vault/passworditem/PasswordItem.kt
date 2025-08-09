@@ -51,6 +51,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
@@ -175,7 +177,14 @@ fun PasswordItem(
                 width = borderWidth,
                 color = modifiedItemBorderColor,
                 shape = EquallyRounded.medium
-            ),
+            )
+            .semantics {
+                contentDescription = if (borderWidth > SizeDefault) {
+                    "Updated Item with border"
+                } else {
+                    "Regular Item without border"
+                }
+            },
         shape = EquallyRounded.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isReordering) draggingCardBgColor else cardBgColor
@@ -412,7 +421,7 @@ fun ExpandedContent(
                             isHidden = !isHidden
                         },
                     imageVector = eyeImage,
-                    contentDescription = null
+                    contentDescription = "Eye Icon",
                 )
             }
         }
@@ -475,7 +484,8 @@ fun ExpandedContent(
                     },
                     imageVector = Icons.Filled.Delete,
                     containerColor = MaterialTheme.colorScheme.errorContainer,
-                    iconColor = MaterialTheme.colorScheme.onErrorContainer
+                    iconColor = MaterialTheme.colorScheme.onErrorContainer,
+                    contentDescription = "Delete Icon"
                 )
             }
         }

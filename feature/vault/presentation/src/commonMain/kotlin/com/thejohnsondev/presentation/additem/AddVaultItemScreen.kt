@@ -56,6 +56,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -204,10 +206,14 @@ internal fun AddVaultItemContent(
                     onDismissRequest()
                 },
                 endContent = {
+                    val buttonTitle = stringResource(if (state.isEdit) ResString.update else ResString.save)
                     Button(
                         modifier = Modifier
                             .padding(end = Size16)
-                            .bounceClick(),
+                            .bounceClick()
+                            .semantics {
+                                contentDescription = buttonTitle
+                            },
                         onClick = {
                             onAction(AddVaultItemViewModel.Action.SavePassword)
                         },
@@ -219,7 +225,7 @@ internal fun AddVaultItemContent(
                                 iconTintColor = MaterialTheme.colorScheme.onPrimary
                             )
                         } else {
-                            Text(text = stringResource(if (state.isEdit) ResString.update else ResString.save))
+                            Text(text = buttonTitle)
                         }
                     }
                 }

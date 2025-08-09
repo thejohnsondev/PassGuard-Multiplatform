@@ -23,7 +23,8 @@ fun RoundedIconButton(
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     iconColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     onClick: () -> Unit,
-    imageVector: ImageVector
+    imageVector: ImageVector,
+    contentDescription: String? = null
 ) {
     Surface(
         modifier = modifier
@@ -38,7 +39,7 @@ fun RoundedIconButton(
             modifier = Modifier
                 .padding(Size8),
             imageVector = imageVector,
-            contentDescription = null, // TODO add content description
+            contentDescription = contentDescription,
             tint = iconColor
         )
     }

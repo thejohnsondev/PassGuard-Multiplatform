@@ -7,6 +7,10 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
+import com.thejohnsondev.common.CONTENT_DESCRIPTION_VERTICAL_SCROLL
 
 abstract class Robot(val composeRule: ComposeTestRule) {
 
@@ -23,7 +27,7 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         .onAllNodes(hasContentDescription(description).or(hasText(description)))[index]
         .performClick()
 
-    fun goBack() = clickButton("Back Button")
+    fun clickBack() = clickButton("Back Button")
 
     fun assertButton(
         description: String
@@ -57,6 +61,19 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         .onAllNodes(hasText(text))[index]
         .assertIsDisplayed()
 
+    fun assertContent(
+        contentDescription: String
+    ) = composeRule
+        .onNode(hasContentDescription(contentDescription))
+        .assertIsDisplayed(
+    )
+
+    fun assertTextNotDisplayed(
+        text: String
+    ) = composeRule
+        .onNode(hasText(text))
+        .assertDoesNotExist()
+
     fun assertDoesNotExist(
         description: String
     ) = composeRule
@@ -69,17 +86,34 @@ abstract class Robot(val composeRule: ComposeTestRule) {
         timeout: Long = 5000L
     ) = composeRule
         .waitUntilAtLeastOneExists(
-            hasContentDescription(contentDescription),
+            hasContentDescription(contentDescription).or(hasText(contentDescription)),
             timeout
         )
 
+    fun enterText(
+        fieldContent: String,
+        text: String
+    ) = composeRule
+        .onAllNodes(hasText(fieldContent).or(hasContentDescription(fieldContent)))[0]
+        .performTextInput(text)
+
+    fun scrollToBottom() = composeRule
+        .onNode(hasContentDescription(CONTENT_DESCRIPTION_VERTICAL_SCROLL), useUnmergedTree = true)
+        .performTouchInput {
+            swipeUp(
+                startY = center.y,
+                endY = top
+            )
+        }
+
     @OptIn(ExperimentalTestApi::class)
-    fun waitForText(
-        text: String,
+    fun waitUntilNotDisplayed(
+        description: String,
         timeout: Long = 5000L
     ) = composeRule
-        .waitUntilAtLeastOneExists(
-            hasText(text),
+        .waitUntilDoesNotExist(
+            hasContentDescription(description).or(hasText(description)),
             timeout
         )
+
 }

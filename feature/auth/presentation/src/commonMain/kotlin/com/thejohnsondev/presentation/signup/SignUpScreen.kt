@@ -45,6 +45,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -55,15 +56,15 @@ import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
-import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.ErrorSnackbar
-import com.thejohnsondev.ui.components.animation.GlowPulsingBackground
-import com.thejohnsondev.ui.components.text.PRIVACY_POLICY_TAG
-import com.thejohnsondev.ui.components.text.PrivacyPolicyAcceptText
-import com.thejohnsondev.ui.components.button.RoundedButton
-import com.thejohnsondev.ui.components.text.TERMS_OF_USE_TAG
-import com.thejohnsondev.ui.components.text.PrimaryOutlinedTextField
 import com.thejohnsondev.ui.components.VaultLogo
+import com.thejohnsondev.ui.components.animation.GlowPulsingBackground
+import com.thejohnsondev.ui.components.button.BackArrowButton
+import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.text.PRIVACY_POLICY_TAG
+import com.thejohnsondev.ui.components.text.PrimaryOutlinedTextField
+import com.thejohnsondev.ui.components.text.PrivacyPolicyAcceptText
+import com.thejohnsondev.ui.components.text.TERMS_OF_USE_TAG
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size24
@@ -398,10 +399,16 @@ fun SignUpButtonSection(
                 .padding(horizontal = Size2),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = state.isPrivacyPolicyAccepted,
+            Checkbox(
+                modifier = Modifier
+                    .semantics {
+                        contentDescription = "Accept Privacy Policy"
+                    },
+                checked = state.isPrivacyPolicyAccepted,
                 onCheckedChange = {
                     onAction(SignUpViewModel.Action.AcceptPrivacyPolicy(it))
-                })
+                }
+            )
             ClickableText(text = text) { offset ->
                 text.getStringAnnotations(
                     tag = PRIVACY_POLICY_TAG,
