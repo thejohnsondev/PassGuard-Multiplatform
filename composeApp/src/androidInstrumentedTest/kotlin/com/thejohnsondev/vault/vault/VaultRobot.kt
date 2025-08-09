@@ -9,6 +9,7 @@ class VaultRobot(composeTestRule: ComposeTestRule): Robot(composeTestRule) {
         waitForContent("Vault")
         assertText("Vault", 0)
         assertText("Vault", 1)
+        waitForContent("Your vault is empty")
         assertText("Your vault is empty")
         assertButton("Add")
     }

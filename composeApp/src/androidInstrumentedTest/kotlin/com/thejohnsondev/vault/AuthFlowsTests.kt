@@ -17,121 +17,116 @@ class AuthFlowsTests {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    @Test
-    fun testLocalVaultCreation() {
-        with(WelcomeScreenRobot(composeTestRule)) {
+    private val welcomeRobot = WelcomeScreenRobot(composeTestRule)
+    private val selectVaultTypeRobot = SelectVaultTypeRobot(composeTestRule)
+    private val loginRobot = LoginRobot(composeTestRule)
+    private val signUpRobot = SignUpRobot(composeTestRule)
+    private val vaultRobot = VaultRobot(composeTestRule)
+    private val navigationRobot = NavigationRobot(composeTestRule)
+    private val settingsRobot = SettingsRobot(composeTestRule)
+
+    private fun navigateToCloudVaultOptions() {
+        welcomeRobot.apply {
             assertWelcomeScreenContent()
             clickGetStartedButton()
         }
-        with(SelectVaultTypeRobot(composeTestRule)) {
+        selectVaultTypeRobot.assertSelectVaultScreen()
+    }
+
+    private fun navigateToLoginScreen() {
+        navigateToCloudVaultOptions()
+        selectVaultTypeRobot.clickCloudVaultOption()
+        selectVaultTypeRobot.clickLogInButton()
+        loginRobot.assertLoginScreen()
+    }
+
+    private fun navigateToSignUpScreen() {
+        navigateToCloudVaultOptions()
+        selectVaultTypeRobot.clickCloudVaultOption()
+        selectVaultTypeRobot.clickSignUpButton()
+        signUpRobot.assertSignUpScreen()
+    }
+
+    private fun logoutFromAccount() {
+        navigationRobot.goToSettings()
+        settingsRobot.apply {
+            clickManageAccount()
+            clickLogout()
+            clickConfirmLogout()
+        }
+    }
+
+    @Test
+    fun testLocalVaultCreationAndDeletion() {
+        welcomeRobot.assertWelcomeScreenContent()
+
+        welcomeRobot.clickGetStartedButton()
+        selectVaultTypeRobot.apply {
             assertSelectVaultScreen()
-            clickCloudVaultOption()
-            assertCloudVaultOption()
             clickLocalVaultOption()
             assertLocalVaultOption()
             clickCreateLocalVaultButton()
         }
-        with(VaultRobot(composeTestRule)) {
-            assertEmptyVaultScreen()
-        }
-        with(NavigationRobot(composeTestRule)) {
-            goToSettings()
-        }
-        with(SettingsRobot(composeTestRule)) {
+        vaultRobot.assertEmptyVaultScreen()
+
+        navigationRobot.goToSettings()
+        settingsRobot.apply {
             clickManageVault()
             clickDeleteVault()
             clickConfirmDeleteVault()
         }
+        welcomeRobot.assertWelcomeScreenContent()
     }
 
     @Test
     fun testLoginWithWrongCredentials() {
-        with(WelcomeScreenRobot(composeTestRule)) {
-            clickGetStartedButton()
-        }
-        with(SelectVaultTypeRobot(composeTestRule)) {
-            clickCloudVaultOption()
-            clickLogInButton()
-        }
-        with(LoginRobot(composeTestRule)) {
-            assertLoginScreen()
+        navigateToLoginScreen()
+
+        loginRobot.apply {
             enterWrongCredentials()
             clickLoginButton()
-            assertLoginError()
         }
+        loginRobot.assertLoginError()
     }
 
     @Test
-    fun testLoginWithCorrectCredentials() {
-        with(WelcomeScreenRobot(composeTestRule)) {
-            clickGetStartedButton()
-        }
-        with(SelectVaultTypeRobot(composeTestRule)) {
-            clickCloudVaultOption()
-            clickLogInButton()
-        }
-        with(LoginRobot(composeTestRule)) {
-            assertLoginScreen()
+    fun testSuccessfulLoginAndLogout() {
+        navigateToLoginScreen()
+
+        loginRobot.apply {
             enterCorrectCredentials()
             clickLoginButton()
         }
-        with(VaultRobot(composeTestRule)) {
-            assertEmptyVaultScreen()
-        }
-        with(NavigationRobot(composeTestRule)) {
-            goToSettings()
-        }
-        with(SettingsRobot(composeTestRule)) {
-            clickManageAccount()
-            clickLogout()
-            clickConfirmLogout()
-        }
+        vaultRobot.assertEmptyVaultScreen()
+
+        logoutFromAccount()
+        welcomeRobot.assertWelcomeScreenContent()
     }
 
     @Test
-    fun testSignUpWithExistingAccount() {
-        with(WelcomeScreenRobot(composeTestRule)) {
-            clickGetStartedButton()
-        }
-        with(SelectVaultTypeRobot(composeTestRule)) {
-            clickCloudVaultOption()
-            clickSignUpButton()
-        }
-        with(SignUpRobot(composeTestRule)) {
-            assertSignUpScreen()
+    fun testSignUpWithExistingAccountShowsError() {
+        navigateToSignUpScreen()
+
+        signUpRobot.apply {
             enterExistingAccountCredentials()
             clickAcceptTermsAndConditions()
             clickSignUpButton()
-            assertSignUpError()
         }
+        signUpRobot.assertSignUpError()
     }
 
     @Test
-    fun testSignUpWithNewAccount() {
-        with(WelcomeScreenRobot(composeTestRule)) {
-            clickGetStartedButton()
-        }
-        with(SelectVaultTypeRobot(composeTestRule)) {
-            clickCloudVaultOption()
-            clickSignUpButton()
-        }
-        with(SignUpRobot(composeTestRule)) {
-            assertSignUpScreen()
+    fun testSuccessfulSignUpAndLogout() {
+        navigateToSignUpScreen()
+
+        signUpRobot.apply {
             enterCorrectCredentials()
             clickAcceptTermsAndConditions()
             clickSignUpButton()
         }
-        with(VaultRobot(composeTestRule)) {
-            assertEmptyVaultScreen()
-        }
-        with(NavigationRobot(composeTestRule)) {
-            goToSettings()
-        }
-        with(SettingsRobot(composeTestRule)) {
-            clickManageAccount()
-            clickLogout()
-            clickConfirmLogout()
-        }
-    }
+        vaultRobot.assertEmptyVaultScreen()
 
+        logoutFromAccount()
+        welcomeRobot.assertWelcomeScreenContent()
+    }
 }

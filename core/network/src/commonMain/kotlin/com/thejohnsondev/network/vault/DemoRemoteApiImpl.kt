@@ -24,48 +24,7 @@ class DemoRemoteApiImpl: RemoteApi {
         add(FBAuthRequestBody("test@test.com", "Pass123$", true))
     }
     private val tokens = mutableMapOf<String, String>() // Stores email → token mapping
-    private val passwords = mutableListOf<PasswordDto>().apply {
-        add(PasswordDto(
-            id = "1",
-            title = "Example Organization 1",
-            organizationLogo = "https://example.com/logo1.png",
-            userName = "Example Title 1",
-            password = "examplePassword123",
-            additionalFields = listOf(
-                AdditionalFieldDto.testAdditionalField,
-                AdditionalFieldDto.testAdditionalField.copy(
-                    id = "2",
-                    title = "exampleField2",
-                    value = "exampleValue2"
-                )
-            ),
-            createdTimeStamp = "1742047687",
-            syncedTimeStamp = null,
-            syncStatus = SyncStatus.SYNCED.name,
-            isFavorite = false,
-            categoryId = VAULT_ITEM_CATEGORY_PERSONAL
-        ))
-        add(PasswordDto(
-            id = "2",
-            title = "Example Organization 2",
-            organizationLogo = "https://example.com/logo1.png",
-            userName = "Example Title 2",
-            password = "examplePassword123",
-            additionalFields = listOf(
-                AdditionalFieldDto.testAdditionalField,
-                AdditionalFieldDto.testAdditionalField.copy(
-                    id = "3",
-                    title = "exampleField2",
-                    value = "exampleValue2"
-                )
-            ),
-            createdTimeStamp = "1742047687",
-            syncedTimeStamp = null,
-            syncStatus = SyncStatus.SYNCED.name,
-            isFavorite = false,
-            categoryId = VAULT_ITEM_CATEGORY_WORK
-        ))
-    }
+    private val passwords = mutableListOf<PasswordDto>()
 
     override suspend fun signUp(body: FBAuthRequestBody): Either<Error, FBAuthSignUpResponse> {
         return withContext(Dispatchers.IO) {
