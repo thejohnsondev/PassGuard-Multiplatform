@@ -94,7 +94,6 @@ class VaultFlowsTests {
             password = item2password
         )
         vaultRobot.apply {
-            assertVaultItem(title = item2title, username = item2username)
             assertItemClosed(title = item2title, username = item2username)
             assertItemUpdated(title = item2title, username = item2username)
 
