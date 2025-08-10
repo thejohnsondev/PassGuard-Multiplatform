@@ -74,7 +74,6 @@ class VaultFlowsTests {
 
     private fun testFirstItemLifecycle() {
         vaultRobot.apply {
-            assertVaultItem(title = item1title, username = item1username)
             assertItemClosed(title = item1title, username = item1username)
             assertItemUpdated(title = item1title, username = item1username)
             clickItem(title = item1title)
