@@ -1,6 +1,7 @@
 package com.thejohnsondev.data
 
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.domain.repo.EncryptionRepository
 
 class DemoEncryptionRepository(
     private val preferencesDataStore: PreferencesDataStore,

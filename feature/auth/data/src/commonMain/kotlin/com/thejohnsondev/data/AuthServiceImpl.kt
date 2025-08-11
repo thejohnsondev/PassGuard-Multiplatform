@@ -1,9 +1,10 @@
-package com.thejohnsondev.domain
+package com.thejohnsondev.data
 
 import arrow.core.Either
-import com.thejohnsondev.data.AuthRepository
-import com.thejohnsondev.data.EncryptionRepository
-import com.thejohnsondev.data.GenerateKeyRepository
+import com.thejohnsondev.domain.repo.AuthService
+import com.thejohnsondev.domain.repo.AuthRepository
+import com.thejohnsondev.domain.repo.EncryptionRepository
+import com.thejohnsondev.domain.repo.GenerateKeyRepository
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.auth.firebase.FBAuthRequestBody
 import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse

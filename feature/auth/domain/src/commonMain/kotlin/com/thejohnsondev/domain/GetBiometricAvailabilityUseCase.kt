@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.data.AuthRepository
+import com.thejohnsondev.domain.repo.AuthRepository
 import com.thejosnsondev.biometric.BiometricAvailability
 
 class GetBiometricAvailabilityUseCase(

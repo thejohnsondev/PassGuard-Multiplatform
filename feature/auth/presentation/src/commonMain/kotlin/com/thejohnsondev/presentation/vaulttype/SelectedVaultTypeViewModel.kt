@@ -2,7 +2,7 @@ package com.thejohnsondev.presentation.vaulttype
 
 import com.thejohnsondev.common.VAULT_GENERATION_FAKE_TIME_DURATION
 import com.thejohnsondev.common.base.BaseViewModel
-import com.thejohnsondev.domain.AuthService
+import com.thejohnsondev.domain.repo.AuthService
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.VaultType

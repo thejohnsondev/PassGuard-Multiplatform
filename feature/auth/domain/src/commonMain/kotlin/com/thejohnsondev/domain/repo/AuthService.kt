@@ -1,4 +1,4 @@
-package com.thejohnsondev.domain
+package com.thejohnsondev.domain.repo
 
 import arrow.core.Either
 import com.thejohnsondev.model.Error

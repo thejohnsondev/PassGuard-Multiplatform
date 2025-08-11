@@ -1,4 +1,4 @@
-package com.thejohnsondev.data
+package com.thejohnsondev.domain.repo
 
 interface EncryptionRepository {
     suspend fun saveSecretKey(key: ByteArray)
