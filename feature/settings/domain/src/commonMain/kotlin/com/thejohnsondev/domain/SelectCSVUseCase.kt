@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.data.ExportImportRepository
+import com.thejohnsondev.domain.repo.ExportImportRepository
 import com.thejohnsondev.platform.filemanager.ImportResult
 
 class SelectCSVUseCase(

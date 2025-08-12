@@ -1,4 +1,4 @@
-package com.thejohnsondev.data
+package com.thejohnsondev.domain.repo
 
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings

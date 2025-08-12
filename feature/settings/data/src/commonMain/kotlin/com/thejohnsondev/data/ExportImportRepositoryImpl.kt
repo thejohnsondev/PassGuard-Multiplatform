@@ -3,6 +3,7 @@ package com.thejohnsondev.data
 import com.thejohnsondev.common.utils.EXPORT_FILE_TIME_FORMAT
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import com.thejohnsondev.common.utils.parseTime
+import com.thejohnsondev.domain.repo.ExportImportRepository
 import com.thejohnsondev.platform.filemanager.ExportResult
 import com.thejohnsondev.platform.filemanager.ImportResult
 import com.thejohnsondev.platform.filemanager.PlatformFileManager
@@ -18,7 +19,11 @@ class ExportImportRepositoryImpl(
     private val platformFileManager: PlatformFileManager
 ) : ExportImportRepository {
     override fun exportPasswordsToCSV(content: String, onCompletion: (ExportResult) -> Unit) {
-        return platformFileManager.downloadCSVWithContent(content, generateExportFileName(), onCompletion)
+        return platformFileManager.downloadCSVWithContent(
+            content = content,
+            fileName = generateExportFileName(),
+            onCompletion = onCompletion
+        )
     }
 
     override fun importCSV(onCompletion: (ImportResult) -> Unit) {

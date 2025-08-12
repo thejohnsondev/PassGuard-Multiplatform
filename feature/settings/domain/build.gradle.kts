@@ -32,7 +32,8 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:model"))
             api(project(":core:common"))
-            api(project(":feature:settings:data"))
+            api(project(":core:platform"))
+            api(project(":core:biometric"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 
