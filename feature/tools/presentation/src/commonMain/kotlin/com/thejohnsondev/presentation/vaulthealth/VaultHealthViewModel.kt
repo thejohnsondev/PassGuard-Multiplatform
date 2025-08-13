@@ -6,7 +6,7 @@ import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.GenerateVaultHealthReportUseCases
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
-import com.thejohnsondev.domain.PasswordsService
+import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.vaulthealth.VaultHealthReport
 import com.thejohnsondev.model.ScreenState

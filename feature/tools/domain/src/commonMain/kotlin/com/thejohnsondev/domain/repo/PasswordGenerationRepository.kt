@@ -1,10 +1,10 @@
-package com.thejohnsondev.domain.passwordgenerator
+package com.thejohnsondev.domain.repo
 
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGenerationType
 import com.thejohnsondev.model.tools.PasswordStrength
 
-interface PasswordGenerator {
+interface PasswordGenerationRepository {
     fun generatePassword(
         type: PasswordGenerationType,
         length: Int = 12,

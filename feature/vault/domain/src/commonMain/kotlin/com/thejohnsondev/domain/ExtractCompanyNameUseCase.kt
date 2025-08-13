@@ -1,7 +1,5 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.data.CompanySearchIgnoredWords
-
 class ExtractCompanyNameUseCase {
     operator fun invoke(rawTitle: String): String? {
         val ignoredWords = CompanySearchIgnoredWords.getList()

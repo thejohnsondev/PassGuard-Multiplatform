@@ -1,4 +1,4 @@
-package com.thejohnsondev.data
+package com.thejohnsondev.domain
 
 object CompanySearchIgnoredWords {
     fun getList(): Set<String> = setOf(

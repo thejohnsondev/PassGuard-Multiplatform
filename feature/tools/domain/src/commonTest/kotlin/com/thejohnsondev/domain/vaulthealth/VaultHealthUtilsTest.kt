@@ -2,13 +2,13 @@ package com.thejohnsondev.domain.vaulthealth
 
 import com.thejohnsondev.common.utils.getCurrentTimeStamp
 import kotlin.test.*
-import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.domain.repo.PasswordGenerationRepository
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGenerationType
 import com.thejohnsondev.model.tools.PasswordStrength
 import com.thejohnsondev.model.vault.PasswordDto
 
-class FakePasswordGenerator : PasswordGenerator {
+class FakePasswordGenerationRepository : PasswordGenerationRepository {
     override fun generatePassword(
         type: PasswordGenerationType,
         length: Int,
@@ -35,7 +35,7 @@ class FakePasswordGenerator : PasswordGenerator {
 }
 
 class VaultHealthUtilsTest {
-    private val passwordGenerator = FakePasswordGenerator()
+    private val passwordGenerator = FakePasswordGenerationRepository()
     private val utils = VaultHealthUtils(passwordGenerator)
 
     private fun passwordDto(

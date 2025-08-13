@@ -1,6 +1,6 @@
-package com.thejohnsondev.domain
+package com.thejohnsondev.domain.service
 
-import com.thejohnsondev.data.VaultRepository
+import com.thejohnsondev.domain.repo.VaultRepository
 
 class AppliedFiltersServiceImpl(
     private val vaultRepository: VaultRepository,

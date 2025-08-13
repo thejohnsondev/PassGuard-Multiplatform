@@ -8,7 +8,7 @@ import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.ExportVaultUseCase
 import com.thejohnsondev.domain.GenerateExportCSVUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
-import com.thejohnsondev.domain.PasswordsService
+import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.domain.export.CSVGenerationResult
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent

@@ -1,12 +1,13 @@
 package com.thejohnsondev.domain.passwordgenerator
 
+import com.thejohnsondev.data.PasswordGeneratorImpl
 import com.thejohnsondev.model.tools.PasswordGenerationType
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class PasswordGeneratorImplTest {
+class PasswordGenerationRepositoryImplTest {
 
     private val passwordGenerator = PasswordGeneratorImpl(HumanPasswordWords.wordList.toSet()) // No common passwords provided
 

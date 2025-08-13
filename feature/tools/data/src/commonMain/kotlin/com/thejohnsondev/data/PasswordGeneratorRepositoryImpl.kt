@@ -1,5 +1,6 @@
-package com.thejohnsondev.domain.passwordgenerator
+package com.thejohnsondev.data
 
+import com.thejohnsondev.domain.repo.PasswordGenerationRepository
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGenerationType
 import com.thejohnsondev.model.tools.PasswordStrength
@@ -7,7 +8,8 @@ import kotlin.random.Random
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-internal class PasswordGeneratorImpl(private val commonPasswords: Set<String>) : PasswordGenerator {
+internal class PasswordGeneratorRepositoryImpl(private val commonPasswords: Set<String>) :
+    PasswordGenerationRepository {
 
     private val lowerCase = "abcdefghijklmnopqrstuvwxyz"
     private val upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

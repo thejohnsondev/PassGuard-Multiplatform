@@ -1,10 +1,6 @@
-package com.thejohnsondev.data
+package com.thejohnsondev.domain.service
 
-import arrow.core.Either
-import com.thejohnsondev.model.Error
-import com.thejohnsondev.model.auth.logo.FindLogoResponse
-
-interface VaultRepository {
+interface AppliedFiltersService {
     suspend fun updateAppliedItemTypeFilters(typeFilters: List<String>)
     suspend fun updateAppliedCategoryFilters(categoryFilters: List<String>)
     suspend fun getAppliedItemTypeFilters(): List<String>
@@ -13,7 +9,6 @@ interface VaultRepository {
     suspend fun getAppliedSortOrder(): String
     suspend fun updateAppliedShowFavoritesAtTop(showFavoritesAtTop: Boolean)
     suspend fun getAppliedShowFavoritesAtTop(): Boolean
-    suspend fun findLogo(query: String): Either<Error, List<FindLogoResponse>>
     suspend fun updateOpenedFilters(opened: Boolean)
     suspend fun getIsOpenedFilters(): Boolean
 }
