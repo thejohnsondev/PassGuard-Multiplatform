@@ -38,13 +38,12 @@ import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import org.jetbrains.compose.resources.stringResource
-import vaultmultiplatform.core.ui.generated.resources.buttons
 import vaultmultiplatform.core.ui.generated.resources.cd_app_logo
 
 @Composable
 fun RoundedButton(
     modifier: Modifier = Modifier,
-    text: String = stringResource(ResString.buttons),
+    text: String,
     imageVector: ImageVector? = null,
     imageComposable: @Composable (() -> Unit)? = null,
     loading: Boolean = false,
