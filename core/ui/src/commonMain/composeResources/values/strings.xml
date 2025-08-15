@@ -28,6 +28,7 @@
     <string name="cloud_vault_in_development">(In development)</string>
     <string name="cloud_vault_description">Sign in to sync your passwords securely across multiple devices.</string>
     <string name="create_local_vault">Create a local Vault</string>
+    <string name="start_with_local_vault">You can start with a Local Vault and switch to Cloud Sync later.</string>
 
     <!--Log in-->
     <string name="log_in">Log in</string>
@@ -63,6 +64,13 @@
     <string name="empty_vault_get_started">Get started by creating you first record</string>
     <string name="nothing_found">Nothing found</string>
     <string name="search">Search</string>
+    <string name="more_info">More info</string>
+    <string name="created">Created: </string>
+    <string name="modified">Modified: </string>
+    <string name="passwords">Passwords</string>
+    <string name="notes">Notes</string>
+    <string name="bank_accounts">Bank Accounts</string>
+    <string name="show_favorites_at_top">Show favorites at top</string>
 
     <!--Add item-->
     <string name="add_field">Add field</string>
@@ -71,6 +79,8 @@
     <string name="username">Username</string>
     <string name="visibility">Visibility</string>
     <string name="category">Category</string>
+    <string name="done">Done</string>
+    <string name="value">Value</string>
 
     <!--Tools-->
     <string name="tools">Tools</string>
@@ -87,6 +97,7 @@
     <string name="password_generator_special">Special characters</string>
     <string name="password_generator_strong">Strong</string>
     <string name="password_generator_medium">Weak</string>
+    <string name="select">Select</string>
 
     <!--Vault health-->
     <string name="password_health">Vault health</string>
@@ -163,11 +174,7 @@
     <string name="settings">Settings</string>
     <string name="block_screenshot">Block screenshot</string>
     <string name="block_screenshot_description">Blocks screenshot/screen capture inside the app</string>
-
-    <string name="cd_app_logo">App Logo</string>
-    <string name="coming_soon">Coming soon...</string>
     <string name="confirm">Confirm</string>
-    <string name="created">Created: </string>
     <string name="dangerous_zone">Dangerous zone</string>
     <string name="dark_mode_preference">Dark mode preference</string>
     <string name="dark_mode_preference_dark">Dark</string>
@@ -175,42 +182,26 @@
     <string name="dark_mode_preference_system">Use system settings</string>
     <string name="deep_search_description">Search by all details, not only titles</string>
     <string name="deep_search_title">Deep search</string>
-    <string name="edit">Edit</string>
     <string name="general_description">General settings</string>
     <string name="general_title">General</string>
     <string name="logout">Logout</string>
-    <string name="modified">Modified: </string>
-    <string name="more">More</string>
-    <string name="more_info">More info</string>
     <string name="no">No</string>
-    <string name="done">Done</string>
-    <string name="select">Select</string>
-    <string name="notes">Notes</string>
-    <string name="organization">Organization</string>
-    <string name="organization_empty">Organization is empty</string>
-    <string name="scan_to_unlock">Scan to unlock</string>
+    <string name="yes">Yes</string>
     <string name="security_and_privacy_description">Manage your security and privacy</string>
     <string name="security_and_privacy_title">Security &amp; Privacy</string>
-    <string name="show_favorites_at_top">Show favorites at top</string>
-    <string name="title_empty">Title is empty</string>
     <string name="unlock_with_biometrics">Unlock with biometrics</string>
     <string name="unlock_with_biometrics_description">Use fingerprint/face for verification when opening the app</string>
     <string name="use_dynamic_color">Use Dynamic Colors</string>
-    <string name="value">Value</string>
-    <string name="yes">Yes</string>
-    <string name="logout_confirm_message">Are you sure you want to log out?</string>
     <string name="account">Account</string>
-    <string name="bank_accounts">Bank Accounts</string>
-    <string name="confirm_delete_account_with_password">To confirm account deletion, please enter your password. Note: this action can not be undone.</string>
+    <string name="manage_account">Manage account</string>
+    <string name="manage_vault">Manage vault</string>
     <string name="delete_account">Delete Account</string>
     <string name="delete_vault">Delete Vault</string>
+    <string name="logout_confirm_message">Are you sure you want to log out?</string>
+    <string name="confirm_delete_account_with_password">To confirm account deletion, please enter your password. Note: this action can not be undone.</string>
     <string name="delete_account_confirm_message">Are you sure you want to delete the account? \nIt will remove all your data permanently.</string>
     <string name="delete_vault_confirm_message">Are you sure you want to delete your vault? \nIt will remove all your data permanently.</string>
     <string name="enter_password">Enter your password</string>
-    <string name="manage_account">Manage account</string>
-    <string name="manage_vault">Manage vault</string>
-    <string name="password_empty">Password is empty</string>
-    <string name="passwords">Passwords</string>
     <string name="setting_description_style">Customize the look and feel of the app</string>
     <string name="setting_title_style">Style and appearance</string>
     <string name="theme">Theme</string>
@@ -221,9 +212,7 @@
     <string name="theme_sunny">Sunny</string>
     <string name="theme_teal">Teal</string>
     <string name="theme_violet">Violet</string>
-    <string name="start_with_local_vault">You can start with a Local Vault and switch to Cloud Sync later.</string>
     <string name="create_account">Create account</string>
     <string name="create_account_description">Create an account to sync your passwords across multiple devices.</string>
-
 
 </resources>
