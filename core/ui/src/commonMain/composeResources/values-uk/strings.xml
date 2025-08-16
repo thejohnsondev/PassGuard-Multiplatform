@@ -201,4 +201,39 @@
     <string name="create_account">Створити обліковий запис</string>
     <string name="create_account_description">Створіть обліковий запис, щоб синхронізувати свої паролі на кількох пристроях.</string>
 
+    <string name="language">Мова</string>
+    <string name="language_description">Виберіть бажану мову</string>
+    <string name="language_english">Англійська</string>
+    <string name="language_spanish">Іспанська</string>
+    <string name="language_german">Німецька</string>
+    <string name="language_french">Французька</string>
+    <string name="language_italian">Італійська</string>
+    <string name="language_polish">Польська</string>
+    <string name="language_portuguese">Португальська</string>
+    <string name="language_chinese">Китайська</string>
+    <string name="language_japanese">Японська</string>
+    <string name="language_korean">Корейська</string>
+    <string name="language_arabic">Арабська</string>
+    <string name="language_hindi">Гінді</string>
+    <string name="language_turkish">Турецька</string>
+    <string name="language_dutch">Нідерландська</string>
+    <string name="language_swedish">Шведська</string>
+    <string name="language_danish">Данська</string>
+    <string name="language_norwegian">Норвезька</string>
+    <string name="language_finnish">Фінська</string>
+    <string name="language_greek">Грецька</string>
+    <string name="language_czech">Чеська</string>
+    <string name="language_hungarian">Угорська</string>
+    <string name="language_romanian">Румунська</string>
+    <string name="language_bulgarian">Болгарська</string>
+    <string name="language_slovak">Словацька</string>
+    <string name="language_slovenian">Словенська</string>
+    <string name="language_croatian">Хорватська</string>
+    <string name="language_serbian">Сербська</string>
+    <string name="language_ukrainian">Українська</string>
+    <string name="language_latvian">Латиська</string>
+    <string name="language_lithuanian">Литовська</string>
+    <string name="language_estonian">Естонська</string>
+    <string name="language_maltese">Мальтійська</string>
+
 </resources>

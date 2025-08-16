@@ -32,6 +32,8 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.ktx)
             implementation(libs.appcompat)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -40,9 +42,25 @@ kotlin {
             api(project(":core:datastore"))
             api(project(":core:ui"))
 
+            // Compose
             implementation(compose.runtime)
             implementation(compose.foundation)
+            implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(compose.materialIconsExtended)
+            implementation(compose.material3)
+            implementation(libs.material3.windowsizeclass.multiplatform)
+
+            // Koin
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.navigation.compose)
+
 
         }
         commonTest.dependencies {

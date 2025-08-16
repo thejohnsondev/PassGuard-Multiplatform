@@ -19,10 +19,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -40,6 +42,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.thejohnsondev.localization.SelectLanguageBottomSheet
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.BlurContainer
 import com.thejohnsondev.ui.designsystem.Percent50i
@@ -100,8 +103,39 @@ fun WelcomeScreen(
             onAction = viewModel::perform,
             goToSelectVaultType = goToSelectVaultType
         )
+        BottomSheets(
+            windowSize = windowSize,
+            state = state.value,
+            onAction = viewModel::perform
+        )
     }
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun BottomSheets(
+    windowSize: WindowWidthSizeClass,
+    state: WelcomeViewModel.State,
+    onAction: (WelcomeViewModel.Action) -> Unit,
+) {
+    val selectLanguageSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    if (state.isLanguageSelectorOpen) {
+        SelectLanguageBottomSheet(
+            windowSizeClass = windowSize,
+            sheetState = selectLanguageSheetState,
+            selectedLanguage = state.selectedLanguage,
+            onLanguageSelected = { language ->
+                onAction(WelcomeViewModel.Action.SelectLanguage(language))
+            },
+            onDismissRequest = {
+                onAction(WelcomeViewModel.Action.OpenCloseLanguageSelector(false))
+            }
+        )
+    }
 }
 
 @Composable
@@ -194,7 +228,7 @@ private fun LanguageSelectionButton(
                 .clip(RoundedCornerShape(percent = Percent50i))
                 .bounceClick()
                 .clickable {
-                    onAction(WelcomeViewModel.Action.OpenLanguageSelector)
+                    onAction(WelcomeViewModel.Action.OpenCloseLanguageSelector(true))
                 },
         ) {
             Image(

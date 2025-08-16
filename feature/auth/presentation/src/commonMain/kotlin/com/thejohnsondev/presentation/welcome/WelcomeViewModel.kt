@@ -29,7 +29,7 @@ class WelcomeViewModel(
         when (action) {
             is Action.LoadSelectedLanguage -> loadSelectedLanguage()
             is Action.SelectLanguage -> selectLanguage(action.language)
-            is Action.OpenLanguageSelector -> openCloseLanguageSelector(true)
+            is Action.OpenCloseLanguageSelector -> openCloseLanguageSelector(action.isOpen)
         }
     }
 
@@ -61,7 +61,9 @@ class WelcomeViewModel(
 
     sealed class Action {
         data object LoadSelectedLanguage : Action()
-        data object OpenLanguageSelector : Action()
+        data class OpenCloseLanguageSelector(
+            val isOpen: Boolean
+        ) : Action()
         data class SelectLanguage(val language: Language) : Action()
     }
 
