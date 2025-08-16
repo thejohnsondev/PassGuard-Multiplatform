@@ -68,7 +68,6 @@ import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import vaultmultiplatform.core.ui.generated.resources.cd_app_logo
 import vaultmultiplatform.core.ui.generated.resources.password_generator_configure
 import vaultmultiplatform.core.ui.generated.resources.password_generator_copy
 import vaultmultiplatform.core.ui.generated.resources.password_generator_digits
@@ -245,7 +244,7 @@ private fun GenerateButtonsRow(
                         .size(Size24)
                         .rotate(animatedRotationAngle),
                     imageVector = Icons.Default.Casino,
-                    contentDescription = stringResource(ResString.cd_app_logo),
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             },

@@ -2,7 +2,7 @@ package com.thejohnsondev.presentation.vault
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
-import com.thejohnsondev.domain.AppliedFiltersService
+import com.thejohnsondev.domain.service.AppliedFiltersService
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.CopyTextUseCase
@@ -12,7 +12,7 @@ import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.ItemFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
-import com.thejohnsondev.domain.PasswordsService
+import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SortOrderChangeUseCase
 import com.thejohnsondev.domain.SortVaultItemsUseCase

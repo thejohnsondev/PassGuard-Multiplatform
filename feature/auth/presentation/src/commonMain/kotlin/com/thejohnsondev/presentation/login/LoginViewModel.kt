@@ -2,7 +2,7 @@ package com.thejohnsondev.presentation.login
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
-import com.thejohnsondev.domain.AuthService
+import com.thejohnsondev.domain.repo.AuthService
 import com.thejohnsondev.domain.EmailValidateUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.model.OneTimeEvent

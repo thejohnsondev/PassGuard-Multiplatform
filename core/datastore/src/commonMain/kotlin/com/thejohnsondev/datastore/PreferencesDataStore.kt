@@ -39,4 +39,6 @@ interface PreferencesDataStore {
     suspend fun getAppliedShowFavoritesAtTop(): Boolean
     suspend fun updatePasswordGeneratorConfig(config: PasswordGeneratorConfig)
     suspend fun getPasswordGeneratorConfig(): PasswordGeneratorConfig
+    suspend fun updateSelectedLanguage(language: String)
+    suspend fun getSelectedLanguage(): String
 }

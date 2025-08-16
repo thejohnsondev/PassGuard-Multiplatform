@@ -1,6 +1,7 @@
 package com.thejohnsondev.data
 
 import com.thejohnsondev.database.LocalDataSource
+import com.thejohnsondev.domain.repo.PasswordsRepository
 import com.thejohnsondev.model.vault.PasswordDto
 import kotlinx.coroutines.flow.Flow
 

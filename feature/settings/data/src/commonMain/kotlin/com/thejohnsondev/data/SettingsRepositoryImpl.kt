@@ -1,6 +1,7 @@
 package com.thejohnsondev.data
 
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.domain.repo.SettingsRepository
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings

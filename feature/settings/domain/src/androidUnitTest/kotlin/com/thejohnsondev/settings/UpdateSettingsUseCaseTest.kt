@@ -1,7 +1,7 @@
 package com.thejohnsondev.settings
 
-import com.thejohnsondev.data.SettingsRepository
 import com.thejohnsondev.domain.UpdateSettingsUseCase
+import com.thejohnsondev.domain.repo.SettingsRepository
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
 import com.thejohnsondev.model.settings.PrivacySettings

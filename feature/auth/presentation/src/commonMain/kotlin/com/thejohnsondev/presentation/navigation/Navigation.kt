@@ -14,6 +14,7 @@ import com.thejohnsondev.presentation.signup.SignUpViewModel
 import com.thejohnsondev.presentation.vaulttype.SelectVaultTypeScreen
 import com.thejohnsondev.presentation.vaulttype.SelectedVaultTypeViewModel
 import com.thejohnsondev.presentation.welcome.WelcomeScreen
+import com.thejohnsondev.presentation.welcome.WelcomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -51,13 +52,16 @@ fun NavController.navigateToSelectVaultTypeRoute() {
     navigate(Routes.SelectVaultTypeRoute)
 }
 
+@OptIn(KoinExperimentalAPI::class)
 fun NavGraphBuilder.welcomeScreen(
     windowSize: WindowWidthSizeClass,
     goToSelectVaultType: () -> Unit
 ) {
     composable<Routes.WelcomeRoute> {
+        val viewModel = koinViewModel<WelcomeViewModel>()
         WelcomeScreen(
             windowSize = windowSize,
+            viewModel = viewModel,
             goToSelectVaultType = goToSelectVaultType
         )
     }

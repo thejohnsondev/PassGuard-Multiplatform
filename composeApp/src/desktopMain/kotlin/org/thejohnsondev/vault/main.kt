@@ -21,6 +21,7 @@ import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
+import com.thejohnsondev.localization.LocalizationUtils
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.platform.di.DesktopPlatformDependency
 import com.thejohnsondev.platform.di.PlatformDependency
@@ -54,6 +55,9 @@ fun main() = application {
     val deviceThemeConfig: DeviceThemeConfig = remember {
         getKoin().get()
     }
+    val localizationUtils: LocalizationUtils = remember {
+        getKoin().get()
+    }
     val coroutineScope = rememberCoroutineScope()
     val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
     val settingsConfig = remember { mutableStateOf<SettingsConfig?>(null) }
@@ -66,6 +70,9 @@ fun main() = application {
             getSettingsUseCase.invoke().collect {
                 settingsConfig.value = it
             }
+        }
+        coroutineScope.launch {
+            applySelectedLanguage(localizationUtils)
         }
     }
 
@@ -116,4 +123,9 @@ fun AdaptiveWindow(
         }
     }
 
+}
+
+private suspend fun applySelectedLanguage(localizationUtils: LocalizationUtils) {
+    val selectedLanguage = localizationUtils.getSelectedLanguage()
+    localizationUtils.setSelectedLanguage(selectedLanguage)
 }

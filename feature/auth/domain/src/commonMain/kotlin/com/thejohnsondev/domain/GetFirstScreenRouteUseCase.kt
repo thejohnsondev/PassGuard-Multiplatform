@@ -1,7 +1,7 @@
 package com.thejohnsondev.domain
 
 import com.thejohnsondev.common.navigation.Routes
-import com.thejohnsondev.data.AuthRepository
+import com.thejohnsondev.domain.repo.AuthRepository
 
 class GetFirstScreenRouteUseCase(
     private val authRepository: AuthRepository,

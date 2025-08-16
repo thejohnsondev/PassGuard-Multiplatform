@@ -1,11 +1,11 @@
 package com.thejohnsondev.domain.vaulthealth
 
 import com.thejohnsondev.common.utils.toAgeInDays
-import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.domain.repo.PasswordGenerationRepository
 import com.thejohnsondev.model.vault.PasswordDto
 
 class VaultHealthUtils(
-    private val passwordGenerator: PasswordGenerator,
+    private val passwordGenerationRepository: PasswordGenerationRepository,
 ) {
 
     fun generateReport(
@@ -33,7 +33,7 @@ class VaultHealthUtils(
     fun calculateVaultHealthScore(passwords: List<PasswordDto>): Float {
         if (passwords.isEmpty()) return 0f
         val averageStrength = passwords.map {
-            passwordGenerator.evaluateStrength(it.password).level
+            passwordGenerationRepository.evaluateStrength(it.password).level
         }.average()
         return averageStrength.toFloat()
     }
@@ -44,7 +44,7 @@ class VaultHealthUtils(
         val strong = mutableListOf<PasswordDto>()
 
         passwords.forEach { item ->
-            val strength = passwordGenerator.evaluateStrength(item.password)
+            val strength = passwordGenerationRepository.evaluateStrength(item.password)
             when (strength.level) {
                 in 0.0f..0.3f -> weak.add(item)
                 in 0.4f..0.6f -> medium.add(item)
@@ -56,7 +56,7 @@ class VaultHealthUtils(
 
     fun findLeakedPasswords(passwords: List<PasswordDto>): List<PasswordDto> {
         return passwords.filter {
-            passwordGenerator.isCommonPassword(it.password)
+            passwordGenerationRepository.isCommonPassword(it.password)
         }
     }
 

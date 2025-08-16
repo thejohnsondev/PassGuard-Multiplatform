@@ -1,2 +1,2 @@
 Changes:
-- UI improvements
+- Added localization support

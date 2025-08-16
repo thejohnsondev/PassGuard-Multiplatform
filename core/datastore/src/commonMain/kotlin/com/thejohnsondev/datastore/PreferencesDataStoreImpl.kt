@@ -252,6 +252,14 @@ class PreferencesDataStoreImpl(
         )
     }
 
+    override suspend fun updateSelectedLanguage(language: String) {
+        secureStorage.save(KEY_SELECTED_LANGUAGE, language)
+    }
+
+    override suspend fun getSelectedLanguage(): String {
+        return secureStorage.read(KEY_SELECTED_LANGUAGE).orEmpty()
+    }
+
     companion object {
         private const val IDS_SEPARATOR = ","
         private const val KEY_AUTH_TOKEN = "auth_token"
@@ -275,6 +283,7 @@ class PreferencesDataStoreImpl(
         private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_UPPER = "password-generator-config-include-upper"
         private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_DIGITS = "password-generator-config-include-digits"
         private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_SPECIAL = "password-generator-config-include-special"
+        private const val KEY_SELECTED_LANGUAGE = "selected-language"
     }
 
 }

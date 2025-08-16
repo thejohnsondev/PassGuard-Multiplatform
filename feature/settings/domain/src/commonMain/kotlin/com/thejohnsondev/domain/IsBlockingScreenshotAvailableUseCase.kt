@@ -1,6 +1,6 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.data.SettingsRepository
+import com.thejohnsondev.domain.repo.SettingsRepository
 
 class IsBlockingScreenshotAvailableUseCase(
     private val settingsRepository: SettingsRepository

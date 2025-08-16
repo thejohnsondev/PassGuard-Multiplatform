@@ -1,6 +1,7 @@
 package com.thejohnsondev.data
 
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.domain.repo.ToolsRepository
 import com.thejohnsondev.model.tools.PasswordGeneratorConfig
 import com.thejohnsondev.platform.utils.ClipboardUtils
 
