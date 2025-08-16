@@ -1,15 +1,16 @@
-package com.thejohnsondev.domain.passwordgenerator
+package com.thejohnsondev.data.passwordgenerator
 
-import com.thejohnsondev.data.PasswordGeneratorImpl
+import com.thejohnsondev.data.HumanPasswordWords
+import com.thejohnsondev.data.PasswordGeneratorRepositoryImpl
 import com.thejohnsondev.model.tools.PasswordGenerationType
-
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class PasswordGenerationRepositoryImplTest {
 
-    private val passwordGenerator = PasswordGeneratorImpl(HumanPasswordWords.wordList.toSet()) // No common passwords provided
+    private val passwordGenerator =
+        PasswordGeneratorRepositoryImpl(HumanPasswordWords.wordList.toSet()) // No common passwords provided
 
     @Test
     fun `generate random password with default settings`() {
@@ -71,7 +72,8 @@ class PasswordGenerationRepositoryImplTest {
 
     @Test
     fun `generate human-readable password`() {
-        val generated = passwordGenerator.generatePassword(PasswordGenerationType.HUMAN, length = 16)
+        val generated =
+            passwordGenerator.generatePassword(PasswordGenerationType.HUMAN, length = 16)
         assertTrue(generated.password.isNotBlank())
         assertTrue(generated.password.contains("-")) // Expecting words joined by dashes
     }
