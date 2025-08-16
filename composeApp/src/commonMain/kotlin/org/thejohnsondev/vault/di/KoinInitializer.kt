@@ -11,6 +11,8 @@ import com.thejohnsondev.domain.di.authDomainModule
 import com.thejohnsondev.domain.di.settingsDomainModule
 import com.thejohnsondev.domain.di.toolsDomainModule
 import com.thejohnsondev.domain.di.vaultDomainModule
+import com.thejohnsondev.localization.di.appLocaleManagerModule
+import com.thejohnsondev.localization.di.localizationModule
 import com.thejohnsondev.network.di.apiModule
 import com.thejohnsondev.network.di.demoApiModule
 import com.thejohnsondev.network.di.networkModule
@@ -31,6 +33,8 @@ private val commonModulesList = listOf(
     commonModule,
     datastoreModule,
     databaseModule,
+    appLocaleManagerModule,
+    localizationModule,
     networkModule,
     syncModule,
     uiModule,

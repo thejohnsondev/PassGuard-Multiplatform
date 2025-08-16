@@ -215,4 +215,40 @@
     <string name="create_account">Create account</string>
     <string name="create_account_description">Create an account to sync your passwords across multiple devices.</string>
 
+    <!--Localization-->
+    <string name="language">Language</string>
+    <string name="language_description">Select your preferred language</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_german">German</string>
+    <string name="language_french">French</string>
+    <string name="language_italian">Italian</string>
+    <string name="language_polish">Polish</string>
+    <string name="language_portuguese">Portuguese</string>
+    <string name="language_chinese">Chinese</string>
+    <string name="language_japanese">Japanese</string>
+    <string name="language_korean">Korean</string>
+    <string name="language_arabic">Arabic</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_turkish">Turkish</string>
+    <string name="language_dutch">Dutch</string>
+    <string name="language_swedish">Swedish</string>
+    <string name="language_danish">Danish</string>
+    <string name="language_norwegian">Norwegian</string>
+    <string name="language_finnish">Finnish</string>
+    <string name="language_greek">Greek</string>
+    <string name="language_czech">Czech</string>
+    <string name="language_hungarian">Hungarian</string>
+    <string name="language_romanian">Romanian</string>
+    <string name="language_bulgarian">Bulgarian</string>
+    <string name="language_slovak">Slovak</string>
+    <string name="language_slovenian">Slovenian</string>
+    <string name="language_croatian">Croatian</string>
+    <string name="language_serbian">Serbian</string>
+    <string name="language_ukrainian">Ukrainian</string>
+    <string name="language_latvian">Latvian</string>
+    <string name="language_lithuanian">Lithuanian</string>
+    <string name="language_estonian">Estonian</string>
+    <string name="language_maltese">Maltese</string>
+
 </resources>
