@@ -1,5 +1,6 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.domain.repo.EncryptionRepository
 import com.thejohnsondev.model.vault.AdditionalFieldDto
 import com.thejohnsondev.model.vault.PasswordDto
 import io.mockk.coEvery
