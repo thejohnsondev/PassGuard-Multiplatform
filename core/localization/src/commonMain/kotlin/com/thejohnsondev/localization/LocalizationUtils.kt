@@ -3,7 +3,8 @@ package com.thejohnsondev.localization
 import com.thejohnsondev.datastore.PreferencesDataStore
 
 class LocalizationUtils(
-    private val dataStore: PreferencesDataStore
+    private val dataStore: PreferencesDataStore,
+    private val appLocaleManager: AppLocaleManager
 ) {
     suspend fun getSelectedLanguage(): Language {
         val selectedLanguageCode = dataStore.getSelectedLanguage()
@@ -13,6 +14,7 @@ class LocalizationUtils(
 
     suspend fun setSelectedLanguage(language: Language) {
         dataStore.updateSelectedLanguage(language.iso2Code)
+        appLocaleManager.changeLocale(language.iso2Code)
     }
 }
 

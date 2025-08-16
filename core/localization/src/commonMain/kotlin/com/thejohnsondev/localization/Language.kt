@@ -4,9 +4,9 @@ import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
-import vaultmultiplatform.core.ui.generated.resources.country_flag_es
-import vaultmultiplatform.core.ui.generated.resources.country_flag_gb
-import vaultmultiplatform.core.ui.generated.resources.country_flag_ua
+import vaultmultiplatform.core.ui.generated.resources.ic_flag_es
+import vaultmultiplatform.core.ui.generated.resources.ic_flag_gb
+import vaultmultiplatform.core.ui.generated.resources.ic_flag_ua
 import vaultmultiplatform.core.ui.generated.resources.language_arabic
 import vaultmultiplatform.core.ui.generated.resources.language_bulgarian
 import vaultmultiplatform.core.ui.generated.resources.language_chinese
@@ -45,17 +45,17 @@ enum class Language(
 ) {
     ENGLISH(
         typeNameStringResource = ResString.language_english,
-        typeFlagDrawableResource = ResDrawable.country_flag_gb,
+        typeFlagDrawableResource = ResDrawable.ic_flag_gb,
         iso2Code = "en"
     ),
     SPANISH(
         typeNameStringResource = ResString.language_spanish,
-        typeFlagDrawableResource = ResDrawable.country_flag_es,
+        typeFlagDrawableResource = ResDrawable.ic_flag_es,
         iso2Code = "es"
     ),
     UKRAINIAN(
         typeNameStringResource = ResString.language_ukrainian,
-        typeFlagDrawableResource = ResDrawable.country_flag_ua,
+        typeFlagDrawableResource = ResDrawable.ic_flag_ua,
         iso2Code = "uk"
     );
     // TODO uncomment and add translations before release

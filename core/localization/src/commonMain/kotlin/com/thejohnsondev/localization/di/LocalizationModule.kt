@@ -7,5 +7,5 @@ import org.koin.dsl.module
 expect val appLocaleManagerModule: Module
 
 val localizationModule = module {
-    single { LocalizationUtils(get()) }
+    single { LocalizationUtils(get(), get()) }
 }

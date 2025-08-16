@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -37,6 +39,10 @@ kotlin {
             api(project(":core:common"))
             api(project(":core:datastore"))
             api(project(":core:ui"))
+
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.components.resources)
 
         }
         commonTest.dependencies {

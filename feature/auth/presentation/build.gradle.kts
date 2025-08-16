@@ -40,6 +40,7 @@ kotlin {
             api(project(":core:model"))
             api(project(":core:common"))
             api(project(":core:ui"))
+            api(project(":core:localization"))
             api(project(":feature:auth:domain"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
