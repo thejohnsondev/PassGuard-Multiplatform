@@ -253,11 +253,11 @@ class PreferencesDataStoreImpl(
     }
 
     override suspend fun updateSelectedLanguage(language: String) {
-        dataStore.saveString(KEY_SELECTED_LANGUAGE, language)
+        secureStorage.save(KEY_SELECTED_LANGUAGE, language)
     }
 
     override suspend fun getSelectedLanguage(): String {
-        return dataStore.getString(KEY_SELECTED_LANGUAGE, String.empty)
+        return secureStorage.read(KEY_SELECTED_LANGUAGE).orEmpty()
     }
 
     companion object {
