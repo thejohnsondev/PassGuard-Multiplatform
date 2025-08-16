@@ -14,7 +14,7 @@ import com.thejohnsondev.domain.FindLogoUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.GeneratePasswordUseCase
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
-import com.thejohnsondev.domain.PasswordsService
+import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
 import com.thejohnsondev.domain.ValidatePasswordModelUseCase
 import com.thejohnsondev.model.DisplayableMessageValue

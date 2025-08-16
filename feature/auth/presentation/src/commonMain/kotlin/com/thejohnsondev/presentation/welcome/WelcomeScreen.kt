@@ -5,6 +5,7 @@ import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,28 +13,42 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.thejohnsondev.ui.components.container.BlurContainer
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.thejohnsondev.localization.SelectLanguageBottomSheet
 import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.components.container.BlurContainer
+import com.thejohnsondev.ui.designsystem.Percent50i
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size32
 import com.thejohnsondev.ui.designsystem.Size580
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.colorscheme.isLight
@@ -41,10 +56,12 @@ import com.thejohnsondev.ui.designsystem.getGlobalFontFamily
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
+import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.app_name
@@ -69,17 +86,63 @@ private const val CONTENT_ALPHA_ANIM_END = 1f
 @Composable
 fun WelcomeScreen(
     windowSize: WindowWidthSizeClass,
+    viewModel: WelcomeViewModel,
     goToSelectVaultType: () -> Unit
 ) {
-    WelcomeContent(
-        windowSize = windowSize,
-        goToSelectVaultType = goToSelectVaultType
+    val state = viewModel.state.collectAsStateWithLifecycle()
+    val localLocalization = staticCompositionLocalOf { state.value.selectedLanguage?.iso2Code }
+
+    LaunchedEffect(Unit) {
+        viewModel.perform(WelcomeViewModel.Action.LoadSelectedLanguage)
+    }
+
+    CompositionLocalProvider(localLocalization provides state.value.selectedLanguage?.iso2Code) {
+        WelcomeContent(
+            windowSize = windowSize,
+            state = state.value,
+            onAction = viewModel::perform,
+            goToSelectVaultType = goToSelectVaultType
+        )
+        BottomSheets(
+            windowSize = windowSize,
+            state = state.value,
+            onAction = viewModel::perform
+        )
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun BottomSheets(
+    windowSize: WindowWidthSizeClass,
+    state: WelcomeViewModel.State,
+    onAction: (WelcomeViewModel.Action) -> Unit,
+) {
+    val selectLanguageSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
     )
+
+    if (state.isLanguageSelectorOpen) {
+        SelectLanguageBottomSheet(
+            windowSizeClass = windowSize,
+            sheetState = selectLanguageSheetState,
+            selectedLanguage = state.selectedLanguage,
+            onLanguageSelected = { language ->
+                onAction(WelcomeViewModel.Action.SelectLanguage(language))
+            },
+            onDismissRequest = {
+                onAction(WelcomeViewModel.Action.OpenCloseLanguageSelector(false))
+            }
+        )
+    }
 }
 
 @Composable
 fun WelcomeContent(
     windowSize: WindowWidthSizeClass,
+    state: WelcomeViewModel.State,
+    onAction: (WelcomeViewModel.Action) -> Unit,
     goToSelectVaultType: () -> Unit
 ) {
     val animatedBackgroundBlurScale = remember {
@@ -121,6 +184,13 @@ fun WelcomeContent(
                     }
                 )
         ) {
+            LanguageSelectionButton(
+                modifier = Modifier
+                    .align(Alignment.TopEnd),
+                state = state,
+                animatedContentAlpha = animatedContentAlpha,
+                onAction = onAction::invoke
+            )
             LogoSection(
                 modifier = Modifier
                     .align(Alignment.Center),
@@ -136,6 +206,35 @@ fun WelcomeContent(
                 windowSize = windowSize,
                 animatedContentAlpha = animatedContentAlpha,
                 goToSelectVaultType = goToSelectVaultType
+            )
+        }
+    }
+}
+
+@Composable
+private fun LanguageSelectionButton(
+    modifier: Modifier,
+    state: WelcomeViewModel.State,
+    animatedContentAlpha: Animatable<Float, AnimationVector1D>,
+    onAction: (WelcomeViewModel.Action) -> Unit
+) {
+    state.selectedLanguage?.let {
+        Surface(
+            modifier = modifier
+                .statusBarsPadding()
+                .padding(Size16)
+                .size(Size32)
+                .alpha(animatedContentAlpha.value * Percent80)
+                .clip(RoundedCornerShape(percent = Percent50i))
+                .bounceClick()
+                .clickable {
+                    onAction(WelcomeViewModel.Action.OpenCloseLanguageSelector(true))
+                },
+        ) {
+            Image(
+                painter = painterResource(state.selectedLanguage.typeFlagDrawableResource),
+                contentDescription = "Language selection",
+                contentScale = ContentScale.Crop
             )
         }
     }

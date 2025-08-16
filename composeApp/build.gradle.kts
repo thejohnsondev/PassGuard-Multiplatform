@@ -57,6 +57,7 @@ kotlin {
             api(project(":core:common"))
             api(project(":core:database"))
             api(project(":core:datastore"))
+            api(project(":core:localization"))
             api(project(":core:model"))
             api(project(":core:network"))
             api(project(":core:platform"))

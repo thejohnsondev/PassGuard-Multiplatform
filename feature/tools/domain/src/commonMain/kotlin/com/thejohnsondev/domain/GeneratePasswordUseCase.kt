@@ -1,14 +1,14 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.domain.repo.PasswordGenerationRepository
 import com.thejohnsondev.model.tools.PasswordGeneratedResult
 import com.thejohnsondev.model.tools.PasswordGeneratorConfig
 
 class GeneratePasswordUseCase(
-    private val passwordGenerator: PasswordGenerator
+    private val passwordGenerationRepository: PasswordGenerationRepository
 ) {
     operator fun invoke(config: PasswordGeneratorConfig): PasswordGeneratedResult {
-        return passwordGenerator.generatePassword(
+        return passwordGenerationRepository.generatePassword(
             type = config.type,
             length = config.length,
             includeLower = config.includeLower,

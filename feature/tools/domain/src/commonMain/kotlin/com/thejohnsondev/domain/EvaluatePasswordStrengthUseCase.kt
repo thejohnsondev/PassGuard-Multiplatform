@@ -1,12 +1,12 @@
 package com.thejohnsondev.domain
 
-import com.thejohnsondev.domain.passwordgenerator.PasswordGenerator
+import com.thejohnsondev.domain.repo.PasswordGenerationRepository
 import com.thejohnsondev.model.tools.PasswordStrength
 
 class EvaluatePasswordStrengthUseCase(
-    private val passwordGenerator: PasswordGenerator
+    private val passwordGenerationRepository: PasswordGenerationRepository
 ) {
     operator fun invoke(password: String): PasswordStrength {
-        return passwordGenerator.evaluateStrength(password)
+        return passwordGenerationRepository.evaluateStrength(password)
     }
 }

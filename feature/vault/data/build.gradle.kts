@@ -33,6 +33,7 @@ kotlin {
             api(project(":core:datastore"))
             api(project(":core:database"))
             api(project(":core:network"))
+            api(project(":feature:vault:domain"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 

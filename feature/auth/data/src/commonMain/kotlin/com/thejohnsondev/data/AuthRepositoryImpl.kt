@@ -3,6 +3,7 @@ package com.thejohnsondev.data
 import arrow.core.Either
 import com.thejohnsondev.database.LocalDataSource
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.domain.repo.AuthRepository
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.auth.firebase.FBAuthDeleteAccountBody
 import com.thejohnsondev.model.auth.firebase.FBAuthRequestBody

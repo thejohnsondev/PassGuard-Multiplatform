@@ -9,6 +9,8 @@ modules=(
   ":core:common:test"
   ":core:network:test"
   ":feature:auth:domain:test"
+  ":feature:tools:data:test"
+  ":feature:tools:domain:test"
   ":feature:vault:domain:test"
   ":feature:settings:domain:test"
 )

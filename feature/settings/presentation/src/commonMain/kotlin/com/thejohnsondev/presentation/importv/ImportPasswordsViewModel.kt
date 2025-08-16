@@ -8,7 +8,7 @@ import com.thejohnsondev.domain.DecryptPasswordsListUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.ParsePasswordsCSVUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
-import com.thejohnsondev.domain.PasswordsService
+import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.domain.SelectCSVUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.export.CsvParsingResult

@@ -33,6 +33,7 @@ kotlin {
             api(project(":core:datastore"))
             api(project(":core:database"))
             api(project(":core:network"))
+            api(project(":feature:tools:domain"))
 
             implementation(libs.ktor.serialization.kotlinx.json)
 
@@ -48,6 +49,11 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.encoding)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.arrow.core)
         }
     }
 }

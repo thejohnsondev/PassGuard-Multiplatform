@@ -1,6 +1,7 @@
 package com.thejohnsondev.data
 
 import com.thejohnsondev.datastore.PreferencesDataStore
+import com.thejohnsondev.domain.repo.EncryptionRepository
 import com.thejohnsondev.platform.encryption.EncryptionUtils
 
 class EncryptionRepositoryImpl(

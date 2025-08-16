@@ -1,8 +1,8 @@
 package com.thejohnsondev.domain.di
 
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
-import com.thejohnsondev.domain.AppliedFiltersService
-import com.thejohnsondev.domain.AppliedFiltersServiceImpl
+import com.thejohnsondev.domain.service.AppliedFiltersService
+import com.thejohnsondev.domain.service.AppliedFiltersServiceImpl
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
@@ -16,8 +16,8 @@ import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
 import com.thejohnsondev.domain.ItemFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
-import com.thejohnsondev.domain.PasswordsService
-import com.thejohnsondev.domain.PasswordsServiceImpl
+import com.thejohnsondev.domain.service.PasswordsService
+import com.thejohnsondev.domain.service.PasswordsServiceImpl
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SortOrderChangeUseCase
@@ -33,6 +33,7 @@ import org.koin.dsl.module
 
 val vaultDomainModule = module {
     singleOf(::PasswordsServiceImpl) { bind<PasswordsService>() }
+    singleOf(::AppliedFiltersServiceImpl) { bind<AppliedFiltersService>() }
     single { ToggleOpenedItemUseCase() }
     single { CalculateListSizeUseCase() }
     single { SplitItemsListUseCase() }
@@ -49,7 +50,6 @@ val vaultDomainModule = module {
     single { PasswordsMapToUiModelsUseCase() }
     single { ValidatePasswordModelUseCase() }
     single { FilterItemsUseCase() }
-    singleOf(::AppliedFiltersServiceImpl) { bind<AppliedFiltersService>() }
     single { UpdateSelectedFiltersUseCase() }
     single { GetSelectedFiltersIDsUseCase() }
     single { SortVaultItemsUseCase() }
