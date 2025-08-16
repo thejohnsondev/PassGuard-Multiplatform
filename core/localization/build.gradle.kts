@@ -59,6 +59,3 @@ android {
         disable.add("NullSafeMutableLiveData")
     }
 }
-dependencies {
-    implementation(libs.androidx.ui.text.desktop)
-}

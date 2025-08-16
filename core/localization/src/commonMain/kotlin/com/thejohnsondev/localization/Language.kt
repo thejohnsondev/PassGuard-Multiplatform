@@ -1,7 +1,12 @@
 package com.thejohnsondev.localization
 
+import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
+import vaultmultiplatform.core.ui.generated.resources.country_flag_es
+import vaultmultiplatform.core.ui.generated.resources.country_flag_gb
+import vaultmultiplatform.core.ui.generated.resources.country_flag_ua
 import vaultmultiplatform.core.ui.generated.resources.language_arabic
 import vaultmultiplatform.core.ui.generated.resources.language_bulgarian
 import vaultmultiplatform.core.ui.generated.resources.language_chinese
@@ -33,10 +38,26 @@ import vaultmultiplatform.core.ui.generated.resources.language_swedish
 import vaultmultiplatform.core.ui.generated.resources.language_turkish
 import vaultmultiplatform.core.ui.generated.resources.language_ukrainian
 
-enum class Language(val typeNameStringResource: StringResource, val iso2Code: String) {
-    ENGLISH(typeNameStringResource = ResString.language_english, iso2Code = "en"),
-    SPANISH(typeNameStringResource = ResString.language_spanish, iso2Code = "es"),
-    UKRAINIAN(typeNameStringResource = ResString.language_ukrainian, iso2Code = "uk");
+enum class Language(
+    val typeNameStringResource: StringResource,
+    val typeFlagDrawableResource: DrawableResource,
+    val iso2Code: String
+) {
+    ENGLISH(
+        typeNameStringResource = ResString.language_english,
+        typeFlagDrawableResource = ResDrawable.country_flag_gb,
+        iso2Code = "en"
+    ),
+    SPANISH(
+        typeNameStringResource = ResString.language_spanish,
+        typeFlagDrawableResource = ResDrawable.country_flag_es,
+        iso2Code = "es"
+    ),
+    UKRAINIAN(
+        typeNameStringResource = ResString.language_ukrainian,
+        typeFlagDrawableResource = ResDrawable.country_flag_ua,
+        iso2Code = "uk"
+    );
     // TODO uncomment and add translations before release
 //    GERMAN(typeNameStringResource = ResString.language_german, iso2Code = "de"),
 //    FRENCH(typeNameStringResource =ResString.language_french, iso2Code = "fr"),
@@ -72,7 +93,8 @@ enum class Language(val typeNameStringResource: StringResource, val iso2Code: St
         }
 
         fun fromIso2Code(iso2Code: String?): Language {
-            return entries.firstOrNull { it.iso2Code.equals(iso2Code, ignoreCase = true) } ?: default
+            return entries.firstOrNull { it.iso2Code.equals(iso2Code, ignoreCase = true) }
+                ?: default
         }
     }
 }
