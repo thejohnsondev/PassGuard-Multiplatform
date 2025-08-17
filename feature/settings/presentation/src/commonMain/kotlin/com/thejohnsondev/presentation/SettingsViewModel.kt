@@ -11,6 +11,8 @@ import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
+import com.thejohnsondev.localization.Language
+import com.thejohnsondev.localization.LocalizationUtils
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.Error
 import com.thejohnsondev.model.LoadingState
@@ -39,7 +41,8 @@ class SettingsViewModel(
     private val getBiometricAvailabilityUseCase: GetBiometricAvailabilityUseCase,
     private val isDynamicThemeAvailableUseCase: IsDynamicThemeAvailableUseCase,
     private val isBlockingScreenshotAvailableUseCase: IsBlockingScreenshotAvailableUseCase,
-    private val passwordValidationUseCase: PasswordValidationUseCase
+    private val passwordValidationUseCase: PasswordValidationUseCase,
+    private val localizationUtils: LocalizationUtils
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -95,6 +98,8 @@ class SettingsViewModel(
             is Action.OpenCloseImportPasswords -> openCloseImportPasswords(action.isOpen)
             is Action.OnImportSuccessful -> onImportSuccessful()
             is Action.OnImportError -> onImportError(action.message)
+            is Action.SelectLanguage -> selectLanguage(action.language)
+            is Action.OpenCloseLanguageSelector -> openCloseLanguageSelector(action.isOpen)
         }
     }
 
@@ -107,6 +112,7 @@ class SettingsViewModel(
         val biometricAvailability = getBiometricAvailabilityUseCase()
         val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
         val supportsBlockingScreenshots = isBlockingScreenshotAvailableUseCase()
+        val selectedLanguage = localizationUtils.getSelectedLanguage()
         getSettingsFlowUseCase.invoke().collect { config ->
             _state.update {
                 it.copy(
@@ -114,7 +120,8 @@ class SettingsViewModel(
                     userEmail = userEmail,
                     isBiometricsAvailable = biometricAvailability is BiometricAvailability.Available,
                     supportsDynamicTheming = supportsDynamicTheming,
-                    isBlockingScreenshotsAvailable = supportsBlockingScreenshots
+                    isBlockingScreenshotsAvailable = supportsBlockingScreenshots,
+                    selectedLanguage = selectedLanguage
                 )
             }
         }
@@ -231,6 +238,23 @@ class SettingsViewModel(
         sendEvent(OneTimeEvent.ErrorMessage(message))
     }
 
+    private fun selectLanguage(language: Language) = launch {
+        _state.update {
+            it.copy(
+                selectedLanguage = language
+            )
+        }
+        localizationUtils.setSelectedLanguage(language)
+    }
+
+    private fun openCloseLanguageSelector(isOpen: Boolean) {
+        _state.update {
+            it.copy(
+                isLanguageSelectorOpen = isOpen
+            )
+        }
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -256,6 +280,10 @@ class SettingsViewModel(
         data class OpenCloseImportPasswords(val isOpen: Boolean) : Action()
         data object OnImportSuccessful : Action()
         data class OnImportError(val message: DisplayableMessageValue) : Action()
+        data class OpenCloseLanguageSelector(
+            val isOpen: Boolean
+        ) : Action()
+        data class SelectLanguage(val language: Language) : Action()
     }
 
     data class State(
@@ -277,6 +305,8 @@ class SettingsViewModel(
         val deleteAccountPasswordConfirmValidationState: PasswordValidationState? = null,
         val isExportPasswordsDialogOpened: Boolean = false,
         val isImportPasswordsDialogOpened: Boolean = false,
+        val isLanguageSelectorOpen: Boolean = false,
+        val selectedLanguage: Language? = null,
     )
 
 }
