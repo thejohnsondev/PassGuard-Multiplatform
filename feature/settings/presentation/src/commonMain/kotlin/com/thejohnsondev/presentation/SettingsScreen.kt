@@ -170,6 +170,15 @@ fun SettingsScreen(
             }
         }
     }
+    LaunchedEffect(state.value.selectedLanguage) {
+        setScaffoldConfig(
+            ScaffoldConfig(
+                topAppBarTitle = getString(ResString.settings),
+                topAppBarIcon = Icons.Default.Settings,
+                bottomBarItemIndex = BottomNavItem.Settings.index
+            )
+        )
+    }
 
     SettingsContent(
         state = state.value,
