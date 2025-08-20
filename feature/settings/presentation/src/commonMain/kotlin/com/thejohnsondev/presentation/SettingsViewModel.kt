@@ -112,8 +112,8 @@ class SettingsViewModel(
         val biometricAvailability = getBiometricAvailabilityUseCase()
         val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
         val supportsBlockingScreenshots = isBlockingScreenshotAvailableUseCase()
-        val selectedLanguage = localizationUtils.getSelectedLanguage()
         getSettingsFlowUseCase.invoke().collect { config ->
+            val selectedLanguage = localizationUtils.getSelectedLanguage()
             _state.update {
                 it.copy(
                     settingsConfig = config,
