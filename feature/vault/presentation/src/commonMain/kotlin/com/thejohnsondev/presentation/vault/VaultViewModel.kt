@@ -173,7 +173,8 @@ class VaultViewModel(
         _state.update {
             it.copy(
                 passwordsList = updatePasswordsList,
-                editVaultItemContainer = Pair(true, null)
+                editVaultItemContainer = Pair(true, null),
+                currentOpenedItemId = null
             )
         }
     }
@@ -377,7 +378,7 @@ class VaultViewModel(
         }
     }
 
-    private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, String?>) { // TODO rename to action container, create a class wrapper
+    private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, String?>) {
         _state.update {
             it.copy(deletePasswordPair = deletePasswordPair)
         }
