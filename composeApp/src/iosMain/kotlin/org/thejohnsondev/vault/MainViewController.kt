@@ -3,9 +3,7 @@ package org.thejohnsondev.vault
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +27,7 @@ import org.jetbrains.compose.resources.vectorResource
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
 import org.thejohnsondev.vault.root.Root
+import platform.UIKit.UIColor
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 fun MainViewController(
@@ -65,22 +64,21 @@ fun MainViewController(
     safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
         Root(deviceThemeConfig, route, settings)
     } ?: run {
-        Scaffold { paddingValues ->
-            Surface(
-                modifier = Modifier.fillMaxSize()
-                    .padding(paddingValues),
-                color = Color.Black
-            ) {
-                Box {
-                    Image(
-                        modifier = Modifier.wrapContentSize()
-                            .align(Alignment.Center)
-                            .scale(1.4f),
-                        imageVector = vectorResource(ResDrawable.ic_vault_108_gradient),
-                        contentDescription = null // TODO add content description,
-                    )
-                }
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color.Black
+        ) {
+            Box {
+                Image(
+                    modifier = Modifier.wrapContentSize()
+                        .align(Alignment.Center)
+                        .scale(1.4f),
+                    imageVector = vectorResource(ResDrawable.ic_vault_108_gradient),
+                    contentDescription = null
+                )
             }
         }
     }
+}.apply {
+    view.backgroundColor = UIColor.blackColor()
 }
