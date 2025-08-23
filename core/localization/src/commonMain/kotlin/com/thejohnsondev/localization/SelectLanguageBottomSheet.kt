@@ -36,6 +36,7 @@ import com.thejohnsondev.ui.utils.ResString
 import com.thejohnsondev.ui.utils.applyIf
 import com.thejohnsondev.ui.utils.bounceClick
 import com.thejohnsondev.ui.utils.isCompact
+import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import vaultmultiplatform.core.ui.generated.resources.language_description
@@ -98,14 +99,14 @@ fun SelectLanguageBottomSheet(
                     ) {
                         Image(
                             modifier = Modifier
-                                .padding(Size16)
+                                .padding(start = Size16, vertical = Size16)
                                 .size(Size32)
                                 .clip(RoundedCornerShape(percent = Percent50i)),
                             painter = painterResource(language.typeFlagDrawableResource),
                             contentDescription = stringResource(language.typeNameStringResource)
                         )
                         Text(
-                            modifier = Modifier.padding(Size16),
+                            modifier = Modifier.padding(start = Size16, vertical = Size16),
                             text = stringResource(language.typeNameStringResource),
                             style = MaterialTheme.typography.bodyLarge
                         )

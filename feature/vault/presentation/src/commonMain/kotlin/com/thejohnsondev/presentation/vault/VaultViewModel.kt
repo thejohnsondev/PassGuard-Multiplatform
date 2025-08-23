@@ -2,7 +2,6 @@ package com.thejohnsondev.presentation.vault
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
-import com.thejohnsondev.domain.service.AppliedFiltersService
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
 import com.thejohnsondev.domain.CopyTextUseCase
@@ -12,7 +11,6 @@ import com.thejohnsondev.domain.GetSelectedFiltersIDsUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.ItemFilterChangeUseCase
 import com.thejohnsondev.domain.PasswordsMapToUiModelsUseCase
-import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.domain.SearchItemsUseCase
 import com.thejohnsondev.domain.SortOrderChangeUseCase
 import com.thejohnsondev.domain.SortVaultItemsUseCase
@@ -20,6 +18,8 @@ import com.thejohnsondev.domain.SplitItemsListUseCase
 import com.thejohnsondev.domain.StopModifiedItemAnimUseCase
 import com.thejohnsondev.domain.ToggleOpenedItemUseCase
 import com.thejohnsondev.domain.UpdateSelectedFiltersUseCase
+import com.thejohnsondev.domain.service.AppliedFiltersService
+import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -173,7 +173,7 @@ class VaultViewModel(
         _state.update {
             it.copy(
                 passwordsList = updatePasswordsList,
-                editVaultItemContainer = Pair(true, null)
+                editVaultItemContainer = Pair(true, null),
             )
         }
     }
@@ -272,12 +272,14 @@ class VaultViewModel(
         passwordsService.getUserPasswords().collect { items ->
             withContext(Dispatchers.Default) {
                 val decryptedPasswordDtoList = decryptPasswordsListUseCase(items)
-                val passwordsUiModels = passwordsMapToUiModelsUseCase(
-                    decryptedPasswordDtoList,
-                    currentOpenedItemId = _state.value.currentOpenedItemId
+                val currentOpenedItemId = _state.value.passwordsList.flatten()
+                    .firstOrNull { it.isExpanded }?.id
+                val newPasswordsUiModels = passwordsMapToUiModelsUseCase(
+                    passwordsDto = decryptedPasswordDtoList,
+                    currentOpenedItemId = currentOpenedItemId
                 )
-                prepareToUpdateItemsList(passwordsUiModels)
-                _allPasswordsList.emit(passwordsUiModels)
+                prepareToUpdateItemsList(newPasswordsUiModels)
+                _allPasswordsList.emit(newPasswordsUiModels)
             }
             _state.update {
                 it.copy(
@@ -377,7 +379,7 @@ class VaultViewModel(
         }
     }
 
-    private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, String?>) { // TODO rename to action container, create a class wrapper
+    private fun showHideConfirmDelete(deletePasswordPair: Pair<Boolean, String?>) {
         _state.update {
             it.copy(deletePasswordPair = deletePasswordPair)
         }
@@ -385,15 +387,14 @@ class VaultViewModel(
 
     private fun toggleOpenItem(newOpenedItemId: String?) = launch {
         val updatedList = toggleOpenedItemUseCase(
-            newOpenedItemId,
-            _state.value.passwordsList
+            newOpenedItemId = newOpenedItemId,
+            list = _state.value.passwordsList
         )
         val itemsHeight = calculateListSizeUseCase(updatedList)
         _state.update {
             it.copy(
                 passwordsList = updatedList,
                 listHeight = itemsHeight,
-                currentOpenedItemId = newOpenedItemId
             )
         }
     }
@@ -453,7 +454,6 @@ class VaultViewModel(
         val isScreenCompact: Boolean = false,
         val screenState: ScreenState = ScreenState.None,
         val passwordsList: List<List<PasswordUIModel>> = listOf(emptyList()),
-        val currentOpenedItemId: String? = null,
         val isSearching: Boolean = false,
         val isFiltersOpened: Boolean = false,
         val isSortingOpened: Boolean = false,

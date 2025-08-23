@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import com.thejohnsondev.localization.Language
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.GeneralSettings
@@ -45,10 +46,11 @@ import com.thejohnsondev.model.settings.ThemeBrand
 import com.thejohnsondev.presentation.confirmdelete.DeleteAccountPasswordConfirmDialog
 import com.thejohnsondev.presentation.exportv.ExportPasswordsScreen
 import com.thejohnsondev.presentation.importv.ImportPasswordsScreen
-import com.thejohnsondev.presentation.importv.ImportPasswordsScreenContent
+import com.thejohnsondev.ui.components.CountryFlagItem
 import com.thejohnsondev.ui.components.ExpandableSectionItem
+import com.thejohnsondev.ui.components.HalfColoredCircle
+import com.thejohnsondev.ui.components.MiniSelectableOptionItem
 import com.thejohnsondev.ui.components.SelectableOptionItem
-import com.thejohnsondev.ui.components.SelectableThemeOptionItem
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
@@ -57,6 +59,7 @@ import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size24
+import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size56
 import com.thejohnsondev.ui.designsystem.Size72
@@ -105,6 +108,7 @@ import vaultmultiplatform.core.ui.generated.resources.delete_vault
 import vaultmultiplatform.core.ui.generated.resources.delete_vault_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.ic_export_monochrome
 import vaultmultiplatform.core.ui.generated.resources.ic_import_monochrome
+import vaultmultiplatform.core.ui.generated.resources.language
 import vaultmultiplatform.core.ui.generated.resources.logout
 import vaultmultiplatform.core.ui.generated.resources.logout_confirm_message
 import vaultmultiplatform.core.ui.generated.resources.manage_account
@@ -155,6 +159,7 @@ fun SettingsScreen(
                         imageVector = Icons.Default.Error
                     )
                 )
+
                 is OneTimeEvent.InfoMessage -> onShowMessage(
                     MessageContent(
                         message = it.message.getAsText(),
@@ -164,6 +169,15 @@ fun SettingsScreen(
                 )
             }
         }
+    }
+    LaunchedEffect(state.value.selectedLanguage) {
+        setScaffoldConfig(
+            ScaffoldConfig(
+                topAppBarTitle = getString(ResString.settings),
+                topAppBarIcon = Icons.Default.Settings,
+                bottomBarItemIndex = BottomNavItem.Settings.index
+            )
+        )
     }
 
     SettingsContent(
@@ -478,6 +492,36 @@ fun GeneralSettingsSubSection(
                 )
             )
         }
+        Text(
+            modifier = Modifier.padding(vertical = Size8),
+            text = stringResource(ResString.language),
+            style = MaterialTheme.typography.titleLarge
+        )
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState()),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Language.entries.forEach { language ->
+                MiniSelectableOptionItem(
+                    modifier = Modifier
+                        .padding(
+                            start = Size4,
+                            end = Size4,
+                        ),
+                    optionTitle = stringResource(language.typeNameStringResource),
+                    isSelected = state.selectedLanguage == language,
+                    optionContent = {
+                        CountryFlagItem(
+                            modifier = Modifier
+                                .size(Size36),
+                            flagDrawableResource = language.typeFlagDrawableResource
+                        )
+                    }
+                ) {
+                    onAction(SettingsViewModel.Action.SelectLanguage(language))
+                }
+            }
+        }
     }
 }
 
@@ -569,7 +613,19 @@ fun StyleSettingsSubSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ThemeBrand.entries.forEachIndexed { index, theme ->
-                SelectableThemeOptionItem(
+                val color = when (theme) {
+                    ThemeBrand.DEFAULT -> DefaultSelectableItemColors
+                    ThemeBrand.TEAL -> TealSelectableItemColors
+                    ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
+                    ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors()
+                    ThemeBrand.SUNNY -> SunnySelectableItemColors
+                    ThemeBrand.VIOLET -> VioletSelectableItemsColors
+                    ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
+                    else -> DefaultSelectableItemColors
+                }
+                val selectedContainerColor = color.getSelectedContainerColor()
+                val selectedContentColor = color.getSelectedContentColor()
+                MiniSelectableOptionItem(
                     modifier = Modifier
                         .padding(
                             start = if (index == 0) Size16 else Size4,
@@ -588,15 +644,12 @@ fun StyleSettingsSubSection(
                         }
                     ),
                     isSelected = state.settingsConfig?.customTheme == theme,
-                    colors = when (theme) {
-                        ThemeBrand.DEFAULT -> DefaultSelectableItemColors
-                        ThemeBrand.TEAL -> TealSelectableItemColors
-                        ThemeBrand.DEEP_FOREST -> DeepForestSelectableItemColors
-                        ThemeBrand.RED_ALGAE -> RedAlgaeSelectableItemColors()
-                        ThemeBrand.SUNNY -> SunnySelectableItemColors
-                        ThemeBrand.VIOLET -> VioletSelectableItemsColors
-                        ThemeBrand.MONOCHROME -> MonochromeSelectableItemsColors
-                        else -> DefaultSelectableItemColors
+                    optionContent = {
+                        HalfColoredCircle(
+                            modifier = Modifier.size(Size36),
+                            color1 = selectedContainerColor,
+                            color2 = selectedContentColor
+                        )
                     }
                 ) {
                     onAction(SettingsViewModel.Action.UpdateUseDynamicColor(false))
