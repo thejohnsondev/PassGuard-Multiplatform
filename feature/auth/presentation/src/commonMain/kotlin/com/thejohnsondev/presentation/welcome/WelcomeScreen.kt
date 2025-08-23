@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.thejohnsondev.localization.SelectLanguageBottomSheet
+import com.thejohnsondev.ui.components.CountryFlagItem
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.BlurContainer
 import com.thejohnsondev.ui.designsystem.Percent50i
@@ -219,7 +220,7 @@ private fun LanguageSelectionButton(
     onAction: (WelcomeViewModel.Action) -> Unit
 ) {
     state.selectedLanguage?.let {
-        Surface(
+        CountryFlagItem(
             modifier = modifier
                 .statusBarsPadding()
                 .padding(Size16)
@@ -230,13 +231,8 @@ private fun LanguageSelectionButton(
                 .clickable {
                     onAction(WelcomeViewModel.Action.OpenCloseLanguageSelector(true))
                 },
-        ) {
-            Image(
-                painter = painterResource(state.selectedLanguage.typeFlagDrawableResource),
-                contentDescription = "Language selection",
-                contentScale = ContentScale.Crop
-            )
-        }
+            state.selectedLanguage.typeFlagDrawableResource
+        )
     }
 }
 

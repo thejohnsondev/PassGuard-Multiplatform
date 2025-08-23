@@ -336,7 +336,6 @@ fun VaultItemsList(
             CompactScreenList(
                 state = state,
                 lazyListState = lazyListState,
-                windowSizeClass = windowSizeClass,
                 topPadding = topPadding,
                 bottomPadding = bottomPadding,
                 onAction = onAction
@@ -345,7 +344,6 @@ fun VaultItemsList(
             LargeScreenList(
                 state = state,
                 lazyListState = lazyListState,
-                windowSizeClass = windowSizeClass,
                 topPadding = topPadding,
                 bottomPadding = bottomPadding,
                 onAction = onAction
@@ -358,7 +356,6 @@ fun VaultItemsList(
 private fun CompactScreenList(
     state: VaultViewModel.State,
     lazyListState: LazyListState,
-    windowSizeClass: WindowWidthSizeClass,
     topPadding: Dp,
     bottomPadding: Dp,
     onAction: (VaultViewModel.Action) -> Unit,
@@ -374,7 +371,6 @@ private fun CompactScreenList(
                 modifier = Modifier.fillMaxWidth()
                     .padding(start = Size8, end = Size8, top = Size8, bottom = Size16),
                 state = state,
-                windowSizeClass = windowSizeClass,
                 isDeepSearchEnabled = state.isDeepSearchEnabled,
                 onAction = onAction
             )
@@ -411,7 +407,6 @@ private fun CompactScreenList(
 private fun LargeScreenList(
     state: VaultViewModel.State,
     lazyListState: LazyListState,
-    windowSizeClass: WindowWidthSizeClass,
     topPadding: Dp,
     bottomPadding: Dp,
     onAction: (VaultViewModel.Action) -> Unit,
@@ -426,7 +421,6 @@ private fun LargeScreenList(
                         start = Size16, end = Size16, top = topPadding.plus(Size8), bottom = Size16
                     ),
                 state = state,
-                windowSizeClass = windowSizeClass,
                 isDeepSearchEnabled = state.isDeepSearchEnabled,
                 onAction = onAction
             )
@@ -516,7 +510,6 @@ private fun BindPasswordItem(
 fun SearchBarRow(
     modifier: Modifier = Modifier,
     state: VaultViewModel.State,
-    windowSizeClass: WindowWidthSizeClass,
     isDeepSearchEnabled: Boolean,
     onAction: (VaultViewModel.Action) -> Unit,
 ) {
@@ -578,13 +571,7 @@ fun Filters(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                modifier = Modifier.padding(start = Size16, bottom = Size8),
-                text = stringResource(ResString.filters),
-                style = MaterialTheme.typography.titleLarge,
-                fontFamily = getGlobalFontFamily(),
-                color = MaterialTheme.colorScheme.onSurface,
-            )/*FilterGroup(  // TODO commented before implementation of other filters
+            /*FilterGroup(  // TODO commented before implementation of other filters
                 modifier = Modifier
                     .wrapContentWidth(),
                 filters = state.itemTypeFilters,

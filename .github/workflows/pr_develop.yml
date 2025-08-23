@@ -27,18 +27,23 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Update auth secrets
+      - name: Create Secret Files
         env:
           AUTH_SECRET_IV: ${{ secrets.AUTH_SECRET_IV }}
           AUTH_SECRET_KEY: ${{ secrets.AUTH_SECRET_KEY }}
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           LOGO_API_KEY: ${{ secrets.LOGO_API_KEY }}
+          GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
         run: |
           cat <<EOF > local.properties
           auth_secret_key=$AUTH_SECRET_KEY
           auth_secret_iv=$AUTH_SECRET_IV
           firebase_api_key=$FIREBASE_API_KEY
           logo_api_key=$LOGO_API_KEY
+          EOF
+
+          cat <<EOF > composeApp/google-services.json
+          $GOOGLE_SERVICES_JSON_CONTENT
           EOF
 
       - name: Create BuildKonfig
