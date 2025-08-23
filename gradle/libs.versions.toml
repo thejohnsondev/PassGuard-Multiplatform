@@ -1,7 +1,7 @@
 # Project-specific versions
 [versions]
-versionName = "1.0.3"
-versionCode = "3"
+versionName = "1.0.4"
+versionCode = "4"
 
 # Android Gradle Plugin (AGP)
 agp = "8.7.3"
