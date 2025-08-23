@@ -20,5 +20,6 @@ captures
 /node_modules/
 /composeApp/settings.preferences_pb
 /keystore.jks
+/keystore_data.txt
 
 /composeApp/google-services.json
