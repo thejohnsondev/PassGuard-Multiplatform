@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -12,9 +13,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-
-    macosX64()
-    macosArm64()
 
     jvm("desktop")
 
@@ -29,9 +27,29 @@ kotlin {
         }
     }
 
+    cocoapods {
+        summary = "Analytics module"
+        version = "1.0"
+        ios.deploymentTarget = "13.0"
+
+        framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+
+        pod("PostHog") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
+    }
+
     sourceSets {
         androidMain.dependencies {
-
+            implementation(libs.posthog.android)
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.posthog.java)
+            }
         }
         commonMain.dependencies {
             implementation(libs.ktor.serialization.kotlinx.json)
