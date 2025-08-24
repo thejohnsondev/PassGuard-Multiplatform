@@ -4,4 +4,6 @@ import org.thejohnsondev.common.BuildKonfig
 
 object BuildKonfigProvider {
     fun getAppType(): String = BuildKonfig.APP_TYPE
+    fun getPosthogApiKey(): String = BuildKonfig.POST_HOG_API_KEY
+    fun getPosthogHost(): String = BuildKonfig.POST_HOG_HOST
 }

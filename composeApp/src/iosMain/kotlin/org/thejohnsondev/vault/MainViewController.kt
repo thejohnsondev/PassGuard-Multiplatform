@@ -14,7 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.ComposeUIViewController
+import com.thejohnsondev.analytics.Analytics
+import com.thejohnsondev.analytics.posthog.PosthogAnalyticsConfig
+import com.thejohnsondev.analytics.posthog.PosthogAnalyticsPlatform
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
@@ -34,7 +38,8 @@ fun MainViewController(
     platformDependency: PlatformDependency
 ) = ComposeUIViewController(
     configure = {
-        KoinInitializer(platformDependency).init()
+        initKoin(platformDependency)
+        initAnalytics()
     }
 ) {
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
@@ -81,4 +86,19 @@ fun MainViewController(
     }
 }.apply {
     view.backgroundColor = UIColor.blackColor()
+}
+
+private fun initKoin(platformDependency: PlatformDependency) {
+    KoinInitializer(
+        platformDependency = platformDependency
+    ).init()
+}
+
+private fun initAnalytics() {
+    val config = PosthogAnalyticsConfig(
+        apiKey = BuildKonfigProvider.getPosthogApiKey(),
+        host = BuildKonfigProvider.getPosthogHost()
+    )
+    val platform = PosthogAnalyticsPlatform()
+    Analytics.init(config, platform)
 }

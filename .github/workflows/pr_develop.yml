@@ -34,12 +34,16 @@ jobs:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           LOGO_API_KEY: ${{ secrets.LOGO_API_KEY }}
           GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          POST_HOG_API_KEY: ${{ secrets.POST_HOG_API_KEY }}
+          POST_HOG_HOST: ${{ secrets.POST_HOG_HOST }}
         run: |
           cat <<EOF > local.properties
           auth_secret_key=$AUTH_SECRET_KEY
           auth_secret_iv=$AUTH_SECRET_IV
           firebase_api_key=$FIREBASE_API_KEY
           logo_api_key=$LOGO_API_KEY
+          post_hog_api_key=$POST_HOG_API_KEY
+          post_hog_host=$POST_HOG_HOST
           EOF
 
           cat <<EOF > composeApp/google-services.json

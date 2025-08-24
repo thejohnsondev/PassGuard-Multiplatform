@@ -129,6 +129,16 @@ buildkonfig {
             "APP_TYPE",
             AppType.REAL.name
         )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "POST_HOG_API_KEY",
+            localProperties["post_hog_api_key"]?.toString() ?: ""
+        )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "POST_HOG_HOST",
+            localProperties["post_hog_host"]?.toString() ?: ""
+        )
     }
 
 }

@@ -13,11 +13,15 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.thejohnsondev.analytics.Analytics
+import com.thejohnsondev.analytics.posthog.PosthogAnalyticsConfig
+import com.thejohnsondev.analytics.posthog.PosthogAnalyticsPlatform
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_WIDTH
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
@@ -42,10 +46,9 @@ import vaultmultiplatform.core.ui.generated.resources.ic_vault_24_gradient
 import java.awt.Dimension
 
 fun main() = application {
-    val platformDependency: PlatformDependency = remember {
-        DesktopPlatformDependency()
-    }
-    KoinInitializer(platformDependency = platformDependency).init()
+    initKoin()
+    initAnalytics()
+
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
         getKoin().get()
     }
@@ -128,4 +131,22 @@ fun AdaptiveWindow(
 private suspend fun applySelectedLanguage(localizationUtils: LocalizationUtils) {
     val selectedLanguage = localizationUtils.getSelectedLanguage()
     localizationUtils.setSelectedLanguage(selectedLanguage)
+}
+
+@Composable
+private fun initKoin() {
+    LaunchedEffect(Unit) {
+        val platformDependency: PlatformDependency = DesktopPlatformDependency()
+        KoinInitializer(platformDependency = platformDependency).init()
+    }
+}
+
+@Composable
+private fun initAnalytics() {
+    val config = PosthogAnalyticsConfig(
+        apiKey = BuildKonfigProvider.getPosthogApiKey(),
+        host = BuildKonfigProvider.getPosthogHost()
+    )
+    val platform = PosthogAnalyticsPlatform()
+    Analytics.init(config, platform)
 }
