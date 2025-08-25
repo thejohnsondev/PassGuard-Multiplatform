@@ -134,8 +134,6 @@ private suspend fun applySelectedLanguage(localizationUtils: LocalizationUtils) 
 
 @Composable
 private fun initKoin() {
-    LaunchedEffect(Unit) {
-        val platformDependency: PlatformDependency = DesktopPlatformDependency()
-        KoinInitializer(platformDependency = platformDependency).init()
-    }
+    val platformDependency: PlatformDependency = DesktopPlatformDependency()
+    KoinInitializer(platformDependency = platformDependency).init()
 }

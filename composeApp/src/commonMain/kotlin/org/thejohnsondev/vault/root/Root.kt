@@ -63,6 +63,7 @@ private fun initAnalytics() {
         apiKey = BuildKonfigProvider.getPosthogApiKey(),
         host = BuildKonfigProvider.getPosthogHost()
     )
+    Logger.d("Initializing analytics")
     Analytics.init(config, platform)
 }
 
