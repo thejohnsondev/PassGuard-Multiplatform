@@ -47,7 +47,6 @@ import java.awt.Dimension
 
 fun main() = application {
     initKoin()
-    initAnalytics()
 
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
         getKoin().get()
@@ -139,14 +138,4 @@ private fun initKoin() {
         val platformDependency: PlatformDependency = DesktopPlatformDependency()
         KoinInitializer(platformDependency = platformDependency).init()
     }
-}
-
-@Composable
-private fun initAnalytics() {
-    val config = PosthogAnalyticsConfig(
-        apiKey = BuildKonfigProvider.getPosthogApiKey(),
-        host = BuildKonfigProvider.getPosthogHost()
-    )
-    val platform = PosthogAnalyticsPlatform()
-    Analytics.init(config, platform)
 }

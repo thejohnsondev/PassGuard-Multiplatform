@@ -13,7 +13,6 @@ class AndroidApp: Application() {
     override fun onCreate() {
         super.onCreate()
         initKoin()
-        initAnalytics()
     }
 
     private fun initKoin() {
@@ -22,15 +21,6 @@ class AndroidApp: Application() {
             context = applicationContext,
             platformDependency = platformDependency
         ).init()
-    }
-
-    private fun initAnalytics() {
-        val config = PosthogAnalyticsConfig(
-            apiKey = BuildKonfigProvider.getPosthogApiKey(),
-            host = BuildKonfigProvider.getPosthogHost()
-        )
-        val platform = PosthogAnalyticsPlatform(this)
-        Analytics.init(config, platform)
     }
 
 }

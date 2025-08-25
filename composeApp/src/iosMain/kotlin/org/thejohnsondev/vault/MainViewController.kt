@@ -39,7 +39,6 @@ fun MainViewController(
 ) = ComposeUIViewController(
     configure = {
         initKoin(platformDependency)
-        initAnalytics()
     }
 ) {
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
@@ -92,13 +91,4 @@ private fun initKoin(platformDependency: PlatformDependency) {
     KoinInitializer(
         platformDependency = platformDependency
     ).init()
-}
-
-private fun initAnalytics() {
-    val config = PosthogAnalyticsConfig(
-        apiKey = BuildKonfigProvider.getPosthogApiKey(),
-        host = BuildKonfigProvider.getPosthogHost()
-    )
-    val platform = PosthogAnalyticsPlatform()
-    Analytics.init(config, platform)
 }
