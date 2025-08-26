@@ -9,8 +9,11 @@ object Analytics {
         platform.initPlatform(config)
     }
 
-    fun trackScreen(name: String, props: Map<String, Any> = emptyMap()) =
-        trackEvent("Screen_$name", props)
+    fun trackScreen(name: String, props: Map<String, Any> = emptyMap()) {
+        platform.trackEventPlatform(name, props.toMutableMap().apply {
+            put("screen_name", name)
+        })
+    }
 
     fun trackEvent(name: String, props: Map<String, Any> = emptyMap()) =
         platform.trackEventPlatform(name, props)

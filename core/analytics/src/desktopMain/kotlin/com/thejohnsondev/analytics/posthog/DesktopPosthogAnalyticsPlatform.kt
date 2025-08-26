@@ -10,17 +10,20 @@ class DesktopPosthogAnalyticsPlatform : AnalyticsPlatform {
 
     private var postHog: PostHog? = null
 
+    @OptIn(ExperimentalUuidApi::class)
+    private val distinctID: String by lazy {
+        Uuid.random().toString() // TODO replace with actual distinct ID logic
+    }
+
     override fun initPlatform(config: AnalyticsConfig) {
         val posthogConfig = config as PosthogAnalyticsConfig
         postHog = PostHog.Builder(posthogConfig.apiKey).host(posthogConfig.host).build()
     }
 
-    @OptIn(ExperimentalUuidApi::class)
     override fun trackEventPlatform(
         name: String,
         props: Map<String, Any>
     ) {
-        val distinctID = Uuid.random().toString() // TODO replace with actual distinct ID logic
         postHog?.capture(distinctID, name, props)
     }
 
