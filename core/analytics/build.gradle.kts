@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -24,21 +23,6 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-        }
-    }
-
-    cocoapods {
-        summary = "Analytics module"
-        version = "1.0"
-        ios.deploymentTarget = "13.0"
-
-        framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-
-        pod("PostHog") {
-            extraOpts += listOf("-compiler-option", "-fmodules")
         }
     }
 
