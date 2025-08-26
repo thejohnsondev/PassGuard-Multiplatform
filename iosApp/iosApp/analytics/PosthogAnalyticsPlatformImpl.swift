@@ -11,7 +11,7 @@ class PosthogAnalyticsPlatformImpl: AnalyticsPlatform {
         PostHogSDK.shared.setup(config)
     }
     
-    func trackEventPlatform(name: String, props: [String: Any]) {
+    func trackEventPlatform(name: String, props: [String: Any], installId: String?) {
         PostHogSDK.shared.capture(name, properties: props)
     }
     

@@ -21,7 +21,8 @@ class AndroidPosthogAnalyticsPlatform(private val context: Context) : AnalyticsP
 
     override fun trackEventPlatform(
         name: String,
-        props: Map<String, Any>
+        props: Map<String, Any>,
+        installId: String?
     ) {
         PostHog.capture(event = name, properties = props)
     }
