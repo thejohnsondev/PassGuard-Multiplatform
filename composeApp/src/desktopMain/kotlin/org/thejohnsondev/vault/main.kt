@@ -13,15 +13,13 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.thejohnsondev.analytics.Analytics
-import com.thejohnsondev.analytics.posthog.PosthogAnalyticsConfig
-import com.thejohnsondev.analytics.posthog.PosthogAnalyticsPlatform
+import com.thejohnsondev.analytics.di.AnalyticsDependency
+import com.thejohnsondev.analytics.di.DesktopAnalyticsDependency
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_WIDTH
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
 import com.thejohnsondev.common.navigation.Routes
-import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
@@ -135,5 +133,9 @@ private suspend fun applySelectedLanguage(localizationUtils: LocalizationUtils) 
 @Composable
 private fun initKoin() {
     val platformDependency: PlatformDependency = DesktopPlatformDependency()
-    KoinInitializer(platformDependency = platformDependency).init()
+    val analyticsDependency: AnalyticsDependency = DesktopAnalyticsDependency()
+    KoinInitializer(
+        platformDependency = platformDependency,
+        analyticsDependency = analyticsDependency
+    ).init()
 }

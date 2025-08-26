@@ -32,6 +32,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             export(project(":core:platform"))
+            export(project(":core:analytics"))
         }
     }
     

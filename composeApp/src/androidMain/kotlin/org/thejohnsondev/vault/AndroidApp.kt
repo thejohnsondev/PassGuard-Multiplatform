@@ -1,14 +1,11 @@
 package org.thejohnsondev.vault
 
 import android.app.Application
-import com.thejohnsondev.analytics.Analytics
-import com.thejohnsondev.analytics.posthog.PosthogAnalyticsConfig
-import com.thejohnsondev.analytics.posthog.PosthogAnalyticsPlatform
-import com.thejohnsondev.common.utils.BuildKonfigProvider
+import com.thejohnsondev.analytics.di.AndroidAnalyticsDependency
 import com.thejohnsondev.platform.di.AndroidPlatformDependency
 import org.thejohnsondev.vault.di.KoinInitializer
 
-class AndroidApp: Application() {
+class AndroidApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -17,9 +14,11 @@ class AndroidApp: Application() {
 
     private fun initKoin() {
         val platformDependency = AndroidPlatformDependency(this)
+        val analyticsDependency = AndroidAnalyticsDependency(this)
         KoinInitializer(
             context = applicationContext,
-            platformDependency = platformDependency
+            platformDependency = platformDependency,
+            analyticsDependency = analyticsDependency
         ).init()
     }
 

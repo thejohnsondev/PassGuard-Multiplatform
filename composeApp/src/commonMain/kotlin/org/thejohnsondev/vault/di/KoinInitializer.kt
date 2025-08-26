@@ -1,6 +1,5 @@
 package org.thejohnsondev.vault.di
 
-import com.thejohnsondev.analytics.di.analyticsModule
 import com.thejohnsondev.common.di.commonModule
 import com.thejohnsondev.data.di.authDataModule
 import com.thejohnsondev.data.di.settingsDataModule
@@ -31,7 +30,6 @@ expect class KoinInitializer {
 
 private val commonModulesList = listOf(
     appModule,
-    analyticsModule,
     commonModule,
     datastoreModule,
     databaseModule,

@@ -10,10 +10,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-actual class PosthogAnalyticsPlatform(private val context: Context) : AnalyticsPlatform {
+class AndroidPosthogAnalyticsPlatform(private val context: Context) : AnalyticsPlatform {
     private val scope = CoroutineScope(Dispatchers.IO)
 
-    actual override fun initPlatform(config: AnalyticsConfig) {
+    override fun initPlatform(config: AnalyticsConfig) {
         scope.launch {
             val posthogConfig = config as PosthogAnalyticsConfig
             val nativeConfig = PostHogAndroidConfig(
@@ -24,7 +24,7 @@ actual class PosthogAnalyticsPlatform(private val context: Context) : AnalyticsP
         }
     }
 
-    actual override fun trackEventPlatform(
+    override fun trackEventPlatform(
         name: String,
         props: Map<String, Any>
     ) {
@@ -33,7 +33,7 @@ actual class PosthogAnalyticsPlatform(private val context: Context) : AnalyticsP
         }
     }
 
-    actual override fun logCrashPlatform(t: Throwable) {
+    override fun logCrashPlatform(t: Throwable) {
         // TODO implement
     }
 }

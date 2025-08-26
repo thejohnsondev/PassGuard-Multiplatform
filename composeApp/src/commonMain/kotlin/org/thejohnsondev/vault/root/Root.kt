@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.thejohnsondev.analytics.Analytics
+import com.thejohnsondev.analytics.AnalyticsPlatform
 import com.thejohnsondev.analytics.posthog.PosthogAnalyticsConfig
-import com.thejohnsondev.analytics.posthog.PosthogAnalyticsPlatform
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.Logger
@@ -58,7 +58,7 @@ private fun initializeLogger() {
 
 
 private fun initAnalytics() {
-    val platform: PosthogAnalyticsPlatform = KoinPlatform.getKoin().get()
+    val platform: AnalyticsPlatform = KoinPlatform.getKoin().get()
     val config = PosthogAnalyticsConfig(
         apiKey = BuildKonfigProvider.getPosthogApiKey(),
         host = BuildKonfigProvider.getPosthogHost()

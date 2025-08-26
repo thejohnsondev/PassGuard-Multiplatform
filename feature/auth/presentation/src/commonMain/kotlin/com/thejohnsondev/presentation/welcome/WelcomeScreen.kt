@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.localization.SelectLanguageBottomSheet
 import com.thejohnsondev.ui.components.CountryFlagItem
 import com.thejohnsondev.ui.components.button.RoundedButton
@@ -94,6 +95,7 @@ fun WelcomeScreen(
 
     LaunchedEffect(Unit) {
         viewModel.perform(WelcomeViewModel.Action.LoadSelectedLanguage)
+        Analytics.trackScreen("Welcome Screen")
     }
 
     CompositionLocalProvider(localLocalization provides state.value.selectedLanguage?.iso2Code) {

@@ -4,10 +4,12 @@ import ComposeApp
 
 struct ComposeView: UIViewControllerRepresentable {
     @State private var iosPlatformDependency: IOSPlatformDependency = IOSPlatformDependency()
+    @State private var iosAnalyticsDependency: IOSAnalyticsDependency = IOSAnalyticsDependency()
     
     func makeUIViewController(context: Context) -> UIViewController {
         let mainComposeVC = MainViewControllerKt.MainViewController(
-            platformDependency: iosPlatformDependency
+            platformDependency: iosPlatformDependency,
+            analyticsDependency: iosAnalyticsDependency
         )
         
         iosPlatformDependency.setPresentingViewController(viewController: mainComposeVC)

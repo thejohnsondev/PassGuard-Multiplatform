@@ -14,11 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.ComposeUIViewController
-import com.thejohnsondev.analytics.Analytics
-import com.thejohnsondev.analytics.posthog.PosthogAnalyticsConfig
-import com.thejohnsondev.analytics.posthog.PosthogAnalyticsPlatform
+import com.thejohnsondev.analytics.di.AnalyticsDependency
 import com.thejohnsondev.common.navigation.Routes
-import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
@@ -35,10 +32,11 @@ import platform.UIKit.UIColor
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 fun MainViewController(
-    platformDependency: PlatformDependency
+    platformDependency: PlatformDependency,
+    analyticsDependency: AnalyticsDependency
 ) = ComposeUIViewController(
     configure = {
-        initKoin(platformDependency)
+        initKoin(platformDependency = platformDependency, analyticsDependency = analyticsDependency)
     }
 ) {
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
@@ -87,8 +85,12 @@ fun MainViewController(
     view.backgroundColor = UIColor.blackColor()
 }
 
-private fun initKoin(platformDependency: PlatformDependency) {
+private fun initKoin(
+    platformDependency: PlatformDependency,
+    analyticsDependency: AnalyticsDependency
+) {
     KoinInitializer(
-        platformDependency = platformDependency
+        platformDependency = platformDependency,
+        analyticsDependency = analyticsDependency
     ).init()
 }
