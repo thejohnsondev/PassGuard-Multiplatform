@@ -19,6 +19,8 @@ import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class AuthRepositoryImpl(
     private val localDataSource: LocalDataSource,
@@ -107,6 +109,16 @@ class AuthRepositoryImpl(
 
     override suspend fun getBiometricAvailability(): BiometricAvailability {
         return biometricAuthenticator.getBiometricAvailability()
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    override suspend fun generateAndSaveInstallId() {
+        val installID = Uuid.random().toString()
+        preferencesDataStore.saveInstallId(installID)
+    }
+
+    override suspend fun getInstallId(): String? {
+        return preferencesDataStore.getInstallId()
     }
 
 }

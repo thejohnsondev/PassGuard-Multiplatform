@@ -2,6 +2,7 @@ package com.thejohnsondev.presentation.welcome
 
 import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.localization.Language
 import com.thejohnsondev.localization.LocalizationUtils
 import com.thejohnsondev.model.ScreenState
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class WelcomeViewModel(
-    private val localizationUtils: LocalizationUtils
+    private val localizationUtils: LocalizationUtils,
+    private val checkInstallIDUseCase: CheckInstallIDUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -27,19 +29,28 @@ class WelcomeViewModel(
 
     fun perform(action: Action) {
         when (action) {
-            is Action.LoadSelectedLanguage -> loadSelectedLanguage()
+            is Action.Setup -> setup()
             is Action.SelectLanguage -> selectLanguage(action.language)
             is Action.OpenCloseLanguageSelector -> openCloseLanguageSelector(action.isOpen)
         }
     }
 
-    private fun loadSelectedLanguage() = launch {
+    private fun setup() = launch {
+        loadSelectedLanguage()
+        checkInstallID()
+    }
+
+    private suspend fun loadSelectedLanguage()  {
         val selectedLanguage = localizationUtils.getSelectedLanguage()
         _state.update {
             it.copy(
                 selectedLanguage = selectedLanguage
             )
         }
+    }
+
+    private suspend fun checkInstallID() {
+        checkInstallIDUseCase()
     }
 
     private fun selectLanguage(language: Language) = launch {
@@ -60,7 +71,7 @@ class WelcomeViewModel(
     }
 
     sealed class Action {
-        data object LoadSelectedLanguage : Action()
+        data object Setup : Action()
         data class OpenCloseLanguageSelector(
             val isOpen: Boolean
         ) : Action()

@@ -35,5 +35,7 @@ interface AuthRepository {
         promptDescription: String?
     ): BiometricAuthResult
     suspend fun getBiometricAvailability(): BiometricAvailability
+    suspend fun generateAndSaveInstallId()
+    suspend fun getInstallId(): String?
 
 }

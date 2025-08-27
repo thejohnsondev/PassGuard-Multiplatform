@@ -41,4 +41,6 @@ interface PreferencesDataStore {
     suspend fun getPasswordGeneratorConfig(): PasswordGeneratorConfig
     suspend fun updateSelectedLanguage(language: String)
     suspend fun getSelectedLanguage(): String
+    suspend fun saveInstallId(installId: String)
+    suspend fun getInstallId(): String?
 }

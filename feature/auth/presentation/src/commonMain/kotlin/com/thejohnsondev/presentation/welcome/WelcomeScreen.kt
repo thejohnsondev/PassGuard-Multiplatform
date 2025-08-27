@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -62,7 +61,6 @@ import com.thejohnsondev.ui.utils.isCompact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.app_name
@@ -94,7 +92,7 @@ fun WelcomeScreen(
     val localLocalization = staticCompositionLocalOf { state.value.selectedLanguage?.iso2Code }
 
     LaunchedEffect(Unit) {
-        viewModel.perform(WelcomeViewModel.Action.LoadSelectedLanguage)
+        viewModel.perform(WelcomeViewModel.Action.Setup)
         Analytics.trackScreen("Welcome Screen")
     }
 
