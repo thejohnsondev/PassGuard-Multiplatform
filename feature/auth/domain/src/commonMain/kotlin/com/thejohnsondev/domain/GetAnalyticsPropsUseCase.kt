@@ -10,7 +10,6 @@ class GetAnalyticsPropsUseCase(
     suspend operator fun invoke(): AnalyticsProps {
         val installID = authRepository.getInstallId()
         val isVaultInitialized = authRepository.isVaultInitialized()
-        val userEmail = authRepository.getUserEmail()
         val darkThemeConfig = authRepository.getDarkThemeConfig()
         val vaultType = authRepository.isVaultLocal()?.let { isVaultLocal ->
             if (isVaultLocal) VaultType.LOCAL else VaultType.CLOUD
@@ -18,7 +17,6 @@ class GetAnalyticsPropsUseCase(
         return AnalyticsProps(
             installID = installID,
             isVaultInitialized = isVaultInitialized,
-            userEmail = userEmail,
             vaultType = vaultType,
             darkThemeConfig = darkThemeConfig
         )

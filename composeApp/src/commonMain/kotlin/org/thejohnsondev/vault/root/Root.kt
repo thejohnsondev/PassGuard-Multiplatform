@@ -67,8 +67,8 @@ private fun initAnalytics(analyticsProps: AnalyticsProps) {
     )
     Logger.d("Initializing analytics with props: $analyticsProps")
     Analytics.apply {
+        // TODO update analytics props when: user logs in/out, changes theme, changes vault type
         setInstallId(analyticsProps.installID)
-        setUserId(analyticsProps.userEmail)
         setAppTheme(analyticsProps.darkThemeConfig.name)
         setVaultType(analyticsProps.vaultType?.name)
         setVaultInitialized(analyticsProps.isVaultInitialized)
