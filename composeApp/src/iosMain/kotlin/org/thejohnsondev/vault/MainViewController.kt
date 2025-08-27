@@ -17,8 +17,10 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.thejohnsondev.analytics.di.AnalyticsDependency
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
+import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
+import com.thejohnsondev.domain.model.AnalyticsProps
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.platform.di.PlatformDependency
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
@@ -48,9 +50,13 @@ fun MainViewController(
     val deviceThemeConfig: DeviceThemeConfig = remember {
         getKoin().get()
     }
+    val getAnalyticsPropsUseCase = remember {
+        getKoin().get<GetAnalyticsPropsUseCase>()
+    }
     val coroutineScope = rememberCoroutineScope()
     val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
     val settingsConfig = remember { mutableStateOf<SettingsConfig?>(null) }
+    val analyticsProps = remember { mutableStateOf<AnalyticsProps?>(null) }
 
     LaunchedEffect(true) {
         coroutineScope.launch {
@@ -61,10 +67,17 @@ fun MainViewController(
                 settingsConfig.value = it
             }
         }
+        coroutineScope.launch {
+            analyticsProps.value = getAnalyticsPropsUseCase()
+        }
     }
 
-    safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
-        Root(deviceThemeConfig, route, settings)
+    safeLet(
+        firstScreenRoute.value,
+        settingsConfig.value,
+        analyticsProps.value
+    ) { route, settings, analyticsProps ->
+        Root(deviceThemeConfig, route, settings, analyticsProps)
     } ?: run {
         Surface(
             modifier = Modifier.fillMaxSize(),

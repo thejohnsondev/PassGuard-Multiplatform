@@ -92,8 +92,8 @@ class PreferencesDataStoreImpl(
         return getSecretKey().isNotEmpty()
     }
 
-    override suspend fun isVaultLocal(): Boolean {
-        return getEmail().isEmpty()
+    override suspend fun isVaultLocal(): Boolean? {
+        return getEmail()?.isEmpty()
     }
 
     override suspend fun clearUserData() {
@@ -119,8 +119,8 @@ class PreferencesDataStoreImpl(
         secureStorage.save(KEY_EMAIL, email)
     }
 
-    override suspend fun getEmail(): String {
-        return secureStorage.read(KEY_EMAIL).orEmpty()
+    override suspend fun getEmail(): String? {
+        return secureStorage.read(KEY_EMAIL)
     }
 
     override suspend fun setCustomTheme(theme: ThemeBrand) {

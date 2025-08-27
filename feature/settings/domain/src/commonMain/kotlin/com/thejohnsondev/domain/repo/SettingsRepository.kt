@@ -16,7 +16,7 @@ interface SettingsRepository {
     suspend fun updateDarkThemeConfig(config: DarkThemeConfig)
     suspend fun updateGeneralSettings(generalSettings: GeneralSettings)
     suspend fun updatePrivacySettings(privacySettings: PrivacySettings)
-    suspend fun getUserEmail(): String
+    suspend fun getUserEmail(): String?
     suspend fun getIsBiometricsAvailability(): BiometricAvailability
     suspend fun getIsDynamicThemeAvailable(): Boolean
     suspend fun getIsBlockScreenshotAvailable(): Boolean

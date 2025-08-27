@@ -16,12 +16,12 @@ interface PreferencesDataStore {
     suspend fun getRefreshAuthToken(): String
     suspend fun saveRefreshAuthToken(token: String)
     suspend fun isVaultInitialized(): Boolean
-    suspend fun isVaultLocal(): Boolean
+    suspend fun isVaultLocal(): Boolean?
     suspend fun clearUserData()
     suspend fun saveSecretKey(key: ByteArray)
     suspend fun getSecretKey(): ByteArray
     suspend fun saveEmail(email: String)
-    suspend fun getEmail(): String
+    suspend fun getEmail(): String?
     suspend fun setCustomTheme(theme: ThemeBrand)
     suspend fun setUseDynamicColor(useDynamicColor: Boolean)
     suspend fun setDarkThemeConfig(config: DarkThemeConfig)

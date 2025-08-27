@@ -2,6 +2,7 @@ package com.thejohnsondev.domain.di
 
 import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.domain.EmailValidateUseCase
+import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetBiometricAvailabilityUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
@@ -15,4 +16,5 @@ val authDomainModule = module {
     single { PasswordValidationUseCase() }
     single { ShowBiometricPromptUseCase(get()) }
     single { CheckInstallIDUseCase(get()) }
+    single { GetAnalyticsPropsUseCase(get()) }
 }

@@ -15,6 +15,7 @@ import com.thejohnsondev.analytics.posthog.PosthogAnalyticsConfig
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.Logger
+import com.thejohnsondev.domain.model.AnalyticsProps
 import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
@@ -29,10 +30,11 @@ fun Root(
     deviceThemeConfig: DeviceThemeConfig,
     firstScreenRoute: Routes,
     settingsConfig: SettingsConfig,
+    analyticsProps: AnalyticsProps
 ) {
     LaunchedEffect(true) {
         initializeLogger()
-        initAnalytics()
+        initAnalytics(analyticsProps)
     }
     val windowSizeClass = calculateWindowSizeClass()
     VaultDefaultTheme(
@@ -57,13 +59,21 @@ private fun initializeLogger() {
 }
 
 
-private fun initAnalytics() {
+private fun initAnalytics(analyticsProps: AnalyticsProps) {
     val platform: AnalyticsPlatform = KoinPlatform.getKoin().get()
     val config = PosthogAnalyticsConfig(
         apiKey = BuildKonfigProvider.getPosthogApiKey(),
         host = BuildKonfigProvider.getPosthogHost()
     )
     Logger.d("Initializing analytics")
+    Logger.d("Initializing analytics with props: $analyticsProps")
+    Analytics.apply {
+        setInstallId(analyticsProps.installID)
+        setUserId(analyticsProps.userEmail)
+        setAppTheme(analyticsProps.darkThemeConfig.name)
+        setVaultType(analyticsProps.vaultType?.name)
+        setVaultInitialized(analyticsProps.isVaultInitialized)
+    }
     Analytics.init(config, platform)
 }
 

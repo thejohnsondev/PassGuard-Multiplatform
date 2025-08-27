@@ -21,8 +21,10 @@ import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
+import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
+import com.thejohnsondev.domain.model.AnalyticsProps
 import com.thejohnsondev.localization.LocalizationUtils
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.platform.di.DesktopPlatformDependency
@@ -58,9 +60,13 @@ fun main() = application {
     val localizationUtils: LocalizationUtils = remember {
         getKoin().get()
     }
+    val getAnalyticsPropsUseCase = remember {
+        getKoin().get<GetAnalyticsPropsUseCase>()
+    }
     val coroutineScope = rememberCoroutineScope()
     val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
     val settingsConfig = remember { mutableStateOf<SettingsConfig?>(null) }
+    val analyticsProps = remember { mutableStateOf<AnalyticsProps?>(null) }
 
     LaunchedEffect(true) {
         coroutineScope.launch {
@@ -70,6 +76,9 @@ fun main() = application {
             getSettingsUseCase.invoke().collect {
                 settingsConfig.value = it
             }
+        }
+        coroutineScope.launch {
+            analyticsProps.value = getAnalyticsPropsUseCase()
         }
         coroutineScope.launch {
             applySelectedLanguage(localizationUtils)
@@ -86,8 +95,12 @@ fun main() = application {
         exitApplication = ::exitApplication,
         windowState = windowState
     ) {
-        safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
-            Root(deviceThemeConfig, route, settings)
+        safeLet(
+            firstScreenRoute.value,
+            settingsConfig.value,
+            analyticsProps.value
+        ) { route, settings, analyticsProps ->
+            Root(deviceThemeConfig, route, settings, analyticsProps)
         } ?: kotlin.run {
             DesktopSplash()
         }

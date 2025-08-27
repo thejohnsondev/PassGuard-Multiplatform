@@ -12,6 +12,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
 import com.thejohnsondev.model.auth.firebase.GRAND_TYPE_REFRESH
+import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.network.vault.RemoteApi
 import com.thejosnsondev.biometric.BiometricAuthResult
 import com.thejosnsondev.biometric.BiometricAuthenticator
@@ -50,7 +51,7 @@ class AuthRepositoryImpl(
         return preferencesDataStore.isVaultInitialized()
     }
 
-    override suspend fun isVaultLocal(): Boolean {
+    override suspend fun isVaultLocal(): Boolean? {
         return preferencesDataStore.isVaultLocal()
     }
 
@@ -73,6 +74,10 @@ class AuthRepositoryImpl(
 
     override suspend fun saveEmail(email: String) {
         preferencesDataStore.saveEmail(email)
+    }
+
+    override suspend fun getUserEmail(): String? {
+        return preferencesDataStore.getEmail()
     }
 
     override suspend fun saveRefreshAuthToken(refreshAuthToken: String) {
@@ -119,6 +124,10 @@ class AuthRepositoryImpl(
 
     override suspend fun getInstallId(): String? {
         return preferencesDataStore.getInstallId()
+    }
+
+    override suspend fun getDarkThemeConfig(): DarkThemeConfig {
+        return preferencesDataStore.getSettingsConfigFlow().first().darkThemeConfig
     }
 
 }

@@ -5,6 +5,7 @@ private const val INSTALL_ID = "distinct_id"
 private const val USER_ID = "person_id"
 private const val APP_THEME = "app_theme"
 private const val VAULT_TYPE = "vault_type"
+private const val IS_VAULT_INITIALIZED = "is_vault_initialized"
 
 object Analytics {
 
@@ -13,6 +14,7 @@ object Analytics {
     private var userId: String? = null
     private var appTheme: String? = null
     private var vaultType: String? = null
+    private var isVaultInitialized: Boolean? = null
 
     fun init(config: AnalyticsConfig, platform: AnalyticsPlatform) {
         this.platform = platform
@@ -34,11 +36,11 @@ object Analytics {
 
     fun logCrash(t: Throwable) = platform.logCrashPlatform(t)
 
-    fun setInstallId(id: String) {
+    fun setInstallId(id: String?) {
         installId = id
     }
 
-    fun setUserId(id: String) {
+    fun setUserId(id: String?) {
         userId = id
     }
 
@@ -46,8 +48,12 @@ object Analytics {
         appTheme = theme
     }
 
-    fun setVaultType(type: String) {
+    fun setVaultType(type: String?) {
         vaultType = type
+    }
+
+    fun setVaultInitialized(initialized: Boolean) {
+        isVaultInitialized = initialized
     }
 
     private fun Map<String, Any>.applyScreenName(name: String): Map<String, Any> {
@@ -58,10 +64,11 @@ object Analytics {
 
     private fun Map<String, Any>.applyCommonProps(): Map<String, Any> {
         val mutableMap = this.toMutableMap()
-        installId?.let { mutableMap[INSTALL_ID] = it }
-        userId?.let { mutableMap[USER_ID] = it }
-        appTheme?.let { mutableMap[APP_THEME] = it }
-        vaultType?.let { mutableMap[VAULT_TYPE] = it }
+        mutableMap[INSTALL_ID] = installId ?: "undefined"
+        mutableMap[USER_ID] = userId ?: "undefined"
+        mutableMap[APP_THEME] = appTheme ?: "undefined"
+        mutableMap[VAULT_TYPE] = vaultType ?: "undefined"
+        mutableMap[IS_VAULT_INITIALIZED] = isVaultInitialized ?: false
         return mutableMap
     }
 
