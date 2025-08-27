@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.repo.AuthService
@@ -141,6 +142,7 @@ class SettingsViewModel(
 
     private fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) = launch {
         updateSettingsUseCase(darkThemeConfig = darkThemeConfig)
+        Analytics.setAppTheme(darkThemeConfig.name)
     }
 
     private fun updateUseCustomTheme(customTheme: ThemeBrand) = launch {
@@ -211,6 +213,8 @@ class SettingsViewModel(
 
     private fun logout() = launch {
         authService.logout()
+        Analytics.setVaultType(null)
+        Analytics.setVaultInitialized(false)
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 

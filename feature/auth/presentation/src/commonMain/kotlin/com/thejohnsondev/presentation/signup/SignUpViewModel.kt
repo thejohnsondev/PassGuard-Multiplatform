@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation.signup
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.combine
 import com.thejohnsondev.domain.repo.AuthService
@@ -11,6 +12,7 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
+import com.thejohnsondev.model.vault.VaultType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -78,6 +80,7 @@ class SignUpViewModel(
         saveUserToken(authResponse)
         saveUserEmail(email)
         generateAndSaveEncryptionKey()
+        Analytics.setVaultType(VaultType.CLOUD.name)
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 

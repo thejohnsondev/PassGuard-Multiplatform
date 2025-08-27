@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.vaulttype
 
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.VAULT_GENERATION_FAKE_TIME_DURATION
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.repo.AuthService
@@ -32,6 +33,7 @@ class SelectedVaultTypeViewModel(
     private fun createLocalVault() = launchLoading {
         authService.generateSecretKey()
         delay(VAULT_GENERATION_FAKE_TIME_DURATION)
+        Analytics.setVaultType(VaultType.LOCAL.name)
         sendEvent(NavigateToHome)
     }
 
