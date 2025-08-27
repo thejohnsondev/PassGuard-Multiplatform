@@ -62,6 +62,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.SCROLL_DOWN_DELAY
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -139,6 +140,16 @@ internal fun AddVaultItemScreen(
     showSuccessMessage: (String) -> Unit,
 ) {
     val state = viewModel.state.collectAsState(AddVaultItemViewModel.State())
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen(
+            if(vaultItem == null) {
+                "Add Vault Item Screen"
+            } else {
+                "Edit Vault Item Screen"
+            }
+        )
+    }
 
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {

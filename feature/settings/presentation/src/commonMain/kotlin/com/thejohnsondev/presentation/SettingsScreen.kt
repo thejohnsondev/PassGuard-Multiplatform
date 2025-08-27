@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.localization.Language
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.settings.DarkThemeConfig
@@ -140,6 +141,11 @@ fun SettingsScreen(
     onShowMessage: (MessageContent) -> Unit,
 ) {
     val state = viewModel.state.collectAsState(SettingsViewModel.State())
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen("Settings Screen")
+    }
+
     LaunchedEffect(true) {
         setScaffoldConfig(
             ScaffoldConfig(

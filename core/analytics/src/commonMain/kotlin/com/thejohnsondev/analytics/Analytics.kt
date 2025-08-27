@@ -13,6 +13,7 @@ object Analytics {
     private var appTheme: String? = null
     private var vaultType: String? = null
     private var isVaultInitialized: Boolean? = null
+    private var log: ((String) -> Unit)? = null
 
     fun init(config: AnalyticsConfig, platform: AnalyticsPlatform) {
         this.platform = platform
@@ -20,6 +21,7 @@ object Analytics {
     }
 
     fun trackScreen(name: String, props: Map<String, Any> = emptyMap()) {
+        log?.invoke("Screen: $name")
         platform.trackEventPlatform(
             name = name,
             props = props
@@ -28,8 +30,14 @@ object Analytics {
         )
     }
 
-    fun trackEvent(name: String, props: Map<String, Any> = emptyMap()) =
+    fun trackEvent(name: String, props: Map<String, Any> = emptyMap()) {
+        log?.invoke("Event: $name, props: $props")
         platform.trackEventPlatform(name = name, props = props.applyCommonProps())
+    }
+
+    fun attachLogger(log: (String) -> Unit) {
+        this.log = log
+    }
 
 
     fun logCrash(t: Throwable) = platform.logCrashPlatform(t)

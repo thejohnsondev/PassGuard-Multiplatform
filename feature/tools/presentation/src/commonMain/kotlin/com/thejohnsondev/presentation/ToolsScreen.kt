@@ -31,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorWidget
@@ -72,6 +73,10 @@ fun ToolsScreen(
     }
     val toolsIcon = vectorResource(ResDrawable.ic_tools)
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen("Tools Screen")
+    }
 
     LaunchedEffect(true) {
         setScaffoldConfig(

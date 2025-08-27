@@ -72,6 +72,9 @@ private fun initAnalytics(analyticsProps: AnalyticsProps) {
         setVaultType(analyticsProps.vaultType?.name)
         setVaultInitialized(analyticsProps.isVaultInitialized)
     }
+    Analytics.attachLogger { message ->
+        Logger.i(message)
+    }
     Analytics.init(config, platform)
 }
 
