@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
+import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
@@ -32,10 +33,12 @@ class MainActivity : FragmentActivity() {
         AndroidActivityProvider.registerActivity(this)
         val getFirstScreenRoute = getKoin().get<GetFirstScreenRouteUseCase>()
         val getSettingsUseCase = getKoin().get<GetSettingsFlowUseCase>()
+        val checkInstallIDUseCase = getKoin().get<CheckInstallIDUseCase>()
         val getAnalyticsPropsUseCase = getKoin().get<GetAnalyticsPropsUseCase>()
         val deviceThemeConfig: DeviceThemeConfig = getKoin().get()
         val firstScreenRoute = mutableStateOf<Routes?>(null)
         val settingsConfig = mutableStateOf<SettingsConfig?>(null)
+        val checkInstallIDResult = mutableStateOf<Boolean?>(null)
         val analyticsProps = mutableStateOf<AnalyticsProps?>(null)
         lifecycleScope.launch {
             firstScreenRoute.value = getFirstScreenRoute()
@@ -48,6 +51,9 @@ class MainActivity : FragmentActivity() {
         }
         lifecycleScope.launch {
             analyticsProps.value = getAnalyticsPropsUseCase()
+        }
+        lifecycleScope.launch {
+            checkInstallIDResult.value = checkInstallIDUseCase()
         }
         splashScreen.setKeepOnScreenCondition {
             firstScreenRoute.value == null || settingsConfig.value == null
@@ -62,8 +68,9 @@ class MainActivity : FragmentActivity() {
             safeLet(
                 firstScreenRoute.value,
                 settingsConfig.value,
-                analyticsProps.value
-            ) { route, settings, analyticsProps ->
+                analyticsProps.value,
+                checkInstallIDResult.value
+            ) { route, settings, analyticsProps, _ ->
                 ApplyCorrectStatusNavBarColor(settings)
                 Root(deviceThemeConfig, route, settings, analyticsProps)
             }

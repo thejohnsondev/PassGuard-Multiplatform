@@ -21,6 +21,7 @@ import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
+import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
@@ -60,12 +61,16 @@ fun main() = application {
     val localizationUtils: LocalizationUtils = remember {
         getKoin().get()
     }
+    val checkInstallIDUseCase = remember {
+        getKoin().get<CheckInstallIDUseCase>()
+    }
     val getAnalyticsPropsUseCase = remember {
         getKoin().get<GetAnalyticsPropsUseCase>()
     }
     val coroutineScope = rememberCoroutineScope()
     val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
     val settingsConfig = remember { mutableStateOf<SettingsConfig?>(null) }
+    val checkInstallIDResult = remember { mutableStateOf<Boolean?>(null) }
     val analyticsProps = remember { mutableStateOf<AnalyticsProps?>(null) }
 
     LaunchedEffect(true) {
@@ -76,6 +81,9 @@ fun main() = application {
             getSettingsUseCase.invoke().collect {
                 settingsConfig.value = it
             }
+        }
+        coroutineScope.launch {
+            checkInstallIDResult.value = checkInstallIDUseCase()
         }
         coroutineScope.launch {
             analyticsProps.value = getAnalyticsPropsUseCase()
@@ -98,8 +106,9 @@ fun main() = application {
         safeLet(
             firstScreenRoute.value,
             settingsConfig.value,
-            analyticsProps.value
-        ) { route, settings, analyticsProps ->
+            analyticsProps.value,
+            checkInstallIDResult.value
+        ) { route, settings, analyticsProps, _ ->
             Root(deviceThemeConfig, route, settings, analyticsProps)
         } ?: kotlin.run {
             DesktopSplash()

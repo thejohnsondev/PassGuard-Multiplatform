@@ -17,6 +17,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.thejohnsondev.analytics.di.AnalyticsDependency
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
+import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
@@ -50,12 +51,16 @@ fun MainViewController(
     val deviceThemeConfig: DeviceThemeConfig = remember {
         getKoin().get()
     }
+    val checkInstallIDUseCase = remember {
+        getKoin().get<CheckInstallIDUseCase>()
+    }
     val getAnalyticsPropsUseCase = remember {
         getKoin().get<GetAnalyticsPropsUseCase>()
     }
     val coroutineScope = rememberCoroutineScope()
     val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
     val settingsConfig = remember { mutableStateOf<SettingsConfig?>(null) }
+    val checkInstallIDResult = remember { mutableStateOf<Boolean?>(null) }
     val analyticsProps = remember { mutableStateOf<AnalyticsProps?>(null) }
 
     LaunchedEffect(true) {
@@ -68,6 +73,9 @@ fun MainViewController(
             }
         }
         coroutineScope.launch {
+            checkInstallIDResult.value = checkInstallIDUseCase()
+        }
+        coroutineScope.launch {
             analyticsProps.value = getAnalyticsPropsUseCase()
         }
     }
@@ -75,8 +83,9 @@ fun MainViewController(
     safeLet(
         firstScreenRoute.value,
         settingsConfig.value,
-        analyticsProps.value
-    ) { route, settings, analyticsProps ->
+        analyticsProps.value,
+        checkInstallIDResult.value
+    ) { route, settings, analyticsProps, _ ->
         Root(deviceThemeConfig, route, settings, analyticsProps)
     } ?: run {
         Surface(

@@ -65,7 +65,6 @@ private fun initAnalytics(analyticsProps: AnalyticsProps) {
         apiKey = BuildKonfigProvider.getPosthogApiKey(),
         host = BuildKonfigProvider.getPosthogHost()
     )
-    Logger.d("Initializing analytics")
     Logger.d("Initializing analytics with props: $analyticsProps")
     Analytics.apply {
         setInstallId(analyticsProps.installID)

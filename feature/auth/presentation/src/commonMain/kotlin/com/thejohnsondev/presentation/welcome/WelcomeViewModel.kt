@@ -13,8 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class WelcomeViewModel(
-    private val localizationUtils: LocalizationUtils,
-    private val checkInstallIDUseCase: CheckInstallIDUseCase
+    private val localizationUtils: LocalizationUtils
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -37,7 +36,6 @@ class WelcomeViewModel(
 
     private fun setup() = launch {
         loadSelectedLanguage()
-        checkInstallID()
     }
 
     private suspend fun loadSelectedLanguage()  {
@@ -47,10 +45,6 @@ class WelcomeViewModel(
                 selectedLanguage = selectedLanguage
             )
         }
-    }
-
-    private suspend fun checkInstallID() {
-        checkInstallIDUseCase()
     }
 
     private fun selectLanguage(language: Language) = launch {
