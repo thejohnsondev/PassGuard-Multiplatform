@@ -1,5 +1,7 @@
 package com.thejohnsondev.domain
 
+import com.thejohnsondev.common.getPlatform
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.domain.model.AnalyticsProps
 import com.thejohnsondev.domain.repo.AuthRepository
 import com.thejohnsondev.model.vault.VaultType
@@ -14,11 +16,15 @@ class GetAnalyticsPropsUseCase(
         val vaultType = authRepository.isVaultLocal()?.let { isVaultLocal ->
             if (isVaultLocal) VaultType.LOCAL else VaultType.CLOUD
         }
+        val appVersion = BuildKonfigProvider.getAppVersion()
+        val platform = getPlatform().name
         return AnalyticsProps(
             installID = installID,
             isVaultInitialized = isVaultInitialized,
             vaultType = vaultType,
-            darkThemeConfig = darkThemeConfig
+            darkThemeConfig = darkThemeConfig,
+            appVersion = appVersion,
+            platform = platform
         )
     }
 }

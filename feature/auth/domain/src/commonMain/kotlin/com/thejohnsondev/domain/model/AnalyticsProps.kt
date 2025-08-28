@@ -7,5 +7,7 @@ data class AnalyticsProps(
     val installID: String?,
     val isVaultInitialized: Boolean,
     val vaultType: VaultType?,
-    val darkThemeConfig: DarkThemeConfig
+    val darkThemeConfig: DarkThemeConfig,
+    val appVersion: String,
+    val platform: String
 )

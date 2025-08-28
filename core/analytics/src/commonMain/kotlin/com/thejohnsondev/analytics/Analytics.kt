@@ -5,6 +5,8 @@ private const val INSTALL_ID = "distinct_id"
 private const val APP_THEME = "app_theme"
 private const val VAULT_TYPE = "vault_type"
 private const val IS_VAULT_INITIALIZED = "is_vault_initialized"
+private const val APP_VERSION = "app_version"
+private const val PLATFORM = "platform"
 
 object Analytics {
 
@@ -13,6 +15,8 @@ object Analytics {
     private var appTheme: String? = null
     private var vaultType: String? = null
     private var isVaultInitialized: Boolean? = null
+    private var appVersion: String? = null
+    private var platformName: String? = null
     private var log: ((String) -> Unit)? = null
 
     fun init(config: AnalyticsConfig, platform: AnalyticsPlatform) {
@@ -57,6 +61,15 @@ object Analytics {
         isVaultInitialized = initialized
     }
 
+    fun setAppVersion(version: String) {
+        appVersion = version
+    }
+
+    fun setPlatform(name: String) {
+        platformName = name
+    }
+
+
     private fun Map<String, Any>.applyScreenName(name: String): Map<String, Any> {
         val mutableMap = this.toMutableMap()
         mutableMap[SCREEN_NAME] = name
@@ -69,6 +82,8 @@ object Analytics {
         mutableMap[APP_THEME] = appTheme ?: "undefined"
         mutableMap[VAULT_TYPE] = vaultType ?: "undefined"
         mutableMap[IS_VAULT_INITIALIZED] = isVaultInitialized ?: false
+        mutableMap[APP_VERSION] = appVersion ?: "undefined"
+        mutableMap[PLATFORM] = platformName ?: "undefined"
         return mutableMap
     }
 

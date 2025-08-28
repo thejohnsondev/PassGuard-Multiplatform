@@ -71,6 +71,8 @@ private fun initAnalytics(analyticsProps: AnalyticsProps) {
         setAppTheme(analyticsProps.darkThemeConfig.name)
         setVaultType(analyticsProps.vaultType?.name)
         setVaultInitialized(analyticsProps.isVaultInitialized)
+        setAppVersion(analyticsProps.appVersion)
+        setPlatform(analyticsProps.platform)
     }
     Analytics.attachLogger { message ->
         Logger.i(message)

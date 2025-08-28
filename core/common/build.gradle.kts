@@ -106,16 +106,6 @@ buildkonfig {
     defaultConfigs {
         buildConfigField(
             FieldSpec.Type.STRING,
-            "AUTH_SECRET_KEY",
-            localProperties["auth_secret_key"]?.toString() ?: ""
-        )
-        buildConfigField(
-            FieldSpec.Type.STRING,
-            "AUTH_SECRET_IV",
-            localProperties["auth_secret_iv"]?.toString() ?: ""
-        )
-        buildConfigField(
-            FieldSpec.Type.STRING,
             "FIREBASE_API_KEY",
             localProperties["firebase_api_key"]?.toString() ?: ""
         )
@@ -128,6 +118,11 @@ buildkonfig {
             FieldSpec.Type.STRING,
             "APP_TYPE",
             AppType.REAL.name
+        )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "APP_VERSION",
+            libs.versions.versionName.get()
         )
         buildConfigField(
             FieldSpec.Type.STRING,
