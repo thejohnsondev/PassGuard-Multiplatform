@@ -15,7 +15,10 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.ComposeUIViewController
 import com.thejohnsondev.analytics.di.AnalyticsDependency
+import com.thejohnsondev.analytics.test.DemoAnalyticsDependency
+import com.thejohnsondev.common.AppType
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
@@ -112,7 +115,26 @@ private fun initKoin(
     analyticsDependency: AnalyticsDependency
 ) {
     KoinInitializer(
-        platformDependency = platformDependency,
-        analyticsDependency = analyticsDependency
+        platformDependency = getAppTypePlatformDependency(platformDependency),
+        analyticsDependency = getAppTypeAnalyticsDependency(analyticsDependency)
     ).init()
+}
+
+private fun getAppTypePlatformDependency(
+    platformDependency: PlatformDependency
+): PlatformDependency {
+    return platformDependency
+}
+
+private fun getAppTypeAnalyticsDependency(
+    analyticsDependency: AnalyticsDependency
+): AnalyticsDependency {
+    return when (AppType.from(BuildKonfigProvider.getAppType())) {
+        AppType.DEMO -> {
+            DemoAnalyticsDependency()
+        }
+        AppType.REAL -> {
+            analyticsDependency
+        }
+    }
 }

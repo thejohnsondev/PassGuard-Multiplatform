@@ -39,7 +39,6 @@ object Analytics {
         this.log = log
     }
 
-
     fun logCrash(t: Throwable) = platform.logCrashPlatform(t)
 
     fun setInstallId(id: String?) {

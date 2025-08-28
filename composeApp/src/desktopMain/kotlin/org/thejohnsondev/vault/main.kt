@@ -15,11 +15,14 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.thejohnsondev.analytics.di.AnalyticsDependency
 import com.thejohnsondev.analytics.di.DesktopAnalyticsDependency
+import com.thejohnsondev.analytics.test.DemoAnalyticsDependency
+import com.thejohnsondev.common.AppType
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_DEFAULT_WIDTH
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_HEIGHT
 import com.thejohnsondev.common.DESKTOP_WINDOW_MIN_WIDTH
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
@@ -154,10 +157,25 @@ private suspend fun applySelectedLanguage(localizationUtils: LocalizationUtils) 
 
 @Composable
 private fun initKoin() {
-    val platformDependency: PlatformDependency = DesktopPlatformDependency()
-    val analyticsDependency: AnalyticsDependency = DesktopAnalyticsDependency()
+    val platformDependency: PlatformDependency = getPlatformDependency()
+    val analyticsDependency: AnalyticsDependency = getAnalyticsDependency()
     KoinInitializer(
         platformDependency = platformDependency,
         analyticsDependency = analyticsDependency
     ).init()
+}
+
+private fun getPlatformDependency(): PlatformDependency {
+    return DesktopPlatformDependency()
+}
+
+private fun getAnalyticsDependency(): AnalyticsDependency {
+    return when (AppType.from(BuildKonfigProvider.getAppType())) {
+        AppType.DEMO -> {
+            DemoAnalyticsDependency()
+        }
+        AppType.REAL -> {
+            DesktopAnalyticsDependency()
+        }
+    }
 }
