@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation.welcome
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.localization.Language
@@ -53,6 +54,9 @@ class WelcomeViewModel(
                 selectedLanguage = language
             )
         }
+        Analytics.trackEvent("selected_language", mapOf(
+            "language" to language.name
+        ))
         localizationUtils.setSelectedLanguage(language)
     }
 

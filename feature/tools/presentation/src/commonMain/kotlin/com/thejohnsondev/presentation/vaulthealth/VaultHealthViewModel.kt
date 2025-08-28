@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation.vaulthealth
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.PASSWORD_AGE_THRESHOLD_DAYS
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.DecryptPasswordsListUseCase
@@ -61,6 +62,13 @@ class VaultHealthViewModel(
         val reusedPasswords = mapToUiModelsUseCase(report.reusedPasswords)
 
 
+        Analytics.trackEvent("generated_vault_health_report", mapOf(
+            "old_passwords" to report.oldPasswords.size,
+            "weak_passwords" to report.weakPasswords.size,
+            "leaked_passwords" to report.leakedPasswords.size,
+            "reused_passwords" to report.reusedPasswords.size,
+            "total_passwords" to decryptedPasswords.size
+        ))
         _state.update {
             it.copy(
                 report = report,

@@ -81,6 +81,7 @@ class SignUpViewModel(
         saveUserEmail(email)
         generateAndSaveEncryptionKey()
         Analytics.setVaultType(VaultType.CLOUD.name)
+        Analytics.trackEvent("created_new_account")
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 

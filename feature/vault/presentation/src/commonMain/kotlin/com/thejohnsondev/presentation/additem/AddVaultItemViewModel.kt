@@ -2,6 +2,7 @@ package com.thejohnsondev.presentation.additem
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
@@ -159,6 +160,15 @@ class AddVaultItemViewModel(
         val encryptedPasswordDto = withContext(Dispatchers.Default) {
             encryptPasswordModelUseCase(passwordDto)
         }
+        Analytics.trackEvent(
+            if (_state.value.isEdit) "edited_password" else "created_password",
+            mapOf(
+                "category" to _state.value.selectedCategory.id,
+                "has_logo" to (state.value.organizationLogo.isNotBlank()).toString(),
+                "strength" to (_state.value.enteredPasswordStrength.toString()),
+                "additional_fields_count" to (_additionalFields.value.size).toString(),
+            )
+        )
         passwordsService.createOrUpdatePassword(encryptedPasswordDto)
         delay(SAVE_ANIMATE_TIME)
         sendEvent(

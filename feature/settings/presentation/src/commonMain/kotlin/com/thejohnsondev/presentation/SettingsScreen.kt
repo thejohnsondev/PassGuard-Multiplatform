@@ -264,7 +264,6 @@ fun SettingsList(
                         .padding(
                             start = Size16,
                             end = Size16,
-
                             bottom = Size4
                         ),
                     state = state,
@@ -321,6 +320,12 @@ fun SettingsSubSections(
         icon = subSection.sectionIcon.getImageVector(),
         isFirstItem = subSectionIndex == 0,
         isLastItem = subSectionIndex == subSectionsNumber - 1,
+        onExpanded = {
+            Analytics.trackEvent("settings_subsection_expanded", mapOf(
+                "subsection" to subSection.sectionTitleRes,
+                "is_expanded" to it
+            ))
+        },
         colors = colors
     ) {
         when (subSection) {

@@ -72,6 +72,7 @@ class LoginViewModel(
         saveUserEmail(email)
         generateAndSaveEncryptionKey()
         Analytics.setVaultType(VaultType.CLOUD.name)
+        Analytics.trackEvent("logged_in_with_email")
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 

@@ -33,6 +33,7 @@ class SelectedVaultTypeViewModel(
     private fun createLocalVault() = launchLoading {
         authService.generateSecretKey()
         delay(VAULT_GENERATION_FAKE_TIME_DURATION)
+        Analytics.trackEvent("created_local_vault")
         Analytics.setVaultType(VaultType.LOCAL.name)
         sendEvent(NavigateToHome)
     }

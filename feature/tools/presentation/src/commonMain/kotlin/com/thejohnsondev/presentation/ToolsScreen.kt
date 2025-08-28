@@ -169,6 +169,7 @@ private fun PasswordGeneratorContainer(
         icon = Icons.Default.Casino,
         isFirstItem = true,
         onExpanded = {
+            Analytics.trackEvent("password_generator_expanded", mapOf("is_expanded" to it))
             isPasswordGeneratorExpanded = it
         },
         colors = ToolSelectableItemColors()
@@ -214,6 +215,7 @@ private fun PasswordHealthContainer(
         icon = Icons.Filled.Favorite,
         isLastItem = true,
         onExpanded = {
+            Analytics.trackEvent("password_health_expanded", mapOf("is_expanded" to it))
             isPasswordHealthExpanded = it
         },
         colors = ToolSelectableItemColors()
