@@ -55,7 +55,7 @@ class SyncManager(
     }
 
     private suspend fun inSkipSync(): Boolean {
-        return preferencesDataStore.isVaultLocal() == true
+        return preferencesDataStore.isVaultLocal()
     }
 
     /** Fetches all remote passwords and updates local storage */

@@ -16,7 +16,7 @@ interface PreferencesDataStore {
     suspend fun getRefreshAuthToken(): String
     suspend fun saveRefreshAuthToken(token: String)
     suspend fun isVaultInitialized(): Boolean
-    suspend fun isVaultLocal(): Boolean?
+    suspend fun isVaultLocal(): Boolean
     suspend fun clearUserData()
     suspend fun saveSecretKey(key: ByteArray)
     suspend fun getSecretKey(): ByteArray

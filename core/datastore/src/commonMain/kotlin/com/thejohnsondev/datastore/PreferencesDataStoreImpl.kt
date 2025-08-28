@@ -92,8 +92,8 @@ class PreferencesDataStoreImpl(
         return getSecretKey().isNotEmpty()
     }
 
-    override suspend fun isVaultLocal(): Boolean? {
-        return getEmail()?.isEmpty()
+    override suspend fun isVaultLocal(): Boolean {
+        return getEmail() == null
     }
 
     override suspend fun clearUserData() {

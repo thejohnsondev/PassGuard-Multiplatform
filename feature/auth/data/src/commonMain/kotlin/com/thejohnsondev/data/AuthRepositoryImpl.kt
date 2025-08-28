@@ -51,7 +51,7 @@ class AuthRepositoryImpl(
         return preferencesDataStore.isVaultInitialized()
     }
 
-    override suspend fun isVaultLocal(): Boolean? {
+    override suspend fun isVaultLocal(): Boolean {
         return preferencesDataStore.isVaultLocal()
     }
 

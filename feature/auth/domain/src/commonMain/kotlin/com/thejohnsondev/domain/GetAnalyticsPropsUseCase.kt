@@ -13,9 +13,7 @@ class GetAnalyticsPropsUseCase(
         val installID = authRepository.getInstallId()
         val isVaultInitialized = authRepository.isVaultInitialized()
         val darkThemeConfig = authRepository.getDarkThemeConfig()
-        val vaultType = authRepository.isVaultLocal()?.let { isVaultLocal ->
-            if (isVaultLocal) VaultType.LOCAL else VaultType.CLOUD
-        }
+        val vaultType = if (authRepository.isVaultLocal()) VaultType.LOCAL else VaultType.CLOUD
         val appVersion = BuildKonfigProvider.getAppVersion()
         val platform = getPlatform().name
         return AnalyticsProps(
