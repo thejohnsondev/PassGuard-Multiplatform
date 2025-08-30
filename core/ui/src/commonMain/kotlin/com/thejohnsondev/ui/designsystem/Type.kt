@@ -8,13 +8,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.Font
-import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Black
-import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Bold
-import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Italic
-import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Light
-import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Medium
-import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Regular
-import vaultmultiplatform.core.ui.generated.resources.AlegreyaSans_Thin
 import vaultmultiplatform.core.ui.generated.resources.Outfit_Black
 import vaultmultiplatform.core.ui.generated.resources.Outfit_Bold
 import vaultmultiplatform.core.ui.generated.resources.Outfit_Light
@@ -23,57 +16,6 @@ import vaultmultiplatform.core.ui.generated.resources.Outfit_Regular
 import vaultmultiplatform.core.ui.generated.resources.Outfit_SemiBold
 import vaultmultiplatform.core.ui.generated.resources.Outfit_Thin
 import vaultmultiplatform.core.ui.generated.resources.Res
-import vaultmultiplatform.core.ui.generated.resources.poppins_black
-import vaultmultiplatform.core.ui.generated.resources.poppins_bold
-import vaultmultiplatform.core.ui.generated.resources.poppins_extra_light
-import vaultmultiplatform.core.ui.generated.resources.poppins_italic
-import vaultmultiplatform.core.ui.generated.resources.poppins_light
-import vaultmultiplatform.core.ui.generated.resources.poppins_medium
-import vaultmultiplatform.core.ui.generated.resources.poppins_regular
-import vaultmultiplatform.core.ui.generated.resources.poppins_semi_bold
-import vaultmultiplatform.core.ui.generated.resources.poppins_thin
-import vaultmultiplatform.core.ui.generated.resources.ubuntu_bold
-import vaultmultiplatform.core.ui.generated.resources.ubuntu_light
-import vaultmultiplatform.core.ui.generated.resources.ubuntu_medium
-import vaultmultiplatform.core.ui.generated.resources.ubuntu_regular
-
-
-@Composable
-fun getPoppinsFontFamily() = FontFamily(
-    Font(Res.font.poppins_regular),
-    Font(Res.font.poppins_medium, weight = FontWeight.Medium),
-    Font(Res.font.poppins_semi_bold, FontWeight.SemiBold),
-    Font(Res.font.poppins_bold, FontWeight.Bold),
-    Font(Res.font.poppins_black, FontWeight.Black),
-    Font(Res.font.poppins_light, FontWeight.Light),
-    Font(Res.font.poppins_thin, FontWeight.Thin),
-    Font(Res.font.poppins_extra_light, FontWeight.ExtraLight),
-    Font(Res.font.poppins_italic, FontWeight.Normal, style = FontStyle.Italic),
-)
-
-@Composable
-fun getUbuntuFontFamily() = FontFamily(
-    Font(Res.font.ubuntu_regular),
-    Font(Res.font.ubuntu_medium, FontWeight.Medium),
-    Font(Res.font.ubuntu_medium, FontWeight.SemiBold),
-    Font(Res.font.ubuntu_bold, FontWeight.Bold),
-    Font(Res.font.ubuntu_bold, FontWeight.Black),
-    Font(Res.font.ubuntu_light, FontWeight.Light),
-    Font(Res.font.ubuntu_light, FontWeight.Thin),
-    Font(Res.font.ubuntu_regular, FontWeight.Normal, style = FontStyle.Italic),
-)
-
-@Composable
-fun getAlegreyaFontFamily() = FontFamily(
-    Font(Res.font.AlegreyaSans_Regular, FontWeight.Normal),
-    Font(Res.font.AlegreyaSans_Medium, FontWeight.Medium),
-    Font(Res.font.AlegreyaSans_Bold, FontWeight.SemiBold),
-    Font(Res.font.AlegreyaSans_Bold, FontWeight.Bold),
-    Font(Res.font.AlegreyaSans_Black, FontWeight.Black),
-    Font(Res.font.AlegreyaSans_Light, FontWeight.Light),
-    Font(Res.font.AlegreyaSans_Thin, FontWeight.Thin),
-    Font(Res.font.AlegreyaSans_Italic, FontWeight.Normal, style = FontStyle.Italic),
-)
 
 @Composable
 fun getOutfitFontFamily() = FontFamily(
