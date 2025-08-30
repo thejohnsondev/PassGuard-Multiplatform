@@ -32,6 +32,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             export(project(":core:platform"))
+            export(project(":core:analytics"))
         }
     }
     
@@ -54,6 +55,7 @@ kotlin {
             implementation(libs.firebase.analytics)
         }
         commonMain.dependencies {
+            api(project(":core:analytics"))
             api(project(":core:common"))
             api(project(":core:database"))
             api(project(":core:datastore"))

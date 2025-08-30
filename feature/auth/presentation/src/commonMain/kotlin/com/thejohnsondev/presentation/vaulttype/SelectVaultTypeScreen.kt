@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.VaultType
@@ -82,6 +83,10 @@ fun SelectVaultTypeScreen(
     goBack: () -> Unit,
 ) {
     val state = viewModel.viewState.collectAsState(SelectedVaultTypeViewModel.State())
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen("Select vault type Screen")
+    }
 
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {

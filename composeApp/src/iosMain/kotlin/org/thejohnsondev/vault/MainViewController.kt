@@ -14,10 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.ComposeUIViewController
+import com.thejohnsondev.analytics.di.AnalyticsDependency
+import com.thejohnsondev.analytics.test.DemoAnalyticsDependency
+import com.thejohnsondev.common.AppType
 import com.thejohnsondev.common.navigation.Routes
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.safeLet
+import com.thejohnsondev.domain.CheckInstallIDUseCase
+import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
+import com.thejohnsondev.domain.model.AnalyticsProps
 import com.thejohnsondev.model.settings.SettingsConfig
 import com.thejohnsondev.platform.di.PlatformDependency
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
@@ -31,10 +38,11 @@ import platform.UIKit.UIColor
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 fun MainViewController(
-    platformDependency: PlatformDependency
+    platformDependency: PlatformDependency,
+    analyticsDependency: AnalyticsDependency
 ) = ComposeUIViewController(
     configure = {
-        KoinInitializer(platformDependency).init()
+        initKoin(platformDependency = platformDependency, analyticsDependency = analyticsDependency)
     }
 ) {
     val getFirstScreenRouteUseCase: GetFirstScreenRouteUseCase = remember {
@@ -46,9 +54,17 @@ fun MainViewController(
     val deviceThemeConfig: DeviceThemeConfig = remember {
         getKoin().get()
     }
+    val checkInstallIDUseCase = remember {
+        getKoin().get<CheckInstallIDUseCase>()
+    }
+    val getAnalyticsPropsUseCase = remember {
+        getKoin().get<GetAnalyticsPropsUseCase>()
+    }
     val coroutineScope = rememberCoroutineScope()
     val firstScreenRoute = remember { mutableStateOf<Routes?>(null) }
     val settingsConfig = remember { mutableStateOf<SettingsConfig?>(null) }
+    val checkInstallIDResult = remember { mutableStateOf<Boolean?>(null) }
+    val analyticsProps = remember { mutableStateOf<AnalyticsProps?>(null) }
 
     LaunchedEffect(true) {
         coroutineScope.launch {
@@ -59,10 +75,21 @@ fun MainViewController(
                 settingsConfig.value = it
             }
         }
+        coroutineScope.launch {
+            checkInstallIDResult.value = checkInstallIDUseCase()
+        }
+        coroutineScope.launch {
+            analyticsProps.value = getAnalyticsPropsUseCase()
+        }
     }
 
-    safeLet(firstScreenRoute.value, settingsConfig.value) { route, settings ->
-        Root(deviceThemeConfig, route, settings)
+    safeLet(
+        firstScreenRoute.value,
+        settingsConfig.value,
+        analyticsProps.value,
+        checkInstallIDResult.value
+    ) { route, settings, analyticsProps, _ ->
+        Root(deviceThemeConfig, route, settings, analyticsProps)
     } ?: run {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -81,4 +108,33 @@ fun MainViewController(
     }
 }.apply {
     view.backgroundColor = UIColor.blackColor()
+}
+
+private fun initKoin(
+    platformDependency: PlatformDependency,
+    analyticsDependency: AnalyticsDependency
+) {
+    KoinInitializer(
+        platformDependency = getAppTypePlatformDependency(platformDependency),
+        analyticsDependency = getAppTypeAnalyticsDependency(analyticsDependency)
+    ).init()
+}
+
+private fun getAppTypePlatformDependency(
+    platformDependency: PlatformDependency
+): PlatformDependency {
+    return platformDependency
+}
+
+private fun getAppTypeAnalyticsDependency(
+    analyticsDependency: AnalyticsDependency
+): AnalyticsDependency {
+    return when (AppType.from(BuildKonfigProvider.getAppType())) {
+        AppType.DEMO -> {
+            DemoAnalyticsDependency()
+        }
+        AppType.REAL -> {
+            analyticsDependency
+        }
+    }
 }

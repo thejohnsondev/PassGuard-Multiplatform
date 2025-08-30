@@ -1,0 +1,3 @@
+package com.thejohnsondev.analytics
+
+interface AnalyticsConfig

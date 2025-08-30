@@ -93,7 +93,7 @@ class PreferencesDataStoreImpl(
     }
 
     override suspend fun isVaultLocal(): Boolean {
-        return getEmail().isEmpty()
+        return getEmail() == null
     }
 
     override suspend fun clearUserData() {
@@ -119,8 +119,8 @@ class PreferencesDataStoreImpl(
         secureStorage.save(KEY_EMAIL, email)
     }
 
-    override suspend fun getEmail(): String {
-        return secureStorage.read(KEY_EMAIL).orEmpty()
+    override suspend fun getEmail(): String? {
+        return secureStorage.read(KEY_EMAIL)
     }
 
     override suspend fun setCustomTheme(theme: ThemeBrand) {
@@ -260,6 +260,14 @@ class PreferencesDataStoreImpl(
         return secureStorage.read(KEY_SELECTED_LANGUAGE).orEmpty()
     }
 
+    override suspend fun saveInstallId(installId: String) {
+        secureStorage.save(KEY_INSTALL_ID, installId)
+    }
+
+    override suspend fun getInstallId(): String? {
+        return secureStorage.read(KEY_INSTALL_ID)
+    }
+
     companion object {
         private const val IDS_SEPARATOR = ","
         private const val KEY_AUTH_TOKEN = "auth_token"
@@ -284,6 +292,7 @@ class PreferencesDataStoreImpl(
         private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_DIGITS = "password-generator-config-include-digits"
         private const val KEY_PASSWORD_GENERATOR_CONFIG_INCLUDE_SPECIAL = "password-generator-config-include-special"
         private const val KEY_SELECTED_LANGUAGE = "selected-language"
+        private const val KEY_INSTALL_ID = "install-id"
     }
 
 }

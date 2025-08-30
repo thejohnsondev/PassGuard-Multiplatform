@@ -1,7 +1,9 @@
 package com.thejohnsondev.presentation.welcome
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
+import com.thejohnsondev.domain.CheckInstallIDUseCase
 import com.thejohnsondev.localization.Language
 import com.thejohnsondev.localization.LocalizationUtils
 import com.thejohnsondev.model.ScreenState
@@ -27,13 +29,17 @@ class WelcomeViewModel(
 
     fun perform(action: Action) {
         when (action) {
-            is Action.LoadSelectedLanguage -> loadSelectedLanguage()
+            is Action.Setup -> setup()
             is Action.SelectLanguage -> selectLanguage(action.language)
             is Action.OpenCloseLanguageSelector -> openCloseLanguageSelector(action.isOpen)
         }
     }
 
-    private fun loadSelectedLanguage() = launch {
+    private fun setup() = launch {
+        loadSelectedLanguage()
+    }
+
+    private suspend fun loadSelectedLanguage()  {
         val selectedLanguage = localizationUtils.getSelectedLanguage()
         _state.update {
             it.copy(
@@ -48,6 +54,9 @@ class WelcomeViewModel(
                 selectedLanguage = language
             )
         }
+        Analytics.trackEvent("selected_language", mapOf(
+            "language" to language.name
+        ))
         localizationUtils.setSelectedLanguage(language)
     }
 
@@ -60,7 +69,7 @@ class WelcomeViewModel(
     }
 
     sealed class Action {
-        data object LoadSelectedLanguage : Action()
+        data object Setup : Action()
         data class OpenCloseLanguageSelector(
             val isOpen: Boolean
         ) : Action()

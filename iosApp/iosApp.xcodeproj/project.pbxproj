@@ -12,6 +12,7 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		CC19F3362D6C8730001184BA /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC19F3352D6C8730001184BA /* SplashScreen.storyboard */; };
+		DD2BE7FC2E5DA0C900A8BF51 /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = DD2BE7FB2E5DA0C900A8BF51 /* PostHog */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		CC8825092D6DC9F500D36C1D /* storage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = storage; sourceTree = "<group>"; };
 		CCAEB4462D6079E800F712EF /* encryption */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = encryption; sourceTree = "<group>"; };
 		CCFD6E9D2D71E8D400E54C91 /* utils */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = utils; sourceTree = "<group>"; };
+		DD2BE7F62E5D99DD00A8BF51 /* analytics */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = analytics; sourceTree = "<group>"; };
 		DD8B69DC2DE4D5DC006F95B3 /* filemanager */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = filemanager; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -39,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD2BE7FC2E5DA0C900A8BF51 /* PostHog in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +85,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				DD2BE7F62E5D99DD00A8BF51 /* analytics */,
 				DD8B69DC2DE4D5DC006F95B3 /* filemanager */,
 				CCFD6E9D2D71E8D400E54C91 /* utils */,
 				CC8825092D6DC9F500D36C1D /* storage */,
@@ -127,10 +131,12 @@
 				CC8825092D6DC9F500D36C1D /* storage */,
 				CCAEB4462D6079E800F712EF /* encryption */,
 				CCFD6E9D2D71E8D400E54C91 /* utils */,
+				DD2BE7F62E5D99DD00A8BF51 /* analytics */,
 				DD8B69DC2DE4D5DC006F95B3 /* filemanager */,
 			);
 			name = iosApp;
 			packageProductDependencies = (
+				DD2BE7FB2E5DA0C900A8BF51 /* PostHog */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* PassGuard.app */;
@@ -162,6 +168,7 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
+				DD2BE7FA2E5DA0C900A8BF51 /* XCRemoteSwiftPackageReference "posthog-ios" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -441,6 +448,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DD2BE7FA2E5DA0C900A8BF51 /* XCRemoteSwiftPackageReference "posthog-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PostHog/posthog-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.30.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DD2BE7FB2E5DA0C900A8BF51 /* PostHog */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD2BE7FA2E5DA0C900A8BF51 /* XCRemoteSwiftPackageReference "posthog-ios" */;
+			productName = PostHog;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7555FF73242A565900829871 /* Project object */;
 }

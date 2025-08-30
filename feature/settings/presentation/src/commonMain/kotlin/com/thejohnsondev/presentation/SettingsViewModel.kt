@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.repo.AuthService
@@ -99,7 +100,6 @@ class SettingsViewModel(
             is Action.OnImportSuccessful -> onImportSuccessful()
             is Action.OnImportError -> onImportError(action.message)
             is Action.SelectLanguage -> selectLanguage(action.language)
-            is Action.OpenCloseLanguageSelector -> openCloseLanguageSelector(action.isOpen)
         }
     }
 
@@ -141,21 +141,38 @@ class SettingsViewModel(
 
     private fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) = launch {
         updateSettingsUseCase(darkThemeConfig = darkThemeConfig)
+        Analytics.trackEvent("updated_dark_theme_config", mapOf(
+            "dark_theme_config" to darkThemeConfig.name
+        ))
+        Analytics.setAppTheme(darkThemeConfig.name)
     }
 
     private fun updateUseCustomTheme(customTheme: ThemeBrand) = launch {
+        Analytics.trackEvent("updated_custom_theme", mapOf(
+            "custom_theme" to customTheme.name
+        ))
         updateSettingsUseCase(themeBrand = customTheme)
     }
 
     private fun updateUseDynamicColor(useDynamicColor: Boolean) = launch {
+        Analytics.trackEvent("toggled_dynamic_color", mapOf(
+            "use_dynamic_color" to useDynamicColor
+        ))
         updateSettingsUseCase(useDynamicColor = useDynamicColor)
     }
 
     private fun updateGeneralSettings(generalSettings: GeneralSettings) = launch {
+        Analytics.trackEvent("updated_general_settings", mapOf(
+            "auto_lock_time" to generalSettings.isDeepSearchEnabled,
+        ))
         updateSettingsUseCase(generalSettings = generalSettings)
     }
 
     private fun updatePrivacySettings(privacySettings: PrivacySettings) = launch {
+        Analytics.trackEvent("updated_privacy_settings", mapOf(
+            "is_block_screenshots_enabled" to privacySettings.isBlockScreenshotsEnabled,
+            "is_biometric_authentication_enabled" to privacySettings.isUnlockWithBiometricEnabled,
+        ))
         updateSettingsUseCase(privacySettings = privacySettings)
     }
 
@@ -176,6 +193,7 @@ class SettingsViewModel(
     }
 
     private fun deleteLocalVault() = launch {
+        Analytics.trackEvent("deleted_local_vault")
         logout()
     }
 
@@ -198,19 +216,26 @@ class SettingsViewModel(
     }
 
     private fun handleDeleteAccountSuccess() = launch {
+        Analytics.trackEvent("deleted_account")
         openDeleteAccountPasswordConfirm(isOpen = false)
         showContent()
         logout()
     }
 
     private fun handleDeleteAccountError(error: Error) = launch {
+        Analytics.trackEvent("delete_account_error", mapOf(
+            "error" to error.toString()
+        ))
         openDeleteAccountPasswordConfirm(isOpen = false)
         showContent()
         handleError(error)
     }
 
     private fun logout() = launch {
+        Analytics.trackEvent("logged_out")
         authService.logout()
+        Analytics.setVaultType(null)
+        Analytics.setVaultInitialized(false)
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 
@@ -219,6 +244,7 @@ class SettingsViewModel(
     }
 
     private fun onExportSuccessful() = launch {
+        Analytics.trackEvent("exported_passwords")
         sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.ExportSuccessful))
     }
 
@@ -231,6 +257,7 @@ class SettingsViewModel(
     }
 
     private fun onImportSuccessful() = launch {
+        Analytics.trackEvent("imported_passwords")
         sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.ImportSuccessful))
     }
 
@@ -244,15 +271,10 @@ class SettingsViewModel(
                 selectedLanguage = language
             )
         }
+        Analytics.trackEvent("selected_language", mapOf(
+            "language" to language.name
+        ))
         localizationUtils.setSelectedLanguage(language)
-    }
-
-    private fun openCloseLanguageSelector(isOpen: Boolean) {
-        _state.update {
-            it.copy(
-                isLanguageSelectorOpen = isOpen
-            )
-        }
     }
 
     sealed class Action {
@@ -280,9 +302,6 @@ class SettingsViewModel(
         data class OpenCloseImportPasswords(val isOpen: Boolean) : Action()
         data object OnImportSuccessful : Action()
         data class OnImportError(val message: DisplayableMessageValue) : Action()
-        data class OpenCloseLanguageSelector(
-            val isOpen: Boolean
-        ) : Action()
         data class SelectLanguage(val language: Language) : Action()
     }
 
@@ -305,7 +324,6 @@ class SettingsViewModel(
         val deleteAccountPasswordConfirmValidationState: PasswordValidationState? = null,
         val isExportPasswordsDialogOpened: Boolean = false,
         val isImportPasswordsDialogOpened: Boolean = false,
-        val isLanguageSelectorOpen: Boolean = false,
         val selectedLanguage: Language? = null,
     )
 

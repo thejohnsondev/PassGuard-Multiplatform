@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation.vault
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.CalculateListSizeUseCase
 import com.thejohnsondev.domain.CheckFiltersAppliedUseCase
@@ -114,6 +115,9 @@ class VaultViewModel(
     }
 
     private fun onCopyClick(text: String, isSensitive: Boolean) = launch {
+        Analytics.trackEvent("copied_password_field", mapOf(
+            "is_sensitive" to isSensitive.toString()
+        ))
         copyTextUseCase(text, isSensitive)
         sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.Copied))
     }
@@ -132,11 +136,17 @@ class VaultViewModel(
         _state.update {
             it.copy(sortOrderFilters = updatedSortOrderFilters)
         }
+        Analytics.trackEvent("applied_sorting_filter", mapOf(
+            "sort_by" to filter.id
+        ))
         saveAppliedFilters()
         prepareToUpdateItemsList(_allPasswordsList.value)
     }
 
     private fun onMarkAsFavoriteClick(passwordId: String, isFavorite: Boolean) = launch {
+        Analytics.trackEvent("toggled_password_favorite", mapOf(
+            "is_favorite" to isFavorite.toString()
+        ))
         passwordsService.updateIsFavorite(passwordId, isFavorite)
     }
 
@@ -157,6 +167,7 @@ class VaultViewModel(
     }
 
     private fun onDeletePasswordClick(passwordId: String) = launch {
+        Analytics.trackEvent("deleted_password")
         passwordsService.deletePassword(passwordId)
     }
 
@@ -232,6 +243,9 @@ class VaultViewModel(
     }
 
     private fun updateShowFavoritesAtTop(isSelected: Boolean) {
+        Analytics.trackEvent("toggled_show_favorites_at_top", mapOf(
+            "is_selected" to isSelected.toString()
+        ))
         _state.update {
             it.copy(
                 showFavoritesAtTopFilter = _state.value.showFavoritesAtTopFilter.copy(isSelected = isSelected)
@@ -309,6 +323,10 @@ class VaultViewModel(
                 isAnyFiltersApplied = isAnyFiltersApplied
             )
         }
+        Analytics.trackEvent("applied_type_filter", mapOf(
+            "type" to filter.id,
+            "is_selected" to isSelected.toString()
+        ))
         saveAppliedFilters()
         prepareToUpdateItemsList(_allPasswordsList.value)
     }
@@ -327,6 +345,10 @@ class VaultViewModel(
                 isAnyFiltersApplied = isAnyFiltersApplied,
             )
         }
+        Analytics.trackEvent("applied_category_filter", mapOf(
+            "category" to filter.id,
+            "is_selected" to isSelected.toString()
+        ))
         saveAppliedFilters()
         prepareToUpdateItemsList(_allPasswordsList.value)
     }
@@ -346,6 +368,9 @@ class VaultViewModel(
 
     private fun toggleFiltersOpened() = launch {
         val newIsFiltersOpenedValue = !_state.value.isFiltersOpened
+        Analytics.trackEvent("toggled_filters_menu", mapOf(
+            "is_opened" to newIsFiltersOpenedValue.toString()
+        ))
         _state.update {
             it.copy(isFiltersOpened = newIsFiltersOpenedValue)
         }
@@ -353,6 +378,9 @@ class VaultViewModel(
     }
 
     private fun toggleSortingOpened() {
+        Analytics.trackEvent("toggled_sorting_menu", mapOf(
+            "is_opened" to (!_state.value.isSortingOpened).toString()
+        ))
         _state.update { it.copy(isSortingOpened = !it.isSortingOpened) }
     }
 
@@ -363,6 +391,10 @@ class VaultViewModel(
         }
         val resultList = searchUseCase(query, isDeepSearchEnabled, _allPasswordsList.value)
         prepareToUpdateItemsList(resultList)
+        Analytics.trackEvent("searched_in_vault", mapOf(
+            "query_length" to query.length.toString(),
+            "is_deep_search_enabled" to isDeepSearchEnabled.toString()
+        ))
         _state.update {
             it.copy(
                 isSearching = true
@@ -372,6 +404,7 @@ class VaultViewModel(
 
     private fun stopSearching() = launch {
         prepareToUpdateItemsList(_allPasswordsList.value)
+        Analytics.trackEvent("stopped_searching_in_vault")
         _state.update {
             it.copy(
                 isSearching = false,
@@ -386,6 +419,14 @@ class VaultViewModel(
     }
 
     private fun toggleOpenItem(newOpenedItemId: String?) = launch {
+        val isCurrentlyOpened = _state.value.passwordsList.flatten()
+            .firstOrNull { it.isExpanded }?.id == newOpenedItemId
+        Analytics.trackEvent(
+            name = if (isCurrentlyOpened) "closed_password_item" else "opened_password_item",
+            props = mapOf(
+                "item_id" to (newOpenedItemId ?: "null")
+            )
+        )
         val updatedList = toggleOpenedItemUseCase(
             newOpenedItemId = newOpenedItemId,
             list = _state.value.passwordsList

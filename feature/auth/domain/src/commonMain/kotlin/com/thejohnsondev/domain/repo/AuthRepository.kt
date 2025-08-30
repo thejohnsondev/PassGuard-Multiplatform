@@ -6,6 +6,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthRequestBody
 import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
+import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejosnsondev.biometric.BiometricAuthResult
 import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,7 @@ interface AuthRepository {
     suspend fun changePassword(oldPassword: String, newPassword: String): Flow<Either<Error, Boolean>>
     suspend fun saveAuthToken(token: String)
     suspend fun saveEmail(email: String)
+    suspend fun getUserEmail(): String?
     suspend fun saveRefreshAuthToken(refreshAuthToken: String)
     suspend fun refreshToken(): Flow<Either<Error, FBRefreshTokenResponseBody>>
     suspend fun isUseBiometrics(): Boolean
@@ -35,5 +37,8 @@ interface AuthRepository {
         promptDescription: String?
     ): BiometricAuthResult
     suspend fun getBiometricAvailability(): BiometricAvailability
+    suspend fun generateAndSaveInstallId()
+    suspend fun getInstallId(): String?
+    suspend fun getDarkThemeConfig(): DarkThemeConfig
 
 }
