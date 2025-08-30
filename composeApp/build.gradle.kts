@@ -146,6 +146,13 @@ android {
             isShrinkResources = false
             manifestPlaceholders["appName"] = appName
             signingConfig = signingConfigs.getByName("debug")
+            postprocessing {
+                isObfuscate = false
+                isOptimizeCode = true
+                isRemoveUnusedCode = true
+                isRemoveUnusedResources = true
+                proguardFile("proguard-rules.pro")
+            }
         }
         getByName("debug") {
             applicationIdSuffix = ".dev"
