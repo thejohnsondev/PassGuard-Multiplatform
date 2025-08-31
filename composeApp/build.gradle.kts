@@ -142,8 +142,6 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
-            isShrinkResources = false
             manifestPlaceholders["appName"] = appName
             signingConfig = signingConfigs.getByName("debug")
             postprocessing {
@@ -158,7 +156,6 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
             manifestPlaceholders["appName"] = "$appName Dev"
-            isMinifyEnabled = false
         }
     }
     compileOptions {
