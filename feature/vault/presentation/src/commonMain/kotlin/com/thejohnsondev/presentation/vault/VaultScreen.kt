@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.PASSWORD_IDLE_ITEM_HEIGHT
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -121,6 +122,10 @@ internal fun VaultScreen(
     val appLogo = vectorResource(getAppLogo())
 
     val isCompact = windowSizeClass.isCompact()
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen("Vault Screen")
+    }
 
     LaunchedEffect(isCompact) {
         vaultViewModel.perform(VaultViewModel.Action.UpdateIsScreenCompact(isCompact))
@@ -201,6 +206,7 @@ private fun Dialogs(
             sheetState = addVaultItemSheetState,
             vaultItem = state.editVaultItemContainer.second,
             onDismissRequest = {
+                Analytics.trackScreen("Vault Screen")
                 onAction(VaultViewModel.Action.OnAddClose)
             },
             showSuccessMessage = {

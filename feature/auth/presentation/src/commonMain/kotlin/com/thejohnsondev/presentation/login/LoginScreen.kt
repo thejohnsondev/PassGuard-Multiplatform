@@ -47,6 +47,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.model.OneTimeEvent
 import com.thejohnsondev.model.ScreenState
@@ -101,6 +102,10 @@ fun LoginScreen(
         SnackbarHostState()
     }
     val isKeyboardOpened by KeyboardManager.keyboardAsState()
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen("Login Screen")
+    }
 
     LaunchedEffect(true) {
         viewModel.getEventFlow().collect {

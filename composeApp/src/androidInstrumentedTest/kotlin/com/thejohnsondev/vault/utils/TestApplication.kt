@@ -1,6 +1,8 @@
 package com.thejohnsondev.vault.utils
 
 import android.app.Application
+import com.thejohnsondev.analytics.di.AnalyticsModuleProvider
+import com.thejohnsondev.analytics.test.DemoAnalyticsDependency
 import com.thejohnsondev.platform.di.AndroidPlatformDependency
 import com.thejohnsondev.platform.di.PlatformModuleProvider
 import org.koin.android.ext.koin.androidContext
@@ -21,7 +23,9 @@ class TestApplication : Application() {
                 modules(
                     demoModules + PlatformModuleProvider(
                         AndroidPlatformDependency(applicationContext)
-                    ).generatePlatformModule()
+                    ).generatePlatformModule() + AnalyticsModuleProvider(
+                        DemoAnalyticsDependency()
+                    ).generateAnalyticsModule()
                 )
             }
         }

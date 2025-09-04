@@ -21,7 +21,7 @@ interface PreferencesDataStore {
     suspend fun saveSecretKey(key: ByteArray)
     suspend fun getSecretKey(): ByteArray
     suspend fun saveEmail(email: String)
-    suspend fun getEmail(): String
+    suspend fun getEmail(): String?
     suspend fun setCustomTheme(theme: ThemeBrand)
     suspend fun setUseDynamicColor(useDynamicColor: Boolean)
     suspend fun setDarkThemeConfig(config: DarkThemeConfig)
@@ -41,4 +41,6 @@ interface PreferencesDataStore {
     suspend fun getPasswordGeneratorConfig(): PasswordGeneratorConfig
     suspend fun updateSelectedLanguage(language: String)
     suspend fun getSelectedLanguage(): String
+    suspend fun saveInstallId(installId: String)
+    suspend fun getInstallId(): String?
 }

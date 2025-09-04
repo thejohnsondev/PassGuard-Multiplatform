@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation.passwordgenerator
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.CopyTextUseCase
 import com.thejohnsondev.domain.GeneratePasswordUseCase
@@ -73,6 +74,7 @@ class PasswordGeneratorViewModel(
 
 
     private fun copy(password: String) {
+        Analytics.trackEvent("copied_generated_password")
         copyTextUseCase(
             text = password,
             isSensitive = true
@@ -128,30 +130,60 @@ class PasswordGeneratorViewModel(
     }
 
     private fun updateIncludeDigits(include: Boolean) = launch {
+        Analytics.trackEvent(
+            name = "toggled_include_digits",
+            props = mapOf(
+                "include" to include
+            )
+        )
         _state.value = state.value.copy(includeDigits = include)
         updateConfig()
         generatePassword()
     }
 
     private fun updateIncludeLower(include: Boolean) = launch {
+        Analytics.trackEvent(
+            name = "toggled_include_lowercase",
+            props = mapOf(
+                "include" to include
+            )
+        )
         _state.value = state.value.copy(includeLower = include)
         updateConfig()
         generatePassword()
     }
 
     private fun updateIncludeSpecial(include: Boolean) = launch {
+        Analytics.trackEvent(
+            name = "toggled_include_special",
+            props = mapOf(
+                "include" to include
+            )
+        )
         _state.value = state.value.copy(includeSpecial = include)
         updateConfig()
         generatePassword()
     }
 
     private fun updateIncludeUpper(include: Boolean) = launch {
+        Analytics.trackEvent(
+            name = "toggled_include_uppercase",
+            props = mapOf(
+                "include" to include
+            )
+        )
         _state.value = state.value.copy(includeUpper = include)
         updateConfig()
         generatePassword()
     }
 
     private fun updateLength(length: Int) = launch {
+        Analytics.trackEvent(
+            name = "changed_password_length",
+            props = mapOf(
+                "length" to length
+            )
+        )
         val previousLength = state.value.length
         _state.value = state.value.copy(length = length, previousLengthValue = previousLength)
         generatePassword()
@@ -159,6 +191,12 @@ class PasswordGeneratorViewModel(
     }
 
     private fun updateType(type: PasswordGenerationType) = launch {
+        Analytics.trackEvent(
+            name = "changed_password_generation_type",
+            props = mapOf(
+                "type" to type.name
+            )
+        )
         _state.value = state.value.copy(type = type)
         updateConfig()
         generatePassword()

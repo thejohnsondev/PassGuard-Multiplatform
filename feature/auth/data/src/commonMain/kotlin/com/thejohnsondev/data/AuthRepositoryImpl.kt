@@ -12,6 +12,7 @@ import com.thejohnsondev.model.auth.firebase.FBAuthSignUpResponse
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenRequestBody
 import com.thejohnsondev.model.auth.firebase.FBRefreshTokenResponseBody
 import com.thejohnsondev.model.auth.firebase.GRAND_TYPE_REFRESH
+import com.thejohnsondev.model.settings.DarkThemeConfig
 import com.thejohnsondev.network.vault.RemoteApi
 import com.thejosnsondev.biometric.BiometricAuthResult
 import com.thejosnsondev.biometric.BiometricAuthenticator
@@ -19,6 +20,8 @@ import com.thejosnsondev.biometric.BiometricAvailability
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class AuthRepositoryImpl(
     private val localDataSource: LocalDataSource,
@@ -73,6 +76,10 @@ class AuthRepositoryImpl(
         preferencesDataStore.saveEmail(email)
     }
 
+    override suspend fun getUserEmail(): String? {
+        return preferencesDataStore.getEmail()
+    }
+
     override suspend fun saveRefreshAuthToken(refreshAuthToken: String) {
         preferencesDataStore.saveRefreshAuthToken(refreshAuthToken)
     }
@@ -107,6 +114,20 @@ class AuthRepositoryImpl(
 
     override suspend fun getBiometricAvailability(): BiometricAvailability {
         return biometricAuthenticator.getBiometricAvailability()
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    override suspend fun generateAndSaveInstallId() {
+        val installID = Uuid.random().toString()
+        preferencesDataStore.saveInstallId(installID)
+    }
+
+    override suspend fun getInstallId(): String? {
+        return preferencesDataStore.getInstallId()
+    }
+
+    override suspend fun getDarkThemeConfig(): DarkThemeConfig {
+        return preferencesDataStore.getSettingsConfigFlow().first().darkThemeConfig
     }
 
 }

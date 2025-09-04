@@ -6,6 +6,6 @@ class GetUserEmailUseCase(
     private val settingsRepository: SettingsRepository
 ) {
     suspend operator fun invoke(): String {
-        return settingsRepository.getUserEmail()
+        return settingsRepository.getUserEmail().orEmpty()
     }
 }

@@ -29,6 +29,7 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":core:analytics")
 include(":core:biometric")
 include(":core:common")
 include(":core:database")

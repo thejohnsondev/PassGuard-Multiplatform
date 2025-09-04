@@ -1,6 +1,7 @@
 package com.thejohnsondev.presentation.login
 
 import androidx.lifecycle.viewModelScope
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.domain.repo.AuthService
 import com.thejohnsondev.domain.EmailValidateUseCase
@@ -10,6 +11,7 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.auth.firebase.FBAuthSignInResponse
 import com.thejohnsondev.model.validation.EmailValidationState
 import com.thejohnsondev.model.validation.PasswordValidationState
+import com.thejohnsondev.model.vault.VaultType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -69,6 +71,8 @@ class LoginViewModel(
         saveUserToken(authResponse)
         saveUserEmail(email)
         generateAndSaveEncryptionKey()
+        Analytics.setVaultType(VaultType.CLOUD.name)
+        Analytics.trackEvent("logged_in_with_email")
         sendEvent(OneTimeEvent.SuccessNavigation())
     }
 

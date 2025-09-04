@@ -37,6 +37,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
+            api(project(":core:analytics"))
             api(project(":core:model"))
             api(project(":core:common"))
             api(project(":core:ui"))

@@ -31,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.EXPAND_ANIM_DURATION
 import com.thejohnsondev.model.DisplayableMessageValue
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorWidget
@@ -72,6 +73,10 @@ fun ToolsScreen(
     }
     val toolsIcon = vectorResource(ResDrawable.ic_tools)
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen("Tools Screen")
+    }
 
     LaunchedEffect(true) {
         setScaffoldConfig(
@@ -164,6 +169,7 @@ private fun PasswordGeneratorContainer(
         icon = Icons.Default.Casino,
         isFirstItem = true,
         onExpanded = {
+            Analytics.trackEvent("password_generator_expanded", mapOf("is_expanded" to it))
             isPasswordGeneratorExpanded = it
         },
         colors = ToolSelectableItemColors()
@@ -209,6 +215,7 @@ private fun PasswordHealthContainer(
         icon = Icons.Filled.Favorite,
         isLastItem = true,
         onExpanded = {
+            Analytics.trackEvent("password_health_expanded", mapOf("is_expanded" to it))
             isPasswordHealthExpanded = it
         },
         colors = ToolSelectableItemColors()

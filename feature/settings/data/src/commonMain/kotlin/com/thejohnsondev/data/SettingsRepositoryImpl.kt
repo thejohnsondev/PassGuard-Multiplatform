@@ -41,7 +41,7 @@ class SettingsRepositoryImpl(
         preferencesDataStore.setPrivacySettings(privacySettings)
     }
 
-    override suspend fun getUserEmail(): String {
+    override suspend fun getUserEmail(): String? {
         return preferencesDataStore.getEmail()
     }
 

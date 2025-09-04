@@ -1,13 +1,15 @@
 # Project-specific versions
 [versions]
-versionName = "1.0.4"
-versionCode = "4"
+posthog = "1.2.0"
+posthogAndroid = "3.19.0"
+versionName = "1.0.6"
+versionCode = "6"
 
 # Android Gradle Plugin (AGP)
 agp = "8.7.3"
 android-compileSdk = "35"
 android-minSdk = "29"
-android-targetSdk = "35"
+android-targetSdk = "36"
 
 # Kotlin and Coroutines
 kotlin = "2.1.21"
@@ -137,6 +139,8 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComp
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
 
 # Data Persistence (SQLDelight & Datastore)
+posthog-java = { module = "com.posthog.java:posthog", version.ref = "posthog" }
+posthog-android = { module = "com.posthog:posthog-android", version.ref = "posthogAndroid" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
@@ -186,3 +190,6 @@ sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 # Build Configuration Plugins
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+
+# CocoaPods Plugin for Kotlin/Native
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
