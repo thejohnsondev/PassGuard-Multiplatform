@@ -9,6 +9,7 @@ import com.thejohnsondev.presentation.biometric.BiometricLoginScreen
 import com.thejohnsondev.presentation.biometric.BiometricLoginViewModel
 import com.thejohnsondev.presentation.login.LoginScreen
 import com.thejohnsondev.presentation.login.LoginViewModel
+import com.thejohnsondev.presentation.onboarding.OnboardingScreen
 import com.thejohnsondev.presentation.signup.SignUpScreen
 import com.thejohnsondev.presentation.signup.SignUpViewModel
 import com.thejohnsondev.presentation.vaulttype.SelectVaultTypeScreen
@@ -52,17 +53,39 @@ fun NavController.navigateToSelectVaultTypeRoute() {
     navigate(Routes.SelectVaultTypeRoute)
 }
 
+fun NavController.navigateToOnboarding() {
+    navigate(Routes.OnboardingRoute) {
+        popUpTo(Routes.WelcomeRoute) {
+            inclusive = true
+        }
+    }
+}
+
 @OptIn(KoinExperimentalAPI::class)
 fun NavGraphBuilder.welcomeScreen(
     windowSize: WindowWidthSizeClass,
-    goToSelectVaultType: () -> Unit
+    goToOnboarding: () -> Unit
 ) {
     composable<Routes.WelcomeRoute> {
         val viewModel = koinViewModel<WelcomeViewModel>()
         WelcomeScreen(
             windowSize = windowSize,
             viewModel = viewModel,
-            goToSelectVaultType = goToSelectVaultType
+            goToOnboarding = goToOnboarding
+        )
+    }
+}
+
+fun NavGraphBuilder.onboardingScreen(
+    windowSizeClass: WindowWidthSizeClass,
+    goToSelectVaultType: () -> Unit,
+    goToHome: () -> Unit,
+) {
+    composable<Routes.OnboardingRoute> {
+        OnboardingScreen(
+            windowWidthSizeClass = windowSizeClass,
+            goToSelectVaultType = goToSelectVaultType,
+            goToHome = goToHome
         )
     }
 }

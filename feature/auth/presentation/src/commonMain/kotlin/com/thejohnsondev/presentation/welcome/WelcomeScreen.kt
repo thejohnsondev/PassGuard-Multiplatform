@@ -86,7 +86,7 @@ private const val CONTENT_ALPHA_ANIM_END = 1f
 fun WelcomeScreen(
     windowSize: WindowWidthSizeClass,
     viewModel: WelcomeViewModel,
-    goToSelectVaultType: () -> Unit
+    goToOnboarding: () -> Unit
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     val localLocalization = staticCompositionLocalOf { state.value.selectedLanguage?.iso2Code }
@@ -101,7 +101,7 @@ fun WelcomeScreen(
             windowSize = windowSize,
             state = state.value,
             onAction = viewModel::perform,
-            goToSelectVaultType = goToSelectVaultType
+            goToOnboarding = goToOnboarding
         )
         BottomSheets(
             windowSize = windowSize,
@@ -143,7 +143,7 @@ fun WelcomeContent(
     windowSize: WindowWidthSizeClass,
     state: WelcomeViewModel.State,
     onAction: (WelcomeViewModel.Action) -> Unit,
-    goToSelectVaultType: () -> Unit
+    goToOnboarding: () -> Unit
 ) {
     val animatedBackgroundBlurScale = remember {
         Animatable(BLUR_SCALE_ANIM_START)
@@ -205,7 +205,7 @@ fun WelcomeContent(
                 paddingValues = paddingValues,
                 windowSize = windowSize,
                 animatedContentAlpha = animatedContentAlpha,
-                goToSelectVaultType = goToSelectVaultType
+                goToOnboarding = goToOnboarding
             )
         }
     }
@@ -241,7 +241,7 @@ private fun ButtonsSection(
     paddingValues: PaddingValues,
     windowSize: WindowWidthSizeClass,
     animatedContentAlpha: Animatable<Float, AnimationVector1D>,
-    goToSelectVaultType: () -> Unit
+    goToOnboarding: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -265,7 +265,7 @@ private fun ButtonsSection(
                 ).alpha(animatedContentAlpha.value),
             text = stringResource(ResString.get_started),
             onClick = {
-                goToSelectVaultType()
+                goToOnboarding()
             },
             contentDescription = "Get Started",
         )

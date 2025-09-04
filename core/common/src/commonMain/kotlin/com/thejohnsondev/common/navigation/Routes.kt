@@ -7,6 +7,9 @@ sealed class Routes {
     data object WelcomeRoute : Routes()
 
     @Serializable
+    data object OnboardingRoute : Routes()
+
+    @Serializable
     data object SelectVaultTypeRoute : Routes()
 
     @Serializable
