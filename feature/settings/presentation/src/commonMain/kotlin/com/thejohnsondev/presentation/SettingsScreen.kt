@@ -322,7 +322,7 @@ fun SettingsSubSections(
         isLastItem = subSectionIndex == subSectionsNumber - 1,
         onExpanded = {
             Analytics.trackEvent("settings_subsection_expanded", mapOf(
-                "subsection" to subSection.sectionTitleRes,
+                "subsection" to subSection.sectionTitleRes.key,
                 "is_expanded" to it
             ))
         },

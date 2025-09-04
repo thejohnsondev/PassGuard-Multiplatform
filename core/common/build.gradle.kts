@@ -94,11 +94,20 @@ enum class AppType {
 buildkonfig {
     packageName = "org.thejohnsondev.common"
 
-    val localPropsFile = rootProject.file("local.properties")
-    val localProperties = Properties()
-    if (localPropsFile.exists()) {
+    val secretsPropsFile = rootProject.file("secrets.properties")
+    val secretsProperties = Properties()
+    if (secretsPropsFile.exists()) {
         runCatching {
-            localProperties.load(localPropsFile.inputStream())
+            secretsProperties.load(secretsPropsFile.inputStream())
+        }.getOrElse {
+            it.printStackTrace()
+        }
+    }
+    val appConfigPropsFile = rootProject.file("appConfig.properties")
+    val appConfigProperties = Properties()
+    if (appConfigPropsFile.exists()) {
+        runCatching {
+            appConfigProperties.load(appConfigPropsFile.inputStream())
         }.getOrElse {
             it.printStackTrace()
         }
@@ -107,17 +116,17 @@ buildkonfig {
         buildConfigField(
             FieldSpec.Type.STRING,
             "FIREBASE_API_KEY",
-            localProperties["firebase_api_key"]?.toString() ?: ""
+            secretsProperties["firebase_api_key"]?.toString() ?: ""
         )
         buildConfigField(
             FieldSpec.Type.STRING,
             "LOGO_API_KEY",
-            localProperties["logo_api_key"]?.toString() ?: ""
+            secretsProperties["logo_api_key"]?.toString() ?: ""
         )
         buildConfigField(
             FieldSpec.Type.STRING,
             "APP_TYPE",
-            AppType.REAL.name
+            appConfigProperties["config.app_type"].toString()
         )
         buildConfigField(
             FieldSpec.Type.STRING,
@@ -127,12 +136,17 @@ buildkonfig {
         buildConfigField(
             FieldSpec.Type.STRING,
             "POST_HOG_API_KEY",
-            localProperties["post_hog_api_key"]?.toString() ?: ""
+            secretsProperties["post_hog_api_key"]?.toString() ?: ""
         )
         buildConfigField(
             FieldSpec.Type.STRING,
             "POST_HOG_HOST",
-            localProperties["post_hog_host"]?.toString() ?: ""
+            secretsProperties["post_hog_host"]?.toString() ?: ""
+        )
+        buildConfigField(
+            FieldSpec.Type.BOOLEAN,
+            "SHOW_VAULT_TYPE_SELECTION",
+            appConfigProperties["config.show_vault_type_selection"]?.toString() ?: "false"
         )
     }
 

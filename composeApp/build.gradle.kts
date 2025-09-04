@@ -142,12 +142,20 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            manifestPlaceholders["appName"] = appName
+            signingConfig = signingConfigs.getByName("debug")
+            postprocessing {
+                isObfuscate = false
+                isOptimizeCode = true
+                isRemoveUnusedCode = true
+                isRemoveUnusedResources = true
+                proguardFile("proguard-rules.pro")
+            }
         }
         getByName("debug") {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            isMinifyEnabled = false
+            manifestPlaceholders["appName"] = "$appName Dev"
         }
     }
     compileOptions {

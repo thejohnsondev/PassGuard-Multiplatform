@@ -25,7 +25,6 @@ class AndroidApp : Application() {
             platformDependency = platformDependency,
             analyticsDependency = analyticsDependency
         ).init()
-        // TODO implement obfuscation
     }
 
     private fun getPlatformDependency(): PlatformDependency {

@@ -35,7 +35,7 @@ jobs:
           POST_HOG_API_KEY: ${{ secrets.POST_HOG_API_KEY }}
           POST_HOG_HOST: ${{ secrets.POST_HOG_HOST }}
         run: |
-          cat <<EOF > local.properties
+          cat <<EOF > secrets.properties
           firebase_api_key=$FIREBASE_API_KEY
           logo_api_key=$LOGO_API_KEY
           post_hog_api_key=$POST_HOG_API_KEY
