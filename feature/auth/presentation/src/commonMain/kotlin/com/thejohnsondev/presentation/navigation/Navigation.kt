@@ -10,6 +10,7 @@ import com.thejohnsondev.presentation.biometric.BiometricLoginViewModel
 import com.thejohnsondev.presentation.login.LoginScreen
 import com.thejohnsondev.presentation.login.LoginViewModel
 import com.thejohnsondev.presentation.onboarding.OnboardingScreen
+import com.thejohnsondev.presentation.onboarding.OnboardingViewModel
 import com.thejohnsondev.presentation.signup.SignUpScreen
 import com.thejohnsondev.presentation.signup.SignUpViewModel
 import com.thejohnsondev.presentation.vaulttype.SelectVaultTypeScreen
@@ -79,8 +80,10 @@ fun NavGraphBuilder.onboardingScreen(
     goBack: () -> Unit
 ) {
     composable<Routes.OnboardingRoute> {
+        val viewModel = koinViewModel<OnboardingViewModel>()
         OnboardingScreen(
             windowWidthSizeClass = windowSizeClass,
+            viewModel = viewModel,
             goToSelectVaultType = goToSelectVaultType,
             goToHome = goToHome,
             goBack = goBack

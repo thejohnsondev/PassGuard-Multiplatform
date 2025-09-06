@@ -1,6 +1,5 @@
 package com.thejohnsondev.presentation.onboarding
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,20 +19,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.thejohnsondev.model.ScreenState.Companion.isLoading
 import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.designsystem.EquallyRounded
@@ -62,14 +62,37 @@ private const val SLIDE_ANIMATION_DURATION = 500
 @Composable
 fun OnboardingScreen(
     windowWidthSizeClass: WindowWidthSizeClass,
+    viewModel: OnboardingViewModel,
     goToSelectVaultType: () -> Unit,
     goToHome: () -> Unit,
     goBack: () -> Unit,
 ) {
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.getEventFlow().collect { event ->
+            when (event) {
+                is OnboardingViewModel.NavigateToHome -> goToHome()
+            }
+        }
+    }
+
+    Content(
+        state = state.value,
+        onAction = viewModel::perform,
+        goBack = goBack
+    )
+}
+
+@Composable
+private fun Content(
+    state: OnboardingViewModel.State,
+    onAction: (OnboardingViewModel.Action) -> Unit,
+    goBack: () -> Unit
+) {
     val pages = remember {
         OnboardingPageModel.pages
     }
-
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { pages.size })
     Surface {
         Box {
@@ -95,7 +118,12 @@ fun OnboardingScreen(
                     pagerState = pagerState,
                     pageCount = pages.size
                 )
-                NextButton(pagerState = pagerState, pages = pages)
+                NextButton(
+                    state = state,
+                    onAction = onAction,
+                    pagerState = pagerState,
+                    pages = pages
+                )
             }
             BackArrowButton(
                 modifier = Modifier
@@ -208,6 +236,8 @@ fun OnboardingDotsIndicator(
 
 @Composable
 private fun NextButton(
+    state: OnboardingViewModel.State,
+    onAction: (OnboardingViewModel.Action) -> Unit,
     pagerState: PagerState,
     pages: List<OnboardingPageModel>
 ) {
@@ -235,8 +265,11 @@ private fun NextButton(
                             )
                         )
                     }
+                } else {
+                    onAction(OnboardingViewModel.Action.CreateLocalVault)
                 }
-            }
+            },
+            loading = state.screenState.isLoading(),
         )
     }
 }
