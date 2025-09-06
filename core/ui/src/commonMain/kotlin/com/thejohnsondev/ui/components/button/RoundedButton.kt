@@ -102,7 +102,9 @@ fun RoundedButton(
             } else {
                 Box(
                     modifier = Modifier
-                        .padding(end = Size4)
+                        .applyIf(imageComposable != null || imageVector != null) {
+                            padding(end = Size4)
+                        }
                 ) {
                     imageComposable?.let {
                         it()
