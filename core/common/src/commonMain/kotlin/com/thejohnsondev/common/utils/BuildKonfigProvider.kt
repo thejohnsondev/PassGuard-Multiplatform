@@ -7,4 +7,5 @@ object BuildKonfigProvider {
     fun getAppVersion(): String = BuildKonfig.APP_VERSION
     fun getPosthogApiKey(): String = BuildKonfig.POST_HOG_API_KEY
     fun getPosthogHost(): String = BuildKonfig.POST_HOG_HOST
+    fun getSelectVaultTypeEnabled(): Boolean = BuildKonfig.SHOW_VAULT_TYPE_SELECTION
 }

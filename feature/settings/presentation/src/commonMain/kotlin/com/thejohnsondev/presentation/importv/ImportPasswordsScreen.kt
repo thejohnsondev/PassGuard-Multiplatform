@@ -207,7 +207,8 @@ private fun SelectCSVContent(
         )
         Spacer(modifier = Modifier.weight(Percent100))
         RoundedButton(
-            modifier = Modifier.padding(horizontal = Size16, bottom = Size32)
+            modifier = Modifier
+                .padding(horizontal = Size16, bottom = Size32)
                 .fillMaxWidth(),
             text = stringResource(ResString.btn_select_csv),
             onClick = {
@@ -370,7 +371,8 @@ private fun ColumnScope.ImportSuccessContent(
                     .padding(vertical = Size8),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Checkbox(checked = state.isSkipDuplicates,
+                Checkbox(
+                    checked = state.isSkipDuplicates,
                     onCheckedChange = {
                         onAction(ImportPasswordsViewModel.Action.ToggleSkipDuplicates(it))
                     })
@@ -383,6 +385,8 @@ private fun ColumnScope.ImportSuccessContent(
             }
         }
         RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth(),
             text = stringResource(ResString.btn_import),
             onClick = {
                 onAction(ImportPasswordsViewModel.Action.Import)
@@ -390,7 +394,8 @@ private fun ColumnScope.ImportSuccessContent(
         )
         RoundedButton(
             modifier = Modifier
-                .padding(top = Size8),
+                .padding(top = Size8)
+                .fillMaxWidth(),
             text = stringResource(ResString.cancel),
             onClick = {
                 onCancelClick()
@@ -428,7 +433,8 @@ private fun ColumnScope.ImportEmptyContent(
     )
     Spacer(modifier = Modifier.weight(Percent100))
     RoundedButton(
-        modifier = Modifier.padding(horizontal = Size16, bottom = Size32)
+        modifier = Modifier
+            .padding(horizontal = Size16, bottom = Size32)
             .fillMaxWidth(),
         text = stringResource(ResString.btn_select_another_csv),
         onClick = {
@@ -474,7 +480,8 @@ private fun ColumnScope.ImportErrorContent(
     )
     Spacer(modifier = Modifier.weight(Percent100))
     RoundedButton(
-        modifier = Modifier.padding(horizontal = Size16)
+        modifier = Modifier
+            .padding(horizontal = Size16)
             .fillMaxWidth(),
         text = stringResource(ResString.btn_select_another_csv),
         onClick = {
@@ -483,7 +490,8 @@ private fun ColumnScope.ImportErrorContent(
     )
     RoundedButton(
         modifier = Modifier
-            .padding(top = Size8, bottom = Size32, horizontal = Size16),
+            .padding(top = Size8, bottom = Size32, horizontal = Size16)
+            .fillMaxWidth(),
         text = stringResource(ResString.cancel),
         onClick = {
             onCancelClick()

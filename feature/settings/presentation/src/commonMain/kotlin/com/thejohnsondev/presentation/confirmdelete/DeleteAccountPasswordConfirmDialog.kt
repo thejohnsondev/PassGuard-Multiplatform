@@ -78,6 +78,8 @@ fun DeleteAccountPasswordConfirmDialog(
         onAction(SettingsViewModel.Action.CloseDeleteAccountPasswordConfirm)
     }, confirmButton = {
         RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth(),
             text = stringResource(ResString.confirm),
             onClick = {
                 onAction(SettingsViewModel.Action.DeleteAccountPasswordConfirm(enteredPassword.value))
@@ -90,6 +92,8 @@ fun DeleteAccountPasswordConfirmDialog(
         )
     }, dismissButton = {
         RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth(),
             text = stringResource(ResString.cancel), onClick = {
                 onAction(SettingsViewModel.Action.CloseDeleteAccountPasswordConfirm)
             }, colors = ButtonDefaults.buttonColors(

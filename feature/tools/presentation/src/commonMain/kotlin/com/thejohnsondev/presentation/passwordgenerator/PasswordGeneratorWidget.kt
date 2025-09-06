@@ -236,6 +236,7 @@ private fun GenerateButtonsRow(
         RoundedButton(
             modifier = Modifier
                 .padding(end = Size4)
+                .fillMaxWidth()
                 .weight(Percent100),
             text = stringResource(ResString.password_generator_generate),
             imageComposable = {
@@ -260,7 +261,8 @@ private fun GenerateButtonsRow(
         RoundedButton(
             modifier = Modifier
                 .padding(start = Size4)
-                .weight(Percent100),
+                .weight(Percent100)
+                .fillMaxWidth(),
             text = stringResource(ResString.password_generator_copy),
             imageVector = Icons.Default.CopyAll,
             buttonShape = EndRounded,

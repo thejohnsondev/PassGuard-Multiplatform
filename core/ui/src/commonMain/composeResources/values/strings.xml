@@ -13,6 +13,7 @@
     <string name="password_generator_copy">Copy</string>
     <string name="password_generator_configure">Configure</string>
     <string name="btn_import">Import</string>
+    <string name="btn_next">Next</string>
 
     <!--Welcome-->
     <string name="pass">Pass</string>
@@ -250,5 +251,14 @@
     <string name="language_lithuanian">Lithuanian</string>
     <string name="language_estonian">Estonian</string>
     <string name="language_maltese">Maltese</string>
+
+    <!--Onboarding-->
+    <string name="onboarding_security_title">Your Data is Always Safe</string>
+    <string name="onboarding_security_description">Your vault is protected with industry-leading encryption. Only you have the keys.</string>
+    <string name="onboarding_offline_title">Vault Stays on Your Device</string>
+    <string name="onboarding_offline_description">Your vault is stored only on your device. No one else can access it.</string>
+    <string name="onboarding_export_title">Move Passwords Easily</string>
+    <string name="onboarding_export_description">Import from Google Password Manager or export your vault anytime — you’re always in control.</string>
+    <string name="onboarding_create_vault">Create Vault</string>
 
 </resources>

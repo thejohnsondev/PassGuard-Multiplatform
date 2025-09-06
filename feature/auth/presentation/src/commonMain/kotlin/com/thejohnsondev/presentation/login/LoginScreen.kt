@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -375,7 +376,9 @@ fun LoginButtonSection(
     ) {
         RoundedButton(
             text = stringResource(ResString.log_in),
-            modifier = Modifier.padding(horizontal = Size16, vertical = Size16),
+            modifier = Modifier
+                .padding(horizontal = Size16, vertical = Size16)
+                .fillMaxWidth(),
             enabled = state.loginReady,
             onClick = {
                 hideKeyboard()

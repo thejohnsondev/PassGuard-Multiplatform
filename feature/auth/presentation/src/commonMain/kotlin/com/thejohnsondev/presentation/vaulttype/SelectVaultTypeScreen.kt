@@ -208,7 +208,8 @@ private fun CloudVaultExpandedContent(goToLogin: () -> Unit, goToSignUp: () -> U
     ) {
         RoundedButton(
             modifier = Modifier
-                .padding(bottom = Size8, start = Size16, end = Size16),
+                .padding(bottom = Size8, start = Size16, end = Size16)
+                .fillMaxWidth(),
             text = stringResource(ResString.log_in),
             onClick = {
                 goToLogin()
@@ -221,7 +222,8 @@ private fun CloudVaultExpandedContent(goToLogin: () -> Unit, goToSignUp: () -> U
                     bottom = Size16,
                     start = Size16,
                     end = Size16
-                ),
+                )
+                .fillMaxWidth(),
             text = stringResource(ResString.sign_up),
             onClick = {
                 goToSignUp()
@@ -241,7 +243,8 @@ private fun LocalVaultExpandedContent(
     ) {
         RoundedButton(
             modifier = Modifier
-                .padding(bottom = Size16, start = Size16, end = Size16),
+                .padding(bottom = Size16, start = Size16, end = Size16)
+                .fillMaxWidth(),
             text = stringResource(ResString.create_local_vault),
             loading = state.screenState is ScreenState.Loading,
             onClick = {

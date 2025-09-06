@@ -10,8 +10,10 @@ import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.presentation.navigation.biometricLoginScreen
 import com.thejohnsondev.presentation.navigation.loginScreen
 import com.thejohnsondev.presentation.navigation.navigateToLogin
+import com.thejohnsondev.presentation.navigation.navigateToOnboarding
 import com.thejohnsondev.presentation.navigation.navigateToSelectVaultTypeRoute
 import com.thejohnsondev.presentation.navigation.navigateToSignUp
+import com.thejohnsondev.presentation.navigation.onboardingScreen
 import com.thejohnsondev.presentation.navigation.selectVaultTypeScreen
 import com.thejohnsondev.presentation.navigation.signUpScreen
 import com.thejohnsondev.presentation.navigation.welcomeScreen
@@ -27,9 +29,24 @@ fun AuthNavigation(
     ) {
         welcomeScreen(
             windowSize = windowSizeClass,
+            goToOnboarding = {
+                navController.navigateToOnboarding()
+            })
+        onboardingScreen(
             goToSelectVaultType = {
                 navController.navigateToSelectVaultTypeRoute()
-            })
+            },
+            goToHome = {
+                navController.navigate(Routes.HomeRoute()) {
+                    popUpTo(Routes.WelcomeRoute) {
+                        inclusive = true
+                    }
+                }
+            },
+            goBack = {
+                navController.popBackStack()
+            }
+        )
         signUpScreen(
             windowSize = windowSizeClass,
             goToHome = {

@@ -12,6 +12,7 @@
     <string name="password_generator_copy">Копіювати</string>
     <string name="password_generator_configure">Налаштувати</string>
     <string name="btn_import">Імпорт</string>
+    <string name="btn_next">Далі</string>
 
     <string name="pass">Pass</string>
     <string name="guard">Guard</string>
@@ -235,5 +236,13 @@
     <string name="language_lithuanian">Литовська</string>
     <string name="language_estonian">Естонська</string>
     <string name="language_maltese">Мальтійська</string>
+
+    <string name="onboarding_security_title">Ваші дані завжди в безпеці</string>
+    <string name="onboarding_security_description">Ваше сховище захищене провідним у галузі шифруванням. Лише ви маєте ключі.</string>
+    <string name="onboarding_offline_title">Сховище залишається на вашому пристрої</string>
+    <string name="onboarding_offline_description">Ваше сховище зберігається лише на вашому пристрої. Ніхто інший не може отримати до нього доступ.</string>
+    <string name="onboarding_export_title">Легко переміщуйте паролі</string>
+    <string name="onboarding_export_description">Імпортуйте з Менеджера паролів Google або експортуйте своє сховище в будь-який час — ви завжди все контролюєте.</string>
+    <string name="onboarding_create_vault">Створити сховище</string>
 
 </resources>

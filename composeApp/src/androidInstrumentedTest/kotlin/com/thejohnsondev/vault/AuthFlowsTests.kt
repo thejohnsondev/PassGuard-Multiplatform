@@ -2,6 +2,7 @@ package com.thejohnsondev.vault
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.thejohnsondev.vault.auth.LoginRobot
+import com.thejohnsondev.vault.auth.OnboardingRobot
 import com.thejohnsondev.vault.auth.SelectVaultTypeRobot
 import com.thejohnsondev.vault.auth.SignUpRobot
 import com.thejohnsondev.vault.auth.WelcomeScreenRobot
@@ -19,6 +20,7 @@ class AuthFlowsTests {
 
     private val welcomeRobot = WelcomeScreenRobot(composeTestRule)
     private val selectVaultTypeRobot = SelectVaultTypeRobot(composeTestRule)
+    private val onboardingRobot = OnboardingRobot(composeTestRule)
     private val loginRobot = LoginRobot(composeTestRule)
     private val signUpRobot = SignUpRobot(composeTestRule)
     private val vaultRobot = VaultRobot(composeTestRule)
@@ -61,11 +63,13 @@ class AuthFlowsTests {
         welcomeRobot.assertWelcomeScreenContent()
 
         welcomeRobot.clickGetStartedButton()
-        selectVaultTypeRobot.apply {
-            assertSelectVaultScreen()
-            clickLocalVaultOption()
-            assertLocalVaultOption()
-            clickCreateLocalVaultButton()
+        onboardingRobot.apply {
+            assertFirstOnboardingScreen()
+            clickNextButton()
+            assertSecondOnboardingScreen()
+            clickNextButton()
+            assertThirdOnboardingScreen()
+            clickCreateVaultButton()
         }
         vaultRobot.assertEmptyVaultScreen()
 
@@ -78,7 +82,7 @@ class AuthFlowsTests {
         welcomeRobot.assertWelcomeScreenContent()
     }
 
-    @Test
+    //    @Test // TODO uncomment when cloud vault is integrated
     fun testLoginWithWrongCredentials() {
         navigateToLoginScreen()
 
@@ -89,7 +93,7 @@ class AuthFlowsTests {
         loginRobot.assertLoginError()
     }
 
-    @Test
+    //    @Test // TODO uncomment when cloud vault is integrated
     fun testSuccessfulLoginAndLogout() {
         navigateToLoginScreen()
 
@@ -103,7 +107,7 @@ class AuthFlowsTests {
         welcomeRobot.assertWelcomeScreenContent()
     }
 
-    @Test
+    //    @Test // TODO uncomment when cloud vault is integrated
     fun testSignUpWithExistingAccountShowsError() {
         navigateToSignUpScreen()
 
@@ -115,7 +119,7 @@ class AuthFlowsTests {
         signUpRobot.assertSignUpError()
     }
 
-    @Test
+    //    @Test // TODO uncomment when cloud vault is integrated
     fun testSuccessfulSignUpAndLogout() {
         navigateToSignUpScreen()
 

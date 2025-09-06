@@ -400,7 +400,9 @@ internal fun AddPasswordFields(
                 onAction = onAction
             )
             RoundedButton(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = Size16),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Size16),
                 text = stringResource(ResString.add_field),
                 onClick = {
                     onAction(AddVaultItemViewModel.Action.AddAdditionalField)

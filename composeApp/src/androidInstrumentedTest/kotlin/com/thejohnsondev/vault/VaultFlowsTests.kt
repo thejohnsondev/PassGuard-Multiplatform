@@ -1,6 +1,7 @@
 package com.thejohnsondev.vault
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import com.thejohnsondev.vault.auth.OnboardingRobot
 import com.thejohnsondev.vault.auth.SelectVaultTypeRobot
 import com.thejohnsondev.vault.auth.WelcomeScreenRobot
 import com.thejohnsondev.vault.navigation.NavigationRobot
@@ -17,7 +18,7 @@ class VaultFlowsTests {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val welcomeRobot = WelcomeScreenRobot(composeTestRule)
-    private val selectVaultTypeRobot = SelectVaultTypeRobot(composeTestRule)
+    private val onboardingRobot = OnboardingRobot(composeTestRule)
     private val vaultRobot = VaultRobot(composeTestRule)
     private val addVaultItemRobot = AddVaultItemRobot(composeTestRule)
     private val navigationRobot = NavigationRobot(composeTestRule)
@@ -45,11 +46,11 @@ class VaultFlowsTests {
             assertWelcomeScreenContent()
             clickGetStartedButton()
         }
-        selectVaultTypeRobot.apply {
-            assertSelectVaultScreen()
-            clickLocalVaultOption()
-            assertLocalVaultOption()
-            clickCreateLocalVaultButton()
+        onboardingRobot.apply {
+            assertFirstOnboardingScreen()
+            clickNextButton()
+            clickNextButton()
+            clickCreateVaultButton()
         }
     }
 
