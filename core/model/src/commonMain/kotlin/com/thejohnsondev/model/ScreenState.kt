@@ -1,7 +1,5 @@
 package com.thejohnsondev.model
 
-import com.thejohnsondev.model.Error
-
 open class ScreenState {
     data object None: ScreenState()
     data class Error(val message: String) : ScreenState()

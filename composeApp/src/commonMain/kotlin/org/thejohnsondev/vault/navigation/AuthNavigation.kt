@@ -33,7 +33,6 @@ fun AuthNavigation(
                 navController.navigateToOnboarding()
             })
         onboardingScreen(
-            windowSizeClass = windowSizeClass,
             goToSelectVaultType = {
                 navController.navigateToSelectVaultTypeRoute()
             },

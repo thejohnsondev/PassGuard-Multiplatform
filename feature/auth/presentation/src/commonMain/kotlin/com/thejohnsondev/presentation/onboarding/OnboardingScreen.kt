@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.lerp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.model.ScreenState.Companion.isLoading
 import com.thejohnsondev.ui.components.button.BackArrowButton
 import com.thejohnsondev.ui.components.button.RoundedButton
@@ -61,13 +62,16 @@ private const val SLIDE_ANIMATION_DURATION = 500
 
 @Composable
 fun OnboardingScreen(
-    windowWidthSizeClass: WindowWidthSizeClass,
     viewModel: OnboardingViewModel,
     goToSelectVaultType: () -> Unit,
     goToHome: () -> Unit,
     goBack: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        Analytics.trackScreen("onboarding_screen")
+    }
 
     LaunchedEffect(Unit) {
         viewModel.getEventFlow().collect { event ->

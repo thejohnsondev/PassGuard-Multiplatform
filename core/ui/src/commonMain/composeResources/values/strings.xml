@@ -260,6 +260,5 @@
     <string name="onboarding_export_title">Move Passwords Easily</string>
     <string name="onboarding_export_description">Import from Google Password Manager or export your vault anytime — you’re always in control.</string>
     <string name="onboarding_create_vault">Create a vault</string>
-    <string name="onboarding_creating_vault">Creating your vault</string>
 
 </resources>
