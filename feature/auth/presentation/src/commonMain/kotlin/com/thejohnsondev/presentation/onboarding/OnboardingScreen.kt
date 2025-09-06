@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.thejohnsondev.ui.components.button.BackArrowButton
+import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent50
@@ -218,15 +219,11 @@ private fun NextButton(
             .navigationBarsPadding(),
         contentAlignment = Alignment.CenterEnd
     ) {
-        Button(
+        RoundedButton(
             modifier = Modifier,
-            content = {
-                Text(
-                    text = stringResource(
-                        if (isLastPage) ResString.onboarding_create_vault else ResString.btn_next
-                    )
-                )
-            },
+            text = stringResource(
+                if (isLastPage) ResString.onboarding_create_vault else ResString.btn_next
+            ),
             onClick = {
                 if (!isLastPage) {
                     val nextPage = pagerState.currentPage + 1
