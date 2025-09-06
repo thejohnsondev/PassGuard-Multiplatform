@@ -255,7 +255,7 @@
     <!--Onboarding-->
     <string name="onboarding_security_title">Your Data is Always Safe</string>
     <string name="onboarding_security_description">Your vault is protected with industry-leading encryption. Only you have the keys.</string>
-    <string name="onboarding_offline_title">Vault Stay on Your Device</string>
+    <string name="onboarding_offline_title">Vault Stays on Your Device</string>
     <string name="onboarding_offline_description">Your vault is stored only on your device. No one else can access it.</string>
     <string name="onboarding_export_title">Move Passwords Easily</string>
     <string name="onboarding_export_description">Import from Google Password Manager or export your vault anytime — you’re always in control.</string>
