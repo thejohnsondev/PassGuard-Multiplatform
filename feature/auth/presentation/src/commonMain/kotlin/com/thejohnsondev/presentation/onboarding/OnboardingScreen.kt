@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.onboarding
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -43,6 +44,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.btn_next
 import vaultmultiplatform.core.ui.generated.resources.onboarding_create_vault
+
+private const val SLIDE_ANIMATION_DURATION = 500
 
 @Composable
 fun OnboardingScreen(
@@ -90,7 +93,14 @@ fun OnboardingScreen(
                     onClick = {
                         if (!isLastPage) {
                             val nextPage = pagerState.currentPage + 1
-                            coroutineScope.launch { pagerState.animateScrollToPage(nextPage) }
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(
+                                    page = nextPage,
+                                    animationSpec = tween(
+                                        durationMillis = SLIDE_ANIMATION_DURATION
+                                    )
+                                )
+                            }
                         }
                     }
                 )
