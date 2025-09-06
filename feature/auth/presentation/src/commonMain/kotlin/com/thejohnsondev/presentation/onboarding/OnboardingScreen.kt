@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -30,15 +33,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size20
-import com.thejohnsondev.ui.designsystem.Size360
+import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeBorder
 import com.thejohnsondev.ui.utils.ResString
+import com.thejohnsondev.ui.utils.animateItemParallaxFromEndToCenter
+import com.thejohnsondev.ui.utils.animateItemToBackgroundWithBlur
+import com.thejohnsondev.ui.utils.offsetForPage
 import com.thejohnsondev.ui.utils.padding
+import com.thejohnsondev.ui.utils.startOffsetForPage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -67,14 +75,15 @@ fun OnboardingScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             HorizontalPager(
-                state = pagerState,
                 modifier = Modifier
                     .weight(Percent100)
                     .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                state = pagerState,
                 snapPosition = SnapPosition.Center,
-                verticalAlignment = Alignment.CenterVertically
+                beyondViewportPageCount = 1
             ) { page ->
-                OnBoardItem(pages[page])
+                OnBoardItem(pages[page], pagerState)
             }
             Box(
                 modifier = Modifier
@@ -137,9 +146,13 @@ fun OnboardingScreen(
 }
 
 @Composable
-fun OnBoardItem(page: OnboardingPageModel) {
+fun OnBoardItem(page: OnboardingPageModel, pagerState: PagerState) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .animateItemToBackgroundWithBlur(
+                pageNumber = page.pageNumber,
+                pagerState = pagerState
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -148,18 +161,36 @@ fun OnBoardItem(page: OnboardingPageModel) {
                 imageVector = vectorResource(page.imageRes),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(Size360)
-                    .padding(bottom = Size20)
+                    .size(300.dp)
+                    .animateItemParallaxFromEndToCenter(
+                        pageNumber = page.pageNumber,
+                        pagerState = pagerState,
+                        parallaxFactor = 10f,
+                        applyScaleAnimation = true
+                    )
             )
         }
         Text(
+            modifier = Modifier
+                .padding(top = Size24)
+                .animateItemParallaxFromEndToCenter(
+                    pageNumber = page.pageNumber,
+                    pagerState = pagerState,
+                    parallaxFactor = 6f
+                ),
             text = stringResource(page.titleStringRes),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.displayMedium,
             textAlign = TextAlign.Center
         )
         Text(
+            modifier = Modifier
+                .padding(horizontal = Size16, top = Size16)
+                .animateItemParallaxFromEndToCenter(
+                    pageNumber = page.pageNumber,
+                    pagerState = pagerState,
+                    parallaxFactor = 8f
+                ),
             text = stringResource(page.descriptionStringRes),
-            modifier = Modifier.padding(horizontal = Size16, vertical = Size8),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center
