@@ -60,7 +60,6 @@ fun RoundedButton(
         if (enabled) colors.contentColor else colors.contentColor.copy(alpha = Percent70)
     Surface(
         modifier = modifier
-            .fillMaxWidth()
             .height(Size48)
             .applyIf(!disableBounceAnimation && enabled && !loading) {
                 bounceClick()

@@ -262,7 +262,9 @@ private fun ButtonsSection(
                     bottom = Size16,
                     start = Size16,
                     end = Size16
-                ).alpha(animatedContentAlpha.value),
+                )
+                .alpha(animatedContentAlpha.value)
+                .fillMaxWidth(),
             text = stringResource(ResString.get_started),
             onClick = {
                 goToOnboarding()

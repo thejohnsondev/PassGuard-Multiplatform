@@ -313,6 +313,9 @@ fun SettingsSubSections(
         } else {
             subSection.sectionDescriptionRes?.let { stringResource(resource = it) }
         }
+    // TODO make sub section icons colored like in new android settings
+
+    // TODO Onboarding screen
     ExpandableSectionItem(
         modifier = modifier,
         title = stringResource(resource = subSection.sectionTitleRes),
@@ -375,7 +378,8 @@ fun ManageAccountSubSection(
     RoundedButton(
         modifier = Modifier
             .height(Size72)
-            .padding(start = Size16, end = Size16, bottom = Size16, top = Size2),
+            .padding(start = Size16, end = Size16, bottom = Size16, top = Size2)
+            .fillMaxWidth(),
         text = stringResource(resource = ResString.logout),
         onClick = {
             onAction(SettingsViewModel.Action.OpenConfirmLogoutDialog)
@@ -401,7 +405,8 @@ fun ManageAccountSubSection(
         )
         RoundedButton(
             modifier = Modifier
-                .padding(Size16),
+                .padding(Size16)
+                .fillMaxWidth(),
             text = stringResource(ResString.delete_account),
             onClick = {
                 onAction(SettingsViewModel.Action.OpenConfirmDeleteAccountDialog)
@@ -423,7 +428,8 @@ fun ManageLocalVaultSubSection(
     RoundedButton(
         modifier = Modifier
             .height(Size72)
-            .padding(start = Size16, end = Size16, bottom = Size8, top = Size2),
+            .padding(start = Size16, end = Size16, bottom = Size8, top = Size2)
+            .fillMaxWidth(),
         text = stringResource(resource = ResString.create_account),
         onClick = {
             goToSignUp()
@@ -466,7 +472,8 @@ fun ManageLocalVaultSubSection(
         )
         RoundedButton(
             modifier = Modifier
-                .padding(Size16),
+                .padding(Size16)
+                .fillMaxWidth(),
             text = stringResource(ResString.delete_vault),
             onClick = {
                 onAction(SettingsViewModel.Action.OpenConfirmDeleteVaultDialog)
@@ -680,7 +687,8 @@ fun ExportSettingsSubSection(
     ) {
         RoundedButton(
             modifier = Modifier
-                .height(Size56),
+                .height(Size56)
+                .fillMaxWidth(),
             text = stringResource(ResString.setting_export_passwords),
             imageComposable = {
                 Icon(
@@ -703,7 +711,8 @@ fun ExportSettingsSubSection(
         RoundedButton(
             modifier = Modifier
                 .padding(top = Size4)
-                .height(Size56),
+                .height(Size56)
+                .fillMaxWidth(),
             text = stringResource(ResString.setting_import_passwords),
             onClick = {
                 onAction(SettingsViewModel.Action.OpenCloseImportPasswords(true))
