@@ -259,6 +259,6 @@
     <string name="onboarding_offline_description">Your vault is stored only on your device. No one else can access it.</string>
     <string name="onboarding_export_title">Move Passwords Easily</string>
     <string name="onboarding_export_description">Import from Google Password Manager or export your vault anytime — you’re always in control.</string>
-    <string name="onboarding_create_vault">Create a vault</string>
+    <string name="onboarding_create_vault">Create Vault</string>
 
 </resources>
