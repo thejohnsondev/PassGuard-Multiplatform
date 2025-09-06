@@ -54,11 +54,7 @@ fun NavController.navigateToSelectVaultTypeRoute() {
 }
 
 fun NavController.navigateToOnboarding() {
-    navigate(Routes.OnboardingRoute) {
-        popUpTo(Routes.WelcomeRoute) {
-            inclusive = true
-        }
-    }
+    navigate(Routes.OnboardingRoute)
 }
 
 @OptIn(KoinExperimentalAPI::class)
@@ -80,12 +76,14 @@ fun NavGraphBuilder.onboardingScreen(
     windowSizeClass: WindowWidthSizeClass,
     goToSelectVaultType: () -> Unit,
     goToHome: () -> Unit,
+    goBack: () -> Unit
 ) {
     composable<Routes.OnboardingRoute> {
         OnboardingScreen(
             windowWidthSizeClass = windowSizeClass,
             goToSelectVaultType = goToSelectVaultType,
-            goToHome = goToHome
+            goToHome = goToHome,
+            goBack = goBack
         )
     }
 }

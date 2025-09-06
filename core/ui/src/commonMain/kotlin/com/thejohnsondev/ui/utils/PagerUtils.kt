@@ -27,7 +27,7 @@ fun Modifier.animateItemToBackgroundWithBlur(
         translationX = size.width * (startOffset * .99f)
 
         alpha = (2f - startOffset) / 2f
-        val scale = 1f - (startOffset * .1f)
+        val scale = 1f - (startOffset * .2f)
         scaleX = scale
         scaleY = scale
     }

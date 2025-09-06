@@ -43,6 +43,9 @@ fun AuthNavigation(
                         inclusive = true
                     }
                 }
+            },
+            goBack = {
+                navController.popBackStack()
             }
         )
         signUpScreen(
