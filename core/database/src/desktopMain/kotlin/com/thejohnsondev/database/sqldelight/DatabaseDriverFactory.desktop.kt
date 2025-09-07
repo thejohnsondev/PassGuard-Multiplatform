@@ -2,6 +2,8 @@ package com.thejohnsondev.database.sqldelight
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import com.thejohnsondev.common.AppType
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import org.thejohnsondev.vault.database.VaultDatabase
 import java.io.File
 
@@ -25,10 +27,15 @@ actual class DatabaseDriverFactory {
                 }
 
                 os.contains("mac") -> {
+                    val appType = BuildKonfigProvider.getAppType()
+                    val folderName = when (appType) {
+                        AppType.PROD.name -> "VaultDatabase"
+                        else -> "VaultDatabaseDev"
+                    }
                     File(
                         System.getProperty("user.home"),
-                        "Library/Application Support/VaultDatabase"
-                    ) // "/Users/<username>/Library/Application Support/VaultDatabase"
+                        "Library/Application Support/$folderName"
+                    ) // "/Users/<username>/Library/Application Support/$folderName"
                 }
 
                 else -> error("Unsupported operating system")
