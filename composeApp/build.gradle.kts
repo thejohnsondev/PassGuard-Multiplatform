@@ -189,7 +189,7 @@ compose.desktop {
             modules("jdk.unsupported")
             modules("java.sql")
             macOS {
-                iconFile.set(project.file("icon/ic_vault_extra_large_1024.icns"))
+                iconFile.set(project.file("icon/PassGuard-icon-iOS-Dark-1024x1024@1x.icns"))
             }
         }
     }
