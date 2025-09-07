@@ -133,7 +133,8 @@ private fun getAppTypeAnalyticsDependency(
         AppType.DEMO -> {
             DemoAnalyticsDependency()
         }
-        AppType.REAL -> {
+        AppType.DEV,
+        AppType.PROD-> {
             analyticsDependency
         }
     }

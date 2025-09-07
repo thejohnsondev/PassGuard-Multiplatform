@@ -86,11 +86,6 @@ dependencies {
     androidTestImplementation(libs.runner)
 }
 
-enum class AppType {
-    REAL,
-    DEMO
-}
-
 buildkonfig {
     packageName = "org.thejohnsondev.common"
 

@@ -25,7 +25,8 @@ val authDataModule = module {
             singleOf(::DemoEncryptionRepository) { bind<EncryptionRepository>() }
         }
 
-        AppType.REAL -> {
+        AppType.DEV,
+        AppType.PROD -> {
             singleOf(::EncryptionRepositoryImpl) { bind<EncryptionRepository>() }
         }
     }

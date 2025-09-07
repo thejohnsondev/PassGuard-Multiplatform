@@ -16,7 +16,8 @@ val apiModule = module {
         AppType.DEMO -> {
             singleOf(::DemoRemoteApiImpl) { bind<RemoteApi>() }
         }
-        AppType.REAL -> {
+        AppType.DEV,
+        AppType.PROD -> {
             singleOf(::FirebaseRemoteApiImpl) { bind<RemoteApi>() }
         }
     }

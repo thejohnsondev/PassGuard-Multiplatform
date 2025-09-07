@@ -37,7 +37,8 @@ class AndroidApp : Application() {
                 DemoAnalyticsDependency()
             }
 
-            AppType.REAL -> {
+            AppType.DEV,
+            AppType.PROD -> {
                 AndroidAnalyticsDependency(this)
             }
         }
