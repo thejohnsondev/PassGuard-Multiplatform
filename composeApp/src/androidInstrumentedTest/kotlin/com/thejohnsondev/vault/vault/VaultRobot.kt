@@ -36,6 +36,7 @@ class VaultRobot(composeTestRule: ComposeTestRule): Robot(composeTestRule) {
         title: String,
         username: String,
     ) {
+        waitForContent(title, 0)
         assertText(title, 0)
         assertText(username, 0)
         assertContent("Updated Item with border")
