@@ -1,5 +1,6 @@
-package com.thejohnsondev.presentation.vaulttype
+package com.thejohnsondev.presentation.onboarding
 
+import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.VAULT_GENERATION_FAKE_TIME_DURATION
 import com.thejohnsondev.common.base.BaseViewModel
@@ -9,23 +10,27 @@ import com.thejohnsondev.model.ScreenState
 import com.thejohnsondev.model.vault.VaultType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
-class SelectedVaultTypeViewModel(
-    private val authService: AuthService,
+class OnboardingViewModel(
+    private val authService: AuthService
 ) : BaseViewModel() {
 
-    private val _selectedVaultType = MutableStateFlow<VaultType?>(null)
-
-    val viewState = combine(
+    private val _state = MutableStateFlow(State())
+    val state = combine(
         screenState,
-        _selectedVaultType,
-        ::State
+        _state,
+    ) { screenState, state ->
+        state.copy(screenState = screenState)
+    }.stateIn(
+        viewModelScope, SharingStarted.Eagerly,
+        State()
     )
 
     fun perform(action: Action) {
         when (action) {
-            is Action.SelectVaultType -> onSelectVaultType(action.vaultType, action.isSelected)
             is Action.CreateLocalVault -> createLocalVault()
         }
     }
@@ -38,20 +43,13 @@ class SelectedVaultTypeViewModel(
         sendEvent(NavigateToHome)
     }
 
-    private fun onSelectVaultType(vaultType: VaultType, isSelected: Boolean) = launch {
-        _selectedVaultType.value = if (isSelected) vaultType else null
-    }
-
     data object NavigateToHome : OneTimeEvent()
 
     sealed class Action {
-        data class SelectVaultType(val vaultType: VaultType, val isSelected: Boolean) : Action()
         data object CreateLocalVault : Action()
     }
 
     data class State(
         val screenState: ScreenState = ScreenState.ShowContent,
-        val selectedVaultType: VaultType? = null,
     )
-
 }

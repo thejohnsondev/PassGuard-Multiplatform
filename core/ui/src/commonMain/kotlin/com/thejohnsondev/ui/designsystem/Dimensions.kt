@@ -31,6 +31,8 @@ val Size86 = 86.dp
 val Size98 = 98.dp
 val Size100 = 100.dp
 val Size128 = 128.dp
+val Size300 = 300.dp
+val Size360 = 360.dp
 val Size580 = 580.dp
 val Size600 = 600.dp
 

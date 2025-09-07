@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.contentDescription as contentDescriptionSemantics
 import androidx.compose.ui.semantics.semantics
+import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent70
@@ -39,7 +40,7 @@ import com.thejohnsondev.ui.utils.bounceClick
 @Composable
 fun RoundedButton(
     modifier: Modifier = Modifier,
-    text: String,
+    text: String?,
     imageVector: ImageVector? = null,
     imageComposable: @Composable (() -> Unit)? = null,
     loading: Boolean = false,
@@ -60,7 +61,6 @@ fun RoundedButton(
         if (enabled) colors.contentColor else colors.contentColor.copy(alpha = Percent70)
     Surface(
         modifier = modifier
-            .fillMaxWidth()
             .height(Size48)
             .applyIf(!disableBounceAnimation && enabled && !loading) {
                 bounceClick()
@@ -79,7 +79,7 @@ fun RoundedButton(
                 )
             }
             .semantics {
-                contentDescriptionSemantics = contentDescription ?: text
+                contentDescriptionSemantics = contentDescription ?: text ?: String.empty
             },
         color = when (buttonStyle) {
             ButtonStyle.REGULAR -> buttonColor
@@ -103,7 +103,9 @@ fun RoundedButton(
             } else {
                 Box(
                     modifier = Modifier
-                        .padding(end = Size4)
+                        .applyIf(imageComposable != null || imageVector != null) {
+                            padding(end = Size4)
+                        }
                 ) {
                     imageComposable?.let {
                         it()
@@ -120,15 +122,17 @@ fun RoundedButton(
                         )
                     }
                 }
-                Text(
-                    text = text,
-                    color = when (buttonStyle) {
-                        ButtonStyle.REGULAR -> contentColor
-                        ButtonStyle.OUTLINE -> buttonColor
-                        ButtonStyle.TEXT -> contentColor
-                    },
-                    style = MaterialTheme.typography.titleMedium
-                )
+                text?.let {
+                    Text(
+                        text = text,
+                        color = when (buttonStyle) {
+                            ButtonStyle.REGULAR -> contentColor
+                            ButtonStyle.OUTLINE -> buttonColor
+                            ButtonStyle.TEXT -> contentColor
+                        },
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
 
         }
