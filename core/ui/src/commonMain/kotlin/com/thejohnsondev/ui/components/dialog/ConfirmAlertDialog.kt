@@ -53,6 +53,8 @@ fun ConfirmAlertDialog(
         },
         confirmButton = {
             RoundedButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 text = confirmButtonText,
                 onClick = {
                     onConfirm()
@@ -65,6 +67,8 @@ fun ConfirmAlertDialog(
         },
         dismissButton = {
             RoundedButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 text = cancelButtonText,
                 onClick = {
                     onCancel()

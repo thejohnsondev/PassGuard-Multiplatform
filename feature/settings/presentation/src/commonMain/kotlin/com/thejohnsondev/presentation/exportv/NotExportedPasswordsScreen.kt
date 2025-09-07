@@ -147,12 +147,15 @@ private fun NotExportedPasswordsScreenContent(
                 .padding(top = Size16)
         ) {
             RoundedButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 text = stringResource(ResString.export_passwords_not_exported_confirm),
                 onClick = onConfirm
             )
             RoundedButton(
                 modifier = Modifier
-                    .padding(top = Size8),
+                    .padding(top = Size8)
+                    .fillMaxWidth(),
                 text = stringResource(ResString.cancel),
                 onClick = onDismissRequest,
                 colors = ButtonDefaults.buttonColors(

@@ -12,6 +12,7 @@
     <string name="password_generator_copy">Copiar</string>
     <string name="password_generator_configure">Configurar</string>
     <string name="btn_import">Importar</string>
+    <string name="btn_next">Siguiente</string>
 
     <string name="pass">Pass</string>
     <string name="guard">Guard</string>
@@ -235,5 +236,13 @@
     <string name="language_lithuanian">Lituano</string>
     <string name="language_estonian">Estonio</string>
     <string name="language_maltese">Maltés</string>
+
+    <string name="onboarding_security_title">Tus datos siempre están seguros</string>
+    <string name="onboarding_security_description">Tu bóveda está protegida con cifrado líder en la industria. Solo tú tienes las llaves.</string>
+    <string name="onboarding_offline_title">La bóveda permanece en tu dispositivo</string>
+    <string name="onboarding_offline_description">Tu bóveda se almacena únicamente en tu dispositivo. Nadie más puede acceder a ella.</string>
+    <string name="onboarding_export_title">Mueve contraseñas fácilmente</string>
+    <string name="onboarding_export_description">Importa desde Google Password Manager o exporta tu bóveda en cualquier momento: tú siempre tienes el control.</string>
+    <string name="onboarding_create_vault">Crear una bóveda</string>
 
 </resources>
