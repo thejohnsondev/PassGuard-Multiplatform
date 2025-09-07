@@ -44,8 +44,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform.getKoin
 import org.thejohnsondev.vault.di.KoinInitializer
 import org.thejohnsondev.vault.root.Root
+import vaultmultiplatform.composeapp.generated.resources.Res
+import vaultmultiplatform.composeapp.generated.resources.ic_vault_1024_dark_mac
 import vaultmultiplatform.core.ui.generated.resources.app_name
-import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_24_gradient
 import java.awt.Dimension
 
@@ -129,7 +130,7 @@ fun AdaptiveWindow(
         androidx.compose.ui.window.Window(
             onCloseRequest = exitApplication,
             title = stringResource(ResString.app_name),
-            icon = painterResource(ResDrawable.ic_vault_108_gradient),
+            icon = painterResource(Res.drawable.ic_vault_1024_dark_mac),
             state = windowState
         ) {
             window.minimumSize = Dimension(DESKTOP_WINDOW_MIN_WIDTH, DESKTOP_WINDOW_MIN_HEIGHT)

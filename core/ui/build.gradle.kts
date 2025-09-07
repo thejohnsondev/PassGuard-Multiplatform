@@ -83,9 +83,6 @@ kotlin {
         desktopTest.dependencies {
             implementation(compose.desktop.currentOs)
         }
-        desktopMain.dependencies {
-            implementation(libs.androidx.ui.tooling.preview.desktop)
-        }
     }
 }
 

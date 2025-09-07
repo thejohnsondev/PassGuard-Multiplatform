@@ -18,13 +18,12 @@ kotlinxDatetime = "0.6.1"
 kotlinx-serialization = "1.7.3"
 
 # Compose Multiplatform
-compose-plugin = "1.8.1"
+compose-plugin = "1.8.2"
 androidx-activityCompose = "1.10.1"
 ui-tooling = "1.8.2"
-ui-tooling-desktop = "1.7.0"
-composeJetbrainsExpuiTheme = "2.0.0"
+composeJetbrainsExpuiTheme = "2.2.0"
 material3WindowSizeClassMultiplatform = "0.5.0"
-navigationCompose = "2.8.0-alpha10"
+navigationCompose = "2.9.0-beta05"
 haze = "1.6.0"
 
 # Android Core & UI
@@ -102,7 +101,6 @@ haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = 
 # Compose Tooling & Testing
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "ui-tooling" }
-androidx-ui-tooling-preview-desktop = { group = "androidx.compose.ui", name = "ui-tooling-preview-desktop", version.ref = "ui-tooling-desktop" }
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
 
