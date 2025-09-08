@@ -18,7 +18,6 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 /package-lock.json
 /node_modules/
-/composeApp/settings.preferences_pb
 /keystore.jks
 /keystore_data.txt
 
