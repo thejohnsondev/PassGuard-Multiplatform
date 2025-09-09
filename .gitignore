@@ -22,3 +22,5 @@ captures
 /keystore_data.txt
 
 /composeApp/google-services.json
+/composeApp/release/*.dmg
+/composeApp/release/*.aab
