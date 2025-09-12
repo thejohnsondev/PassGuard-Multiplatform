@@ -5,6 +5,7 @@ on:
     branches: [develop]
 
 jobs:
+  # ------------------ 1. TEST JOB ------------------
   build-test:
     runs-on: ubuntu-latest
     permissions:
@@ -27,7 +28,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # ---- shared step 1 ----
       - name: Create Secret Files
+        id: secrets
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           LOGO_API_KEY: ${{ secrets.LOGO_API_KEY }}
@@ -46,9 +49,13 @@ jobs:
           $GOOGLE_SERVICES_JSON_CONTENT
           EOF
 
-      - name: Create BuildKonfig
-        run: ./gradlew generateBuildKonfig
+      # ---- shared step 2 ----
+      - name: Create BuildKonfig (PROD)
+        run: |
+          ./scripts/helpers/update_appconfig.sh config.app_type PROD
+          ./gradlew generateBuildKonfig
 
+      # ---- Android unit & instrumentation tests ----
       - name: Build app
         run: ./gradlew assembleDebug :core:common:assembleAndroidTest :core:platform:assembleAndroidTest :composeApp:assembleAndroidTest
 
@@ -84,13 +91,47 @@ jobs:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
 
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           files: |
             core/common/build/test-results/**/*.xml
             core/network/build/test-results/**/*.xml
             feature/auth/domain/build/test-results/**/*.xml
+
+  # ------------------ 2. ANDROID RELEASE JOB ------------------
+  android-release:
+    name: Android Release
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # re-run shared steps
+      - name: Create Secret Files
+        run: |
+          cat <<EOF > secrets.properties
+          firebase_api_key=${{ secrets.FIREBASE_API_KEY }}
+          logo_api_key=${{ secrets.LOGO_API_KEY }}
+          post_hog_api_key=${{ secrets.POST_HOG_API_KEY }}
+          post_hog_host=${{ secrets.POST_HOG_HOST }}
+          EOF
+          cat <<EOF > composeApp/google-services.json
+          ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          EOF
+
+      - name: Create BuildKonfig (PROD)
+        run: |
+          ./scripts/helpers/update_appconfig.sh config.app_type PROD
+          ./gradlew generateBuildKonfig
 
       - name: Assemble Release Apk
         run: ./gradlew assembleRelease
@@ -111,7 +152,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Signed release APK
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
       - name: Deploy to App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -119,5 +160,49 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: internal-testers
-          file: ${{steps.sign_app.outputs.signedReleaseFile}}
+          file: ${{ steps.sign_app.outputs.signedReleaseFile }}
           releaseNotesFile: whatsNew/whatsnew-en-US.txt
+
+  # ------------------ 3. macOS DMG JOB ------------------
+  macos-release:
+    name: macOS DMG
+    runs-on: macos-latest
+    needs: build-test
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Create Secret Files
+        run: |
+          cat <<EOF > secrets.properties
+          firebase_api_key=${{ secrets.FIREBASE_API_KEY }}
+          logo_api_key=${{ secrets.LOGO_API_KEY }}
+          post_hog_api_key=${{ secrets.POST_HOG_API_KEY }}
+          post_hog_host=${{ secrets.POST_HOG_HOST }}
+          EOF
+          cat <<EOF > composeApp/google-services.json
+          ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          EOF
+
+      - name: Create BuildKonfig (PROD)
+        run: |
+          ./scripts/helpers/update_appconfig.sh config.app_type PROD
+          ./gradlew generateBuildKonfig
+
+      - name: Build macOS Helper Executable
+        run: ./scripts/build_mac_arm_executable.sh
+
+      - name: Upload DMG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PassGuard-macOS-DMG
+          path: composeApp/release/*.dmg
