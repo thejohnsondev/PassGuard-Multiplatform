@@ -1,5 +1,7 @@
 #!/bin/bash
 
+chmod +x gradlew
+
 echo "Run build_dmg_executable.sh"
 cd ./scripts
 sh ./helpers/build_machelper_executable.sh

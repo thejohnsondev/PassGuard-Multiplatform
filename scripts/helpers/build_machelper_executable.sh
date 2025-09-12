@@ -1,5 +1,7 @@
 #!/bin/bash
 
+chmod +x gradlew
+
 echo "Run build_machelper_executable.sh"
 if [ ! -f ../composeApp/src/desktopMain/resources/PassGuardMacOSBiometricCheck.kexe ]; then
   echo "No PassGuardMacOSBiometricCheck.kexe found, building it now..."

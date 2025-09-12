@@ -15,6 +15,8 @@ modules=(
   ":feature:settings:domain:test"
 )
 
+chmod +x gradlew
+
 echo "Starting Android Unit Tests..."
 echo "---------------------------------"
 

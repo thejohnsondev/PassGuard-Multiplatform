@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+chmod +x gradlew
+
 CONFIG_FILE="appconfig.properties"
 KEY="$1"
 VALUE="$2"
