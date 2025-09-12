@@ -186,6 +186,7 @@ jobs:
         run: |
           chmod +x gradlew
           chmod +x scripts/helpers/update_appconfig.sh
+          chmod +x scripts/build_mac_arm_executable.sh
 
       - name: Create Secret Files
         run: |
