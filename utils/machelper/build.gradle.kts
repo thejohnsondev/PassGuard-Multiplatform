@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    val binaryName = "PassGuard MacOS Biometric Check"
+    val binaryName = "PassGuardMacOSBiometricCheck"
     macosX64 {
         binaries {
             executable {
