@@ -52,10 +52,10 @@ jobs:
           EOF
 
       # ---- shared step 2 ----
-      - name: Create BuildKonfig (PROD)
-        run: |
-          ./scripts/helpers/update_appconfig.sh config.app_type PROD
-          ./gradlew generateBuildKonfig
+#      - name: Create BuildKonfig (PROD)
+#        run: |
+#          ./scripts/helpers/update_appconfig.sh config.app_type PROD
+#          ./gradlew generateBuildKonfig
 
       # ---- Android unit & instrumentation tests ----
 #      - name: Build app
@@ -207,6 +207,11 @@ jobs:
 
       - name: Build macOS Helper Executable
         run: ./scripts/build_mac_arm_executable.sh
+
+      - name: Debug DMG location
+        run: |
+          echo "PWD: $(pwd)"
+          ls -R composeApp/release || echo "composeApp/release is missing"
 
       - name: Upload DMG Artifact
         uses: actions/upload-artifact@v4
