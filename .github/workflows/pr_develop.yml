@@ -207,7 +207,10 @@ jobs:
           ./gradlew generateBuildKonfig
 
       - name: Build macOS Helper Executable
-        run: ./scripts/build_mac_arm_executable.sh
+        run: |
+          ./scripts/build_mac_arm_executable.sh
+          echo "Check build output…"
+          ls -R composeApp/build/compose/binaries || echo "No binaries folder"
 
       - name: Debug DMG location
         run: |
