@@ -2,7 +2,7 @@ name: PR Validation
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [ develop ]
 
 jobs:
   # ------------------ 1. TEST JOB ------------------
@@ -31,7 +31,6 @@ jobs:
           chmod +x gradlew
           chmod +x scripts/helpers/update_appconfig.sh
 
-      # ---- shared step 1 ----
       - name: Create Secret Files
         id: secrets
         env:
@@ -52,121 +51,118 @@ jobs:
           $GOOGLE_SERVICES_JSON_CONTENT
           EOF
 
-      # ---- shared step 2 ----
-#      - name: Create BuildKonfig (PROD)
-#        run: |
-#          ./scripts/helpers/update_appconfig.sh config.app_type PROD
-#          ./gradlew generateBuildKonfig
+      - name: Create BuildKonfig (PROD)
+        run: |
+          ./scripts/helpers/update_appconfig.sh config.app_type PROD
+          ./gradlew generateBuildKonfig
 
-      # ---- Android unit & instrumentation tests ----
-#      - name: Build app
-#        run: ./gradlew assembleDebug :core:common:assembleAndroidTest :core:platform:assembleAndroidTest :composeApp:assembleAndroidTest
-#
-#      - name: Run Unit Tests
-#        run: |
-#          ./gradlew :core:common:test
-#          ./gradlew :core:network:test
-#          ./gradlew :feature:auth:domain:test
-#          ./gradlew :feature:vault:domain:test
-#          ./gradlew :feature:tools:domain:test
-#          ./gradlew :feature:tools:data:test
-#          ./gradlew :feature:settings:domain:test
+      - name: Build app
+        run: ./gradlew assembleDebug :core:common:assembleAndroidTest :core:platform:assembleAndroidTest :composeApp:assembleAndroidTest
 
-#      - name: Run :core:common Android tests on Firebase Test Lab
-#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-#        with:
-#          arg-spec: deviceconfig/common-android-device.yml:android-pixel-4
-#        env:
-#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
-#
-#      - name: Run :core:platform Android tests on Firebase Test Lab
-#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-#        with:
-#          arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
-#        env:
-#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
-#
-#      - name: Run End-to-end Android tests on Firebase Test Lab
-#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-#        with:
-#          arg-spec: deviceconfig/endtoend-android-device.yml:android-pixel-4
-#        env:
-#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+      - name: Run Unit Tests
+        run: |
+          ./gradlew :core:common:test
+          ./gradlew :core:network:test
+          ./gradlew :feature:auth:domain:test
+          ./gradlew :feature:vault:domain:test
+          ./gradlew :feature:tools:domain:test
+          ./gradlew :feature:tools:data:test
+          ./gradlew :feature:settings:domain:test
 
-#      - name: Publish Test Results
-#        if: always()
-#        uses: EnricoMi/publish-unit-test-result-action@v2
-#        with:
-#          files: |
-#            core/common/build/test-results/**/*.xml
-#            core/network/build/test-results/**/*.xml
-#            feature/auth/domain/build/test-results/**/*.xml
+      - name: Run :core:common Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: deviceconfig/common-android-device.yml:android-pixel-4
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+
+      - name: Run :core:platform Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: deviceconfig/platform-android-device.yml:android-pixel-4
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+
+      - name: Run End-to-end Android tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: deviceconfig/endtoend-android-device.yml:android-pixel-4
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_TEST_LAB_SERVICE_ACCOUNT }}
+
+      - name: Publish Test Results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: |
+            core/common/build/test-results/**/*.xml
+            core/network/build/test-results/**/*.xml
+            feature/auth/domain/build/test-results/**/*.xml
 
   # ------------------ 2. ANDROID RELEASE JOB ------------------
-#  android-release:
-#    name: Android Release
-#    runs-on: ubuntu-latest
-#    needs: build-test
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/setup-java@v4
-#        with:
-#          distribution: temurin
-#          java-version: 17
-#          cache: gradle
-#
-#      - name: Grant execute permissions
-#        run: |
-#          chmod +x gradlew
-#          chmod +x scripts/helpers/update_appconfig.sh
-#
-#      # re-run shared steps
-#      - name: Create Secret Files
-#        run: |
-#          cat <<EOF > secrets.properties
-#          firebase_api_key=${{ secrets.FIREBASE_API_KEY }}
-#          logo_api_key=${{ secrets.LOGO_API_KEY }}
-#          post_hog_api_key=${{ secrets.POST_HOG_API_KEY }}
-#          post_hog_host=${{ secrets.POST_HOG_HOST }}
-#          EOF
-#          cat <<EOF > composeApp/google-services.json
-#          ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
-#          EOF
-#
-#      - name: Create BuildKonfig (PROD)
-#        run: |
-#          ./scripts/helpers/update_appconfig.sh config.app_type PROD
-#          ./gradlew generateBuildKonfig
-#
-#      - name: Assemble Release Apk
-#        run: ./gradlew assembleRelease
-#
-#      - name: Sign Bundle
-#        uses: r0adkll/sign-android-release@v1
-#        id: sign_app
-#        with:
-#          releaseDirectory: composeApp/build/outputs/apk/release
-#          signingKeyBase64: ${{ secrets.KEYSTORE }}
-#          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-#          alias: ${{ secrets.KEY_ALIAS }}
-#          keyPassword: ${{ secrets.KEY_PASSWORD }}
-#        env:
-#          BUILD_TOOLS_VERSION: "34.0.0"
-#
-#      - name: Upload Artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: Signed release APK
-#          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
-#
-#      - name: Deploy to App Distribution
-#        uses: wzieba/Firebase-Distribution-Github-Action@v1
-#        with:
-#          appId: ${{ secrets.FIREBASE_APP_ID }}
-#          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-#          groups: internal-testers
-#          file: ${{ steps.sign_app.outputs.signedReleaseFile }}
-#          releaseNotesFile: whatsNew/whatsnew-en-US.txt
+  android-release:
+    name: Android Release
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Grant execute permissions
+        run: |
+          chmod +x gradlew
+          chmod +x scripts/helpers/update_appconfig.sh
+
+      - name: Create Secret Files
+        run: |
+          cat <<EOF > secrets.properties
+          firebase_api_key=${{ secrets.FIREBASE_API_KEY }}
+          logo_api_key=${{ secrets.LOGO_API_KEY }}
+          post_hog_api_key=${{ secrets.POST_HOG_API_KEY }}
+          post_hog_host=${{ secrets.POST_HOG_HOST }}
+          EOF
+          cat <<EOF > composeApp/google-services.json
+          ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          EOF
+
+      - name: Create BuildKonfig (PROD)
+        run: |
+          ./scripts/helpers/update_appconfig.sh config.app_type PROD
+          ./gradlew generateBuildKonfig
+
+      - name: Assemble Release Apk
+        run: ./gradlew assembleRelease
+
+      - name: Sign Bundle
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: composeApp/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Signed release APK
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+
+      - name: Deploy to App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: internal-testers
+          file: ${{ steps.sign_app.outputs.signedReleaseFile }}
+          releaseNotesFile: whatsNew/whatsnew-en-US.txt
 
   # ------------------ 3. macOS DMG JOB ------------------
   macos-release:
@@ -209,18 +205,6 @@ jobs:
       - name: Build macOS Helper Executable
         run: |
           ./scripts/build_mac_arm_executable.sh
-          echo "Check build output…"
-          ls -R composeApp/build/compose/binaries || echo "No binaries folder"
-
-      - name: Debug DMG location
-        run: |
-          echo "PWD: $(pwd)"
-          ls -R composeApp/release || echo "composeApp/release is missing"
-
-      - name: Show everything for debugging
-        run: |
-          echo "Looking for DMG…"
-          find . -type f -name "*.dmg"
 
       - name: Upload DMG Artifact
         uses: actions/upload-artifact@v4
