@@ -8,6 +8,7 @@ jobs:
   # ------------------ 1. TEST JOB ------------------
   build-test:
     runs-on: ubuntu-latest
+    name: Build & Test
     permissions:
       contents: read
       issues: read
@@ -169,7 +170,7 @@ jobs:
 
   # ------------------ 3. macOS DMG JOB ------------------
   macos-release:
-    name: macOS DMG
+    name: macOS DMG Release
     runs-on: macos-latest
     needs: build-test
 
@@ -212,6 +213,11 @@ jobs:
         run: |
           echo "PWD: $(pwd)"
           ls -R composeApp/release || echo "composeApp/release is missing"
+
+      - name: Show everything for debugging
+        run: |
+          echo "Looking for DMG…"
+          find . -type f -name "*.dmg"
 
       - name: Upload DMG Artifact
         uses: actions/upload-artifact@v4
