@@ -425,37 +425,38 @@ fun ManageLocalVaultSubSection(
     goToSignUp: () -> Unit,
     colors: SelectableItemColors,
 ) {
-    RoundedButton(
-        modifier = Modifier
-            .height(Size72)
-            .padding(start = Size16, end = Size16, bottom = Size8, top = Size2)
-            .fillMaxWidth(),
-        text = stringResource(resource = ResString.create_account),
-        onClick = {
-            goToSignUp()
-        },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-    )
-    Row(
-        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = Icons.Default.Info,
-            tint = colors.getSelectedContentColor(),
-            contentDescription = null
-        )
-        Text(
-            modifier = Modifier
-                .padding(start = Size4),
-            text = stringResource(ResString.create_account_description),
-            color = colors.getSelectedContentColor(),
-            style = MaterialTheme.typography.bodySmall
-        )
-    }
+    // disabled for the first release
+//    RoundedButton(
+//        modifier = Modifier
+//            .height(Size72)
+//            .padding(start = Size16, end = Size16, bottom = Size8, top = Size2)
+//            .fillMaxWidth(),
+//        text = stringResource(resource = ResString.create_account),
+//        onClick = {
+//            goToSignUp()
+//        },
+//        colors = ButtonDefaults.buttonColors(
+//            containerColor = MaterialTheme.colorScheme.primaryContainer,
+//            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+//        )
+//    )
+//    Row(
+//        modifier = Modifier.padding(start = Size16, end = Size16, bottom = Size8),
+//        verticalAlignment = Alignment.CenterVertically
+//    ) {
+//        Icon(
+//            imageVector = Icons.Default.Info,
+//            tint = colors.getSelectedContentColor(),
+//            contentDescription = null
+//        )
+//        Text(
+//            modifier = Modifier
+//                .padding(start = Size4),
+//            text = stringResource(ResString.create_account_description),
+//            color = colors.getSelectedContentColor(),
+//            style = MaterialTheme.typography.bodySmall
+//        )
+//    }
     Column(
         modifier = Modifier
             .padding(start = Size16, end = Size16, top = Size8, bottom = Size16)
