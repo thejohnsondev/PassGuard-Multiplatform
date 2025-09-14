@@ -42,6 +42,9 @@ kotlin {
 
             // Arrow Either
             implementation(libs.arrow.core)
+
+            // DateTime
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

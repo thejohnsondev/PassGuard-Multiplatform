@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 import com.codingfeline.buildkonfig.compiler.FieldSpec
+import java.io.ByteArrayOutputStream
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -143,6 +144,31 @@ buildkonfig {
             "SHOW_VAULT_TYPE_SELECTION",
             appConfigProperties["config.show_vault_type_selection"]?.toString() ?: "false"
         )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "VERSION_NAME",
+            libs.versions.versionName.get()
+        )
+        val lastCommitTime = runGitCommand("git log -1 --format=%ct")
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "LAST_COMMIT_TIME",
+            lastCommitTime
+        )
+        val commitHash = runGitCommand("git rev-parse --short HEAD")
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "LAST_COMMIT_HASH",
+            commitHash
+        )
     }
+}
 
+fun runGitCommand(cmd: String): String {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine("bash", "-c", cmd)
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
 }
