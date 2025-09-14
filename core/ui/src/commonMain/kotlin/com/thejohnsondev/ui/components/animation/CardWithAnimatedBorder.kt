@@ -38,6 +38,7 @@ fun getDefaultAnimatedBorderColors() = listOf(
 
 @Composable
 fun CardWithAnimatedBorder(
+    modifier: Modifier = Modifier,
     borderColors: List<Color> = emptyList(),
     content: @Composable () -> Unit
 ) {
@@ -62,7 +63,7 @@ fun CardWithAnimatedBorder(
 
     val brush = Brush.sweepGradient(borderColors.map { it.copy(alpha = borderAlpha) })
 
-    Surface(modifier = Modifier, shape = RoundedCornerShape(Size20)) {
+    Surface(modifier = modifier, shape = RoundedCornerShape(Size20)) {
         Surface(
             modifier = Modifier
                 .clipToBounds()
