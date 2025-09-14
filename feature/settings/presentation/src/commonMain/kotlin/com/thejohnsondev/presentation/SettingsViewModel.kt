@@ -8,10 +8,12 @@ import com.thejohnsondev.domain.repo.AuthService
 import com.thejohnsondev.domain.GetBiometricAvailabilityUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
+import com.thejohnsondev.domain.GetVersionInfoUseCase
 import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
+import com.thejohnsondev.domain.model.VersionInfo
 import com.thejohnsondev.localization.Language
 import com.thejohnsondev.localization.LocalizationUtils
 import com.thejohnsondev.model.DisplayableMessageValue
@@ -43,7 +45,8 @@ class SettingsViewModel(
     private val isDynamicThemeAvailableUseCase: IsDynamicThemeAvailableUseCase,
     private val isBlockingScreenshotAvailableUseCase: IsBlockingScreenshotAvailableUseCase,
     private val passwordValidationUseCase: PasswordValidationUseCase,
-    private val localizationUtils: LocalizationUtils
+    private val localizationUtils: LocalizationUtils,
+    private val getVersionInfoUseCase: GetVersionInfoUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -100,6 +103,9 @@ class SettingsViewModel(
             is Action.OnImportSuccessful -> onImportSuccessful()
             is Action.OnImportError -> onImportError(action.message)
             is Action.SelectLanguage -> selectLanguage(action.language)
+            is Action.OpenCloseVersionInfo -> openCloseVersionInfo(action.isOpen)
+            is Action.OpenCloseLicenseInfo -> openCloseLicenseInfo(action.isOpen)
+            is Action.OpenCloseContactInfo -> openCloseContactInfo(action.isOpen)
         }
     }
 
@@ -112,6 +118,7 @@ class SettingsViewModel(
         val biometricAvailability = getBiometricAvailabilityUseCase()
         val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
         val supportsBlockingScreenshots = isBlockingScreenshotAvailableUseCase()
+        val versionInfo = getVersionInfoUseCase()
         getSettingsFlowUseCase.invoke().collect { config ->
             val selectedLanguage = localizationUtils.getSelectedLanguage()
             _state.update {
@@ -121,7 +128,8 @@ class SettingsViewModel(
                     isBiometricsAvailable = biometricAvailability is BiometricAvailability.Available,
                     supportsDynamicTheming = supportsDynamicTheming,
                     isBlockingScreenshotsAvailable = supportsBlockingScreenshots,
-                    selectedLanguage = selectedLanguage
+                    selectedLanguage = selectedLanguage,
+                    versionInfo = versionInfo
                 )
             }
         }
@@ -277,6 +285,24 @@ class SettingsViewModel(
         localizationUtils.setSelectedLanguage(language)
     }
 
+    private fun openCloseVersionInfo(isOpen: Boolean) {
+        _state.update {
+            it.copy(isVersionInfoOpened = isOpen)
+        }
+    }
+
+    private fun openCloseLicenseInfo(isOpen: Boolean) {
+        _state.update {
+            it.copy(isLicenseInfoOpened = isOpen)
+        }
+    }
+
+    private fun openCloseContactInfo(isOpen: Boolean) {
+        _state.update {
+            it.copy(isContactInfoOpened = isOpen)
+        }
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -303,6 +329,9 @@ class SettingsViewModel(
         data object OnImportSuccessful : Action()
         data class OnImportError(val message: DisplayableMessageValue) : Action()
         data class SelectLanguage(val language: Language) : Action()
+        data class OpenCloseVersionInfo(val isOpen: Boolean) : Action()
+        data class OpenCloseLicenseInfo(val isOpen: Boolean) : Action()
+        data class OpenCloseContactInfo(val isOpen: Boolean) : Action()
     }
 
     data class State(
@@ -325,6 +354,10 @@ class SettingsViewModel(
         val isExportPasswordsDialogOpened: Boolean = false,
         val isImportPasswordsDialogOpened: Boolean = false,
         val selectedLanguage: Language? = null,
+        val isVersionInfoOpened: Boolean = false,
+        val isLicenseInfoOpened: Boolean = false,
+        val isContactInfoOpened: Boolean = false,
+        val versionInfo: VersionInfo? = null,
     )
 
 }

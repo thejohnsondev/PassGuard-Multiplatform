@@ -5,6 +5,7 @@ import com.thejohnsondev.domain.ExportVaultUseCase
 import com.thejohnsondev.domain.GenerateExportCSVUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
+import com.thejohnsondev.domain.GetVersionInfoUseCase
 import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.ParsePasswordsCSVUseCase
@@ -23,4 +24,5 @@ val settingsDomainModule = module {
     single { IsBlockingScreenshotAvailableUseCase(get()) }
     single { SelectCSVUseCase(get()) }
     single { ParsePasswordsCSVUseCase() }
+    single { GetVersionInfoUseCase() }
 }
