@@ -4,6 +4,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
 
 val EquallyRounded = Shapes(
+    extraSmall = RoundedCornerShape(Size4),
     small = RoundedCornerShape(Size8),
     medium = RoundedCornerShape(Size16),
     large = RoundedCornerShape(Size32)

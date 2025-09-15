@@ -3,6 +3,7 @@ package com.thejohnsondev.ui.model.settings
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FormatPaint
 import androidx.compose.material.icons.filled.ImportExport
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Settings
@@ -10,6 +11,8 @@ import com.thejohnsondev.ui.model.IconContainer
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.ResString
 import org.jetbrains.compose.resources.StringResource
+import vaultmultiplatform.core.ui.generated.resources.about_description
+import vaultmultiplatform.core.ui.generated.resources.about_title
 import vaultmultiplatform.core.ui.generated.resources.general_description
 import vaultmultiplatform.core.ui.generated.resources.general_title
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_img_512_blue_gradient
@@ -65,6 +68,13 @@ sealed class SettingsSubSection(
         sectionTitleRes = ResString.security_and_privacy_title,
         sectionDescriptionRes = ResString.security_and_privacy_description,
         sectionIcon = IconContainer(Icons.Default.Security),
+        expanded = false
+    )
+
+    data object AboutSettingsSub : SettingsSubSection(
+        sectionTitleRes = ResString.about_title,
+        sectionDescriptionRes = ResString.about_description,
+        sectionIcon = IconContainer(Icons.Default.Info),
         expanded = false
     )
 

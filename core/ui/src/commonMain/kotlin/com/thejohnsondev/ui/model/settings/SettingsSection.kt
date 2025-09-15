@@ -15,7 +15,8 @@ data class SettingsSection(
                 SettingsSubSection.GeneralSettingsSub,
                 SettingsSubSection.StyleSettingsSub,
                 SettingsSubSection.ExportSettingsSub,
-                SettingsSubSection.PrivacySettingsSub
+                SettingsSubSection.PrivacySettingsSub,
+                SettingsSubSection.AboutSettingsSub
             )
         )
         private val cloudVaultManageSection = SettingsSection(

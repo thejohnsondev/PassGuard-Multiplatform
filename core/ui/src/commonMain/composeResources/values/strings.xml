@@ -251,6 +251,17 @@
     <string name="language_lithuanian">Lithuanian</string>
     <string name="language_estonian">Estonian</string>
     <string name="language_maltese">Maltese</string>
+    <string name="about_title">About</string>
+    <string name="about_description">App version, licenses, and more</string>
+    <string name="version_info">Version info</string>
+    <string name="version_info_description">Information about the app version</string>
+    <string name="version_name_placeholder">Version %1$s</string>
+    <string name="last_update_placeholder">Last update on %1$s</string>
+    <string name="last_update_hash_placeholder">Last update hash: %1$s</string>
+    <string name="contact_info">Contact info</string>
+    <string name="contact_info_description">Contact details and support</string>
+    <string name="license_info">License info</string>
+    <string name="license_info_description">Licence information about the libraries used in the app</string>
 
     <!--Onboarding-->
     <string name="onboarding_security_title">Your Data is Always Safe</string>
