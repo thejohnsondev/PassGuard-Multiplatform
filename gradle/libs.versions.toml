@@ -6,8 +6,8 @@ versionName = "1.0.7"
 versionCode = "7"
 
 # Android Gradle Plugin (AGP)
-agp = "8.7.3"
-android-compileSdk = "35"
+agp = "8.9.1"
+android-compileSdk = "36"
 android-minSdk = "29"
 android-targetSdk = "36"
 
@@ -16,6 +16,7 @@ kotlin = "2.1.21"
 kotlinx-coroutines = "1.9.0" # Used for coroutines references
 kotlinxDatetime = "0.6.1"
 kotlinx-serialization = "1.7.3"
+kotlin = "2.2.20"
 
 # Compose Multiplatform
 compose-plugin = "1.8.2"

@@ -28,12 +28,60 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		CC78CB902D60B71900B4A67E /* di */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = di; sourceTree = "<group>"; };
-		CC8825092D6DC9F500D36C1D /* storage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = storage; sourceTree = "<group>"; };
-		CCAEB4462D6079E800F712EF /* encryption */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = encryption; sourceTree = "<group>"; };
-		CCFD6E9D2D71E8D400E54C91 /* utils */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = utils; sourceTree = "<group>"; };
-		DD2BE7F62E5D99DD00A8BF51 /* analytics */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = analytics; sourceTree = "<group>"; };
-		DD8B69DC2DE4D5DC006F95B3 /* filemanager */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = filemanager; sourceTree = "<group>"; };
+		CC78CB902D60B71900B4A67E /* di */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = di;
+			sourceTree = "<group>";
+		};
+		CC8825092D6DC9F500D36C1D /* storage */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = storage;
+			sourceTree = "<group>";
+		};
+		CCAEB4462D6079E800F712EF /* encryption */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = encryption;
+			sourceTree = "<group>";
+		};
+		CCFD6E9D2D71E8D400E54C91 /* utils */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		DD2BE7F62E5D99DD00A8BF51 /* analytics */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = analytics;
+			sourceTree = "<group>";
+		};
+		DD8B69DC2DE4D5DC006F95B3 /* filemanager */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = filemanager;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,7 +419,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = A28YZC23VF;
+				DEVELOPMENT_TEAM = "${TEAM_ID}";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
