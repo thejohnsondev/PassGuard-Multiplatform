@@ -1,7 +1,7 @@
 package com.thejohnsondev.common.utils
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
@@ -9,6 +9,7 @@ import kotlinx.datetime.format.DateTimeFormat
 import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
 
 val DEFAULT_SIMPLE_FORMAT = LocalDateTime.Format {
     monthName(MonthNames.ENGLISH_ABBREVIATED)
@@ -32,6 +33,7 @@ val EXPORT_FILE_TIME_FORMAT = LocalDateTime.Format {
     second()
 }
 
+@OptIn(ExperimentalTime::class)
 fun String?.parseTime(format: DateTimeFormat<LocalDateTime> = DEFAULT_SIMPLE_FORMAT): String? {
     if (this == null) return null
     val timeStampValue = this.toLongOrNull()
@@ -42,14 +44,17 @@ fun String?.parseTime(format: DateTimeFormat<LocalDateTime> = DEFAULT_SIMPLE_FOR
     return formatted
 }
 
+@OptIn(ExperimentalTime::class)
 fun getCurrentTimeStamp(): String {
     return Clock.System.now().epochSeconds.toString()
 }
 
+@OptIn(ExperimentalTime::class)
 fun getCurrentTimeMillis(): Long {
     return Clock.System.now().toEpochMilliseconds()
 }
 
+@OptIn(ExperimentalTime::class)
 fun String.getTimeDifferenceInMillis(): Long {
     val currentTime = Clock.System.now().epochSeconds
     val timeStampValue = this.toLongOrNull()

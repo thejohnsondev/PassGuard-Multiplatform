@@ -1,7 +1,7 @@
 # Project-specific versions
 [versions]
 posthog = "1.2.0"
-posthogAndroid = "3.19.0"
+posthogAndroid = "3.21.3"
 versionName = "1.0.7"
 versionCode = "7"
 
@@ -12,60 +12,59 @@ android-minSdk = "29"
 android-targetSdk = "36"
 
 # Kotlin and Coroutines
-kotlin = "2.1.21"
-kotlinx-coroutines = "1.9.0" # Used for coroutines references
-kotlinxDatetime = "0.6.1"
-kotlinx-serialization = "1.7.3"
 kotlin = "2.2.20"
+kotlinx-coroutines = "1.10.2" # Used for coroutines references
+kotlinxDatetime = "0.7.1"
+kotlinx-serialization = "1.9.0"
 
 # Compose Multiplatform
 compose-plugin = "1.8.2"
-androidx-activityCompose = "1.10.1"
-ui-tooling = "1.8.2"
+androidx-activityCompose = "1.11.0"
+ui-tooling = "1.9.1"
 composeJetbrainsExpuiTheme = "2.2.0"
 material3WindowSizeClassMultiplatform = "0.5.0"
-navigationCompose = "2.9.0-beta05"
-haze = "1.6.0"
+navigationCompose = "2.9.0-rc02"
+haze = "1.6.10"
 
 # Android Core & UI
-ktx = "1.16.0"
-androidx-lifecycle = "2.8.3"
-lifecycleViewModel = "2.9.1"
-fragmentKtxVersion = "1.8.8"
+ktx = "1.17.0"
+androidx-lifecycle = "2.9.4"
+lifecycleViewModel = "2.9.3"
+fragmentKtxVersion = "1.8.9"
 biometric = "1.2.0-alpha05"
 splashscreen = "1.0.1"
-securityCryptoKtx = "1.0.0"
-material = "1.12.0"
+securityCryptoKtx = "1.1.0"
+material = "1.13.0"
 appcompat = "1.7.1"
 
 # Firebase & Google Mobile Services (GMS)
-firebaseBom = "33.15.0"
-gms = "4.4.2"
-crashlytcs = "3.0.4"
+firebaseBom = "34.2.0"
+gms = "4.4.3"
+crashlytcs = "3.0.6"
 
 # Networking
-ktor-client = "3.0.1"
-konnection = "1.4.3"
+ktor-client = "3.3.0"
+konnection = "1.4.5"
 
 # Dependency Injection (Koin)
 koin = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
 
 # Data Persistence
-sqldelight = "2.0.2"
+sqldelight = "2.1.0"
 datastore = "1.1.7"
 
 # Image Loading
-landscapistCoil3 = "2.4.1"
+landscapistCoil3 = "2.6.0"
 
 # Logging
 napier = "2.7.1"
 
 # Functional Programming
-arrow = "1.1.2"
+arrow = "2.1.2"
 
 # Build Configuration
-buildkonfig = "0.15.2"
+buildkonfig = "0.17.1"
 
 # Testing
 mockk = "1.12.0"
