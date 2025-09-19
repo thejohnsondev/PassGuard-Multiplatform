@@ -6,7 +6,7 @@ versionName = "1.0.7"
 versionCode = "7"
 
 # Android Gradle Plugin (AGP)
-agp = "8.9.1"
+agp = "8.13.0"
 android-compileSdk = "36"
 android-minSdk = "29"
 android-targetSdk = "36"
@@ -29,7 +29,7 @@ haze = "1.6.10"
 # Android Core & UI
 ktx = "1.17.0"
 androidx-lifecycle = "2.9.4"
-lifecycleViewModel = "2.9.3"
+lifecycleViewModel = "2.9.4"
 fragmentKtxVersion = "1.8.9"
 biometric = "1.2.0-alpha05"
 splashscreen = "1.0.1"
@@ -38,7 +38,7 @@ material = "1.13.0"
 appcompat = "1.7.1"
 
 # Firebase & Google Mobile Services (GMS)
-firebaseBom = "34.2.0"
+firebaseBom = "34.3.0"
 gms = "4.4.3"
 crashlytcs = "3.0.6"
 
@@ -47,8 +47,8 @@ ktor-client = "3.3.0"
 konnection = "1.4.5"
 
 # Dependency Injection (Koin)
-koin = "3.6.0-Beta4"
-koinComposeMultiplatform = "1.2.0-Beta4"
+koin = "4.1.1"
+koinComposeMultiplatform = "4.1.1"
 
 # Data Persistence
 sqldelight = "2.1.0"
@@ -67,13 +67,13 @@ arrow = "2.1.2"
 buildkonfig = "0.17.1"
 
 # Testing
-mockk = "1.12.0"
+mockk = "1.14.5"
 runner = "1.0.2"
-uiTestJunit4Android = "1.8.2"
+uiTestJunit4Android = "1.9.1"
 junitVersion = "4.13.2"
-androidxJunit = "1.2.1"
-espressoCore = "3.6.1"
-androidxUiTestJunit4 = "1.8.3"
+androidxJunit = "1.3.0"
+espressoCore = "3.7.0"
+androidxUiTestJunit4 = "1.9.1"
 
 
 [libraries]
