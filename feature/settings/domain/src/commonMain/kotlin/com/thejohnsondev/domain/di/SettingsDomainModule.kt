@@ -3,6 +3,7 @@ package com.thejohnsondev.domain.di
 import com.thejohnsondev.domain.CheckPassDuplicatesUseCase
 import com.thejohnsondev.domain.ExportVaultUseCase
 import com.thejohnsondev.domain.GenerateExportCSVUseCase
+import com.thejohnsondev.domain.GetContactInfoUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
 import com.thejohnsondev.domain.GetVersionInfoUseCase
@@ -25,4 +26,5 @@ val settingsDomainModule = module {
     single { SelectCSVUseCase(get()) }
     single { ParsePasswordsCSVUseCase() }
     single { GetVersionInfoUseCase() }
+    single { GetContactInfoUseCase() }
 }

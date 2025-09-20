@@ -8,7 +8,8 @@ import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 actual val settingsPresentationModule = module {
-    viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+//    viewModelOf(::SettingsViewModel)
+    viewModel { SettingsViewModel(get(), get(),get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { ExportPasswordsViewModel(get(), get(), get(), get(), get()) }
     viewModel { NotExportedPasswordsViewModel(get()) }
     viewModel { ImportPasswordsViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }

@@ -11,4 +11,5 @@ object BuildKonfigProvider {
     fun getAppVersionName(): String = BuildKonfig.VERSION_NAME
     fun getLastAppUpdate(): String = BuildKonfig.LAST_COMMIT_TIME
     fun getLastCommitHash(): String = BuildKonfig.LAST_COMMIT_HASH
+    fun getContactEmail(): String = BuildKonfig.CONTACT_EMAIL
 }

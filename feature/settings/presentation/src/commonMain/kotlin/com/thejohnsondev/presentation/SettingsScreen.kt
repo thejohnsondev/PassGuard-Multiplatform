@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Commit
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Copyright
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.filled.Support
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -64,6 +66,7 @@ import com.thejohnsondev.ui.components.button.ToggleOptionItem
 import com.thejohnsondev.ui.components.container.RoundedContainer
 import com.thejohnsondev.ui.components.dialog.ConfirmAlertDialog
 import com.thejohnsondev.ui.designsystem.BottomRounded
+import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent80
 import com.thejohnsondev.ui.designsystem.Size16
@@ -105,6 +108,7 @@ import vaultmultiplatform.core.ui.generated.resources.block_screenshot
 import vaultmultiplatform.core.ui.generated.resources.block_screenshot_description
 import vaultmultiplatform.core.ui.generated.resources.cancel
 import vaultmultiplatform.core.ui.generated.resources.confirm
+import vaultmultiplatform.core.ui.generated.resources.contact_email_description
 import vaultmultiplatform.core.ui.generated.resources.contact_info
 import vaultmultiplatform.core.ui.generated.resources.contact_info_description
 import vaultmultiplatform.core.ui.generated.resources.dangerous_zone
@@ -332,9 +336,6 @@ fun SettingsSubSections(
         } else {
             subSection.sectionDescriptionRes?.let { stringResource(resource = it) }
         }
-    // TODO make sub section icons colored like in new android settings
-
-    // TODO Onboarding screen
     ExpandableSectionItem(
         modifier = modifier,
         title = stringResource(resource = subSection.sectionTitleRes),
@@ -839,7 +840,12 @@ fun AboutSettingsSubSection(
             title = stringResource(ResString.contact_info),
             description = stringResource(ResString.contact_info_description),
             icon = Icons.Default.Support
-        )
+        ) {
+            ContactInfoSubsection(
+                state = state,
+                onAction = onAction
+            )
+        }
         ExpandableSectionItem(
             modifier = Modifier
                 .padding(top = Size4)
@@ -849,6 +855,64 @@ fun AboutSettingsSubSection(
             icon = Icons.Default.Copyright,
             isLastItem = true
         )
+    }
+}
+
+@Composable
+private fun ContactInfoSubsection(
+    state: SettingsViewModel.State,
+    onAction: (SettingsViewModel.Action) -> Unit
+) {
+    val email = state.contactInfo?.developerEmail.orEmpty()
+
+    RoundedContainer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Size16),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(Size16)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                Modifier.weight(Percent100),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    text = stringResource(ResString.contact_email_description),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Thin,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                RoundedContainer(
+                    modifier = Modifier
+                        .padding(top = Size8),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    shape = EquallyRounded.small
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(vertical = Size4, horizontal = Size8),
+                        text = email,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.surface
+                    )
+                }
+            }
+            IconButton(
+                onClick = {
+                    onAction(SettingsViewModel.Action.CopyToClipboard(email))
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ContentCopy,
+                    contentDescription = "Copy Email"
+                )
+            }
+        }
     }
 }
 

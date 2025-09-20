@@ -4,8 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.utils.safeLet
+import com.thejohnsondev.domain.CopyTextUseCase
 import com.thejohnsondev.domain.repo.AuthService
 import com.thejohnsondev.domain.GetBiometricAvailabilityUseCase
+import com.thejohnsondev.domain.GetContactInfoUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.GetUserEmailUseCase
 import com.thejohnsondev.domain.GetVersionInfoUseCase
@@ -13,6 +15,7 @@ import com.thejohnsondev.domain.IsBlockingScreenshotAvailableUseCase
 import com.thejohnsondev.domain.IsDynamicThemeAvailableUseCase
 import com.thejohnsondev.domain.PasswordValidationUseCase
 import com.thejohnsondev.domain.UpdateSettingsUseCase
+import com.thejohnsondev.domain.model.ContactInfo
 import com.thejohnsondev.domain.model.VersionInfo
 import com.thejohnsondev.localization.Language
 import com.thejohnsondev.localization.LocalizationUtils
@@ -46,7 +49,9 @@ class SettingsViewModel(
     private val isBlockingScreenshotAvailableUseCase: IsBlockingScreenshotAvailableUseCase,
     private val passwordValidationUseCase: PasswordValidationUseCase,
     private val localizationUtils: LocalizationUtils,
-    private val getVersionInfoUseCase: GetVersionInfoUseCase
+    private val getVersionInfoUseCase: GetVersionInfoUseCase,
+    private val getContactInfoUseCase: GetContactInfoUseCase,
+    private val copyTextUseCase: CopyTextUseCase,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(State())
@@ -106,6 +111,7 @@ class SettingsViewModel(
             is Action.OpenCloseVersionInfo -> openCloseVersionInfo(action.isOpen)
             is Action.OpenCloseLicenseInfo -> openCloseLicenseInfo(action.isOpen)
             is Action.OpenCloseContactInfo -> openCloseContactInfo(action.isOpen)
+            is Action.CopyToClipboard -> copyToClipboard(action.text)
         }
     }
 
@@ -119,6 +125,7 @@ class SettingsViewModel(
         val supportsDynamicTheming = isDynamicThemeAvailableUseCase()
         val supportsBlockingScreenshots = isBlockingScreenshotAvailableUseCase()
         val versionInfo = getVersionInfoUseCase()
+        val contactInfo = getContactInfoUseCase()
         getSettingsFlowUseCase.invoke().collect { config ->
             val selectedLanguage = localizationUtils.getSelectedLanguage()
             _state.update {
@@ -129,7 +136,8 @@ class SettingsViewModel(
                     supportsDynamicTheming = supportsDynamicTheming,
                     isBlockingScreenshotsAvailable = supportsBlockingScreenshots,
                     selectedLanguage = selectedLanguage,
-                    versionInfo = versionInfo
+                    versionInfo = versionInfo,
+                    contactInfo = contactInfo
                 )
             }
         }
@@ -303,6 +311,11 @@ class SettingsViewModel(
         }
     }
 
+    private fun copyToClipboard(text: String) = launch {
+        copyTextUseCase(text, isSensitive = false)
+        sendEvent(OneTimeEvent.InfoMessage(DisplayableMessageValue.Copied))
+    }
+
     sealed class Action {
         data object FetchSettings : Action()
         data object Logout : Action()
@@ -332,6 +345,7 @@ class SettingsViewModel(
         data class OpenCloseVersionInfo(val isOpen: Boolean) : Action()
         data class OpenCloseLicenseInfo(val isOpen: Boolean) : Action()
         data class OpenCloseContactInfo(val isOpen: Boolean) : Action()
+        data class CopyToClipboard(val text: String) : Action()
     }
 
     data class State(
@@ -358,6 +372,7 @@ class SettingsViewModel(
         val isLicenseInfoOpened: Boolean = false,
         val isContactInfoOpened: Boolean = false,
         val versionInfo: VersionInfo? = null,
+        val contactInfo: ContactInfo? = null
     )
 
 }

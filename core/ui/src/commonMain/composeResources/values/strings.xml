@@ -258,8 +258,9 @@
     <string name="version_name_placeholder">Version %1$s</string>
     <string name="last_update_placeholder">Last update on %1$s</string>
     <string name="last_update_hash_placeholder">Last update hash: %1$s</string>
-    <string name="contact_info">Contact info</string>
+    <string name="contact_info">Contact developer</string>
     <string name="contact_info_description">Contact details and support</string>
+    <string name="contact_email_description">Contact the developer at: </string>
     <string name="license_info">License info</string>
     <string name="license_info_description">Licence information about the libraries used in the app</string>
 

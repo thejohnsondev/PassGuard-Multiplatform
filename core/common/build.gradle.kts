@@ -161,6 +161,11 @@ buildkonfig {
             "LAST_COMMIT_HASH",
             commitHash
         )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "CONTACT_EMAIL",
+            appConfigProperties["config.contact_email"]?.toString()
+        )
     }
 }
 
