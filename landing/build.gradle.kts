@@ -25,6 +25,10 @@ kotlin {
                 implementation(compose.material3)
             }
         }
-        val wasmJsMain by getting
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.routing.compose)
+            }
+        }
     }
 }

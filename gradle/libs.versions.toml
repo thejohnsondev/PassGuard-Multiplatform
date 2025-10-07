@@ -3,6 +3,7 @@
 posthog = "1.2.0"
 posthogAndroid = "3.21.3"
 
+routingCompose = "0.5.0"
 versionName = "1.0.8"
 versionCode = "8"
 
@@ -140,6 +141,7 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 # Data Persistence (SQLDelight & Datastore)
 posthog-java = { module = "com.posthog.java:posthog", version.ref = "posthog" }
 posthog-android = { module = "com.posthog:posthog-android", version.ref = "posthogAndroid" }
+routing-compose = { module = "app.softwork:routing-compose", version.ref = "routingCompose" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
