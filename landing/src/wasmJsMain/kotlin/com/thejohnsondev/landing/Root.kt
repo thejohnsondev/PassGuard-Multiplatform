@@ -1,7 +1,12 @@
 package com.thejohnsondev.landing
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,12 +14,16 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
+import app.softwork.routingcompose.BrowserRouter
+import app.softwork.routingcompose.Router
+import com.thejohnsondev.landing.download.DownloadScreen
+import com.thejohnsondev.landing.home.HomeScreen
+import com.thejohnsondev.landing.privacy.PrivacyScreen
 import kotlinx.browser.document
 
 
@@ -27,26 +36,39 @@ fun main() {
 
 @Composable
 fun App() {
-    val page = remember { mutableStateOf("home") }
-
     // TODO this is for testing only
+    var router: Router? = remember {
+        null
+    }
     MaterialTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())
         ) {
             // simple nav
-            Button(onClick = { page.value = "home" }) { Text("Home") }
-            Button(onClick = { page.value = "download" }) { Text("Download") }
-            Button(onClick = { page.value = "privacy" }) { Text("Privacy") }
-
-            when (page.value) {
-                "home" -> Text("Welcome to PassGuard — short pitch + screenshots go here")
-                "download" -> Text("Download: click the button below")
-                "privacy" -> Text("Privacy policy summary")
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = { router?.navigate("/home") }) { Text("Home") }
+                Button(onClick = { router?.navigate("/download") }) { Text("Download") }
+                Button(onClick = { router?.navigate("/privacy") }) { Text("Privacy") }
             }
+
+            Spacer(Modifier.height(16.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                BrowserRouter("/") {
+                    router = Router.current
+
+                    route("/") { HomeScreen() }
+                    route("/home") { HomeScreen() }
+                    route("/download") { DownloadScreen() }
+                    route("/privacy") { PrivacyScreen() }
+                    noMatch { Text("404 – Page not found") }
+                }
+            }
+
         }
     }
 }
