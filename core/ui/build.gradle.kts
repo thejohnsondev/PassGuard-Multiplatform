@@ -20,6 +20,13 @@ kotlin {
         instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
+    wasmJs {
+        browser {
+            binaries.executable()
+        }
+    }
+
+
     jvm("desktop")
 
     listOf(
@@ -35,7 +42,6 @@ kotlin {
 
     sourceSets {
         val desktopTest by getting
-        val desktopMain by getting
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
@@ -65,10 +71,6 @@ kotlin {
             // Koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
-
-            // Haze
-            implementation(libs.haze.haze)
-            implementation(libs.haze.materials)
 
             // Landscapist Coil3
             implementation(libs.landscapist.coil3)

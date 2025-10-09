@@ -23,6 +23,8 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.material3)
+
+                api(project(":core:common"))
             }
         }
         val wasmJsMain by getting {

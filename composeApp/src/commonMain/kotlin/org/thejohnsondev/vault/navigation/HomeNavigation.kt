@@ -28,7 +28,7 @@ import com.thejohnsondev.presentation.navigation.vaultScreen
 import com.thejohnsondev.ui.designsystem.SizeDefault
 import com.thejohnsondev.ui.model.ScaffoldConfig
 import com.thejohnsondev.ui.model.message.MessageContent
-import com.thejohnsondev.ui.scaffold.HomeScaffold
+import org.thejohnsondev.vault.root.HomeScaffold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

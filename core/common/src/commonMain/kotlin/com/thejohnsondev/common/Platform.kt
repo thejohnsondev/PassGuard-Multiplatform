@@ -6,5 +6,6 @@ enum class Platform {
     JVM,
     ANDROID,
     IOS_DEVICE,
-    IOS_SIMULATOR
+    IOS_SIMULATOR,
+    WASM_JS,
 }
