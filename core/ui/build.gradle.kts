@@ -42,10 +42,14 @@ kotlin {
 
     sourceSets {
         val desktopTest by getting
+        val desktopMain by getting
         androidMain.dependencies {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            // Coil3
+            implementation(libs.coil.network.okhttp)
 
             // Compose
             implementation(compose.components.uiToolingPreview)
@@ -74,6 +78,7 @@ kotlin {
 
             // Coil3
             implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
 
         }
         commonTest.dependencies {
@@ -81,6 +86,12 @@ kotlin {
             implementation(kotlin("test"))
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
+        }
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+        desktopMain.dependencies {
+            implementation(libs.ktor.client.java)
         }
         desktopTest.dependencies {
             implementation(compose.desktop.currentOs)

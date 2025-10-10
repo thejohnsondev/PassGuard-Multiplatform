@@ -464,7 +464,6 @@ private fun TitleField(
                             onAction(AddVaultItemViewModel.Action.ToggleShowHideLogoSearchResult)
                         },
                     imageUrl = state.organizationLogo,
-                    placeholderDrawableResource = ResDrawable.ic_password,
                     errorDrawableResource = ResDrawable.ic_password,
                     placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     backgroundColor = Color.Transparent,
@@ -613,7 +612,6 @@ private fun SearchResultItem(
                 modifier = Modifier
                     .fillMaxSize(),
                 imageUrl = item.logoUrl,
-                placeholderDrawableResource = ResDrawable.ic_password,
                 errorDrawableResource = ResDrawable.ic_password,
                 placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 backgroundColor = Color.Transparent,

@@ -227,7 +227,6 @@ fun PasswordItem(
                                 .fillMaxSize(),
                             imageUrl = item.organizationLogo ?: "",
                             errorDrawableResource = ResDrawable.ic_password,
-                            placeholderDrawableResource = ResDrawable.ic_password,
                             placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                             backgroundColor = Color.Transparent,
                             showLoading = false

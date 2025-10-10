@@ -1,5 +1,6 @@
 # Project-specific versions
 [versions]
+coilCompose = "3.3.0"
 posthog = "1.2.0"
 posthogAndroid = "3.21.3"
 
@@ -85,7 +86,6 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto", version.ref = "securityCryptoKtx" }
 androidx-biometric = { module = "androidx.biometric:biometric-ktx", version.ref = "biometric" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-material = { module = "com.google.android.material:material", version.ref = "material" }
 fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtxVersion" } # Using the newer version
 
 # Android Lifecycle
@@ -150,7 +150,10 @@ datastore = { module = "androidx.datastore:datastore", version.ref = "datastore"
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 # Image Loading
-landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapistCoil3" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilCompose" }
+ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 
 # Logging
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
