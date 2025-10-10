@@ -72,8 +72,9 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
 
-            // Landscapist Coil3
-            implementation(libs.landscapist.coil3)
+            // Coil3
+            implementation(libs.coil.compose)
+
         }
         commonTest.dependencies {
             // Testing

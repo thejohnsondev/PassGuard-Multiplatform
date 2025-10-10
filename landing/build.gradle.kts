@@ -25,6 +25,7 @@ kotlin {
                 implementation(compose.material3)
 
                 api(project(":core:common"))
+                api(project(":core:ui"))
             }
         }
         val wasmJsMain by getting {

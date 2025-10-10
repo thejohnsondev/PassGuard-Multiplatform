@@ -8,10 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -21,9 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
 import app.softwork.routingcompose.BrowserRouter
 import app.softwork.routingcompose.Router
+import com.thejohnsondev.common.model.settings.ThemeBrand
 import com.thejohnsondev.landing.download.DownloadScreen
 import com.thejohnsondev.landing.home.HomeScreen
 import com.thejohnsondev.landing.privacy.PrivacyScreen
+import com.thejohnsondev.ui.components.button.RoundedButton
+import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
+import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import kotlinx.browser.document
 
 
@@ -40,7 +40,10 @@ fun App() {
     var router: Router? = remember {
         null
     }
-    MaterialTheme {
+    VaultDefaultTheme(
+        darkTheme = true, dynamicColor = false, customTheme = ThemeBrand.TEAL,
+        deviceThemeConfig = DeviceThemeConfig()
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -48,9 +51,9 @@ fun App() {
         ) {
             // simple nav
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { router?.navigate("/home") }) { Text("Home") }
-                Button(onClick = { router?.navigate("/download") }) { Text("Download") }
-                Button(onClick = { router?.navigate("/privacy") }) { Text("Privacy") }
+                RoundedButton(onClick = { router?.navigate("/home") }, text = "Home")
+                RoundedButton(onClick = { router?.navigate("/download") }, text = "Download")
+                RoundedButton(onClick = { router?.navigate("/privacy") }, text = "Privacy")
             }
 
             Spacer(Modifier.height(16.dp))
