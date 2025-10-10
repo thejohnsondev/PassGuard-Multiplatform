@@ -287,9 +287,9 @@
     <string name="license_info_sqldelight">SQLDelight</string>
     <string name="license_info_sqldelight_description">Database ORM library</string>
     <string name="license_info_sqldelight_url">https://github.com/sqldelight/sqldelight</string>
-    <string name="license_info_landscapist">Landscapist</string>
-    <string name="license_info_landscapist_description">Image loading library</string>
-    <string name="license_info_landscapist_url">https://github.com/skydoves/landscapist</string>
+    <string name="license_info_coil">Coil3</string>
+    <string name="license_info_coil_description">Image loading library</string>
+    <string name="license_info_coil_url">https://github.com/coil-kt/coil</string>
     <string name="license_info_konnection">Konnection</string>
     <string name="license_info_konnection_description">Network connectivity monitoring</string>
     <string name="license_info_konnection_url">https://github.com/TM-Apps/konnection</string>
