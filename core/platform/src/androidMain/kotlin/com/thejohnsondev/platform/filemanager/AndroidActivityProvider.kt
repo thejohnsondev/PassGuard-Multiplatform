@@ -34,7 +34,14 @@ object AndroidActivityProvider {
 
     fun launchFilePicker(callback: (ImportResult) -> Unit) {
         pendingFilePickerCallback = callback
-        filePickerLauncher?.launch(arrayOf("*/*"))
+        filePickerLauncher?.launch(
+            arrayOf(
+                "text/csv",
+                "text/comma-separated-values",
+                "text/plain",
+                "application/vnd.ms-excel"
+            )
+        )
             ?: callback(
                 ImportResult(
                     FileActionStatus.FAILURE,
@@ -51,7 +58,6 @@ object AndroidActivityProvider {
             val activity = currentActivity?.get()
             if (activity != null) {
                 try {
-
                     val fileSize = activity.contentResolver.openFileDescriptor(uri, "r")?.statSize
                     if (fileSize != null && fileSize > MAX_CSV_FILE_SIZE_BYTES) {
                         callback?.invoke(
