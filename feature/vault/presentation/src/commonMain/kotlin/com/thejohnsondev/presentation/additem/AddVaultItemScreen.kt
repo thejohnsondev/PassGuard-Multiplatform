@@ -3,6 +3,10 @@ package com.thejohnsondev.presentation.additem
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -59,9 +63,11 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.SCROLL_DOWN_DELAY
 import com.thejohnsondev.common.model.OneTimeEvent
@@ -73,6 +79,7 @@ import com.thejohnsondev.presentation.passwordgenerator.PASSWORD_ANIM_DURATION
 import com.thejohnsondev.presentation.passwordgenerator.PasswordGeneratorBottomSheet
 import com.thejohnsondev.presentation.passwordgenerator.randomAnimation
 import com.thejohnsondev.ui.components.LoadedImage
+import com.thejohnsondev.ui.components.animation.CardWithAnimatedBorder
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.components.container.ExpandableContent
 import com.thejohnsondev.ui.components.container.RoundedContainer
@@ -88,6 +95,7 @@ import com.thejohnsondev.ui.designsystem.EquallyRounded
 import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Size12
 import com.thejohnsondev.ui.designsystem.Size16
+import com.thejohnsondev.ui.designsystem.Size20
 import com.thejohnsondev.ui.designsystem.Size22
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size28
@@ -122,6 +130,7 @@ import vaultmultiplatform.core.ui.generated.resources.domain
 import vaultmultiplatform.core.ui.generated.resources.ic_password
 import vaultmultiplatform.core.ui.generated.resources.password
 import vaultmultiplatform.core.ui.generated.resources.save
+import vaultmultiplatform.core.ui.generated.resources.suggestion
 import vaultmultiplatform.core.ui.generated.resources.title
 import vaultmultiplatform.core.ui.generated.resources.update
 import vaultmultiplatform.core.ui.generated.resources.username
@@ -144,7 +153,7 @@ internal fun AddVaultItemScreen(
 
     LaunchedEffect(Unit) {
         Analytics.trackScreen(
-            if(vaultItem == null) {
+            if (vaultItem == null) {
                 "Add Vault Item Screen"
             } else {
                 "Edit Vault Item Screen"
@@ -218,7 +227,8 @@ internal fun AddVaultItemContent(
                     onDismissRequest()
                 },
                 endContent = {
-                    val buttonTitle = stringResource(if (state.isEdit) ResString.update else ResString.save)
+                    val buttonTitle =
+                        stringResource(if (state.isEdit) ResString.update else ResString.save)
                     Button(
                         modifier = Modifier
                             .padding(end = Size16)
@@ -341,6 +351,13 @@ internal fun AddPasswordFields(
                 enteredTitle = enteredTitle,
                 titleFocusRequester = titleFocusRequester,
                 userNameFocusRequester = userNameFocusRequester
+            )
+            SuggestionField(
+                modifier = Modifier
+                    .padding(top = Size8, horizontal = Size16)
+                    .wrapContentHeight(),
+                state = state,
+                onAction = onAction
             )
             DomainField(
                 modifier = Modifier
@@ -517,6 +534,106 @@ private fun TitleField(
         )
     }
 
+}
+
+@Composable
+private fun SuggestionField(
+    modifier: Modifier = Modifier,
+    state: AddVaultItemViewModel.State,
+    onAction: (AddVaultItemViewModel.Action) -> Unit,
+) {
+    AnimatedVisibility(
+        state.suggestion != null,
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut()
+    ) {
+        val suggestion = state.suggestion
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CardWithAnimatedBorder(
+                modifier = Modifier
+                    .weight(Percent100)
+                    .bounceClick()
+                    .clip(RoundedCornerShape(Size20))
+                    .clickable {
+                        suggestion?.let {
+                            onAction(AddVaultItemViewModel.Action.AcceptSuggestion(suggestion))
+                        }
+                    }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            start = Size16,
+                            end = Size16,
+                            top = Size8,
+                            bottom = Size8
+                        ),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(ResString.suggestion),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Light
+                    )
+                    suggestion?.logoUrl?.let {
+                        Surface(
+                            modifier = Modifier
+                                .padding(start = Size8)
+                                .size(Size32),
+                            color = Color.Transparent,
+                            shape = EquallyRounded.small
+                        ) {
+                            LoadedImage(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clickable {
+                                        onAction(AddVaultItemViewModel.Action.ToggleShowHideLogoSearchResult)
+                                    },
+                                imageUrl = suggestion.logoUrl,
+                                placeholderDrawableResource = ResDrawable.ic_password,
+                                errorDrawableResource = ResDrawable.ic_password,
+                                placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                backgroundColor = Color.Transparent,
+                                showLoading = state.isLogoLoading
+                            )
+                        }
+                    }
+                    suggestion?.url?.let {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = Size8)
+                                .weight(Percent100),
+                            text = suggestion.url,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                }
+            }
+
+            Icon(
+                modifier = Modifier
+                    .padding(start = Size12)
+                    .size(Size24)
+                    .bounceClick()
+                    .clip(RoundedCornerShape(Size48))
+                    .clickable {
+                        onAction(AddVaultItemViewModel.Action.ClearSuggestion)
+                    },
+                imageVector = Icons.Default.Clear,
+                contentDescription = null
+            )
+        }
+    }
 }
 
 @Composable
