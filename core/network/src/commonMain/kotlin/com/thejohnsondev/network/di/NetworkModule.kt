@@ -35,7 +35,8 @@ val networkModule = module {
             }
         }
         client.plugin(HttpSend).intercept { request ->
-            if (getPlatform() == Platform.IOS_SIMULATOR) {
+            if (getPlatform() == Platform.IOS_SIMULATOR
+                || getPlatform() == Platform.JVM) {
                 return@intercept execute(request)
             }
             val isInternetConnected = Konnection.instance.isConnected()
