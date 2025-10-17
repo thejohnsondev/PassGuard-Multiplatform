@@ -32,21 +32,18 @@ object CSVImportExportUtils {
             }
 
             val rows = passwords.map {
-                if (it.domain.isNullOrBlank() || !isValidUrl(it.domain)) {
-                    notExportedPasswords.add(it)
-                    return@map null
-                }
                 val sanitizedTitle = it.title.getSanitized()
-                val sanitizedDomain =
-                    it.domain?.let { domain -> "https://".plus(domain.getSanitized()) }
+                val sanitizedDomain = if (!it.domain.isNullOrBlank()) {
+                        "https://".plus(it.domain?.getSanitized())
+                    } else null
                 val sanitizedUser = it.userName.getSanitized()
                 val sanitizedPass = it.password.getSanitized()
                 val notes = it.additionalFields.map { field ->
                     field.title.getSanitized() + "|" + field.value.getSanitized()
                 }
-                val result = "$sanitizedTitle,$sanitizedDomain,$sanitizedUser,$sanitizedPass,${notes.firstOrNull().orEmpty()},${it.organizationLogo.orEmpty()},${notes.drop(1).joinToString(",")}"
+                val result = "$sanitizedTitle,${sanitizedDomain.orEmpty()},$sanitizedUser,$sanitizedPass,${notes.firstOrNull().orEmpty()},${it.organizationLogo.orEmpty()},${notes.drop(1).joinToString(",")}"
                 result
-            }.filterNotNull()
+            }
             val csvContent = (listOf(header) + rows).joinToString("\n")
             CSVGenerationResult(
                 isSuccessful = true,
@@ -123,7 +120,7 @@ object CSVImportExportUtils {
         val headerLine = lines.first()
         val headerParts = headerLine.split(",").map { it.trim().lowercase() }
 
-        val requiredHeadersForParsing = listOf("name", "url", "username", "password", "note")
+        val requiredHeadersForParsing = listOf("name", "username", "password", "note")
         val missingHeaders = requiredHeadersForParsing.filter { !headerParts.contains(it) }
 
         val headerIsValid =
@@ -228,10 +225,9 @@ object CSVImportExportUtils {
                     }
                 }
 
-                if (name.isEmpty() || userName.isEmpty() || password.isEmpty() || url.isNullOrBlank()) {
+                if (name.isEmpty() || userName.isEmpty() || password.isEmpty()) {
                     val missingField = when {
                         name.isEmpty() -> "name"
-                        url.isNullOrBlank() -> "url"
                         userName.isEmpty() -> "username"
                         else -> "password"
                     }
@@ -245,23 +241,25 @@ object CSVImportExportUtils {
                     )
                     return@forEachIndexed
                 }
-                if (!isValidUrlForImport(url)) {
-                    failedEntries.add(
-                        FailedPasswordParsingEntry(
-                            lineNumber = lineNumber,
-                            rawLineContent = getHeaderAndLineAligned(headerLine, line),
-                            errorField = url,
-                            reason = "Invalid URL format for domain: '$url'."
+                url?.let {
+                    if (!isValidUrlForImport(url)) {
+                        failedEntries.add(
+                            FailedPasswordParsingEntry(
+                                lineNumber = lineNumber,
+                                rawLineContent = getHeaderAndLineAligned(headerLine, line),
+                                errorField = url,
+                                reason = "Invalid URL format for domain: '$url'."
+                            )
                         )
-                    )
-                    return@forEachIndexed
+                        return@forEachIndexed
+                    }
                 }
 
                 parsedPasswords.add(
                     PasswordDto(
                         id = Uuid.random().toString(),
                         title = name,
-                        domain = url.getSanitizedUrlForImport(),
+                        domain = url?.getSanitizedUrlForImport(),
                         userName = userName,
                         password = password,
                         categoryId = VAULT_ITEM_CATEGORY_PERSONAL,

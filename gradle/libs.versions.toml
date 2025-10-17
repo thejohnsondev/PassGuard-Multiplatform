@@ -3,8 +3,8 @@
 posthog = "1.2.0"
 posthogAndroid = "3.21.3"
 
-versionName = "1.0.11"
-versionCode = "11"
+versionName = "1.0.13"
+versionCode = "13"
 
 # Android Gradle Plugin (AGP)
 agp = "8.13.0"

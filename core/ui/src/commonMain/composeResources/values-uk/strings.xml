@@ -13,6 +13,7 @@
     <string name="password_generator_configure">Налаштувати</string>
     <string name="btn_import">Імпорт</string>
     <string name="btn_next">Далі</string>
+    <string name="suggestion">Пропозиція: </string>
 
     <string name="pass">Pass</string>
     <string name="guard">Guard</string>

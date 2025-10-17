@@ -75,6 +75,7 @@
     <string name="category">Categoría</string>
     <string name="done">Listo</string>
     <string name="value">Valor</string>
+    <string name="suggestion">Sugerencia: </string>
 
     <string name="tools">Herramientas</string>
 
