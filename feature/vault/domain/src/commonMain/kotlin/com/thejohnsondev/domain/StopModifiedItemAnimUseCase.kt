@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 class StopModifiedItemAnimUseCase {
 
     companion object {
-        private const val MODIFIED_ITEM_ANIMATION_DURATION = 1500L
+        private const val MODIFIED_ITEM_ANIMATION_DURATION = 1000L
     }
 
     suspend operator fun invoke(passwordsList: List<PasswordUIModel>): List<PasswordUIModel> {
