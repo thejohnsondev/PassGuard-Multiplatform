@@ -1,2 +1,2 @@
 Changes:
-Fixed issues with csv file uploading for export/import.
+Fixed additional fields not being displayed and opened passwords being closed after border animation finishes

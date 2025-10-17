@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
 import java.lang.ref.WeakReference
 
+private const val MAX_CSV_FILE_SIZE_BYTES = 10 * 1024 * 1024 // 10MB
 
 object AndroidActivityProvider {
     var currentActivity: WeakReference<FragmentActivity>? = null
@@ -33,7 +34,14 @@ object AndroidActivityProvider {
 
     fun launchFilePicker(callback: (ImportResult) -> Unit) {
         pendingFilePickerCallback = callback
-        filePickerLauncher?.launch(arrayOf("*/*"))
+        filePickerLauncher?.launch(
+            arrayOf(
+                "text/csv",
+                "text/comma-separated-values",
+                "text/plain",
+                "application/vnd.ms-excel"
+            )
+        )
             ?: callback(
                 ImportResult(
                     FileActionStatus.FAILURE,
@@ -50,6 +58,15 @@ object AndroidActivityProvider {
             val activity = currentActivity?.get()
             if (activity != null) {
                 try {
+                    val fileSize = activity.contentResolver.openFileDescriptor(uri, "r")?.statSize
+                    if (fileSize != null && fileSize > MAX_CSV_FILE_SIZE_BYTES) {
+                        callback?.invoke(
+                            ImportResult(
+                                FileActionStatus.FAILURE,
+                                "File size exceeds the 10MB limit."
+                            )
+                        )
+                    }
                     val content = activity.contentResolver.openInputStream(uri)?.bufferedReader()
                         ?.use { it.readText() }
                     if (content != null) {
