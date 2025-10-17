@@ -1,5 +1,2 @@
 Changes:
-Fixed issues with export/import of passwords:
-- Added file size limit (10MB) to prevent crashes when importing very large files.
-- Added file format validation to ensure only CSV files are imported.
-- Made url field optional to accommodate entries without URLs.
+Fixed additional fields not being displayed and opened passwords being closed after border animation finishes
