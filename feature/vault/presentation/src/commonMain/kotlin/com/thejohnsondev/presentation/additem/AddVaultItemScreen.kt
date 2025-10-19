@@ -595,7 +595,6 @@ private fun SuggestionField(
                                         onAction(AddVaultItemViewModel.Action.ToggleShowHideLogoSearchResult)
                                     },
                                 imageUrl = suggestion.logoUrl,
-                                placeholderDrawableResource = ResDrawable.ic_password,
                                 errorDrawableResource = ResDrawable.ic_password,
                                 placeholderDrawableTintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                                 backgroundColor = Color.Transparent,
