@@ -25,6 +25,15 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun createOrUpdatePassword(passwordDto: PasswordDto) {
+        vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordDto.id)
+        passwordDto.additionalFields.forEach {
+            vaultDatabase.additionalFieldEntityQueries.insert(
+                passwordId = passwordDto.id,
+                fieldTitle = it.title,
+                fieldValue = it.value,
+                id = it.id
+            )
+        }
         vaultDatabase.passwordEntityQueries.insert(
             title = passwordDto.title,
             organizationLogo = passwordDto.organizationLogo,
@@ -39,15 +48,6 @@ class LocalDataSourceImpl(
             syncStatus = passwordDto.syncStatus,
             syncedTimeStamp = passwordDto.syncedTimeStamp
         )
-        vaultDatabase.additionalFieldEntityQueries.deleteByPasswordId(passwordDto.id)
-        passwordDto.additionalFields.forEach {
-            vaultDatabase.additionalFieldEntityQueries.insert(
-                passwordId = passwordDto.id,
-                fieldTitle = it.title,
-                fieldValue = it.value,
-                id = it.id
-            )
-        }
     }
 
     override suspend fun updatePasswords(passwordList: List<PasswordDto>) {

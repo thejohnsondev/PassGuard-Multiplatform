@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPlacement
@@ -113,7 +114,7 @@ fun main() = application {
             analyticsProps.value,
             checkInstallIDResult.value
         ) { route, settings, analyticsProps, _ ->
-            Root(deviceThemeConfig, route, settings, analyticsProps)
+            Root(modifier = Modifier, deviceThemeConfig, route, settings, analyticsProps)
         } ?: kotlin.run {
             DesktopSplash()
         }

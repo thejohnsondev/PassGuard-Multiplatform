@@ -1,15 +1,22 @@
 package org.thejohnsondev.vault
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
 import android.view.WindowManager
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import com.thejohnsondev.common.model.settings.SettingsConfig
 import com.thejohnsondev.common.navigation.Routes
 import com.thejohnsondev.common.utils.safeLet
 import com.thejohnsondev.domain.CheckInstallIDUseCase
@@ -17,9 +24,9 @@ import com.thejohnsondev.domain.GetAnalyticsPropsUseCase
 import com.thejohnsondev.domain.GetFirstScreenRouteUseCase
 import com.thejohnsondev.domain.GetSettingsFlowUseCase
 import com.thejohnsondev.domain.model.AnalyticsProps
-import com.thejohnsondev.common.model.settings.SettingsConfig
 import com.thejohnsondev.platform.filemanager.AndroidActivityProvider
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
+import com.thejohnsondev.ui.utils.applyIf
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.thejohnsondev.vault.root.Root
@@ -30,6 +37,7 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         AndroidActivityProvider.registerActivity(this)
         val getFirstScreenRoute = getKoin().get<GetFirstScreenRouteUseCase>()
         val getSettingsUseCase = getKoin().get<GetSettingsFlowUseCase>()
@@ -58,11 +66,6 @@ class MainActivity : FragmentActivity() {
         splashScreen.setKeepOnScreenCondition {
             firstScreenRoute.value == null || settingsConfig.value == null
         }
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
 
         setContent {
             safeLet(
@@ -72,7 +75,16 @@ class MainActivity : FragmentActivity() {
                 checkInstallIDResult.value
             ) { route, settings, analyticsProps, _ ->
                 ApplyCorrectStatusNavBarColor(settings)
-                Root(deviceThemeConfig, route, settings, analyticsProps)
+                Root(
+                    modifier = Modifier
+                        .applyIf(android.os.Build.VERSION.SDK_INT == 29) {
+                            safeContentPadding()
+                        },
+                    deviceThemeConfig = deviceThemeConfig,
+                    firstScreenRoute = route,
+                    settingsConfig = settings,
+                    analyticsProps = analyticsProps
+                )
             }
         }
     }
@@ -83,10 +95,33 @@ class MainActivity : FragmentActivity() {
     ) {
         if (!window.decorView.isInEditMode) {
             val view = LocalView.current
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
-                !shouldUseDarkTheme(settingsConfig)
-            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
-                !shouldUseDarkTheme(settingsConfig)
+            val isLightTheme = !shouldUseDarkTheme(settingsConfig)
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = isLightTheme
+                isAppearanceLightNavigationBars = isLightTheme
+            }
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            setSystemBarsAppearanceForAndroid29And30(window, isLightTheme)
+            setWindowFlagsForAndroid31AndAbove(window)
+        }
+    }
+
+    private fun setSystemBarsAppearanceForAndroid29And30(window: Window, isLightTheme: Boolean) {
+        if (Build.VERSION.SDK_INT in Build.VERSION_CODES.Q..Build.VERSION_CODES.R) {
+            @Suppress("DEPRECATION")
+            run {
+                window.statusBarColor = if (isLightTheme) Color.WHITE else Color.BLACK
+                window.navigationBarColor = if (isLightTheme) Color.WHITE else Color.BLACK
+            }
+        }
+    }
+
+    private fun setWindowFlagsForAndroid31AndAbove(window: Window) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            )
         }
     }
 

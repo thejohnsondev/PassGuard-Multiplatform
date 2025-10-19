@@ -40,7 +40,7 @@ fun getDefaultAnimatedBorderColors() = listOf(
 @Composable
 fun CardWithAnimatedBorder(
     modifier: Modifier = Modifier,
-    borderColors: List<Color> = emptyList(),
+    borderColors: List<Color> = getDefaultAnimatedBorderColors(),
     content: @Composable () -> Unit
 ) {
     val infiniteTransition = rememberInfiniteTransition()

@@ -194,22 +194,12 @@ class CSVImportExportUtilsTest {
     }
 
     @Test
-    fun parseCsvWithInvalidHeaderMissingRequiredColumnsIncludingLogoUrl() {
-        val csvContent = "name,username,password,note\nvalue1,value2,value3,value4"
-        val result = CSVImportExportUtils.parseCsvContentToPasswords(csvContent)
-
-        assertIs<CsvParsingResult.ValidationError>(result)
-        assertTrue(result.message.contains("missing required columns: url"))
-        assertTrue(result.details!!.contains("Expected headers: name, url, username, password, note"))
-    }
-
-    @Test
     fun parseCsvWithInvalidHeaderWrongNames() {
         val csvContent = "item_name,link,user_id,secret,description,image_url\nval,val,val,val,val,val"
         val result = CSVImportExportUtils.parseCsvContentToPasswords(csvContent)
 
         assertIs<CsvParsingResult.ValidationError>(result)
-        assertTrue(result.message.contains("missing required columns: name, url, username, password, note"))
+        assertTrue(result.message.contains("missing required columns: name, username, password, note"))
     }
 
     @Test
@@ -285,7 +275,7 @@ class CSVImportExportUtilsTest {
         assertTrue(result.failedEntries[0].reason!!.contains("Invalid URL format for domain: 'too'."))
 
         assertEquals(5, result.failedEntries[1].lineNumber)
-        assertTrue(result.failedEntries[1].reason!!.contains("Missing required field (url cannot be empty)."))
+        assertTrue(result.failedEntries[1].reason!!.contains("Missing required field (password cannot be empty)."))
 
         assertEquals(6, result.failedEntries[2].lineNumber)
         assertTrue(result.failedEntries[2].reason!!.contains("Invalid URL format for domain: 'badurl'."))

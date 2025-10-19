@@ -17,5 +17,5 @@ class AndroidPlatformDependency(private val context: Context): PlatformDependenc
     override fun getEncryptionUtils(): EncryptionUtils = AndroidEncryptionUtils()
     override fun getSecureStorage(): SecureStorage = AndroidSecureStorage(context)
     override fun getClipboardUtils(): ClipboardUtils = AndroidClipboardUtils(context)
-    override fun getFileManager(): PlatformFileManager = AndroidPlatformFileManager()
+    override fun getFileManager(): PlatformFileManager = AndroidPlatformFileManager(context)
 }

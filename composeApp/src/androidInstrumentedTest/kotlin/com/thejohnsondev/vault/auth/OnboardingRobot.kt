@@ -27,6 +27,11 @@ class OnboardingRobot(composeTestRule: ComposeTestRule): Robot(composeTestRule) 
         clickButton("Next")
     }
 
+    fun clickPrivacyPolicyCheckbox() {
+        waitForContent("Accept Privacy Policy")
+        clickButton("Accept Privacy Policy")
+    }
+
     fun clickCreateVaultButton() {
         waitForContent("Create Vault")
         clickButton("Create Vault")

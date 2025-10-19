@@ -419,6 +419,9 @@ class VaultViewModel(
     }
 
     private fun toggleOpenItem(newOpenedItemId: String?) = launch {
+        val item = _state.value.passwordsList.flatten()
+            .firstOrNull { it.id == newOpenedItemId }
+        if (item?.showUpdateAnimation == true) return@launch
         val isCurrentlyOpened = _state.value.passwordsList.flatten()
             .firstOrNull { it.isExpanded }?.id == newOpenedItemId
         Analytics.trackEvent(

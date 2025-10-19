@@ -12,3 +12,5 @@ actual class DeviceThemeConfig {
     actual fun getDynamicLightColorScheme(): ColorScheme = getLightScheme()
     actual fun supportsBlockingScreenshots(): Boolean = false
 }
+
+actual fun isBlurSupported(): Boolean = true

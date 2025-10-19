@@ -8,3 +8,5 @@ expect class DeviceThemeConfig {
     fun getDynamicLightColorScheme(): ColorScheme
     fun supportsBlockingScreenshots(): Boolean
 }
+
+expect fun isBlurSupported(): Boolean

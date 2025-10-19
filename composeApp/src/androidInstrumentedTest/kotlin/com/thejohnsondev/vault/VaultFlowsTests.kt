@@ -50,6 +50,7 @@ class VaultFlowsTests {
             assertFirstOnboardingScreen()
             clickNextButton()
             clickNextButton()
+            clickPrivacyPolicyCheckbox()
             clickCreateVaultButton()
         }
     }

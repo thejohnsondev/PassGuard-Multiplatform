@@ -22,3 +22,5 @@ actual class DeviceThemeConfig(
 
     actual fun supportsBlockingScreenshots(): Boolean = true
 }
+
+actual fun isBlurSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

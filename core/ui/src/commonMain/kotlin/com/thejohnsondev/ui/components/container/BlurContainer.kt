@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
+import com.thejohnsondev.ui.designsystem.isBlurSupported
 
 @Composable
 fun BlurContainer(
@@ -17,14 +18,16 @@ fun BlurContainer(
     content: (@Composable BoxScope.() -> Unit)? = null
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
-        Box(
-            modifier = Modifier
-                .blur(
-                    radius = blur.dp,
-                    edgeTreatment = BlurredEdgeTreatment.Rectangle
-                ),
-            content = component,
-        )
+        if (isBlurSupported()) {
+            Box(
+                modifier = Modifier
+                    .blur(
+                        radius = blur.dp,
+                        edgeTreatment = BlurredEdgeTreatment.Rectangle
+                    ),
+                content = component,
+            )
+        }
         Box(
             contentAlignment = Alignment.Center
         ) {

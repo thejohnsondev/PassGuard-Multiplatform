@@ -82,6 +82,7 @@
     <string name="category">Category</string>
     <string name="done">Done</string>
     <string name="value">Value</string>
+    <string name="suggestion">Suggestion: </string>
 
     <!--Tools-->
     <string name="tools">Tools</string>

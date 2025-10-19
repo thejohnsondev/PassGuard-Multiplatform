@@ -89,7 +89,7 @@ fun MainViewController(
         analyticsProps.value,
         checkInstallIDResult.value
     ) { route, settings, analyticsProps, _ ->
-        Root(deviceThemeConfig, route, settings, analyticsProps)
+        Root(modifier = Modifier, deviceThemeConfig, route, settings, analyticsProps)
     } ?: run {
         Surface(
             modifier = Modifier.fillMaxSize(),

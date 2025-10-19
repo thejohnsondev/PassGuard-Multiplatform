@@ -5,6 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.thejohnsondev.analytics.Analytics
 import com.thejohnsondev.common.base.BaseViewModel
 import com.thejohnsondev.common.empty
+import com.thejohnsondev.common.model.DisplayableMessageValue
+import com.thejohnsondev.common.model.OneTimeEvent
+import com.thejohnsondev.common.model.ScreenState
+import com.thejohnsondev.common.model.auth.logo.FindLogoResponse
+import com.thejohnsondev.common.model.tools.PasswordStrength
+import com.thejohnsondev.common.model.vault.AdditionalFieldDto
+import com.thejohnsondev.common.model.vault.SyncStatus
 import com.thejohnsondev.domain.AddAdditionalFieldUseCase
 import com.thejohnsondev.domain.EncryptPasswordModelUseCase
 import com.thejohnsondev.domain.EnterAdditionalFieldTitleUseCase
@@ -15,20 +22,14 @@ import com.thejohnsondev.domain.FindLogoUseCase
 import com.thejohnsondev.domain.GeneratePasswordModelUseCase
 import com.thejohnsondev.domain.GeneratePasswordUseCase
 import com.thejohnsondev.domain.GetPasswordGeneratorConfigUseCase
-import com.thejohnsondev.domain.service.PasswordsService
 import com.thejohnsondev.domain.RemoveAdditionalFieldUseCase
 import com.thejohnsondev.domain.ValidatePasswordModelUseCase
-import com.thejohnsondev.common.model.DisplayableMessageValue
-import com.thejohnsondev.common.model.OneTimeEvent
-import com.thejohnsondev.common.model.ScreenState
-import com.thejohnsondev.common.model.auth.logo.FindLogoResponse
-import com.thejohnsondev.common.model.tools.PasswordStrength
-import com.thejohnsondev.common.model.vault.AdditionalFieldDto
-import com.thejohnsondev.common.model.vault.SyncStatus
+import com.thejohnsondev.domain.service.PasswordsService
+import com.thejohnsondev.presentation.component.DomainSuggestion
+import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.CategoryUIModel
 import com.thejohnsondev.ui.model.FilterUIModel
 import com.thejohnsondev.ui.model.FilterUIModel.Companion.mapToCategory
-import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.model.filterlists.FiltersProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -125,7 +126,10 @@ class AddVaultItemViewModel(
             is Action.ShowHideGeneratePasswordBottomSheet -> showHideGeneratePasswordBottomSheet(
                 action.show
             )
+
             is Action.GeneratePassword -> generatePassword()
+            is Action.AcceptSuggestion -> acceptSuggestion(action.suggestion)
+            is Action.ClearSuggestion -> clearSuggestion()
         }
     }
 
@@ -221,17 +225,16 @@ class AddVaultItemViewModel(
         withContext(Dispatchers.IO) {
             if (title.isBlank()) {
                 clearLogo()
+                clearSuggestion()
+                clearDomain()
             }
-            showLogoLoading(true)
             val companyName = extractCompanyNameUseCase(title)
             if (companyName.isNullOrBlank()) {
-                showLogoLoading(false)
                 return@withContext
             }
 
             findLogoUseCase(companyName).onResult { result ->
                 onFindLogoResult(result)
-                showLogoLoading(false)
             }
         }
     }
@@ -239,12 +242,15 @@ class AddVaultItemViewModel(
     private fun onFindLogoResult(result: List<FindLogoResponse>) {
         val searchResult = result.firstOrNull()
         searchResult?.let { safeSearchResult ->
+            if (enteredDomain.value == safeSearchResult.domain) return
             _state.update {
                 it.copy(
-                    organizationLogo = safeSearchResult.logoUrl,
+                    suggestion = DomainSuggestion(
+                        url = safeSearchResult.domain,
+                        logoUrl = safeSearchResult.logoUrl
+                    )
                 )
             }
-            _enteredDomain.value = safeSearchResult.domain
         }
         if (result.size > 1 || result.isEmpty()) {
             _state.update {
@@ -252,6 +258,28 @@ class AddVaultItemViewModel(
                     logoSearchResults = result
                 )
             }
+        }
+        if (result.isEmpty()) {
+            clearSuggestion()
+        }
+    }
+
+    private fun acceptSuggestion(suggestion: DomainSuggestion) {
+        _state.update {
+            it.copy(
+                organizationLogo = suggestion.logoUrl.orEmpty(),
+                isLogoSearchResultsVisible = false,
+                suggestion = null
+            )
+        }
+        _enteredDomain.value = suggestion.url
+    }
+
+    private fun clearSuggestion() {
+        _state.update {
+            it.copy(
+                suggestion = null
+            )
         }
     }
 
@@ -348,6 +376,10 @@ class AddVaultItemViewModel(
         }
     }
 
+    private fun clearDomain() {
+        _enteredDomain.value = String.empty
+    }
+
     private fun showHideGeneratePasswordBottomSheet(show: Boolean) {
         _state.update {
             it.copy(showGeneratePasswordBottomSheet = show)
@@ -392,6 +424,8 @@ class AddVaultItemViewModel(
         data object SavePassword : Action()
         data object Clear : Action()
         data object GeneratePassword : Action()
+        data class AcceptSuggestion(val suggestion: DomainSuggestion) : Action()
+        data object ClearSuggestion : Action()
     }
 
     data class State(
@@ -408,7 +442,8 @@ class AddVaultItemViewModel(
         val isLogoSearchResultsVisible: Boolean = false,
         val showGeneratePasswordBottomSheet: Boolean = false,
         val enteredPasswordStrength: PasswordStrength? = null,
-        val showEnteredPasswordStrength: Boolean = false
+        val showEnteredPasswordStrength: Boolean = false,
+        val suggestion: DomainSuggestion? = null,
     ) {
         val showClearLogoButton: Boolean
             get() = organizationLogo.isNotBlank()

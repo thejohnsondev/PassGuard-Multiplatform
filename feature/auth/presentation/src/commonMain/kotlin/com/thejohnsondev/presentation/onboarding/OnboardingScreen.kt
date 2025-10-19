@@ -246,7 +246,7 @@ fun OnboardingDotsIndicator(
                             color = if (pageOffset < Percent50)
                                 MaterialTheme.colorScheme.primary
                             else
-                                MaterialTheme.colorScheme.onPrimary.copy(alpha = Percent50),
+                                MaterialTheme.colorScheme.secondary,
                             shape = EquallyRounded.extraLarge
                         )
                 )

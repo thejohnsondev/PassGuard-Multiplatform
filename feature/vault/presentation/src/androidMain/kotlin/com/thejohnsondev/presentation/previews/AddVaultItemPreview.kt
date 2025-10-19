@@ -1,5 +1,6 @@
 package com.thejohnsondev.presentation.previews
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
@@ -15,8 +16,9 @@ import com.thejohnsondev.common.empty
 import com.thejohnsondev.common.model.ScreenState
 import com.thejohnsondev.presentation.additem.AddVaultItemContent
 import com.thejohnsondev.presentation.additem.AddVaultItemViewModel
-import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
+import com.thejohnsondev.presentation.component.DomainSuggestion
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
+import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -54,6 +56,7 @@ private fun AddVaultItemEmptyPreview() {
     }
 }
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
@@ -71,6 +74,10 @@ private fun AddVaultItemNotEmptyPreview() {
         AddVaultItemContent(
             state = AddVaultItemViewModel.State(
                 screenState = ScreenState.ShowContent,
+                suggestion = DomainSuggestion(
+                    url = "https://www.github.com",
+                    logoUrl = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                )
             ),
             sheetState = sheetState,
             windowSizeClass = WindowWidthSizeClass.Compact,

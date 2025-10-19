@@ -69,6 +69,7 @@ class AuthFlowsTests {
             assertSecondOnboardingScreen()
             clickNextButton()
             assertThirdOnboardingScreen()
+            clickPrivacyPolicyCheckbox()
             clickCreateVaultButton()
         }
         vaultRobot.assertEmptyVaultScreen()

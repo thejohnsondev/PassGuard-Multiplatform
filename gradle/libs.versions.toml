@@ -4,9 +4,8 @@ coilCompose = "3.3.0"
 posthog = "1.2.0"
 posthogAndroid = "3.21.3"
 
-routingCompose = "0.5.0"
-versionName = "1.0.8"
-versionCode = "8"
+versionName = "1.0.13"
+versionCode = "13"
 
 # Android Gradle Plugin (AGP)
 agp = "8.13.0"
@@ -77,6 +76,7 @@ junitVersion = "4.13.2"
 androidxJunit = "1.3.0"
 espressoCore = "3.7.0"
 androidxUiTestJunit4 = "1.9.1"
+routingCompose = "0.5.0"
 
 
 [libraries]
