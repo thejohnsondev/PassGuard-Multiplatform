@@ -602,19 +602,17 @@ private fun SuggestionField(
                             )
                         }
                     }
-                    suggestion?.url?.let {
-                        Text(
-                            modifier = Modifier
-                                .padding(start = Size8)
-                                .weight(Percent100),
-                            text = suggestion.url,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontWeight = FontWeight.SemiBold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
+                    Text(
+                        modifier = Modifier
+                            .padding(start = Size8)
+                            .weight(Percent100),
+                        text =suggestion?.url.orEmpty(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 }
             }
 
