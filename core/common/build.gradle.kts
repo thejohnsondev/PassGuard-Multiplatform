@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 import com.codingfeline.buildkonfig.compiler.FieldSpec
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import java.io.ByteArrayOutputStream
 
 plugins {
@@ -18,6 +21,12 @@ kotlin {
     }
 
     jvm("desktop")
+
+    wasmJs {
+        browser {
+            binaries.executable()
+        }
+    }
 
     listOf(
         iosX64(),

@@ -20,6 +20,13 @@ kotlin {
         instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
+    wasmJs {
+        browser {
+            binaries.executable()
+        }
+    }
+
+
     jvm("desktop")
 
     listOf(
@@ -40,6 +47,9 @@ kotlin {
             // Koin
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            // Coil3
+            implementation(libs.coil.network.okhttp)
 
             // Compose
             implementation(compose.components.uiToolingPreview)
@@ -66,18 +76,22 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
 
-            // Haze
-            implementation(libs.haze.haze)
-            implementation(libs.haze.materials)
+            // Coil3
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
 
-            // Landscapist Coil3
-            implementation(libs.landscapist.coil3)
         }
         commonTest.dependencies {
             // Testing
             implementation(kotlin("test"))
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
+        }
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+        desktopMain.dependencies {
+            implementation(libs.ktor.client.java)
         }
         desktopTest.dependencies {
             implementation(compose.desktop.currentOs)

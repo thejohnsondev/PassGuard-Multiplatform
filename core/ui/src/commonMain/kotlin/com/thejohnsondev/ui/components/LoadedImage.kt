@@ -1,5 +1,6 @@
 package com.thejohnsondev.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -14,8 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil3.CoilImage
+import coil3.compose.LocalPlatformContext
+import coil3.compose.SubcomposeAsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.thejohnsondev.ui.components.loader.Loader
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size48
@@ -28,55 +31,34 @@ fun LoadedImage(
     modifier: Modifier = Modifier,
     imageUrl: String,
     errorDrawableResource: DrawableResource? = null,
-    placeholderDrawableResource: DrawableResource? = null,
     placeholderDrawableTintColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     contentScale: ContentScale = ContentScale.Crop,
     shape: Shape = RectangleShape,
     showLoading: Boolean = false
 ) {
+    val context = LocalPlatformContext.current
     Surface(
         modifier = modifier,
         shape = shape,
         color = backgroundColor
     ) {
-        CoilImage(
-            modifier = Modifier.applyIf(
-                showLoading
-            ) {
-                blur(
-                    radius = Size4,
-                    edgeTreatment = BlurredEdgeTreatment.Rectangle
+        SubcomposeAsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            contentScale = contentScale,
+            loading = {
+                Loader(
+                    modifier = Modifier
+                        .size(Size48)
+                        .padding(Size4)
+                        .align(Alignment.Center)
                 )
             },
-            imageModel = { imageUrl },
-            imageOptions = ImageOptions(
-                contentScale = contentScale,
-                alignment = Alignment.Center
-            ),
-            previewPlaceholder = placeholderDrawableResource?.let {
-                painterResource(it)
-            },
-            loading = {
-                if (showLoading) {
-                    Loader(
-                        modifier = Modifier
-                            .size(Size48)
-                            .padding(Size4)
-                            .align(Alignment.Center)
-                    )
-                } else {
-                    placeholderDrawableResource?.let {
-                        Icon(
-                            modifier = Modifier
-                                .padding(Size4),
-                            painter = painterResource(it),
-                            contentDescription = null
-                        )
-                    }
-                }
-            },
-            failure = {
+            error = {
                 errorDrawableResource?.let {
                     Icon(
                         modifier = Modifier
@@ -86,6 +68,21 @@ fun LoadedImage(
                         contentDescription = null
                     )
                 }
+            },
+            success = {
+                Image(
+                    modifier = Modifier.applyIf(
+                        showLoading
+                    ) {
+                        blur(
+                            radius = Size4,
+                            edgeTreatment = BlurredEdgeTreatment.Rectangle
+                        )
+                    },
+                    painter = it.painter,
+                    contentDescription = null,
+                    contentScale = contentScale,
+                )
             }
         )
     }
