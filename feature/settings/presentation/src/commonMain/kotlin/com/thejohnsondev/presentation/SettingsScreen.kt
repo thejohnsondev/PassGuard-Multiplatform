@@ -154,6 +154,9 @@ import vaultmultiplatform.core.ui.generated.resources.license_info
 import vaultmultiplatform.core.ui.generated.resources.license_info_arrow
 import vaultmultiplatform.core.ui.generated.resources.license_info_arrow_description
 import vaultmultiplatform.core.ui.generated.resources.license_info_arrow_url
+import vaultmultiplatform.core.ui.generated.resources.license_info_coil
+import vaultmultiplatform.core.ui.generated.resources.license_info_coil_description
+import vaultmultiplatform.core.ui.generated.resources.license_info_coil_url
 import vaultmultiplatform.core.ui.generated.resources.license_info_description
 import vaultmultiplatform.core.ui.generated.resources.license_info_haze
 import vaultmultiplatform.core.ui.generated.resources.license_info_haze_description
@@ -164,9 +167,6 @@ import vaultmultiplatform.core.ui.generated.resources.license_info_koin_url
 import vaultmultiplatform.core.ui.generated.resources.license_info_konnection
 import vaultmultiplatform.core.ui.generated.resources.license_info_konnection_description
 import vaultmultiplatform.core.ui.generated.resources.license_info_konnection_url
-import vaultmultiplatform.core.ui.generated.resources.license_info_landscapist
-import vaultmultiplatform.core.ui.generated.resources.license_info_landscapist_description
-import vaultmultiplatform.core.ui.generated.resources.license_info_landscapist_url
 import vaultmultiplatform.core.ui.generated.resources.license_info_logos_provided
 import vaultmultiplatform.core.ui.generated.resources.license_info_mockk
 import vaultmultiplatform.core.ui.generated.resources.license_info_mockk_description
@@ -1060,7 +1060,7 @@ private fun LicenseInfoSubsection(
     val arrowUrl = stringResource(ResString.license_info_arrow_url)
     val mockkUrl = stringResource(ResString.license_info_mockk_url)
     val sqlDelightUrl = stringResource(ResString.license_info_sqldelight_url)
-    val landscapistUrl = stringResource(ResString.license_info_landscapist_url)
+    val coiltUrl = stringResource(ResString.license_info_coil_url)
     val konnectionUrl = stringResource(ResString.license_info_konnection_url)
     LargeInfoButton(
         modifier = Modifier
@@ -1147,10 +1147,10 @@ private fun LicenseInfoSubsection(
         modifier = Modifier
             .padding(bottom = Size4, horizontal = Size8)
             .fillMaxWidth(),
-        name = stringResource(ResString.license_info_landscapist),
-        description = stringResource(ResString.license_info_landscapist_description),
+        name = stringResource(ResString.license_info_coil),
+        description = stringResource(ResString.license_info_coil_description),
         onClick = {
-            openUrl(landscapistUrl)
+            openUrl(coiltUrl)
         }
     )
     LargeInfoButton(
