@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -30,13 +32,12 @@ import kotlinx.browser.document
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     ComposeViewport(document.body!!) {
-        App()
+        WebPage()
     }
 }
 
 @Composable
-fun App() {
-    // TODO this is for testing only
+fun WebPage() {
     var router: Router? = remember {
         null
     }
@@ -44,34 +45,47 @@ fun App() {
         darkTheme = true, dynamicColor = false, customTheme = ThemeBrand.TEAL,
         deviceThemeConfig = DeviceThemeConfig()
     ) {
-        Column(
+        Surface(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
         ) {
-            // simple nav
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                RoundedButton(onClick = { router?.navigate("/home") }, text = "Home")
-                RoundedButton(onClick = { router?.navigate("/download") }, text = "Download")
-                RoundedButton(onClick = { router?.navigate("/privacy") }, text = "Privacy")
-            }
-
-            Spacer(Modifier.height(16.dp))
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(16.dp)
             ) {
-                BrowserRouter("/") {
-                    router = Router.current
-
-                    route("/") { HomeScreen() }
-                    route("/home") { HomeScreen() }
-                    route("/download") { DownloadScreen() }
-                    route("/privacy") { PrivacyScreen() }
-                    noMatch { Text("404 – Page not found") }
+                WebNavBar(
+                    navigateTo = { path ->
+                        router?.navigate(path)
+                    }
+                )
+                Spacer(Modifier.height(16.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    BrowserRouter("/") {
+                        router = Router.current
+                        route("/") { HomeScreen() }
+                        route("/home") { HomeScreen() }
+                        route("/download") { DownloadScreen() }
+                        route("/privacy") { PrivacyScreen() }
+                        noMatch { Text("404 – Page not found") }
+                    }
                 }
             }
-
         }
+    }
+}
+
+@Composable
+private fun WebNavBar(
+    navigateTo: (String) -> Unit
+) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        RoundedButton(onClick = { navigateTo("/home") }, text = "Home")
+        RoundedButton(onClick = { navigateTo("/download") }, text = "Download")
+        RoundedButton(onClick = { navigateTo("/privacy") }, text = "Privacy")
     }
 }
