@@ -28,16 +28,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
 import app.softwork.routingcompose.BrowserRouter
 import app.softwork.routingcompose.Router
+import com.thejohnsondev.common.AppType
 import com.thejohnsondev.common.model.settings.ThemeBrand
+import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.landing.download.DownloadScreen
 import com.thejohnsondev.landing.home.HomeScreen
 import com.thejohnsondev.landing.privacy.PrivacyScreen
+import com.thejohnsondev.ui.components.DebugConsole
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
+import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 import kotlinx.browser.document
-
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -59,10 +62,19 @@ fun WebPage() {
             else 0f
         }
     }
+    val navBarCollapsed by remember {
+        derivedStateOf { scrollProgress > 0 }
+    }
+
+    val appType = BuildKonfigProvider.getAppType()
 
 
     LaunchedEffect(scrollState.value) {
-        // TODO react on scroll progress
+        Logger.e("Scroll Progress: $scrollProgress")
+    }
+
+    LaunchedEffect(Unit) {
+        Logger.d("WebPage Composable Launched")
     }
 
     VaultDefaultTheme(
@@ -81,20 +93,17 @@ fun WebPage() {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(scrollState)
+                        .verticalScroll(scrollState).padding(top = 72.dp)
                 ) {
-                    Box(modifier = Modifier.padding(top = 72.dp)) {
-                        BrowserRouter("/") {
-                            router = Router.current
-                            route("/") { HomeScreen() }
-                            route("/home") { HomeScreen() }
-                            route("/download") { DownloadScreen() }
-                            route("/privacy") { PrivacyScreen() }
-                            noMatch { Text("404 – Page not found") }
-                        }
+                    BrowserRouter("/") {
+                        router = Router.current
+                        route("/") { HomeScreen() }
+                        route("/home") { HomeScreen() }
+                        route("/download") { DownloadScreen() }
+                        route("/privacy") { PrivacyScreen() }
+                        noMatch { Text("404 – Page not found") }
                     }
                 }
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -109,8 +118,19 @@ fun WebPage() {
                             .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
                             .clip(RoundedCornerShape(12.dp))
                             .shadow(8.dp),
-                        navigateTo = { path -> router?.navigate(path) }
+                        navigateTo = { path -> router?.navigate(path) },
+                        isCollapsed = navBarCollapsed
                     )
+                }
+
+                if (appType == AppType.DEV.name) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(Size16)
+                    ) {
+                        DebugConsole()
+                    }
                 }
             }
         }
@@ -121,7 +141,8 @@ fun WebPage() {
 @Composable
 private fun WebNavBar(
     modifier: Modifier = Modifier,
-    navigateTo: (String) -> Unit
+    navigateTo: (String) -> Unit,
+    isCollapsed: Boolean = false
 ) {
     Row(
         modifier = modifier,

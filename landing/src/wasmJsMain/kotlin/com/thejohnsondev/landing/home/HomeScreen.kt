@@ -3,7 +3,7 @@ package com.thejohnsondev.landing.home
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,7 +24,8 @@ fun HomeScreen() {
             for (i in 0..50) {
                 Box(
                     modifier = Modifier
-                        .size(400.dp)
+                        .height(400.dp)
+                        .fillMaxWidth()
                         .testBorder(),
                     contentAlignment = Alignment.Center
                 ) {
