@@ -70,7 +70,7 @@ fun DebugConsole(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     "Clear", modifier = Modifier
-                        .padding(vertical = Size8, start = Size4)
+                        .padding(vertical = Size8)
                         .clickable {
                             logs.clear()
                         },
