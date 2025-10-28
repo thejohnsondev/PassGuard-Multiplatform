@@ -30,7 +30,7 @@ fun HomeScreen(
         color = MaterialTheme.colorScheme.surface
     ) {
         Column {
-            for (i in 0..50) {
+            for (i in 0..10) {
                 Box(
                     modifier = Modifier
                         .height(400.dp)

@@ -25,7 +25,6 @@ import com.thejohnsondev.ui.components.DebugConsole
 import com.thejohnsondev.ui.designsystem.DeviceThemeConfig
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
-import com.thejohnsondev.ui.utils.testBorder
 import kotlinx.browser.document
 
 
@@ -46,36 +45,39 @@ fun WebPage() {
         darkTheme = false, dynamicColor = false, customTheme = ThemeBrand.TEAL,
         deviceThemeConfig = DeviceThemeConfig()
     ) {
-        WebScaffold(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                BrowserRouter("/") {
-                    router = Router.current
-                    route("/") { HomeScreen(paddingValues) }
-                    route("/home") { HomeScreen(paddingValues) }
-                    route("/download") { DownloadScreen() }
-                    route("/privacy") { PrivacyScreen() }
-                    noMatch { Text("404 – Page not found") }
-                }
-                if (appType == AppType.DEV.name) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(Size16)
-                            .testBorder()
-                    ) {
-                        DebugConsole()
+        ) {
+            WebScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) { paddingValues ->
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    BrowserRouter("/") {
+                        router = Router.current
+                        route("/") { HomeScreen(paddingValues) }
+                        route("/home") { HomeScreen(paddingValues) }
+                        route("/download") { DownloadScreen() }
+                        route("/privacy") { PrivacyScreen() }
+                        noMatch { Text("404 – Page not found") }
                     }
                 }
             }
-
-        }
-        LaunchedEffect(router?.currentPath) {
-            Logger.d("Navigated to: ${router?.currentPath}")
+            if (appType == AppType.DEV.name) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(Size16)
+                ) {
+                    DebugConsole()
+                }
+            }
+            LaunchedEffect(router?.currentPath) {
+                Logger.d("Navigated to: ${router?.currentPath}")
+            }
         }
     }
 }
