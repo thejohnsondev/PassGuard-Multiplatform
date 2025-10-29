@@ -42,7 +42,9 @@ fun WebPage() {
     val appType = BuildKonfigProvider.getAppType()
 
     VaultDefaultTheme(
-        darkTheme = false, dynamicColor = false, customTheme = ThemeBrand.TEAL,
+        darkTheme = false,
+        dynamicColor = false,
+        customTheme = ThemeBrand.TEAL,
         deviceThemeConfig = DeviceThemeConfig()
     ) {
         Box(

@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.DEFAULT_ANIM_DURATION
 import com.thejohnsondev.ui.components.CountryFlagItem
 import com.thejohnsondev.ui.components.MiniSelectableOptionItem
-import com.thejohnsondev.ui.components.VaultLogo
 import com.thejohnsondev.ui.components.button.RoundedButton
 import com.thejohnsondev.ui.designsystem.Percent10
 import com.thejohnsondev.ui.designsystem.Percent100
@@ -108,18 +107,13 @@ fun WebNavBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row {
-                Image(
-                    painter = painterResource(ResDrawable.ic_vault_108_gradient),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(Size24)
-                )
-                VaultLogo(
-                    modifier = Modifier
-                        .padding(start = Size8),
-                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                )
-            }
+            Image(
+                modifier = Modifier
+                    .padding(start = Size12)
+                    .size(Size24),
+                painter = painterResource(ResDrawable.ic_vault_108_gradient),
+                contentDescription = "Logo",
+            )
             Row(horizontalArrangement = Arrangement.spacedBy(Size12)) {
                 RoundedButton(
                     onClick = { navigateTo("/home") },
