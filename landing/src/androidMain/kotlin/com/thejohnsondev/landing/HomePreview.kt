@@ -66,3 +66,18 @@ private fun HomeScreenPreview() {
         }
     }
 }
+
+@Preview(widthDp = 1280)
+@Composable
+private fun HomeScreenDarkPreview() {
+    PreviewTheme(
+        darkTheme = true
+    ) {
+        WebScaffold(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) { paddings ->
+            HomeScreen(paddings)
+        }
+    }
+}

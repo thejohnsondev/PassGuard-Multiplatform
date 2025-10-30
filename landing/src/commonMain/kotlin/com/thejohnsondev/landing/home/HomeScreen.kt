@@ -30,6 +30,7 @@ import com.thejohnsondev.ui.designsystem.Size64
 import com.thejohnsondev.ui.designsystem.Size80
 import com.thejohnsondev.ui.utils.ResDrawable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 import vaultmultiplatform.core.ui.generated.resources.ic_shield_outline
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
@@ -44,35 +45,11 @@ fun HomeScreen(
             .wrapContentHeight(),
         color = MaterialTheme.colorScheme.surface
     ) {
-        Column {
-            for (i in 0..10) {
-                Box(
-                    modifier = Modifier
-                        .height(400.dp)
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(height = 400.dp, width = 800.dp)
-                            .background(
-                                listOf(
-                                    Color.Red,
-                                    Color.Green,
-                                    Color.Blue,
-                                    Color.Yellow,
-                                ).random().copy(alpha = 0.7f)
-                            )
-                    )
-                    Text("Item #$i", modifier = Modifier.align(Alignment.Center))
-                }
-            }
-        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
+            Background()
             TitleContent()
         }
     }
@@ -129,5 +106,18 @@ private fun TitleContent() {
     }
 }
 
+@Composable
+private fun Background() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            modifier = Modifier
+                .size(Size128),
+            imageVector = vectorResource(ResDrawable.ic_shield_outline),
+            contentDescription = null
+        )
     }
 }
