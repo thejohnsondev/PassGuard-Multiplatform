@@ -13,4 +13,4 @@ actual class DeviceThemeConfig {
     actual fun supportsBlockingScreenshots(): Boolean = false
 }
 
-actual fun isBlurSupported(): Boolean = false
+actual fun isBlurSupported(): Boolean = true
