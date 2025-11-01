@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -45,6 +46,7 @@ fun WebPage(
     webAppContainer: WebAppContainer
 ) {
     val state = webAppContainer.state.collectAsState()
+    val scrollProgress = remember { mutableStateOf(0) }
     var router: Router? = remember { null }
 
     val appType = BuildKonfigProvider.getAppType()
@@ -64,6 +66,9 @@ fun WebPage(
                     .fillMaxSize(),
                 webAppContainer = state.value,
                 onAction = webAppContainer::performAction,
+                onScrollProgressChanged = {
+                    scrollProgress.value = it
+                },
                 navigateTo = {
                     router?.navigate(it)
                 }
@@ -73,8 +78,18 @@ fun WebPage(
                 ) {
                     BrowserRouter("/") {
                         router = Router.current
-                        route("/") { HomeScreen(paddingValues) }
-                        route("/home") { HomeScreen(paddingValues) }
+                        route("/") {
+                            HomeScreen(
+                                paddingValues = paddingValues,
+                                scrollProgress = scrollProgress.value
+                            )
+                        }
+                        route("/home") {
+                            HomeScreen(
+                                paddingValues = paddingValues,
+                                scrollProgress = scrollProgress.value
+                            )
+                        }
                         route("/download") { DownloadScreen() }
                         route("/privacy") { PrivacyScreen() }
                         noMatch { Text("404 – Page not found") }

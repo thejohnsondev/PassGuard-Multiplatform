@@ -35,8 +35,14 @@ import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 @Composable
 fun HomeScreen(
-    paddingValues: PaddingValues = PaddingValues()
+    paddingValues: PaddingValues = PaddingValues(),
+    scrollProgress: Int = 0
 ) {
+
+    LaunchedEffect(scrollProgress) {
+        Logger.e("Home Screen Scroll Progress: $scrollProgress")
+    }
+
     Surface(
         modifier = Modifier
             .padding(paddingValues)

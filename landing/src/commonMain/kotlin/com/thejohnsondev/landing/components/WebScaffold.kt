@@ -30,23 +30,18 @@ fun WebScaffold(
     onAction: (WebAppContainer.Action) -> Unit,
     hazeState: HazeState = rememberHazeState(),
     navigateTo: (String) -> Unit,
+    onScrollProgressChanged: ((Int) -> Unit)? = null,
     content: @Composable BoxScope.(PaddingValues) -> Unit,
 ) {
     val scrollState = rememberScrollState()
-    val scrollProgress by remember {
-        derivedStateOf {
-            if (scrollState.maxValue > 0)
-                scrollState.value.toFloat() / scrollState.maxValue
-            else 0f
-        }
-    }
     val navBarCollapsed by remember {
-        derivedStateOf { scrollProgress > 0 }
+        derivedStateOf { scrollState.value > 0 }
     }
 
     LaunchedEffect(scrollState.value) {
-        Logger.e("Scroll Progress: $scrollProgress")
+        onScrollProgressChanged?.invoke(scrollState.value)
     }
+
     Box(
         modifier = modifier
             .background(MaterialTheme.colorScheme.surface)
