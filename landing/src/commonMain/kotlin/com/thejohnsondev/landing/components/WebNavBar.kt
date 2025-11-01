@@ -172,9 +172,9 @@ fun WebNavBar(
                                 .clip(RoundedCornerShape(100))
                                 .background(
                                     if (isDarkTheme) {
-                                        TealSelectableItemColors.getSelectedContentColor()
+                                        TealSelectableItemColors.getSelectedContainerColor()
                                     } else {
-                                        SunnySelectableItemColors.getUnselectedContainerColor()
+                                        SunnySelectableItemColors.getSelectedContainerColor()
                                     }
                                 ),
                             contentAlignment = Alignment.Center
@@ -190,7 +190,7 @@ fun WebNavBar(
                                     Icons.Default.LightMode
                                 },
                                 tint = if (isDarkTheme) {
-                                    TealSelectableItemColors.getUnselectedContainerColor()
+                                    TealSelectableItemColors.getSelectedContentColor()
                                 } else {
                                     SunnySelectableItemColors.getSelectedContentColor()
                                 }
