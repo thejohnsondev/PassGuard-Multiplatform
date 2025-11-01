@@ -26,6 +26,8 @@ import dev.chrisbanes.haze.rememberHazeState
 @Composable
 fun WebScaffold(
     modifier: Modifier = Modifier,
+    webAppContainer: WebAppContainer.State,
+    onAction: (WebAppContainer.Action) -> Unit,
     hazeState: HazeState = rememberHazeState(),
     navigateTo: (String) -> Unit,
     content: @Composable BoxScope.(PaddingValues) -> Unit,
@@ -65,9 +67,16 @@ fun WebScaffold(
             modifier = Modifier
                 .padding(top = Size8)
                 .align(Alignment.TopCenter),
-            navigateTo = navigateTo,
             isCollapsed = navBarCollapsed,
-            hazeState = hazeState
+            isDarkTheme = webAppContainer.isDarkTheme,
+            hazeState = hazeState,
+            navigateTo = navigateTo,
+            onThemeButtonClick = {
+                onAction(WebAppContainer.Action.ToggleDarkTheme)
+            },
+            onLanguageButtonClick = {
+                // TODO implement language selection
+            }
         )
     }
 }

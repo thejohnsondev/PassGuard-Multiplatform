@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -17,6 +18,7 @@ import com.thejohnsondev.common.AppType
 import com.thejohnsondev.common.model.settings.ThemeBrand
 import com.thejohnsondev.common.utils.BuildKonfigProvider
 import com.thejohnsondev.common.utils.Logger
+import com.thejohnsondev.landing.components.WebAppContainer
 import com.thejohnsondev.landing.components.WebScaffold
 import com.thejohnsondev.landing.download.DownloadScreen
 import com.thejohnsondev.landing.home.HomeScreen
@@ -30,19 +32,25 @@ import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    val webAppContainer = WebAppContainer
     ComposeViewport(document.body!!) {
-        WebPage()
+        WebPage(
+            webAppContainer = webAppContainer
+        )
     }
 }
 
 @Composable
-fun WebPage() {
+fun WebPage(
+    webAppContainer: WebAppContainer
+) {
+    val state = webAppContainer.state.collectAsState()
     var router: Router? = remember { null }
 
     val appType = BuildKonfigProvider.getAppType()
 
     VaultDefaultTheme(
-        darkTheme = false,
+        darkTheme = state.value.isDarkTheme,
         dynamicColor = false,
         customTheme = ThemeBrand.TEAL,
         deviceThemeConfig = DeviceThemeConfig()
@@ -54,6 +62,8 @@ fun WebPage() {
             WebScaffold(
                 modifier = Modifier
                     .fillMaxSize(),
+                webAppContainer = state.value,
+                onAction = webAppContainer::performAction,
                 navigateTo = {
                     router?.navigate(it)
                 }

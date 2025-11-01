@@ -61,7 +61,9 @@ private fun HomeScreenPreview() {
         WebScaffold(
             modifier = Modifier
                 .fillMaxWidth(),
-            navigateTo = {}
+            navigateTo = {},
+            webAppContainer = WebAppContainer.State(),
+            onAction = {},
         ) { paddings ->
             HomeScreen(paddings)
         }

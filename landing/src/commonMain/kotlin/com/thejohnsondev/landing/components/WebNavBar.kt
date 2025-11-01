@@ -14,7 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,12 +35,15 @@ import com.thejohnsondev.ui.designsystem.Percent100
 import com.thejohnsondev.ui.designsystem.Percent50
 import com.thejohnsondev.ui.designsystem.Percent70
 import com.thejohnsondev.ui.designsystem.Size12
+import com.thejohnsondev.ui.designsystem.Size2
 import com.thejohnsondev.ui.designsystem.Size24
 import com.thejohnsondev.ui.designsystem.Size36
 import com.thejohnsondev.ui.designsystem.Size4
 import com.thejohnsondev.ui.designsystem.Size64
 import com.thejohnsondev.ui.designsystem.Size8
 import com.thejohnsondev.ui.designsystem.SizeDefault
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.SunnySelectableItemColors
+import com.thejohnsondev.ui.designsystem.colorscheme.selectableitemcolor.themes.TealSelectableItemColors
 import com.thejohnsondev.ui.model.button.ButtonStyle
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.applyIf
@@ -50,9 +57,12 @@ import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 @Composable
 fun WebNavBar(
     modifier: Modifier = Modifier,
-    navigateTo: (String) -> Unit,
+    isDarkTheme: Boolean = false,
     isCollapsed: Boolean = false,
     hazeState: HazeState? = null,
+    navigateTo: (String) -> Unit,
+    onThemeButtonClick: () -> Unit,
+    onLanguageButtonClick: () -> Unit,
 ) {
     val cornerRadius by animateDpAsState(
         if (isCollapsed) Size24 else SizeDefault,
@@ -140,23 +150,74 @@ fun WebNavBar(
                 )
             }
 
-            MiniSelectableOptionItem(
-                modifier = Modifier
-                    .padding(
-                        start = Size4,
-                        end = Size4,
-                    ),
-                optionTitle = "",
-                isSelected = false,
-                optionContent = {
-                    CountryFlagItem(
-                        modifier = Modifier
-                            .size(Size36),
-                        flagDrawableResource = ResDrawable.ic_flag_gb
-                    )
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // TODO Handle language selection click
+                MiniSelectableOptionItem(
+                    modifier = Modifier
+                        .padding(
+                            start = Size4,
+                            end = Size4,
+                        ),
+                    optionTitle = if (isDarkTheme) {
+                        "Dark theme"
+                    } else {
+                        "Light theme"
+                    },
+                    isSelected = false,
+                    optionContent = {
+                        Box(
+                            modifier = Modifier
+                                .size(Size36)
+                                .clip(RoundedCornerShape(100))
+                                .background(
+                                    if (isDarkTheme) {
+                                        TealSelectableItemColors.getSelectedContentColor()
+                                    } else {
+                                        SunnySelectableItemColors.getUnselectedContainerColor()
+                                    }
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(Size2)
+                                    .size(Size24),
+                                contentDescription = null,
+                                imageVector = if (isDarkTheme) {
+                                    Icons.Default.DarkMode
+                                } else {
+                                    Icons.Default.LightMode
+                                },
+                                tint = if (isDarkTheme) {
+                                    TealSelectableItemColors.getUnselectedContainerColor()
+                                } else {
+                                    SunnySelectableItemColors.getSelectedContentColor()
+                                }
+                            )
+                        }
+                    }
+                ) {
+                    onThemeButtonClick()
+                }
+                MiniSelectableOptionItem(
+                    modifier = Modifier
+                        .padding(
+                            start = Size4,
+                            end = Size4,
+                        ),
+                    optionTitle = "Language",
+                    isSelected = false,
+                    optionContent = {
+                        CountryFlagItem(
+                            modifier = Modifier
+                                .size(Size36),
+                            flagDrawableResource = ResDrawable.ic_flag_gb
+                        )
+                    }
+                ) {
+                    onLanguageButtonClick
+                }
             }
         }
     }
