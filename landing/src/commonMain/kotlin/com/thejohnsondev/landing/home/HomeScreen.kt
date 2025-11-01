@@ -16,12 +16,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.thejohnsondev.common.utils.Logger
 import com.thejohnsondev.ui.components.VaultLogo
 import com.thejohnsondev.ui.components.animation.appear.AnimatedAppear
 import com.thejohnsondev.ui.components.animation.appear.AnimatedAppearParams
