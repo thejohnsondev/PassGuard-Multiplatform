@@ -109,22 +109,25 @@ fun WebNavBar(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = Percent10)
             ),
     ) {
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxWidth(contentWidthPercentage)
                 .padding(horizontal = horizontalPadding, vertical = Size8)
                 .align(Alignment.Center),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 modifier = Modifier
                     .padding(start = Size12)
-                    .size(Size24),
+                    .size(Size24)
+                    .align(Alignment.CenterStart),
                 painter = painterResource(ResDrawable.ic_vault_108_gradient),
                 contentDescription = "Logo",
             )
-            Row(horizontalArrangement = Arrangement.spacedBy(Size12)) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.Center),
+                horizontalArrangement = Arrangement.spacedBy(Size12)
+            ) {
                 RoundedButton(
                     onClick = { navigateTo("/home") },
                     text = "Home",
@@ -151,6 +154,8 @@ fun WebNavBar(
             }
 
             Row(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 MiniSelectableOptionItem(
