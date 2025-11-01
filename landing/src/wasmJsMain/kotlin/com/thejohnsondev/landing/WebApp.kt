@@ -53,7 +53,10 @@ fun WebPage() {
         ) {
             WebScaffold(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                navigateTo = {
+                    router?.navigate(it)
+                }
             ) { paddingValues ->
                 Box(
                     modifier = Modifier.fillMaxSize()

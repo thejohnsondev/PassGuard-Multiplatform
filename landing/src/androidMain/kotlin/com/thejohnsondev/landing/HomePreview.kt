@@ -60,7 +60,8 @@ private fun HomeScreenPreview() {
     PreviewTheme {
         WebScaffold(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            navigateTo = {}
         ) { paddings ->
             HomeScreen(paddings)
         }

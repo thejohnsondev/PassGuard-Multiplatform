@@ -27,6 +27,7 @@ import dev.chrisbanes.haze.rememberHazeState
 fun WebScaffold(
     modifier: Modifier = Modifier,
     hazeState: HazeState = rememberHazeState(),
+    navigateTo: (String) -> Unit,
     content: @Composable BoxScope.(PaddingValues) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -64,9 +65,7 @@ fun WebScaffold(
             modifier = Modifier
                 .padding(top = Size8)
                 .align(Alignment.TopCenter),
-            navigateTo = {
-                // TODO Implement navigation
-            },
+            navigateTo = navigateTo,
             isCollapsed = navBarCollapsed,
             hazeState = hazeState
         )
