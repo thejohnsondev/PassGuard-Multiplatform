@@ -174,14 +174,7 @@ fun WebNavBar(
                         Box(
                             modifier = Modifier
                                 .size(Size36)
-                                .clip(RoundedCornerShape(100))
-                                .background(
-                                    if (isDarkTheme) {
-                                        TealSelectableItemColors.getSelectedContainerColor()
-                                    } else {
-                                        SunnySelectableItemColors.getSelectedContainerColor()
-                                    }
-                                ),
+                                .clip(RoundedCornerShape(100)),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
