@@ -49,11 +49,13 @@ import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.applyIf
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import org.jetbrains.compose.resources.painterResource
 import vaultmultiplatform.core.ui.generated.resources.ic_flag_gb
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
+@OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
 fun WebNavBar(
     modifier: Modifier = Modifier,
