@@ -33,11 +33,13 @@ import com.thejohnsondev.ui.components.VaultLogo
 import com.thejohnsondev.ui.components.animation.appear.AnimatedAppear
 import com.thejohnsondev.ui.components.animation.appear.AnimatedAppearParams
 import com.thejohnsondev.ui.designsystem.Size12
+import com.thejohnsondev.ui.designsystem.Size128
 import com.thejohnsondev.ui.designsystem.Size16
 import com.thejohnsondev.ui.designsystem.Size64
 import com.thejohnsondev.ui.designsystem.Size80
 import com.thejohnsondev.ui.utils.ResDrawable
 import com.thejohnsondev.ui.utils.applyIf
+import com.thejohnsondev.ui.utils.padding
 import org.jetbrains.compose.resources.painterResource
 import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
@@ -105,16 +107,25 @@ private fun Content(
                     .padding(top = Size64)
             )
         }
-        Box(
+        AnimatedAppear(
             modifier = Modifier
                 .applyIf(translationYValue != 0) {
                     graphicsLayer {
                         translationY = translationYValue.toFloat()
                     }
-                }
-                .size(200.dp, 400.dp)
-                .background(Color.Black, RoundedCornerShape(32.dp))
-        )
+                },
+            params = AnimatedAppearParams.default(
+                delayBeforeAnim = 600L,
+                doAnimateTranslationY = false,
+            )
+        ) { animatedModifier ->
+            Box(
+                modifier = animatedModifier
+                    .padding(top = Size128, horizontal = Size16)
+                    .size(200.dp, 400.dp)
+                    .background(Color.Black, RoundedCornerShape(32.dp))
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
