@@ -10,7 +10,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
+import com.thejohnsondev.ui.utils.applyIf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -50,12 +52,26 @@ fun AnimatedAppear(
         }
     }
 
+    val isPreviewMode = LocalInspectionMode.current
+
     val animatedModifier = modifier
-        .blur(blur.value.dp)
-        .alpha(alpha.value)
-        .graphicsLayer {
-            translationY = translationYValue.value
+        .applyIf(params.doAnimateBlur) {
+            blur(blur.value.dp)
+        }
+        .applyIf(params.doAnimateAlpha) {
+            alpha(alpha.value)
+        }
+        .applyIf(params.doAnimateTranslationY) {
+            graphicsLayer {
+                translationY = translationYValue.value
+            }
         }
 
-    content(animatedModifier)
+    content(
+        if (isPreviewMode) {
+            Modifier
+        } else {
+            animatedModifier
+        }
+    )
 }

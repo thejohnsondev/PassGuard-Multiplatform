@@ -1,6 +1,9 @@
 package com.thejohnsondev.ui.components.animation.appear
 
 data class AnimatedAppearParams(
+    val doAnimateBlur: Boolean,
+    val doAnimateTranslationY: Boolean,
+    val doAnimateAlpha: Boolean,
     val delayBeforeAnim: Long,
     val blurScaleAnimStart: Float,
     val blurScaleAnimEnd: Float,
@@ -14,6 +17,9 @@ data class AnimatedAppearParams(
 ) {
     companion object {
         fun default(
+            doAnimateBlur: Boolean = true,
+            doAnimateTranslationY: Boolean = true,
+            doAnimateAlpha: Boolean = true,
             delayBeforeAnim: Long = 200L,
             blurScaleAnimStart: Float = 20f,
             blurScaleAnimEnd: Float = 0f,
@@ -25,6 +31,9 @@ data class AnimatedAppearParams(
             logoAlphaAnimEnd: Float = 1f,
             logoAlphaAnimDuration: Int = 300,
         ) = AnimatedAppearParams(
+            doAnimateBlur = doAnimateBlur,
+            doAnimateTranslationY = doAnimateTranslationY,
+            doAnimateAlpha = doAnimateAlpha,
             delayBeforeAnim = delayBeforeAnim,
             blurScaleAnimStart = blurScaleAnimStart,
             blurScaleAnimEnd = blurScaleAnimEnd,
