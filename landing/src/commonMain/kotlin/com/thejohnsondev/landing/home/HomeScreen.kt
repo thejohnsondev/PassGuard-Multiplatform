@@ -13,13 +13,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,12 +56,19 @@ import vaultmultiplatform.core.ui.generated.resources.ic_vault_108_gradient
 
 @Composable
 fun HomeScreen(
-    paddingValues: PaddingValues = PaddingValues(), scrollProgress: Int = 0
+    paddingValues: PaddingValues = PaddingValues(),
+    updateIsNavBarCollapsed: (isCollapsed: Boolean) -> Unit,
 ) {
 
-    LaunchedEffect(scrollProgress) {
-        Logger.e("Home Screen Scroll Progress: $scrollProgress")
+    val scrollState = rememberScrollState()
+    val navBarCollapsed by remember {
+        derivedStateOf { scrollState.value > 0 }
     }
+
+    LaunchedEffect(navBarCollapsed) {
+        updateIsNavBarCollapsed(navBarCollapsed)
+    }
+
 
     var phoneBoxCoordinates by remember {
         mutableStateOf<LayoutCoordinates?>(null)
@@ -77,7 +87,11 @@ fun HomeScreen(
     val isPhoneBoxInCenter = centerY <= middleOfWindow && centerY >= middleOfWindow - tolerancePx
 
     Surface(
-        modifier = Modifier.padding(paddingValues).fillMaxWidth().wrapContentHeight(),
+        modifier = Modifier
+            .verticalScroll(scrollState)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(paddingValues),
         color = MaterialTheme.colorScheme.surface
     ) {
         Box(

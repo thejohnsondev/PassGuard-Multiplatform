@@ -46,7 +46,7 @@ fun WebPage(
     webAppContainer: WebAppContainer
 ) {
     val state = webAppContainer.state.collectAsState()
-    val scrollProgress = remember { mutableStateOf(0) }
+    val isNavBarCollapsed = remember { mutableStateOf(false) }
     var router: Router? = remember { null }
 
     val appType = BuildKonfigProvider.getAppType()
@@ -66,9 +66,7 @@ fun WebPage(
                     .fillMaxSize(),
                 webAppContainer = state.value,
                 onAction = webAppContainer::performAction,
-                onScrollProgressChanged = {
-                    scrollProgress.value = it
-                },
+                isNavBarCollapsed = isNavBarCollapsed.value,
                 navigateTo = {
                     router?.navigate(it)
                 }
@@ -81,13 +79,17 @@ fun WebPage(
                         route("/") {
                             HomeScreen(
                                 paddingValues = paddingValues,
-                                scrollProgress = scrollProgress.value
+                                updateIsNavBarCollapsed = {
+                                    isNavBarCollapsed.value = it
+                                }
                             )
                         }
                         route("/home") {
                             HomeScreen(
                                 paddingValues = paddingValues,
-                                scrollProgress = scrollProgress.value
+                                updateIsNavBarCollapsed = {
+                                    isNavBarCollapsed.value = it
+                                }
                             )
                         }
                         route("/download") { DownloadScreen() }

@@ -30,17 +30,9 @@ fun WebScaffold(
     onAction: (WebAppContainer.Action) -> Unit,
     hazeState: HazeState = rememberHazeState(),
     navigateTo: (String) -> Unit,
-    onScrollProgressChanged: ((Int) -> Unit)? = null,
+    isNavBarCollapsed: Boolean = false,
     content: @Composable BoxScope.(PaddingValues) -> Unit,
 ) {
-    val scrollState = rememberScrollState()
-    val navBarCollapsed by remember {
-        derivedStateOf { scrollState.value > 0 }
-    }
-
-    LaunchedEffect(scrollState.value) {
-        onScrollProgressChanged?.invoke(scrollState.value)
-    }
 
     Box(
         modifier = modifier
@@ -49,7 +41,6 @@ fun WebScaffold(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)
                 .hazeSource(state = hazeState)
         ) {
             content(
@@ -62,7 +53,7 @@ fun WebScaffold(
             modifier = Modifier
                 .padding(top = Size8)
                 .align(Alignment.TopCenter),
-            isCollapsed = navBarCollapsed,
+            isCollapsed = isNavBarCollapsed,
             isDarkTheme = webAppContainer.isDarkTheme,
             hazeState = hazeState,
             navigateTo = navigateTo,
