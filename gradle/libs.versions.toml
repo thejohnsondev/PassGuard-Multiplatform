@@ -2,7 +2,7 @@
 [versions]
 coilCompose = "3.3.0"
 posthog = "1.2.0"
-posthogAndroid = "3.21.3"
+posthogAndroid = "3.25.0"
 
 versionName = "1.0.13"
 versionCode = "13"
@@ -14,18 +14,18 @@ android-minSdk = "29"
 android-targetSdk = "36"
 
 # Kotlin and Coroutines
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlinx-coroutines = "1.10.2" # Used for coroutines references
 kotlinxDatetime = "0.7.1"
 kotlinx-serialization = "1.9.0"
 
 # Compose Multiplatform
-compose-plugin = "1.8.2"
+compose-plugin = "1.9.1"
 androidx-activityCompose = "1.11.0"
-ui-tooling = "1.9.1"
+ui-tooling = "1.9.4"
 composeJetbrainsExpuiTheme = "2.2.0"
 material3WindowSizeClassMultiplatform = "0.5.0"
-navigationCompose = "2.9.0-rc02"
+navigationCompose = "2.9.1"
 haze = "1.6.10"
 
 # Android Core & UI
@@ -45,7 +45,7 @@ gms = "4.4.3"
 crashlytcs = "3.0.6"
 
 # Networking
-ktor-client = "3.3.0"
+ktor-client = "3.3.1"
 konnection = "1.4.5"
 
 # Dependency Injection (Koin)
