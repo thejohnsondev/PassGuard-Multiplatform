@@ -20,6 +20,7 @@ import com.thejohnsondev.presentation.component.DomainSuggestion
 import com.thejohnsondev.ui.components.vault.passworditem.PasswordUIModel
 import com.thejohnsondev.ui.designsystem.colorscheme.VaultDefaultTheme
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
@@ -31,8 +32,13 @@ private fun AddVaultItemEmptyPreview() {
     ) {
         val sheetState = SheetState(
             skipPartiallyExpanded = true,
-            density = Density(1f),
-            initialValue = SheetValue.Expanded
+            initialValue = SheetValue.Expanded,
+            positionalThreshold = {
+                1f
+            },
+            velocityThreshold = {
+                1f
+            }
         )
         AddVaultItemContent(
             state = AddVaultItemViewModel.State(
@@ -68,8 +74,13 @@ private fun AddVaultItemNotEmptyPreview() {
     ) {
         val sheetState = SheetState(
             skipPartiallyExpanded = true,
-            density = Density(1f),
-            initialValue = SheetValue.Expanded
+            initialValue = SheetValue.Expanded,
+            positionalThreshold = {
+                1f
+            },
+            velocityThreshold = {
+                1f
+            }
         )
         AddVaultItemContent(
             state = AddVaultItemViewModel.State(

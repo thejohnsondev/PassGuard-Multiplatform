@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.thejohnsondev.common.empty
 import com.thejohnsondev.ui.designsystem.Percent100
-import com.thejohnsondev.ui.designsystem.Percent95
 import com.thejohnsondev.ui.designsystem.Percent98
 import com.thejohnsondev.ui.designsystem.SizeBorder
 
@@ -51,9 +50,9 @@ fun Modifier.bounceClick(
     )
 
     this.graphicsLayer {
-            scaleX = scale
-            scaleY = scale
-        }
+        scaleX = scale
+        scaleY = scale
+    }
         .clickable(
             interactionSource = remember { MutableInteractionSource() },
             indication = null,
@@ -76,8 +75,13 @@ fun Modifier.bounceClick(
 
 }
 
-fun Modifier.testBorder() = composed {
-    this.border(SizeBorder, listOf(Color.Red, Color.Red, Color.Green, Color.Magenta).random())
+@Composable
+fun Modifier.testBorder(
+    color: Color = remember {
+        listOf(Color.Red, Color.Red, Color.Green, Color.Magenta).random()
+    }
+) = composed {
+    this.border(SizeBorder, color)
 }
 
 fun Modifier.onEnterClick(onClick: () -> Unit) = composed {
