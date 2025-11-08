@@ -21,7 +21,7 @@ private fun HomeScreenPreview() {
             webAppContainer = WebAppContainer.State(),
             onAction = {},
         ) { paddings ->
-            HomeScreen(paddings)
+            HomeScreen(paddings, updateIsNavBarCollapsed = {})
         }
     }
 }

@@ -60,7 +60,6 @@ fun HomeScreen(
     LaunchedEffect(navBarCollapsed) {
         updateIsNavBarCollapsed(navBarCollapsed)
     }
-
     val density = LocalDensity.current
     val windowHeightPx = with(density) { windowHeight.dp.toPx() }
     val phoneBoxHeightPx = with(density) { 400.dp.toPx() }
