@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -62,14 +61,14 @@ fun HomeScreen(
         updateIsNavBarCollapsed(navBarCollapsed)
     }
 
-
-    var phoneBoxCoordinates by remember {
-        mutableStateOf<LayoutCoordinates?>(null)
-    }
-
     val density = LocalDensity.current
     val windowHeightPx = with(density) { windowHeight.dp.toPx() }
-    val middleOfWindow = windowHeightPx / 2f
+    val phoneBoxHeightPx = with(density) { 400.dp.toPx() }
+    val middleOfWindow = (windowHeightPx / 2f) - (phoneBoxHeightPx / 2f)
+    val margin = 400
+    val isInTheMiddle =
+        scrollState.value in (middleOfWindow).toInt()..(middleOfWindow + margin).toInt()
+    val isAfterMiddle = scrollState.value > (middleOfWindow + margin).toInt()
 
     Logger.d("middleOfWindow: $middleOfWindow, scrollY: ${scrollState.value}")
 
@@ -77,20 +76,43 @@ fun HomeScreen(
         Box(
             modifier = Modifier
                 .verticalScroll(scrollState)
-                .fillMaxWidth()
-                .wrapContentHeight()
+                .fillMaxSize()
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.surface),
         ) {
             Background()
             Content()
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+            ) {
+                (0..200).forEach { i ->
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(Color.Black)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(Color.White)
+                    )
+                }
+            }
         }
         PhoneBoxContent(
             modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 400.dp)
                 .graphicsLayer {
-                    translationY = (middleOfWindow - 200f) - scrollState.value.toFloat()
+                    translationY = if (isInTheMiddle) {
+                        -middleOfWindow
+                    } else if (isAfterMiddle) {
+                        -scrollState.value.toFloat() + margin
+                    } else {
+                        -scrollState.value.toFloat()
+                    }
                 }
-
         )
     }
 }
@@ -148,13 +170,7 @@ private fun PhoneBoxContent(
     modifier: Modifier = Modifier,
 ) {
     AnimatedAppear(
-        modifier = Modifier
-//            .applyIf(translationYValue != 0) {
-//                graphicsLayer {
-//                    translationY = translationYValue.toFloat()
-//                }
-//            }
-        ,
+        modifier = modifier,
         params = AnimatedAppearParams.default(
             delayBeforeAnim = 600L,
             doAnimateTranslationY = false,
